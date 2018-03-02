@@ -1,0 +1,7 @@
+D:\TFSGM\Librerias\SIGAMETSecurityClass\bin\SIGAMETSecurity.dll
+D:\TFSGM\Librerias\SIGAMETSecurityClass\bin\SIGAMETSecurity.pdb
+D:\TFSGM\Librerias\SIGAMETSecurityClass\bin\SIGAMETSecurity.xml
+D:\TFSGM\Librerias\SIGAMETSecurityClass\obj\Debug\SIGAMETSecurityClass.vbproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\SIGAMETSecurityClass\obj\Debug\SIGAMETSecurity.dll
+D:\TFSGM\Librerias\SIGAMETSecurityClass\obj\Debug\SIGAMETSecurity.xml
+D:\TFSGM\Librerias\SIGAMETSecurityClass\obj\Debug\SIGAMETSecurity.pdb

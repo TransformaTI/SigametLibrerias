@@ -1,0 +1,5 @@
+D:\TFSGM\Librerias\CantidadEnLetra\bin\Debug\CantidadEnLetra.dll
+D:\TFSGM\Librerias\CantidadEnLetra\bin\Debug\CantidadEnLetra.pdb
+D:\TFSGM\Librerias\CantidadEnLetra\obj\x86\Debug\CantidadEnLetra.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\CantidadEnLetra\obj\x86\Debug\CantidadEnLetra.dll
+D:\TFSGM\Librerias\CantidadEnLetra\obj\x86\Debug\CantidadEnLetra.pdb

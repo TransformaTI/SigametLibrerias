@@ -1,0 +1,10 @@
+D:\TFSGM\Librerias\ImgCallCenter\bin\ImgCallCenter.dll
+D:\TFSGM\Librerias\ImgCallCenter\bin\ImgCallCenter.pdb
+D:\TFSGM\Librerias\ImgCallCenter\bin\ImgCallCenter.xml
+D:\TFSGM\Librerias\ImgCallCenter\obj\Debug\ImgCallCenter.frmImgCCMain.resources
+D:\TFSGM\Librerias\ImgCallCenter\obj\Debug\ImgCallCenter.frmImgCallCenter.resources
+D:\TFSGM\Librerias\ImgCallCenter\obj\Debug\ImgCallCenter.vbproj.GenerateResource.Cache
+D:\TFSGM\Librerias\ImgCallCenter\obj\Debug\ImgCallCenter.vbproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\ImgCallCenter\obj\Debug\ImgCallCenter.dll
+D:\TFSGM\Librerias\ImgCallCenter\obj\Debug\ImgCallCenter.xml
+D:\TFSGM\Librerias\ImgCallCenter\obj\Debug\ImgCallCenter.pdb

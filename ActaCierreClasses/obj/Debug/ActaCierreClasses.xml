@@ -1,0 +1,57 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+ActaCierreClasses
+</name>
+</assembly>
+<members>
+<member name="T:ActaCierreClasses.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:ActaCierreClasses.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:ActaCierreClasses.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:ActaCierreClasses.frmReporteParametro">
+<summary>
+  Clase de recurso con establecimiento inflexible de tipos, para buscar cadenas traducidas, etc.
+</summary>
+</member>
+<member name="P:ActaCierreClasses.frmReporteParametro.ResourceManager">
+<summary>
+  Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
+</summary>
+</member>
+<member name="P:ActaCierreClasses.frmReporteParametro.Culture">
+<summary>
+  Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las
+  búsquedas de recursos mediante esta clase de recurso con establecimiento inflexible de tipos.
+</summary>
+</member>
+<member name="P:ActaCierreClasses.frmReporteParametro.btnCerrar_Image">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:ActaCierreClasses.frmReporteParametro.btnConsultar_Image">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:ActaCierreClasses.frmReporteParametro.PrintDocument1_TrayLocation">
+<summary>
+  Looks up a localized resource of type System.Drawing.Point similar to {X=17,Y=17}.
+</summary>
+</member>
+</members>
+</doc>

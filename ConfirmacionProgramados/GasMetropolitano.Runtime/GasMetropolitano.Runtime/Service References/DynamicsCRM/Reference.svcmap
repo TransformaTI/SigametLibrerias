@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="c15d6708-ea36-4a56-a950-720cf9cbdade" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://192.168.1.42:82/ServiceDirEnt.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ServiceDirEnt.xsd" MetadataType="Schema" ID="35c18609-961e-4a95-965b-f762b8291a47" SourceId="1" SourceUrl="http://192.168.1.42:82/ServiceDirEnt.svc?xsd=xsd2" />
+    <MetadataFile FileName="ServiceDirEnt1.xsd" MetadataType="Schema" ID="517183b5-21ba-4d88-b497-419d8c6d5a1b" SourceId="1" SourceUrl="http://192.168.1.42:82/ServiceDirEnt.svc?xsd=xsd1" />
+    <MetadataFile FileName="GM_WSDireccionesEntregaContract.wsdl" MetadataType="Wsdl" ID="450d76f8-8b3c-4314-8828-6813cc614ef9" SourceId="1" SourceUrl="http://192.168.1.42:82/ServiceDirEnt.svc?wsdl" />
+    <MetadataFile FileName="ServiceDirEnt2.xsd" MetadataType="Schema" ID="e085e74f-c986-42a7-91f1-aae704d5b26f" SourceId="1" SourceUrl="http://192.168.1.42:82/ServiceDirEnt.svc?xsd=xsd0" />
+    <MetadataFile FileName="ServiceDirEnt.disco" MetadataType="Disco" ID="606a3e1a-7be5-4060-8789-3daf840b058d" SourceId="1" SourceUrl="http://192.168.1.42:82/ServiceDirEnt.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

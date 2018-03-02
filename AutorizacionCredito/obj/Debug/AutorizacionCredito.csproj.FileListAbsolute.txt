@@ -1,0 +1,11 @@
+D:\TFSGM\Librerias\AutorizacionCredito\bin\Debug\App.ico
+D:\TFSGM\Librerias\AutorizacionCredito\bin\Debug\AutorizacionCredito.dll
+D:\TFSGM\Librerias\AutorizacionCredito\bin\Debug\AutorizacionCredito.pdb
+D:\TFSGM\Librerias\AutorizacionCredito\obj\Debug\AutorizacionCredito.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\AutorizacionCredito\obj\Debug\AutorizacionCredito.AutorizacionCreditoCliente.resources
+D:\TFSGM\Librerias\AutorizacionCredito\obj\Debug\AutorizacionCredito.Solicitantes.resources
+D:\TFSGM\Librerias\AutorizacionCredito\obj\Debug\AutorizacionCredito.SolicitudCredito.resources
+D:\TFSGM\Librerias\AutorizacionCredito\obj\Debug\AutorizacionCredito.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\AutorizacionCredito\obj\Debug\AutorizacionCredito.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\AutorizacionCredito\obj\Debug\AutorizacionCredito.dll
+D:\TFSGM\Librerias\AutorizacionCredito\obj\Debug\AutorizacionCredito.pdb

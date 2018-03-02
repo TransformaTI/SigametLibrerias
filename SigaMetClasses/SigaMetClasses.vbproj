@@ -1,0 +1,621 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.30319</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{982B97F3-89F7-4612-97F0-96C875996FDA}</ProjectGuid>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon />
+    <AssemblyKeyContainerName />
+    <AssemblyName>SigaMetClasses</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace>SigaMetClasses</RootNamespace>
+    <StartupObject>SigaMetClasses.%28None%29</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>SigaMetClasses.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>SigaMetClasses.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42353,42354,42355</NoWarn>
+    <DebugType>none</DebugType>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AsignacionMultiple, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AsignacionMultiple.dll</HintPath>
+    </Reference>
+    <Reference Include="Contactos, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Contactos.dll</HintPath>
+    </Reference>
+    <Reference Include="ContactosDL, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ContactosDL.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlesProveedores, Version=1.0.0.1, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ControlesProveedores.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\CrystalDecisions.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\CrystalDecisions.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentosBSR, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DocumentosBSR.dll</HintPath>
+    </Reference>
+    <Reference Include="ImgCallCenter, Version=1.0.2242.17294, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ImgCallCenter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic">
+      <Name>Microsoft.VisualBasic</Name>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="ProgramacionCobranza, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ProgramacionCobranza.dll</HintPath>
+    </Reference>
+    <Reference Include="QuejasLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\QuejasLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RegularValidations, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\RegularValidations.dll</HintPath>
+    </Reference>
+    <Reference Include="SeguimientoCliente, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\SeguimientoCliente.dll</HintPath>
+    </Reference>
+    <Reference Include="SGDAC, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\SGDAC.dll</HintPath>
+    </Reference>
+    <Reference Include="SigametSeguridad, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\SigametSeguridad.dll</HintPath>
+    </Reference>
+    <Reference Include="SVCC, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\SVCC.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Name>System.EnterpriseServices</Name>
+    </Reference>
+    <Reference Include="System.Web.Services, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Web.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="VbPowerPack2002, Version=0.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\VbPowerPack2002.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AcercaDe.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AltaGrupoComercial.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BuscaCliente.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BusquedaCliente.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CambioClave.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CancelaPedido.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CapturaCheque.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CapturaCobro.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CapturaCobroRelacion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CapturaDatosCreditoCliente.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CapturaEmpresa.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CapturaParametro.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Catalogo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CatalogoCaptura.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CatalogoEmpresa.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CatalogoGrupoComercial.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="COM.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ComboCalle.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ConsultaATT.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsultaCargo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsultaCheques.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsultaCliente.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsultaClienteMultiple.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsultaCobro.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsultaEmpresa.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsultaFactura.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsultaMovimientoCaja.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsultaMovimientos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsultaOperadorPedido.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsultaParametros.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsultaPedidoBitacora.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGrupoComercialBusquedaPorCliente.designer.vb">
+      <DependentUpon>frmGrupoComercialBusquedaPorCliente.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmGrupoComercialBusquedaPorCliente.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataLayer\DataLayer.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DevolucionCheque.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentoCliente.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FiltroConsulta.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBusquedaPorRFCyRazonSocial.designer.vb">
+      <DependentUpon>frmBusquedaPorRFCyRazonSocial.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmBusquedaPorRFCyRazonSocial.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCancelacionPedido.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCapTarjetaCredito.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmClienteBitacora.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConsultaReporte.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConTarjetaCredito.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmValidacionDireccion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWait.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWarning.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GestionCobranza.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IndiceAgenda.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InfoPreliq.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InfoTripulacionTurno.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ModificaCliente.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModificaFechaCargoCheque.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MotivoCancelacion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Observaciones.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PantallaAsignacion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Postit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PostitConfiguracion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PostitLista.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PostitUsuarioCaptura.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReasignaCargoCliente.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Seguridad.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SeleccionCalleColonia.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SigaMetClasses.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <EmbeddedResource Include="AcercaDe.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AltaGrupoComercial.resx">
+      <DependentUpon>AltaGrupoComercial.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuscaCliente.resx">
+      <DependentUpon>BuscaCliente.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BusquedaCliente.resx">
+      <DependentUpon>BusquedaCliente.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CambioClave.resx">
+      <DependentUpon>CambioClave.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CancelaPedido.resx">
+      <DependentUpon>CancelaPedido.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CapturaCheque.resx">
+      <DependentUpon>CapturaCheque.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CapturaCobro.resx">
+      <DependentUpon>CapturaCobro.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CapturaCobroRelacion.resx">
+      <DependentUpon>CapturaCobroRelacion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CapturaDatosCreditoCliente.resx">
+      <DependentUpon>CapturaDatosCreditoCliente.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CapturaEmpresa.resx">
+      <DependentUpon>CapturaEmpresa.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CapturaParametro.resx">
+      <DependentUpon>CapturaParametro.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Catalogo.resx">
+      <DependentUpon>Catalogo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CatalogoCaptura.resx">
+      <DependentUpon>CatalogoCaptura.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CatalogoEmpresa.resx">
+      <DependentUpon>CatalogoEmpresa.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CatalogoGrupoComercial.resx">
+      <DependentUpon>CatalogoGrupoComercial.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="COM.resx">
+      <DependentUpon>COM.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComboCalle.resx">
+      <DependentUpon>ComboCalle.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultaATT.resx">
+      <DependentUpon>ConsultaATT.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultaCargo.resx">
+      <DependentUpon>ConsultaCargo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultaCheques.resx">
+      <DependentUpon>ConsultaCheques.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultaCliente.resx">
+      <DependentUpon>ConsultaCliente.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultaClienteMultiple.resx">
+      <DependentUpon>ConsultaClienteMultiple.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultaCobro.resx">
+      <DependentUpon>ConsultaCobro.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultaEmpresa.resx">
+      <DependentUpon>ConsultaEmpresa.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultaFactura.resx">
+      <DependentUpon>ConsultaFactura.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultaMovimientoCaja.resx">
+      <DependentUpon>ConsultaMovimientoCaja.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultaMovimientos.resx">
+      <DependentUpon>ConsultaMovimientos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultaOperadorPedido.resx">
+      <DependentUpon>ConsultaOperadorPedido.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultaParametros.resx">
+      <DependentUpon>ConsultaParametros.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultaPedidoBitacora.resx">
+      <DependentUpon>ConsultaPedidoBitacora.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGrupoComercialBusquedaPorCliente.resx">
+      <DependentUpon>frmGrupoComercialBusquedaPorCliente.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DevolucionCheque.resx">
+      <DependentUpon>DevolucionCheque.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroConsulta.resx">
+      <DependentUpon>FiltroConsulta.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBusquedaPorRFCyRazonSocial.resx">
+      <DependentUpon>frmBusquedaPorRFCyRazonSocial.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCancelacionPedido.resx">
+      <DependentUpon>frmCancelacionPedido.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCapTarjetaCredito.resx">
+      <DependentUpon>frmCapTarjetaCredito.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmClienteBitacora.resx">
+      <DependentUpon>frmClienteBitacora.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConsultaReporte.resx">
+      <DependentUpon>frmConsultaReporte.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConTarjetaCredito.resx">
+      <DependentUpon>frmConTarjetaCredito.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmValidacionDireccion.resx">
+      <DependentUpon>frmValidacionDireccion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmWait.resx">
+      <DependentUpon>frmWait.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmWarning.resx">
+      <DependentUpon>frmWarning.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GestionCobranza.resx">
+      <DependentUpon>GestionCobranza.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndiceAgenda.resx">
+      <DependentUpon>IndiceAgenda.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InfoPreliq.resx">
+      <DependentUpon>InfoPreliq.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InfoTripulacionTurno.resx">
+      <DependentUpon>InfoTripulacionTurno.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModificaCliente.resx">
+      <DependentUpon>ModificaCliente.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModificaFechaCargoCheque.resx">
+      <DependentUpon>ModificaFechaCargoCheque.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotivoCancelacion.resx">
+      <DependentUpon>MotivoCancelacion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Observaciones.resx">
+      <DependentUpon>Observaciones.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PantallaAsignacion.resx">
+      <DependentUpon>PantallaAsignacion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Postit.resx">
+      <DependentUpon>Postit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PostitConfiguracion.resx">
+      <DependentUpon>PostitConfiguracion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PostitLista.resx">
+      <DependentUpon>PostitLista.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PostitUsuarioCaptura.resx">
+      <DependentUpon>PostitUsuarioCaptura.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReasignaCargoCliente.resx">
+      <DependentUpon>ReasignaCargoCliente.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Seguridad.resx">
+      <DependentUpon>Seguridad.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionCalleColonia.resx">
+      <DependentUpon>SeleccionCalleColonia.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SigaMetClasses.resx">
+      <DependentUpon>SigaMetClasses.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent />
+  </PropertyGroup>
+</Project>

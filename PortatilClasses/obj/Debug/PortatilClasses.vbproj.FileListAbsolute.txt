@@ -1,0 +1,11 @@
+D:\TFSGM\Librerias\PortatilClasses\bin\PortatilClasses.dll
+D:\TFSGM\Librerias\PortatilClasses\bin\PortatilClasses.pdb
+D:\TFSGM\Librerias\PortatilClasses\bin\PortatilClasses.xml
+D:\TFSGM\Librerias\PortatilClasses\obj\Debug\PortatilClasses.Combo.ComboBase.resources
+D:\TFSGM\Librerias\PortatilClasses\obj\Debug\PortatilClasses.CrearControl.ProductoPanel.resources
+D:\TFSGM\Librerias\PortatilClasses\obj\Debug\PortatilClasses.frmUsuario.resources
+D:\TFSGM\Librerias\PortatilClasses\obj\Debug\PortatilClasses.vbproj.GenerateResource.Cache
+D:\TFSGM\Librerias\PortatilClasses\obj\Debug\PortatilClasses.vbproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\PortatilClasses\obj\Debug\PortatilClasses.dll
+D:\TFSGM\Librerias\PortatilClasses\obj\Debug\PortatilClasses.xml
+D:\TFSGM\Librerias\PortatilClasses\obj\Debug\PortatilClasses.pdb

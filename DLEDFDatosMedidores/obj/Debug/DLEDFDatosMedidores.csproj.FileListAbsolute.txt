@@ -1,0 +1,6 @@
+D:\TFSGM\Librerias\DLEDFDatosMedidores\bin\Debug\DLEDFDatosMedidores.dll
+D:\TFSGM\Librerias\DLEDFDatosMedidores\bin\Debug\DLEDFDatosMedidores.pdb
+D:\TFSGM\Librerias\DLEDFDatosMedidores\obj\Debug\DLEDFDatosMedidores.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\DLEDFDatosMedidores\obj\Debug\DLEDFDatosMedidores.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\DLEDFDatosMedidores\obj\Debug\DLEDFDatosMedidores.dll
+D:\TFSGM\Librerias\DLEDFDatosMedidores\obj\Debug\DLEDFDatosMedidores.pdb

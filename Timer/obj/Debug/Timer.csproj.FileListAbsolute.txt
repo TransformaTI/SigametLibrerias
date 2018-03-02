@@ -1,0 +1,10 @@
+D:\TFSGM\Librerias\Timer\bin\Debug\Timer.dll
+D:\TFSGM\Librerias\Timer\bin\Debug\Timer.pdb
+D:\TFSGM\Librerias\Timer\obj\Debug\Timer.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\Timer\obj\Debug\Timer.cronograph.resources
+D:\TFSGM\Librerias\Timer\obj\Debug\Timer.frmTimer.resources
+D:\TFSGM\Librerias\Timer\obj\Debug\CTimer.Timer.resources
+D:\TFSGM\Librerias\Timer\obj\Debug\Timer.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\Timer\obj\Debug\Timer.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\Timer\obj\Debug\Timer.dll
+D:\TFSGM\Librerias\Timer\obj\Debug\Timer.pdb

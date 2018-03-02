@@ -1,0 +1,16 @@
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\bin\Debug\UIEDFAsignacion.dll
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\bin\Debug\UIEDFAsignacion.pdb
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\obj\Debug\UIEDFAsignacion.frmAsignacionLecturistas.resources
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\obj\Debug\UIEDFAsignacion.frmAsignacionLecturistaUpdate.resources
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\obj\Debug\UIEDFAsignacion.frmAsignacionManual.resources
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\obj\Debug\UIEDFAsignacion.frmBuscador.resources
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\obj\Debug\UIEDFAsignacion.frmGenerarAsignacion.resources
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\obj\Debug\UIEDFAsignacion.frmLecturista.resources
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\obj\Debug\UIEDFAsignacion.frmLecturistaAddUpdate.resources
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\obj\Debug\UIEDFAsignacion.frmZonaEdificio.resources
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\obj\Debug\UIEDFAsignacion.frmZonaEdificioAddUpdate.resources
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\obj\Debug\UIEDFAsignacion.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\obj\Debug\UIEDFAsignacion.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\obj\Debug\UIEDFAsignacion.dll
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\obj\Debug\UIEDFAsignacion.pdb
+D:\TFSGM\Librerias\EDFIntercambio\UIEDFAsignacion\UIEDFAsignacion\obj\Debug\UIEDFAsignacion.csprojResolveAssemblyReference.cache

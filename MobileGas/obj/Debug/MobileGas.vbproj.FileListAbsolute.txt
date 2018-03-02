@@ -1,0 +1,11 @@
+D:\TFSGM\Librerias\MobileGas\obj\Debug\MobileGas.vbprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\MobileGas\obj\Debug\MobileGas.Resources.resources
+D:\TFSGM\Librerias\MobileGas\obj\Debug\MobileGas.vbproj.GenerateResource.Cache
+D:\TFSGM\Librerias\MobileGas\obj\Debug\MobileGas.vbproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\MobileGas\bin\Debug\MobileGas.dll
+D:\TFSGM\Librerias\MobileGas\bin\Debug\MobileGas.pdb
+D:\TFSGM\Librerias\MobileGas\bin\Debug\MobileGas.xml
+D:\TFSGM\Librerias\MobileGas\bin\Debug\MySql.Data.dll
+D:\TFSGM\Librerias\MobileGas\obj\Debug\MobileGas.dll
+D:\TFSGM\Librerias\MobileGas\obj\Debug\MobileGas.xml
+D:\TFSGM\Librerias\MobileGas\obj\Debug\MobileGas.pdb

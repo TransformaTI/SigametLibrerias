@@ -1,0 +1,9 @@
+D:\TFSGM\Librerias\RelacionCobranza\bin\Debug\RelacionCobranza.dll
+D:\TFSGM\Librerias\RelacionCobranza\bin\Debug\RelacionCobranza.pdb
+D:\TFSGM\Librerias\RelacionCobranza\obj\Debug\RelacionCobranza.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\RelacionCobranza\obj\Debug\CierreCobranza.CierreDeCobranzaPagada.resources
+D:\TFSGM\Librerias\RelacionCobranza\obj\Debug\RelacionCobranza.ReprogramacionCobranza.resources
+D:\TFSGM\Librerias\RelacionCobranza\obj\Debug\RelacionCobranza.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\RelacionCobranza\obj\Debug\RelacionCobranza.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\RelacionCobranza\obj\Debug\RelacionCobranza.dll
+D:\TFSGM\Librerias\RelacionCobranza\obj\Debug\RelacionCobranza.pdb

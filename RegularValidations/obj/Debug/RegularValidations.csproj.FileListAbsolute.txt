@@ -1,0 +1,5 @@
+D:\TFSGM\Librerias\RegularValidations\bin\Debug\RegularValidations.dll
+D:\TFSGM\Librerias\RegularValidations\bin\Debug\RegularValidations.pdb
+D:\TFSGM\Librerias\RegularValidations\obj\Debug\RegularValidations.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\RegularValidations\obj\Debug\RegularValidations.dll
+D:\TFSGM\Librerias\RegularValidations\obj\Debug\RegularValidations.pdb

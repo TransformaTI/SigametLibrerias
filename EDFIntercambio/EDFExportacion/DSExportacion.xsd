@@ -1,0 +1,48 @@
+<?xml version="1.0" standalone="yes" ?>
+<xs:schema id="DSExportacion" targetNamespace="http://www.tempuri.org/DataSet1.xsd" xmlns:mstns="http://www.tempuri.org/DataSet1.xsd" xmlns="http://www.tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+	<xs:element name="DSExportacion" msdata:IsDataSet="true" msdata:Locale="es-MX">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Lectura">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Corporativo" msdata:ReadOnly="true" type="xs:short" minOccurs="0" />
+							<xs:element name="Celula" msdata:ReadOnly="true" type="xs:short" minOccurs="0" />
+							<xs:element name="Ruta" msdata:ReadOnly="true" type="xs:short" minOccurs="0" />
+							<xs:element name="Lectura" type="xs:int" />
+							<xs:element name="FVisita" msdata:ReadOnly="true" type="xs:dateTime" minOccurs="0" />
+							<xs:element name="Cliente" type="xs:int" />
+							<xs:element name="TagCliente" msdata:ReadOnly="true" type="xs:string" minOccurs="0" />
+							<xs:element name="Nombre" type="xs:string" minOccurs="0" />
+							<xs:element name="NumExterior" type="xs:int" minOccurs="0" />
+							<xs:element name="DireccionCompleta" msdata:ReadOnly="true" type="xs:string" minOccurs="0" />
+							<xs:element name="FactorConversion" msdata:ReadOnly="true" type="xs:decimal" minOccurs="0" />
+							<xs:element name="CargoAdministrativo" msdata:ReadOnly="true" type="xs:decimal" minOccurs="0" />
+							<xs:element name="FLecturaInicial" type="xs:dateTime" minOccurs="0" />
+							<xs:element name="CapacidadTanque" msdata:ReadOnly="true" type="xs:short" minOccurs="0" />
+							<xs:element name="Serie" msdata:ReadOnly="true" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="LecturaMedidor">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Corporativo" msdata:ReadOnly="true" type="xs:short" minOccurs="0" />
+							<xs:element name="Lectura" type="xs:int" />
+							<xs:element name="Cliente" type="xs:int" />
+							<xs:element name="Referencia" type="xs:string" />
+							<xs:element name="Consecutivo" type="xs:int" />
+							<xs:element name="Nombre" type="xs:string" minOccurs="0" />
+							<xs:element name="NumInterior" type="xs:string" minOccurs="0" />
+							<xs:element name="TagCliente" type="xs:string" nillable="true" />
+							<xs:element name="SerieMedidor" type="xs:string" nillable="true" />
+							<xs:element name="LecturaInicial" type="xs:decimal" />
+							<xs:element name="RedondeoAplicado" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Folio" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

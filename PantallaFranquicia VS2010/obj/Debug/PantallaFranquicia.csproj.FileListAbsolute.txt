@@ -1,0 +1,8 @@
+D:\TFSGM\Librerias\PantallaFranquicia VS2010\bin\Debug\PantallaFranquicia.dll
+D:\TFSGM\Librerias\PantallaFranquicia VS2010\bin\Debug\PantallaFranquicia.pdb
+D:\TFSGM\Librerias\PantallaFranquicia VS2010\obj\Debug\PantallaFranquicia.frmPantallaFranquicia.resources
+D:\TFSGM\Librerias\PantallaFranquicia VS2010\obj\Debug\PantallaFranquicia.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\PantallaFranquicia VS2010\obj\Debug\PantallaFranquicia.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\PantallaFranquicia VS2010\obj\Debug\PantallaFranquicia.dll
+D:\TFSGM\Librerias\PantallaFranquicia VS2010\obj\Debug\PantallaFranquicia.pdb
+D:\TFSGM\Librerias\PantallaFranquicia VS2010\obj\Debug\PantallaFranquicia.csprojResolveAssemblyReference.cache

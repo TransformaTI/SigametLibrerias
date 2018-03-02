@@ -1,0 +1,12 @@
+D:\TFSGM\Librerias\CapturaEfectivo\bin\CapturaEfectivo.dll
+D:\TFSGM\Librerias\CapturaEfectivo\bin\CapturaEfectivo.pdb
+D:\TFSGM\Librerias\CapturaEfectivo\bin\CapturaEfectivo.xml
+D:\TFSGM\Librerias\CapturaEfectivo\obj\Debug\CapturaEfectivo.vbprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\CapturaEfectivo\obj\Debug\CapturaEfectivo.Efectivo.resources
+D:\TFSGM\Librerias\CapturaEfectivo\obj\Debug\CapturaEfectivo.Vales.resources
+D:\TFSGM\Librerias\CapturaEfectivo\obj\Debug\CapturaEfectivo.ControlValesPromocion.resources
+D:\TFSGM\Librerias\CapturaEfectivo\obj\Debug\CapturaEfectivo.vbproj.GenerateResource.Cache
+D:\TFSGM\Librerias\CapturaEfectivo\obj\Debug\CapturaEfectivo.vbproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\CapturaEfectivo\obj\Debug\CapturaEfectivo.dll
+D:\TFSGM\Librerias\CapturaEfectivo\obj\Debug\CapturaEfectivo.xml
+D:\TFSGM\Librerias\CapturaEfectivo\obj\Debug\CapturaEfectivo.pdb

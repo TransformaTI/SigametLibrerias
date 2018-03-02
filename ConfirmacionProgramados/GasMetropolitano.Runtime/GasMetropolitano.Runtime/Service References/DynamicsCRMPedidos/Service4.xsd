@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/WSPedidosDummy.Model.detalle_peiddo" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/WSPedidosDummy.Model.detalle_peiddo" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="itssa_descuentopordirecciondeentrega">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="itssa_descuento" nillable="true" type="tns:itssa_descuento" />
+      <xs:element minOccurs="0" name="itssa_descuentopordireccindeentregaid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="itssa_fvigenciafinal" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="itssa_fvigenciainicial" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="itssa_iddescuentopordireccindeentrega" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="itssa_name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="itssa_producto" nillable="true" type="tns:itssa_producto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="itssa_descuentopordirecciondeentrega" nillable="true" type="tns:itssa_descuentopordirecciondeentrega" />
+  <xs:complexType name="itssa_descuento">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="itssa_descuentoid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="itssa_descuentovalor" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="itssa_iddescuento" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="itssa_name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="itssa_posicionri" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="statecode" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="statuscode" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="itssa_descuento" nillable="true" type="tns:itssa_descuento" />
+  <xs:complexType name="itssa_producto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="itssa_familia" nillable="true" type="tns:itssa_familia" />
+      <xs:element minOccurs="0" name="itssa_idproducto" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="itssa_name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="itssa_productoid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="itssa_tipodeproducto" nillable="true" type="tns:itssa_tipoproducto" />
+      <xs:element minOccurs="0" name="itssa_unidaddemedida" nillable="true" type="tns:itssa_unidaddemedida" />
+      <xs:element minOccurs="0" name="itssa_valor" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="itssa_producto" nillable="true" type="tns:itssa_producto" />
+  <xs:complexType name="itssa_familia">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="itssa_familiaid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="itssa_idfamilia" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="itssa_name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="itssa_familia" nillable="true" type="tns:itssa_familia" />
+  <xs:complexType name="itssa_tipoproducto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="itssa_descripcion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="itssa_idtipoproducto" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="itssa_name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="itssa_tipoproductoid" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="itssa_tipoproducto" nillable="true" type="tns:itssa_tipoproducto" />
+  <xs:complexType name="itssa_unidaddemedida">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="itssa_idunidaddemedida" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="itssa_name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="itssa_unidaddemedidaid" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="itssa_unidaddemedida" nillable="true" type="tns:itssa_unidaddemedida" />
+  <xs:complexType name="itssa_impuesto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="itssa_idimpuesto" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="itssa_impuestoid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="itssa_name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="itssa_valordelimpuesto" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="statecode" nillable="true" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="itssa_impuesto" nillable="true" type="tns:itssa_impuesto" />
+  <xs:complexType name="itssa_precioporempresa">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="itssa_fechadevigenciafinal" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="itssa_fechavigenciainicial" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="itssa_idprecioempresa" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="itssa_impuesto" nillable="true" type="tns:itssa_impuesto" />
+      <xs:element minOccurs="0" name="itssa_name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="itssa_precioempresaid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="itssa_precioporempresavalor" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="itssa_producto" nillable="true" type="tns:itssa_producto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="itssa_precioporempresa" nillable="true" type="tns:itssa_precioporempresa" />
+</xs:schema>

@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProductVersion>7.0.9466</ProductVersion>
+    <SchemaVersion>1.0</SchemaVersion>
+    <ProjectGuid>{6C172DD2-9F8E-46C2-87D1-DCC2AD13D2C3}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon />
+    <AssemblyKeyContainerName />
+    <AssemblyName>SigametFinancieroTesoreria</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace>SigametFinancieroTesoreria</RootNamespace>
+    <StartupObject />
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <UpgradeBackupLocation />
+    <UseIISExpress>false</UseIISExpress>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>SigametFinancieroTesoreria.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>SigametFinancieroTesoreria.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MsgBoxASP">
+      <Name>MsgBoxASP</Name>
+      <HintPath>MsgBoxASP.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Configuration" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Web" />
+    <Import Include="System.Web.UI" />
+    <Import Include="System.Web.UI.HtmlControls" />
+    <Import Include="System.Web.UI.WebControls" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CatalogoCaja.aspx.designer.vb">
+      <DependentUpon>CatalogoCaja.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CatalogoCaja.aspx.vb">
+      <DependentUpon>CatalogoCaja.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CatalogoConceptoID.aspx.designer.vb">
+      <DependentUpon>CatalogoConceptoID.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CatalogoConceptoID.aspx.vb">
+      <DependentUpon>CatalogoConceptoID.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CatalogoParametro.aspx.designer.vb">
+      <DependentUpon>CatalogoParametro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CatalogoParametro.aspx.vb">
+      <DependentUpon>CatalogoParametro.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CatalogoUsuario.aspx.designer.vb">
+      <DependentUpon>CatalogoUsuario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CatalogoUsuario.aspx.vb">
+      <DependentUpon>CatalogoUsuario.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesgloseConcepto.aspx.designer.vb">
+      <DependentUpon>DesgloseConcepto.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DesgloseConcepto.aspx.vb">
+      <DependentUpon>DesgloseConcepto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesgloseConceptoBusca.aspx.designer.vb">
+      <DependentUpon>DesgloseConceptoBusca.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DesgloseConceptoBusca.aspx.vb">
+      <DependentUpon>DesgloseConceptoBusca.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesgloseConceptoRpt.aspx.designer.vb">
+      <DependentUpon>DesgloseConceptoRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DesgloseConceptoRpt.aspx.vb">
+      <DependentUpon>DesgloseConceptoRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesgloseConceptoRptCheque.aspx.designer.vb">
+      <DependentUpon>DesgloseConceptoRptCheque.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DesgloseConceptoRptCheque.aspx.vb">
+      <DependentUpon>DesgloseConceptoRptCheque.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DesgloseConceptoRptDescuadre.aspx.designer.vb">
+      <DependentUpon>DesgloseConceptoRptDescuadre.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DesgloseConceptoRptDescuadre.aspx.vb">
+      <DependentUpon>DesgloseConceptoRptDescuadre.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EstadoCuentaImportaRpt.aspx.designer.vb">
+      <DependentUpon>EstadoCuentaImportaRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EstadoCuentaImportaRpt.aspx.vb">
+      <DependentUpon>EstadoCuentaImportaRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Global.asax.vb">
+      <DependentUpon>Global.asax</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImportarExcel.aspx.designer.vb">
+      <DependentUpon>ImportarExcel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ImportarExcel.aspx.vb">
+      <DependentUpon>ImportarExcel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ingresos.aspx.designer.vb">
+      <DependentUpon>Ingresos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Ingresos.aspx.vb">
+      <DependentUpon>Ingresos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IngresosDelete.aspx.designer.vb">
+      <DependentUpon>IngresosDelete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IngresosDelete.aspx.vb">
+      <DependentUpon>IngresosDelete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IngresosDetalleRpt.aspx.designer.vb">
+      <DependentUpon>IngresosDetalleRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IngresosDetalleRpt.aspx.vb">
+      <DependentUpon>IngresosDetalleRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IngresosRpt.aspx.designer.vb">
+      <DependentUpon>IngresosRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IngresosRpt.aspx.vb">
+      <DependentUpon>IngresosRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.vb">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.vb">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Menu.aspx.designer.vb">
+      <DependentUpon>Menu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Menu.aspx.vb">
+      <DependentUpon>Menu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ModuleFunctions.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Content Include="CatalogoCaja.aspx" />
+    <Content Include="CatalogoConceptoID.aspx" />
+    <Content Include="CatalogoParametro.aspx" />
+    <Content Include="CatalogoUsuario.aspx" />
+    <Content Include="DesgloseConcepto.aspx" />
+    <Content Include="DesgloseConceptoBusca.aspx" />
+    <Content Include="DesgloseConceptoRpt.aspx" />
+    <Content Include="DesgloseConceptoRptCheque.aspx" />
+    <Content Include="DesgloseConceptoRptDescuadre.aspx" />
+    <Content Include="EstadoCuentaImportaRpt.aspx" />
+    <Content Include="FuncionesJavaScript.js" />
+    <Content Include="Global.asax" />
+    <Content Include="home.css" />
+    <Content Include="ImportarExcel.aspx" />
+    <Content Include="Ingresos.aspx" />
+    <Content Include="IngresosDelete.aspx" />
+    <Content Include="IngresosDetalleRpt.aspx" />
+    <Content Include="IngresosRpt.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="LogoSigametFin.JPG" />
+    <Content Include="Menu.aspx" />
+    <Content Include="Styles.css" />
+    <Content Include="Web.config" />
+    <EmbeddedResource Include="CatalogoCaja.aspx.resx">
+      <DependentUpon>CatalogoCaja.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CatalogoConceptoID.aspx.resx">
+      <DependentUpon>CatalogoConceptoID.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CatalogoParametro.aspx.resx">
+      <DependentUpon>CatalogoParametro.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CatalogoUsuario.aspx.resx">
+      <DependentUpon>CatalogoUsuario.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Copia de CatalogoUsuario.aspx.resx" />
+    <EmbeddedResource Include="DesgloseConcepto.aspx.resx">
+      <DependentUpon>DesgloseConcepto.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesgloseConceptoBusca.aspx.resx">
+      <DependentUpon>DesgloseConceptoBusca.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesgloseConceptoRpt.aspx.resx">
+      <DependentUpon>DesgloseConceptoRpt.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesgloseConceptoRptCheque.aspx.resx">
+      <DependentUpon>DesgloseConceptoRptCheque.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesgloseConceptoRptDescuadre.aspx.resx">
+      <DependentUpon>DesgloseConceptoRptDescuadre.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EstadoCuentaImportaRpt.aspx.resx">
+      <DependentUpon>EstadoCuentaImportaRpt.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global.asax.resx">
+      <DependentUpon>Global.asax.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportarExcel.aspx.resx">
+      <DependentUpon>ImportarExcel.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ingresos.aspx.resx">
+      <DependentUpon>Ingresos.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IngresosDelete.aspx.resx">
+      <DependentUpon>IngresosDelete.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IngresosDetalleRpt.aspx.resx">
+      <DependentUpon>IngresosDetalleRpt.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IngresosRpt.aspx.resx">
+      <DependentUpon>IngresosRpt.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.aspx.resx">
+      <DependentUpon>Login.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Menu.aspx.resx">
+      <DependentUpon>Menu.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <None Include="SigametFinancieroTesoreria.vsdisco" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent />
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>55669</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

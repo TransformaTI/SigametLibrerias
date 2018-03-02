@@ -1,0 +1,5 @@
+D:\TFSGM\Librerias\RecuperacionArchivoAbonoExterno\bin\Debug\RecuperacionArchivoAbonoExterno.dll
+D:\TFSGM\Librerias\RecuperacionArchivoAbonoExterno\bin\Debug\RecuperacionArchivoAbonoExterno.pdb
+D:\TFSGM\Librerias\RecuperacionArchivoAbonoExterno\obj\Debug\RecuperacionArchivoAbonoExterno.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\RecuperacionArchivoAbonoExterno\obj\Debug\RecuperacionArchivoAbonoExterno.dll
+D:\TFSGM\Librerias\RecuperacionArchivoAbonoExterno\obj\Debug\RecuperacionArchivoAbonoExterno.pdb

@@ -1,0 +1,11 @@
+D:\TFSGM\Librerias\ControlesBase\bin\ControlesBase.dll
+D:\TFSGM\Librerias\ControlesBase\bin\ControlesBase.pdb
+D:\TFSGM\Librerias\ControlesBase\bin\ControlesBase.xml
+D:\TFSGM\Librerias\ControlesBase\obj\Debug\ControlesBase.TextBoxBase.resources
+D:\TFSGM\Librerias\ControlesBase\obj\Debug\ControlesBase.Iconos.resources
+D:\TFSGM\Librerias\ControlesBase\obj\Debug\ControlesBase.vbproj.GenerateResource.Cache
+D:\TFSGM\Librerias\ControlesBase\obj\Debug\ControlesBase.vbproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\ControlesBase\obj\Debug\ControlesBase.dll
+D:\TFSGM\Librerias\ControlesBase\obj\Debug\ControlesBase.xml
+D:\TFSGM\Librerias\ControlesBase\obj\Debug\ControlesBase.pdb
+D:\TFSGM\Librerias\ControlesBase\obj\Debug\ControlesBase.vbprojResolveAssemblyReference.cache

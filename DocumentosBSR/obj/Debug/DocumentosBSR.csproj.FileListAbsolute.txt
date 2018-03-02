@@ -1,0 +1,8 @@
+D:\TFSGM\Librerias\DocumentosBSR\bin\Debug\DocumentosBSR.dll
+D:\TFSGM\Librerias\DocumentosBSR\bin\Debug\DocumentosBSR.pdb
+D:\TFSGM\Librerias\DocumentosBSR\obj\Debug\DocumentosBSR.Documento.resources
+D:\TFSGM\Librerias\DocumentosBSR\obj\Debug\DocumentosBSR.frmBusqueda.resources
+D:\TFSGM\Librerias\DocumentosBSR\obj\Debug\DocumentosBSR.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\DocumentosBSR\obj\Debug\DocumentosBSR.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\DocumentosBSR\obj\Debug\DocumentosBSR.dll
+D:\TFSGM\Librerias\DocumentosBSR\obj\Debug\DocumentosBSR.pdb

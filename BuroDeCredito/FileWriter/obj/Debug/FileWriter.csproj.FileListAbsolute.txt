@@ -1,0 +1,8 @@
+D:\TFSGM\Librerias\BuroDeCredito\FileWriter\obj\Debug\FileWriter.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\BuroDeCredito\FileWriter\obj\Debug\FileWriter.BCArchivo.resources
+D:\TFSGM\Librerias\BuroDeCredito\FileWriter\obj\Debug\FileWriter.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\BuroDeCredito\FileWriter\obj\Debug\FileWriter.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\BuroDeCredito\FileWriter\bin\Debug\FileWriter.dll
+D:\TFSGM\Librerias\BuroDeCredito\FileWriter\bin\Debug\FileWriter.pdb
+D:\TFSGM\Librerias\BuroDeCredito\FileWriter\obj\Debug\FileWriter.dll
+D:\TFSGM\Librerias\BuroDeCredito\FileWriter\obj\Debug\FileWriter.pdb

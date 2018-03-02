@@ -1,0 +1,13 @@
+D:\TFSGM\Librerias\RemisionesCelulaA\bin\RemisionesCelulaA.dll
+D:\TFSGM\Librerias\RemisionesCelulaA\bin\RemisionesCelulaA.pdb
+D:\TFSGM\Librerias\RemisionesCelulaA\bin\RemisionesCelulaA.xml
+D:\TFSGM\Librerias\RemisionesCelulaA\obj\Debug\RemisionesCelulaA.vbprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\RemisionesCelulaA\obj\Debug\RemisionesCelulaA.frmClienteRuta.resources
+D:\TFSGM\Librerias\RemisionesCelulaA\obj\Debug\RemisionesCelulaA.GrdCelulaA.resources
+D:\TFSGM\Librerias\RemisionesCelulaA\obj\Debug\RemisionesCelulaA.OwnControls.resources
+D:\TFSGM\Librerias\RemisionesCelulaA\obj\Debug\RemisionesCelulaA.UserControl1.resources
+D:\TFSGM\Librerias\RemisionesCelulaA\obj\Debug\RemisionesCelulaA.vbproj.GenerateResource.Cache
+D:\TFSGM\Librerias\RemisionesCelulaA\obj\Debug\RemisionesCelulaA.vbproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\RemisionesCelulaA\obj\Debug\RemisionesCelulaA.dll
+D:\TFSGM\Librerias\RemisionesCelulaA\obj\Debug\RemisionesCelulaA.xml
+D:\TFSGM\Librerias\RemisionesCelulaA\obj\Debug\RemisionesCelulaA.pdb

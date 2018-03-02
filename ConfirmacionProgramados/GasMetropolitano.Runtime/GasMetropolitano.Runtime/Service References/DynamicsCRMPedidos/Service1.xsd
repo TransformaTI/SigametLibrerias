@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://192.168.1.42:83/Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/WSPedidosDummy.Model" />
+  <xs:element name="GetData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="value" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDataResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetDataResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_pedidos">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="fechaCompromisoInicio" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="fechaCompromisoFin" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="fechaSumistroInicio" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="fechaSuministroFin" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="direccionEntregaID" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="zonaID" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="rutaOrigenID" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="rutaBoletinID" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="rutaSuministroID" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="estatusPedidoID" type="xs:int" />
+        <xs:element minOccurs="0" name="statusMovilID" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="autotanqueMovilId" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="empresaID" type="xs:int" />
+        <xs:element minOccurs="0" name="serieRemision" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="folioRemision" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="serieFactura" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="folioFactura" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="zonaLecturistaId" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="tipoPedido" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="tipoServicio" nillable="true" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_pedidosResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/WSPedidosDummy.Model" minOccurs="0" name="get_pedidosResult" nillable="true" type="q1:ArrayOfresultado" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_pedidosMetropoli">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="fechaCompromisoIncio" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="fechaCompromisoFin" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="fechaSumistroInicio" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="fechaSuministroFin" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="direccionEntregaID" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="zonaID" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="rutaOrigenID" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="rutaBoletinID" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="rutaSuministroID" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="estatusPedidoID" type="xs:int" />
+        <xs:element minOccurs="0" name="statusMovilID" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="autotanqueMovilId" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="empresaID" type="xs:int" />
+        <xs:element minOccurs="0" name="serieRemision" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="folioRemision" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="serieFactura" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="folioFactura" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="zonaLecturistaId" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="tipoPedido" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="tipoServicio" nillable="true" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="get_pedidosMetropoliResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/WSPedidosDummy.Model" minOccurs="0" name="get_pedidosMetropoliResult" nillable="true" type="q2:ArrayOfresultado" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

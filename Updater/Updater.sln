@@ -1,0 +1,36 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Updater", "Updater.vbproj", "{4ACCBAA9-2843-4A7A-86A5-07CB02A697D4}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "UpdaterConfig", "UpdaterConfig\UpdaterConfig.vbproj", "{6C3DC3FD-010F-4B29-A568-C2F1DC91CF57}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://192.168.1.30:8080/tfs/proyectosgm
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Updater.vbproj
+		SccLocalPath1 = .
+		SccProjectUniqueName2 = UpdaterConfig\\UpdaterConfig.vbproj
+		SccProjectName2 = UpdaterConfig
+		SccLocalPath2 = UpdaterConfig
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4ACCBAA9-2843-4A7A-86A5-07CB02A697D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ACCBAA9-2843-4A7A-86A5-07CB02A697D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ACCBAA9-2843-4A7A-86A5-07CB02A697D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ACCBAA9-2843-4A7A-86A5-07CB02A697D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C3DC3FD-010F-4B29-A568-C2F1DC91CF57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C3DC3FD-010F-4B29-A568-C2F1DC91CF57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C3DC3FD-010F-4B29-A568-C2F1DC91CF57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C3DC3FD-010F-4B29-A568-C2F1DC91CF57}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

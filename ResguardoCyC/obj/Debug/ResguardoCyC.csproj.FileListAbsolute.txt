@@ -1,0 +1,16 @@
+D:\TFSGM\Librerias\ResguardoCyC\bin\Debug\ResguardoCyC.dll.config
+D:\TFSGM\Librerias\ResguardoCyC\bin\Debug\ResguardoCyC.dll
+D:\TFSGM\Librerias\ResguardoCyC\bin\Debug\ResguardoCyC.pdb
+D:\TFSGM\Librerias\ResguardoCyC\bin\Debug\DocumentosBSR.dll
+D:\TFSGM\Librerias\ResguardoCyC\bin\Debug\stdole.dll
+D:\TFSGM\Librerias\ResguardoCyC\obj\Debug\ResguardoCyC.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\ResguardoCyC\obj\Debug\ResguardoCyC.AsignacionEjecutivos.resources
+D:\TFSGM\Librerias\ResguardoCyC\obj\Debug\ResguardoCyC.ListaCobranza.resources
+D:\TFSGM\Librerias\ResguardoCyC\obj\Debug\ResguardoCyC.ListaImpresion.resources
+D:\TFSGM\Librerias\ResguardoCyC\obj\Debug\ResguardoCyC.ModificacionRelacionOperador.resources
+D:\TFSGM\Librerias\ResguardoCyC\obj\Debug\ResguardoCyC.RelacionesOperador.resources
+D:\TFSGM\Librerias\ResguardoCyC\obj\Debug\ResguardoCyC.ResumenFinal.resources
+D:\TFSGM\Librerias\ResguardoCyC\obj\Debug\ResguardoCyC.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\ResguardoCyC\obj\Debug\ResguardoCyC.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\ResguardoCyC\obj\Debug\ResguardoCyC.dll
+D:\TFSGM\Librerias\ResguardoCyC\obj\Debug\ResguardoCyC.pdb

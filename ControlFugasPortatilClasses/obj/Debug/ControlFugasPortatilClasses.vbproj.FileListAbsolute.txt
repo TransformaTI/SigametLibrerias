@@ -1,0 +1,14 @@
+D:\TFSGM\Librerias\ControlFugasPortatilClasses\bin\Debug\ControlFugasPortatilClasses.dll.config
+D:\TFSGM\Librerias\ControlFugasPortatilClasses\bin\Debug\ControlFugasPortatilClasses.dll
+D:\TFSGM\Librerias\ControlFugasPortatilClasses\bin\Debug\ControlFugasPortatilClasses.pdb
+D:\TFSGM\Librerias\ControlFugasPortatilClasses\bin\Debug\ControlFugasPortatilClasses.xml
+D:\TFSGM\Librerias\ControlFugasPortatilClasses\obj\Debug\ControlFugasPortatilClasses.vbprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\ControlFugasPortatilClasses\obj\Debug\ControlFugasPortatilClasses.frmFugaPortatilHistorico.resources
+D:\TFSGM\Librerias\ControlFugasPortatilClasses\obj\Debug\ControlFugasPortatilClasses.frmFugaPortatil.resources
+D:\TFSGM\Librerias\ControlFugasPortatilClasses\obj\Debug\ControlFugasPortatilClasses.frmFugaPortatilProcesos.resources
+D:\TFSGM\Librerias\ControlFugasPortatilClasses\obj\Debug\ControlFugasPortatilClasses.Resources.resources
+D:\TFSGM\Librerias\ControlFugasPortatilClasses\obj\Debug\ControlFugasPortatilClasses.vbproj.GenerateResource.Cache
+D:\TFSGM\Librerias\ControlFugasPortatilClasses\obj\Debug\ControlFugasPortatilClasses.vbproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\ControlFugasPortatilClasses\obj\Debug\ControlFugasPortatilClasses.dll
+D:\TFSGM\Librerias\ControlFugasPortatilClasses\obj\Debug\ControlFugasPortatilClasses.xml
+D:\TFSGM\Librerias\ControlFugasPortatilClasses\obj\Debug\ControlFugasPortatilClasses.pdb

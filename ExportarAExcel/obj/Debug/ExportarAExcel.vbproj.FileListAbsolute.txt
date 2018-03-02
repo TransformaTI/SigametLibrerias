@@ -1,0 +1,10 @@
+D:\TFSGM\Librerias\ExportarAExcel\bin\ExportarAExcel.dll
+D:\TFSGM\Librerias\ExportarAExcel\bin\ExportarAExcel.pdb
+D:\TFSGM\Librerias\ExportarAExcel\bin\ExportarAExcel.xml
+D:\TFSGM\Librerias\ExportarAExcel\bin\stdole.dll
+D:\TFSGM\Librerias\ExportarAExcel\obj\Debug\ExportarAExcel.vbprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\ExportarAExcel\obj\Debug\ExportarAExcel.vbproj.ResolveComReference.cache
+D:\TFSGM\Librerias\ExportarAExcel\obj\Debug\ExportarAExcel.vbproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\ExportarAExcel\obj\Debug\ExportarAExcel.dll
+D:\TFSGM\Librerias\ExportarAExcel\obj\Debug\ExportarAExcel.xml
+D:\TFSGM\Librerias\ExportarAExcel\obj\Debug\ExportarAExcel.pdb

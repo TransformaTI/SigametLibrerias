@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://192.168.1.42:82/ServiceDirEnt.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/GM_WSDireccionesEntrega.Model" />
+  <xs:element name="getDireccionesEntrega">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idDireccionEntrega" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="empresa" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="sucursal" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="telefono" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="calle" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="colonia" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="municipio" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nombre" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="noExterior" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="noInterior" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="tipoServicio" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="zona" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="ruta" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="zonaEconomica" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="zonaLecturista" nillable="true" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getDireccionesEntregaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/GM_WSDireccionesEntrega.Model" minOccurs="0" name="getDireccionesEntregaResult" nillable="true" type="q1:ArrayOfResultado" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getPreciosPorEmpresa">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idPrecioPorEmpresa" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="empresa" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="sucursal" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="producto" nillable="true" type="xs:int" />
+        <xs:element minOccurs="0" name="zonaEconomica" nillable="true" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getPreciosPorEmpresaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/GM_WSDireccionesEntrega.Model" minOccurs="0" name="getPreciosPorEmpresaResult" nillable="true" type="q2:ArrayOfResultado" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

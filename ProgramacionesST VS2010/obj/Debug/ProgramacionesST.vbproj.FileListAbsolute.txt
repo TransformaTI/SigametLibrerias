@@ -1,0 +1,10 @@
+D:\TFSGM\Librerias\ProgramacionesST VS2010\bin\ProgramacionesST.dll
+D:\TFSGM\Librerias\ProgramacionesST VS2010\bin\ProgramacionesST.pdb
+D:\TFSGM\Librerias\ProgramacionesST VS2010\bin\ProgramacionesST.xml
+D:\TFSGM\Librerias\ProgramacionesST VS2010\obj\Debug\ProgramacionesST.CheckTab.resources
+D:\TFSGM\Librerias\ProgramacionesST VS2010\obj\Debug\ProgramacionesST.frmServicios.resources
+D:\TFSGM\Librerias\ProgramacionesST VS2010\obj\Debug\ProgramacionesST.vbproj.GenerateResource.Cache
+D:\TFSGM\Librerias\ProgramacionesST VS2010\obj\Debug\ProgramacionesST.vbproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\ProgramacionesST VS2010\obj\Debug\ProgramacionesST.dll
+D:\TFSGM\Librerias\ProgramacionesST VS2010\obj\Debug\ProgramacionesST.xml
+D:\TFSGM\Librerias\ProgramacionesST VS2010\obj\Debug\ProgramacionesST.pdb

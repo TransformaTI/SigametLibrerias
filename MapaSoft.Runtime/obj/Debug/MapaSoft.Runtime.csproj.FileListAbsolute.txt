@@ -1,0 +1,12 @@
+D:\TFSGM\Librerias\MapaSoft.Runtime\bin\Debug\MapaSoft.Runtime.dll
+D:\TFSGM\Librerias\MapaSoft.Runtime\bin\Debug\MapaSoft.Runtime.pdb
+D:\TFSGM\Librerias\MapaSoft.Runtime\obj\Debug\MapaSoft.Runtime.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\MapaSoft.Runtime\obj\Debug\MapaSoft.Runtime.Formularios.Demo.resources
+D:\TFSGM\Librerias\MapaSoft.Runtime\obj\Debug\MapaSoft.Runtime.Formularios.frmGeoReferenciaManual.resources
+D:\TFSGM\Librerias\MapaSoft.Runtime\obj\Debug\MapaSoft.Runtime.Formularios.frmImportarGeocerca.resources
+D:\TFSGM\Librerias\MapaSoft.Runtime\obj\Debug\MapaSoft.Runtime.Formularios.FrmVisualizarGeocerca.resources
+D:\TFSGM\Librerias\MapaSoft.Runtime\obj\Debug\MapaSoft.Runtime.Properties.Resources.resources
+D:\TFSGM\Librerias\MapaSoft.Runtime\obj\Debug\MapaSoft.Runtime.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\MapaSoft.Runtime\obj\Debug\MapaSoft.Runtime.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\MapaSoft.Runtime\obj\Debug\MapaSoft.Runtime.dll
+D:\TFSGM\Librerias\MapaSoft.Runtime\obj\Debug\MapaSoft.Runtime.pdb

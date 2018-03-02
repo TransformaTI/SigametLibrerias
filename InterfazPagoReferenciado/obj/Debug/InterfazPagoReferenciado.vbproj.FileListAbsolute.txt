@@ -1,0 +1,9 @@
+D:\TFSGM\Librerias\InterfazPagoReferenciado\bin\Interfaz.dll
+D:\TFSGM\Librerias\InterfazPagoReferenciado\bin\Interfaz.pdb
+D:\TFSGM\Librerias\InterfazPagoReferenciado\bin\Interfaz.xml
+D:\TFSGM\Librerias\InterfazPagoReferenciado\obj\Debug\DLLForm.frmInterface.resources
+D:\TFSGM\Librerias\InterfazPagoReferenciado\obj\Debug\InterfazPagoReferenciado.vbproj.GenerateResource.Cache
+D:\TFSGM\Librerias\InterfazPagoReferenciado\obj\Debug\InterfazPagoReferenciado.vbproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\InterfazPagoReferenciado\obj\Debug\Interfaz.dll
+D:\TFSGM\Librerias\InterfazPagoReferenciado\obj\Debug\Interfaz.xml
+D:\TFSGM\Librerias\InterfazPagoReferenciado\obj\Debug\Interfaz.pdb

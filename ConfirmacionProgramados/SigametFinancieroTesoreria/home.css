@@ -1,0 +1,207 @@
+A
+{
+	list-style-position: inside;
+	font-size: 11px;
+	color: Yellow;
+	font-style: normal;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	list-style-type: circle;
+	text-decoration: none;
+}
+.topmenu
+{
+	font-size: 11px;
+	cursor: default;
+	color: #ffffff;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.formobj
+{
+	border-right: #004080 1px solid;
+	border-top: #004080 1px solid;
+	font-weight: normal;
+	font-size: 11px;
+	border-left: #004080 1px solid;
+	color: black;
+	border-bottom: #004080 1px solid;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: Gainsboro;
+}
+.button
+{
+	font-size: 9pt;	
+	font-family: Tahoma;
+	border-right: #ffffff 2px solid;
+	padding-right: 0px;
+	border-top: #ffffff 2px solid;
+	padding-left: 0px;	
+	padding-bottom: 0px;
+	text-transform: capitalize;
+	border-left: #ffffff 2px solid;
+	color: #ffffff;
+	padding-top: 0px;
+	border-bottom: #ffffff 2px solid;	
+	background-color: #738fbf;
+}
+A:hover
+{
+	font-size: 11px;
+	color: Yellow;
+	font-style: normal;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+.texto
+{
+	font-size: 10pt;
+	color: #000099;
+	font-family: Tahoma;
+}
+.puntos
+{
+	list-style-position: inside;
+	font-size: 11px;
+	color: #ffcc00;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	list-style-type: circle;
+}
+.formobject
+{
+	font-size: 11px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.TablaFondo
+{
+	background-color: #f5f5f5;
+}
+.BoxDos
+{
+	font-size: 10pt;
+	color: midnightblue;
+	font-family: Tahoma;
+	border-right: #8ca6b5 1px solid;
+	border-top: #8ca6b5 1px solid;
+	border-left: #8ca6b5 1px solid;
+	border-bottom: #8ca6b5 2px solid;
+}
+.BoxInf
+{
+	border-right: #004080 1px solid;
+	border-top: #004080 1px solid;
+	border-left: #004080 1px solid;
+	border-bottom: #004080 2px solid;
+	background-color: gainsboro;
+}
+.Combo
+{
+	color: #000099;
+	font-family: arial;
+	font-size: 11px;
+	width: 160px;
+}
+.TablaBorder
+{
+	border-right: black thin solid;
+	border-top: black thin solid;
+	border-left: black thin solid;
+	border-bottom: black thin solid;
+}
+.TablaBorderP
+{
+	border-right:  #738fbf 1px solid;
+	border-top: white 1px solid;	
+	border-left:  #738fbf 1px solid;	
+	border-bottom:  #738fbf 1px solid;
+}
+.TituloFrm
+{
+	font-size: x-small;
+	color: white;
+	font-family: Arial;
+	background-color: #000099;
+}
+.TituloFrmP
+{
+	font-size: x-small;
+	color: white;
+	font-family: Tahoma;
+	background-color: #738fbf;
+}
+.TituloFrmBusqueda
+{
+	font-size: 8pt;
+	color: white;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	background-color: #004080;
+}
+.ColorTD
+{
+	font-size: 8pt;
+	color: #ffffff;
+	font-family: Tahoma;
+	background-color: #738fbf;
+}
+.ColorTR
+{
+	font-size: 10pt;
+	color: #3333ff;
+	font-family: Tahoma;
+	background-color: peachpuff;
+}
+.Boton 
+{
+	BACKGROUND-COLOR: #d6dfde; BORDER-BOTTOM: #8ca6b5 1px solid; BORDER-LEFT: #8ca6b5 1px solid; BORDER-RIGHT: #8ca6b5 1px solid; BORDER-TOP: #8ca6b5 1px solid; COLOR: #333333; FONT-FAMILY: arial; FONT-SIZE: 11px; FONT-WEIGHT: bold
+}
+.EncabezadoGrid
+{
+	font-weight: normal;
+	color: white;
+	font-family: Tahoma;
+	background-color: #738fbf;
+	text-align: center;
+}
+.PagerStyle
+{
+	font-weight: normal;
+	color: white;
+	border-top-style: outset;
+	border-right-style: outset;
+	border-left-style: outset;
+	background-color: #8ca6b5;
+	text-align: right;
+	border-bottom-style: outset;
+}
+.buttonhide
+{
+	width: 0px;
+	color: #f5f5f5;
+	height: 0px;
+	background-color: #f5f5f5;
+}
+.Message
+{
+	border-right: #8ca6b5 1px solid;
+	border-top: #8ca6b5 1px solid;
+	font-weight: bold;
+	font-size: x-small;
+	border-left: #8ca6b5 1px solid;
+	color: red;
+	border-bottom: #8ca6b5 2px solid;
+	font-family: Tahoma;
+	background-color: inactivecaptiontext;
+	text-align: center;
+}
+.HeaderStyleGrid
+{
+	font-weight: normal;
+	color: white;
+	background-color: #8ca6b5;	
+	text-align: center;
+}
+.FondoPage
+{
+	background-position: 25px 10px;
+	background-image: url(LogoSigametFin.JPG);
+	background-repeat: no-repeat;
+	background-color: #dbe0e6;
+}

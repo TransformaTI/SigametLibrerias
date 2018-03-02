@@ -1,0 +1,6 @@
+D:\TFSGM\Librerias\ExportData\bin\Debug\ExportData.dll
+D:\TFSGM\Librerias\ExportData\bin\Debug\ExportData.pdb
+D:\TFSGM\Librerias\ExportData\obj\Debug\ExportData.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\ExportData\obj\Debug\ExportData.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\ExportData\obj\Debug\ExportData.dll
+D:\TFSGM\Librerias\ExportData\obj\Debug\ExportData.pdb

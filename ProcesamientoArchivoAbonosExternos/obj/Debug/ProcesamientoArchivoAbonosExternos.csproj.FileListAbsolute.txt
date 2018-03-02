@@ -1,0 +1,9 @@
+D:\TFSGM\Librerias\ProcesamientoArchivoAbonosExternos\bin\Debug\ProcesamientoArchivoAbonosExternos.dll
+D:\TFSGM\Librerias\ProcesamientoArchivoAbonosExternos\bin\Debug\ProcesamientoArchivoAbonosExternos.pdb
+D:\TFSGM\Librerias\ProcesamientoArchivoAbonosExternos\bin\Debug\RecuperacionArchivoAbonoExterno.dll
+D:\TFSGM\Librerias\ProcesamientoArchivoAbonosExternos\bin\Debug\SGDAC.dll
+D:\TFSGM\Librerias\ProcesamientoArchivoAbonosExternos\bin\Debug\SigaMetClasses.dll
+D:\TFSGM\Librerias\ProcesamientoArchivoAbonosExternos\obj\Debug\ProcesamientoArchivoAbonosExternos.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\ProcesamientoArchivoAbonosExternos\obj\Debug\ProcesamientoArchivoAbonosExternos.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\ProcesamientoArchivoAbonosExternos\obj\Debug\ProcesamientoArchivoAbonosExternos.dll
+D:\TFSGM\Librerias\ProcesamientoArchivoAbonosExternos\obj\Debug\ProcesamientoArchivoAbonosExternos.pdb

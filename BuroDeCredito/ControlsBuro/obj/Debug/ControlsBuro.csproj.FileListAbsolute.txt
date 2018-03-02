@@ -1,0 +1,7 @@
+D:\TFSGM\Librerias\BuroDeCredito\ControlsBuro\bin\Debug\ControlsBuro.dll
+D:\TFSGM\Librerias\BuroDeCredito\ControlsBuro\bin\Debug\ControlsBuro.pdb
+D:\TFSGM\Librerias\BuroDeCredito\ControlsBuro\obj\Debug\ControlsBuro.CollapsiblePanel.resources
+D:\TFSGM\Librerias\BuroDeCredito\ControlsBuro\obj\Debug\ControlsBuro.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\BuroDeCredito\ControlsBuro\obj\Debug\ControlsBuro.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\BuroDeCredito\ControlsBuro\obj\Debug\ControlsBuro.dll
+D:\TFSGM\Librerias\BuroDeCredito\ControlsBuro\obj\Debug\ControlsBuro.pdb

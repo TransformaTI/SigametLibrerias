@@ -1,0 +1,6 @@
+D:\TFSGM\Librerias\EDFAsignacionDataLayer\bin\Debug\EDFAsignacionDataLayer.dll
+D:\TFSGM\Librerias\EDFAsignacionDataLayer\bin\Debug\EDFAsignacionDataLayer.pdb
+D:\TFSGM\Librerias\EDFAsignacionDataLayer\obj\Debug\EDFAsignacionDataLayer.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\EDFAsignacionDataLayer\obj\Debug\EDFAsignacionDataLayer.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\EDFAsignacionDataLayer\obj\Debug\EDFAsignacionDataLayer.dll
+D:\TFSGM\Librerias\EDFAsignacionDataLayer\obj\Debug\EDFAsignacionDataLayer.pdb

@@ -1,0 +1,6 @@
+D:\TFSGM\Librerias\UDSDataLayer\bin\Debug\UDSDataLayer.dll
+D:\TFSGM\Librerias\UDSDataLayer\bin\Debug\UDSDataLayer.pdb
+D:\TFSGM\Librerias\UDSDataLayer\obj\Debug\UDSDataLayer.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\UDSDataLayer\obj\Debug\UDSDataLayer.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\UDSDataLayer\obj\Debug\UDSDataLayer.dll
+D:\TFSGM\Librerias\UDSDataLayer\obj\Debug\UDSDataLayer.pdb

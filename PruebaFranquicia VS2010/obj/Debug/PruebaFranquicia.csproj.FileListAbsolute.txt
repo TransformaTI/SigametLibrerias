@@ -1,0 +1,11 @@
+D:\TFSGM\Librerias\PruebaFranquicia VS2010\obj\Debug\PruebaFranquicia.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\PruebaFranquicia VS2010\obj\Debug\PruebaFranquicia.Form1.resources
+D:\TFSGM\Librerias\PruebaFranquicia VS2010\obj\Debug\PruebaFranquicia.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\PruebaFranquicia VS2010\obj\Debug\PruebaFranquicia.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\PruebaFranquicia VS2010\bin\Debug\PruebaFranquicia.exe.config
+D:\TFSGM\Librerias\PruebaFranquicia VS2010\bin\Debug\PruebaFranquicia.exe
+D:\TFSGM\Librerias\PruebaFranquicia VS2010\bin\Debug\PruebaFranquicia.pdb
+D:\TFSGM\Librerias\PruebaFranquicia VS2010\bin\Debug\PantallaFranquicia.dll
+D:\TFSGM\Librerias\PruebaFranquicia VS2010\bin\Debug\PantallaFranquicia.pdb
+D:\TFSGM\Librerias\PruebaFranquicia VS2010\obj\Debug\PruebaFranquicia.exe
+D:\TFSGM\Librerias\PruebaFranquicia VS2010\obj\Debug\PruebaFranquicia.pdb

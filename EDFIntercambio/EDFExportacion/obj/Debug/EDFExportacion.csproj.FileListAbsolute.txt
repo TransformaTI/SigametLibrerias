@@ -1,0 +1,6 @@
+D:\TFSGM\Librerias\EDFIntercambio\EDFExportacion\bin\Debug\EDFExportacion.dll
+D:\TFSGM\Librerias\EDFIntercambio\EDFExportacion\bin\Debug\EDFExportacion.pdb
+D:\TFSGM\Librerias\EDFIntercambio\EDFExportacion\obj\Debug\EDFExportacion.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\EDFIntercambio\EDFExportacion\obj\Debug\EDFExportacion.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\EDFIntercambio\EDFExportacion\obj\Debug\EDFExportacion.dll
+D:\TFSGM\Librerias\EDFIntercambio\EDFExportacion\obj\Debug\EDFExportacion.pdb

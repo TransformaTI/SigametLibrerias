@@ -1,0 +1,6 @@
+D:\TFSGM\Librerias\ContactosDL\bin\Debug\ContactosDL.dll
+D:\TFSGM\Librerias\ContactosDL\bin\Debug\ContactosDL.pdb
+D:\TFSGM\Librerias\ContactosDL\obj\Debug\ContactosDL.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\ContactosDL\obj\Debug\ContactosDL.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\ContactosDL\obj\Debug\ContactosDL.dll
+D:\TFSGM\Librerias\ContactosDL\obj\Debug\ContactosDL.pdb

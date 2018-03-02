@@ -1,0 +1,9 @@
+D:\TFSGM\Librerias\AdministracionAbonosExternos\bin\Debug\AdministracionAbonosExternos.dll
+D:\TFSGM\Librerias\AdministracionAbonosExternos\bin\Debug\AdministracionAbonosExternos.pdb
+D:\TFSGM\Librerias\AdministracionAbonosExternos\bin\Debug\ProcesamientoArchivoAbonosExternos.dll
+D:\TFSGM\Librerias\AdministracionAbonosExternos\obj\Debug\AdministracionAbonosExternos.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\AdministracionAbonosExternos\obj\Debug\AdministracionAbonosExternos.AdministracionAbonosExternos.resources
+D:\TFSGM\Librerias\AdministracionAbonosExternos\obj\Debug\AdministracionAbonosExternos.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\AdministracionAbonosExternos\obj\Debug\AdministracionAbonosExternos.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\AdministracionAbonosExternos\obj\Debug\AdministracionAbonosExternos.dll
+D:\TFSGM\Librerias\AdministracionAbonosExternos\obj\Debug\AdministracionAbonosExternos.pdb

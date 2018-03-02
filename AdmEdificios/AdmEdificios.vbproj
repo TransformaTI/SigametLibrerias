@@ -1,0 +1,320 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>7.0.9466</ProductVersion>
+    <SchemaVersion>1.0</SchemaVersion>
+    <ProjectGuid>{F710BD90-4F9D-4FDC-9C8C-3408CC004650}</ProjectGuid>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>Crate.ico</ApplicationIcon>
+    <AssemblyKeyContainerName />
+    <AssemblyName>AdmEdificios</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace>AdmEdificios</RootNamespace>
+    <StartupObject>AdmEdificios.%28None%29</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>AdmEdificios.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>AdmEdificios.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="admEdificiosComisionAdm">
+      <HintPath>bin\Debug\admEdificiosComisionAdm.dll</HintPath>
+    </Reference>
+    <Reference Include="AdmLecturas">
+      <HintPath>bin\Debug\AdmLecturas.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="DLEDFDatosMedidores, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DLEDFDatosMedidores.dll</HintPath>
+    </Reference>
+    <Reference Include="DLProgramacionLecturas, Version=1.0.5605.29577, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DLProgramacionLecturas.dll</HintPath>
+    </Reference>
+    <Reference Include="EDFUIImportacion, Version=1.0.5604.29229, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\EDFUIImportacion.dll</HintPath>
+    </Reference>
+    <Reference Include="GeneracionAsignacion, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\GeneracionAsignacion.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic">
+      <Name>Microsoft.VisualBasic</Name>
+    </Reference>
+    <Reference Include="PocketEdificios, Version=1.0.2130.28996, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Users\Public\Documents\Respaldo Equipo Luis\Ce\Proyectosssss\VS2002\GeneracionAsignacion\Tester\bin\PocketEdificios.dll</HintPath>
+    </Reference>
+    <Reference Include="SGDAC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\SGDAC.dll</HintPath>
+    </Reference>
+    <Reference Include="SigaMetClasses, Version=2.0.0.2, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\SigaMetClasses.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Name>System.EnterpriseServices</Name>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="UIEDFDatosMedidores, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\UIEDFDatosMedidores.dll</HintPath>
+    </Reference>
+    <Reference Include="UIProgramacion, Version=1.0.5605.28612, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\UIProgramacion.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AltaAlmacen.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="captLecturaCambioMedidor.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="cLectura.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ConsultaClientesHijos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DatosCliente.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="frmBuscaCliente.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCambioFactorConversion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCambioMedidor.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCapturaDatosClienteHijo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCapturaLectura.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCatClientesHijos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCatEdificios.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConfiguracionZona.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConsultaReporte.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConsumoPromedio.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmViewLecturas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="grdFooter.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="grdHeader.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Lecturas.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="rowClienteHijo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Content Include="Crate.ico" />
+    <Content Include="TRFFC13.ICO" />
+    <EmbeddedResource Include="AltaAlmacen.resx">
+      <DependentUpon>AltaAlmacen.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="captLecturaCambioMedidor.resx">
+      <DependentUpon>captLecturaCambioMedidor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultaClientesHijos.resx">
+      <DependentUpon>ConsultaClientesHijos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls.resx">
+      <DependentUpon>Controls.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatosCliente.resx">
+      <DependentUpon>DatosCliente.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBuscaCliente.resx">
+      <DependentUpon>frmBuscaCliente.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCambioFactorConversion.resx">
+      <DependentUpon>frmCambioFactorConversion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCambioMedidor.resx">
+      <DependentUpon>frmCambioMedidor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCapturaDatosClienteHijo.resx">
+      <DependentUpon>frmCapturaDatosClienteHijo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCapturaLectura.resx">
+      <DependentUpon>frmCapturaLectura.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCatClientesHijos.resx">
+      <DependentUpon>frmCatClientesHijos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCatEdificios.resx">
+      <DependentUpon>frmCatEdificios.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConfiguracionZona.resx">
+      <DependentUpon>frmConfiguracionZona.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConsultaReporte.resx">
+      <DependentUpon>frmConsultaReporte.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConsumoPromedio.resx">
+      <DependentUpon>frmConsumoPromedio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmViewLecturas.resx">
+      <DependentUpon>frmViewLecturas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="grdFooter.resx">
+      <DependentUpon>grdFooter.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="grdHeader.resx">
+      <DependentUpon>grdHeader.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rowClienteHijo.resx">
+      <DependentUpon>rowClienteHijo.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent />
+  </PropertyGroup>
+</Project>

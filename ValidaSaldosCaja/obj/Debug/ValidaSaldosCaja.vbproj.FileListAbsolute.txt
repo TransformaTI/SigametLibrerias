@@ -1,0 +1,11 @@
+D:\TFSGM\Librerias\ValidaSaldosCaja\bin\ValidaSaldosCaja.dll
+D:\TFSGM\Librerias\ValidaSaldosCaja\bin\ValidaSaldosCaja.pdb
+D:\TFSGM\Librerias\ValidaSaldosCaja\bin\ValidaSaldosCaja.xml
+D:\TFSGM\Librerias\ValidaSaldosCaja\obj\Debug\ValidaSaldosCaja.vbprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\ValidaSaldosCaja\obj\Debug\ValidaSaldosCaja.CobrosErroneos.resources
+D:\TFSGM\Librerias\ValidaSaldosCaja\obj\Debug\ValidaSaldosCaja.DocumentosErroneos.resources
+D:\TFSGM\Librerias\ValidaSaldosCaja\obj\Debug\ValidaSaldosCaja.vbproj.GenerateResource.Cache
+D:\TFSGM\Librerias\ValidaSaldosCaja\obj\Debug\ValidaSaldosCaja.vbproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\ValidaSaldosCaja\obj\Debug\ValidaSaldosCaja.dll
+D:\TFSGM\Librerias\ValidaSaldosCaja\obj\Debug\ValidaSaldosCaja.xml
+D:\TFSGM\Librerias\ValidaSaldosCaja\obj\Debug\ValidaSaldosCaja.pdb

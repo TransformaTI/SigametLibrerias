@@ -1,0 +1,12 @@
+D:\TFSGM\Librerias\AbonoExterno\bin\Debug\AbonoExterno.dll.config
+D:\TFSGM\Librerias\AbonoExterno\bin\Debug\AbonoExterno.dll
+D:\TFSGM\Librerias\AbonoExterno\bin\Debug\AbonoExterno.pdb
+D:\TFSGM\Librerias\AbonoExterno\bin\Debug\ReportViewer.dll
+D:\TFSGM\Librerias\AbonoExterno\bin\Debug\SigaMetClasses.dll
+D:\TFSGM\Librerias\AbonoExterno\bin\Debug\SVCC.dll
+D:\TFSGM\Librerias\AbonoExterno\obj\Debug\AbonoExterno.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\AbonoExterno\obj\Debug\AbonoExterno.AbonoExterno.resources
+D:\TFSGM\Librerias\AbonoExterno\obj\Debug\AbonoExterno.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\AbonoExterno\obj\Debug\AbonoExterno.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\AbonoExterno\obj\Debug\AbonoExterno.dll
+D:\TFSGM\Librerias\AbonoExterno\obj\Debug\AbonoExterno.pdb

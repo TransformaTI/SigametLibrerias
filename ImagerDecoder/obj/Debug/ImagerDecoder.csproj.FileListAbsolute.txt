@@ -1,0 +1,5 @@
+D:\TFSGM\Librerias\ImagerDecoder\bin\Debug\ImagerDecoder.dll
+D:\TFSGM\Librerias\ImagerDecoder\bin\Debug\ImagerDecoder.pdb
+D:\TFSGM\Librerias\ImagerDecoder\obj\Debug\ImagerDecoder.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\ImagerDecoder\obj\Debug\ImagerDecoder.dll
+D:\TFSGM\Librerias\ImagerDecoder\obj\Debug\ImagerDecoder.pdb

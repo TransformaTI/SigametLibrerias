@@ -1,0 +1,73 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDFExportacion", "EDFExportacion\EDFExportacion.csproj", "{EA009D3E-5CF4-44FC-BB73-A52BC9F8992F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDFImportacion", "EDFImportacion\EDFImportacion.csproj", "{99A9C8C2-F72F-412A-9DD5-1485A44A47C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tester\Tester.csproj", "{73D490C5-50F2-410C-833E-D212C647479F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDFConfiguracionConexion", "EDFConfiguracionConexion\EDFConfiguracionConexion.csproj", "{9ADF33B2-FA70-438D-A897-0DD4E66D9EB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDFUIImportacion", "EDFUIImportacion\EDFUIImportacion.csproj", "{59D56B63-CF37-41CA-AC7E-BCE5862F9D7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIEDFAsignacion", "UIEDFAsignacion\UIEDFAsignacion\UIEDFAsignacion.csproj", "{69ABB3CB-FCE9-494B-B999-4C7369AA4A50}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://192.168.1.30:8080/tfs/proyectosgm
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = EDFConfiguracionConexion\\EDFConfiguracionConexion.csproj
+		SccProjectName1 = EDFConfiguracionConexion
+		SccLocalPath1 = EDFConfiguracionConexion
+		SccProjectUniqueName2 = EDFExportacion\\EDFExportacion.csproj
+		SccProjectName2 = EDFExportacion
+		SccLocalPath2 = EDFExportacion
+		SccProjectUniqueName3 = EDFImportacion\\EDFImportacion.csproj
+		SccProjectName3 = EDFImportacion
+		SccLocalPath3 = EDFImportacion
+		SccProjectUniqueName4 = EDFUIImportacion\\EDFUIImportacion.csproj
+		SccProjectName4 = EDFUIImportacion
+		SccLocalPath4 = EDFUIImportacion
+		SccProjectUniqueName5 = Tester\\Tester.csproj
+		SccProjectName5 = Tester
+		SccLocalPath5 = Tester
+		SccProjectUniqueName6 = UIEDFAsignacion\\UIEDFAsignacion\\UIEDFAsignacion.csproj
+		SccProjectName6 = UIEDFAsignacion/UIEDFAsignacion
+		SccLocalPath6 = UIEDFAsignacion\\UIEDFAsignacion
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EA009D3E-5CF4-44FC-BB73-A52BC9F8992F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA009D3E-5CF4-44FC-BB73-A52BC9F8992F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA009D3E-5CF4-44FC-BB73-A52BC9F8992F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA009D3E-5CF4-44FC-BB73-A52BC9F8992F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99A9C8C2-F72F-412A-9DD5-1485A44A47C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99A9C8C2-F72F-412A-9DD5-1485A44A47C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99A9C8C2-F72F-412A-9DD5-1485A44A47C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99A9C8C2-F72F-412A-9DD5-1485A44A47C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73D490C5-50F2-410C-833E-D212C647479F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D490C5-50F2-410C-833E-D212C647479F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D490C5-50F2-410C-833E-D212C647479F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D490C5-50F2-410C-833E-D212C647479F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ADF33B2-FA70-438D-A897-0DD4E66D9EB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ADF33B2-FA70-438D-A897-0DD4E66D9EB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ADF33B2-FA70-438D-A897-0DD4E66D9EB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ADF33B2-FA70-438D-A897-0DD4E66D9EB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59D56B63-CF37-41CA-AC7E-BCE5862F9D7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59D56B63-CF37-41CA-AC7E-BCE5862F9D7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59D56B63-CF37-41CA-AC7E-BCE5862F9D7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59D56B63-CF37-41CA-AC7E-BCE5862F9D7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69ABB3CB-FCE9-494B-B999-4C7369AA4A50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69ABB3CB-FCE9-494B-B999-4C7369AA4A50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69ABB3CB-FCE9-494B-B999-4C7369AA4A50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69ABB3CB-FCE9-494B-B999-4C7369AA4A50}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

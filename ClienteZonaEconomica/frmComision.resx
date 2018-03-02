@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System" name="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Grid.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="Label2.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="$this.Name" xml:space="preserve">
+    <value>frmComision</value>
+  </data>
+  <data name="DataGridTextBoxColumn15.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTextBoxColumn14.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTextBoxColumn13.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="ToolBarButton2.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="btnDetalle.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTextBoxColumn1.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="imgLista.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTextBoxColumn16.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="btnDeduccion.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="dtpFInicio.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="btnCerrar.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTextBoxColumn3.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="ToolTip1.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="dtpDia.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="dgrPrestacion.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="imgLista.Location" type="System.Drawing.Point, System.Drawing">
+    <value>26, 19</value>
+  </data>
+  <data name="DataGridTextBoxColumn8.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTextBoxColumn4.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="btnValidar.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTextBoxColumn6.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTextBoxColumn11.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTextBoxColumn10.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="cboxDia.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTableStyle1.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTextBoxColumn12.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="imgLista.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAAG
+        EAAAAk1TRnQBSQFMAgEBCgEAAQ4BAAEIAQABEAEAARABAAT/AQkBEAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        AwABQAMAATADAAEBAQABCAYAAQwYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
+        AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
+        AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
+        AWYDAAGZAwABzAIAATMDAAIzAgABMwFmAgABMwGZAgABMwHMAgABMwH/AgABZgMAAWYBMwIAAmYCAAFm
+        AZkCAAFmAcwCAAFmAf8CAAGZAwABmQEzAgABmQFmAgACmQIAAZkBzAIAAZkB/wIAAcwDAAHMATMCAAHM
+        AWYCAAHMAZkCAALMAgABzAH/AgAB/wFmAgAB/wGZAgAB/wHMAQABMwH/AgAB/wEAATMBAAEzAQABZgEA
+        ATMBAAGZAQABMwEAAcwBAAEzAQAB/wEAAf8BMwIAAzMBAAIzAWYBAAIzAZkBAAIzAcwBAAIzAf8BAAEz
+        AWYCAAEzAWYBMwEAATMCZgEAATMBZgGZAQABMwFmAcwBAAEzAWYB/wEAATMBmQIAATMBmQEzAQABMwGZ
+        AWYBAAEzApkBAAEzAZkBzAEAATMBmQH/AQABMwHMAgABMwHMATMBAAEzAcwBZgEAATMBzAGZAQABMwLM
+        AQABMwHMAf8BAAEzAf8BMwEAATMB/wFmAQABMwH/AZkBAAEzAf8BzAEAATMC/wEAAWYDAAFmAQABMwEA
+        AWYBAAFmAQABZgEAAZkBAAFmAQABzAEAAWYBAAH/AQABZgEzAgABZgIzAQABZgEzAWYBAAFmATMBmQEA
+        AWYBMwHMAQABZgEzAf8BAAJmAgACZgEzAQADZgEAAmYBmQEAAmYBzAEAAWYBmQIAAWYBmQEzAQABZgGZ
+        AWYBAAFmApkBAAFmAZkBzAEAAWYBmQH/AQABZgHMAgABZgHMATMBAAFmAcwBmQEAAWYCzAEAAWYBzAH/
+        AQABZgH/AgABZgH/ATMBAAFmAf8BmQEAAWYB/wHMAQABzAEAAf8BAAH/AQABzAEAApkCAAGZATMBmQEA
+        AZkBAAGZAQABmQEAAcwBAAGZAwABmQIzAQABmQEAAWYBAAGZATMBzAEAAZkBAAH/AQABmQFmAgABmQFm
+        ATMBAAGZATMBZgEAAZkBZgGZAQABmQFmAcwBAAGZATMB/wEAApkBMwEAApkBZgEAA5kBAAKZAcwBAAKZ
+        Af8BAAGZAcwCAAGZAcwBMwEAAWYBzAFmAQABmQHMAZkBAAGZAswBAAGZAcwB/wEAAZkB/wIAAZkB/wEz
+        AQABmQHMAWYBAAGZAf8BmQEAAZkB/wHMAQABmQL/AQABzAMAAZkBAAEzAQABzAEAAWYBAAHMAQABmQEA
+        AcwBAAHMAQABmQEzAgABzAIzAQABzAEzAWYBAAHMATMBmQEAAcwBMwHMAQABzAEzAf8BAAHMAWYCAAHM
+        AWYBMwEAAZkCZgEAAcwBZgGZAQABzAFmAcwBAAGZAWYB/wEAAcwBmQIAAcwBmQEzAQABzAGZAWYBAAHM
+        ApkBAAHMAZkBzAEAAcwBmQH/AQACzAIAAswBMwEAAswBZgEAAswBmQEAA8wBAALMAf8BAAHMAf8CAAHM
+        Af8BMwEAAZkB/wFmAQABzAH/AZkBAAHMAf8BzAEAAcwC/wEAAcwBAAEzAQAB/wEAAWYBAAH/AQABmQEA
+        AcwBMwIAAf8CMwEAAf8BMwFmAQAB/wEzAZkBAAH/ATMBzAEAAf8BMwH/AQAB/wFmAgAB/wFmATMBAAHM
+        AmYBAAH/AWYBmQEAAf8BZgHMAQABzAFmAf8BAAH/AZkCAAH/AZkBMwEAAf8BmQFmAQAB/wKZAQAB/wGZ
+        AcwBAAH/AZkB/wEAAf8BzAIAAf8BzAEzAQAB/wHMAWYBAAH/AcwBmQEAAf8CzAEAAf8BzAH/AQAC/wEz
+        AQABzAH/AWYBAAL/AZkBAAL/AcwBAAJmAf8BAAFmAf8BZgEAAWYC/wEAAf8CZgEAAf8BZgH/AQAC/wFm
+        AQABIQEAAaUBAANfAQADdwEAA4YBAAOWAQADywEAA7IBAAPXAQAD3QEAA+MBAAPqAQAD8QEAA/gBAAHw
+        AfsB/wEAAaQCoAEAA4ADAAH/AgAB/wMAAv8BAAH/AwAB/wEAAf8BAAL/AgAD/wMAAfwMBDMAAfwLBwHs
+        BQAI/yYAAfwL/wHsBQAC/wT8Av8mAAH8BP8BBwH/AQcB/wIHAf8B7AUAAf8B/AL/AfwB/wH8Af8mAAH8
+        BP8BBwH/BAcB/wHsBQAE/wH8Af8B/AH/JgAB/AT/AQcB/wEHAf8CBwH/AewFAAP/A/wC/yQAAwQBBwLs
+        AgYBBwL/AQcC/wHsBAAB7AH/AfwC/wH8A/8kAAEEBOwBBgH+AQAFBwH/AewDAAHsAfkB7AH8Av8B/AH/
+        AfwB/wLsIgAB/AEEAwYB/gLsAv8BBwP/AewCAAHsA/kB7AT8Af8B7AL5AewkAAEGAf4BAAH/AQcG/wHs
+        AQAB7AX5Af8B+QHsAf8B7AT5AewhAAEEAQYB/gIGAgcC/wEHA/8B7AMAAewB+QHsAf8D+QPsAvkC7CAA
+        AQQBBgH+AQAB7AIGAQcG/wHsAwAB7AH5AewF+QH/AQAC+SIAAQQC7AL/A+wD/wHsAQcB7AEEAwAB7AH5
+        AewBAAHsAfkB7AMAAvkkAAH8BP8DBwH/AewBBwkAAewB+QHsAwAC7CQAAfwI/wHsAQQB/AgAAewB+QHs
+        KQAB/AnsNAAXBwMABgcH/wEBAewE/wEAAQEB/wUAA/sBAAP7BAACBwsPCgcBAAH/AQMCAAQHB/8CAQHs
+        Av8BAAIBAf8DAAL7BgAC+wMAAQcBEAmSAQABkgEQCQcBAAH/AewBAwHsAgACBwj/AgEB7AEAAgEC/wIA
+        AfsKAAH7AgABQwEACUMBAAFDAe0BQwYHAwAB/wEDAewBAwHsAQMCAAH/CAAEAQP/AQAC+wMAAvsBAAH7
+        AwAC+wIABuwDMALsAQABFQEABgcBAAHsAQAB/wHsAQMB7AEDAewBAwEAAf8BAAH/BvwBAAIBAewD/wEA
+        AvsBAAT7AQAC+wMAAvsBAAYHAykCBwEAAewBAAQHAQABBwEAAewBAAH/AQMB7AEDAewBAwHsAQAB/wEA
+        Bv8BAAQBAewC/wEAB/sBAAL7AwAC+wEABhIDAAISAQABBwFtARICBwIAAQcBAAHsAQAB/wHsAgABAwHs
+        AQMBAAH/AQAB/wT8AQACAQH/AQACAQHsAf8I+wEAAfsDAAP7AQAKbQEAAm0BBwEAAQcBAAEGBQAB/wED
+        AgcB7AEDAewBAAH/AQAB/wP8AfkCAQH8Af8BAAH/AgEB7AT7CQAD+wESCm0BEgFtARIBbQIAAQYF/gEA
+        Af8B7AEDAewBAwHsAQMBAAH/AQAE/wH5AQED/wEAAv8BAQH5A/sIAAX7AQcBEwEACG0B7AETAewBEwIA
+        Bv4BAAH/AQMB7AEDAewBAwHsAQAB/wEAAf8H/AH/AQAE/wP7AwAC+wEAB/sCBwEVAe8B/wXvAf8BAAHs
+        AQAB7AEVAQcBAAH+BQAB/wHsAQMB7AEDAewBAwEAAf8BAAH/B/wB/wEABP8BAAL7AgAD+wEAB/sDBwEA
+        Af8FFAH/ARQBAAJDAwcCAAEHAQAB7AEAAf8BAwHsAQMB7AEDAewBAAH/AQAG/wQABP8BAAL7AwAC+wEA
+        A/sBAAL7AQADBwEQAbwB/wW8Af8BAAYHAQABBwEAAewBAAHsAf8BBwHsAQMB7AEDAQAB/wEAAf8F/AEA
+        Av8BAAT/AgAB+woAAvsBAAQHAQAB/wUQAf8BEAHvBwcBAAPsAQAB7AH/AQcBAwHsAQAB/wEABv8BAAH/
+        AQAF/wMAAfsIAAL7AgAEBwEOCPMBAAcHAQAF7AEAAewB/wEHAQAB/wkABv8EAAT7AQAE+wMABQcJAAcH
+        CwAQ/wYAAvsBAAH7FwAO/xMAAeweAAH/BgcB/wEAAf8DAAH/EwAB7Af/AgcHAAX/AQcIAAH/CAcZAAjs
+        BgAC/gEAAv8DBwgADv8NAAEjFQAC/gEABAcIAAL/AwcB/wEAA/kB/wEAAf8NAAEjBAAB7Av/BgAD/gMH
+        Af8IAAH/AwcB/wEAAf0E+QH/DQABIwUAAewB/wEECPwB/wEHAewDAAT+AgcC/wgABf8D/QT5Av8HAALs
+        AQABQwYAAewB/wEECPwB/wEHAewEAAP+Af8BAAL/BQACBgEAAv8BAAH/AQAE/QP5CAABvAHxAf8BvAcA
+        AewB/wEECPwB/wEHAewEAAP+Af8BAAT/AwcBAAEGAQAB/wIAAf8BAAH9Af8D/QH5CAABEgTxAewGAAHs
+        Af8BBAj8Af8BBwHsAwAE/gL/AwABBwP/AQABBgEABf8BAAH9Af8C/QMAAvkEAAESBPEB7AYAAewB/wEE
+        AfwB/gb8Af8BBwHsBAAD/gP/AgABBwP/AwAB/wEABP8BAAL9AvwBAAP5BQABvAH/AfEBvAcAAewB/wEE
+        AfwC/gX8Af8BBwHsBQAC/gMAAf8CAAH/CwAB/wEAA/wC+wL5BgACEggAAewB/wEECPwB/wEHAewGAAH+
+        DQAC/wEABP8C/AH/A/sB+RAAAewB/wkEAf8BBwHsFQAB/wUABP8D+xAAAewL/wEHAewXAAn/AvsRAAHs
+        CgcB/wHsHgAD/wH7EgAM7AIAAUIBTQE+BwABPgMAASgDAAFAAwABMAMAAQEBAAEBBQABgAEBFgAD/wEA
+        AcABAQL/BAABwAEBAfABDwQAAcABAQHwAQ8EAAHAAQEB8AEPBAABwAEBAfABDwQAAcABAQHwAQ8FAAEB
+        AeABDwUAAQEBwAEDBQABAQGAAQEEAAHAAQEGAAGAAQEBwAYAAQEBwAETBQABAQHEAXMEAAHAAQMB/AFz
+        BAABwAEDAfwBfwQAAcABDwL/CgAB+AEPBgAB4AEHBgABwAEDBgABgAEBBgABgAcAAYAnAAGABwABgAEB
+        BgABwAEBBgAB4AEDBgAB8AEHBgAB/AE/AYABPwGAAQAC/wHAAQ8BAAE/AYABAAL/AcABBwEAAT8BgAEA
+        Af8B9wHgAQcBgAE/AYABAAH/AeMBgAEHAQABPwGAAQAB/wHHAQABAwEAAT8BgAEAAf8BjwEAAQEBgAE5
+        AYABAAH4AR8BAAEBAQABCAGAAQAB8AE/AQABAQIAAYABAAHwAT8BAAEBAYABAAGAAQAB8AE/AQABAQIA
+        AYABAAHwAT8BAAEBAccBBwGAAQAB+AF/AQABAQHnAY8BwAEAAv8BAAEBAfcB5wHgAQAC/wEAAQEB/wHz
+        AfABAAL/AYABAQH/AfsB/wHwAv8BwAEDFgAL
+</value>
+  </data>
+  <data name="dgrDeduccion.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="ToolBarButton1.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="btnBuscar.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="ToolBarButton4.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTextBoxColumn9.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTextBoxColumn5.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="tbnCancelar.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTextBoxColumn2.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="DataGridTextBoxColumn7.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="ToolTip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>119, 19</value>
+  </data>
+  <data name="btnBuscar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        Qk32AAAAAAAAAHYAAAAoAAAAEAAAABAAAAABAAQAAAAAAAAAAADEDgAAxA4AABAAAAAQAAAAAAAA/wAA
+        gP8AgAD/AICA/4AAAP+AAID/gIAA/4CAgP/AwMD/AAD//wD/AP8A/////wAA//8A/////wD//////4iI
+        iIiIiIiIiIiIiIiIiIgAAAiIiAAACA8ACIiIDwAIDwAIiIgPAAgAAAAIAAAACADwAAAPAAAIAPAAgA8A
+        AAgA8ACADwAACIAAAAAAAACIiA8ACA8ACIiIAAAIAAAIiIiAAIiAAIiIiIDwiIDwiIiIgACIgACIiIiI
+        iIiIiIiI
+</value>
+  </data>
+  <data name="btnPercepcion.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="Label1.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="btnExportar.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="BarraBotones.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="btnCerrar2.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+  <data name="dtpFFin.Modifiers" type="System.CodeDom.MemberAttributes, System">
+    <value>Assembly</value>
+  </data>
+</root>

@@ -1,0 +1,5 @@
+D:\TFSGM\Librerias\sgExportaArchivo\bin\Debug\sgExportaArchivo.dll
+D:\TFSGM\Librerias\sgExportaArchivo\bin\Debug\sgExportaArchivo.pdb
+D:\TFSGM\Librerias\sgExportaArchivo\obj\Debug\sgExportaArchivo.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\sgExportaArchivo\obj\Debug\sgExportaArchivo.dll
+D:\TFSGM\Librerias\sgExportaArchivo\obj\Debug\sgExportaArchivo.pdb

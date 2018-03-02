@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="BCDatos" targetNamespace="http://tempuri.org/BCDatos.xsd" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns="http://tempuri.org/BCDatos.xsd" xmlns:mstns="http://tempuri.org/BCDatos.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="BCDatos" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Acreditado">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Empresa" type="xs:int" minOccurs="0" />
+							<xs:element name="RFC" type="xs:string" minOccurs="0" />
+							<xs:element name="RazonSocial" type="xs:string" minOccurs="0" />
+							<xs:element name="Nombre1" type="xs:string" minOccurs="0" />
+							<xs:element name="Nombre2" type="xs:string" minOccurs="0" />
+							<xs:element name="ApellidoPaterno" type="xs:string" minOccurs="0" />
+							<xs:element name="ApellidoMaterno" type="xs:string" minOccurs="0" />
+							<xs:element name="Direccion1" type="xs:string" minOccurs="0" />
+							<xs:element name="Direccion2" type="xs:string" minOccurs="0" />
+							<xs:element name="Colonia" type="xs:string" minOccurs="0" />
+							<xs:element name="Municipio" type="xs:string" minOccurs="0" />
+							<xs:element name="CP" type="xs:string" minOccurs="0" />
+							<xs:element name="Telefono" type="xs:string" minOccurs="0" />
+							<xs:element name="FechaIngresoCartera" type="xs:date" minOccurs="0" />
+							<xs:element name="SaldoTotal" type="xs:decimal" minOccurs="0" />
+							<xs:element name="SaldoVigente" type="xs:decimal" minOccurs="0" />
+							<xs:element name="SaldoVencido" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Ejecutivo" type="xs:int" minOccurs="0" />
+							<xs:element name="PersonaFisica" type="xs:boolean" minOccurs="0" />
+							<xs:element name="Estado" type="xs:string" minOccurs="0" />
+							<xs:element name="Status" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Cliente">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Empresa" type="xs:int" minOccurs="0" />
+							<xs:element name="Cliente" type="xs:int" minOccurs="0" />
+							<xs:element name="Nombre" type="xs:string" minOccurs="0" />
+							<xs:element name="Ejecutivo" type="xs:int" minOccurs="0" />
+							<xs:element name="SaldoVigente" type="xs:int" minOccurs="0" />
+							<xs:element name="SaldoVencido" type="xs:int" minOccurs="0" />
+							<xs:element name="DiasCredito" type="xs:int" minOccurs="0" />
+							<xs:element name="DiasAjuste" type="xs:int" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Cargo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Empresa" type="xs:int" minOccurs="0" />
+							<xs:element name="Cliente" type="xs:int" minOccurs="0" />
+							<xs:element name="PedidoReferencia" type="xs:string" minOccurs="0" />
+							<xs:element name="Celula" type="xs:short" minOccurs="0" />
+							<xs:element name="AñoPed" type="xs:short" minOccurs="0" />
+							<xs:element name="Pedido" type="xs:int" minOccurs="0" />
+							<xs:element name="Total" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Saldo" type="xs:decimal" minOccurs="0" />
+							<xs:element name="FSuministro" type="xs:date" minOccurs="0" />
+							<xs:element name="FCargo" type="xs:date" minOccurs="0" />
+							<xs:element name="CobranzaPrimeraRevision" type="xs:int" minOccurs="0" />
+							<xs:element name="FCobranzaPrimeraRevision" type="xs:date" minOccurs="0" />
+							<xs:element name="FPrimeraRevision" type="xs:date" minOccurs="0" />
+							<xs:element name="FCalculadaPrimeraRevision" type="xs:date" minOccurs="0" />
+							<xs:element name="FCompromisoPago" type="xs:date" minOccurs="0" />
+							<xs:element name="FCalculadaPago" type="xs:date" minOccurs="0" />
+							<xs:element name="FPago" type="xs:date" minOccurs="0" />
+							<xs:element name="DiasAtraso" type="xs:string" minOccurs="0" />
+							<xs:element name="Rango" type="xs:int" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Repository">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Empresa" type="xs:int" minOccurs="0" />
+							<xs:element name="Cliente" type="xs:int" minOccurs="0" nillable="true" />
+							<xs:element name="Celula" type="xs:short" minOccurs="0" nillable="true" />
+							<xs:element name="AñoPed" type="xs:short" minOccurs="0" nillable="true" />
+							<xs:element name="Pedido" type="xs:int" minOccurs="0" nillable="true" />
+							<xs:element name="Total" type="xs:decimal" minOccurs="0" nillable="true" />
+							<xs:element name="Abono" type="xs:decimal" minOccurs="0" nillable="true" />
+							<xs:element name="FSuministro" type="xs:date" minOccurs="0" nillable="true" />
+							<xs:element name="FCargo" type="xs:date" minOccurs="0" nillable="true" />
+							<xs:element name="DiasCredito" type="xs:int" nillable="true" ></xs:element>
+							<xs:element name="Clasificacion" type="xs:string" minOccurs="0" nillable="true" />
+							<xs:element name="Status" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Parametro">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Parametro" type="xs:string" minOccurs="0" />
+							<xs:element name="Valor" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Rango">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Rango" type="xs:int" minOccurs="0" />
+							<xs:element name="RangoBC" type="xs:string" minOccurs="0" />
+							<xs:element name="Descripcion" type="xs:string" minOccurs="0" />
+							<xs:element name="LimiteInferior" type="xs:int" minOccurs="0" />
+							<xs:element name="LimiteSuperior" type="xs:int" minOccurs="0" />
+							<xs:element name="Operador" type="xs:string" minOccurs="0" />
+							<xs:element name="Saldo" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Autorizacion">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Ejecutivo" type="xs:int" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+		<xs:key name="BCDatosKey2" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//mstns:Cliente" />
+			<xs:field xpath="mstns:Cliente" />
+		</xs:key>
+		<xs:key name="BCDatosKey3" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//mstns:Rango" />
+			<xs:field xpath="mstns:Rango" />
+		</xs:key>
+		<xs:key name="BCDatosKey1" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//mstns:Autorizacion" />
+			<xs:field xpath="mstns:Ejecutivo" />
+		</xs:key>
+		<xs:key name="BCDatosKey4" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//mstns:Acreditado" />
+			<xs:field xpath="mstns:Empresa" />
+		</xs:key>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,16 @@
+D:\TFSGM\Librerias\EDFIntercambio\Tester\bin\Debug\Tester.exe.config
+D:\TFSGM\Librerias\EDFIntercambio\Tester\bin\Debug\Tester.exe
+D:\TFSGM\Librerias\EDFIntercambio\Tester\bin\Debug\Tester.pdb
+D:\TFSGM\Librerias\EDFIntercambio\Tester\bin\Debug\EDFUIImportacion.dll
+D:\TFSGM\Librerias\EDFIntercambio\Tester\bin\Debug\EDFImportacion.dll
+D:\TFSGM\Librerias\EDFIntercambio\Tester\bin\Debug\SGDAC.dll
+D:\TFSGM\Librerias\EDFIntercambio\Tester\bin\Debug\EDFConfiguracionConexion.dll
+D:\TFSGM\Librerias\EDFIntercambio\Tester\bin\Debug\EDFUIImportacion.pdb
+D:\TFSGM\Librerias\EDFIntercambio\Tester\bin\Debug\EDFImportacion.pdb
+D:\TFSGM\Librerias\EDFIntercambio\Tester\bin\Debug\EDFConfiguracionConexion.pdb
+D:\TFSGM\Librerias\EDFIntercambio\Tester\obj\Debug\Tester.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\EDFIntercambio\Tester\obj\Debug\Tester.Form1.resources
+D:\TFSGM\Librerias\EDFIntercambio\Tester\obj\Debug\Tester.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\EDFIntercambio\Tester\obj\Debug\Tester.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\EDFIntercambio\Tester\obj\Debug\Tester.exe
+D:\TFSGM\Librerias\EDFIntercambio\Tester\obj\Debug\Tester.pdb

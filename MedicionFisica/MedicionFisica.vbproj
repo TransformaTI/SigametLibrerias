@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.30319</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C6FA10D0-10FD-4397-A163-42DC3293E254}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon />
+    <AssemblyKeyContainerName />
+    <AssemblyName>MedicionFisica</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <RootNamespace>MedicionFisica</RootNamespace>
+    <StartupObject />
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>MedicionFisica.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>MedicionFisica.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile />
+    <DefineConstants />
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>none</DebugType>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Catalogo, Version=1.0.5584.30721, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Catalogo.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlesBase, Version=1.1.5579.17259, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ControlesBase.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic">
+      <Name>Microsoft.VisualBasic</Name>
+    </Reference>
+    <Reference Include="PortatilClasses, Version=1.7.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\PortatilClasses.dll</HintPath>
+    </Reference>
+    <Reference Include="ReporteDinamico, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ReporteDinamico.dll</HintPath>
+    </Reference>
+    <Reference Include="ReporteDinamicoOaxaca, Version=1.0.6134.16193, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ReporteDinamicoOaxaca.dll</HintPath>
+    </Reference>
+    <Reference Include="SigaMetClasses, Version=2.0.0.2, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\SigaMetClasses.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="frmCancelacion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCapAlmacenGas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCapCorporativo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCapTanque.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCapTanquePG.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCatAlmacenGas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCatCorporativo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCatMedicionFisica.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCatTanqueFisico.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCerrarMes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFHCierre.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmInventarioFisicoManual.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMedicionEmbarque.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMedicionFisicaCopiar.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMedicionFisicaPortatil.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMedicionHidrometro.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMedicionInicialFinalEst.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMedicionInicialFinalHidrometro.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMedicionInventarioVapor.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMedicionTanqueAlmacen.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMedicionUnicaEst.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMedicionUnicaHidrometro.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTomaInventarioFisico.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Globals.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Main.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="frmCancelacion.resx">
+      <DependentUpon>frmCancelacion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCapAlmacenGas.resx">
+      <DependentUpon>frmCapAlmacenGas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCapCorporativo.resx">
+      <DependentUpon>frmCapCorporativo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCapTanque.resx">
+      <DependentUpon>frmCapTanque.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCapTanquePG.resx">
+      <DependentUpon>frmCapTanquePG.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCatAlmacenGas.resx">
+      <DependentUpon>frmCatAlmacenGas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCatCorporativo.resx">
+      <DependentUpon>frmCatCorporativo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCatMedicionFisica.resx">
+      <DependentUpon>frmCatMedicionFisica.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCatTanqueFisico.resx">
+      <DependentUpon>frmCatTanqueFisico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCerrarMes.resx">
+      <DependentUpon>frmCerrarMes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFHCierre.resx">
+      <DependentUpon>frmFHCierre.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmInventarioFisicoManual.resx">
+      <DependentUpon>frmInventarioFisicoManual.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMedicionEmbarque.resx">
+      <DependentUpon>frmMedicionEmbarque.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMedicionFisicaCopiar.resx">
+      <DependentUpon>frmMedicionFisicaCopiar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMedicionFisicaPortatil.resx">
+      <DependentUpon>frmMedicionFisicaPortatil.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMedicionHidrometro.resx">
+      <DependentUpon>frmMedicionHidrometro.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMedicionInicialFinalEst.resx">
+      <DependentUpon>frmMedicionInicialFinalEst.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMedicionInicialFinalHidrometro.resx">
+      <DependentUpon>frmMedicionInicialFinalHidrometro.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMedicionInventarioVapor.resx">
+      <DependentUpon>frmMedicionInventarioVapor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMedicionTanqueAlmacen.resx">
+      <DependentUpon>frmMedicionTanqueAlmacen.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMedicionUnicaEst.resx">
+      <DependentUpon>frmMedicionUnicaEst.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMedicionUnicaHidrometro.resx">
+      <DependentUpon>frmMedicionUnicaHidrometro.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTomaInventarioFisico.resx">
+      <DependentUpon>frmTomaInventarioFisico.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent />
+  </PropertyGroup>
+</Project>

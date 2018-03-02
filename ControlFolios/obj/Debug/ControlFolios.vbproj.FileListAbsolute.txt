@@ -1,0 +1,14 @@
+D:\TFSGM\Librerias\ControlFolios\bin\ControlFolios.dll
+D:\TFSGM\Librerias\ControlFolios\bin\ControlFolios.pdb
+D:\TFSGM\Librerias\ControlFolios\bin\ControlFolios.xml
+D:\TFSGM\Librerias\ControlFolios\obj\Debug\ControlFolios.vbprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\ControlFolios\obj\Debug\ControlFolios.frmAsignarFolios.resources
+D:\TFSGM\Librerias\ControlFolios\obj\Debug\ControlFolios.frmCancelarFolios.resources
+D:\TFSGM\Librerias\ControlFolios\obj\Debug\ControlFolios.frmConsultaFoliosAsignados.resources
+D:\TFSGM\Librerias\ControlFolios\obj\Debug\ControlFolios.frmConsultaFoliosCancelados.resources
+D:\TFSGM\Librerias\ControlFolios\obj\Debug\ControlFolios.frmFolioBusqueda.resources
+D:\TFSGM\Librerias\ControlFolios\obj\Debug\ControlFolios.vbproj.GenerateResource.Cache
+D:\TFSGM\Librerias\ControlFolios\obj\Debug\ControlFolios.vbproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\ControlFolios\obj\Debug\ControlFolios.dll
+D:\TFSGM\Librerias\ControlFolios\obj\Debug\ControlFolios.xml
+D:\TFSGM\Librerias\ControlFolios\obj\Debug\ControlFolios.pdb

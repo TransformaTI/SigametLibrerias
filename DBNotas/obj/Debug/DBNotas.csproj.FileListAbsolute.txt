@@ -1,0 +1,6 @@
+D:\TFSGM\Librerias\DBNotas\bin\Debug\DBNotas.dll
+D:\TFSGM\Librerias\DBNotas\bin\Debug\DBNotas.pdb
+D:\TFSGM\Librerias\DBNotas\obj\Debug\DBNotas.csprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\DBNotas\obj\Debug\DBNotas.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\DBNotas\obj\Debug\DBNotas.dll
+D:\TFSGM\Librerias\DBNotas\obj\Debug\DBNotas.pdb

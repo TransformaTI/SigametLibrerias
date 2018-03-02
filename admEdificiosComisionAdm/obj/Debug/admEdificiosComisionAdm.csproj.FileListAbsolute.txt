@@ -1,0 +1,8 @@
+D:\TFSGM\Librerias\admEdificiosComisionAdm\bin\Debug\admEdificiosComisionAdm.dll
+D:\TFSGM\Librerias\admEdificiosComisionAdm\bin\Debug\admEdificiosComisionAdm.pdb
+D:\TFSGM\Librerias\admEdificiosComisionAdm\obj\Debug\admEdificiosComisionAdm.Captura.resources
+D:\TFSGM\Librerias\admEdificiosComisionAdm\obj\Debug\admEdificiosComisionAdm.RowComision.resources
+D:\TFSGM\Librerias\admEdificiosComisionAdm\obj\Debug\admEdificiosComisionAdm.csproj.GenerateResource.Cache
+D:\TFSGM\Librerias\admEdificiosComisionAdm\obj\Debug\admEdificiosComisionAdm.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\admEdificiosComisionAdm\obj\Debug\admEdificiosComisionAdm.dll
+D:\TFSGM\Librerias\admEdificiosComisionAdm\obj\Debug\admEdificiosComisionAdm.pdb

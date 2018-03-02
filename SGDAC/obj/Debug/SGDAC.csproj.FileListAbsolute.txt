@@ -1,0 +1,5 @@
+D:\TFSGM\Librerias\SGDAC\bin\Debug\SGDAC.dll
+D:\TFSGM\Librerias\SGDAC\bin\Debug\SGDAC.pdb
+D:\TFSGM\Librerias\SGDAC\obj\Debug\SGDAC.csproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\SGDAC\obj\Debug\SGDAC.dll
+D:\TFSGM\Librerias\SGDAC\obj\Debug\SGDAC.pdb

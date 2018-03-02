@@ -1,0 +1,9 @@
+D:\TFSGM\Librerias\ReportesEspeciales\bin\ReportesEspeciales.dll
+D:\TFSGM\Librerias\ReportesEspeciales\bin\ReportesEspeciales.pdb
+D:\TFSGM\Librerias\ReportesEspeciales\bin\ReportesEspeciales.xml
+D:\TFSGM\Librerias\ReportesEspeciales\bin\stdole.dll
+D:\TFSGM\Librerias\ReportesEspeciales\obj\Debug\ReportesEspeciales.vbprojResolveAssemblyReference.cache
+D:\TFSGM\Librerias\ReportesEspeciales\obj\Debug\ReportesEspeciales.vbproj.CoreCompileInputs.cache
+D:\TFSGM\Librerias\ReportesEspeciales\obj\Debug\ReportesEspeciales.dll
+D:\TFSGM\Librerias\ReportesEspeciales\obj\Debug\ReportesEspeciales.xml
+D:\TFSGM\Librerias\ReportesEspeciales\obj\Debug\ReportesEspeciales.pdb
