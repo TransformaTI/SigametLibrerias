@@ -3235,7 +3235,8 @@ Public MustInherit Class Consulta
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
                 Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway()
                 Dim objDescripcion As RTGMGateway.RTGMCore.DireccionEntrega = New RTGMGateway.RTGMCore.DireccionEntrega()
-                objGateway.URLServicio = "http://192.168.1.30:88/GasMetropolitanoRuntimeService.svc"
+
+                objGateway.URLServicio = URL
                 objGateway.buscarDireccionEntrega(objSolicitudGateway)
                 Descripcion = CType(objDescripcion.IDDireccionEntrega, String) & "  " & objDescripcion.Nombre
                 cnSigamet.Close()
