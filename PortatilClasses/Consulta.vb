@@ -30,6 +30,9 @@ Imports System.Data.SqlClient
 Imports System.Windows.Forms
 Imports System.IO
 Imports System.Data
+Imports RTGMGateway
+
+
 
 Public MustInherit Class Consulta
 
@@ -3204,6 +3207,41 @@ Public MustInherit Class Consulta
             Catch exc As Exception
                 EventLog.WriteEntry("Clase Consulta" & exc.Source, exc.Message, EventLogEntryType.Error)
                 MessageBox.Show(exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End Sub
+
+        Public Sub CargarDatos(ByVal Camion As Integer, ByVal URL As String)
+            Dim cnSigamet As SqlConnection
+            Dim cmdComando As SqlCommand
+            Dim drAlmacen As SqlDataReader
+            Try
+                cnSigamet = New SqlConnection(Globals.GetInstance._CadenaConexion)
+                cmdComando = New SqlCommand("spPTLConsultaCamion", cnSigamet)
+                cmdComando.Parameters.Add("@Configuracion", SqlDbType.SmallInt).Value = Configuracion
+                cmdComando.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = Camion
+
+                cmdComando.CommandType = CommandType.StoredProcedure
+                cnSigamet.Open()
+                drAlmacen = cmdComando.ExecuteReader(CommandBehavior.CloseConnection)
+                If drAlmacen.Read() Then
+                    Identificador = CType(drAlmacen(0), Integer)
+                    Descripcion = CType(drAlmacen(1), String) & " " & CType(drAlmacen(2), String)
+                    _Ruta = CType(drAlmacen(4), Integer)
+                    _Celula = CType(drAlmacen(5), Integer)
+                    If Not IsDBNull(drAlmacen(3)) Then
+                        _Kilometraje = CType(drAlmacen(3), Integer)
+                    End If
+                End If
+                Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway()
+                Dim objDescripcion As RTGMGateway.RTGMCore.DireccionEntrega = New RTGMGateway.RTGMCore.DireccionEntrega()
+                objGateway.URLServicio = "http://192.168.1.30:88/GasMetropolitanoRuntimeService.svc"
+                objGateway.buscarDireccionEntrega(objSolicitudGateway)
+                Descripcion = CType(objDescripcion.IDDireccionEntrega, String) & "  " & objDescripcion.Nombre
+                cnSigamet.Close()
+            Catch exc As Exception
+            EventLog.WriteEntry("Clase Consulta" & exc.Source, exc.Message, EventLogEntryType.Error)
+            MessageBox.Show(exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End Sub
     End Class
