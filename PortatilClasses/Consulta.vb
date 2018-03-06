@@ -3234,6 +3234,7 @@ Public MustInherit Class Consulta
                 End If
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
                 Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway()
+
                 Dim objDescripcion As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega()
 
                 objGateway.URLServicio = URL
