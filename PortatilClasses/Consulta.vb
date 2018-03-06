@@ -112,6 +112,7 @@ Public MustInherit Class Consulta
                 MessageBox.Show(exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End Sub
+
     End Class
 #End Region
 
@@ -278,7 +279,7 @@ Public MustInherit Class Consulta
                         TipoCobro = CType(drAlmacen(10), Integer)
                     End If
                     Celula = CType(drAlmacen(9), Integer)
-                    If drAlmacen.FieldCount > 11 Then                        
+                    If drAlmacen.FieldCount > 11 Then
                         If Not IsDBNull(drAlmacen(11)) Then
                             Resguardo = CType(drAlmacen(11), Boolean)
                         End If
@@ -297,6 +298,60 @@ Public MustInherit Class Consulta
                 MessageBox.Show(exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End Sub
+
+        Protected Sub RealizarConsulta(ByVal Procedimiento As String, ByVal URL As String)
+            Dim cnSigamet As SqlConnection
+            Dim cmdComando As SqlCommand
+            Dim drAlmacen As SqlDataReader
+
+            Try
+                cnSigamet = New SqlConnection(Globals.GetInstance._CadenaConexion)
+                cmdComando = New SqlCommand(Procedimiento, cnSigamet)
+                cmdComando.Parameters.Add("@Configuracion", SqlDbType.SmallInt).Value = Configuracion
+                cmdComando.Parameters.Add("@Cliente", SqlDbType.Int).Value = IdCliente
+                cmdComando.CommandType = CommandType.StoredProcedure
+                cnSigamet.Open()
+                drAlmacen = cmdComando.ExecuteReader(CommandBehavior.CloseConnection)
+                Resguardo = False
+                Do While drAlmacen.Read()
+                    Cliente = CType(drAlmacen(1), String)
+                    IdRuta = CType(drAlmacen(2), Integer)
+                    Ruta = CType(drAlmacen(3), String)
+                    IdCorporativo = CType(drAlmacen(4), Integer)
+                    Corporativo = CType(drAlmacen(5), String)
+                    Inicial = CType(drAlmacen(6), String)
+                    IdZonaEconomica = CType(drAlmacen(7), Integer)
+                    ZonaEconomica = CType(drAlmacen(8), String)
+                    If Not IsDBNull(drAlmacen(10)) Then
+                        TipoCobro = CType(drAlmacen(10), Integer)
+                    End If
+                    Celula = CType(drAlmacen(9), Integer)
+                    If drAlmacen.FieldCount > 11 Then
+                        If Not IsDBNull(drAlmacen(11)) Then
+                            Resguardo = CType(drAlmacen(11), Boolean)
+                        End If
+                    End If
+                    If drAlmacen.FieldCount > 12 Then
+                        If Not IsDBNull(drAlmacen(12)) Then
+                            ResguardoPorTanque = CType(drAlmacen(12), Boolean)
+                        End If
+                    End If
+
+                Loop
+                cnSigamet.Close()
+                Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+                objSolicitudGateway.IDCliente = Me.IdCliente
+                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
+                objGateway.URLServicio = URL
+                Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
+                Me.Cliente = objRtgCore.Nombre
+
+            Catch exc As Exception
+                EventLog.WriteEntry("Clase Consulta" & exc.Source, exc.Message, EventLogEntryType.Error)
+                MessageBox.Show(exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End Sub
+
     End Class
 #End Region
 
@@ -1239,7 +1294,7 @@ Public MustInherit Class Consulta
             Configuracion = Conf
             IdCliente = IdenCliente
         End Sub
-
+       
         Public Sub CargaDatos()
             RealizarConsulta("spPTLConsultaCliente")
         End Sub
