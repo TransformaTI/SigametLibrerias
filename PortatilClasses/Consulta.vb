@@ -1294,9 +1294,13 @@ Public MustInherit Class Consulta
             Configuracion = Conf
             IdCliente = IdenCliente
         End Sub
-       
+
         Public Sub CargaDatos()
             RealizarConsulta("spPTLConsultaCliente")
+        End Sub
+
+        Public Sub CargaDatos(ByVal URLServicio As String)
+            RealizarConsulta("spPTLConsultaCliente", URLServicio)
         End Sub
     End Class
 #End Region
