@@ -3274,8 +3274,8 @@ Public MustInherit Class Consulta
                 cmdComando = New SqlCommand("spPTLConsultaCamion", cnSigamet)
                 cmdComando.Parameters.Add("@Configuracion", SqlDbType.SmallInt).Value = Configuracion
                 cmdComando.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = Camion
-
                 cmdComando.CommandType = CommandType.StoredProcedure
+
                 cnSigamet.Open()
                 drAlmacen = cmdComando.ExecuteReader(CommandBehavior.CloseConnection)
                 If drAlmacen.Read() Then
@@ -3287,6 +3287,7 @@ Public MustInherit Class Consulta
                         _Kilometraje = CType(drAlmacen(3), Integer)
                     End If
                 End If
+                cnSigamet.Close()
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
                 Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway()
                 Dim objDescripcion As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega()
@@ -3297,13 +3298,14 @@ Public MustInherit Class Consulta
                 objSolicitudGateway.IDAutotanque = 52
 
                 objGateway.URLServicio = URL
-                objGateway.buscarDireccionEntrega(objSolicitudGateway)
+                objDescripcion = objGateway.buscarDireccionEntrega(objSolicitudGateway)
                 Descripcion = CType(objDescripcion.IDDireccionEntrega, String) & "  " & objDescripcion.Nombre
-                cnSigamet.Close()
+
             Catch exc As Exception
-            EventLog.WriteEntry("Clase Consulta" & exc.Source, exc.Message, EventLogEntryType.Error)
-            MessageBox.Show(exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                EventLog.WriteEntry("Clase Consulta" & exc.Source, exc.Message, EventLogEntryType.Error)
+                MessageBox.Show(exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
+
         End Sub
     End Class
 #End Region
