@@ -26,6 +26,11 @@ C:\Users\Transforma1\Source\repos\SigametLibrerias\PortatilClasses\obj\Debug\Por
 C:\Users\Transforma1\Source\repos\SigametLibrerias\PortatilClasses\obj\Debug\PortatilClasses.xml
 C:\Users\Transforma1\Source\repos\SigametLibrerias\PortatilClasses\obj\Debug\PortatilClasses.pdb
 C:\Users\Transforma1\Source\repos\SigametLibrerias\PortatilClasses\obj\Debug\PortatilClasses.vbprojResolveAssemblyReference.cache
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\bin\PortatilClasses.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\bin\PortatilClasses.pdb
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\bin\PortatilClasses.xml
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\bin\stdole.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\obj\Debug\PortatilClasses.vbprojResolveAssemblyReference.cache
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\obj\Debug\PortatilClasses.Combo.ComboBase.resources
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\obj\Debug\PortatilClasses.CrearControl.ProductoPanel.resources
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\obj\Debug\PortatilClasses.frmUsuario.resources
@@ -34,12 +39,5 @@ C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\obj\Debug\
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\obj\Debug\PortatilClasses.dll
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\obj\Debug\PortatilClasses.xml
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\obj\Debug\PortatilClasses.pdb
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\bin\PortatilClasses.dll
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\bin\PortatilClasses.pdb
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\bin\PortatilClasses.xml
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\bin\log4net.dll
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\bin\nunit.framework.dll
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\bin\stdole.dll
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\bin\RTGMGateway.pdb
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\bin\log4net.xml
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\bin\nunit.framework.xml
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\PortatilClasses\bin\RTGMGateway.dll.config
