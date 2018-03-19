@@ -8,6 +8,7 @@ Imports Microsoft.VisualBasic.ControlChars
 Public Class ConsultaCargo
     Inherits System.Windows.Forms.Form
     Private _PedidoReferencia As String
+    Private _URLGateway As String
     Private Titulo As String = "Consulta de documentos"
     Public Event MovimientoSeleccionado(ByVal Clave As String)
 
@@ -21,6 +22,15 @@ Public Class ConsultaCargo
         Get
             Return _PedidoReferencia
         End Get
+    End Property
+
+    Public Property URLGateway() As String
+        Get
+            Return _URLGateway
+        End Get
+        Set(ByVal Value As String)
+            _URLGateway = Value
+        End Set
     End Property
 
 #Region " Windows Form Designer generated code "
@@ -1351,8 +1361,9 @@ Public Class ConsultaCargo
         ConsultaCatalogoFiltros()
     End Sub
 
-    Public Sub New(ByVal strPedidoReferencia As String, _
-          Optional ByVal VentanaDefault As enumConsultaCargo = enumConsultaCargo.DatosPedido)
+    Public Sub New(ByVal strPedidoReferencia As String,
+          Optional ByVal VentanaDefault As enumConsultaCargo = enumConsultaCargo.DatosPedido,
+          Optional ByVal strURLGateway As String = "")
 
         MyBase.New()
         InitializeComponent()
@@ -1363,6 +1374,7 @@ Public Class ConsultaCargo
         txtPedidoReferencia.Enabled = False
         lblPedidoReferencia.BorderStyle = BorderStyle.None
         btnBuscar.Visible = False
+        _URLGateway = strURLGateway
 
         cboTipoBusqueda.Enabled = False
         ConsultaCatalogoFiltros()
@@ -1437,8 +1449,8 @@ Public Class ConsultaCargo
                 'documento = folioDocumento.FolioNota
                 documento = DocumentosBSR.SerieDocumento.FolioNota
             Catch ex As System.OverflowException
-                MessageBox.Show("El número de documento no corresponde" & CrLf & "a un(a)" & _
-                    Convert.ToString(cboTipoBusqueda.SelectedValue) & ". Verifique", _
+                MessageBox.Show("El número de documento no corresponde" & CrLf & "a un(a)" &
+                    Convert.ToString(cboTipoBusqueda.SelectedValue) & ". Verifique",
                  Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             Catch ex As Exception
@@ -1622,6 +1634,272 @@ Public Class ConsultaCargo
             ConsultaHistoricoAbonos(numeroPedidoReferencia)
             ConsultaHistoricoGestiones(numeroPedidoReferencia)
         End If
+    End Sub
+
+    Private Sub ConsultaDocumento(ByVal PedidoReferencia As String, ByVal URLGateway As String)
+
+#Region "Código método original"
+
+        'Dim cn As SqlConnection = DataLayer.Conexion
+        'Dim cmd As New SqlCommand()
+        'Dim vRow As DataRowView
+        'Dim procedimientoBusqueda As String
+        'Dim rowFiltro As DataRow
+        'Dim serie As String = Nothing
+        'Dim documento As Integer
+        'Dim numeroPedidoReferencia As String = Nothing
+
+        'Dim cargarComplemento As Boolean
+
+        'cmd.Connection = cn
+        'cmd.CommandType = CommandType.StoredProcedure
+
+        'vRow = DirectCast(cboTipoBusqueda.SelectedItem, DataRowView)
+
+        'procedimientoBusqueda = Convert.ToString(vRow(1))
+
+        'ConsultaParametrosBusqueda(procedimientoBusqueda)
+        'cmd.CommandText = procedimientoBusqueda
+
+        'If Convert.ToBoolean(Convert.ToByte(vRow(3))) Then
+        '    Try
+        '        'folioDocumento.SeparaSerie(PedidoReferencia)
+        '        DocumentosBSR.SerieDocumento.SeparaSerie(PedidoReferencia)
+        '        'serie = folioDocumento.Serie
+        '        serie = DocumentosBSR.SerieDocumento.Serie
+        '        'documento = folioDocumento.FolioNota
+        '        documento = DocumentosBSR.SerieDocumento.FolioNota
+        '    Catch ex As System.OverflowException
+        '        MessageBox.Show("El número de documento no corresponde" & CrLf & "a un(a)" &
+        '            Convert.ToString(cboTipoBusqueda.SelectedValue) & ". Verifique",
+        '         Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        '        Exit Sub
+        '    Catch ex As Exception
+        '        MessageBox.Show("Ha ocurrido un error:" & CrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '        Exit Sub
+        '    End Try
+        'End If
+
+        'For Each rowFiltro In dtParametrosBusqueda.Rows
+        '    If dtParametrosBusqueda.Rows.Count > 1 Then
+        '        If Convert.ToString(rowFiltro("Tipo")).Trim = "varchar" Then
+        '            cmd.Parameters.Add(Convert.ToString(rowFiltro("Parametro")), SqlDbType.VarChar).Value = serie
+        '        End If
+        '        If Convert.ToString(rowFiltro("Tipo")).Trim = "int" Then
+        '            cmd.Parameters.Add(Convert.ToString(rowFiltro("Parametro")), SqlDbType.Int).Value = documento
+        '        End If
+        '    Else
+        '        If Convert.ToString(rowFiltro("Tipo")).Trim = "varchar" Then
+        '            cmd.Parameters.Add(Convert.ToString(rowFiltro("Parametro")), SqlDbType.VarChar).Value = PedidoReferencia
+        '        End If
+        '    End If
+        'Next
+
+        'Try
+        '    Cursor = Cursors.WaitCursor
+
+        '    cn.Open()
+        '    Dim dr As SqlDataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+
+        '    Do While dr.Read
+        '        'Datos generales de los cargos
+        '        lblPedido.Text = CType(dr("Pedido"), String)
+        '        lblAnoPed.Text = CType(dr("AñoPed"), String)
+        '        lblCelula.Text = CType(dr("PedidoCelula"), String)
+        '        lblTipoDocumento.Text = CType(dr("TipoCargoTipoPedido"), String)
+        '        lblStatusPedido.Text = CType(dr("StatusPedido"), String).Trim
+        '        lblStatusCobranza.Text = CType(dr("StatusCobranza"), String).Trim
+        '        lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("ClienteNombre"), String)
+        '        If IsDBNull(dr("RutaSuministro")) Then
+        '            lblRutaSuministro.Text = "Sin ruta suministro"
+        '        Else
+        '            lblRutaSuministro.Text = CType(dr("RutaSuministro"), String)
+        '        End If
+
+        '        If Not IsDBNull(dr("FCargo")) Then
+        '            lblFCargo.Text = CType(dr("FCargo"), Date).ToShortDateString
+        '        Else
+        '            lblFCargo.Text = String.Empty
+        '        End If
+
+        '        lblImporte.Text = CType(dr("Total"), Decimal).ToString("N")
+        '        lblSaldo.Text = CType(dr("Saldo"), Decimal).ToString("N")
+        '        If IsDBNull(dr("CyC")) Then
+        '            chkCyC.Checked = False
+        '            If Not IsDBNull(dr("ClienteVentaPublico")) Then
+        '                chkCyC.Visible = False
+        '                lblWarning.Visible = True
+        '                picWarning.Visible = True
+        '                picWarning.BringToFront()
+        '            End If
+        '        Else
+        '            chkCyC.Checked = CType(dr("CyC"), Boolean)
+        '            chkCyC.Visible = True
+        '            lblWarning.Visible = False
+        '            picWarning.Visible = False
+        '        End If
+        '        lblCartera.Text = CType(dr("Cartera"), String)
+        '        lblTipoCobro.Text = CType(dr("TipoCobro"), String)
+        '        If CType(dr("Saldo"), Decimal) > 0 Then
+        '            lblSaldo.ForeColor = Color.Red
+        '        Else
+        '            lblSaldo.ForeColor = Color.Black
+        '        End If
+
+        '        Select Case CType(dr("TipoCargo"), Byte)
+        '            Case Is = 1, 2, 4, 7, 9, 11 'Cargo por suministro de gas, o eficiencia negativa
+        '                lblTipoDocumento.ForeColor = Color.RoyalBlue
+        '                If Not IsDBNull(dr("FSuministro")) Then
+        '                    lblFSuministro.Text = CType(dr("FSuministro"), Date).ToString
+        '                Else
+        '                    lblFSuministro.Text = ""
+        '                End If
+        '                If Not IsDBNull(dr("FCompromiso")) Then
+        '                    lblFCompromiso.Text = CType(dr("FCompromiso"), Date).ToString
+        '                Else
+        '                    lblFCompromiso.Text = ""
+        '                End If
+
+        '                If Not IsDBNull(dr("Litros")) Then
+        '                    lblLitros.Text = CType(dr("Litros"), Decimal).ToString
+        '                Else
+        '                    lblLitros.Text = ""
+        '                End If
+
+        '                If Not IsDBNull(dr("Observaciones")) Then
+        '                    lblObservaciones.Text = CType(dr("Observaciones"), String).Trim
+        '                End If
+
+        '                tpPedido.Enabled = True
+        '                tpCheque.Enabled = False
+        '                tabDatos.SelectedTab = tpPedido
+        '            Case Is = 3, 5 'Cargo por cheque devuelto
+        '                lblTipoDocumento.ForeColor = Color.SeaGreen
+        '                If Not IsDBNull(dr("CobroNumeroCheque")) Then lblNumeroCheque.Text = CType(dr("CobroNumeroCheque"), String) Else lblNumeroCheque.Text = ""
+        '                If Not IsDBNull(dr("CobroNumeroCuenta")) Then lblNumeroCuenta.Text = CType(dr("CobroNumeroCuenta"), String) Else lblNumeroCuenta.Text = ""
+        '                If Not IsDBNull(dr("CobroBanco")) Then lblBanco.Text = CType(dr("CobroBanco"), String) & " " & CType(dr("BancoNombre"), String) Else lblBanco.Text = ""
+        '                If Not IsDBNull(dr("CobroFDevolucion")) Then lblFDevolucion.Text = CType(dr("CobroFDevolucion"), String) Else lblFDevolucion.Text = ""
+        '                If Not IsDBNull(dr("CobroRazonDevCheque")) Then lblRazonDevCheque.Text = CType(dr("CobroRazonDevCheque"), String) & " " & CType(dr("RazonDevChequeDescripcion"), String) Else lblRazonDevCheque.Text = ""
+        '                If Not IsDBNull(dr("CobroObservaciones")) Then lblObservacionesRazonDevCheque.Text = CType(dr("CobroObservaciones"), String).Trim Else lblObservacionesRazonDevCheque.Text = ""
+        '                tpCheque.Enabled = True
+        '                tpPedido.Enabled = False
+        '                tabDatos.SelectedTab = tpCheque
+        '            Case Else
+        '                MessageBox.Show("Este documento no tiene tipo de cargo.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        End Select
+        '        If Not IsDBNull(dr("Factura")) Then
+        '            lblFactura.Text = Trim(CType(dr("Factura"), String))
+        '        End If
+        '        If Not IsDBNull(dr("AñoAtt")) Then
+        '            lblAñoAtt.Text = CType(dr("AñoAtt"), String)
+        '        End If
+        '        If Not IsDBNull(dr("FolioAtt")) Then
+        '            lblFolio.Text = CType(dr("FolioAtt"), String)
+        '            Me.mnuConsultaDatosFolioAtt.Enabled = True
+        '        Else
+        '            Me.mnuConsultaDatosFolioAtt.Enabled = False
+        '        End If
+
+        '        If Not IsDBNull(dr("StatusLogistica")) Then
+        '            lblStatusLogistica.Text = CType(dr("StatusLogistica"), String)
+        '        End If
+
+        '        If Not IsDBNull(dr("FCancelacion")) Then
+        '            lblFCancelacion.Text = CType(dr("FCancelacion"), Date).ToString
+        '        End If
+
+        '        If Not IsDBNull(dr("UsuarioCancelacion")) Then
+        '            lblUsuarioCancelacion.Text = CType(dr("UsuarioCancelacion"), String).Trim
+        '        End If
+
+        '        If Not IsDBNull(dr("MotivoCancelacionDescripcion")) Then
+        '            lblMotivoCancelacion.Text = CType(dr("MotivoCancelacionDescripcion"), String).Trim
+        '        End If
+
+        '        If Not IsDBNull(dr("ObservacionesMotivoCancelacion")) Then
+        '            lblObservacionesMotivoCancelacion.Text = CType(dr("ObservacionesMotivoCancelacion"), String).Trim
+        '        End If
+
+        '        If CType(dr("StatusPedido"), String).Trim = "CANCELADO" Then
+        '            tabDatos.SelectedTab = tpCancelacion
+        '        End If
+
+        '        If Not IsDBNull(dr("FolioNota")) Then
+        '            lblRemision.Text = CType(dr("FolioNota"), String).Trim
+        '        Else
+        '            lblRemision.Text = "No disponible"
+        '        End If
+
+        '        cargarComplemento = True
+
+        '        numeroPedidoReferencia = Convert.ToString(dr("PedidoReferencia"))
+
+        '        lblReferencia.Text = Convert.ToString(dr("PedidoReferencia"))
+
+        '        txtPedidoReferencia.Focus()
+        '    Loop
+        '    If lblPedido.Text = "" Then
+        '        MessageBox.Show("No se encontró el documento especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '    End If
+        'Catch ex As Exception
+        '    MessageBox.Show(ex.ToString, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        'Finally
+        '    If cn.State = ConnectionState.Open Then cn.Close()
+        '    cn = Nothing
+        '    cmd = Nothing
+        '    txtPedidoReferencia.SelectAll()
+        '    Cursor = Cursors.Default
+        'End Try
+
+        'If cargarComplemento Then
+        '    ConsultaHistoricoAbonos(numeroPedidoReferencia)
+        '    ConsultaHistoricoGestiones(numeroPedidoReferencia)
+        'End If
+
+#End Region
+
+        LimpiaCajas()
+
+        Dim objGateway As RTGMGateway.RTGMPedidoGateway
+        Dim objSolicitud As RTGMGateway.SolicitudPedidoGateway
+        Dim lstPedidos As Generic.List(Of RTGMCore.Pedido) = New Generic.List(Of RTGMCore.Pedido)
+
+        Try
+            objGateway = New RTGMGateway.RTGMPedidoGateway
+            objGateway.URLServicio = URLGateway
+
+            objSolicitud = New RTGMGateway.SolicitudPedidoGateway
+            objSolicitud.FuenteDatos = RTGMCore.Fuente.Sigamet
+            objSolicitud.IDDireccionEntrega = Convert.ToInt32(PedidoReferencia)
+
+            lstPedidos = objGateway.buscarPedidos(objSolicitud)
+
+            MessageBox.Show("Estatus Pedido: " & lstPedidos(0).EstatusPedido & CrLf &
+                            "Fecha alta: " & lstPedidos(0).FAlta)
+
+            lblPedido.Text          = lstPedidos(0).PedidoReferencia
+            lblAnoPed.Text          = Convert.ToString(lstPedidos(0).AnioPed)
+            'lblTipoDocumento.Text = lstPedidos(0).Tipo
+            lblStatusPedido.Text    = lstPedidos(0).EstatusPedido
+
+            'lblStatusCobranza.Text = lstPedidos(0).Estatus
+            lblCliente.Text         = Convert.ToString(lstPedidos(0).IDDireccionEntrega)
+
+            lblRutaSuministro.Text  = lstPedidos(0).RutaSuministro.Descripcion
+            lblFCargo.Text          = Convert.ToString(lstPedidos(0).FCargo)
+            lblImporte.Text         = Convert.ToString(lstPedidos(0).Importe)
+            lblSaldo.Text           = Convert.ToString(lstPedidos(0).Saldo)
+
+
+        Catch ex As System.OverflowException
+            MessageBox.Show("Introduzca un número de documento válido",
+             Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        Catch ex As Exception
+            MessageBox.Show("Ha ocurrido un error:" & CrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End Try
+
     End Sub
 
     Private Sub ConsultaHistoricoAbonos(ByVal PedidoReferencia As String)
@@ -1913,7 +2191,12 @@ Public Class ConsultaCargo
     Private Sub btnBuscar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscar.Click
         If Trim(txtPedidoReferencia.Text) <> "" Then
             _PedidoReferencia = Replace(UCase(Trim(txtPedidoReferencia.Text)), "'", "")
-            ConsultaDocumento(_PedidoReferencia)
+
+            If (String.IsNullOrEmpty(URLGateway)) Then
+                ConsultaDocumento(_PedidoReferencia)
+            Else
+                ConsultaDocumento(_PedidoReferencia, URLGateway)
+            End If
         End If
     End Sub
 
