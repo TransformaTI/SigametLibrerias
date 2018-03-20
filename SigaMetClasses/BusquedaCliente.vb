@@ -1,6 +1,7 @@
 Option Strict On
 Imports System.Data.SqlClient, System.Windows.Forms
 Imports System.Text
+Imports Microsoft.VisualBasic.ControlChars
 
 
 'Modificó: Carlos Nirari Santiago Mendoza
@@ -28,6 +29,7 @@ Public Class BusquedaCliente
 
     Private _PermiteCambioEmpleadoNomina As Boolean
     Private _PermiteCambioClientePadre As Boolean
+    Private _URLGateway As String
     Friend WithEvents btnTelefono As System.Windows.Forms.Button
 
     Private _dsCatalogos As DataSet
@@ -54,7 +56,8 @@ Public Class BusquedaCliente
                    Optional ByVal PermiteCambioEmpleadoNomina As Boolean = False, _
                    Optional ByVal PermiteCambioClientePadre As Boolean = False, _
                    Optional ByVal DSCatalogos As DataSet = Nothing, _
-                   Optional ByVal PriodidadPortatil As Boolean = False)
+                   Optional ByVal PriodidadPortatil As Boolean = False, _
+                   Optional ByVal URLGateway As String = "")
 
         MyBase.New()
 
@@ -73,6 +76,7 @@ Public Class BusquedaCliente
 
         _PermiteCambioEmpleadoNomina = PermiteCambioEmpleadoNomina
         _PermiteCambioClientePadre = PermiteCambioClientePadre
+        _URLGateway = URLGateway
 
         If Not DSCatalogos Is Nothing Then
             _dsCatalogos = DSCatalogos
@@ -722,6 +726,36 @@ Public Class BusquedaCliente
 
     End Sub
 
+    Private Sub Consulta(ByVal URLGateway As String)
+
+        Dim _ClienteBusqueda As Integer
+        Dim objGateway As RTGMGateway.RTGMGateway
+        Dim objSolicitud As RTGMGateway.SolicitudGateway
+        Dim objDireccionEntrega As RTGMCore.DireccionEntrega
+
+        If (txtCliente.Text.Trim > "" And URLGateway.Trim > "") Then
+            Try
+                _ClienteBusqueda = CType(txtCliente.Text, Integer)
+                objGateway = New RTGMGateway.RTGMGateway
+                objGateway.URLServicio = URLGateway
+
+                objSolicitud = New RTGMGateway.SolicitudGateway
+                objSolicitud.Fuente = RTGMCore.Fuente.Sigamet
+                objSolicitud.IDCliente = Convert.ToInt32(_ClienteBusqueda)
+
+                objDireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitud)
+
+            Catch ex As System.OverflowException
+                MessageBox.Show("El número de contrato es inválido." & CrLf & "Por favor verifique.",
+                 Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            Catch ex As Exception
+                MessageBox.Show("Ha ocurrido un error:" & CrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End Try
+        End If
+    End Sub
+
     Private Function ConsultaParametro(ByVal Telefono As String) As Boolean
 
         Dim Resultado As Boolean = False
@@ -889,7 +923,12 @@ Public Class BusquedaCliente
 
     Private Sub btnBuscar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscar.Click
         FlawBusquedaLlamada = False
-        Consulta()
+
+        If (String.IsNullOrEmpty(_URLGateway)) Then
+            Consulta()
+        Else
+            Consulta(_URLGateway)
+        End If
     End Sub
 
     Private Sub lvwCliente_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwCliente.SelectedIndexChanged
