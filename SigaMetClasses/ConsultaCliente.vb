@@ -15,6 +15,7 @@ Public Class frmConsultaCliente
     Private _TotalSaldo, _TotalSaldoCartera As Decimal
     Private _TotalLitros, _TotalLitrosCartera As Decimal 'Modificado 10/09/2004
     Private _LinkQueja As Boolean           '20070622#CFSL001 Anexe este dato para no ver la etiqueta que llama las quejas
+    Private _URLGateway As String
 
     Private _CambioEmpleadoNomina As Boolean
     Private _CambioClientePadre As Boolean
@@ -1776,7 +1777,8 @@ Public Class frmConsultaCliente
           Optional ByVal PermiteCambioEmpleadoNomina As Boolean = False, _
           Optional ByVal PermiteCambioCtePadre As Boolean = False, _
           Optional ByVal DSCatalogos As DataSet = Nothing, _
-          Optional ByVal LinkQueja As Boolean = True)
+          Optional ByVal LinkQueja As Boolean = True, _
+          Optional ByVal URLGateway As String = "")
 
         MyBase.New()
         InitializeComponent()
@@ -1788,6 +1790,8 @@ Public Class frmConsultaCliente
 
         _CambioEmpleadoNomina = PermiteCambioEmpleadoNomina
         _CambioClientePadre = PermiteCambioCtePadre
+
+        _URLGateway = URLGateway
 
         Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
 
