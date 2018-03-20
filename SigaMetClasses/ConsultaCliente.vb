@@ -15,7 +15,6 @@ Public Class frmConsultaCliente
     Private _TotalSaldo, _TotalSaldoCartera As Decimal
     Private _TotalLitros, _TotalLitrosCartera As Decimal 'Modificado 10/09/2004
     Private _LinkQueja As Boolean           '20070622#CFSL001 Anexe este dato para no ver la etiqueta que llama las quejas
-    Private _URLGateway As String
 
     Private _CambioEmpleadoNomina As Boolean
     Private _CambioClientePadre As Boolean
@@ -1766,19 +1765,18 @@ Public Class frmConsultaCliente
     'Se agregaron los siguientes parámetros opcionales:
     '   -PermiteCambioEmpleadoNomina, Habilita la posibilidad de cambio de empleado de nómina para el usuario que cuente con el permiso
     '   -PermiteCambio
-    Public Sub New(ByVal Cliente As Integer, _
-          Optional ByVal Usuario As String = "", _
-          Optional ByVal SoloDocumentosACredito As Boolean = False, _
-          Optional ByVal SoloDocumentosSurtidos As Boolean = True, _
-          Optional ByVal PermiteSeleccionarDocumento As Boolean = False, _
-          Optional ByVal PermiteModificarDatosCredito As Boolean = False, _
-          Optional ByVal PermiteModificarDatosCliente As Boolean = False, _
-          Optional ByVal PermiteCapturarNotas As Boolean = False, _
-          Optional ByVal PermiteCambioEmpleadoNomina As Boolean = False, _
-          Optional ByVal PermiteCambioCtePadre As Boolean = False, _
-          Optional ByVal DSCatalogos As DataSet = Nothing, _
-          Optional ByVal LinkQueja As Boolean = True, _
-          Optional ByVal URLGateway As String = "")
+    Public Sub New(ByVal Cliente As Integer,
+          Optional ByVal Usuario As String = "",
+          Optional ByVal SoloDocumentosACredito As Boolean = False,
+          Optional ByVal SoloDocumentosSurtidos As Boolean = True,
+          Optional ByVal PermiteSeleccionarDocumento As Boolean = False,
+          Optional ByVal PermiteModificarDatosCredito As Boolean = False,
+          Optional ByVal PermiteModificarDatosCliente As Boolean = False,
+          Optional ByVal PermiteCapturarNotas As Boolean = False,
+          Optional ByVal PermiteCambioEmpleadoNomina As Boolean = False,
+          Optional ByVal PermiteCambioCtePadre As Boolean = False,
+          Optional ByVal DSCatalogos As DataSet = Nothing,
+          Optional ByVal LinkQueja As Boolean = True)
 
         MyBase.New()
         InitializeComponent()
@@ -1790,8 +1788,6 @@ Public Class frmConsultaCliente
 
         _CambioEmpleadoNomina = PermiteCambioEmpleadoNomina
         _CambioClientePadre = PermiteCambioCtePadre
-
-        _URLGateway = URLGateway
 
         Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
 
