@@ -24,15 +24,6 @@ Public Class ConsultaCargo
         End Get
     End Property
 
-    Public Property URLGateway() As String
-        Get
-            Return _URLGateway
-        End Get
-        Set(ByVal Value As String)
-            _URLGateway = Value
-        End Set
-    End Property
-
 #Region " Windows Form Designer generated code "
 
 
@@ -1361,6 +1352,14 @@ Public Class ConsultaCargo
         ConsultaCatalogoFiltros()
     End Sub
 
+    Public Sub New(ByVal strURLGateway As String)
+        MyBase.New()
+        InitializeComponent()
+        _URLGateway = strURLGateway
+
+        ConsultaCatalogoFiltros()
+    End Sub
+
     Public Sub New(ByVal strPedidoReferencia As String,
           Optional ByVal VentanaDefault As enumConsultaCargo = enumConsultaCargo.DatosPedido,
           Optional ByVal strURLGateway As String = "")
@@ -1971,10 +1970,10 @@ Public Class ConsultaCargo
         If Trim(txtPedidoReferencia.Text) <> "" Then
             _PedidoReferencia = Replace(UCase(Trim(txtPedidoReferencia.Text)), "'", "")
 
-            If (String.IsNullOrEmpty(URLGateway)) Then
+            If (String.IsNullOrEmpty(_URLGateway)) Then
                 ConsultaDocumento(_PedidoReferencia)
             Else
-                ConsultaDocumento(_PedidoReferencia, URLGateway)
+                ConsultaDocumento(_PedidoReferencia, _URLGateway)
             End If
         End If
     End Sub
