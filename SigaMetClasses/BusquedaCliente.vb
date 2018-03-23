@@ -896,9 +896,8 @@ Public Class BusquedaCliente
 
         If (String.IsNullOrEmpty(_URLGateway)) Then
             Consulta()
-            'Else
-            '   Consulta(_URLGateway)
-
+        Else
+            Consulta(_URLGateway)
         End If
     End Sub
 
