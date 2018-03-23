@@ -1,6 +1,7 @@
 Option Strict On
 Imports System.Data.SqlClient, System.Windows.Forms
 Imports System.Text
+Imports Microsoft.VisualBasic.ControlChars
 
 
 'Modificó: Carlos Nirari Santiago Mendoza
@@ -28,6 +29,7 @@ Public Class BusquedaCliente
 
     Private _PermiteCambioEmpleadoNomina As Boolean
     Private _PermiteCambioClientePadre As Boolean
+    Private _URLGateway As String
     Friend WithEvents btnTelefono As System.Windows.Forms.Button
 
     Private _dsCatalogos As DataSet
@@ -54,7 +56,8 @@ Public Class BusquedaCliente
                    Optional ByVal PermiteCambioEmpleadoNomina As Boolean = False, _
                    Optional ByVal PermiteCambioClientePadre As Boolean = False, _
                    Optional ByVal DSCatalogos As DataSet = Nothing, _
-                   Optional ByVal PriodidadPortatil As Boolean = False)
+                   Optional ByVal PriodidadPortatil As Boolean = False, _
+                   Optional ByVal URLGateway As String = "")
 
         MyBase.New()
 
@@ -73,6 +76,7 @@ Public Class BusquedaCliente
 
         _PermiteCambioEmpleadoNomina = PermiteCambioEmpleadoNomina
         _PermiteCambioClientePadre = PermiteCambioClientePadre
+        _URLGateway = URLGateway
 
         If Not DSCatalogos Is Nothing Then
             _dsCatalogos = DSCatalogos
@@ -889,7 +893,12 @@ Public Class BusquedaCliente
 
     Private Sub btnBuscar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscar.Click
         FlawBusquedaLlamada = False
-        Consulta()
+
+        If (String.IsNullOrEmpty(_URLGateway)) Then
+            Consulta()
+        Else
+            Consulta(_URLGateway)
+        End If
     End Sub
 
     Private Sub lvwCliente_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwCliente.SelectedIndexChanged
@@ -963,12 +972,19 @@ Public Class BusquedaCliente
         If _Cliente > 0 Then
             Cursor = Cursors.WaitCursor
 
-            Dim oConsulta As New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario, _
-                            PermiteModificarDatosCliente:=_PermiteModificarDatosCliente, _
-                            PermiteModificarDatosCredito:=_PermiteModificarDatosCredito, _
-                            PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina, _
-                            PermiteCambioCtePadre:=_PermiteCambioClientePadre, _
-                            DSCatalogos:=_dsCatalogos)
+            'Dim oConsulta As New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario, _
+            '                PermiteModificarDatosCliente:=_PermiteModificarDatosCliente, _
+            '                PermiteModificarDatosCredito:=_PermiteModificarDatosCredito, _
+            '                PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina, _
+            '                PermiteCambioCtePadre:=_PermiteCambioClientePadre, _
+            '                DSCatalogos:=_dsCatalogos)
+            Dim oConsulta As New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario,
+                            PermiteModificarDatosCliente:=_PermiteModificarDatosCliente,
+                            PermiteModificarDatosCredito:=_PermiteModificarDatosCredito,
+                            PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina,
+                            PermiteCambioCtePadre:=_PermiteCambioClientePadre,
+                            DSCatalogos:=_dsCatalogos,
+                            URLGateway:="http://192.168.1.30:88/GasMetropolitanoRuntimeService.svc")
             oConsulta.ShowDialog()
             Cursor = Cursors.Default
         End If
