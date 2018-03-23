@@ -30,7 +30,6 @@ Public Class ConsultaCheques
     'Carga de parámetros con nombres duplicados 3/4/2008 JAGD
     Private _Corporativo As Short
     Private _Sucursal As Short
-    Private _URLGateway As String
 #End Region
 
 #Region "Eventos"
@@ -46,8 +45,8 @@ Public Class ConsultaCheques
     End Property
 #End Region
 
-
-    Public Sub New(ByVal Modulo As Short,
+    
+    Public Sub New(ByVal Modulo As Short, _
                    ByVal Usuario As String)
 
         MyBase.New()
@@ -67,9 +66,9 @@ Public Class ConsultaCheques
     End Sub
 
     'Carga de parámetros con nombres duplicados 3/4/2008 JAGD
-    Public Sub New(ByVal Modulo As Short,
-               ByVal Usuario As String,
-               ByVal Corporativo As Short,
+    Public Sub New(ByVal Modulo As Short, _
+               ByVal Usuario As String, _
+               ByVal Corporativo As Short, _
                ByVal Sucursal As Short)
 
         MyBase.New()
@@ -184,7 +183,7 @@ Public Class ConsultaCheques
     Friend WithEvents btnBuscar As System.Windows.Forms.Button
     Private WithEvents tbbEspecial As System.Windows.Forms.ToolBarButton
     Friend WithEvents colUsuarioNombre As System.Windows.Forms.DataGridTextBoxColumn
-    <System.Diagnostics.DebuggerStepThrough()>
+    <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(ConsultaCheques))
@@ -863,7 +862,7 @@ Public Class ConsultaCheques
 
     Private Sub Devolver(ByVal DevolucionMultiple As Boolean)
         Dim _DevFechaAnt As Boolean = oSeguridad.TieneAcceso("CHEQUES_DEVOLUCION_FECHAANT")
-        Dim frmDev As New DevolucionCheque(_AnoCobro, _Cobro, _NumeroCheque, _Banco, _BancoNombre,
+        Dim frmDev As New DevolucionCheque(_AnoCobro, _Cobro, _NumeroCheque, _Banco, _BancoNombre, _
             _Cliente, _ClienteNombre, _Observaciones, _Corporativo, _Sucursal, _DevFechaAnt, DevolucionMultiple)
         If frmDev.ShowDialog() = DialogResult.OK Then
             If MessageBox.Show("¿Desea imprimir el comprobante?", _Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.Yes Then
@@ -897,11 +896,6 @@ Public Class ConsultaCheques
 #End Region
 
     Private Sub tbrEstandar_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles tbrEstandar.ButtonClick
-        If (_URLGateway <> String.Empty) Then
-            Dim ConsultaCliente As New frmConsultaCliente(_Cliente)
-        Else
-            Dim ConsultaCliente As New frmConsultaCliente(_Cliente, _URLGateway)
-        End If
         Select Case e.Button.Tag.ToString()
             Case Is = "Agregar"
 
@@ -924,7 +918,7 @@ Public Class ConsultaCheques
                     Exit Sub
                 Else
                     If _NumeroCheque <> "" And _Banco <> 0 And _Cliente <> 0 Then
-                        Dim frmCapturaCheque As New CapturaCheque(_Cliente, _NumeroCheque, _NumeroCuenta,
+                        Dim frmCapturaCheque As New CapturaCheque(_Cliente, _NumeroCheque, _NumeroCuenta, _
                                                                     _Banco, _FCheque, _Importe, _Observaciones, _Usuario)
                         If frmCapturaCheque.ShowDialog() = DialogResult.OK Then
                             CargaListaCheques()
@@ -965,10 +959,10 @@ Public Class ConsultaCheques
                     Else
                         Select Case _Estatus
                             Case Is = "DEVUELTO"
-                                Dim strMensaje As String =
-                                "Este cheque ya está devuelto." & Chr(13) &
-                                "Al devolver este cheque otra vez se creará un cargo nuevo para el cliente: " & Trim(_ClienteNombre) & Chr(13) &
-                                "con un importe de " & Me._Importe.ToString("C") & Chr(13) &
+                                Dim strMensaje As String = _
+                                "Este cheque ya está devuelto." & Chr(13) & _
+                                "Al devolver este cheque otra vez se creará un cargo nuevo para el cliente: " & Trim(_ClienteNombre) & Chr(13) & _
+                                "con un importe de " & Me._Importe.ToString("C") & Chr(13) & _
                                 "¿Desea continuar?"
                                 If MessageBox.Show(strMensaje, _Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
                                     'Procesar la nueva devolución (el documento original ya se encuentra devuelto)
@@ -1049,7 +1043,7 @@ Public Class ConsultaCheques
         End If
 
         If Not IsDBNull(grdCheque.Item(grdCheque.CurrentRowIndex, 13)) Then
-            lblRazonDevCheque.Text = CType(grdCheque.Item(grdCheque.CurrentRowIndex, 13), String) &
+            lblRazonDevCheque.Text = CType(grdCheque.Item(grdCheque.CurrentRowIndex, 13), String) & _
             " " & CType(grdCheque.Item(grdCheque.CurrentRowIndex, 14), String)
         Else
             lblRazonDevCheque.Text = ""

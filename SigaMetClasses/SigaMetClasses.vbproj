@@ -151,9 +151,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\RegularValidations.dll</HintPath>
     </Reference>
-    <Reference Include="RTGMGateway, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RTGMGateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
+    <Reference Include="RTGMGateway">
+      <HintPath>..\..\CyC\ModuloCredCob\bin\RTGMGateway.dll</HintPath>
     </Reference>
     <Reference Include="SeguimientoCliente, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>

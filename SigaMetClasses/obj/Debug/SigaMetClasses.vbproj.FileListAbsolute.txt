@@ -138,10 +138,7 @@ C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaM
 C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
 C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
 C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojResolveAssemblyReference.cache
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\SigaMetClasses.dll
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\SigaMetClasses.pdb
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\SigaMetClasses.xml
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\stdole.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojResolveAssemblyReference.cache
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.AcercaDe.resources
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.AltaGrupoComercial.resources
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.BuscaCliente.resources
@@ -205,6 +202,11 @@ C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\S
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ListViewComparador.resources
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.GenerateResource.Cache
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CoreCompileInputs.cache
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.dll
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\SigaMetClasses.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\SigaMetClasses.pdb
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\SigaMetClasses.xml
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\RTGMGateway.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\stdole.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.dll
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
