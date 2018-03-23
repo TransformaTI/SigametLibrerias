@@ -1636,41 +1636,96 @@ Public Class ConsultaCargo
     End Sub
 
     Private Sub ConsultaDocumento(ByVal PedidoReferencia As String, ByVal URLGateway As String)
-        LimpiaCajas()
 
         Dim objGateway As RTGMGateway.RTGMPedidoGateway
         Dim objSolicitud As RTGMGateway.SolicitudPedidoGateway
-        Dim lstPedidos As Generic.List(Of RTGMCore.Pedido) = New Generic.List(Of RTGMCore.Pedido)
+        Dim lstPedidos As New Generic.List(Of RTGMCore.Pedido)
+        Dim Referencia As Integer
 
         Try
-            objGateway = New RTGMGateway.RTGMPedidoGateway
-            objGateway.URLServicio = URLGateway
+            LimpiaCajas()
+            Referencia = Convert.ToInt32(PedidoReferencia)
 
-            objSolicitud = New RTGMGateway.SolicitudPedidoGateway
-            objSolicitud.FuenteDatos = RTGMCore.Fuente.Sigamet
-            objSolicitud.IDDireccionEntrega = Convert.ToInt32(PedidoReferencia)
+            If (Referencia > 0) Then
+                objGateway = New RTGMGateway.RTGMPedidoGateway
+                objGateway.URLServicio = URLGateway
 
-            lstPedidos = objGateway.buscarPedidos(objSolicitud)
+                objSolicitud = New RTGMGateway.SolicitudPedidoGateway With {
+                    .IDEmpresa = 0,
+                    .FuenteDatos = RTGMCore.Fuente.Sigamet,
+                    .TipoConsultaPedido = RTGMCore.TipoConsultaPedido.Boletin,
+                    .IDDireccionEntrega = Referencia,
+                    .FechaCompromisoInicio = DateTime.Now.Date,
+                    .IDZona = 201,
+                    .EstatusBoletin = "BOLETIN",
+                    .Portatil = False,
+                    .IDUsuario = Nothing,
+                    .IDSucursal = Nothing,
+                    .FechaCompromisoFin = Nothing,
+                    .FechaSuministroInicio = Nothing,
+                    .FechaSuministroFin = Nothing,
+                    .IDRutaOrigen = Nothing,
+                    .IDRutaBoletin = Nothing,
+                    .IDRutaSuministro = Nothing,
+                    .IDEstatusPedido = Nothing,
+                    .EstatusPedidoDescripcion = Nothing,
+                    .IDEstatusBoletin = Nothing,
+                    .IDEstatusMovil = Nothing,
+                    .EstatusMovilDescripcion = Nothing,
+                    .IDAutotanque = Nothing,
+                    .IDAutotanqueMovil = Nothing,
+                    .SerieRemision = Nothing,
+                    .FolioRemision = Nothing,
+                    .SerieFactura = Nothing,
+                    .FolioFactura = Nothing,
+                    .IDZonaLecturista = Nothing,
+                    .TipoPedido = Nothing,
+                    .TipoServicio = Nothing,
+                    .AñoPed = Nothing,
+                    .IDPedido = Nothing,
+                    .PedidoReferencia = Nothing
+                }
 
-            MessageBox.Show("Estatus Pedido: " & lstPedidos(0).EstatusPedido & CrLf &
-                            "Fecha alta: " & lstPedidos(0).FAlta)
+                lstPedidos = objGateway.buscarPedidos(objSolicitud)
 
-            lblPedido.Text = lstPedidos(0).PedidoReferencia
-            lblAnoPed.Text = Convert.ToString(lstPedidos(0).AnioPed)
-            'lblTipoDocumento.Text = lstPedidos(0).Tipo
-            lblStatusPedido.Text = lstPedidos(0).EstatusPedido
+                If Not IsNothing(lstPedidos(0)) Then
+                    lblPedido.Text = lstPedidos(0).PedidoReferencia.Trim
 
-            'lblStatusCobranza.Text = lstPedidos(0).Estatus
-            lblCliente.Text = Convert.ToString(lstPedidos(0).IDDireccionEntrega)
+                    lblAnoPed.Text = lstPedidos(0).AnioPed.ToString
 
-            lblRutaSuministro.Text = lstPedidos(0).RutaSuministro.Descripcion
-            lblFCargo.Text = Convert.ToString(lstPedidos(0).FCargo)
-            lblImporte.Text = Convert.ToString(lstPedidos(0).Importe)
-            lblSaldo.Text = Convert.ToString(lstPedidos(0).Saldo)
+                    lblTipoDocumento.Text = lstPedidos(0).TipoCargo.Trim        ' Rectificar
 
+                    lblStatusPedido.Text = lstPedidos(0).EstatusPedido.Trim
 
+                    lblStatusCobranza.Text = lstPedidos(0).EstatusPedido.Trim    ' Rectificar
+
+                    If Not IsNothing(lstPedidos(0).DireccionEntrega) Then
+                        lblCliente.Text = lstPedidos(0).DireccionEntrega.Nombre.Trim
+                    End If
+
+                    If Not IsNothing(lstPedidos(0).RutaSuministro) Then
+                        lblRutaSuministro.Text = lstPedidos(0).RutaSuministro.Descripcion
+                    End If
+
+                    lblFCargo.Text = lstPedidos(0).FCargo.ToString
+
+                    If Not IsNothing(lstPedidos(0).Importe) Then
+                        lblImporte.Text = CDec(lstPedidos(0).Importe).ToString("C")
+                    End If
+
+                    If Not IsNothing(lstPedidos(0).Saldo) Then
+                        lblSaldo.Text = CDec(lstPedidos(0).Saldo).ToString("C")
+                    End If
+                Else
+                    MessageBox.Show("No se encontró la referencia.", Me.Titulo,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+            Else
+                MessageBox.Show("Introduzca un número de documento válido.",
+                    Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         Catch ex As System.OverflowException
-            MessageBox.Show("Introduzca un número de documento válido",
+            MessageBox.Show("Introduzca un número de documento válido.",
              Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         Catch ex As Exception
