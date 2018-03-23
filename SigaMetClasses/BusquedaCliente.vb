@@ -898,6 +898,7 @@ Public Class BusquedaCliente
             Consulta()
             'Else
             '   Consulta(_URLGateway)
+
         End If
     End Sub
 

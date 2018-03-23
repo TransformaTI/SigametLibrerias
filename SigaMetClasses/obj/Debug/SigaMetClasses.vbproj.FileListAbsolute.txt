@@ -208,7 +208,4 @@ C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\S
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\SigaMetClasses.dll
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\SigaMetClasses.pdb
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\SigaMetClasses.xml
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\log4net.dll
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\stdole.dll
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\RTGMGateway.dll.config
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\log4net.xml
