@@ -726,36 +726,6 @@ Public Class BusquedaCliente
 
     End Sub
 
-    Private Sub Consulta(ByVal URLGateway As String)
-
-        Dim _ClienteBusqueda As Integer
-        Dim objGateway As RTGMGateway.RTGMGateway
-        Dim objSolicitud As RTGMGateway.SolicitudGateway
-        Dim objDireccionEntrega As RTGMCore.DireccionEntrega
-
-        If (txtCliente.Text.Trim > "" And URLGateway.Trim > "") Then
-            Try
-                _ClienteBusqueda = CType(txtCliente.Text, Integer)
-                objGateway = New RTGMGateway.RTGMGateway
-                objGateway.URLServicio = URLGateway
-
-                objSolicitud = New RTGMGateway.SolicitudGateway
-                objSolicitud.Fuente = RTGMCore.Fuente.Sigamet
-                objSolicitud.IDCliente = Convert.ToInt32(_ClienteBusqueda)
-
-                objDireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitud)
-
-            Catch ex As System.OverflowException
-                MessageBox.Show("El número de contrato es inválido." & CrLf & "Por favor verifique.",
-                 Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Exit Sub
-            Catch ex As Exception
-                MessageBox.Show("Ha ocurrido un error:" & CrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            End Try
-        End If
-    End Sub
-
     Private Function ConsultaParametro(ByVal Telefono As String) As Boolean
 
         Dim Resultado As Boolean = False
@@ -1002,12 +972,19 @@ Public Class BusquedaCliente
         If _Cliente > 0 Then
             Cursor = Cursors.WaitCursor
 
-            Dim oConsulta As New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario, _
-                            PermiteModificarDatosCliente:=_PermiteModificarDatosCliente, _
-                            PermiteModificarDatosCredito:=_PermiteModificarDatosCredito, _
-                            PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina, _
-                            PermiteCambioCtePadre:=_PermiteCambioClientePadre, _
-                            DSCatalogos:=_dsCatalogos)
+            'Dim oConsulta As New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario, _
+            '                PermiteModificarDatosCliente:=_PermiteModificarDatosCliente, _
+            '                PermiteModificarDatosCredito:=_PermiteModificarDatosCredito, _
+            '                PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina, _
+            '                PermiteCambioCtePadre:=_PermiteCambioClientePadre, _
+            '                DSCatalogos:=_dsCatalogos)
+            Dim oConsulta As New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario,
+                            PermiteModificarDatosCliente:=_PermiteModificarDatosCliente,
+                            PermiteModificarDatosCredito:=_PermiteModificarDatosCredito,
+                            PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina,
+                            PermiteCambioCtePadre:=_PermiteCambioClientePadre,
+                            DSCatalogos:=_dsCatalogos,
+                            URLGateway:="http://192.168.1.30:88/GasMetropolitanoRuntimeService.svc")
             oConsulta.ShowDialog()
             Cursor = Cursors.Default
         End If
