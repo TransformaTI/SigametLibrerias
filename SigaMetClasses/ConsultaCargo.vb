@@ -1688,19 +1688,20 @@ Public Class ConsultaCargo
 
                 lstPedidos = objGateway.buscarPedidos(objSolicitud)
 
-                If Not IsNothing(lstPedidos(0)) Then
+                If lstPedidos.Count > 0 Then
                     lblPedido.Text = lstPedidos(0).PedidoReferencia.Trim
 
                     lblAnoPed.Text = lstPedidos(0).AnioPed.ToString
 
-                    lblTipoDocumento.Text = lstPedidos(0).TipoCargo.Trim        ' Rectificar
+                    lblTipoDocumento.Text = lstPedidos(0).TipoCargo.Trim
 
                     lblStatusPedido.Text = lstPedidos(0).EstatusPedido.Trim
 
-                    lblStatusCobranza.Text = lstPedidos(0).EstatusPedido.Trim    ' Rectificar
+                    lblStatusCobranza.Text = lstPedidos(0).EstatusPedido.Trim
 
                     If Not IsNothing(lstPedidos(0).DireccionEntrega) Then
-                        lblCliente.Text = lstPedidos(0).DireccionEntrega.Nombre.Trim
+                        lblCliente.Text = lstPedidos(0).DireccionEntrega.IDDireccionEntrega & " " &
+                            lstPedidos(0).DireccionEntrega.Nombre.Trim
                     End If
 
                     If Not IsNothing(lstPedidos(0).RutaSuministro) Then
