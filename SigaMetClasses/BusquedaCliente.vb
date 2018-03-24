@@ -30,6 +30,8 @@ Public Class BusquedaCliente
     Private _PermiteCambioEmpleadoNomina As Boolean
     Private _PermiteCambioClientePadre As Boolean
 
+    Private _URLGateway As String
+
     Friend WithEvents btnTelefono As System.Windows.Forms.Button
 
     Private _dsCatalogos As DataSet
@@ -56,7 +58,8 @@ Public Class BusquedaCliente
                    Optional ByVal PermiteCambioEmpleadoNomina As Boolean = False,
                    Optional ByVal PermiteCambioClientePadre As Boolean = False,
                    Optional ByVal DSCatalogos As DataSet = Nothing,
-                   Optional ByVal PriodidadPortatil As Boolean = False)
+                   Optional ByVal PriodidadPortatil As Boolean = False,
+                   Optional ByVal URLGateway As String = "")
 
         MyBase.New()
 
@@ -75,6 +78,8 @@ Public Class BusquedaCliente
 
         _PermiteCambioEmpleadoNomina = PermiteCambioEmpleadoNomina
         _PermiteCambioClientePadre = PermiteCambioClientePadre
+
+        _URLGateway = URLGateway
 
         If Not DSCatalogos Is Nothing Then
             _dsCatalogos = DSCatalogos
@@ -965,14 +970,24 @@ Public Class BusquedaCliente
     Private Sub btnConsultaCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultaCliente.Click
         If _Cliente > 0 Then
             Cursor = Cursors.WaitCursor
+            Dim oConsulta As SigaMetClasses.frmConsultaCliente
 
-            Dim oConsulta As New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario,
+            If (String.IsNullOrEmpty(_URLGateway)) Then
+                oConsulta = New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario,
+                            PermiteModificarDatosCliente:=_PermiteModificarDatosCliente,
+                            PermiteModificarDatosCredito:=_PermiteModificarDatosCredito,
+                            PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina,
+                            PermiteCambioCtePadre:=_PermiteCambioClientePadre,
+                            DSCatalogos:=_dsCatalogos)
+            Else
+                oConsulta = New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario,
                             PermiteModificarDatosCliente:=_PermiteModificarDatosCliente,
                             PermiteModificarDatosCredito:=_PermiteModificarDatosCredito,
                             PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina,
                             PermiteCambioCtePadre:=_PermiteCambioClientePadre,
                             DSCatalogos:=_dsCatalogos,
-                            URLGateway:="http://192.168.1.30:88/GasMetropolitanoRuntimeService.svc")
+                            URLGateway:=_URLGateway)
+            End If
             oConsulta.ShowDialog()
             Cursor = Cursors.Default
         End If
