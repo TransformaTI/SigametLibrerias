@@ -1831,6 +1831,22 @@ Public Class frmConsultaCliente
         '*****
     End Sub
 
+    Public Sub New(ByVal Cliente As Integer, ByVal URLGateway As String)
+
+        MyBase.New()
+        _Cliente = Cliente
+        _URLGateway = URLGateway
+
+        InitializeComponent()
+
+        If (String.IsNullOrEmpty(_URLGateway)) Then
+            Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+        Else
+            Me.ConsultaCliente(_Cliente, _URLGateway)
+        End If
+
+    End Sub
+
     Private Sub consultaImagenes()
         If _Usuario.Length > 0 Then
             Dim securityProfiler As New cSeguridad(_Usuario, 4)
