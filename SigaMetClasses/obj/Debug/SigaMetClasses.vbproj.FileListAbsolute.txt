@@ -138,7 +138,6 @@ C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaM
 C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
 C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
 C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojResolveAssemblyReference.cache
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojResolveAssemblyReference.cache
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.AcercaDe.resources
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.AltaGrupoComercial.resources
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.BuscaCliente.resources
