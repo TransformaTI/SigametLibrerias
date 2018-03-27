@@ -896,6 +896,22 @@ Public Class ConsultaCheques
 #End Region
 
     Private Sub tbrEstandar_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles tbrEstandar.ButtonClick
+
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+
+        Dim _URLGateway As String = ""
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            MessageBox.Show("El parámetro URL Gateway no esta configurado")
+        End Try
+
+        If (_URLGateway <> String.Empty) Then
+            Dim ConsultaCliente As New frmConsultaCliente(_Cliente)
+        Else
+            Dim ConsultaCliente As New frmConsultaCliente(_Cliente, _URLGateway)
+        End If
+
         Select Case e.Button.Tag.ToString()
             Case Is = "Agregar"
 
@@ -918,7 +934,7 @@ Public Class ConsultaCheques
                     Exit Sub
                 Else
                     If _NumeroCheque <> "" And _Banco <> 0 And _Cliente <> 0 Then
-                        Dim frmCapturaCheque As New CapturaCheque(_Cliente, _NumeroCheque, _NumeroCuenta, _
+                        Dim frmCapturaCheque As New CapturaCheque(_Cliente, _NumeroCheque, _NumeroCuenta,
                                                                     _Banco, _FCheque, _Importe, _Observaciones, _Usuario)
                         If frmCapturaCheque.ShowDialog() = DialogResult.OK Then
                             CargaListaCheques()
@@ -959,10 +975,10 @@ Public Class ConsultaCheques
                     Else
                         Select Case _Estatus
                             Case Is = "DEVUELTO"
-                                Dim strMensaje As String = _
-                                "Este cheque ya está devuelto." & Chr(13) & _
-                                "Al devolver este cheque otra vez se creará un cargo nuevo para el cliente: " & Trim(_ClienteNombre) & Chr(13) & _
-                                "con un importe de " & Me._Importe.ToString("C") & Chr(13) & _
+                                Dim strMensaje As String =
+                                "Este cheque ya está devuelto." & Chr(13) &
+                                "Al devolver este cheque otra vez se creará un cargo nuevo para el cliente: " & Trim(_ClienteNombre) & Chr(13) &
+                                "con un importe de " & Me._Importe.ToString("C") & Chr(13) &
                                 "¿Desea continuar?"
                                 If MessageBox.Show(strMensaje, _Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
                                     'Procesar la nueva devolución (el documento original ya se encuentra devuelto)

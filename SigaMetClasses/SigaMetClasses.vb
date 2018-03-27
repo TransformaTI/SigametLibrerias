@@ -8154,6 +8154,10 @@ Public Module Main
     Public GLOBAL_Usuario As String
     Public GLOBAL_Password As String
 
+    Public GLOBAL_Modulo As Short = 4
+    Public GLOBAL_Empresa As Short
+    Public GLOBAL_Sucursal As Short
+
     'Public Const CMDTIMEOUT As Integer = 180
 
     'Variables para la consulta de cheques
