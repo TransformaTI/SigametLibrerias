@@ -131,7 +131,8 @@ namespace QuejasLibrary
         private Label label14;
         private ComboBox cmbTipo;
         private Label label19;
-        private int ContadorActualizacion;        
+        private int ContadorActualizacion;
+        private  string _URLGateway;
 
         public frmSeguimientoQueja()
         {
@@ -143,6 +144,22 @@ namespace QuejasLibrary
             //
             // TODO: Add any constructor code after InitializeComponent call
             //
+        }
+        public frmSeguimientoQueja(string URLGateway)
+        {            
+            // Required for Windows Form Designer support                        
+            InitializeComponent();
+           
+            if (string.IsNullOrEmpty(URLGateway))
+            {
+            }
+            else
+            {               
+                btnQueja.Enabled = false;
+                btnImportar.Enabled = false;
+                _URLGateway = URLGateway;
+            }                     
+            // TODO: Add any constructor code after InitializeComponent call
         }
 
         public frmSeguimientoQueja(int Cliente)
@@ -1586,6 +1603,14 @@ namespace QuejasLibrary
             }
             this.ContadorActualizacion = Convert.ToInt32(QuejasLibrary.Public.Global.Parametros.ValorParametro("TMP_ACTCONSULTAWB"));                    
             tmrActualizacion.Enabled = true;
+            if (string.IsNullOrEmpty(_URLGateway))
+            {  }
+            else
+            {
+                btnImportar.Enabled = false;
+            }               
+               
+            
         }
 
         private void tmrActualizacion_Tick(object sender, System.EventArgs e)
@@ -2492,6 +2517,6 @@ namespace QuejasLibrary
         private void lblTiempoActualizacion_Click(object sender, EventArgs e)
         {
 
-        }               
-    }
+        }          
+     }
 }
