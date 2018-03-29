@@ -648,7 +648,7 @@ Public Class frmConTarjetaCredito
             lSolicitud.IDCliente = Cliente
             Dim lDireccionEntrega As RTGMCore.DireccionEntrega = lRemoteGateway.buscarDireccionEntrega(lSolicitud)
             lblNombre.Text = lDireccionEntrega.Nombre
-            lblCelula.Text = IIf(IsNothing(|lDireccionEntrega.ZonaSuministro), String.Empty, lDireccionEntrega.ZonaSuministro.Descripcion.ToString()).ToString()
+            lblCelula.Text = IIf(IsNothing(lDireccionEntrega.ZonaSuministro), String.Empty, lDireccionEntrega.ZonaSuministro.Descripcion.ToString()).ToString()
             lblRuta.Text = lDireccionEntrega.Ruta.Descripcion
         Next
         OcultarTarjetaCredito()
