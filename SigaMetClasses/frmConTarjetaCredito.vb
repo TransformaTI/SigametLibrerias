@@ -21,7 +21,7 @@ Public Class frmConTarjetaCredito
 
     Private _Usuario As String
 
-    Private _URLGateway As String
+    Private _URLGateway As String = String.Empty
 
     Private _NumTDCOculto As String
     Private _NumOculto As Boolean = False
