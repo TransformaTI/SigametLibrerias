@@ -21,12 +21,14 @@ Public Class frmConTarjetaCredito
 
     Private _Usuario As String
 
+    Private _URLGateway As String
+
     Private _NumTDCOculto As String
     Private _NumOculto As Boolean = False
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(Optional ByVal Usuario As String = Nothing)
+    Public Sub New(ByVal URLGateway As String, Optional ByVal Usuario As String = Nothing)
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
@@ -34,6 +36,7 @@ Public Class frmConTarjetaCredito
 
         'Add any initialization after the InitializeComponent() call
         _Usuario = Usuario
+        _URLGateway = URLGateway
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -583,15 +586,16 @@ Public Class frmConTarjetaCredito
         _Cliente = Cliente
 
         _Usuario = Usuario
+        _URLGateway = URLGateway
 
         Me.txtCliente.Text = _Cliente.ToString
         Me.txtCliente.Enabled = False
         Me.btnBuscar.Visible = False
         Me.btnAgregar.Enabled = True
-        If String.IsNullOrEmpty(URLGateway) Then
+        If String.IsNullOrEmpty(_URLGateway) Then
             ConsultaCliente(_Cliente)
         Else
-            ConsultaCliente(_Cliente, URLGateway)
+            ConsultaCliente(_Cliente, _URLGateway)
         End If
     End Sub
 
@@ -603,14 +607,19 @@ Public Class frmConTarjetaCredito
         If txtCliente.Text <> "" And IsNumeric(txtCliente.Text) Then
             _Cliente = CType(txtCliente.Text, Integer)
             LimpiaCajas()
-            ConsultaCliente(_Cliente)
-            If lblNombre.Text = "" Then
-                btnAgregar.Enabled = False
-                MessageBox.Show("No se encontró el cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+            If String.IsNullOrEmpty(_URLGateway) Then
+                ConsultaCliente(_Cliente)
             Else
-                btnAgregar.Enabled = True
+                ConsultaCliente(_Cliente, _URLGateway)
             End If
-        End If
+            If lblNombre.Text = "" Then
+                    btnAgregar.Enabled = False
+                    MessageBox.Show("No se encontró el cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+                    btnAgregar.Enabled = True
+                End If
+            End If
     End Sub
 
     Private Sub ConsultaCliente(ByVal Cliente As Integer)
