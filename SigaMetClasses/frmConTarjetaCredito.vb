@@ -576,7 +576,7 @@ Public Class frmConTarjetaCredito
 
 #End Region
 
-    Public Sub New(ByVal Cliente As Integer, Optional ByVal Usuario As String = Nothing)
+    Public Sub New(ByVal Cliente As Integer, ByVal URLGateway As String, Optional ByVal Usuario As String = Nothing)
         MyBase.New()
         InitializeComponent()
 
@@ -588,8 +588,11 @@ Public Class frmConTarjetaCredito
         Me.txtCliente.Enabled = False
         Me.btnBuscar.Visible = False
         Me.btnAgregar.Enabled = True
-        ConsultaCliente(_Cliente)
-
+        If String.IsNullOrEmpty(URLGateway) Then
+            ConsultaCliente(_Cliente)
+        Else
+            ConsultaCliente(_Cliente, URLGateway)
+        End If
     End Sub
 
     Private Sub btnCerrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCerrar.Click
@@ -621,6 +624,32 @@ Public Class frmConTarjetaCredito
             lblTipoCredito.Text = CType(dr("TipoCreditoDescripcion"), String)
             lblEstatus.Text = CType(dr("Status"), String)
             lblSaldo.Text = CType(dr("Saldo"), Decimal).ToString("C")
+        Next
+        OcultarTarjetaCredito()
+        grdTarjetaCredito.DataSource = dsDatos.Tables("TarjetaCredito")
+        btnModificar.Enabled = False
+        Cursor = Cursors.Default
+    End Sub
+
+    Private Sub ConsultaCliente(ByVal Cliente As Integer, ByVal URLGateway As String)
+        Cursor = Cursors.WaitCursor
+        Dim lSolicitud As RTGMGateway.SolicitudGateway = New RTGMGateway.SolicitudGateway()
+        Dim lRemoteGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway()
+        lRemoteGateway.URLServicio = URLGateway
+
+        Dim objCliente As New SigaMetClasses.cCliente(), dr As DataRow
+        dsDatos = objCliente.ConsultaDatos(Cliente, False, True)
+        For Each dr In dsDatos.Tables("Cliente").Rows
+            lblTipoCredito.Text = CType(dr("TipoCreditoDescripcion"), String)
+            lblEstatus.Text = CType(dr("Status"), String)
+            lblSaldo.Text = CType(dr("Saldo"), Decimal).ToString("C")
+
+            lSolicitud.Fuente = RTGMCore.Fuente.CRM
+            lSolicitud.IDCliente = Cliente
+            Dim lDireccionEntrega As RTGMCore.DireccionEntrega = lRemoteGateway.buscarDireccionEntrega(lSolicitud)
+            lblNombre.Text = lDireccionEntrega.Nombre
+            lblCelula.Text = IIf(IsNothing(|lDireccionEntrega.ZonaSuministro), String.Empty, lDireccionEntrega.ZonaSuministro.Descripcion.ToString()).ToString()
+            lblRuta.Text = lDireccionEntrega.Ruta.Descripcion
         Next
         OcultarTarjetaCredito()
         grdTarjetaCredito.DataSource = dsDatos.Tables("TarjetaCredito")
