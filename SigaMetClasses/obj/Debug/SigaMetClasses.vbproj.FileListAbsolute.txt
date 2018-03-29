@@ -280,4 +280,3 @@ C:\Repos\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.pdb
 C:\Repos\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.xml
 C:\Repos\SigametLibrerias\SigaMetClasses\bin\stdole.dll
 C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CopyComplete
-C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojResolveAssemblyReference.cache

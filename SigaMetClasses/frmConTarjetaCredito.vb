@@ -20,7 +20,7 @@ Public Class frmConTarjetaCredito
     Private _Recurrente As Boolean
 
     Private _Usuario As String
-    Private _URLGateway As String
+    Public _URLGateway As String
 
     Private _NumTDCOculto As String
     Private _NumOculto As Boolean = False
@@ -727,7 +727,8 @@ Public Class frmConTarjetaCredito
     End Sub
 
     Private Sub btnAgregar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAgregar.Click
-        Dim frmCaptura As New frmCapTarjetaCredito(_Cliente)
+        Dim frmCaptura As New frmCapTarjetaCredito(_Cliente, _URLGateway)
+
         If frmCaptura.ShowDialog() = DialogResult.OK Then
             LimpiaCajas()
             LimpiaDatos()
