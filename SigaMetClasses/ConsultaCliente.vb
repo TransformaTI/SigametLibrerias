@@ -289,8 +289,10 @@ Public Class frmConsultaCliente
         Me.grdDatosCliente = New System.Windows.Forms.GroupBox()
         Me.lblDigitoVerificador = New System.Windows.Forms.Label()
         Me.Label24 = New System.Windows.Forms.Label()
+        Me.lblProgramacion = New SigaMetClasses.Controles.LabelStatus()
         Me.lblProgramaCliente = New System.Windows.Forms.Label()
         Me.Label23 = New System.Windows.Forms.Label()
+        Me.lblStatus = New SigaMetClasses.Controles.LabelStatus()
         Me.grpTelefono = New System.Windows.Forms.GroupBox()
         Me.Label26 = New System.Windows.Forms.Label()
         Me.Label25 = New System.Windows.Forms.Label()
@@ -306,8 +308,6 @@ Public Class frmConsultaCliente
         Me.btnQuejas = New System.Windows.Forms.Button()
         Me.btnImagenes = New System.Windows.Forms.Button()
         Me.btnSeguimiento = New System.Windows.Forms.Button()
-        Me.lblProgramacion = New SigaMetClasses.Controles.LabelStatus()
-        Me.lblStatus = New SigaMetClasses.Controles.LabelStatus()
         Me.tabDatos.SuspendLayout()
         Me.tpDocumentos.SuspendLayout()
         CType(Me.grdDocumento, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -433,7 +433,7 @@ Public Class frmConsultaCliente
         Me.tabDatos.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.tabDatos.HotTrack = True
         Me.tabDatos.ImageList = Me.imgLista16
-        Me.tabDatos.Location = New System.Drawing.Point(0, 288)
+        Me.tabDatos.Location = New System.Drawing.Point(0, 281)
         Me.tabDatos.Multiline = True
         Me.tabDatos.Name = "tabDatos"
         Me.tabDatos.SelectedIndex = 0
@@ -1504,6 +1504,15 @@ Public Class frmConsultaCliente
         Me.Label24.Text = "Dígito verificador:"
         Me.Label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
+        'lblProgramacion
+        '
+        Me.lblProgramacion.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblProgramacion.Location = New System.Drawing.Point(376, 160)
+        Me.lblProgramacion.Name = "lblProgramacion"
+        Me.lblProgramacion.Size = New System.Drawing.Size(184, 21)
+        Me.lblProgramacion.TabIndex = 45
+        Me.lblProgramacion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
         'lblProgramaCliente
         '
         Me.lblProgramaCliente.BackColor = System.Drawing.Color.WhiteSmoke
@@ -1522,6 +1531,15 @@ Public Class frmConsultaCliente
         Me.Label23.TabIndex = 43
         Me.Label23.Text = "Programación:"
         Me.Label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblStatus
+        '
+        Me.lblStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblStatus.Location = New System.Drawing.Point(88, 88)
+        Me.lblStatus.Name = "lblStatus"
+        Me.lblStatus.Size = New System.Drawing.Size(176, 21)
+        Me.lblStatus.TabIndex = 42
+        Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'grpTelefono
         '
@@ -1624,7 +1642,7 @@ Public Class frmConsultaCliente
         Me.lnkQueja.AlternatingColor2 = System.Drawing.Color.Red
         Me.lnkQueja.AutoSize = True
         Me.lnkQueja.Enabled = False
-        Me.lnkQueja.LinkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.lnkQueja.LinkColor = System.Drawing.Color.Red
         Me.lnkQueja.Location = New System.Drawing.Point(600, 163)
         Me.lnkQueja.Name = "lnkQueja"
         Me.lnkQueja.Size = New System.Drawing.Size(69, 13)
@@ -1700,30 +1718,12 @@ Public Class frmConsultaCliente
         Me.btnSeguimiento.UseVisualStyleBackColor = False
         Me.btnSeguimiento.Visible = False
         '
-        'lblProgramacion
-        '
-        Me.lblProgramacion.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblProgramacion.Location = New System.Drawing.Point(376, 160)
-        Me.lblProgramacion.Name = "lblProgramacion"
-        Me.lblProgramacion.Size = New System.Drawing.Size(184, 21)
-        Me.lblProgramacion.TabIndex = 45
-        Me.lblProgramacion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblStatus
-        '
-        Me.lblStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblStatus.Location = New System.Drawing.Point(88, 88)
-        Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(176, 21)
-        Me.lblStatus.TabIndex = 42
-        Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
         'frmConsultaCliente
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
         Me.BackColor = System.Drawing.Color.WhiteSmoke
         Me.CancelButton = Me.btnCerrar
-        Me.ClientSize = New System.Drawing.Size(874, 678)
+        Me.ClientSize = New System.Drawing.Size(874, 671)
         Me.Controls.Add(Me.btnSeguimiento)
         Me.Controls.Add(Me.btnImagenes)
         Me.Controls.Add(Me.btnQuejas)
@@ -1859,8 +1859,8 @@ Public Class frmConsultaCliente
         Me.Close()
     End Sub
 
-    Private Sub ConsultaCliente(ByVal Cliente As Integer, _
-                                ByVal SoloPedidosCredito As Boolean, _
+    Private Sub ConsultaCliente(ByVal Cliente As Integer,
+                                ByVal SoloPedidosCredito As Boolean,
                                 ByVal SoloPedidosSurtidos As Boolean)
         Dim oCliente As New SigaMetClasses.cCliente()
         Dim dsDatos As System.Data.DataSet
@@ -2307,12 +2307,12 @@ Public Class frmConsultaCliente
         Dim securityProfiler As New cSeguridad(_Usuario, 4)
 
         Cursor = Cursors.WaitCursor
-        Dim frmDatosCredito As New CapturaDatosCreditoCliente(_Cliente, _
-                                                              SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Corporativo, _
-                                                              SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Sucursal, _
-                                                              ModificaTipoFactura:=securityProfiler.TieneAcceso("ModificaFacturacionCliente"), _
-                                                              ModificaEmpleadoNomina:=_CambioEmpleadoNomina, _
-                                                              ModificaClientePadre:=_CambioClientePadre, _
+        Dim frmDatosCredito As New CapturaDatosCreditoCliente(_Cliente,
+                                                              SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Corporativo,
+                                                              SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Sucursal,
+                                                              ModificaTipoFactura:=securityProfiler.TieneAcceso("ModificaFacturacionCliente"),
+                                                              ModificaEmpleadoNomina:=_CambioEmpleadoNomina,
+                                                              ModificaClientePadre:=_CambioClientePadre,
                                                               dtEjecutivoCyC:=_dsCatalogos.Tables("EjecutivosCyC"))
         If frmDatosCredito.ShowDialog() = DialogResult.OK Then
             Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
@@ -2371,7 +2371,7 @@ Public Class frmConsultaCliente
         If _Usuario.Trim.Length > 0 Then
 
             Try
-                QuejasLibrary.Public.[Global].ConfiguraLibrary(SigametSeguridad.Seguridad.Conexion.ConnectionString, _
+                QuejasLibrary.Public.[Global].ConfiguraLibrary(SigametSeguridad.Seguridad.Conexion.ConnectionString,
                     SigametSeguridad.Seguridad.Conexion, _Usuario, 1)
                 Dim frmQueja As Form
                 frmQueja = New QuejasLibrary.frmAltaQueja(False, _Cliente)
@@ -2379,20 +2379,20 @@ Public Class frmConsultaCliente
                     Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
                 End If
             Catch ex As Exception
-                MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message & vbCrLf & _
+                MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message & vbCrLf &
                     ex.StackTrace, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
     End Sub
 
-    Private Sub lnkQueja_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkQueja.LinkClicked       
-        Try            
-            QuejasLibrary.Public.[Global].ConfiguraLibrary(SigametSeguridad.Seguridad.Conexion.ConnectionString, _
+    Private Sub lnkQueja_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkQueja.LinkClicked
+        Try
+            QuejasLibrary.Public.[Global].ConfiguraLibrary(SigametSeguridad.Seguridad.Conexion.ConnectionString,
                 SigametSeguridad.Seguridad.Conexion, _Usuario, 1)
             Dim frmQueja As New QuejasLibrary.frmSeguimientoQueja(_Cliente)
             frmQueja.ShowDialog()
         Catch ex As Exception
-            MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message & vbCrLf & _
+            MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message & vbCrLf &
                 ex.StackTrace, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
@@ -2405,7 +2405,7 @@ Public Class frmConsultaCliente
         End If
     End Sub
 
-    Private Sub btnContactos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnContactos.Click        
+    Private Sub btnContactos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnContactos.Click
         If _Cliente <> 0 Then
             Dim frmListaContactos As CRMContactos.ListaContactos = New CRMContactos.ListaContactos(SigaMetClasses.DataLayer.Conexion, _Cliente)
             frmListaContactos.WindowState = FormWindowState.Normal
@@ -2422,7 +2422,7 @@ Public Class frmConsultaCliente
         End If
     End Sub
 
-    Private Sub btnClientesRelacionados_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClientesRelacionados.Click               
+    Private Sub btnClientesRelacionados_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClientesRelacionados.Click
         If _ClientePadreCyC <> 0 AndAlso _ClientePadreCyC <> _Cliente Then
             Dim frmConsultaClientesHijo As New AsignacionMultiple.AsignacionClientePadre(SigaMetClasses.DataLayer.Conexion, _ClientePadreCyC)
             frmConsultaClientesHijo.ShowDialog()
@@ -2446,6 +2446,10 @@ Public Class frmConsultaCliente
             End If
         End If
     End Sub
+
+    Private Sub frmConsultaCliente_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        DeshabilitaBotonQuejas()
+    End Sub
 #End Region
 
     Private Sub tabDatos_TabIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabDatos.TabIndexChanged
@@ -2460,6 +2464,12 @@ Public Class frmConsultaCliente
         Dim frmSeguimiento As New SeguimientoCliente.ListaSeguimiento(_Cliente, lblCliente.Text, _Usuario, SigaMetClasses.DataLayer.Conexion)
         frmSeguimiento.StartPosition = FormStartPosition.CenterScreen
         frmSeguimiento.ShowDialog()
+    End Sub
+
+    Private Sub DeshabilitaBotonQuejas()
+        If (Not String.IsNullOrEmpty(_URLGateway)) Then
+            btnQuejas.Enabled = False
+        End If
     End Sub
 
 End Class
