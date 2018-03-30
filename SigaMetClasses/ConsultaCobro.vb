@@ -20,16 +20,18 @@ Public Class ConsultaCobro
 
     Public Sub New(ByVal AnoCobro As Short,
                    ByVal Cobro As Integer,
-          Optional ByVal PermiteModificarCobro As Boolean = False)
+          Optional ByVal PermiteModificarCobro As Boolean = False,
+          Optional ByVal pURLGateway As String = "")
 
         MyBase.New()
         InitializeComponent()
         _AnoCobro = AnoCobro
         _Cobro = Cobro
         _PermiteModificarCobro = PermiteModificarCobro
+        _URLGateway = pURLGateway
 
         'CargaDatos(_AnoCobro, _Cobro)
-        CargaDatos(_AnoCobro, _Cobro, "")
+        CargaDatos(_AnoCobro, _Cobro, _URLGateway)
 
     End Sub
 
@@ -849,17 +851,7 @@ Public Class ConsultaCobro
                     btnModificarCobro.Enabled = _PermiteModificarCobro
                     btnModificarCobro.Visible = _PermiteModificarCobro
                 End If
-
-                Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
-                _URLGateway = ""
-                Try
-                    _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
-                Catch ex As Exception
-                    MessageBox.Show("El parámetro URL Gateway no esta configurado")
-                End Try
-                If _URLGateway = "" Then
-                    MessageBox.Show("El valor configurado al parámetro URLGateway no es correcto.")
-                Else
+                If _URLGateway <> "" Then
                     Dim objGateway As RTGMGateway.RTGMGateway
                     Dim oSolicitud As RTGMGateway.SolicitudGateway
                     Dim oDireccionEntrega As RTGMCore.DireccionEntrega
@@ -889,10 +881,7 @@ Public Class ConsultaCobro
                             row.Item("Total") = objPedidoList(0).DetallePedido(0).Total
                         End If
                     Next
-
-
                 End If
-
             End If
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Consulta de cobro", MessageBoxButtons.OK, MessageBoxIcon.Error)

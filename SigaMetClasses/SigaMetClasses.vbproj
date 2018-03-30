@@ -152,7 +152,7 @@
       <HintPath>bin\RegularValidations.dll</HintPath>
     </Reference>
     <Reference Include="RTGMGateway">
-      <HintPath>..\..\CyC\ModuloCredCob\bin\RTGMGateway.dll</HintPath>
+      <HintPath>..\..\Gateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
     </Reference>
     <Reference Include="SeguimientoCliente, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
