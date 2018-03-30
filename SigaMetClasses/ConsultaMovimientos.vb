@@ -1,5 +1,7 @@
 Option Strict On
 Imports System.Data.SqlClient, System.Windows.Forms
+Imports RTGMGateway
+
 Public Class ConsultaMovimientos
     Inherits System.Windows.Forms.Form
 
@@ -20,6 +22,7 @@ Public Class ConsultaMovimientos
     Private n As Integer
     Private _Clave, _Documento, _Status, strMensaje, strTitulo As String
     Private _Empleado As Integer
+    Private _URLGateway As String
 #End Region
 
 #Region "Propiedades"
@@ -63,6 +66,16 @@ Public Class ConsultaMovimientos
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
+        'Add any initialization after the InitializeComponent() call
+
+    End Sub
+
+    Public Sub New(URLGateway As String)
+        MyBase.New()
+
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
+        _URLGateway = URLGateway
         'Add any initialization after the InitializeComponent() call
 
     End Sub
@@ -845,8 +858,8 @@ Public Class ConsultaMovimientos
 
 #End Region
 
-    Public Sub New(ByVal Modulo As Short, _
-                   ByVal ModuloUsuario As String, _
+    Public Sub New(ByVal Modulo As Short,
+                   ByVal ModuloUsuario As String,
                    ByVal ModuloEmpleado As Integer)
 
         MyBase.New()
@@ -896,7 +909,7 @@ Public Class ConsultaMovimientos
             grdCobro.DataSource = Nothing
             grdCobroPedido.DataSource = Nothing
 
-            Dim strFiltroCargaDatos As String = _
+            Dim strFiltroCargaDatos As String =
             " WHERE FOperacion = '" & dtpFOperacion.Value.ToShortDateString & "'"
 
             'Así estaba:
@@ -929,6 +942,112 @@ Public Class ConsultaMovimientos
             dtCobro.Clear()
             da.Fill(dtCobro)
             dtCobro.TableName = "Cobro"
+            'Así estaba:
+            'cmd.CommandText = "SET transaction isolation level read uncommitted SELECT * FROM vwConsultaCobroDetalle" & strFiltroCargaDatos
+            cmd.CommandText = "EXECUTE spCyCConsultaVwConsultaCobroDetalle '" & dtpFOperacion.Value.ToShortDateString & "'"
+            dtCobroPedido.Clear()
+            da.Fill(dtCobroPedido)
+            dtCobroPedido.TableName = "CobroPedido"
+
+            grdMovimientoCaja.DataSource = dtMovimientoCaja
+            grdMovimientoCaja.CaptionText = "Lista de movimientos del día: " & dtpFOperacion.Value.ToLongDateString & " de la célula: " & cboCelula.Celula.ToString & " (" & dtMovimientoCaja.Rows.Count.ToString & " en total)"
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            cmd.Dispose()
+            da.Dispose()
+            If cn.State = ConnectionState.Open Then
+                cn.Close()
+            End If
+            'cn.Dispose()
+            Cursor = Cursors.Default
+        End Try
+    End Sub
+
+    Public Sub CargaDatos(URLGateway As String)
+        Cursor = Cursors.WaitCursor
+        _Documento = ""
+        _Clave = ""
+        _Status = ""
+        _Caja = 0
+        _Consecutivo = 0
+        _Folio = 0
+        _AnoCobro = 0
+        _CobroCons = 0
+
+        lblObservaciones.Text = String.Empty
+
+        dtMovimientoCaja.Clear()
+        dtCobro.Clear()
+        dtCobroPedido.Clear()
+        dtMovimientoCaja.DefaultView.RowFilter = ""
+        dtCobro.DefaultView.RowFilter = ""
+        dtCobroPedido.DefaultView.RowFilter = ""
+        grdMovimientoCaja.DataSource = Nothing
+        grdCobro.DataSource = Nothing
+        grdCobroPedido.DataSource = Nothing
+
+
+        btnCancelar.Enabled = False
+        btnRevivir.Enabled = False
+        btnConsultarCobro.Enabled = False
+        btnConsultarDocumento.Enabled = False
+
+        Dim cn As SqlConnection = Nothing
+        Dim cmd As SqlCommand = Nothing
+        Dim da As SqlDataAdapter = Nothing
+        Dim strInicioQuery As String = Nothing
+        Dim strQuery As String
+
+        Try
+            grdMovimientoCaja.DataSource = Nothing
+            grdCobro.DataSource = Nothing
+            grdCobroPedido.DataSource = Nothing
+
+            Dim strFiltroCargaDatos As String =
+            " WHERE FOperacion = '" & dtpFOperacion.Value.ToShortDateString & "'"
+
+            'Así estaba:
+            'strInicioQuery = "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED "
+
+            'strQuery = strInicioQuery & _
+            '"SELECT " & _
+            '"Clave, FMovimiento, CajaDescripcion, RutaCelula, " & _
+            '"RutaDescripcion, Caja, FOperacion, Consecutivo, Folio, " & _
+            '"TipoMovimientoCajaDescripcion, MovimientoCajaStatus, " & _
+            '"Empleado, EmpleadoNombre, Total, Observaciones, CobroPedidoTotal " & _
+            '"FROM vwMovimientoCaja1"
+
+            'strQuery &= strFiltroCargaDatos & " AND RutaCelula = " & cboCelula.Celula.ToString & " ORDER BY Clave"
+
+            strQuery = "EXECUTE spCyCConsultaVwMovimientoCaja1 '" & dtpFOperacion.Value.ToShortDateString & "', " & cboCelula.Celula.ToString
+
+            cn = DataLayer.Conexion
+            cmd = New SqlCommand(strQuery, cn)
+            da = New SqlDataAdapter(cmd)
+
+            grdCobro.CaptionText = "Lista de cobros en el movimiento"
+            dtMovimientoCaja.Clear()
+            da.Fill(dtMovimientoCaja)
+            dtMovimientoCaja.TableName = "MovimientoCaja"
+
+            'Así estaba:
+            'cmd.CommandText = "SET transaction isolation level read uncommitted SELECT * FROM vwConsultaCobro" & strFiltroCargaDatos
+            cmd.CommandText = "EXECUTE spCyCConsultaVwConsultaCobro '" & dtpFOperacion.Value.ToShortDateString & "'"
+            dtCobro.Clear()
+            da.Fill(dtCobro)
+            dtCobro.TableName = "Cobro"
+            Dim drow As DataRow
+            Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+            Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
+            For Each drow In dtCobro.Rows
+                dtCobro.TableName = "Cobro"
+                drow("Cliente") = 666
+                objSolicitudGateway.IDCliente = (CType(drow("Cliente"), Integer))
+                Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
+                drow("ClienteNombre") = Trim(objRtgCore.Nombre)
+            Next
 
             'Así estaba:
             'cmd.CommandText = "SET transaction isolation level read uncommitted SELECT * FROM vwConsultaCobroDetalle" & strFiltroCargaDatos
@@ -1011,14 +1130,14 @@ Public Class ConsultaMovimientos
     End Sub
 
 
-    Private Sub ConsultaCobro(ByVal Caja As Byte, _
-                              ByVal FOperacion As Date, _
-                              ByVal Consecutivo As Byte, _
+    Private Sub ConsultaCobro(ByVal Caja As Byte,
+                              ByVal FOperacion As Date,
+                              ByVal Consecutivo As Byte,
                               ByVal Folio As Integer)
         If Consecutivo > 0 And Folio > 0 Then
-            Dim strFiltro As String = "Caja = " & Caja.ToString & _
-                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" & _
-                                      " AND Consecutivo = " & Consecutivo.ToString & _
+            Dim strFiltro As String = "Caja = " & Caja.ToString &
+                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" &
+                                      " AND Consecutivo = " & Consecutivo.ToString &
                                       " AND Folio = " & Folio.ToString
 
             dtCobro.DefaultView.RowFilter = strFiltro
@@ -1029,7 +1148,7 @@ Public Class ConsultaMovimientos
 
     Private Sub ConsultaCobroPedido(ByVal AnoCobro As Short, ByVal Cobro As Integer)
         If AnoCobro > 0 And Cobro > 0 Then
-            Dim strFiltro As String = "AñoCobro = " & AnoCobro.ToString & _
+            Dim strFiltro As String = "AñoCobro = " & AnoCobro.ToString &
                                       " AND Cobro = " & Cobro.ToString
             dtCobroPedido.DefaultView.RowFilter = strFiltro
             grdCobroPedido.DataSource = dtCobroPedido
@@ -1037,14 +1156,14 @@ Public Class ConsultaMovimientos
         End If
     End Sub
 
-    Private Sub ConsultaCobroPedido(ByVal Caja As Byte, _
-                                    ByVal FOperacion As Date, _
-                                    ByVal Consecutivo As Byte, _
+    Private Sub ConsultaCobroPedido(ByVal Caja As Byte,
+                                    ByVal FOperacion As Date,
+                                    ByVal Consecutivo As Byte,
                                     ByVal Folio As Integer)
         If Consecutivo > 0 And Folio > 0 Then
-            Dim strFiltro As String = "Caja = " & Caja.ToString & _
-                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" & _
-                                      " AND Consecutivo = " & Consecutivo.ToString & _
+            Dim strFiltro As String = "Caja = " & Caja.ToString &
+                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" &
+                                      " AND Consecutivo = " & Consecutivo.ToString &
                                       " AND Folio = " & Folio.ToString
             dtCobroPedido.DefaultView.RowFilter = strFiltro
             grdCobroPedido.DataSource = dtCobroPedido
@@ -1075,7 +1194,12 @@ Public Class ConsultaMovimientos
                 Dim oMovCaja As New SigaMetClasses.TransaccionMovimientoCaja()
                 Try
                     oMovCaja.Cancela(_Caja, _FOperacion, _Consecutivo, _Folio, frmMotivoCancelacion.MotivoCancelacion, _ModuloUsuario)
-                    CargaDatos()
+                    If String.IsNullOrEmpty(_URLGateway) Then
+                        CargaDatos()
+                    Else
+                        CargaDatos(_URLGateway)
+
+                    End If
                 Catch ex As Exception
                     MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Finally
@@ -1137,7 +1261,12 @@ Public Class ConsultaMovimientos
                         Dim oMovCaja As New SigaMetClasses.TransaccionMovimientoCaja()
                         Try
                             oMovCaja.Revive(_Clave)
-                            CargaDatos()
+                            If String.IsNullOrEmpty(_URLGateway) Then
+                                CargaDatos()
+                            Else
+                                CargaDatos(_URLGateway)
+
+                            End If
                         Catch ex As Exception
                             MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
                         Finally
@@ -1167,7 +1296,12 @@ Public Class ConsultaMovimientos
             End If
             Dim oConsultaCobro As New ConsultaCobro(_AnoCobro, _CobroCons, _PermiteModificarCobro)
             If oConsultaCobro.ShowDialog() = DialogResult.OK Then
-                Me.CargaDatos()
+                If String.IsNullOrEmpty(_URLGateway) Then
+                    Me.CargaDatos()
+                Else
+                    Me.CargaDatos(_URLGateway)
+
+                End If
             End If
             Cursor = Cursors.Default
         End If
@@ -1208,7 +1342,12 @@ Public Class ConsultaMovimientos
             Case Is = "ConsultarDocumento"
                 ConsultarDocumento()
             Case Is = "Refrescar"
-                CargaDatos()
+                If String.IsNullOrEmpty(_URLGateway) Then
+                    CargaDatos()
+                Else
+                    CargaDatos(_URLGateway)
+
+                End If
             Case Is = "Imprimir"
                 ImprimirFormato()
             Case Is = "Cerrar"
@@ -1216,9 +1355,9 @@ Public Class ConsultaMovimientos
         End Select
     End Sub
 
-    Public Overridable Sub Imprimir(ByVal Caja As Byte, _
-                                    ByVal FOperacion As Date, _
-                                    ByVal Folio As Integer, _
+    Public Overridable Sub Imprimir(ByVal Caja As Byte,
+                                    ByVal FOperacion As Date,
+                                    ByVal Folio As Integer,
                                     ByVal Consecutivo As Integer)
     End Sub
 
@@ -1242,7 +1381,12 @@ Public Class ConsultaMovimientos
     End Sub
 
     Private Sub btnConsultar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultar.Click
-        CargaDatos()
+        If String.IsNullOrEmpty(_URLGateway) Then
+            CargaDatos()
+        Else
+            CargaDatos(_URLGateway)
+
+        End If
     End Sub
 
 End Class
