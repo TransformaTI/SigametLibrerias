@@ -23,6 +23,7 @@ Public Class frmCapTarjetaCredito
     Private _Recurrente As Boolean
     Private _Operacion As SigaMetClasses.Enumeradores.enumTipoOperacionCatalogo
     Private _DigitosTarjeta As Integer
+    Private _URLGateway As String
 
     'strTarjetaCredito = txtTarjetaCredito.Text.Trim
     'Ocultar el número de tarjeta de crédito JAGD 11-01-2007
@@ -31,7 +32,7 @@ Public Class frmCapTarjetaCredito
 #End Region
 
 #Region "Constructores"
-    Public Sub New(ByVal Cliente As Integer)
+    Public Sub New(ByVal Cliente As Integer, Optional ByVal URLGateway As String = Nothing)
         MyBase.New()
         InitializeComponent()
         ComboTipoTarjetaCredito.CargaDatos() 'Carga los datos del combo de tipo de tarjeta, a él se agrega la cantidad de dígitos
@@ -95,6 +96,7 @@ Public Class frmCapTarjetaCredito
     Public Sub New()
         MyBase.New()
         InitializeComponent()
+
     End Sub
 
     'Form overrides dispose to clean up the component list.
