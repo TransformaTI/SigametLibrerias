@@ -1,5 +1,6 @@
 Option Strict On
 Imports System.Data.SqlClient, System.Windows.Forms
+Imports System.Text.RegularExpressions
 Public Class ConsultaMovimientos
     Inherits System.Windows.Forms.Form
 
@@ -845,8 +846,8 @@ Public Class ConsultaMovimientos
 
 #End Region
 
-    Public Sub New(ByVal Modulo As Short, _
-                   ByVal ModuloUsuario As String, _
+    Public Sub New(ByVal Modulo As Short,
+                   ByVal ModuloUsuario As String,
                    ByVal ModuloEmpleado As Integer)
 
         MyBase.New()
@@ -896,7 +897,7 @@ Public Class ConsultaMovimientos
             grdCobro.DataSource = Nothing
             grdCobroPedido.DataSource = Nothing
 
-            Dim strFiltroCargaDatos As String = _
+            Dim strFiltroCargaDatos As String =
             " WHERE FOperacion = '" & dtpFOperacion.Value.ToShortDateString & "'"
 
             'Así estaba:
@@ -1011,14 +1012,14 @@ Public Class ConsultaMovimientos
     End Sub
 
 
-    Private Sub ConsultaCobro(ByVal Caja As Byte, _
-                              ByVal FOperacion As Date, _
-                              ByVal Consecutivo As Byte, _
+    Private Sub ConsultaCobro(ByVal Caja As Byte,
+                              ByVal FOperacion As Date,
+                              ByVal Consecutivo As Byte,
                               ByVal Folio As Integer)
         If Consecutivo > 0 And Folio > 0 Then
-            Dim strFiltro As String = "Caja = " & Caja.ToString & _
-                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" & _
-                                      " AND Consecutivo = " & Consecutivo.ToString & _
+            Dim strFiltro As String = "Caja = " & Caja.ToString &
+                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" &
+                                      " AND Consecutivo = " & Consecutivo.ToString &
                                       " AND Folio = " & Folio.ToString
 
             dtCobro.DefaultView.RowFilter = strFiltro
@@ -1029,7 +1030,7 @@ Public Class ConsultaMovimientos
 
     Private Sub ConsultaCobroPedido(ByVal AnoCobro As Short, ByVal Cobro As Integer)
         If AnoCobro > 0 And Cobro > 0 Then
-            Dim strFiltro As String = "AñoCobro = " & AnoCobro.ToString & _
+            Dim strFiltro As String = "AñoCobro = " & AnoCobro.ToString &
                                       " AND Cobro = " & Cobro.ToString
             dtCobroPedido.DefaultView.RowFilter = strFiltro
             grdCobroPedido.DataSource = dtCobroPedido
@@ -1037,14 +1038,14 @@ Public Class ConsultaMovimientos
         End If
     End Sub
 
-    Private Sub ConsultaCobroPedido(ByVal Caja As Byte, _
-                                    ByVal FOperacion As Date, _
-                                    ByVal Consecutivo As Byte, _
+    Private Sub ConsultaCobroPedido(ByVal Caja As Byte,
+                                    ByVal FOperacion As Date,
+                                    ByVal Consecutivo As Byte,
                                     ByVal Folio As Integer)
         If Consecutivo > 0 And Folio > 0 Then
-            Dim strFiltro As String = "Caja = " & Caja.ToString & _
-                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" & _
-                                      " AND Consecutivo = " & Consecutivo.ToString & _
+            Dim strFiltro As String = "Caja = " & Caja.ToString &
+                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" &
+                                      " AND Consecutivo = " & Consecutivo.ToString &
                                       " AND Folio = " & Folio.ToString
             dtCobroPedido.DefaultView.RowFilter = strFiltro
             grdCobroPedido.DataSource = dtCobroPedido
@@ -1165,7 +1166,23 @@ Public Class ConsultaMovimientos
             Else
                 _PermiteModificarCobro = oSeguridad.TieneAcceso("MOVIMIENTOS_COBROMODIFICA_FULL")
             End If
-            Dim oConsultaCobro As New ConsultaCobro(_AnoCobro, _CobroCons, _PermiteModificarCobro)
+            Dim strURLGateway As String = ""
+            Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+            Try
+                strURLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+                Dim re As Regex = New Regex(
+                            "^(https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|]",
+                            RegexOptions.IgnoreCase)
+                Dim m As Match = re.Match(strURLGateway)
+                If m.Captures.Count = 0 Then
+                    MessageBox.Show("El valor configurado al parámetro URLGateway no es correcto.")
+                End If
+            Catch ex As Exception
+                strURLGateway = ""
+            End Try
+
+            Dim oConsultaCobro As New ConsultaCobro(_AnoCobro, _CobroCons, _PermiteModificarCobro, strURLGateway)
+
             If oConsultaCobro.ShowDialog() = DialogResult.OK Then
                 Me.CargaDatos()
             End If
@@ -1216,9 +1233,9 @@ Public Class ConsultaMovimientos
         End Select
     End Sub
 
-    Public Overridable Sub Imprimir(ByVal Caja As Byte, _
-                                    ByVal FOperacion As Date, _
-                                    ByVal Folio As Integer, _
+    Public Overridable Sub Imprimir(ByVal Caja As Byte,
+                                    ByVal FOperacion As Date,
+                                    ByVal Folio As Integer,
                                     ByVal Consecutivo As Integer)
     End Sub
 
