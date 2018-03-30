@@ -8582,6 +8582,34 @@ Namespace ValidacionCapturaMovimientoCaja
 
         End Function
 
+        Public Function EfectuarValidacion(ByVal LlaveValidacion As Integer, ByVal URLGateway As String) As Boolean
+            Dim valorRetorno As Boolean = True
+
+            Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway()
+            Dim objSolicitudGateway As RTGMGateway.SolicitudGateway = New RTGMGateway.SolicitudGateway()
+            Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+
+
+
+            Try
+                If Not String.IsNullOrEmpty(URLGateway) Then
+
+                    objSolicitudGateway.IDCliente = LlaveValidacion
+                    objGateway.URLServicio = URLGateway
+                    oDireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
+                    _descripcionValorValidacion = oDireccionEntrega.Nombre
+
+                Else
+                    valorRetorno = False
+                End If
+            Catch ex As Exception
+                valorRetorno = False
+                Throw ex
+            End Try
+            Return valorRetorno
+        End Function
+
+
     End Class
 
     Public Class ValidacionCapturaMovCaja
