@@ -851,7 +851,6 @@ Public Class ConsultaCobro
                     btnModificarCobro.Enabled = _PermiteModificarCobro
                     btnModificarCobro.Visible = _PermiteModificarCobro
                 End If
-
                 If _URLGateway <> "" Then
                     Dim objGateway As RTGMGateway.RTGMGateway
                     Dim oSolicitud As RTGMGateway.SolicitudGateway
@@ -882,10 +881,7 @@ Public Class ConsultaCobro
                             row.Item("Total") = objPedidoList(0).DetallePedido(0).Total
                         End If
                     Next
-
-
                 End If
-
             End If
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Consulta de cobro", MessageBoxButtons.OK, MessageBoxIcon.Error)
