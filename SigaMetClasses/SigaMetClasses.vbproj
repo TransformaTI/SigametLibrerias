@@ -120,9 +120,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\CrystalDecisions.Web.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=10.2.3600.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\CrystalDecisions.Windows.Forms.dll</HintPath>
+      <HintPath>..\..\CallCenter\CallCenter\bin\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="DocumentosBSR, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
