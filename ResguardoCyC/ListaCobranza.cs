@@ -538,10 +538,28 @@ namespace ResguardoCyC
 		private bool _relacionIntermedia;
 
 		private ReportPrint _report;
-		#endregion
+        
+        private string _urlGateway;
+        #endregion
 
-		#region Constructor/Destructor
-		public ListaCobranza(bool RelacionIntermedia, string Usuario, int ResponsableResguardo, int ResponsableCyC, int ResponsableOp, string RutaReportes)
+        #region Propiedades
+
+        public string URLGateway
+        {
+            get
+            {
+                return _urlGateway;
+            }
+            set
+            {
+                _urlGateway = value;
+            }
+        }
+
+        #endregion
+
+        #region Constructor/Destructor
+        public ListaCobranza(bool RelacionIntermedia, string Usuario, int ResponsableResguardo, int ResponsableCyC, int ResponsableOp, string RutaReportes)
 		{
 			//
 			// Required for Windows Form Designer support
