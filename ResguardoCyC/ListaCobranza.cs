@@ -579,10 +579,33 @@ namespace ResguardoCyC
 			_report = new ReportPrint(crvReporte, RutaReportes);
 		}
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
+        public ListaCobranza(bool RelacionIntermedia, string Usuario, int ResponsableResguardo, int ResponsableCyC, 
+            int ResponsableOp, string RutaReportes, string URLGateway)
+        {
+            //
+            // Required for Windows Form Designer support
+            //
+            InitializeComponent();
+
+            //
+            // TODO: Add any constructor code after InitializeComponent call
+            //
+            _usuario = Usuario;
+            _responsableResguardo = ResponsableResguardo;
+            _responsableCyC = ResponsableCyC;
+            _responsableOp = ResponsableOp;
+
+            _relacionIntermedia = RelacionIntermedia;
+
+            _urlGateway = URLGateway;
+
+            _report = new ReportPrint(crvReporte, RutaReportes);
+        }
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose( bool disposing )
 		{
 			if( disposing )
 			{
