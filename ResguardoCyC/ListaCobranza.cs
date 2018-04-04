@@ -597,7 +597,7 @@ namespace ResguardoCyC
 
             _relacionIntermedia = RelacionIntermedia;
 
-            _urlGateway = URLGateway;
+            _datos.URLGateway = URLGateway;
 
             _report = new ReportPrint(crvReporte, RutaReportes);
         }
@@ -669,6 +669,11 @@ namespace ResguardoCyC
 						_datos.DocumentosCyC.ToString(), _datos.TotalDocumentosCyC.ToString("C"));
 
 					btnProcesar.Enabled = (_datos.ListaCobranza.Rows.Count > 0);
+
+                    if (!string.IsNullOrEmpty(_datos.URLGateway))
+                    {
+                        _datos.actualizarRelacionCobranzaCRM();
+                    }
 
 					cargarListaDocumentos();
 					cargarListaResponsables();	

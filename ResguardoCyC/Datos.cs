@@ -2,6 +2,8 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Collections;
+using System.Collections.Generic;
+using RTGMGateway;
 
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
@@ -44,6 +46,8 @@ namespace ResguardoCyC
 		private int _responsableOp;
 
 		private bool _procesoCompleto = false;
+
+        private string _urlGateway;
 		#endregion
 
 		#region Publicos
@@ -174,6 +178,18 @@ namespace ResguardoCyC
 				return _procesoCompleto;
 			}
 		}
+
+        public string URLGateway
+        {
+            get
+            {
+                return _urlGateway;
+            }
+            set
+            {
+                _urlGateway = value;
+            }
+        }
 
 		public Datos(SqlConnection Connection, string Usuario, int ResponsableOp, int ResponsableCyC)
 		{
@@ -324,8 +340,75 @@ namespace ResguardoCyC
 				throw ex;
 			}
 		}
+        
+        public void actualizarRelacionCobranzaCRM()
+        {
+            RTGMPedidoGateway obGateway = new RTGMPedidoGateway();
+            SolicitudPedidoGateway obSolicitud;
+            List<RTGMCore.Pedido> lsPedidos;
 
-		public int AltaCobranza(string TipoCartera, DateTime FCobranza, ref bool ListaGeneral, ref bool ListasDerivadas)
+            if (string.IsNullOrEmpty(URLGateway))
+                return;
+
+            obGateway.URLServicio = URLGateway;
+
+            foreach (DataRow dr in dtListaCobranza.Rows)
+            {
+                obSolicitud = new SolicitudPedidoGateway
+                {
+                    FuenteDatos = RTGMCore.Fuente.Sigamet,
+                    IDEmpresa = 0,
+                    TipoConsultaPedido = RTGMCore.TipoConsultaPedido.RegistroPedido,
+                    IDDireccionEntrega = null,
+                    FechaCompromisoInicio = DateTime.Now.Date,
+                    IDZona = null,
+                    EstatusBoletin = null,
+                    Portatil = false,
+                    IDUsuario = null,
+                    IDSucursal = null,
+                    FechaCompromisoFin = null,
+                    FechaSuministroInicio = null,
+                    FechaSuministroFin = null,
+                    IDRutaOrigen = null,
+                    IDRutaBoletin = null,
+                    IDRutaSuministro = null,
+                    IDEstatusPedido = null,
+                    EstatusPedidoDescripcion = null,
+                    IDEstatusBoletin = null,
+                    IDEstatusMovil = null,
+                    EstatusMovilDescripcion = null,
+                    IDAutotanque = null,
+                    IDAutotanqueMovil = null,
+                    SerieRemision = null,
+                    FolioRemision = null,
+                    SerieFactura = null,
+                    FolioFactura = null,
+                    IDZonaLecturista = null,
+                    TipoPedido = null,
+                    TipoServicio = null,
+                    AñoPed = null,
+                    IDPedido = (int)dr["PEDIDO"],
+                    PedidoReferencia = null
+                };
+
+                lsPedidos = obGateway.buscarPedidos(obSolicitud);
+
+                if (lsPedidos.Count > 0)
+                {
+                    dr["PedidoReferencia"] = lsPedidos[0].PedidoReferencia;
+                    dr["Saldo"] = lsPedidos[0].Saldo;
+                    dr["ClasificacionCartera"] = lsPedidos[0].CarteraDescripcion;
+
+                    if (lsPedidos[0].DireccionEntrega != null && lsPedidos[0].DireccionEntrega.SupervisorComercial != null)
+                    {
+                        dr["Responsable"] = lsPedidos[0].DireccionEntrega.SupervisorComercial.IDEmpleado;
+                        dr["ResponsableNombre"] = lsPedidos[0].DireccionEntrega.SupervisorComercial.NombreCompleto;
+                    }
+                }   
+            }
+        }
+
+        public int AltaCobranza(string TipoCartera, DateTime FCobranza, ref bool ListaGeneral, ref bool ListasDerivadas)
 		{
 			int i = 0;
 			string _tipoCartera = TipoCartera.Trim();
