@@ -16,6 +16,16 @@ Public Class ConsultaFactura
 
 #Region " Windows Form Designer generated code "
 
+    Public Sub New()
+        MyBase.New()
+
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        'Add any initialization after the InitializeComponent() call
+
+    End Sub
+
     Public Sub New(_URLGateway As String)
         MyBase.New()
 
