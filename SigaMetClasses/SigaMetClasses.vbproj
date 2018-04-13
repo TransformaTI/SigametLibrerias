@@ -306,6 +306,12 @@
     <Compile Include="ConsultaPedidoBitacora.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmAltaPagoTarjeta.Designer.vb">
+      <DependentUpon>frmAltaPagoTarjeta.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAltaPagoTarjeta.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmGrupoComercialBusquedaPorCliente.designer.vb">
       <DependentUpon>frmGrupoComercialBusquedaPorCliente.vb</DependentUpon>
     </Compile>
@@ -500,6 +506,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConsultaPedidoBitacora.resx">
       <DependentUpon>ConsultaPedidoBitacora.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAltaPagoTarjeta.resx">
+      <DependentUpon>frmAltaPagoTarjeta.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGrupoComercialBusquedaPorCliente.resx">
       <DependentUpon>frmGrupoComercialBusquedaPorCliente.vb</DependentUpon>
