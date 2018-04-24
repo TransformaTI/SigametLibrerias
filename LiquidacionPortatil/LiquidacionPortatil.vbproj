@@ -111,6 +111,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\MobileGas.dll</HintPath>
     </Reference>
+    <Reference Include="ModuloCaja">
+      <HintPath>..\..\Caja\Caja\ModuloCaja\bin\ModuloCaja.dll</HintPath>
+    </Reference>
     <Reference Include="PortatilClasses, Version=1.7.0.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\PortatilClasses.dll</HintPath>
