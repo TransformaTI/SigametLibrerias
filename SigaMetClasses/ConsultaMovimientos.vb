@@ -1,6 +1,7 @@
 Option Strict On
 Imports System.Data.SqlClient, System.Windows.Forms
 Imports System.Text.RegularExpressions
+Imports RTGMGateway
 Public Class ConsultaMovimientos
     Inherits System.Windows.Forms.Form
 
@@ -21,6 +22,7 @@ Public Class ConsultaMovimientos
     Private n As Integer
     Private _Clave, _Documento, _Status, strMensaje, strTitulo As String
     Private _Empleado As Integer
+    Private _URLGateway As String
 #End Region
 
 #Region "Propiedades"
@@ -56,17 +58,28 @@ Public Class ConsultaMovimientos
 
 #End Region
 
+
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
         MyBase.New()
-
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
         'Add any initialization after the InitializeComponent() call
 
     End Sub
+
+    Public Sub New(URLGateway As String)
+        MyBase.New()
+
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
+        'Add any initialization after the InitializeComponent() call
+        _URLGateway = URLGateway
+    End Sub
+
+
 
     'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
@@ -857,6 +870,19 @@ Public Class ConsultaMovimientos
         _ModuloEmpleado = ModuloEmpleado
     End Sub
 
+    Public Sub New(ByVal Modulo As Short,
+                   ByVal ModuloUsuario As String,
+                   ByVal ModuloEmpleado As Integer,
+                   ByVal URLGateway As String)
+
+        MyBase.New()
+        InitializeComponent()
+        _Modulo = Modulo
+        _ModuloUsuario = ModuloUsuario
+        _ModuloEmpleado = ModuloEmpleado
+        _URLGateway = URLGateway
+    End Sub
+
     Public Sub CargaDatos()
         Cursor = Cursors.WaitCursor
         _Documento = ""
@@ -938,6 +964,160 @@ Public Class ConsultaMovimientos
             da.Fill(dtCobroPedido)
             dtCobroPedido.TableName = "CobroPedido"
 
+            grdMovimientoCaja.DataSource = dtMovimientoCaja
+            grdMovimientoCaja.CaptionText = "Lista de movimientos del día: " & dtpFOperacion.Value.ToLongDateString & " de la célula: " & cboCelula.Celula.ToString & " (" & dtMovimientoCaja.Rows.Count.ToString & " en total)"
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            cmd.Dispose()
+            da.Dispose()
+            If cn.State = ConnectionState.Open Then
+                cn.Close()
+            End If
+            'cn.Dispose()
+            Cursor = Cursors.Default
+        End Try
+    End Sub
+
+    Public Sub CargaDatos(URLGateway As String)
+        Cursor = Cursors.WaitCursor
+        _Documento = ""
+        _Clave = ""
+        _Status = ""
+        _Caja = 0
+        _Consecutivo = 0
+        _Folio = 0
+        _AnoCobro = 0
+        _CobroCons = 0
+
+        lblObservaciones.Text = String.Empty
+
+        dtMovimientoCaja.Clear()
+        dtCobro.Clear()
+        dtCobroPedido.Clear()
+        dtMovimientoCaja.DefaultView.RowFilter = ""
+        dtCobro.DefaultView.RowFilter = ""
+        dtCobroPedido.DefaultView.RowFilter = ""
+        grdMovimientoCaja.DataSource = Nothing
+        grdCobro.DataSource = Nothing
+        grdCobroPedido.DataSource = Nothing
+
+
+        btnCancelar.Enabled = False
+        btnRevivir.Enabled = False
+        btnConsultarCobro.Enabled = False
+        btnConsultarDocumento.Enabled = False
+
+        Dim cn As SqlConnection = Nothing
+        Dim cmd As SqlCommand = Nothing
+        Dim da As SqlDataAdapter = Nothing
+        Dim strInicioQuery As String = Nothing
+        Dim strQuery As String
+
+        Try
+            grdMovimientoCaja.DataSource = Nothing
+            grdCobro.DataSource = Nothing
+            grdCobroPedido.DataSource = Nothing
+
+            Dim strFiltroCargaDatos As String =
+            " WHERE FOperacion = '" & dtpFOperacion.Value.ToShortDateString & "'"
+
+            'Así estaba:
+            'strInicioQuery = "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED "
+
+            'strQuery = strInicioQuery & _
+            '"SELECT " & _
+            '"Clave, FMovimiento, CajaDescripcion, RutaCelula, " & _
+            '"RutaDescripcion, Caja, FOperacion, Consecutivo, Folio, " & _
+            '"TipoMovimientoCajaDescripcion, MovimientoCajaStatus, " & _
+            '"Empleado, EmpleadoNombre, Total, Observaciones, CobroPedidoTotal " & _
+            '"FROM vwMovimientoCaja1"
+
+            'strQuery &= strFiltroCargaDatos & " AND RutaCelula = " & cboCelula.Celula.ToString & " ORDER BY Clave"
+
+            strQuery = "EXECUTE spCyCConsultaVwMovimientoCaja1 '" & dtpFOperacion.Value.ToShortDateString & "', " & cboCelula.Celula.ToString
+            cn = DataLayer.Conexion
+            cmd = New SqlCommand(strQuery, cn)
+            da = New SqlDataAdapter(cmd)
+
+            grdCobro.CaptionText = "Lista de cobros en el movimiento"
+            dtMovimientoCaja.Clear()
+            da.Fill(dtMovimientoCaja)
+            dtMovimientoCaja.TableName = "MovimientoCaja"
+
+            'Así estaba:
+            'cmd.CommandText = "SET transaction isolation level read uncommitted SELECT * FROM vwConsultaCobro" & strFiltroCargaDatos
+            cmd.CommandText = "EXECUTE spCyCConsultaVwConsultaCobro '" & dtpFOperacion.Value.ToShortDateString & "'"
+            dtCobro.Clear()
+            da.Fill(dtCobro)
+            dtCobro.TableName = "Cobro"
+            'Así estaba:
+            'cmd.CommandText = "SET transaction isolation level read uncommitted SELECT * FROM vwConsultaCobroDetalle" & strFiltroCargaDatos
+            cmd.CommandText = "EXECUTE spCyCConsultaVwConsultaCobroDetalle '" & dtpFOperacion.Value.ToShortDateString & "'"
+            dtCobroPedido.Clear()
+            da.Fill(dtCobroPedido)
+            dtCobroPedido.TableName = "CobroPedido"
+
+            Dim objpedidogateway As RTGMPedidoGateway = New RTGMPedidoGateway()
+            objpedidogateway.URLServicio = URLGateway
+
+            Dim objsolicitudpedido As SolicitudPedidoGateway = New SolicitudPedidoGateway()
+            Dim lstPedidos As New Generic.List(Of RTGMCore.Pedido)
+            Dim dr As DataRow
+            Dim I As Integer
+            For Each dr In dtCobroPedido.Rows
+                objsolicitudpedido.IDEmpresa = 0
+                objsolicitudpedido.FuenteDatos = RTGMCore.Fuente.Sigamet
+                objsolicitudpedido.TipoConsultaPedido = RTGMCore.TipoConsultaPedido.RegistroPedido
+                objsolicitudpedido.Portatil = False
+                objsolicitudpedido.IDUsuario = Nothing
+                objsolicitudpedido.IDDireccionEntrega = Nothing
+                objsolicitudpedido.IDSucursal = Nothing
+                objsolicitudpedido.FechaCompromisoInicio = DateTime.Now.Date
+                objsolicitudpedido.FechaCompromisoFin = Nothing
+                objsolicitudpedido.FechaSuministroInicio = Nothing
+                objsolicitudpedido.FechaSuministroFin = Nothing
+                objsolicitudpedido.IDZona = Nothing
+                objsolicitudpedido.IDRutaOrigen = Nothing
+                objsolicitudpedido.IDRutaBoletin = Nothing
+                objsolicitudpedido.IDRutaSuministro = Nothing
+                objsolicitudpedido.IDEstatusPedido = Nothing
+                objsolicitudpedido.EstatusPedidoDescripcion = Nothing
+                objsolicitudpedido.IDEstatusBoletin = Nothing
+                objsolicitudpedido.EstatusBoletin = Nothing
+                objsolicitudpedido.IDEstatusMovil = Nothing
+                objsolicitudpedido.EstatusMovilDescripcion = Nothing
+                objsolicitudpedido.IDAutotanque = Nothing
+                objsolicitudpedido.IDAutotanqueMovil = Nothing
+                objsolicitudpedido.SerieRemision = Nothing
+                objsolicitudpedido.FolioRemision = Nothing
+                objsolicitudpedido.SerieFactura = Nothing
+                objsolicitudpedido.FolioFactura = Nothing
+                objsolicitudpedido.IDZonaLecturista = Nothing
+                objsolicitudpedido.TipoPedido = Nothing
+                objsolicitudpedido.TipoServicio = Nothing
+                objsolicitudpedido.AñoPed = Nothing
+                objsolicitudpedido.IDPedido = Nothing
+                objsolicitudpedido.PedidoReferencia = Trim(CType(dr("PedidoReferencia"), String))
+
+                lstPedidos = objpedidogateway.buscarPedidos(objsolicitudpedido)
+
+                If lstPedidos.Count > 0 Then
+                    dr("PedidoReferencia") = lstPedidos(0).PedidoReferencia()
+                    dr("PedidoFSuministro") = lstPedidos(0).FSuministro()
+                    dr("TipoPedidoDescripcion") = lstPedidos(0).TipoPedido.Trim()
+                    If lstPedidos(0).RutaSuministro IsNot Nothing Then
+                        dr("RutaCelula") = lstPedidos(0).RutaSuministro.Descripcion
+                    End If
+                    dr("Celula") = lstPedidos(0).IDZona.ToString() 'lo mismo de arriba
+                    If lstPedidos(0).DireccionEntrega IsNot Nothing Then
+                        dr("ClienteNombre") = lstPedidos(0).DireccionEntrega.Nombre
+                    End If
+                    dr("PedidoImporte") = lstPedidos(0).Importe.ToString()
+                    dr("PedidoStatus") = lstPedidos(0).EstatusPedido.ToString()
+                End If
+            Next
             grdMovimientoCaja.DataSource = dtMovimientoCaja
             grdMovimientoCaja.CaptionText = "Lista de movimientos del día: " & dtpFOperacion.Value.ToLongDateString & " de la célula: " & cboCelula.Celula.ToString & " (" & dtMovimientoCaja.Rows.Count.ToString & " en total)"
 
@@ -1076,7 +1256,12 @@ Public Class ConsultaMovimientos
                 Dim oMovCaja As New SigaMetClasses.TransaccionMovimientoCaja()
                 Try
                     oMovCaja.Cancela(_Caja, _FOperacion, _Consecutivo, _Folio, frmMotivoCancelacion.MotivoCancelacion, _ModuloUsuario)
-                    CargaDatos()
+                    If _URLGateway = "" Then
+                        CargaDatos()
+                    Else
+                        CargaDatos(_URLGateway)
+
+                    End If
                 Catch ex As Exception
                     MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Finally
@@ -1138,7 +1323,12 @@ Public Class ConsultaMovimientos
                         Dim oMovCaja As New SigaMetClasses.TransaccionMovimientoCaja()
                         Try
                             oMovCaja.Revive(_Clave)
-                            CargaDatos()
+                            If _URLGateway = "" Then
+                                CargaDatos()
+                            Else
+                                CargaDatos(_URLGateway)
+
+                            End If
                         Catch ex As Exception
                             MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
                         Finally
@@ -1184,7 +1374,12 @@ Public Class ConsultaMovimientos
             Dim oConsultaCobro As New ConsultaCobro(_AnoCobro, _CobroCons, _PermiteModificarCobro, strURLGateway)
 
             If oConsultaCobro.ShowDialog() = DialogResult.OK Then
-                Me.CargaDatos()
+                If _URLGateway = "" Then
+                    Me.CargaDatos()
+                Else
+                    Me.CargaDatos(_URLGateway)
+
+                End If
             End If
             Cursor = Cursors.Default
         End If
@@ -1225,7 +1420,12 @@ Public Class ConsultaMovimientos
             Case Is = "ConsultarDocumento"
                 ConsultarDocumento()
             Case Is = "Refrescar"
-                CargaDatos()
+                If _URLGateway = "" Then
+                    CargaDatos()
+                Else
+                    CargaDatos(_URLGateway)
+
+                End If
             Case Is = "Imprimir"
                 ImprimirFormato()
             Case Is = "Cerrar"
@@ -1259,7 +1459,12 @@ Public Class ConsultaMovimientos
     End Sub
 
     Private Sub btnConsultar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultar.Click
-        CargaDatos()
+        If _URLGateway = "" Then
+            CargaDatos()
+        Else
+            CargaDatos(_URLGateway)
+
+        End If
     End Sub
 
 End Class

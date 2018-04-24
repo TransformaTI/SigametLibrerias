@@ -8164,6 +8164,8 @@ Public Module Main
     'Public GLOBAL_DiasAjuste As Byte
     'Public GLOBAL_UsuarioAjuste As String
     Public GLOBAL_MaxRegistrosConsulta As Short
+    Friend ReadOnly GLOBAL_IDEmpleado As Object
+    Public Property GLOBAL_IDUsuario As Object
 
     <Description("El parámetro UsarLogin indica si se va a indicar el login y el password para conectar")> _
     Public Function LeeInfoConexion _
