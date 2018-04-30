@@ -1,4 +1,5 @@
-﻿Imports System.Windows.Forms
+﻿Imports System.Collections.Generic
+Imports System.Windows.Forms
 
 Public Class frmAltaPagoTarjeta
 
@@ -20,7 +21,7 @@ Public Class frmAltaPagoTarjeta
         cboAfiliacion.SelectedItem = 0
         cboTipoTarjeta.SelectedItem = 1
         cboMeses.SelectedItem = 0
-        cboBanco.SelectedItem = 0
+        cboBancos.SelectedItem = 0
         txtTarjeta.Clear()
         txtLitros.Clear()
         txtImporte.Clear()
@@ -29,6 +30,82 @@ Public Class frmAltaPagoTarjeta
         txtRepiteAutorizacion.Clear()
         txtObservaciones.Clear()
     End Sub
+
+    Private Sub cargaDatos()
+
+        Dim lListado As New List(Of String)
+        Dim item As String
+
+        lListado.AddRange(Main.consultarAfiliacion)
+        cboAfiliacion.Items.Clear()
+
+        For Each item In lListado
+            cboAfiliacion.Items.Add(item)
+        Next
+
+
+        Dim dListadoTipoTarjeta As Dictionary(Of Integer, String)
+
+        dListadoTipoTarjeta = Main.consultarTipoTarjeta()
+
+        cboTipoTarjeta.ValueMember = "Key"
+        cboTipoTarjeta.DisplayMember = "Value"
+
+        cboTipoTarjeta.DataSource = New BindingSource(dListadoTipoTarjeta, Nothing)
+
+        Dim dListadoMeses As Dictionary(Of Integer, Integer)
+
+        dListadoMeses = Main.consultarCargoMeses()
+
+        cboMeses.ValueMember = "Key"
+        cboMeses.DisplayMember = "Value"
+
+        cboMeses.DataSource = New BindingSource(dListadoMeses, Nothing)
+
+
+        cboBancos.CargaDatos()
+
+
+    End Sub
+
+    Private Sub validarDatosCargo()
+        Dim lErrores As New List(Of String)
+        Dim iEntero As New Integer
+        Dim dDecimal As New Double
+
+
+        If (txtRemision.Text.Equals("")) Then
+            lErrores.Add("Campo remisión es requerido")
+        End If
+
+        If (txtAutorizacion.Text.Equals("")) Then
+            lErrores.Add("Campo autorización es requerido")
+        End If
+
+        If (txtRepiteAutorizacion.Text.Equals("")) Then
+            lErrores.Add("Campo repite autorización es requerido")
+        End If
+
+        If (Not txtAutorizacion.Text.Equals(txtRepiteAutorizacion.Text)) Then
+            lErrores.Add("Campos autorización y repite autorización son diferentes")
+        End If
+
+        If Not Integer.TryParse(txtLitros.Text, iEntero) Then
+            lErrores.Add("Campo litros no tiene un valor entero válido")
+        End If
+
+        If Not Double.TryParse(txtImporte.Text, dDecimal) Then
+            lErrores.Add("Campo importe no tiene un valor decimal válido")
+        End If
+
+        MessageBox.Show(String.Join(Environment.NewLine, lErrores.ToArray()), "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+
+
+    End Sub
+
+
+
 
 
 
@@ -88,10 +165,17 @@ Public Class frmAltaPagoTarjeta
 
     Private Sub frmAltaPagoTarjeta_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         limpiaCliente()
+        cargaDatos()
 
     End Sub
 
     Private Sub ComboRuta1_SelectedIndexChanged(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
+
+        validarDatosCargo()
 
     End Sub
 End Class

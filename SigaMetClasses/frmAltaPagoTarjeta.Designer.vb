@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmAltaPagoTarjeta
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class frmAltaPagoTarjeta
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAltaPagoTarjeta))
         Me.gbOpciones = New System.Windows.Forms.GroupBox()
@@ -44,16 +44,17 @@ Partial Class frmAltaPagoTarjeta
         Me.txtcliente = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.txtImporte = New System.Windows.Forms.TextBox()
+        Me.txtLitros = New System.Windows.Forms.TextBox()
+        Me.cboMeses = New System.Windows.Forms.ComboBox()
+        Me.cboTipoTarjeta = New System.Windows.Forms.ComboBox()
         Me.txtObservaciones = New System.Windows.Forms.TextBox()
         Me.txtRepiteAutorizacion = New System.Windows.Forms.TextBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.txtAutorizacion = New System.Windows.Forms.TextBox()
         Me.Label20 = New System.Windows.Forms.Label()
-        Me.cboBanco = New System.Windows.Forms.ComboBox()
         Me.Label19 = New System.Windows.Forms.Label()
-        Me.cboMeses = New System.Windows.Forms.ComboBox()
         Me.Label12 = New System.Windows.Forms.Label()
-        Me.cboTipoTarjeta = New System.Windows.Forms.ComboBox()
         Me.cboAfiliacion = New System.Windows.Forms.ComboBox()
         Me.Label18 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
@@ -67,8 +68,7 @@ Partial Class frmAltaPagoTarjeta
         Me.btnConsultaCliente = New System.Windows.Forms.Button()
         Me.btnBuscar = New System.Windows.Forms.Button()
         Me.btnAceptar = New System.Windows.Forms.Button()
-        Me.txtImporte = New SigaMetClasses.Controles.txtNumeroDecimal()
-        Me.txtLitros = New SigaMetClasses.Controles.txtNumeroDecimal()
+        Me.cboBancos = New SigaMetClasses.Combos.ComboBanco()
         Me.cboRuta = New SigaMetClasses.Combos.ComboRuta2Filtro()
         Me.gbOpciones.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -271,18 +271,18 @@ Partial Class frmAltaPagoTarjeta
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.cboBancos)
+        Me.GroupBox2.Controls.Add(Me.txtImporte)
+        Me.GroupBox2.Controls.Add(Me.txtLitros)
+        Me.GroupBox2.Controls.Add(Me.cboMeses)
+        Me.GroupBox2.Controls.Add(Me.cboTipoTarjeta)
         Me.GroupBox2.Controls.Add(Me.txtObservaciones)
         Me.GroupBox2.Controls.Add(Me.txtRepiteAutorizacion)
         Me.GroupBox2.Controls.Add(Me.Label10)
         Me.GroupBox2.Controls.Add(Me.txtAutorizacion)
         Me.GroupBox2.Controls.Add(Me.Label20)
-        Me.GroupBox2.Controls.Add(Me.txtImporte)
-        Me.GroupBox2.Controls.Add(Me.txtLitros)
-        Me.GroupBox2.Controls.Add(Me.cboBanco)
         Me.GroupBox2.Controls.Add(Me.Label19)
-        Me.GroupBox2.Controls.Add(Me.cboMeses)
         Me.GroupBox2.Controls.Add(Me.Label12)
-        Me.GroupBox2.Controls.Add(Me.cboTipoTarjeta)
         Me.GroupBox2.Controls.Add(Me.cboAfiliacion)
         Me.GroupBox2.Controls.Add(Me.Label18)
         Me.GroupBox2.Controls.Add(Me.Label11)
@@ -299,6 +299,38 @@ Partial Class frmAltaPagoTarjeta
         Me.GroupBox2.TabIndex = 15
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Cargo"
+        '
+        'txtImporte
+        '
+        Me.txtImporte.Location = New System.Drawing.Point(307, 112)
+        Me.txtImporte.Name = "txtImporte"
+        Me.txtImporte.Size = New System.Drawing.Size(108, 20)
+        Me.txtImporte.TabIndex = 35
+        '
+        'txtLitros
+        '
+        Me.txtLitros.Location = New System.Drawing.Point(90, 108)
+        Me.txtLitros.Name = "txtLitros"
+        Me.txtLitros.Size = New System.Drawing.Size(108, 20)
+        Me.txtLitros.TabIndex = 34
+        '
+        'cboMeses
+        '
+        Me.cboMeses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboMeses.FormattingEnabled = True
+        Me.cboMeses.Location = New System.Drawing.Point(307, 56)
+        Me.cboMeses.Name = "cboMeses"
+        Me.cboMeses.Size = New System.Drawing.Size(105, 21)
+        Me.cboMeses.TabIndex = 32
+        '
+        'cboTipoTarjeta
+        '
+        Me.cboTipoTarjeta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboTipoTarjeta.FormattingEnabled = True
+        Me.cboTipoTarjeta.Location = New System.Drawing.Point(90, 56)
+        Me.cboTipoTarjeta.Name = "cboTipoTarjeta"
+        Me.cboTipoTarjeta.Size = New System.Drawing.Size(108, 21)
+        Me.cboTipoTarjeta.TabIndex = 31
         '
         'txtObservaciones
         '
@@ -340,14 +372,6 @@ Partial Class frmAltaPagoTarjeta
         Me.Label20.TabIndex = 26
         Me.Label20.Text = "Importe:"
         '
-        'cboBanco
-        '
-        Me.cboBanco.FormattingEnabled = True
-        Me.cboBanco.Location = New System.Drawing.Point(307, 82)
-        Me.cboBanco.Name = "cboBanco"
-        Me.cboBanco.Size = New System.Drawing.Size(108, 21)
-        Me.cboBanco.TabIndex = 22
-        '
         'Label19
         '
         Me.Label19.AutoSize = True
@@ -356,14 +380,6 @@ Partial Class frmAltaPagoTarjeta
         Me.Label19.Size = New System.Drawing.Size(41, 13)
         Me.Label19.TabIndex = 21
         Me.Label19.Text = "Banco:"
-        '
-        'cboMeses
-        '
-        Me.cboMeses.FormattingEnabled = True
-        Me.cboMeses.Location = New System.Drawing.Point(307, 55)
-        Me.cboMeses.Name = "cboMeses"
-        Me.cboMeses.Size = New System.Drawing.Size(108, 21)
-        Me.cboMeses.TabIndex = 20
         '
         'Label12
         '
@@ -374,17 +390,9 @@ Partial Class frmAltaPagoTarjeta
         Me.Label12.TabIndex = 19
         Me.Label12.Text = "Meses:"
         '
-        'cboTipoTarjeta
-        '
-        Me.cboTipoTarjeta.FormattingEnabled = True
-        Me.cboTipoTarjeta.Items.AddRange(New Object() {"CREDITO", "DEBITO"})
-        Me.cboTipoTarjeta.Location = New System.Drawing.Point(90, 56)
-        Me.cboTipoTarjeta.Name = "cboTipoTarjeta"
-        Me.cboTipoTarjeta.Size = New System.Drawing.Size(108, 21)
-        Me.cboTipoTarjeta.TabIndex = 18
-        '
         'cboAfiliacion
         '
+        Me.cboAfiliacion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboAfiliacion.FormattingEnabled = True
         Me.cboAfiliacion.Location = New System.Drawing.Point(90, 31)
         Me.cboAfiliacion.Name = "cboAfiliacion"
@@ -510,24 +518,20 @@ Partial Class frmAltaPagoTarjeta
         Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnAceptar.UseVisualStyleBackColor = False
         '
-        'txtImporte
+        'cboBancos
         '
-        Me.txtImporte.Location = New System.Drawing.Point(307, 108)
-        Me.txtImporte.Name = "txtImporte"
-        Me.txtImporte.Size = New System.Drawing.Size(108, 20)
-        Me.txtImporte.TabIndex = 25
-        '
-        'txtLitros
-        '
-        Me.txtLitros.Location = New System.Drawing.Point(90, 109)
-        Me.txtLitros.Name = "txtLitros"
-        Me.txtLitros.Size = New System.Drawing.Size(108, 20)
-        Me.txtLitros.TabIndex = 24
+        Me.cboBancos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBancos.FormattingEnabled = True
+        Me.cboBancos.Location = New System.Drawing.Point(307, 85)
+        Me.cboBancos.Name = "cboBancos"
+        Me.cboBancos.Size = New System.Drawing.Size(105, 21)
+        Me.cboBancos.TabIndex = 36
         '
         'cboRuta
         '
         Me.cboRuta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboRuta.Location = New System.Drawing.Point(90, 162)
+        Me.cboRuta.FormattingEnabled = True
+        Me.cboRuta.Location = New System.Drawing.Point(90, 165)
         Me.cboRuta.Name = "cboRuta"
         Me.cboRuta.Size = New System.Drawing.Size(121, 21)
         Me.cboRuta.TabIndex = 16
@@ -583,13 +587,9 @@ Partial Class frmAltaPagoTarjeta
     Friend WithEvents Label10 As Windows.Forms.Label
     Friend WithEvents txtAutorizacion As Windows.Forms.TextBox
     Friend WithEvents Label20 As Windows.Forms.Label
-    Friend WithEvents txtImporte As Controles.txtNumeroDecimal
-    Friend WithEvents txtLitros As Controles.txtNumeroDecimal
-    Friend WithEvents cboBanco As Windows.Forms.ComboBox
+
     Friend WithEvents Label19 As Windows.Forms.Label
-    Friend WithEvents cboMeses As Windows.Forms.ComboBox
     Friend WithEvents Label12 As Windows.Forms.Label
-    Friend WithEvents cboTipoTarjeta As Windows.Forms.ComboBox
     Friend WithEvents cboAfiliacion As Windows.Forms.ComboBox
     Friend WithEvents Label18 As Windows.Forms.Label
     Friend WithEvents Label11 As Windows.Forms.Label
@@ -603,5 +603,11 @@ Partial Class frmAltaPagoTarjeta
     Friend WithEvents btnConsultaCliente As Windows.Forms.Button
     Friend WithEvents btnBuscar As Windows.Forms.Button
     Friend WithEvents btnAceptar As Windows.Forms.Button
+
+    Friend WithEvents cboTipoTarjeta As Windows.Forms.ComboBox
+    Friend WithEvents cboMeses As Windows.Forms.ComboBox
+    Friend WithEvents txtImporte As Windows.Forms.TextBox
+    Friend WithEvents txtLitros As Windows.Forms.TextBox
+    Friend WithEvents cboBancos As Combos.ComboBanco
     Friend WithEvents cboRuta As Combos.ComboRuta2Filtro
 End Class

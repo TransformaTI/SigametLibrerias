@@ -4,6 +4,7 @@ Imports System.Windows.Forms
 Imports System.Text
 Imports System.ComponentModel.Component
 Imports MySql.Data.MySqlClient
+Imports System.Collections.Generic
 
 'ENUMERADORES
 Namespace Enumeradores
@@ -112,8 +113,8 @@ Public Class ListViewComparador
         _Orden = System.Windows.Forms.SortOrder.Ascending
     End Sub
 
-    Public Sub New(ByVal Columna As Integer, _
-                   ByVal Orden As System.Windows.Forms.SortOrder, _
+    Public Sub New(ByVal Columna As Integer,
+                   ByVal Orden As System.Windows.Forms.SortOrder,
           Optional ByVal Tipo As enumTipoDatoComparacion = enumTipoDatoComparacion.Cadena)
         _Columna = Columna
         _Orden = Orden
@@ -143,6 +144,9 @@ End Class
 
 
 'CLASES
+
+
+
 #Region "AutotanqueTurno"
 Public Class cAutotanqueTurno
     Inherits System.ComponentModel.Component
@@ -376,9 +380,9 @@ Public Class cUserInfo
 
     End Sub
 
-    Public Sub New(ByVal User As String, _
-                   ByVal Password As String, _
-                   ByVal Database As String, _
+    Public Sub New(ByVal User As String,
+                   ByVal Password As String,
+                   ByVal Database As String,
                    ByVal Server As String)
         _User = User
         _Password = Password
@@ -509,8 +513,8 @@ Public Class cColonia
         Consulta(_Colonia)
     End Sub
 
-    Public Function Alta(ByVal Nombre As String, _
-                         ByVal CP As String, _
+    Public Function Alta(ByVal Nombre As String,
+                         ByVal CP As String,
                          ByVal Municipio As Integer) As Integer
         Dim cmd As New SqlCommand("spColoniaAltaModifica")
         With cmd
@@ -544,7 +548,7 @@ Public Class cColonia
 
 
     Public Function Consulta(ByVal Colonia As Integer) As String
-        Dim strQuery As String = _
+        Dim strQuery As String =
         "SELECT Colonia, Nombre, StatusCalidad, CP FROM Colonia WHERE Colonia = @Colonia"
         Dim cmd As New SqlCommand(strQuery, DataLayer.Conexion)
         Dim dr As SqlDataReader
@@ -644,7 +648,7 @@ Public Class cCalle
     End Function
 
     Public Function Consulta(ByVal Calle As Integer) As String
-        Dim strQuery As String = _
+        Dim strQuery As String =
         "SELECT Calle, Nombre, StatusCalidad FROM Calle WHERE Calle = @Calle"
         Dim cmd As New SqlCommand(strQuery, DataLayer.Conexion)
         Dim dr As SqlDataReader
@@ -673,7 +677,7 @@ Public Class cCalle
     End Function
 
     Public Function Consulta(ByVal Nombre As String) As DataTable
-        Dim strQuery As String = _
+        Dim strQuery As String =
         "SELECT Calle, Nombre, StatusCalidad FROM Calle WHERE Nombre = @Nombre"
         Dim cmd As New SqlCommand(strQuery, DataLayer.Conexion)
         Dim dt As New DataTable("Calle")
@@ -784,8 +788,8 @@ Public Class cPedido
         MyBase.New()
     End Sub
 
-    Public Sub New(ByVal AñoPed As Short, _
-                   ByVal Celula As Byte, _
+    Public Sub New(ByVal AñoPed As Short,
+                   ByVal Celula As Byte,
                    ByVal Pedido As Integer)
         MyBase.New()
         _AñoPed = AñoPed
@@ -843,22 +847,22 @@ Public Class cPedido
     End Sub
 
     Public Sub Consulta(ByVal PedidoReferencia As String)
-        strQuery = _
-        "SELECT AñoPed, Celula, Pedido, PedidoReferencia, Cliente, Total, Saldo, FSuministro, Status " & _
-        "FROM Pedido " & _
+        strQuery =
+        "SELECT AñoPed, Celula, Pedido, PedidoReferencia, Cliente, Total, Saldo, FSuministro, Status " &
+        "FROM Pedido " &
         "WHERE PedidoReferencia = '" & PedidoReferencia & "'"
 
         ConsultaPedido()
     End Sub
 
-    Public Sub Consulta(ByVal AñoPed As Short, _
-                        ByVal Celula As Byte, _
+    Public Sub Consulta(ByVal AñoPed As Short,
+                        ByVal Celula As Byte,
                         ByVal Pedido As Integer)
-        strQuery = _
-        "SELECT AñoPed, Celula, Pedido, PedidoReferencia, Cliente, Total, Saldo, FSuministro, Status " & _
-        "FROM Pedido " & _
-        "WHERE AñoPed = " & AñoPed.ToString & _
-        " AND Celula = " & Celula.ToString & _
+        strQuery =
+        "SELECT AñoPed, Celula, Pedido, PedidoReferencia, Cliente, Total, Saldo, FSuministro, Status " &
+        "FROM Pedido " &
+        "WHERE AñoPed = " & AñoPed.ToString &
+        " AND Celula = " & Celula.ToString &
         " AND Pedido = " & Pedido.ToString
 
         ConsultaPedido()
@@ -947,9 +951,9 @@ Public Class cEmpresa
     End Sub
 
     Public Sub Consulta(ByVal Empresa As Integer)
-        Dim strQuery As String = _
-        "SELECT Empresa, RazonSocial, RFC, CURP " & _
-        "FROM Empresa " & _
+        Dim strQuery As String =
+        "SELECT Empresa, RazonSocial, RFC, CURP " &
+        "FROM Empresa " &
         "WHERE Empresa = " & Empresa.ToString
         Dim cmd As New SqlCommand(strQuery)
         Try
@@ -1000,7 +1004,7 @@ Public Class cSeguridad
         Return _TieneAcceso
     End Function
 
-    Public Sub New(ByVal Usuario As String, _
+    Public Sub New(ByVal Usuario As String,
                    ByVal Modulo As Short)
         _Usuario = Usuario
         _Modulo = Modulo
@@ -1038,8 +1042,8 @@ Public Class cUsuarioReporte
     Inherits System.ComponentModel.Component
 
 #Region "UsuarioReporteAlta"
-    Public Sub UsuarioReporteAlta(ByVal Modulo As Short, _
-                                      ByVal Usuario As String, _
+    Public Sub UsuarioReporteAlta(ByVal Modulo As Short,
+                                      ByVal Usuario As String,
                                       ByVal ListaReportes As ArrayList)
         Dim cmd As New SqlCommand()
 
@@ -1077,8 +1081,8 @@ Public Class cUsuarioReporte
 #End Region
 
 #Region "GrupoReporteAlta"
-    Public Sub GrupoReporteAlta(ByVal Modulo As Short, _
-                                ByVal Grupo As String, _
+    Public Sub GrupoReporteAlta(ByVal Modulo As Short,
+                                ByVal Grupo As String,
                                 ByVal ListaReportes As ArrayList)
         Dim cmd As New SqlCommand()
 
@@ -1086,7 +1090,7 @@ Public Class cUsuarioReporte
             AbreConexion()
             IniciaTransaccion()
 
-            cmd.CommandText = "DELETE GrupoReporte WHERE Grupo = '" & Grupo & "'" & _
+            cmd.CommandText = "DELETE GrupoReporte WHERE Grupo = '" & Grupo & "'" &
             " AND Modulo = " & Modulo
             cmd.CommandType = CommandType.Text
             cmd.Connection = DataLayer.Conexion
@@ -1117,11 +1121,11 @@ Public Class cUsuarioReporte
 #End Region
 
 #Region "ReporteConexionModifica"
-    Public Sub ReporteConexionModifica(ByVal Modulo As Short, _
-                                       ByVal Usuario As String, _
-                                       ByVal Reporte As String, _
-                                       ByVal Servidor As String, _
-                                       ByVal BaseDatos As String, _
+    Public Sub ReporteConexionModifica(ByVal Modulo As Short,
+                                       ByVal Usuario As String,
+                                       ByVal Reporte As String,
+                                       ByVal Servidor As String,
+                                       ByVal BaseDatos As String,
                                        ByVal TipoSeguridad As Enumeradores.enumTipoSeguridadReporte)
 
         Dim cmd As New SqlCommand()
@@ -1168,12 +1172,12 @@ Public Class cCobranza
 #Region "Alta"
 
 
-    Public Function Alta(ByVal FCobranza As Date, _
-                         ByVal TipoCobranza As Byte, _
-                         ByVal UsuarioCaptura As String, _
-                         ByVal Empleado As Integer, _
-                         ByVal Total As Decimal, _
-                         ByVal Observaciones As String, _
+    Public Function Alta(ByVal FCobranza As Date,
+                         ByVal TipoCobranza As Byte,
+                         ByVal UsuarioCaptura As String,
+                         ByVal Empleado As Integer,
+                         ByVal Total As Decimal,
+                         ByVal Observaciones As String,
                          ByVal ListaDocumentos As ArrayList) As Integer
 
         AbreConexion()
@@ -1220,13 +1224,13 @@ Public Class cCobranza
 
 
 #Region "Sobracarga Alta indicando Status"
-    Public Function Alta(ByVal FCobranza As Date, _
-                         ByVal TipoCobranza As Byte, _
-                         ByVal UsuarioCaptura As String, _
-                         ByVal Empleado As Integer, _
-                         ByVal Total As Decimal, _
-                         ByVal Observaciones As String, _
-                         ByVal ListaDocumentos As ArrayList, _
+    Public Function Alta(ByVal FCobranza As Date,
+                         ByVal TipoCobranza As Byte,
+                         ByVal UsuarioCaptura As String,
+                         ByVal Empleado As Integer,
+                         ByVal Total As Decimal,
+                         ByVal Observaciones As String,
+                         ByVal ListaDocumentos As ArrayList,
                          ByVal Status As String) As Integer
 
         AbreConexion()
@@ -1276,16 +1280,16 @@ Public Class cCobranza
 
 #Region "Sobrecarga para resguardo cyc"
 
-    Public Function Alta(ByVal FCobranza As Date, _
-                     ByVal TipoCobranza As Byte, _
-                     ByVal UsuarioCaptura As String, _
-                     ByVal Empleado As Integer, _
-                     ByVal Total As Decimal, _
-                     ByVal Observaciones As String, _
-                     ByVal ListaDocumentos As ArrayList, _
-                     ByVal Status As String, _
-                     ByVal CobranzaOrigen As Integer, _
-                     ByVal StatusEntrega As String, _
+    Public Function Alta(ByVal FCobranza As Date,
+                     ByVal TipoCobranza As Byte,
+                     ByVal UsuarioCaptura As String,
+                     ByVal Empleado As Integer,
+                     ByVal Total As Decimal,
+                     ByVal Observaciones As String,
+                     ByVal ListaDocumentos As ArrayList,
+                     ByVal Status As String,
+                     ByVal CobranzaOrigen As Integer,
+                     ByVal StatusEntrega As String,
                      ByVal UsuarioEntrega As String) As Integer
 
         AbreConexion()
@@ -1342,8 +1346,8 @@ Public Class cCobranza
 
 
 #Region "Cancela"
-    Public Sub Cancela(ByVal Cobranza As Integer, _
-                       ByVal MotivoCancelacionCobranza As Byte, _
+    Public Sub Cancela(ByVal Cobranza As Integer,
+                       ByVal MotivoCancelacionCobranza As Byte,
                        ByVal UsuarioCancelacion As String)
         Dim cmd As New SqlCommand("spCYCCobranzaCancela")
         With cmd
@@ -1368,13 +1372,13 @@ Public Class cCobranza
 #End Region
 
 #Region "Modifica"
-    Public Sub Modifica(ByVal Cobranza As Integer, _
-                        ByVal FCobranza As Date, _
-                        ByVal UsuarioCaptura As String, _
-                        ByVal Empleado As Integer, _
-                        ByVal Total As Decimal, _
-                        ByVal Observaciones As String, _
-                        ByVal TipoCobranza As Byte, _
+    Public Sub Modifica(ByVal Cobranza As Integer,
+                        ByVal FCobranza As Date,
+                        ByVal UsuarioCaptura As String,
+                        ByVal Empleado As Integer,
+                        ByVal Total As Decimal,
+                        ByVal Observaciones As String,
+                        ByVal TipoCobranza As Byte,
                         ByVal ListaDocumentos As ArrayList)
 
         AbreConexion()
@@ -1436,8 +1440,8 @@ Public Class cCobranza
 #End Region
 
 #Region "Cierra"
-    Public Sub Cierra(ByVal Cobranza As Integer, _
-                      ByVal ListaDocumentos As ArrayList, _
+    Public Sub Cierra(ByVal Cobranza As Integer,
+                      ByVal ListaDocumentos As ArrayList,
              Optional ByVal MovimientoCajaClave As String = "")
 
         'MovimientoCajaClave - Nos sirve para relacionar la Cobranza con su MovimientoCaja
@@ -1450,8 +1454,8 @@ Public Class cCobranza
         Dim oPedCob As cPedidoCobranza
         Try
             For Each oPedCob In ListaDocumentos
-                oPedCob.Gestion(oPedCob.AñoPed, oPedCob.Celula, oPedCob.Pedido, oPedCob.Cobranza, _
-                                oPedCob.Observaciones, oPedCob.DocumentoGestion, _
+                oPedCob.Gestion(oPedCob.AñoPed, oPedCob.Celula, oPedCob.Pedido, oPedCob.Cobranza,
+                                oPedCob.Observaciones, oPedCob.DocumentoGestion,
                                 oPedCob.FCompromisoGestion, oPedCob.GestionFinal)
             Next
 
@@ -1578,12 +1582,12 @@ Public Class cCobranza
 #End Region
 
 
-        Public Sub Alta(ByVal AñoPed As Short, _
-                        ByVal Celula As Byte, _
-                        ByVal Pedido As Integer, _
-                        ByVal Saldo As Decimal, _
-                        ByVal GestionInicial As Byte, _
-                        ByVal Cobranza As Integer, _
+        Public Sub Alta(ByVal AñoPed As Short,
+                        ByVal Celula As Byte,
+                        ByVal Pedido As Integer,
+                        ByVal Saldo As Decimal,
+                        ByVal GestionInicial As Byte,
+                        ByVal Cobranza As Integer,
                         ByVal oComando As SqlCommand)
             oComando.Parameters.Clear()
             'Dim cmd As New SqlCommand("spCYCPedidoCobranzaAlta")
@@ -1609,13 +1613,13 @@ Public Class cCobranza
 
         End Sub
 
-        Public Sub Gestion(ByVal AñoPed As Short, _
-                           ByVal Celula As Byte, _
-                           ByVal Pedido As Integer, _
-                           ByVal Cobranza As Integer, _
-                           ByVal Observaciones As String, _
-                           ByVal DocumentoGestion As String, _
-                           ByVal FCompromisoGestion As Date, _
+        Public Sub Gestion(ByVal AñoPed As Short,
+                           ByVal Celula As Byte,
+                           ByVal Pedido As Integer,
+                           ByVal Cobranza As Integer,
+                           ByVal Observaciones As String,
+                           ByVal DocumentoGestion As String,
+                           ByVal FCompromisoGestion As Date,
                            ByVal GestionFinal As Byte)
 
             Dim cmd As New SqlCommand("spCYCPedidoCobranzaGestion")
@@ -1658,11 +1662,11 @@ End Class
 #Region "Clase CorteCaja"
 Public Class CorteCaja
 
-    Public Function Alta(ByVal Caja As Short, _
-                         ByVal FechaOperacion As DateTime, _
-                         ByVal Usuario As String, _
-                         ByVal FechaInicio As DateTime, _
-                         Optional ByVal ImporteInicial As Decimal = 0, _
+    Public Function Alta(ByVal Caja As Short,
+                         ByVal FechaOperacion As DateTime,
+                         ByVal Usuario As String,
+                         ByVal FechaInicio As DateTime,
+                         Optional ByVal ImporteInicial As Decimal = 0,
                          Optional ByVal Consecutivo As Short = 0) As Short
 
         Dim cmd As New SqlCommand("spCorteCajaAltaModifica")
@@ -1689,11 +1693,11 @@ Public Class CorteCaja
         End Try
     End Function
 
-    Public Sub TerminaSesion(ByVal Caja As Short, _
-                             ByVal FOperacion As Date, _
-                             ByVal Consecutivo As Short, _
-                             ByVal FTermino As DateTime, _
-                             ByVal Usuario As String, _
+    Public Sub TerminaSesion(ByVal Caja As Short,
+                             ByVal FOperacion As Date,
+                             ByVal Consecutivo As Short,
+                             ByVal FTermino As DateTime,
+                             ByVal Usuario As String,
                              Optional ByVal ImporteFinal As Decimal = 0)
         Dim cmd As New SqlCommand("spCorteCajaAltaModifica")
         With cmd
@@ -1718,9 +1722,9 @@ Public Class CorteCaja
         End Try
     End Sub
 
-    Public Sub Aplicacion(ByVal Caja As Short, _
-                          ByVal FOperacion As DateTime, _
-                          ByVal Consecutivo As Byte, _
+    Public Sub Aplicacion(ByVal Caja As Short,
+                          ByVal FOperacion As DateTime,
+                          ByVal Consecutivo As Byte,
                           ByVal ListaAplicaciones As Windows.Forms.ListBox.ObjectCollection)
 
         Dim oAplicacion As sTipoAplicacionIngreso
@@ -1756,7 +1760,7 @@ Public Class CorteCaja
             Dim iCons As Byte = CType(cmd.Parameters("@ConsecutivoReal").Value, Byte)
 
             cmd.Parameters.Clear()
-            cmd.CommandText = "UPDATE CorteCaja Set FTermino = Getdate() WHERE Caja = " & Caja & _
+            cmd.CommandText = "UPDATE CorteCaja Set FTermino = Getdate() WHERE Caja = " & Caja &
                               " AND FOperacion = '" & FOperacion.ToShortDateString & "' AND Consecutivo = " & iCons
             cmd.CommandType = CommandType.Text
             cmd.ExecuteNonQuery()
@@ -1772,12 +1776,12 @@ Public Class CorteCaja
 
     End Sub
 
-    Public Function ConsultaAplicacion(ByVal Caja As Byte, _
+    Public Function ConsultaAplicacion(ByVal Caja As Byte,
                                   ByVal FOperacion As Date) As ArrayList
-        Dim strQuery As String = "Select cca.Caja, cca.FOperacion, cca.TipoAplicacionIngreso, tai.Descripcion, cca.Total " & _
-                                 "From CorteCajaAplicacion cca " & _
-                                 "Join TipoAplicacionIngreso tai on cca.TipoAplicacionIngreso = tai.TipoAplicacionIngreso " & _
-                                 "WHERE cca.Caja = " & Caja & _
+        Dim strQuery As String = "Select cca.Caja, cca.FOperacion, cca.TipoAplicacionIngreso, tai.Descripcion, cca.Total " &
+                                 "From CorteCajaAplicacion cca " &
+                                 "Join TipoAplicacionIngreso tai on cca.TipoAplicacionIngreso = tai.TipoAplicacionIngreso " &
+                                 "WHERE cca.Caja = " & Caja &
                                  " AND cca.FOperacion = '" & FOperacion.ToShortDateString & "'"
         Dim da As New SqlDataAdapter(strQuery, DataLayer.Conexion)
         Dim dt As New DataTable("CorteCajaAplicacion")
@@ -1842,8 +1846,8 @@ Public Class cBanco
     End Property
 #End Region
 #Region "Funciones"
-    Public Sub AltaModifica(ByVal shrBanco As Short, _
-                            ByVal strNombre As String, _
+    Public Sub AltaModifica(ByVal shrBanco As Short,
+                            ByVal strNombre As String,
                             Optional ByVal Alta As Boolean = True)
         Dim cmd As New SqlCommand("spBancoAltaModifica")
         With cmd
@@ -1982,8 +1986,8 @@ Public Class cRazonDevCheque
     End Property
 #End Region
 #Region "Funciones"
-    Public Sub AltaModifica(ByVal strRazonDevCheque As String, _
-                            ByVal strDescripcion As String, _
+    Public Sub AltaModifica(ByVal strRazonDevCheque As String,
+                            ByVal strDescripcion As String,
                             Optional ByVal Alta As Boolean = True)
         Dim cmd As New SqlCommand("spRazonDevChequeAltaModifica")
 
@@ -2132,9 +2136,9 @@ Public Class cTipoMovimientoCaja
 #End Region
 
 #Region "Funciones"
-    Public Sub AltaModifica(ByVal shrTipoMovimientoCaja As Short, _
-                            ByVal strDescripcion As String, _
-                            ByVal blnAplicaVenta As Boolean, _
+    Public Sub AltaModifica(ByVal shrTipoMovimientoCaja As Short,
+                            ByVal strDescripcion As String,
+                            ByVal blnAplicaVenta As Boolean,
                             Optional ByVal blnAlta As Boolean = True)
         Dim cmd As New SqlCommand("spTipoMovimientoCajaAltaModifica")
         With cmd
@@ -2277,9 +2281,9 @@ Public Class cCaja
 
 #Region "Funciones"
 
-    Public Sub AltaModifica(ByVal shrCaja As Short, _
-                            ByVal strDescripcion As String, _
-                            ByVal strUsuario As String, _
+    Public Sub AltaModifica(ByVal shrCaja As Short,
+                            ByVal strDescripcion As String,
+                            ByVal strUsuario As String,
                             Optional ByVal blnAlta As Boolean = True)
         Dim cmd As New SqlCommand("spCajaAltaModifica")
         With cmd
@@ -2419,7 +2423,7 @@ Public Class cCelula
     End Property
 #End Region
 #Region "Funciones"
-    <Description("Funcion para consultar la celula especificada.")> _
+    <Description("Funcion para consultar la celula especificada.")>
     Public Overloads Sub Consulta(ByVal shrCelula As Short)
         Dim strQuery As String = "SELECT Celula, Descripcion, Siglas FROM Celula WHERE Celula = " & shrCelula.ToString
         Dim cmd As New SqlCommand(strQuery)
@@ -2441,7 +2445,7 @@ Public Class cCelula
         End Try
     End Sub
 
-    <Description("Funcion para devolver un datatable con todas las celulas.")> _
+    <Description("Funcion para devolver un datatable con todas las celulas.")>
     Public Overloads Function Consulta() As DataTable
         Dim strQuery As String = "SELECT Celula, Descripcion, Siglas FROM Celula ORDER BY Celula"
         Dim da As New SqlDataAdapter(strQuery, DataLayer.Conexion)
@@ -2463,7 +2467,7 @@ Public Class cCelula
         End If
     End Function
 
-    <Description("Funcion para devolver un datareader con todas las celulas.")> _
+    <Description("Funcion para devolver un datareader con todas las celulas.")>
     Public Function ConsultaDR() As SqlDataReader
         Dim cmd As New SqlCommand("SELECT Celula, Descripcion, Siglas FROM Celula ORDER BY Celula")
         cmd.CommandType = CommandType.Text
@@ -2571,7 +2575,7 @@ Public Class cRuta
         End Try
     End Sub
 
-    <Description("Consulta todas las rutas y devuelve un DataReader")> _
+    <Description("Consulta todas las rutas y devuelve un DataReader")>
     Public Function ConsultaDR() As SqlDataReader
         Dim cmd As New SqlCommand("SELECT Ruta, Descripcion, Celula FROM Ruta ORDER BY Ruta")
         cmd.CommandType = CommandType.Text
@@ -2588,7 +2592,7 @@ Public Class cRuta
         End Try
     End Function
 
-    <Description("Consulta las rutas de la celula especificada.")> _
+    <Description("Consulta las rutas de la celula especificada.")>
     Public Function ConsultaDR(ByVal shrCelula As Short) As SqlDataReader
         Dim strQuery As String = "SELECT Ruta, Descripcion, Celula FROM Ruta WHERE Celula = " & CType(shrCelula, String) & " ORDER BY Ruta"
         Dim cmd As New SqlCommand(strQuery)
@@ -2606,9 +2610,9 @@ Public Class cRuta
         End Try
     End Function
 
-    <Description("Consulta la lista de rutas que salieron a ruta en la fecha y celula especificados.")> _
-    Public Function ConsultaAsignacionRutas(ByVal shrCelula As Short, _
-                                            ByVal dtmFechaDesde As Date, _
+    <Description("Consulta la lista de rutas que salieron a ruta en la fecha y celula especificados.")>
+    Public Function ConsultaAsignacionRutas(ByVal shrCelula As Short,
+                                            ByVal dtmFechaDesde As Date,
                                             ByVal dtmFechaHasta As Date) As SqlDataReader
         Dim cmd As New SqlCommand("spConsultaAsignacionRutas")
         With cmd
@@ -2801,13 +2805,13 @@ Public Class cCliente
         Consulta(_Cliente)
     End Sub
 
-    Public Function Consulta(ByVal CalleNombre As String, _
-                             ByVal NumExterior As Integer, _
-                             ByVal NumInterior As String, _
+    Public Function Consulta(ByVal CalleNombre As String,
+                             ByVal NumExterior As Integer,
+                             ByVal NumInterior As String,
                              ByVal ColoniaNombre As String) As Integer
 
         Dim _Cliente As Integer
-        Dim strQuery As String = _
+        Dim strQuery As String =
         "SELECT Top 1 Cliente FROM vwDatosCliente WHERE CalleNombre = @CalleNombre AND NumExterior = @NumExterior AND NumInterior = @NumInterior AND ColoniaNombre = @ColoniaNombre"
         Dim cmd As New SqlCommand(strQuery)
         With cmd
@@ -2841,7 +2845,7 @@ Public Class cCliente
         'Devuelve el número de cliente según la primer coincidencia que tenga con el 
         'nombre especificado.
         Dim _Cliente As Integer
-        Dim strQuery As String = _
+        Dim strQuery As String =
         "SELECT Top 1 Cliente FROM vwDatosCliente WHERE Nombre = @Nombre ORDER BY FAlta"
         Dim cmd As New SqlCommand(strQuery)
         With cmd
@@ -2914,11 +2918,11 @@ Public Class cCliente
     End Sub
 
     'Función que regresa un DataSet con los datos generales del cliente y con los datos de los pedidos
-    Public Function ConsultaDatos(ByVal intCliente As Integer, _
-                         Optional ByVal ConsultaPedido As Boolean = True, _
-                         Optional ByVal ConsultaTarjetaCredito As Boolean = True, _
-                         Optional ByVal ConsultaDescuentos As Boolean = True, _
-                         Optional ByVal SoloDocumentosACredito As Boolean = False, _
+    Public Function ConsultaDatos(ByVal intCliente As Integer,
+                         Optional ByVal ConsultaPedido As Boolean = True,
+                         Optional ByVal ConsultaTarjetaCredito As Boolean = True,
+                         Optional ByVal ConsultaDescuentos As Boolean = True,
+                         Optional ByVal SoloDocumentosACredito As Boolean = False,
                          Optional ByVal SoloPedidosSurtidos As Boolean = True) As DataSet
 
         'Dim cmd As New SqlCommand("SET transaction isolation level read uncommitted SELECT c.*, dbo.ProgramaClienteTexto(c.Cliente) as ProgramaCliente FROM vwDatosCliente c WHERE c.Cliente = " & intCliente.ToString)
@@ -2946,7 +2950,7 @@ Public Class cCliente
             If ConsultaPedido Then
                 'Modificado el 03 de febrero
                 'Solo consulta los documentos de la cartera de crédito.
-                Dim strQuery As String = _
+                Dim strQuery As String =
                 "EXEC spConsultaPedidosPorClienteCaja @Cliente, @SoloDocumentosACredito, @SoloPedidosSurtidos"
                 cmd.CommandText = strQuery
                 cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = intCliente
@@ -3008,11 +3012,11 @@ Public Class cCliente
 
     '24/03/2012
     'Función que regresa un DataSet con los datos generales del cliente y con los datos de los pedidos para la pantalla de abonos por periodo
-    Public Function ConsultaDatosPedidos(ByVal intCliente As Integer, _
-                                         ByVal ConsultaPorPeriodo As Boolean, _
-                                         ByVal Fecha1 As DateTime, _
-                                         ByVal Fecha2 As DateTime, _
-                                Optional ByVal SoloDocumentosACredito As Boolean = False, _
+    Public Function ConsultaDatosPedidos(ByVal intCliente As Integer,
+                                         ByVal ConsultaPorPeriodo As Boolean,
+                                         ByVal Fecha1 As DateTime,
+                                         ByVal Fecha2 As DateTime,
+                                Optional ByVal SoloDocumentosACredito As Boolean = False,
                                 Optional ByVal SoloPedidosSurtidos As Boolean = True) As DataSet
         Try
             Dim cmd As New SqlCommand()
@@ -3050,26 +3054,26 @@ Public Class cCliente
     End Function
 
 
-    <Description("Modifica los datos de crédito del cliente especificado.")> _
-    Public Sub Modifica(ByVal Cliente As Integer, _
-                        ByVal DiasCredito As Short, _
-                        ByVal MaxImporteCredito As Decimal, _
-                        ByVal TipoCredito As Byte, _
-                        ByVal TipoCobro As Byte, _
-                        ByVal DiaRevision As Byte, _
-                        ByVal DiaPago As Byte, _
-                        ByVal Empleado As Integer, _
-                        ByVal EmpleadoNomina As Integer, _
-                        ByVal TipoFactura As Byte, _
-                        Optional ByVal TipoNotaCredito As Byte = Nothing, _
-                        Optional ByVal TipoCarteraCredito As Byte = Nothing, _
-                        Optional ByVal ClientePadre As Integer = Nothing, _
-                        Optional ByVal EjecutivoCyC As Integer = Nothing, _
-                        Optional ByVal AltaHorarioAtencion As Boolean = False, _
-                        Optional ByVal HInicioAtencion As Date = #1/1/1900#, _
-                        Optional ByVal HFinAtencion As Date = #1/1/1900#, _
-                        Optional ByVal ObservacionesCyC As String = "", _
-                        Optional ByVal DificultadGestion As Byte = Nothing, _
+    <Description("Modifica los datos de crédito del cliente especificado.")>
+    Public Sub Modifica(ByVal Cliente As Integer,
+                        ByVal DiasCredito As Short,
+                        ByVal MaxImporteCredito As Decimal,
+                        ByVal TipoCredito As Byte,
+                        ByVal TipoCobro As Byte,
+                        ByVal DiaRevision As Byte,
+                        ByVal DiaPago As Byte,
+                        ByVal Empleado As Integer,
+                        ByVal EmpleadoNomina As Integer,
+                        ByVal TipoFactura As Byte,
+                        Optional ByVal TipoNotaCredito As Byte = Nothing,
+                        Optional ByVal TipoCarteraCredito As Byte = Nothing,
+                        Optional ByVal ClientePadre As Integer = Nothing,
+                        Optional ByVal EjecutivoCyC As Integer = Nothing,
+                        Optional ByVal AltaHorarioAtencion As Boolean = False,
+                        Optional ByVal HInicioAtencion As Date = #1/1/1900#,
+                        Optional ByVal HFinAtencion As Date = #1/1/1900#,
+                        Optional ByVal ObservacionesCyC As String = "",
+                        Optional ByVal DificultadGestion As Byte = Nothing,
                         Optional ByVal DificultadCobro As Byte = Nothing)
 
         Dim cmd As New SqlCommand("spCYCModificaDatosCreditoCliente2")
@@ -3131,11 +3135,11 @@ Public Class cCliente
 
     End Sub
 
-    Public Sub Modifica(ByVal Cliente As Integer, _
-                        ByVal Programacion As Boolean, _
-                        ByVal ObservacionesProgramacion As String, _
-               Optional ByVal UserInfo As cUserInfo = Nothing, _
-               Optional ByVal UserName As String = Nothing, _
+    Public Sub Modifica(ByVal Cliente As Integer,
+                        ByVal Programacion As Boolean,
+                        ByVal ObservacionesProgramacion As String,
+               Optional ByVal UserInfo As cUserInfo = Nothing,
+               Optional ByVal UserName As String = Nothing,
                Optional ByVal ObservacionesInactivacion As String = Nothing)
 
         Dim conn As SqlConnection
@@ -3185,41 +3189,41 @@ Public Class cCliente
     End Sub
 
     '20070304 AQUI MODIFIQUE LA REFERENCIA A TIPO STRING
-    Public Function AltaModifica(ByVal Celula As Byte, _
-                                 ByVal Nombre As String, _
-                                 ByVal TipoCliente As Byte, _
-                                 ByVal Calle As Integer, _
-                                 ByVal NumExterior As Integer, _
-                                 ByVal Colonia As Integer, _
-                                 ByVal Ruta As Short, _
-                                 ByVal RamoCliente As Short, _
-                                 ByVal OrigenCliente As Byte, _
-                                 ByVal ClasificacionCliente As Short, _
-                                 ByVal TelCasa As String, _
-                                 ByVal TelAlterno1 As String, _
-                                 ByVal TelAlterno2 As String, _
-                        Optional ByVal Status As String = "ACTIVO", _
-                        Optional ByVal StatusCalidad As String = "NUEVO", _
-                        Optional ByVal NumInterior As String = "", _
-                        Optional ByVal Empresa As Integer = 0, _
-                        Optional ByVal EntreCalle1 As Integer = 0, _
-                        Optional ByVal EntreCalle2 As Integer = 0, _
-                        Optional ByVal Observaciones As String = "", _
-                        Optional ByVal Usuario As String = "", _
-                        Optional ByVal Cliente As Integer = 0, _
-                        Optional ByVal Alta As Boolean = True, _
-                        Optional ByVal UserInfo As cUserInfo = Nothing, _
-                        Optional ByVal ClientePadre As Integer = 0, _
-                        Optional ByVal Email As String = "", _
-                        Optional ByVal VIP As Boolean = False, _
-                        Optional ByVal PorcentajeComisionVenta As Byte = Nothing, _
-                        Optional ByVal ContratoAprobado As Boolean = False, _
-                        Optional ByVal Promotor As Integer = Nothing, _
-                        Optional ByVal DigitoVerificador As Integer = Nothing, _
-                        Optional ByVal Lada As String = Nothing, _
-                        Optional ByVal Referencia As String = Nothing, _
-                        Optional ByVal Referencia2 As String = Nothing, _
-                        Optional ByVal DigitoVerificador2 As Integer = Nothing, _
+    Public Function AltaModifica(ByVal Celula As Byte,
+                                 ByVal Nombre As String,
+                                 ByVal TipoCliente As Byte,
+                                 ByVal Calle As Integer,
+                                 ByVal NumExterior As Integer,
+                                 ByVal Colonia As Integer,
+                                 ByVal Ruta As Short,
+                                 ByVal RamoCliente As Short,
+                                 ByVal OrigenCliente As Byte,
+                                 ByVal ClasificacionCliente As Short,
+                                 ByVal TelCasa As String,
+                                 ByVal TelAlterno1 As String,
+                                 ByVal TelAlterno2 As String,
+                        Optional ByVal Status As String = "ACTIVO",
+                        Optional ByVal StatusCalidad As String = "NUEVO",
+                        Optional ByVal NumInterior As String = "",
+                        Optional ByVal Empresa As Integer = 0,
+                        Optional ByVal EntreCalle1 As Integer = 0,
+                        Optional ByVal EntreCalle2 As Integer = 0,
+                        Optional ByVal Observaciones As String = "",
+                        Optional ByVal Usuario As String = "",
+                        Optional ByVal Cliente As Integer = 0,
+                        Optional ByVal Alta As Boolean = True,
+                        Optional ByVal UserInfo As cUserInfo = Nothing,
+                        Optional ByVal ClientePadre As Integer = 0,
+                        Optional ByVal Email As String = "",
+                        Optional ByVal VIP As Boolean = False,
+                        Optional ByVal PorcentajeComisionVenta As Byte = Nothing,
+                        Optional ByVal ContratoAprobado As Boolean = False,
+                        Optional ByVal Promotor As Integer = Nothing,
+                        Optional ByVal DigitoVerificador As Integer = Nothing,
+                        Optional ByVal Lada As String = Nothing,
+                        Optional ByVal Referencia As String = Nothing,
+                        Optional ByVal Referencia2 As String = Nothing,
+                        Optional ByVal DigitoVerificador2 As Integer = Nothing,
                         Optional ByVal EjecutivoComercial As Integer = Nothing,
                         Optional ByVal NoSumnistrar As Boolean = False) As Integer
         '28/09/2004
@@ -3375,7 +3379,7 @@ Public Class cCliente
         cmdSelect.Parameters.Add("@NumInterior", SqlDbType.Char).Value = numinterior
         Try
             connection.Open()
-            Return IIf(cmdSelect.ExecuteScalar Is DBNull.Value, _
+            Return IIf(cmdSelect.ExecuteScalar Is DBNull.Value,
             -1, CType(cmdSelect.ExecuteScalar, Integer))
         Catch ex As SqlException
             Return -1
@@ -3394,7 +3398,7 @@ Public Class cCliente
 
     End Function
 
-    Public Shared Function ConsultaDireccionDuplicada(ByVal Cliente As Integer, ByVal Calle As Integer, ByVal NumExterior As Integer, ByVal Colonia As Integer, _
+    Public Shared Function ConsultaDireccionDuplicada(ByVal Cliente As Integer, ByVal Calle As Integer, ByVal NumExterior As Integer, ByVal Colonia As Integer,
         ByVal NumInterior As String, ByVal Telefono As String) As System.Data.DataTable
 
         Dim dtDirecciones As New DataTable("Direcciones")
@@ -3450,23 +3454,23 @@ Public Class cCliente
             da = Nothing
         End Try
     End Function
-    Public Function AltaModificaPortatil(ByVal Celula As Byte, _
-                              ByVal Nombre As String, _
-                              ByVal Calle As Integer, _
-                              ByVal NumExterior As Integer, _
-                              ByVal Colonia As Integer, _
-                              ByVal Ruta As Short, _
-                              ByVal RamoCliente As Short, _
-                              ByVal OrigenCliente As Byte, _
-                              ByVal TelCasa As String, _
-                              ByVal TelAlterno1 As String, _
-                     Optional ByVal NumInterior As String = "", _
-                     Optional ByVal EntreCalle1 As Integer = 0, _
-                     Optional ByVal EntreCalle2 As Integer = 0, _
-                     Optional ByVal Observaciones As String = "", _
-                     Optional ByVal Usuario As String = "", _
-                     Optional ByVal Cliente As Integer = 0, _
-                     Optional ByVal Alta As Boolean = True, _
+    Public Function AltaModificaPortatil(ByVal Celula As Byte,
+                              ByVal Nombre As String,
+                              ByVal Calle As Integer,
+                              ByVal NumExterior As Integer,
+                              ByVal Colonia As Integer,
+                              ByVal Ruta As Short,
+                              ByVal RamoCliente As Short,
+                              ByVal OrigenCliente As Byte,
+                              ByVal TelCasa As String,
+                              ByVal TelAlterno1 As String,
+                     Optional ByVal NumInterior As String = "",
+                     Optional ByVal EntreCalle1 As Integer = 0,
+                     Optional ByVal EntreCalle2 As Integer = 0,
+                     Optional ByVal Observaciones As String = "",
+                     Optional ByVal Usuario As String = "",
+                     Optional ByVal Cliente As Integer = 0,
+                     Optional ByVal Alta As Boolean = True,
                      Optional ByVal UserInfo As cUserInfo = Nothing) As Integer
 
         Dim conn As SqlConnection
@@ -3555,7 +3559,7 @@ Public Class cCliente
         cmdSelect.Parameters.Add("@NumInterior", SqlDbType.VarChar).Value = numinterior
         Try
             connection.Open()
-            validaDireccionPortatil = IIf(cmdSelect.ExecuteScalar Is DBNull.Value, _
+            validaDireccionPortatil = IIf(cmdSelect.ExecuteScalar Is DBNull.Value,
             -1, CType(cmdSelect.ExecuteScalar, Integer))
         Catch ex As SqlException
             validaDireccionPortatil = -1
@@ -3580,18 +3584,18 @@ End Class
 
 #Region "TarjetaCredito"
 Public Class cTarjetaCredito
-    Public Sub AltaModifica(ByVal Cliente As Integer, _
-                            ByVal TarjetaCredito As String, _
-                            ByVal Titular As String, _
-                            ByVal Banco As Short, _
-                            ByVal AnoVigencia As Short, _
-                            ByVal MesVigencia As Byte, _
-                            ByVal Domicilio As String, _
-                            ByVal TipoTarjetaCredito As Byte, _
-                            ByVal Identificacion As String, _
-                            ByVal Firma As String, _
-                            ByVal Recurrente As Boolean, _
-                            Optional ByVal Status As String = "ACTIVA", _
+    Public Sub AltaModifica(ByVal Cliente As Integer,
+                            ByVal TarjetaCredito As String,
+                            ByVal Titular As String,
+                            ByVal Banco As Short,
+                            ByVal AnoVigencia As Short,
+                            ByVal MesVigencia As Byte,
+                            ByVal Domicilio As String,
+                            ByVal TipoTarjetaCredito As Byte,
+                            ByVal Identificacion As String,
+                            ByVal Firma As String,
+                            ByVal Recurrente As Boolean,
+                            Optional ByVal Status As String = "ACTIVA",
                             Optional ByVal Alta As Boolean = True)
 
         Dim cmd As New SqlCommand("spTarjetaCreditoAltaModifica")
@@ -3706,13 +3710,13 @@ Public Class cOperador
     End Sub
 
     Public Sub New()
-        MyBase.new()
+        MyBase.New()
     End Sub
 
     Private Sub Consulta(ByVal Operador As Integer)
         Dim da As SqlDataAdapter = Nothing
         Dim dt As DataTable = Nothing
-        Dim strQuery As String = _
+        Dim strQuery As String =
         "SELECT Operador, Nombre, Status FROM vwCYCOperador WHERE Operador = " & Operador.ToString
         Try
             da = New SqlDataAdapter(strQuery, DataLayer.Conexion)
@@ -3749,9 +3753,9 @@ Public Class cOperador
         End Try
     End Function
 
-    Public Sub Modifica(ByVal Operador As Short, _
-                        ByVal MaxImporteCredito As Decimal, _
-                        ByVal MaxLitrosCredito As Integer, _
+    Public Sub Modifica(ByVal Operador As Short,
+                        ByVal MaxImporteCredito As Decimal,
+                        ByVal MaxLitrosCredito As Integer,
                         ByVal MaxDiasCredito As Short)
 
         Dim cmd As New SqlCommand("spCYCOperadorModifica")
@@ -3779,19 +3783,19 @@ End Class
 
 #Region "MovimientoCaja"
 Public Class MovimientoCaja
-    Public Function Alta(ByVal Caja As Short, _
-                         ByVal FOperacion As Date, _
-                         ByVal Consecutivo As Byte, _
-                         ByVal FMovimiento As Date, _
-                         ByVal Total As Decimal, _
-                         ByVal UsuarioCaptura As String, _
-                         ByVal Empleado As Integer, _
-                         ByVal TipoMovimientoCaja As Byte, _
-                         ByVal Ruta As Short, _
-                Optional ByVal Cliente As Integer = 0, _
-                Optional ByRef NuevaClave As String = "", _
-                Optional ByVal Observaciones As String = "", _
-                Optional ByVal SaldoAFavor As Decimal = Nothing, _
+    Public Function Alta(ByVal Caja As Short,
+                         ByVal FOperacion As Date,
+                         ByVal Consecutivo As Byte,
+                         ByVal FMovimiento As Date,
+                         ByVal Total As Decimal,
+                         ByVal UsuarioCaptura As String,
+                         ByVal Empleado As Integer,
+                         ByVal TipoMovimientoCaja As Byte,
+                         ByVal Ruta As Short,
+                Optional ByVal Cliente As Integer = 0,
+                Optional ByRef NuevaClave As String = "",
+                Optional ByVal Observaciones As String = "",
+                Optional ByVal SaldoAFavor As Decimal = Nothing,
                 Optional ByVal TipoAjuste As Byte = 0) As Integer
 
         Dim cmd As New SqlCommand("spMovimientoCajaAlta")
@@ -3843,20 +3847,20 @@ End Class
 Public Class Cobro
 
 #Region "Funciones"
-    <Description("Función para dar de alta los cheques en la tabla 'Cobro'")> _
-    Public Function ChequeTarjetaAlta(ByVal strNumeroCheque As String, _
-                                      ByVal decTotal As Decimal, _
-                                      ByVal strNumeroCuenta As String, _
-                                      ByVal dtmFCheque As Date, _
-                                      ByVal intCliente As Integer, _
-                                      ByVal shrBanco As Short, _
-                            Optional ByVal strObservaciones As String = "", _
-                            Optional ByVal TipoCobro As Enumeradores.enumTipoCobro = Enumeradores.enumTipoCobro.Cheque, _
-                            Optional ByVal Usuario As String = "", _
-                            Optional ByVal Saldo As Decimal = 0, _
-                            Optional ByVal strNumeroCuentaDestino As String = Nothing, _
-                            Optional ByVal shrBancoOrigen As Short = Nothing, _
-                            Optional ByVal SaldoAFavor As Boolean = False, _
+    <Description("Función para dar de alta los cheques en la tabla 'Cobro'")>
+    Public Function ChequeTarjetaAlta(ByVal strNumeroCheque As String,
+                                      ByVal decTotal As Decimal,
+                                      ByVal strNumeroCuenta As String,
+                                      ByVal dtmFCheque As Date,
+                                      ByVal intCliente As Integer,
+                                      ByVal shrBanco As Short,
+                            Optional ByVal strObservaciones As String = "",
+                            Optional ByVal TipoCobro As Enumeradores.enumTipoCobro = Enumeradores.enumTipoCobro.Cheque,
+                            Optional ByVal Usuario As String = "",
+                            Optional ByVal Saldo As Decimal = 0,
+                            Optional ByVal strNumeroCuentaDestino As String = Nothing,
+                            Optional ByVal shrBancoOrigen As Short = Nothing,
+                            Optional ByVal SaldoAFavor As Boolean = False,
                             Optional ByVal Posfechado As Boolean = False) As Integer
 
         Dim cmd As New SqlCommand("spChequeTarjetaAltaModifica")
@@ -3914,13 +3918,13 @@ Public Class Cobro
         End Try
     End Function
 
-    <Description("Función para dar de alta los saldos a favor en la tabla 'Cobro'")> _
-    Public Function SaldoAFavorAlta(ByVal Total As Decimal, _
-                                      ByVal Cliente As Integer, _
-                                      ByVal AnioCobroOrigen As Short, _
-                                      ByVal CobroOrigen As Integer, _
-                            Optional ByVal strObservaciones As String = "", _
-                            Optional ByVal TipoCobro As Enumeradores.enumTipoCobro = Enumeradores.enumTipoCobro.SaldoAFavor, _
+    <Description("Función para dar de alta los saldos a favor en la tabla 'Cobro'")>
+    Public Function SaldoAFavorAlta(ByVal Total As Decimal,
+                                      ByVal Cliente As Integer,
+                                      ByVal AnioCobroOrigen As Short,
+                                      ByVal CobroOrigen As Integer,
+                            Optional ByVal strObservaciones As String = "",
+                            Optional ByVal TipoCobro As Enumeradores.enumTipoCobro = Enumeradores.enumTipoCobro.SaldoAFavor,
                             Optional ByVal Usuario As String = "") As Integer
 
         Dim cmd As New SqlCommand("spSaldoAFavorAltaModifica")
@@ -3957,18 +3961,18 @@ Public Class Cobro
         End Try
     End Function
 
-    <Description("Procedimiento para modificar cobro de tarjeta y cheque.")> _
-    Public Sub ChequeTarjetaModifica(ByVal strNumeroCheque As String, _
-                                     ByVal decTotal As Decimal, _
-                                     ByVal strNumeroCuenta As String, _
-                                     ByVal dtmFCheque As Date, _
-                                     ByVal intCliente As Integer, _
-                                     ByVal shrBanco As Short, _
-                                     ByVal Usuario As String, _
-                                     ByVal NuevoNumeroCheque As String, _
-                                     ByVal NuevoBanco As Short, _
-                                     ByVal NuevoCliente As Integer, _
-                            Optional ByVal strObservaciones As String = "", _
+    <Description("Procedimiento para modificar cobro de tarjeta y cheque.")>
+    Public Sub ChequeTarjetaModifica(ByVal strNumeroCheque As String,
+                                     ByVal decTotal As Decimal,
+                                     ByVal strNumeroCuenta As String,
+                                     ByVal dtmFCheque As Date,
+                                     ByVal intCliente As Integer,
+                                     ByVal shrBanco As Short,
+                                     ByVal Usuario As String,
+                                     ByVal NuevoNumeroCheque As String,
+                                     ByVal NuevoBanco As Short,
+                                     ByVal NuevoCliente As Integer,
+                            Optional ByVal strObservaciones As String = "",
                             Optional ByVal TipoCobro As Enumeradores.enumTipoCobro = Enumeradores.enumTipoCobro.Cheque)
 
         Dim cmd As New SqlCommand("spChequeTarjetaAltaModifica")
@@ -4005,10 +4009,10 @@ Public Class Cobro
 
     End Sub
 
-    <Description("Función para dar de alta Efectivo y Vales en la tabla 'Cobro'")> _
-    Public Function EfectivoValesAlta(ByVal Total As Decimal, _
-                                      ByVal TipoCobro As Enumeradores.enumTipoCobro, _
-                                      ByVal Usuario As String, _
+    <Description("Función para dar de alta Efectivo y Vales en la tabla 'Cobro'")>
+    Public Function EfectivoValesAlta(ByVal Total As Decimal,
+                                      ByVal TipoCobro As Enumeradores.enumTipoCobro,
+                                      ByVal Usuario As String,
                              Optional ByVal Observaciones As String = "") As Integer
 
         Dim cmd As New SqlCommand("spEfectivoValesAltaModifica")
@@ -4038,15 +4042,15 @@ Public Class Cobro
         End Try
     End Function
 
-    Public Sub Modifica(ByVal AnoCobro As Short, _
-                        ByVal Cobro As Integer, _
-                        ByVal Banco As Short, _
-                        ByVal NumeroCheque As String, _
-                        ByVal NumeroCuenta As String, _
-                        ByVal TipoCobro As Byte, _
-                        ByVal FCheque As Date, _
-                        ByVal Observaciones As String, _
-                        Optional ByVal NumeroCuentaDestino As String = Nothing, _
+    Public Sub Modifica(ByVal AnoCobro As Short,
+                        ByVal Cobro As Integer,
+                        ByVal Banco As Short,
+                        ByVal NumeroCheque As String,
+                        ByVal NumeroCuenta As String,
+                        ByVal TipoCobro As Byte,
+                        ByVal FCheque As Date,
+                        ByVal Observaciones As String,
+                        Optional ByVal NumeroCuentaDestino As String = Nothing,
                         Optional ByVal BancoDestino As Short = Nothing)
         Dim cmd As New SqlCommand("spCYCCobroModifica")
         With cmd
@@ -4079,7 +4083,7 @@ Public Class Cobro
 
     End Sub
 
-    <Description("Función para consultar todos los cheques de la tabla Cobro")> _
+    <Description("Función para consultar todos los cheques de la tabla Cobro")>
     Public Function Consulta(Optional ByVal Banco As Short = 0) As DataTable
         Dim strConsulta As String
         If Banco <> 0 Then
@@ -4100,7 +4104,7 @@ Public Class Cobro
         End Try
     End Function
 
-    Public Function Consulta(ByVal FCheque As Date, _
+    Public Function Consulta(ByVal FCheque As Date,
                     Optional ByVal Banco As Short = 0) As DataTable
         'Dim strConsulta As String
         Dim cmdConsulta As New SqlCommand("spCyCDCConsultaCheques", DataLayer.Conexion)
@@ -4134,12 +4138,12 @@ Public Class Cobro
         End Try
     End Function
 
-    Public Function ChequeDevolucion(ByVal AñoCobro As Short, _
-                                     ByVal Cobro As Integer, _
-                                     ByVal RazonDevCheque As String, _
-                                     ByVal Observaciones As String, _
-                                     ByVal FDevolucion As DateTime, _
-                                     Optional ByVal AplicarComision As Boolean = False, _
+    Public Function ChequeDevolucion(ByVal AñoCobro As Short,
+                                     ByVal Cobro As Integer,
+                                     ByVal RazonDevCheque As String,
+                                     ByVal Observaciones As String,
+                                     ByVal FDevolucion As DateTime,
+                                     Optional ByVal AplicarComision As Boolean = False,
                                      Optional ByVal MultiDev As Boolean = False) As String
 
         Dim cmd As New SqlCommand("spCYCChequeDevolucion")
@@ -4185,11 +4189,11 @@ End Class
 Public Class CobroPedido
 
 
-    Friend Sub Alta(ByVal Celula As Byte, _
-                    ByVal AnoCobro As Short, _
-                    ByVal Cobro As Integer, _
-                    ByVal AnoPed As Short, _
-                    ByVal Pedido As Integer, _
+    Friend Sub Alta(ByVal Celula As Byte,
+                    ByVal AnoCobro As Short,
+                    ByVal Cobro As Integer,
+                    ByVal AnoPed As Short,
+                    ByVal Pedido As Integer,
                     ByVal Total As Decimal)
 
         Dim cmd As New SqlCommand("spCobroPedidoAlta")
@@ -4229,26 +4233,26 @@ Public Class TransaccionMovimientoCaja
 
 #Region "AltaLiquidacion"
     'Optional ByVal _arrValePromocion As Array = Nothing, _
-    Public Sub AltaLiquidacion(ByVal Caja As Byte, _
-                               ByVal FOperacion As Date, _
-                               ByVal Consecutivo As Byte, _
-                               ByVal FMovimiento As Date, _
-                               ByVal Total As Decimal, _
-                               ByVal UsuarioCaptura As String, _
-                               ByVal Empleado As Integer, _
-                               ByVal Ruta As Short, _
-                               ByVal TipoMovimientoCaja As Byte, _
-                               ByVal TablaCobros As DataTable, _
-                               ByVal AnoAtt As Short, _
-                               ByVal FolioAtt As Integer, _
-                               ByVal _arrEfectivo As Array, _
-                               ByVal _arrVales As Array, _
-                               ByVal _arrCheques As Array, _
-                               ByVal _arrTarjetaCredito As Array, _
-                               ByVal _arrFichaDeposito As Array, _
-                               ByVal _arrCambio As Array, _
-                               ByVal _dtCobroPedido As DataTable, _
-                               Optional ByVal DTValesPromocionales As DataTable = Nothing, _
+    Public Sub AltaLiquidacion(ByVal Caja As Byte,
+                               ByVal FOperacion As Date,
+                               ByVal Consecutivo As Byte,
+                               ByVal FMovimiento As Date,
+                               ByVal Total As Decimal,
+                               ByVal UsuarioCaptura As String,
+                               ByVal Empleado As Integer,
+                               ByVal Ruta As Short,
+                               ByVal TipoMovimientoCaja As Byte,
+                               ByVal TablaCobros As DataTable,
+                               ByVal AnoAtt As Short,
+                               ByVal FolioAtt As Integer,
+                               ByVal _arrEfectivo As Array,
+                               ByVal _arrVales As Array,
+                               ByVal _arrCheques As Array,
+                               ByVal _arrTarjetaCredito As Array,
+                               ByVal _arrFichaDeposito As Array,
+                               ByVal _arrCambio As Array,
+                               ByVal _dtCobroPedido As DataTable,
+                               Optional ByVal DTValesPromocionales As DataTable = Nothing,
                                Optional ByVal _saldoAFavor As Decimal = Nothing)
 
 
@@ -4306,24 +4310,24 @@ Public Class TransaccionMovimientoCaja
 #End Region
 
 #Region "AltaLiquidacionOld"
-    Public Sub AltaLiquidacionOld(ByVal Caja As Byte, _
-                               ByVal FOperacion As Date, _
-                               ByVal Consecutivo As Byte, _
-                               ByVal FMovimiento As Date, _
-                               ByVal Total As Decimal, _
-                               ByVal UsuarioCaptura As String, _
-                               ByVal Empleado As Integer, _
-                               ByVal Ruta As Short, _
-                               ByVal TipoMovimientoCaja As Byte, _
-                               ByVal TablaCobros As DataTable, _
-                               ByVal AnoAtt As Short, _
-                               ByVal FolioAtt As Integer, _
-                               ByVal _arrEfectivo As Array, _
-                               ByVal _arrVales As Array, _
-                               ByVal _arrCheques As Array, _
-                               ByVal _arrTarjetaCredito As Array, _
-                               ByVal _arrFichaDeposito As Array, _
-                               ByVal _arrCambio As Array, _
+    Public Sub AltaLiquidacionOld(ByVal Caja As Byte,
+                               ByVal FOperacion As Date,
+                               ByVal Consecutivo As Byte,
+                               ByVal FMovimiento As Date,
+                               ByVal Total As Decimal,
+                               ByVal UsuarioCaptura As String,
+                               ByVal Empleado As Integer,
+                               ByVal Ruta As Short,
+                               ByVal TipoMovimientoCaja As Byte,
+                               ByVal TablaCobros As DataTable,
+                               ByVal AnoAtt As Short,
+                               ByVal FolioAtt As Integer,
+                               ByVal _arrEfectivo As Array,
+                               ByVal _arrVales As Array,
+                               ByVal _arrCheques As Array,
+                               ByVal _arrTarjetaCredito As Array,
+                               ByVal _arrFichaDeposito As Array,
+                               ByVal _arrCambio As Array,
                                ByVal _dtCobroPedido As DataTable)
 
         'AnoAtt es el año del registro en AutotanqueTurno
@@ -4364,8 +4368,8 @@ Public Class TransaccionMovimientoCaja
             'cmd.CommandTimeout = 180
             cmd.ExecuteNonQuery()
 
-            strQuery = "UPDATE MovimientoCaja SET AñoAtt = " & AnoAtt.ToString & ",FolioAtt = " & FolioAtt.ToString & _
-            " WHERE Caja = " & Caja.ToString & " AND FOperacion = '" & FOperacion.ToShortDateString & "' AND Consecutivo = " & _
+            strQuery = "UPDATE MovimientoCaja SET AñoAtt = " & AnoAtt.ToString & ",FolioAtt = " & FolioAtt.ToString &
+            " WHERE Caja = " & Caja.ToString & " AND FOperacion = '" & FOperacion.ToShortDateString & "' AND Consecutivo = " &
             Consecutivo.ToString & " AND Folio = " & FolioMovCaja.ToString
             cmd = New SqlCommand(strQuery, DataLayer.Conexion, Transaccion)
             'cmd.CommandTimeout = 180
@@ -4385,8 +4389,8 @@ Public Class TransaccionMovimientoCaja
 #End Region
 
 #Region "ValidaFolioATT"
-    Private Sub ValidaFolioATT(ByVal AñoAtt As Short, _
-                               ByVal Folio As Integer, _
+    Private Sub ValidaFolioATT(ByVal AñoAtt As Short,
+                               ByVal Folio As Integer,
                                ByVal FMovimiento As Date)
 
     End Sub
@@ -4394,20 +4398,20 @@ Public Class TransaccionMovimientoCaja
 #End Region
 
 #Region "Alta"
-    Public Function Alta(ByVal Caja As Byte, _
-                         ByVal FOperacion As Date, _
-                         ByVal Consecutivo As Byte, _
-                         ByVal FMovimiento As Date, _
-                         ByVal Total As Decimal, _
-                         ByVal UsuarioCaptura As String, _
-                         ByVal Empleado As Integer, _
-                         ByVal TipoMovimientoCaja As Byte, _
-                         ByVal Ruta As Short, _
-                         ByVal Cliente As Integer, _
-                         ByVal ListaCobro As ArrayList, _
-                         ByVal Usuario As String, _
-                Optional ByVal Observaciones As String = "", _
-                Optional ByRef Clave As String = "", _
+    Public Function Alta(ByVal Caja As Byte,
+                         ByVal FOperacion As Date,
+                         ByVal Consecutivo As Byte,
+                         ByVal FMovimiento As Date,
+                         ByVal Total As Decimal,
+                         ByVal UsuarioCaptura As String,
+                         ByVal Empleado As Integer,
+                         ByVal TipoMovimientoCaja As Byte,
+                         ByVal Ruta As Short,
+                         ByVal Cliente As Integer,
+                         ByVal ListaCobro As ArrayList,
+                         ByVal Usuario As String,
+                Optional ByVal Observaciones As String = "",
+                Optional ByRef Clave As String = "",
                 Optional ByVal TipoAjuste As Byte = 0) As Integer
 
         'Usuario = Es el usuario que se escribe en la tabla Cobro
@@ -4439,46 +4443,46 @@ Public Class TransaccionMovimientoCaja
 
             'Alta en la tabla MovimientoCaja
             If _generarMov Then
-                FolioMovCaja = objMovCaja.Alta(Caja:=Caja, _
-                                               FOperacion:=FOperacion, _
-                                               Consecutivo:=Consecutivo, _
-                                               FMovimiento:=FMovimiento, _
-                                               Total:=Total, _
-                                               UsuarioCaptura:=UsuarioCaptura, _
-                                               Empleado:=Empleado, _
-                                               TipoMovimientoCaja:=TipoMovimientoCaja, _
-                                               Ruta:=Ruta, _
-                                               Cliente:=Cliente, _
-                                               NuevaClave:=Clave, _
-                                               Observaciones:=Observaciones, _
-                                               SaldoAFavor:=SaldoAFavor(ListaCobro), _
+                FolioMovCaja = objMovCaja.Alta(Caja:=Caja,
+                                               FOperacion:=FOperacion,
+                                               Consecutivo:=Consecutivo,
+                                               FMovimiento:=FMovimiento,
+                                               Total:=Total,
+                                               UsuarioCaptura:=UsuarioCaptura,
+                                               Empleado:=Empleado,
+                                               TipoMovimientoCaja:=TipoMovimientoCaja,
+                                               Ruta:=Ruta,
+                                               Cliente:=Cliente,
+                                               NuevaClave:=Clave,
+                                               Observaciones:=Observaciones,
+                                               SaldoAFavor:=SaldoAFavor(ListaCobro),
                                                TipoAjuste:=TipoAjuste)
             End If
 
             For Each Cobro In ListaCobro
 
                 Select Case Cobro.TipoCobro
-                    Case Enumeradores.enumTipoCobro.Efectivo, _
-                         Enumeradores.enumTipoCobro.EfectivoVales, _
+                    Case Enumeradores.enumTipoCobro.Efectivo,
+                         Enumeradores.enumTipoCobro.EfectivoVales,
                          Enumeradores.enumTipoCobro.Vales
                         FolioCobro = objCobro.EfectivoValesAlta(Cobro.Total, CType(Cobro.TipoCobro, Enumeradores.enumTipoCobro), Usuario, Cobro.Observaciones)
 
-                    Case Enumeradores.enumTipoCobro.Cheque, _
-                        Enumeradores.enumTipoCobro.FichaDeposito, _
-                        Enumeradores.enumTipoCobro.NotaCredito, _
-                        Enumeradores.enumTipoCobro.NotaIngreso, _
+                    Case Enumeradores.enumTipoCobro.Cheque,
+                        Enumeradores.enumTipoCobro.FichaDeposito,
+                        Enumeradores.enumTipoCobro.NotaCredito,
+                        Enumeradores.enumTipoCobro.NotaIngreso,
                         Enumeradores.enumTipoCobro.Transferencia
-                        FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Cobro.FechaCheque, Cobro.Cliente, Cobro.Banco, _
-                            Cobro.Observaciones, Cobro.TipoCobro, Usuario, Cobro.Saldo, Cobro.NoCuentaDestino, Cobro.BancoOrigen, Cobro.SaldoAFavor, _
+                        FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Cobro.FechaCheque, Cobro.Cliente, Cobro.Banco,
+                            Cobro.Observaciones, Cobro.TipoCobro, Usuario, Cobro.Saldo, Cobro.NoCuentaDestino, Cobro.BancoOrigen, Cobro.SaldoAFavor,
                             Cobro.Posfechado)
 
                     Case Enumeradores.enumTipoCobro.TarjetaCredito
-                        FolioCobro = objCobro.ChequeTarjetaAlta("", Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones, _
+                        FolioCobro = objCobro.ChequeTarjetaAlta("", Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
                             Enumeradores.enumTipoCobro.TarjetaCredito, Usuario, Cobro.Saldo)
 
                         'CONTROL DE SALDOS 01-04-2005
                     Case Enumeradores.enumTipoCobro.SaldoAFavor
-                        FolioCobro = objCobro.SaldoAFavorAlta(Cobro.Total, Cobro.Cliente, Cobro.AnioCobroOrigen, Cobro.CobroOrigen, _
+                        FolioCobro = objCobro.SaldoAFavorAlta(Cobro.Total, Cobro.Cliente, Cobro.AnioCobroOrigen, Cobro.CobroOrigen,
                             Cobro.Observaciones, Cobro.TipoCobro, Usuario)
 
                 End Select
@@ -4529,10 +4533,10 @@ Public Class TransaccionMovimientoCaja
         Dim saldo As Decimal
         For Each Cobro In ListaCobro
             Select Case Cobro.TipoCobro
-                Case Enumeradores.enumTipoCobro.Cheque, _
-                     Enumeradores.enumTipoCobro.FichaDeposito, _
-                     Enumeradores.enumTipoCobro.NotaCredito, _
-                     Enumeradores.enumTipoCobro.NotaIngreso, _
+                Case Enumeradores.enumTipoCobro.Cheque,
+                     Enumeradores.enumTipoCobro.FichaDeposito,
+                     Enumeradores.enumTipoCobro.NotaCredito,
+                     Enumeradores.enumTipoCobro.NotaIngreso,
                      Enumeradores.enumTipoCobro.Transferencia
                     If Cobro.SaldoAFavor = True AndAlso Cobro.Saldo > 0 Then
                         saldo = Cobro.Saldo
@@ -4545,25 +4549,25 @@ Public Class TransaccionMovimientoCaja
 #End Region
 
 #Region "Valida"
-    Public Sub Valida(ByVal Caja As Byte, _
-                      ByVal FOperacion As Date, _
-                      ByVal Consecutivo As Byte, _
-                      ByVal Folio As Integer, _
-                      ByVal AnoCobro As Short, _
-                      ByVal Cobro As Integer, _
-                      ByVal arrEfectivo As Array, _
-                      ByVal arrVales As Array, _
-                      ByVal arrCheques As Array, _
-                      ByVal arrTarjetaCredito As Array, _
-                      ByVal arrFichaDeposito As Array, _
-                      ByVal arrCambio As Array, _
-                      ByVal dtCobroPedido As DataTable, _
-                      Optional ByVal IniciarTransaccionNueva As Boolean = True, _
-                      Optional ByVal ContieneDetalleCobroPedido As Boolean = True, _
-                      Optional ByVal DTValePromocion As DataTable = Nothing, _
-                      Optional ByVal Transferir As Boolean = False, _
-                      Optional ByVal CajaDestino As Byte = 0, _
-                      Optional ByVal FOperacionDestino As DateTime = #1/1/2000#, _
+    Public Sub Valida(ByVal Caja As Byte,
+                      ByVal FOperacion As Date,
+                      ByVal Consecutivo As Byte,
+                      ByVal Folio As Integer,
+                      ByVal AnoCobro As Short,
+                      ByVal Cobro As Integer,
+                      ByVal arrEfectivo As Array,
+                      ByVal arrVales As Array,
+                      ByVal arrCheques As Array,
+                      ByVal arrTarjetaCredito As Array,
+                      ByVal arrFichaDeposito As Array,
+                      ByVal arrCambio As Array,
+                      ByVal dtCobroPedido As DataTable,
+                      Optional ByVal IniciarTransaccionNueva As Boolean = True,
+                      Optional ByVal ContieneDetalleCobroPedido As Boolean = True,
+                      Optional ByVal DTValePromocion As DataTable = Nothing,
+                      Optional ByVal Transferir As Boolean = False,
+                      Optional ByVal CajaDestino As Byte = 0,
+                      Optional ByVal FOperacionDestino As DateTime = #1/1/2000#,
                       Optional ByVal ConsecutivoDestino As Integer = 0)
 
         'arrEfectivo:  Es el arreglo bidimensional que contiene todas las denominaciones en efectivo
@@ -4778,10 +4782,10 @@ Public Class TransaccionMovimientoCaja
             If Not DTValePromocion Is Nothing Then
                 Dim drValePromocion As DataRow
                 For Each drValePromocion In DTValePromocion.Rows
-                    If Convert.ToInt32(drValePromocion("Cantidad")) > 0 AndAlso _
+                    If Convert.ToInt32(drValePromocion("Cantidad")) > 0 AndAlso
                     Convert.ToDecimal(drValePromocion("Importe")) > 0 Then
-                        objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, _
-                            Convert.ToByte(drValePromocion("Denominacion")), Convert.ToInt32(drValePromocion("Cantidad")), _
+                        objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro,
+                            Convert.ToByte(drValePromocion("Denominacion")), Convert.ToInt32(drValePromocion("Cantidad")),
                             Convert.ToDecimal(drValePromocion("ValorDenominacion")))
                     End If
                 Next
@@ -4900,12 +4904,12 @@ Public Class TransaccionMovimientoCaja
 
 #Region "TransfiereMovimientoCaja"
     'Procedimiento para transferir los movimientos de una caja a otra
-    Public Sub TransfiereMovimientoCaja(ByVal CajaFuente As Byte, _
-                                        ByVal FOperacionFuente As Date, _
-                                        ByVal ConsecutivoFuente As Byte, _
-                                        ByVal FolioFuente As Integer, _
-                                        ByVal CajaDestino As Byte, _
-                                        ByVal FOperacionDestino As Date, _
+    Public Sub TransfiereMovimientoCaja(ByVal CajaFuente As Byte,
+                                        ByVal FOperacionFuente As Date,
+                                        ByVal ConsecutivoFuente As Byte,
+                                        ByVal FolioFuente As Integer,
+                                        ByVal CajaDestino As Byte,
+                                        ByVal FOperacionDestino As Date,
                                         ByVal ConsecutivoDestino As Byte)
 
         Dim cmd As New SqlCommand("spTransfiereMovimientoCaja")
@@ -4939,9 +4943,9 @@ Public Class TransaccionMovimientoCaja
 #Region "ActualizaSaldoPedido"
     'TODO Los saldos de los pedidos y de los clientes se deben actualizar cuando la caja
     'valide la captura.
-    Friend Sub ActualizaSaldoPedido(ByVal Celula As Byte, _
-                                    ByVal AnoPed As Short, _
-                                    ByVal Pedido As Integer, _
+    Friend Sub ActualizaSaldoPedido(ByVal Celula As Byte,
+                                    ByVal AnoPed As Short,
+                                    ByVal Pedido As Integer,
                                     ByVal Abono As Decimal)
 
         Dim cmd As New SqlCommand("spPedidoActualizaSaldo")
@@ -4966,12 +4970,12 @@ Public Class TransaccionMovimientoCaja
 #End Region
 
 #Region "CambioAlta"
-    Friend Sub CambioAlta(ByVal Caja As Byte, _
-                          ByVal FOperacion As Date, _
-                          ByVal Consecutivo As Byte, _
-                          ByVal Folio As Integer, _
-                          ByVal Denominacion As Byte, _
-                          ByVal Cantidad As Integer, _
+    Friend Sub CambioAlta(ByVal Caja As Byte,
+                          ByVal FOperacion As Date,
+                          ByVal Consecutivo As Byte,
+                          ByVal Folio As Integer,
+                          ByVal Denominacion As Byte,
+                          ByVal Cantidad As Integer,
                           ByVal Pesos As Decimal)
 
         Dim cmd As New SqlCommand("spMovimientoCajaSalidaAlta")
@@ -5001,9 +5005,9 @@ Public Class TransaccionMovimientoCaja
 #End Region
 
 #Region "ValidaMovimientoCaja"
-    Friend Sub ValidaMovimientoCaja(ByVal Caja As Byte, _
-                                    ByVal FOperacion As Date, _
-                                    ByVal Consecutivo As Byte, _
+    Friend Sub ValidaMovimientoCaja(ByVal Caja As Byte,
+                                    ByVal FOperacion As Date,
+                                    ByVal Consecutivo As Byte,
                                     ByVal Folio As Integer)
 
         Dim cmd As New SqlCommand("spValidaMovimientoCaja")
@@ -5054,11 +5058,11 @@ Public Class TransaccionMovimientoCaja
 #End Region
 
 #Region "Cancela"
-    Public Function Cancela(ByVal Caja As Byte, _
-                             ByVal FOperacion As Date, _
-                             ByVal Consecutivo As Byte, _
-                             ByVal Folio As Integer, _
-                             ByVal MotivoCancelacionMovCaja As Byte, _
+    Public Function Cancela(ByVal Caja As Byte,
+                             ByVal FOperacion As Date,
+                             ByVal Consecutivo As Byte,
+                             ByVal Folio As Integer,
+                             ByVal MotivoCancelacionMovCaja As Byte,
                              ByVal UsuarioCancelacion As String) As Boolean
         Dim cmd As New SqlCommand("spMovimientoCajaCancela")
         With cmd
@@ -5111,11 +5115,11 @@ End Class
 #Region "MovimientoCajaCobro"
 Public Class MovimientoCajaCobro
 
-    Public Sub Alta(ByVal Caja As Byte, _
-                    ByVal FOperacion As Date, _
-                    ByVal Consecutivo As Byte, _
-                    ByVal Folio As Integer, _
-                    ByVal AnoCobro As Short, _
+    Public Sub Alta(ByVal Caja As Byte,
+                    ByVal FOperacion As Date,
+                    ByVal Consecutivo As Byte,
+                    ByVal Folio As Integer,
+                    ByVal AnoCobro As Short,
                     ByVal Cobro As Integer)
 
         Dim cmd As New SqlCommand("spMovimientoCajaCobroAlta")
@@ -5149,14 +5153,14 @@ End Class
 #Region "MovimientoCajaEntrada"
 Friend Class MovimientoCajaEntrada
 
-    Public Sub Alta(ByVal Caja As Byte, _
-                    ByVal FOperacion As Date, _
-                    ByVal Consecutivo As Byte, _
-                    ByVal Folio As Integer, _
-                    ByVal AnoCobro As Short, _
-                    ByVal Cobro As Integer, _
-                    ByVal Denominacion As Byte, _
-                    ByVal Cantidad As Integer, _
+    Public Sub Alta(ByVal Caja As Byte,
+                    ByVal FOperacion As Date,
+                    ByVal Consecutivo As Byte,
+                    ByVal Folio As Integer,
+                    ByVal AnoCobro As Short,
+                    ByVal Cobro As Integer,
+                    ByVal Denominacion As Byte,
+                    ByVal Cantidad As Integer,
                     ByVal Pesos As Decimal)
 
         Dim cmd As New SqlCommand("spMovimientoCajaEntradaAlta")
@@ -5245,7 +5249,7 @@ Public Class cConfig
         CargaDatosModulo(_Modulo)
     End Sub
 
-    Public Sub New(ByVal Modulo As Short, _
+    Public Sub New(ByVal Modulo As Short,
                    ByVal Corporativo As Short)
         _Modulo = Modulo
         _Corporativo = Corporativo
@@ -5253,8 +5257,8 @@ Public Class cConfig
         CargaDatosModulo(_Modulo)
     End Sub
 
-    Public Sub New(ByVal Modulo As Short, _
-                   ByVal Corporativo As Short, _
+    Public Sub New(ByVal Modulo As Short,
+                   ByVal Corporativo As Short,
                    ByVal Sucursal As Short)
         _Modulo = Modulo
         _Corporativo = Corporativo
@@ -5264,7 +5268,7 @@ Public Class cConfig
     End Sub
 
     Private Sub CargaDatosModulo(ByVal Modulo As Short)
-        Dim strQuery As String = _
+        Dim strQuery As String =
         "SELECT Modulo, Nombre, Prefijo FROM Modulo WHERE Modulo = " & Modulo.ToString
         Dim da As New SqlDataAdapter(strQuery, DataLayer.Conexion)
         Dim dt As New DataTable("Modulo")
@@ -5329,8 +5333,8 @@ Public Class cConfig
 
     Private Sub CargaParametros(ByVal Modulo As Short, ByVal Corporativo As Short, ByVal Sucursal As Short)
         'Dim cmd As New SqlCommand("SELECT Parametro, Valor FROM Parametro WHERE Modulo = " & Modulo.ToString & " And Corporativo = " & Corporativo.ToString & " And Sucursal = " & Sucursal.ToString)
-        Dim cmd As New SqlCommand("SELECT PTRO.NParametro, P.Parametro, P.Valor, P.Corporativo, P.Sucursal FROM Parametro P INNER JOIN " & _
-                                  "(SELECT COUNT(Parametro) NParametro, Parametro FROM Parametro WHERE Modulo = " & Modulo.ToString & " GROUP BY Parametro) As PTRO " & _
+        Dim cmd As New SqlCommand("SELECT PTRO.NParametro, P.Parametro, P.Valor, P.Corporativo, P.Sucursal FROM Parametro P INNER JOIN " &
+                                  "(SELECT COUNT(Parametro) NParametro, Parametro FROM Parametro WHERE Modulo = " & Modulo.ToString & " GROUP BY Parametro) As PTRO " &
                                   "ON PTRO.Parametro = P.Parametro AND P.Modulo = " & Modulo.ToString)
         Dim dr As SqlDataReader
         cmd.CommandType = CommandType.Text
@@ -5788,9 +5792,9 @@ Public Structure sCobro
     Public ReadOnly Property InformacionCompleta() As String
         Get
             'Ult.Mod: 6 de mayo del 2003
-            Dim strInfo As String = "Cobro: " & LSet(Trim(_Consecutivo.ToString), 3) & _
-                LSet(Trim(_TipoCobro.ToString), 15) & " No.Documento: " & _
-                LSet(Trim(_NoCheque), 8) & " Importe: " & _
+            Dim strInfo As String = "Cobro: " & LSet(Trim(_Consecutivo.ToString), 3) &
+                LSet(Trim(_TipoCobro.ToString), 15) & " No.Documento: " &
+                LSet(Trim(_NoCheque), 8) & " Importe: " &
                 RSet(Trim(_Total.ToString("C")), 15)
             If Not _ListaPedidos Is Nothing Then
                 strInfo &= "    Total: " & RSet(Trim(_ListaPedidos.Count.ToString), 3) & " documento(s)"
@@ -6248,7 +6252,7 @@ Namespace Combos
     Public Class ComboRuta2
         Inherits ComboBox
 
-        Public Sub CargaDatos(Optional ByVal Celula As Short = 0, _
+        Public Sub CargaDatos(Optional ByVal Celula As Short = 0,
                               Optional ByVal MostrarClaves As Boolean = False)
             Me.DataSource = Nothing
             Me.Items.Clear()
@@ -6353,7 +6357,7 @@ Namespace Combos
 
 #End Region
 
-        Private Sub CargaCombo(ByVal QuerySQL As String, _
+        Private Sub CargaCombo(ByVal QuerySQL As String,
                                ByVal MostrarClaves As Boolean)
 
             Me.Items.Clear()
@@ -6390,23 +6394,23 @@ Namespace Combos
         End Sub
 
         Public Sub CargaDatosNotasIngreso(Optional ByVal MostrarClave As Boolean = False)
-            Dim strQueryConsulta As String = _
+            Dim strQueryConsulta As String =
             "EXEC spConsultaCatalogoTipoMovimientoCaja @NotaIngreso = 1"
             '"SELECT TipoMovimientoCaja, Descripcion, AplicaVenta, NotaIngreso FROM TipoMovimientoCaja WHERE NotaIngreso = 1"
             CargaCombo(strQueryConsulta, MostrarClave)
         End Sub
 
         Public Sub CargaDatosCapturaCobranza(Optional ByVal MostrarClave As Boolean = False)
-            Dim strQueryConsulta As String = _
+            Dim strQueryConsulta As String =
             "EXEC spConsultaCatalogoTipoMovimientoCaja @Ventanilla = 1"
             '"SELECT TipoMovimientoCaja, Descripcion, AplicaVenta, NotaIngreso FROM TipoMovimientoCaja WHERE Ventanilla = 1"
             CargaCombo(strQueryConsulta, MostrarClave)
         End Sub
 
-        Public Sub CargaDatos(ByVal TipoMovimientoCaja As Short, _
+        Public Sub CargaDatos(ByVal TipoMovimientoCaja As Short,
                      Optional ByVal MostrarClave As Boolean = False)
 
-            Dim strQueryConsulta As String = _
+            Dim strQueryConsulta As String =
             "EXEC spConsultaCatalogoTipoMovimientoCaja @TipoMovimientoCaja = " & TipoMovimientoCaja.ToString
             '"SELECT TipoMovimientoCaja, Descripcion, AplicaVenta, NotaIngreso FROM TipoMovimientoCaja " & _
             '"WHERE TipoMovimientoCaja = " & TipoMovimientoCaja.ToString
@@ -6415,8 +6419,8 @@ Namespace Combos
 
         End Sub
 
-        Public Sub CargaDatos(Optional ByVal MostrarClaves As Boolean = False, _
-                              Optional ByVal CargaMovimientosCredito As Boolean = True, _
+        Public Sub CargaDatos(Optional ByVal MostrarClaves As Boolean = False,
+                              Optional ByVal CargaMovimientosCredito As Boolean = True,
                               Optional ByVal CargaMovimientosContado As Boolean = True)
 
             'Dim strQueryConsulta As String = "SELECT TipoMovimientoCaja, Descripcion, AplicaVenta, NotaIngreso FROM TipoMovimientoCaja"
@@ -6535,7 +6539,7 @@ Namespace Combos
             Me.DropDownStyle = ComboBoxStyle.DropDownList
         End Sub
 
-        Public Sub CargaDatos(Optional ByVal MostrarClaves As Boolean = False, _
+        Public Sub CargaDatos(Optional ByVal MostrarClaves As Boolean = False,
                               Optional ByVal TipoCobranza As Byte = 0)
             Me.Items.Clear()
             strQuery = "SELECT TipoCobranza, Descripcion, Cast(TipoCobranza as varchar) + ' ' + Rtrim(Descripcion) as DescripcionCompuesta From TipoCobranza"
@@ -6592,7 +6596,7 @@ Namespace Combos
             End With
         End Sub
 
-        Public Sub CargaDatos(ByVal Empleado As Integer, _
+        Public Sub CargaDatos(ByVal Empleado As Integer,
                      Optional ByVal MostrarClaves As Boolean = False)
 
             Me.DataSource = Nothing
@@ -6617,7 +6621,7 @@ Namespace Combos
             End With
         End Sub
 
-        Public Sub CargaDatos(Optional ByVal MostrarClaves As Boolean = False, _
+        Public Sub CargaDatos(Optional ByVal MostrarClaves As Boolean = False,
                               Optional ByVal Puesto As Short = 0)
             Me.DataSource = Nothing
             strQuery = "SELECT Empleado, Nombre, Cast(Empleado as varchar) + ' ' + Rtrim(Nombre) as NombreCompuesto From Empleado WHERE Status = 'ACTIVO'"
@@ -6644,7 +6648,7 @@ Namespace Combos
             End With
         End Sub
 
-        Public Sub CargaDatosOperador(Optional ByVal MostrarClaves As Boolean = False, _
+        Public Sub CargaDatosOperador(Optional ByVal MostrarClaves As Boolean = False,
                                       Optional ByVal Celula As Byte = 0)
             Me.DataSource = Nothing
             strQuery = "SELECT e.Empleado, e.Nombre, Cast(e.Empleado as varchar) + ' ' + Rtrim(e.Nombre) as NombreCompuesto From Empleado e JOIN Operador o on e.Empleado = o.Empleado WHERE e.Status = 'ACTIVO'"
@@ -6676,7 +6680,7 @@ Namespace Combos
     Public Class ComboTipoAplicacionIngreso
         Inherits ComboBox
 
-        Public Sub CargaDatos(ByVal Caja As Byte, _
+        Public Sub CargaDatos(ByVal Caja As Byte,
                      Optional ByVal MostrarClaves As Boolean = False)
             Me.Items.Clear()
             strQuery = "SELECT TipoAplicacionIngreso, Descripcion FROM TipoAplicacionIngreso WHERE Manual = 1 OR Caja = " & Caja.ToString
@@ -6710,10 +6714,10 @@ Namespace Combos
             Me.Text = ""
         End Sub
 
-        Public Sub CargaDatos(Optional ByVal MostrarClaves As Boolean = False, _
+        Public Sub CargaDatos(Optional ByVal MostrarClaves As Boolean = False,
                               Optional ByVal SoloPositivas As Boolean = False)
             Me.Items.Clear()
-            strQuery = "SELECT TipoGestionCobranza, Descripcion, " & _
+            strQuery = "SELECT TipoGestionCobranza, Descripcion, " &
                        "Cast(TipoGestionCobranza as varchar) + ' ' + Descripcion as DescripcionCompuesta FROM TipoGestionCobranza"
             If SoloPositivas Then
                 strQuery &= " WHERE Tipo = 'POSITIVA'"
@@ -6740,7 +6744,7 @@ Namespace Combos
 #Region "ComboTipoCobro"
     Public Class ComboTipoCobro
         Inherits ComboBox
-        Public Sub CargaDatos(Optional ByVal RelacionCobranza As Boolean = True, _
+        Public Sub CargaDatos(Optional ByVal RelacionCobranza As Boolean = True,
                               Optional ByVal MostrarClaves As Boolean = False)
             Me.Items.Clear()
             strQuery = "SELECT TipoCobro, Descripcion, Cast(TipoCobro as varchar) + ' ' + Descripcion AS DescripcionCompuesta FROM TipoCobro"
@@ -6887,7 +6891,7 @@ Namespace Combos
         Private Sub clienteTieneDescuento(ByVal Cliente As Integer)
             Dim cnSigamet As SqlConnection = DataLayer.Conexion
             Dim cmdSelect As New SqlCommand()
-            cmdSelect.CommandText = "SELECT cliente FROM ClienteDescuento " & _
+            cmdSelect.CommandText = "SELECT cliente FROM ClienteDescuento " &
             "WHERE Status = 'ACTIVO' And Cliente = @Cliente"
             cmdSelect.CommandType = CommandType.Text
             cmdSelect.Connection = cnSigamet
@@ -7014,7 +7018,7 @@ Namespace Combos
     Public Class ComboMotivoCancelacionDocumento
         Inherits ComboBox
 
-        Public Sub CargaDatos(ByVal DestinoCancelacion As Enumeradores.enumDestinoCancelacion, _
+        Public Sub CargaDatos(ByVal DestinoCancelacion As Enumeradores.enumDestinoCancelacion,
                      Optional ByVal MostrarClaves As Boolean = False)
             Me.Items.Clear()
             If DestinoCancelacion = Enumeradores.enumDestinoCancelacion.MovimientoCaja Then
@@ -7102,8 +7106,8 @@ Namespace Combos
     Public Class ComboBanco
         Inherits ComboBox
 
-        Public Sub CargaDatos(Optional ByVal CargaBancoCero As Boolean = True, _
-                              Optional ByVal MostrarClaves As Boolean = False, _
+        Public Sub CargaDatos(Optional ByVal CargaBancoCero As Boolean = True,
+                              Optional ByVal MostrarClaves As Boolean = False,
                               Optional ByVal SoloActivos As Boolean = True)
             Me.Items.Clear()
 
@@ -7269,10 +7273,10 @@ Namespace Combos
     Public Class ComboRuta2Filtro
         Inherits ComboBox
 
-        Public Sub CargaDatos(Optional ByVal Celula As Short = 0, _
-                              Optional ByVal MostrarClaves As Boolean = False, _
-                              Optional ByVal ActivarFiltro As Boolean = False, _
-                              Optional ByVal MostrarPortatil As Boolean = False, _
+        Public Sub CargaDatos(Optional ByVal Celula As Short = 0,
+                              Optional ByVal MostrarClaves As Boolean = False,
+                              Optional ByVal ActivarFiltro As Boolean = False,
+                              Optional ByVal MostrarPortatil As Boolean = False,
                               Optional ByVal Usuario As String = "")
             Me.DataSource = Nothing
             Me.Items.Clear()
@@ -7379,9 +7383,9 @@ Namespace Combos
         End Property
 #End Region
 
-        Public Sub CargaDatos(Optional ByVal MostrarClaves As Boolean = False, _
-                    Optional ByVal Celula As Byte = 0, _
-                    Optional ByVal ActivarFiltro As Boolean = False, _
+        Public Sub CargaDatos(Optional ByVal MostrarClaves As Boolean = False,
+                    Optional ByVal Celula As Byte = 0,
+                    Optional ByVal ActivarFiltro As Boolean = False,
                     Optional ByVal MostrarPortatil As Boolean = False)
             Me.Items.Clear()
 
@@ -7496,7 +7500,7 @@ Namespace Combos
             Me.ForeColor = System.Drawing.Color.MediumBlue
         End Sub
 
-        Public Sub CargaDatos(Optional ByVal shrCelula As Short = 0, _
+        Public Sub CargaDatos(Optional ByVal shrCelula As Short = 0,
                               Optional ByVal MostrarClaves As Boolean = False)
             Me.Items.Clear()
 
@@ -7614,7 +7618,7 @@ Namespace Combos
         End Structure
 #End Region
 
-        Public Sub New(Optional ByVal EsOperadorNumericoOFecha As Boolean = True, _
+        Public Sub New(Optional ByVal EsOperadorNumericoOFecha As Boolean = True,
                        Optional ByVal CargarOperadorBETWEEN As Boolean = True)
 
             Me.DropDownStyle = ComboBoxStyle.DropDownList
@@ -7785,7 +7789,7 @@ Namespace Combos
         Private _DataTable As DataTable
 
         Public Sub New()
-            MyBase.new()
+            MyBase.New()
         End Sub
 
         Public Sub CargaDatos()
@@ -7830,7 +7834,7 @@ Namespace Combos
         Private _DataTable As DataTable
 
         Public Sub New()
-            MyBase.new()
+            MyBase.New()
         End Sub
 
         Public Sub CargaDatos()
@@ -7910,7 +7914,7 @@ Namespace Combos
             End Set
         End Property
 
-        Public Sub New(ByVal MedioPago As String, ByVal Descripcion As String, _
+        Public Sub New(ByVal MedioPago As String, ByVal Descripcion As String,
             ByVal ValidarNumeroCuenta As Boolean, ByVal TipoNumeroCuenta As String)
             Me.MedioPago = MedioPago
             Me.Descripcion = Descripcion
@@ -7932,7 +7936,7 @@ Namespace Combos
             Dim source As New ArrayList()
 
             For Each dr In dtDatos.Rows
-                source.Add(New MedioPagoSAT(Convert.ToString(dr("FormaPagoSAT")), Convert.ToString(dr("Descripcion")), _
+                source.Add(New MedioPagoSAT(Convert.ToString(dr("FormaPagoSAT")), Convert.ToString(dr("Descripcion")),
                     Convert.ToBoolean(dr("AplicaNumeroCuenta")), Convert.ToString(dr("TipoNumeroCuenta"))))
             Next
 
@@ -7993,8 +7997,8 @@ Namespace Asterisk
 
 
 
-        Public Sub StatusLlamda(ByVal IdLlamada As String, _
-                                          ByVal TipoLLamada As Integer, _
+        Public Sub StatusLlamda(ByVal IdLlamada As String,
+                                          ByVal TipoLLamada As Integer,
                                           ByVal Sucursal As Integer, ByVal Conexion As String)
 
 
@@ -8167,10 +8171,10 @@ Public Module Main
     Friend ReadOnly GLOBAL_IDEmpleado As Object
     Public Property GLOBAL_IDUsuario As Object
 
-    <Description("El parámetro UsarLogin indica si se va a indicar el login y el password para conectar")> _
+    <Description("El parámetro UsarLogin indica si se va a indicar el login y el password para conectar")>
     Public Function LeeInfoConexion _
-        (Optional ByVal UsarLogin As Boolean = True, _
-         Optional ByVal UsaSeguridadNT As Boolean = False, _
+        (Optional ByVal UsarLogin As Boolean = True,
+         Optional ByVal UsaSeguridadNT As Boolean = False,
          Optional ByVal ApplicationName As String = "SigametClasses") _
                 As String
 
@@ -8285,10 +8289,10 @@ Public Module Main
         End Try
     End Function
 
-    Public Function CalculaFechaCardinal(ByVal Año As Integer, _
-                                     ByVal Mes As Enumeradores.enumMesAño, _
-                                     ByVal Dia As Enumeradores.enumDiaSemana, _
-                                     ByVal Cardinalidad As Enumeradores.enumCardinalidad, _
+    Public Function CalculaFechaCardinal(ByVal Año As Integer,
+                                     ByVal Mes As Enumeradores.enumMesAño,
+                                     ByVal Dia As Enumeradores.enumDiaSemana,
+                                     ByVal Cardinalidad As Enumeradores.enumCardinalidad,
                             Optional ByRef Desbordado As Boolean = False) As Date
 
         Dim _DiaSemanaDestino As Byte 'El día de la semana buscado
@@ -8319,6 +8323,105 @@ Public Module Main
 
     End Function
 
+    Public Function consultarTipoTarjeta() As Dictionary(Of Integer, String)
+
+        Dim listado As New Dictionary(Of Integer, String)
+
+        Dim conn As SqlConnection = DataLayer.Conexion
+        Dim cmd As New SqlCommand("spCBConsultaTipoTarjeta", conn)
+
+        Try
+            conn.Open()
+        Catch ex As Exception
+            Throw New Exception(SigaMetClasses.M_NO_CONEXION)
+            Exit Function
+        End Try
+
+        Dim reader As SqlDataReader
+
+
+        Try
+            reader = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+            While reader.Read()
+                listado.Add(Convert.ToInt16(reader("ID")), Convert.ToString(reader("Descripcion")))
+
+
+            End While
+
+        Catch ex As Exception
+            Throw New Exception("No se pudieron cargar correctamente los datos", ex)
+            Return Nothing
+        End Try
+        conn.Close()
+
+
+        Return listado
+    End Function
+
+    Public Function consultarAfiliacion() As List(Of String)
+        Dim listado As New List(Of String)
+
+        Dim conn As SqlConnection = DataLayer.Conexion
+        Dim cmd As New SqlCommand("spCBConsultaAfiliacionTC", conn)
+
+        Try
+            conn.Open()
+        Catch
+            Throw New Exception(SigaMetClasses.M_NO_CONEXION)
+            Exit Function
+        End Try
+
+        Dim reader As SqlDataReader
+
+
+        Try
+            reader = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+            While reader.Read()
+                listado.Add(Convert.ToString(reader("NumeroAfiliacion")))
+            End While
+
+        Catch ex As Exception
+            Throw New Exception("No se pudieron cargar correctamente los datos", ex)
+            Return Nothing
+        End Try
+        conn.Close()
+        Return listado
+    End Function
+
+    Public Function consultarCargoMeses() As Dictionary(Of Integer, Integer)
+
+        Dim listado As New Dictionary(Of Integer, Integer)
+
+        Dim conn As SqlConnection = DataLayer.Conexion
+        Dim cmd As New SqlCommand("spCBCargoMesesTC", conn)
+
+        Try
+            conn.Open()
+        Catch ex As Exception
+            Throw New Exception(SigaMetClasses.M_NO_CONEXION)
+            Exit Function
+        End Try
+
+        Dim reader As SqlDataReader
+
+
+        Try
+            reader = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+            While reader.Read()
+                listado.Add(Convert.ToInt16(reader("cargoMeses")), Convert.ToInt16(reader("cargoMeses")))
+            End While
+
+        Catch ex As Exception
+            Throw New Exception("No se pudieron cargar correctamente los datos", ex)
+            Return Nothing
+        End Try
+        conn.Close()
+
+
+        Return listado
+    End Function
+
+
 #Region "Postits"
 
     Public Class cMenuItem
@@ -8335,8 +8438,8 @@ Public Module Main
             End Set
         End Property
 
-        Public Sub New(ByVal _Texto As String, _
-                       ByVal _Postit As Integer, _
+        Public Sub New(ByVal _Texto As String,
+                       ByVal _Postit As Integer,
                        ByVal _OnClick As System.EventHandler)
             MyBase.New(_Texto, _OnClick)
             Me.Postit = _Postit
@@ -8344,13 +8447,13 @@ Public Module Main
 
     End Class
 
-    Public Sub AbrePostitCliente(ByVal Cliente As Integer, _
+    Public Sub AbrePostitCliente(ByVal Cliente As Integer,
                                  ByVal Contenedor As Form)
 
         'Abre los postits que no hayan finalizado aún o que sean permanentes
-        Dim strQuery As String = _
-        "SELECT Postit FROM Postit WHERE Cliente = " & Cliente.ToString & _
-            " AND (FTermino >= '" & FechaServidor.ToShortDateString & "'" & _
+        Dim strQuery As String =
+        "SELECT Postit FROM Postit WHERE Cliente = " & Cliente.ToString &
+            " AND (FTermino >= '" & FechaServidor.ToShortDateString & "'" &
             " OR Permanente = 1)"
         Dim cnPostit As SqlConnection = DataLayer.Conexion
         Dim cmd As New SqlCommand(strQuery, cnPostit)
@@ -8391,10 +8494,10 @@ Public Module Main
         End Try
     End Sub
 
-    Public Sub AbrePostitUsuario(ByVal Usuario As String, _
+    Public Sub AbrePostitUsuario(ByVal Usuario As String,
                                  ByVal Contenedor As Form)
 
-        Dim strQuery As String = _
+        Dim strQuery As String =
         "SELECT Postit FROM Postit WHERE Usuario = '" & Usuario & "'"
         Dim cnPostit As SqlConnection = DataLayer.Conexion
         Dim cmd As New SqlCommand(strQuery, cnPostit)
@@ -8532,8 +8635,8 @@ Namespace ValidacionCapturaMovimientoCaja
             End Set
         End Property
 
-        Public Sub New(ByVal TipoMovimientoCaja As Byte, ByVal Descripcion As String, ByVal Clave As String, _
-            ByVal ValidacionCaptura As Boolean, ByVal Requerido As Boolean, ByVal ValorParaValidacion As String, _
+        Public Sub New(ByVal TipoMovimientoCaja As Byte, ByVal Descripcion As String, ByVal Clave As String,
+            ByVal ValidacionCaptura As Boolean, ByVal Requerido As Boolean, ByVal ValorParaValidacion As String,
             ByVal ProcedimientoValidacion As String, ByVal Parametro As String)
 
             Me.TipoMovimientoCaja = TipoMovimientoCaja
@@ -8626,16 +8729,16 @@ Namespace ValidacionCapturaMovimientoCaja
             cmdCarga.Connection = SigaMetClasses.DataLayer.Conexion
 
             Dim reader As SqlDataReader
-            Try               
+            Try
 
                 If (SigaMetClasses.DataLayer.Conexion.State = ConnectionState.Closed) Then
                     SigaMetClasses.DataLayer.Conexion.Open()
                 End If
                 reader = cmdCarga.ExecuteReader()
                 Do While reader.Read()
-                    Dim _objMovimiento As CMovimientoValidacion = _
-                        New CMovimientoValidacion(Convert.ToByte(reader("TipoMovimientoCaja")), Convert.ToString(reader("Descripcion")), _
-                            Convert.ToString(reader("Clave")), Convert.ToBoolean(reader("AplicarValidacionCaptura")), Convert.ToBoolean(reader("ValorRequerido")), _
+                    Dim _objMovimiento As CMovimientoValidacion =
+                        New CMovimientoValidacion(Convert.ToByte(reader("TipoMovimientoCaja")), Convert.ToString(reader("Descripcion")),
+                            Convert.ToString(reader("Clave")), Convert.ToBoolean(reader("AplicarValidacionCaptura")), Convert.ToBoolean(reader("ValorRequerido")),
                             Convert.ToString(reader("ValorValidacion")), Convert.ToString(reader("ProcedimientoValidacion")), Convert.ToString(reader("ParametroValidacion")))
 
                     _movimientos.Add(_objMovimiento)
