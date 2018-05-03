@@ -6,6 +6,7 @@ Imports System.ComponentModel.Component
 Imports MySql.Data.MySqlClient
 Imports System.Collections.Generic
 
+
 'ENUMERADORES
 Namespace Enumeradores
 #Region "Enumeradores"
@@ -145,6 +146,454 @@ End Class
 
 'CLASES
 
+
+#Region "CargoTarjeta"
+Public Class CargoTarjeta
+    Private _Año As Integer
+    Private _Folio As Integer
+    Private _TipoCargo As Int16
+    Private _Cliente As Integer
+    Private _Ruta As Int16
+    Private _Autotanque As Int16
+    Private _Afiliacion As Integer
+    Private _TipoCobro As Byte
+    Private _Meses As Int16
+    Private _NumeroTarjeta As String
+    Private _Banco As Int16
+    Private _Litros As Decimal
+    Private _Importe As Decimal
+    Private _Remision As String
+    Private _Serie As String
+    Private _Autorizacion As String
+    Private _Observacion As String
+    Private _AñoCobro As Int16
+    Private _Cobro As Integer
+    Private _Status As String
+    Private _FAlta As DateTime
+    Private _UsuarioAlta As String
+
+
+#Region "Propiedades"
+
+    Public Property Año As Integer
+        Get
+            Return _Año
+        End Get
+        Set(ByVal Value As Integer)
+            _Año = Value
+        End Set
+    End Property
+
+    Public Property Folio As Integer
+        Get
+            Return _Folio
+        End Get
+        Set(ByVal Value As Integer)
+            _Folio = Value
+        End Set
+    End Property
+
+    Public Property TipoCargo As Int16
+        Get
+            Return _TipoCargo
+        End Get
+        Set(ByVal Value As Int16)
+            _TipoCargo = Value
+        End Set
+    End Property
+
+    Public Property Cliente As Integer
+        Get
+            Return _Cliente
+        End Get
+        Set(ByVal Value As Integer)
+            _Cliente = Value
+        End Set
+    End Property
+
+    Public Property Ruta As Int16
+        Get
+            Return _Ruta
+        End Get
+        Set(value As Int16)
+            _Ruta = value
+        End Set
+    End Property
+
+    Public Property Autotanque As Int16
+        Get
+            Return _Autotanque
+        End Get
+        Set(value As Int16)
+            _Autotanque = value
+        End Set
+    End Property
+
+    Public Property Afiliacion As Integer
+        Get
+            Return _Afiliacion
+        End Get
+        Set(value As Integer)
+            _Afiliacion = value
+        End Set
+    End Property
+
+    Public Property TipoCobro As Byte
+        Get
+            Return _TipoCobro
+        End Get
+        Set(value As Byte)
+            _TipoCobro = value
+        End Set
+    End Property
+
+    Public Property Meses As Int16
+        Get
+            Return _Meses
+        End Get
+        Set(value As Int16)
+            _Meses = value
+        End Set
+    End Property
+
+    Public Property NumeroTarjeta As String
+        Get
+            Return _NumeroTarjeta
+        End Get
+        Set(value As String)
+            _NumeroTarjeta = value
+        End Set
+    End Property
+
+    Public Property Banco As Int16
+        Get
+            Return _Banco
+        End Get
+        Set(value As Int16)
+            _Banco = value
+        End Set
+    End Property
+
+    Public Property Litros As Decimal
+        Get
+            Return _Litros
+        End Get
+        Set(value As Decimal)
+            _Litros = value
+        End Set
+    End Property
+
+    Public Property Importe As Decimal
+        Get
+            Return _Importe
+        End Get
+        Set(value As Decimal)
+            _Importe = value
+        End Set
+    End Property
+
+    Public Property Remision As String
+        Get
+            Return _Remision
+        End Get
+        Set(value As String)
+            _Remision = value
+        End Set
+    End Property
+
+    Public Property Serie As String
+        Get
+            Return _Serie
+        End Get
+        Set(value As String)
+            _Serie = value
+        End Set
+    End Property
+
+    Public Property Autorizacion As String
+        Get
+            Return _Autorizacion
+        End Get
+        Set(value As String)
+            _Autorizacion = value
+        End Set
+    End Property
+
+    Public Property Observacion As String
+        Get
+            Return _Observacion
+        End Get
+        Set(value As String)
+            _Observacion = value
+        End Set
+    End Property
+
+    Public Property AñoCobro As Int16
+        Get
+            Return _AñoCobro
+        End Get
+        Set(value As Int16)
+            _AñoCobro = value
+        End Set
+    End Property
+
+    Public Property Cobro As Integer
+        Get
+            Return _Cobro
+        End Get
+        Set(value As Integer)
+            _Cobro = value
+        End Set
+    End Property
+
+    Public Property Status As String
+        Get
+            Return _Status
+        End Get
+        Set(value As String)
+            _Status = value
+        End Set
+    End Property
+
+    Public Property FAlta As Date
+        Get
+            Return _FAlta
+        End Get
+        Set(value As Date)
+            _FAlta = value
+        End Set
+    End Property
+
+    Public Property UsuarioAlta As String
+        Get
+            Return _UsuarioAlta
+        End Get
+        Set(value As String)
+            _UsuarioAlta = value
+        End Set
+    End Property
+
+#End Region
+
+    Public Sub New()
+        MyBase.New()
+
+    End Sub
+
+    Public Sub New(ByVal AñoAtt As Short, ByVal Folio As Integer)
+        MyBase.New()
+
+
+    End Sub
+
+    Private Sub LimpiaDatos()
+        _Año = Nothing
+        _Folio = Nothing
+        _TipoCargo = Nothing
+        _Cliente = Nothing
+        _Ruta = Nothing
+        _Autotanque = Nothing
+        _Afiliacion = Nothing
+        _TipoCobro = Nothing
+        _Meses = Nothing
+        _NumeroTarjeta = Nothing
+        _Banco = Nothing
+        _Litros = Nothing
+        _Importe = Nothing
+        _Remision = Nothing
+        _Serie = Nothing
+        _Autorizacion = Nothing
+        _Observacion = Nothing
+        _AñoCobro = Nothing
+        _Cobro = Nothing
+        _Status = Nothing
+        _FAlta = Nothing
+        _UsuarioAlta = Nothing
+    End Sub
+
+    Public Function Consulta() As SqlDataReader
+        Dim conn As SqlConnection = DataLayer.Conexion
+        Dim cmd As New SqlCommand("spCyCConsultarCargoTarjeta", conn)
+
+
+        Try
+            conn.Open()
+        Catch
+            Throw New Exception(SigaMetClasses.M_NO_CONEXION)
+            Exit Function
+        End Try
+
+        Dim dr As SqlDataReader
+
+        Try
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.Add("@Año", SqlDbType.SmallInt).Value = _Año
+            cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = _Folio
+
+            dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+
+
+
+            Return dr
+        Catch ex As Exception
+            Throw New Exception("No se pudieron cargar correctamente los datos", ex)
+            Return Nothing
+        End Try
+
+
+    End Function
+
+    Public Sub CargaDatos(ByVal AñoAtt As Short, ByVal Folio As Integer)
+        LimpiaDatos()
+
+        Dim conn As SqlConnection = DataLayer.Conexion
+        Dim cmd As New SqlCommand("spCyCConsultarCargoTarjeta", conn)
+
+        Try
+            conn.Open()
+        Catch
+            Throw New Exception(SigaMetClasses.M_NO_CONEXION)
+            Exit Sub
+        End Try
+
+        Dim dr As SqlDataReader
+
+        Try
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.Add("@Año", SqlDbType.SmallInt).Value = _Año
+            cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = _Folio
+
+            dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+
+            Try
+                dr.Read()
+            Catch
+                LimpiaDatos()
+                Exit Sub
+            End Try
+
+            If Not IsDBNull(dr("Año")) Then _Año = CType(dr("Año"), Integer) Else _Año = Nothing
+            If Not IsDBNull(dr("Folio")) Then _Folio = CType(dr("Folio"), Integer) Else _Folio = Nothing
+            If Not IsDBNull(dr("TipoCargo")) Then _TipoCargo = CType(dr("TipoCargo"), Int16) Else _TipoCargo = Nothing
+            If Not IsDBNull(dr("Cliente")) Then _Cliente = CType(dr("Cliente"), Integer) Else _Cliente = Nothing
+            If Not IsDBNull(dr("Ruta")) Then _Ruta = CType(dr("Ruta"), Int16) Else _Ruta = Nothing
+            If Not IsDBNull(dr("Autotanque")) Then _Autotanque = CType(dr("Autotanque"), Int16) Else _Autotanque = Nothing
+            If Not IsDBNull(dr("Afiliacion")) Then _Afiliacion = CType(dr("Afiliacion"), Integer) Else _Afiliacion = Nothing
+            If Not IsDBNull(dr("TipoCobro")) Then _TipoCobro = CType(dr("TipoCobro"), tinyint) Else _TipoCobro = Nothing
+            If Not IsDBNull(dr("Meses")) Then _Meses = CType(dr("Meses"), Int16) Else _Meses = Nothing
+            If Not IsDBNull(dr("NumeroTarjeta")) Then _NumeroTarjeta = CType(dr("NumeroTarjeta"), String).Trim Else _NumeroTarjeta = " "
+            If Not IsDBNull(dr("Banco")) Then _Banco = CType(dr("Banco"), Int16) Else _Banco = Nothing
+            If Not IsDBNull(dr("Litros")) Then _Litros = CType(dr("Litros"), Decimal) Else _Litros = Nothing
+            If Not IsDBNull(dr("Importe")) Then _Importe = CType(dr("Importe"), Decimal) Else _Importe = Nothing
+            If Not IsDBNull(dr("Remision")) Then _Remision = CType(dr("Remision"), String).Trim Else _Remision = " "
+            If Not IsDBNull(dr("Serie")) Then _Serie = CType(dr("Serie"), String).Trim Else _Serie = " "
+            If Not IsDBNull(dr("Autorizacion")) Then _Autorizacion = CType(dr("Autorizacion"), String).Trim Else _Autorizacion = " "
+            If Not IsDBNull(dr("Observacion")) Then _Observacion = CType(dr("Observacion"), String).Trim Else _Observacion = " "
+            If Not IsDBNull(dr("AñoCobro")) Then _AñoCobro = CType(dr("AñoCobro"), Int16) Else _AñoCobro = Nothing
+            If Not IsDBNull(dr("Cobro")) Then _Cobro = CType(dr("Cobro"), Integer) Else _Cobro = Nothing
+            If Not IsDBNull(dr("Status")) Then _Status = CType(dr("Status"), String).Trim Else _Status = " "
+            If Not IsDBNull(dr("FAlta")) Then _FAlta = CType(dr("FAlta"), DateTime) Else _FAlta = Nothing
+            If Not IsDBNull(dr("UsuarioAlta")) Then _UsuarioAlta = CType(dr("UsuarioAlta"), String).Trim Else _UsuarioAlta = " "
+
+        Catch ex As Exception
+            Throw New Exception("No se pudieron cargar correctamente los datos", ex)
+            LimpiaDatos()
+        End Try
+    End Sub
+
+    Public Function Alta() As Boolean
+
+
+        Dim cmd As New SqlCommand("spCalleAltaModifica")
+        Dim resultado As Boolean
+
+        resultado = True
+
+        cmd.CommandType = CommandType.StoredProcedure
+
+        cmd.Parameters.Add("@Año", SqlDbType.Int).Value = _Año
+        cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = _Folio
+        cmd.Parameters.Add("@TipoCargo", SqlDbType.SmallInt).Value = _TipoCargo
+        cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = _Cliente
+        cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = _Ruta
+        cmd.Parameters.Add("@Autotanque", SqlDbType.SmallInt).Value = _Autotanque
+        cmd.Parameters.Add("@Afiliacion", SqlDbType.Int).Value = _Afiliacion
+        cmd.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = _TipoCobro
+        cmd.Parameters.Add("@Meses", SqlDbType.SmallInt).Value = _Meses
+        cmd.Parameters.Add("@NumeroTarjeta", SqlDbType.VarChar, 20).Value = _NumeroTarjeta
+        cmd.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = _Banco
+        cmd.Parameters.Add("@Litros", SqlDbType.Decimal).Value = _Litros
+        cmd.Parameters.Add("@Importe", SqlDbType.Decimal).Value = _Importe
+        cmd.Parameters.Add("@Remision", SqlDbType.VarChar, 20).Value = _Remision
+        cmd.Parameters.Add("@Serie", SqlDbType.VarChar, 10).Value = _Serie
+        cmd.Parameters.Add("@Autorizacion", SqlDbType.VarChar, 20).Value = _Autorizacion
+        cmd.Parameters.Add("@Observacion", SqlDbType.VarChar, 100).Value = _Observacion
+        cmd.Parameters.Add("@AñoCobro", SqlDbType.SmallInt).Value = _AñoCobro
+        cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = _Cobro
+        cmd.Parameters.Add("@Status", SqlDbType.VarChar, 20).Value = _Status
+        cmd.Parameters.Add("@FAlta", SqlDbType.DateTime).Value = _FAlta
+        cmd.Parameters.Add("@UsuarioAlta", SqlDbType.Char, 15).Value = _UsuarioAlta
+
+        cmd.Connection = DataLayer.Conexion
+
+
+        Try
+            AbreConexion()
+
+            cmd.ExecuteNonQuery()
+
+
+
+        Catch ex As Exception
+            resultado = False
+            Throw ex
+
+        Finally
+            CierraConexion()
+            cmd.Dispose()
+        End Try
+
+        Return resultado
+    End Function
+
+
+End Class
+#End Region
+
+#Region "CargoTarjetaDatos"
+Public Class CargoTarjetaDatos
+    Public Sub insertarCargoTarjeta(ByVal CargoTarjeta As CargoTarjeta)
+
+        Try
+            CargoTarjeta.Alta()
+
+        Catch ex As Exception
+
+            Throw ex
+
+        Finally
+
+        End Try
+
+    End Sub
+
+
+    Public Function consultarCargoTarjeta(ByVal CargoTarjeta As CargoTarjeta) As Integer
+
+        Dim dr As SqlDataReader
+
+        dr = CargoTarjeta.Consulta()
+        If (dr.HasRows) Then
+            consultarCargoTarjeta = 1
+        Else
+            consultarCargoTarjeta = 0
+        End If
+
+    End Function
+
+
+End Class
+#End Region
 
 
 #Region "AutotanqueTurno"
