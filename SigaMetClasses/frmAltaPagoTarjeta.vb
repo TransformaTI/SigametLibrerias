@@ -94,4 +94,19 @@ Public Class frmAltaPagoTarjeta
     Private Sub ComboRuta1_SelectedIndexChanged(sender As Object, e As EventArgs)
 
     End Sub
+
+    Private Sub txtLitros_Leave(sender As Object, e As EventArgs) Handles txtLitros.Leave
+        Dim litros As Integer = txtLitros.Text
+        Dim precio As New Precio
+        precio.ZonaEconomica = 1
+        txtImporte.Text = FormatNumber(precio.calcularImporte(litros), 2)
+    End Sub
+
+    Private Sub txtImporte_Leave(sender As Object, e As EventArgs) Handles txtImporte.Leave
+        Dim importe As Decimal = txtImporte.Text
+        Dim precio As New Precio
+        precio.ZonaEconomica = 1
+        txtLitros.Text = FormatNumber(precio.calcularLitros(importe), 2)
+
+    End Sub
 End Class
