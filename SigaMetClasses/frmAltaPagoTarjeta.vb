@@ -98,15 +98,26 @@ Public Class frmAltaPagoTarjeta
     Private Sub txtLitros_Leave(sender As Object, e As EventArgs) Handles txtLitros.Leave
         Dim litros As Integer = txtLitros.Text
         Dim precio As New Precio
-        precio.ZonaEconomica = 1
-        txtImporte.Text = FormatNumber(precio.calcularImporte(litros), 2)
+        precio.ZonaEconomica = 100000
+        Try
+            txtImporte.Text = FormatNumber(precio.calcularImporte(litros), 2)
+        Catch ex As Exception
+            txtLitros.Clear()
+            MessageBox.Show(ex.Message, "ERROR!")
+        End Try
+
     End Sub
 
     Private Sub txtImporte_Leave(sender As Object, e As EventArgs) Handles txtImporte.Leave
         Dim importe As Decimal = txtImporte.Text
         Dim precio As New Precio
-        precio.ZonaEconomica = 1
-        txtLitros.Text = FormatNumber(precio.calcularLitros(importe), 2)
+        precio.ZonaEconomica = 1000001
+        Try
+            txtLitros.Text = FormatNumber(precio.calcularLitros(importe), 2)
+        Catch ex As Exception
+            txtImporte.Clear()
+            MessageBox.Show(ex.Message, "ERROR!")
+        End Try
 
     End Sub
 End Class
