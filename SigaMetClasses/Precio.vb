@@ -72,22 +72,24 @@ Public Class Precio
     Public Function calcularImporte(ByVal Litros As Decimal) As Decimal
         Dim lista As New List(Of DetallePrecioGLP)
         Dim detalle As New DetallePrecioGLP
-        Dim dResultado As Decimal
+        Dim dResultado As Decimal = 0
         Dim precio As Decimal
         Dim porcentaje As Decimal
 
         lista = consultarPrecioVigente()
 
         If _ZonaEconomica <> Nothing Then
-            detalle = (From Y In lista Where Y.ZonaEconomica = _ZonaEconomica).First
-            precio = detalle.Precio
-            porcentaje = detalle.PorcentajeIVA
-
-            dResultado = Litros * (precio * (1 + (porcentaje / 100)))
+            Try
+                detalle = (From Y In lista Where Y.ZonaEconomica = _ZonaEconomica).First
+                precio = detalle.Precio
+                porcentaje = detalle.PorcentajeIVA
+                dResultado = Litros * (precio * (1 + (porcentaje / 100)))
+            Catch ex As Exception
+                Throw New Exception("Error al consultar la zona económica indicada")
+            End Try
         Else
-            dResultado = 0
+            Throw New Exception("Imposible elegir precio, es necesario indicar una zona económica")
         End If
-
         calcularImporte = dResultado
     End Function
 
@@ -99,20 +101,22 @@ Public Class Precio
 
         Dim precio As Decimal
         Dim porcentaje As Decimal
-        Dim dResultado As Decimal
+        Dim dResultado As Decimal = 0
 
         lista = consultarPrecioVigente()
 
         If _ZonaEconomica <> Nothing Then
-            detalle = (From Y In lista Where Y.ZonaEconomica = _ZonaEconomica).First
-            precio = detalle.Precio
-            porcentaje = detalle.PorcentajeIVA
-
-            dResultado = Importe / (precio * (1 + (porcentaje / 100)))
+            Try
+                detalle = (From Y In lista Where Y.ZonaEconomica = _ZonaEconomica).First
+                precio = detalle.Precio
+                porcentaje = detalle.PorcentajeIVA
+                dResultado = Importe / (precio * (1 + (porcentaje / 100)))
+            Catch ex As Exception
+                Throw New Exception("Error al consultar la zona económica indicada")
+            End Try
         Else
-            dResultado = 0
+            Throw New Exception("Imposible elegir precio, es necesario indicar una zona económica")
         End If
-
         calcularLitros = dResultado
     End Function
 
