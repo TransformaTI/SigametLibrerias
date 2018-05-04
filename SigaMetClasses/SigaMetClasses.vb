@@ -443,8 +443,11 @@ Public Class CargoTarjeta
 
     End Function
 
-    Public Sub CargaDatos(ByVal AñoAtt As Short, ByVal Folio As Integer)
+    Public Sub CargaDatos(ByVal AñoCargo As Short, ByVal FolioCargo As Integer)
         LimpiaDatos()
+
+        Año = AñoCargo
+        Folio = FolioCargo
 
         Dim conn As SqlConnection = DataLayer.Conexion
         Dim cmd As New SqlCommand("spCyCConsultarCargoTarjeta", conn)
@@ -479,7 +482,7 @@ Public Class CargoTarjeta
             If Not IsDBNull(dr("Ruta")) Then _Ruta = CType(dr("Ruta"), Int16) Else _Ruta = Nothing
             If Not IsDBNull(dr("Autotanque")) Then _Autotanque = CType(dr("Autotanque"), Int16) Else _Autotanque = Nothing
             If Not IsDBNull(dr("Afiliacion")) Then _Afiliacion = CType(dr("Afiliacion"), Integer) Else _Afiliacion = Nothing
-            If Not IsDBNull(dr("TipoCobro")) Then _TipoCobro = CType(dr("TipoCobro"), tinyint) Else _TipoCobro = Nothing
+            If Not IsDBNull(dr("TipoCobro")) Then _TipoCobro = CType(dr("TipoCobro"), Int16) Else _TipoCobro = Nothing
             If Not IsDBNull(dr("Meses")) Then _Meses = CType(dr("Meses"), Int16) Else _Meses = Nothing
             If Not IsDBNull(dr("NumeroTarjeta")) Then _NumeroTarjeta = CType(dr("NumeroTarjeta"), String).Trim Else _NumeroTarjeta = " "
             If Not IsDBNull(dr("Banco")) Then _Banco = CType(dr("Banco"), Int16) Else _Banco = Nothing
@@ -496,7 +499,7 @@ Public Class CargoTarjeta
             If Not IsDBNull(dr("UsuarioAlta")) Then _UsuarioAlta = CType(dr("UsuarioAlta"), String).Trim Else _UsuarioAlta = " "
 
         Catch ex As Exception
-            Throw New Exception("No se pudieron cargar correctamente los datos", ex)
+            Throw New Exception("No se pudieron cargar correctamente los datos " + ex.Message, ex)
             LimpiaDatos()
         End Try
     End Sub
@@ -504,7 +507,7 @@ Public Class CargoTarjeta
     Public Function Alta() As Boolean
 
 
-        Dim cmd As New SqlCommand("spCalleAltaModifica")
+        Dim cmd As New SqlCommand("spCyCInsertarCargoTarjeta")
         Dim resultado As Boolean
 
         resultado = True
