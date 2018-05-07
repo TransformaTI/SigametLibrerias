@@ -171,6 +171,8 @@ Public Class CargoTarjeta
     Private _Status As String
     Private _FAlta As DateTime
     Private _UsuarioAlta As String
+    Private _NombreBanco As String
+    Private _TipoCobroDescripcion As String
 
 
 #Region "Propiedades"
@@ -373,6 +375,24 @@ Public Class CargoTarjeta
         End Set
     End Property
 
+    Public Property NombreBanco As String
+        Get
+            Return _NombreBanco
+        End Get
+        Set(value As String)
+            _NombreBanco = value
+        End Set
+    End Property
+
+    Public Property TipoCobroDescripcion As String
+        Get
+            Return _TipoCobroDescripcion
+        End Get
+        Set(value As String)
+            _TipoCobroDescripcion = value
+        End Set
+    End Property
+
 #End Region
 
     Public Sub New()
@@ -409,7 +429,13 @@ Public Class CargoTarjeta
         _Status = Nothing
         _FAlta = Nothing
         _UsuarioAlta = Nothing
+        _NombreBanco = Nothing
+        _TipoCobroDescripcion = Nothing
     End Sub
+
+
+
+
 
     Public Function Consulta() As SqlDataReader
         Dim conn As SqlConnection = DataLayer.Conexion
@@ -592,6 +618,61 @@ Public Class CargoTarjetaDatos
             consultarCargoTarjeta = 0
         End If
 
+    End Function
+
+    Public Function consultarCargoTarjeta(ByVal Cliente As String) As List(Of CargoTarjeta)
+        Dim objCargoTarjeta As New CargoTarjeta
+        Dim ListaCargoTarjeta As New List(Of CargoTarjeta)
+        Dim conn As SqlConnection = DataLayer.Conexion
+        Dim cmd As New SqlCommand("spCBConsultarCargoTarjetaCliente ", conn)
+        Dim dr As SqlDataReader
+
+        Try
+            AbreConexion()
+
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+            dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+
+            While dr.Read()
+                objCargoTarjeta = New CargoTarjeta
+                If Not IsDBNull(dr("Año")) Then objCargoTarjeta.Año = CType(dr("Año"), Integer) Else objCargoTarjeta.Año = Nothing
+                If Not IsDBNull(dr("Folio")) Then objCargoTarjeta.Folio = CType(dr("Folio"), Integer) Else objCargoTarjeta.Folio = Nothing
+                If Not IsDBNull(dr("TipoCargo")) Then objCargoTarjeta.TipoCargo = CType(dr("TipoCargo"), Int16) Else objCargoTarjeta.TipoCargo = Nothing
+                If Not IsDBNull(dr("Cliente")) Then objCargoTarjeta.Cliente = CType(dr("Cliente"), Integer) Else objCargoTarjeta.Cliente = Nothing
+                If Not IsDBNull(dr("Ruta")) Then objCargoTarjeta.Ruta = CType(dr("Ruta"), Int16) Else objCargoTarjeta.Ruta = Nothing
+                If Not IsDBNull(dr("Autotanque")) Then objCargoTarjeta.Autotanque = CType(dr("Autotanque"), Int16) Else objCargoTarjeta.Autotanque = Nothing
+                If Not IsDBNull(dr("Afiliacion")) Then objCargoTarjeta.Afiliacion = CType(dr("Afiliacion"), Integer) Else objCargoTarjeta.Afiliacion = Nothing
+                If Not IsDBNull(dr("TipoCobro")) Then objCargoTarjeta.TipoCobro = CType(dr("TipoCobro"), Int16) Else objCargoTarjeta.TipoCobro = Nothing
+                If Not IsDBNull(dr("Meses")) Then objCargoTarjeta.Meses = CType(dr("Meses"), Int16) Else objCargoTarjeta.Meses = Nothing
+                If Not IsDBNull(dr("NumeroTarjeta")) Then objCargoTarjeta.NumeroTarjeta = CType(dr("NumeroTarjeta"), String).Trim Else objCargoTarjeta.NumeroTarjeta = " "
+                If Not IsDBNull(dr("Banco")) Then objCargoTarjeta.Banco = CType(dr("Banco"), Int16) Else objCargoTarjeta.Banco = Nothing
+                If Not IsDBNull(dr("Litros")) Then objCargoTarjeta.Litros = CType(dr("Litros"), Decimal) Else objCargoTarjeta.Litros = Nothing
+                If Not IsDBNull(dr("Importe")) Then objCargoTarjeta.Importe = CType(dr("Importe"), Decimal) Else objCargoTarjeta.Importe = Nothing
+                If Not IsDBNull(dr("Remision")) Then objCargoTarjeta.Remision = CType(dr("Remision"), String).Trim Else objCargoTarjeta.Remision = " "
+                If Not IsDBNull(dr("Serie")) Then objCargoTarjeta.Serie = CType(dr("Serie"), String).Trim Else objCargoTarjeta.Serie = " "
+                If Not IsDBNull(dr("Autorizacion")) Then objCargoTarjeta.Autorizacion = CType(dr("Autorizacion"), String).Trim Else objCargoTarjeta.Autorizacion = " "
+                If Not IsDBNull(dr("Observacion")) Then objCargoTarjeta.Observacion = CType(dr("Observacion"), String).Trim Else objCargoTarjeta.Observacion = " "
+                If Not IsDBNull(dr("AñoCobro")) Then objCargoTarjeta.AñoCobro = CType(dr("AñoCobro"), Int16) Else objCargoTarjeta.AñoCobro = Nothing
+                If Not IsDBNull(dr("Cobro")) Then objCargoTarjeta.Cobro = CType(dr("Cobro"), Integer) Else objCargoTarjeta.Cobro = Nothing
+                If Not IsDBNull(dr("Status")) Then objCargoTarjeta.Status = CType(dr("Status"), String).Trim Else objCargoTarjeta.Status = " "
+                If Not IsDBNull(dr("FAlta")) Then objCargoTarjeta.FAlta = CType(dr("FAlta"), DateTime) Else objCargoTarjeta.FAlta = Nothing
+                If Not IsDBNull(dr("UsuarioAlta")) Then objCargoTarjeta.UsuarioAlta = CType(dr("UsuarioAlta"), String).Trim Else objCargoTarjeta.UsuarioAlta = " "
+                If Not IsDBNull(dr("NombreBanco")) Then objCargoTarjeta.NombreBanco = CType(dr("NombreBanco"), String).Trim Else objCargoTarjeta.NombreBanco = " "
+                If Not IsDBNull(dr("TipoCobroDescripcion")) Then objCargoTarjeta.TipoCobroDescripcion = CType(dr("TipoCobroDescripcion"), String).Trim Else objCargoTarjeta.TipoCobroDescripcion = " "
+
+                ListaCargoTarjeta.Add(objCargoTarjeta)
+
+            End While
+        Catch ex As Exception
+
+            Throw New Exception("No se pudieron cargar correctamente los datos " + ex.Message, ex)
+
+        End Try
+
+        CierraConexion()
+
+        Return ListaCargoTarjeta
     End Function
 
 

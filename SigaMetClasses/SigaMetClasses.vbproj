@@ -219,6 +219,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BindingSource.vb" />
     <Compile Include="BuscaCliente.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -310,6 +311,12 @@
       <DependentUpon>frmAltaPagoTarjeta.vb</DependentUpon>
     </Compile>
     <Compile Include="frmAltaPagoTarjeta.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConsultaCargoTarjetaCliente.Designer.vb">
+      <DependentUpon>frmConsultaCargoTarjetaCliente.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmConsultaCargoTarjetaCliente.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmGrupoComercialBusquedaPorCliente.designer.vb">
@@ -509,6 +516,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmAltaPagoTarjeta.resx">
       <DependentUpon>frmAltaPagoTarjeta.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConsultaCargoTarjetaCliente.resx">
+      <DependentUpon>frmConsultaCargoTarjetaCliente.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGrupoComercialBusquedaPorCliente.resx">
       <DependentUpon>frmGrupoComercialBusquedaPorCliente.vb</DependentUpon>
