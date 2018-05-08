@@ -4034,6 +4034,107 @@ Public Class cCliente
 End Class
 #End Region
 
+#Region "Clase ClienteCuentaBancaria"
+Public Class ClienteCuentaBancaria
+
+#Region "Consulta"
+    Public Function ConsultaClienteCuentaBancaria(ByVal Cliente As Integer) As DataTable
+        Dim cmd As New SqlCommand()
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "spCBSeleccionaCienteCuentaBancaria"
+        cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+        cmd.Connection = DataLayer.Conexion
+        Dim da As New SqlDataAdapter(cmd)
+        Dim dt As New DataTable("Cliente")
+
+        Try
+            da.Fill(dt)
+            Return dt
+        Catch ex As Exception
+            Throw ex
+        Finally
+            da.Dispose()
+            da = Nothing
+        End Try
+
+    End Function
+
+#End Region
+
+#Region "ALTA"
+    Public Sub insertarClienteCuentaBancaria(ByVal Cliente As Integer, ByVal Secuencia As Integer,
+                                             ByVal Banco As Short, ByVal CuentaBancaria As String,
+                                             ByVal Clabe As String, ByVal Sucursal As String,
+                                             ByVal ReferenciaPago As String, ByVal Status As String,
+                                             ByVal FAlta As DateTime, ByVal UsuarioAlta As String)
+        Dim cmd As New SqlCommand("spCajaAltaModifica")
+        With cmd
+            .CommandType = CommandType.StoredProcedure
+            .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = Cliente
+            .Parameters.Add(New SqlParameter("@Banco", SqlDbType.SmallInt)).Value = Banco
+            .Parameters.Add(New SqlParameter("CuentaBancaria", SqlDbType.VarChar)).Value = CuentaBancaria
+            .Parameters.Add(New SqlParameter("Clabe", SqlDbType.VarChar)).Value = Clabe
+            .Parameters.Add(New SqlParameter("Sucursal", SqlDbType.VarChar)).Value = Sucursal
+            .Parameters.Add(New SqlParameter("ReferenciaPago", SqlDbType.VarChar)).Value = ReferenciaPago
+            .Parameters.Add(New SqlParameter("UsuarioAlta", SqlDbType.Char, 15)).Value = UsuarioAlta
+
+        End With
+
+        Try
+            AbreConexion()
+            cmd.Connection = DataLayer.Conexion
+            cmd.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw ex
+        Finally
+            CierraConexion()
+        End Try
+
+    End Sub
+
+
+#Region "Actualiza"
+    Public Sub ActualizaClienteCuentaBancaria(ByVal Cliente As Integer, ByVal Secuencia As Integer,
+                                                 ByVal Banco As Short, ByVal CuentaBancaria As String,
+                                                 ByVal Clabe As String, ByVal Sucursal As String,
+                                                 ByVal ReferenciaPago As String, ByVal Status As String)
+        Dim cmd As New SqlCommand("spCajaAltaModifica")
+        With cmd
+            .CommandType = CommandType.StoredProcedure
+            .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = Cliente
+            .Parameters.Add(New SqlParameter("@Secuencia", SqlDbType.Int)).Value = Secuencia
+            .Parameters.Add(New SqlParameter("@Banco", SqlDbType.SmallInt)).Value = Banco
+            .Parameters.Add(New SqlParameter("@CuentaBancaria", SqlDbType.VarChar)).Value = CuentaBancaria
+            .Parameters.Add(New SqlParameter("@Clabe", SqlDbType.VarChar)).Value = Clabe
+            .Parameters.Add(New SqlParameter("@Sucursal", SqlDbType.VarChar)).Value = Sucursal
+            .Parameters.Add(New SqlParameter("@ReferenciaPago", SqlDbType.VarChar)).Value = ReferenciaPago
+            .Parameters.Add(New SqlParameter("@Status", SqlDbType.VarChar)).Value = Status
+
+
+        End With
+
+        Try
+            AbreConexion()
+            cmd.Connection = DataLayer.Conexion
+            cmd.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw ex
+        Finally
+            CierraConexion()
+        End Try
+
+    End Sub
+#End Region
+
+
+End Class
+#End Region
+
+
+
+#End Region
+
+
 #Region "TarjetaCredito"
 Public Class cTarjetaCredito
     Public Sub AltaModifica(ByVal Cliente As Integer,
