@@ -52,6 +52,14 @@ Public Class frmConsultaCargoTarjetaCliente
 
     Private Sub btnInsertar_Click(sender As Object, e As EventArgs) Handles btnInsertar.Click
         CargoTarjeta = _listaCargos.Item(dgvCargos.CurrentCell.RowIndex)
+
+        Try
+            Dim Actualizar As New CargoTarjetaDatos
+            Actualizar.actualizaStatusCargoTarjeta(_Cliente, CargoTarjeta.Autorizacion, "ALTA", "EMITIDO")
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
         Me.DialogResult = Windows.Forms.DialogResult.OK
         Me.Close()
     End Sub
