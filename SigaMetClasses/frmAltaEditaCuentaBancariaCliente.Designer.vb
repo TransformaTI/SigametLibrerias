@@ -244,7 +244,7 @@ Partial Class frmAltaEditaCuentaBancariaCliente
         Me.Cbb_Banco.FormattingEnabled = True
         Me.Cbb_Banco.Location = New System.Drawing.Point(70, 28)
         Me.Cbb_Banco.Name = "Cbb_Banco"
-        Me.Cbb_Banco.Size = New System.Drawing.Size(121, 21)
+        Me.Cbb_Banco.Size = New System.Drawing.Size(367, 21)
         Me.Cbb_Banco.TabIndex = 5
         '
         'Label2

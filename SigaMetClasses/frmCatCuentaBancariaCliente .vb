@@ -73,4 +73,8 @@ Public Class frmCatCuentaBancariaCliente
         CuentaBancariaClientees.Show()
 
     End Sub
+
+    Private Sub TSBRefrescar_Click(sender As Object, e As EventArgs) Handles TSBRefrescar.Click
+
+    End Sub
 End Class

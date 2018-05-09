@@ -1,4 +1,5 @@
-﻿Imports System.Windows.Forms
+﻿Imports System.Collections.Generic
+Imports System.Windows.Forms
 
 Public Class frmAltaEditaCuentaBancariaCliente
 
@@ -11,6 +12,8 @@ Public Class frmAltaEditaCuentaBancariaCliente
         ' This call is required by the designer.
         InitializeComponent()
         TipoMovimiento = Movimiento
+        CargarEstatus()
+        CargarBancos()
         ' Add any initialization after the InitializeComponent() call.
 
     End Sub
@@ -53,17 +56,59 @@ Public Class frmAltaEditaCuentaBancariaCliente
         End If
     End Sub
 
-    Public Sub CargarBan()
+    Public Sub CargarEstatus()
         Dim Estatus As New Dictionary(Of String, Integer)
-
-        Estatus.Add("one", 1)
-        Estatus.Add("two", 2)
-        'Inicializar displaymember y valuemember
+        Estatus.Add("Activo", 1)
+        Estatus.Add("Inactivo", 2)
+        ' Inicializar displaymember y valuemember
         Cbb_Estatus.DisplayMember = "Key"
         Cbb_Estatus.ValueMember = "Value"
         'Ligar el combo al diccionario
         Cbb_Estatus.DataSource = New BindingSource(Estatus, Nothing)
+
     End Sub
 
+    Public Sub CargarBancos()
+        Dim CargarNombreBancos As New ClienteCuentaBancaria()
+        Dim dtBancos As DataTable
+        dtBancos = CargarNombreBancos.ConsultaNombresBancos()
+        Cbb_Banco.DataSource = dtBancos
+        ' Inicializar displaymember y valuemember
+        Cbb_Banco.DisplayMember = "Nombre"
+        Cbb_Banco.ValueMember = "Banco"
+        'Ligar el combo al diccionario
+        Cbb_Banco.DataSource = dtBancos
 
+    End Sub
+
+    Private Sub BtnGuardar_Click(sender As Object, e As EventArgs) Handles BtnGuardar.Click
+        If (TipoMovimiento = "Alta") Then
+            AltaCuentaBancaria()
+            If MessageBox.Show("Cuenta bancaria ¡Agragada!.  ¿Desea agregar otra cuenta bancaria?", "My Application",
+         MessageBoxButtons.YesNo, MessageBoxIcon.Information
+         ) _
+         = DialogResult.No Then
+                Close()
+            End If
+        End If
+        If (TipoMovimiento = "Actualizar") Then
+            MessageBox.Show("Actulizado hecho")
+        End If
+    End Sub
+    Public Sub AltaCuentaBancaria()
+        Dim InsertCuentaBancaria As New ClienteCuentaBancaria()
+        Dim Cliente As Integer
+        Dim Banco As Short
+        Dim CuentaBancaria, Clabe, Sucursal, ReferenciaPago, UsuarioAlta As String
+        Cliente = TxtBox_Cliente.Text
+        Banco = Cbb_Banco.SelectedValue
+        CuentaBancaria = Txtb_Ceunta.Text
+        Clabe = Txtb_Clave.Text
+        Sucursal = Txtb_Sucursal.Text
+        ReferenciaPago = Txtb_Referencia.Text
+        UsuarioAlta = "Usuario"
+        InsertCuentaBancaria.insertarClienteCuentaBancaria(Cliente, Banco, CuentaBancaria, Clabe, Sucursal, ReferenciaPago, UsuarioAlta)
+
+
+    End Sub
 End Class
