@@ -198,6 +198,7 @@ Partial Class frmCatCuentaBancariaCliente
         Me.grd_Cliente.Location = New System.Drawing.Point(0, 0)
         Me.grd_Cliente.Name = "grd_Cliente"
         Me.grd_Cliente.RowHeadersVisible = False
+        Me.grd_Cliente.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.grd_Cliente.Size = New System.Drawing.Size(993, 227)
         Me.grd_Cliente.TabIndex = 6
         '

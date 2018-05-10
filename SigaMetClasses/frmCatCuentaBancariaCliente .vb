@@ -97,6 +97,7 @@ Public Class frmCatCuentaBancariaCliente
 
 
             TxtB_Estatus.Text = grd_Cliente.Item(8, i).Value()
+
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Consulta de cliente", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
