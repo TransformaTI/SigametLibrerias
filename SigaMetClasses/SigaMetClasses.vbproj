@@ -152,7 +152,7 @@
       <HintPath>bin\RegularValidations.dll</HintPath>
     </Reference>
     <Reference Include="RTGMGateway">
-      <HintPath>..\..\CyC\ModuloCredCob\bin\RTGMGateway.dll</HintPath>
+      <HintPath>..\..\Gateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
     </Reference>
     <Reference Include="SeguimientoCliente, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
@@ -306,10 +306,22 @@
     <Compile Include="ConsultaPedidoBitacora.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmAltaEditaCuentaBancariaCliente.Designer.vb">
+      <DependentUpon>frmAltaEditaCuentaBancariaCliente.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAltaEditaCuentaBancariaCliente.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmAltaPagoTarjeta.Designer.vb">
       <DependentUpon>frmAltaPagoTarjeta.vb</DependentUpon>
     </Compile>
     <Compile Include="frmAltaPagoTarjeta.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCatCuentaBancariaCliente .Designer.vb">
+      <DependentUpon>frmCatCuentaBancariaCliente .vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmCatCuentaBancariaCliente .vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmConsultaCargoTarjetaCliente.Designer.vb">
@@ -513,8 +525,14 @@
     <EmbeddedResource Include="ConsultaPedidoBitacora.resx">
       <DependentUpon>ConsultaPedidoBitacora.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmAltaEditaCuentaBancariaCliente.resx">
+      <DependentUpon>frmAltaEditaCuentaBancariaCliente.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmAltaPagoTarjeta.resx">
       <DependentUpon>frmAltaPagoTarjeta.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCatCuentaBancariaCliente .resx">
+      <DependentUpon>frmCatCuentaBancariaCliente .vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmConsultaCargoTarjetaCliente.resx">
       <DependentUpon>frmConsultaCargoTarjetaCliente.vb</DependentUpon>
