@@ -4076,6 +4076,27 @@ Public Class ClienteCuentaBancaria
         End Try
 
     End Function
+    Public Function ConsultaCuentaBancaria(ByVal Cliente As Integer, ByVal Secuencia As Integer) As DataTable
+        Dim cmd As New SqlCommand()
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "spCBConsultaCuentaBancaria"
+        cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+        cmd.Parameters.Add("@Secuencia", SqlDbType.Int).Value = Secuencia
+        cmd.Connection = DataLayer.Conexion
+        Dim da As New SqlDataAdapter(cmd)
+        Dim dt As New DataTable("Cliente")
+
+        Try
+            da.Fill(dt)
+            Return dt
+        Catch ex As Exception
+            Throw ex
+        Finally
+            da.Dispose()
+            da = Nothing
+        End Try
+
+    End Function
 #End Region
 
 #Region "ALTA"
@@ -4114,7 +4135,7 @@ Public Class ClienteCuentaBancaria
                                                  ByVal Banco As Short, ByVal CuentaBancaria As String,
                                                  ByVal Clabe As String, ByVal Sucursal As String,
                                                  ByVal ReferenciaPago As String, ByVal Status As String)
-        Dim cmd As New SqlCommand("spCajaAltaModifica")
+        Dim cmd As New SqlCommand("spCBActualizaCienteCuentaBancaria")
         With cmd
             .CommandType = CommandType.StoredProcedure
             .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = Cliente
