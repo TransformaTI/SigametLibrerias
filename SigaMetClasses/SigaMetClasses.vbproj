@@ -152,7 +152,7 @@
       <HintPath>bin\RegularValidations.dll</HintPath>
     </Reference>
     <Reference Include="RTGMGateway">
-      <HintPath>..\..\RTGMGateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
+      <HintPath>..\..\CyC\ModuloCredCob\bin\RTGMGateway.dll</HintPath>
     </Reference>
     <Reference Include="SeguimientoCliente, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
@@ -219,7 +219,6 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BindingSource.vb" />
     <Compile Include="BuscaCliente.vb">
       <SubType>Form</SubType>
     </Compile>

@@ -281,7 +281,6 @@ C:\Repos\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.xml
 C:\Repos\SigametLibrerias\SigaMetClasses\bin\stdole.dll
 C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CopyComplete
 C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojResolveAssemblyReference.cache
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojResolveAssemblyReference.cache
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\log4net.dll
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\nunit.framework.dll
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\RTGMGateway.pdb
@@ -360,3 +359,26 @@ C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasse
 C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.dll
 C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
 C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojAssemblyReference.cache
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmAltaPagoTarjeta.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaCargoTarjetaCliente.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.CrystalReports.Engine.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.ReportSource.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.Shared.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.Web.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.Windows.Forms.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\FlashControlV71.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\ShockwaveFlashObjects.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CopyComplete
