@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmCatCuentaBancariaCliente
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class frmCatCuentaBancariaCliente
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCatCuentaBancariaCliente))
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
@@ -30,7 +30,6 @@ Partial Class frmCatCuentaBancariaCliente
         Me.TSBRefrescar = New System.Windows.Forms.ToolStripButton()
         Me.TSBCerrar = New System.Windows.Forms.ToolStripButton()
         Me.Label_Cliente = New System.Windows.Forms.Label()
-        Me.grd_Cliente = New System.Windows.Forms.DataGridView()
         Me.TB_DATOS = New System.Windows.Forms.TabControl()
         Me.page_Datos = New System.Windows.Forms.TabPage()
         Me.Txt_FechaAlta = New System.Windows.Forms.TextBox()
@@ -40,11 +39,12 @@ Partial Class frmCatCuentaBancariaCliente
         Me.Lbfecha = New System.Windows.Forms.Label()
         Me.lb_usuario = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.grd_Cliente = New System.Windows.Forms.DataGridView()
         Me.ToolStrip1.SuspendLayout()
-        CType(Me.grd_Cliente, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TB_DATOS.SuspendLayout()
         Me.page_Datos.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        CType(Me.grd_Cliente, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ToolStrip1
@@ -52,7 +52,7 @@ Partial Class frmCatCuentaBancariaCliente
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TSBNuevo, Me.TSBModificar, Me.TSBConsultar, Me.TSBRefrescar, Me.TSBCerrar})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(801, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(999, 25)
         Me.ToolStrip1.TabIndex = 1
         Me.ToolStrip1.Text = "ToolStrip1"
         '
@@ -103,19 +103,11 @@ Partial Class frmCatCuentaBancariaCliente
         Me.Label_Cliente.AutoSize = True
         Me.Label_Cliente.Location = New System.Drawing.Point(2, 25)
         Me.Label_Cliente.Name = "Label_Cliente"
-        Me.Label_Cliente.Size = New System.Drawing.Size(795, 13)
+        Me.Label_Cliente.Size = New System.Drawing.Size(969, 13)
         Me.Label_Cliente.TabIndex = 2
         Me.Label_Cliente.Text = "__ Cliente ______________________________________________________________________" &
-    "_____________________________________________________"
-        '
-        'grd_Cliente
-        '
-        Me.grd_Cliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grd_Cliente.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.grd_Cliente.Location = New System.Drawing.Point(0, 0)
-        Me.grd_Cliente.Name = "grd_Cliente"
-        Me.grd_Cliente.Size = New System.Drawing.Size(794, 234)
-        Me.grd_Cliente.TabIndex = 3
+    "________________________________________________________________________________" &
+    "__"
         '
         'TB_DATOS
         '
@@ -123,7 +115,7 @@ Partial Class frmCatCuentaBancariaCliente
         Me.TB_DATOS.Location = New System.Drawing.Point(5, 281)
         Me.TB_DATOS.Name = "TB_DATOS"
         Me.TB_DATOS.SelectedIndex = 0
-        Me.TB_DATOS.Size = New System.Drawing.Size(789, 100)
+        Me.TB_DATOS.Size = New System.Drawing.Size(988, 100)
         Me.TB_DATOS.TabIndex = 4
         '
         'page_Datos
@@ -137,21 +129,21 @@ Partial Class frmCatCuentaBancariaCliente
         Me.page_Datos.Location = New System.Drawing.Point(4, 22)
         Me.page_Datos.Name = "page_Datos"
         Me.page_Datos.Padding = New System.Windows.Forms.Padding(3)
-        Me.page_Datos.Size = New System.Drawing.Size(781, 74)
+        Me.page_Datos.Size = New System.Drawing.Size(980, 74)
         Me.page_Datos.TabIndex = 0
         Me.page_Datos.Text = "Datos"
         Me.page_Datos.UseVisualStyleBackColor = True
         '
         'Txt_FechaAlta
         '
-        Me.Txt_FechaAlta.Location = New System.Drawing.Point(310, 21)
+        Me.Txt_FechaAlta.Location = New System.Drawing.Point(430, 25)
         Me.Txt_FechaAlta.Name = "Txt_FechaAlta"
         Me.Txt_FechaAlta.Size = New System.Drawing.Size(100, 20)
         Me.Txt_FechaAlta.TabIndex = 5
         '
         'TxtB_Estatus
         '
-        Me.TxtB_Estatus.Location = New System.Drawing.Point(519, 21)
+        Me.TxtB_Estatus.Location = New System.Drawing.Point(758, 25)
         Me.TxtB_Estatus.Name = "TxtB_Estatus"
         Me.TxtB_Estatus.Size = New System.Drawing.Size(100, 20)
         Me.TxtB_Estatus.TabIndex = 4
@@ -166,7 +158,7 @@ Partial Class frmCatCuentaBancariaCliente
         'Lb_Estatus
         '
         Me.Lb_Estatus.AutoSize = True
-        Me.Lb_Estatus.Location = New System.Drawing.Point(471, 28)
+        Me.Lb_Estatus.Location = New System.Drawing.Point(693, 28)
         Me.Lb_Estatus.Name = "Lb_Estatus"
         Me.Lb_Estatus.Size = New System.Drawing.Size(42, 13)
         Me.Lb_Estatus.TabIndex = 2
@@ -175,7 +167,7 @@ Partial Class frmCatCuentaBancariaCliente
         'Lbfecha
         '
         Me.Lbfecha.AutoSize = True
-        Me.Lbfecha.Location = New System.Drawing.Point(247, 28)
+        Me.Lbfecha.Location = New System.Drawing.Point(346, 28)
         Me.Lbfecha.Name = "Lbfecha"
         Me.Lbfecha.Size = New System.Drawing.Size(57, 13)
         Me.Lbfecha.TabIndex = 1
@@ -193,16 +185,27 @@ Partial Class frmCatCuentaBancariaCliente
         'Panel1
         '
         Me.Panel1.Controls.Add(Me.grd_Cliente)
-        Me.Panel1.Location = New System.Drawing.Point(0, 41)
+        Me.Panel1.Location = New System.Drawing.Point(0, 48)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(794, 234)
+        Me.Panel1.Size = New System.Drawing.Size(993, 227)
         Me.Panel1.TabIndex = 5
+        '
+        'grd_Cliente
+        '
+        Me.grd_Cliente.AllowUserToAddRows = False
+        Me.grd_Cliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.grd_Cliente.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.grd_Cliente.Location = New System.Drawing.Point(0, 0)
+        Me.grd_Cliente.Name = "grd_Cliente"
+        Me.grd_Cliente.RowHeadersVisible = False
+        Me.grd_Cliente.Size = New System.Drawing.Size(993, 227)
+        Me.grd_Cliente.TabIndex = 6
         '
         'frmCatCuentaBancariaCliente
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(801, 394)
+        Me.ClientSize = New System.Drawing.Size(999, 394)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.TB_DATOS)
         Me.Controls.Add(Me.Label_Cliente)
@@ -212,11 +215,11 @@ Partial Class frmCatCuentaBancariaCliente
         Me.Text = "CatCuentaBancariaCliente"
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        CType(Me.grd_Cliente, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TB_DATOS.ResumeLayout(False)
         Me.page_Datos.ResumeLayout(False)
         Me.page_Datos.PerformLayout()
         Me.Panel1.ResumeLayout(False)
+        CType(Me.grd_Cliente, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -229,7 +232,6 @@ Partial Class frmCatCuentaBancariaCliente
     Friend WithEvents TSBRefrescar As Windows.Forms.ToolStripButton
     Friend WithEvents TSBCerrar As Windows.Forms.ToolStripButton
     Friend WithEvents Label_Cliente As Windows.Forms.Label
-    Friend WithEvents grd_Cliente As Windows.Forms.DataGridView
     Friend WithEvents TB_DATOS As Windows.Forms.TabControl
     Friend WithEvents page_Datos As Windows.Forms.TabPage
     Friend WithEvents Txt_FechaAlta As Windows.Forms.TextBox
@@ -239,4 +241,5 @@ Partial Class frmCatCuentaBancariaCliente
     Friend WithEvents Lbfecha As Windows.Forms.Label
     Friend WithEvents lb_usuario As Windows.Forms.Label
     Friend WithEvents Panel1 As Windows.Forms.Panel
+    Friend WithEvents grd_Cliente As Windows.Forms.DataGridView
 End Class

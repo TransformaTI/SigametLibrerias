@@ -5,15 +5,17 @@ Public Class frmAltaEditaCuentaBancariaCliente
 
     Private TipoMovimiento As String
     Private Secuenciaa As Integer
+    Private Usuario As String
     Dim idCliente As Int32 = -1
     Dim oCliente As New SigaMetClasses.cCliente()
 
-    Public Sub New(Movimiento As String, Secuencia As Integer, clienteActualziar As Integer)
+    Public Sub New(Movimiento As String, Secuencia As Integer, clienteActualziar As Integer, usuarioAlta As String)
 
         ' This call is required by the designer.
         InitializeComponent()
         TipoMovimiento = Movimiento
         Secuenciaa = Secuencia
+        Usuario = usuarioAlta
         CargarEstatus()
         CargarBancos()
         If (TipoMovimiento = "Alta") Then
@@ -120,7 +122,7 @@ Public Class frmAltaEditaCuentaBancariaCliente
         Clabe = Txtb_Clave.Text
         Sucursal = Txtb_Sucursal.Text
         ReferenciaPago = Txtb_Referencia.Text
-        UsuarioAlta = "Usuario"
+        UsuarioAlta = Usuario  
         InsertCuentaBancaria.insertarClienteCuentaBancaria(Cliente, Banco, CuentaBancaria, Clabe, Sucursal, ReferenciaPago, UsuarioAlta)
     End Sub
 
@@ -135,8 +137,7 @@ Public Class frmAltaEditaCuentaBancariaCliente
         Clabe = Txtb_Clave.Text
         Sucursal = Txtb_Sucursal.Text
         ReferenciaPago = Txtb_Referencia.Text
-        Estatus = Cbb_Estatus.SelectedText
-        MessageBox.Show(Cbb_Estatus.SelectedText)
+        Estatus = Cbb_Estatus.Text
         ActualizarCuentaBancaria.ActualizaClienteCuentaBancaria(Cliente, Secuenciaa, Banco, CuentaBancaria, Clabe, Sucursal, ReferenciaPago, Estatus)
     End Sub
 
