@@ -152,7 +152,7 @@
       <HintPath>bin\RegularValidations.dll</HintPath>
     </Reference>
     <Reference Include="RTGMGateway">
-      <HintPath>..\..\Gateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
+      <HintPath>..\..\RTGMGateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
     </Reference>
     <Reference Include="SeguimientoCliente, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
@@ -328,6 +328,12 @@
       <DependentUpon>frmConsultaCargoTarjetaCliente.vb</DependentUpon>
     </Compile>
     <Compile Include="frmConsultaCargoTarjetaCliente.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConsultaIngresosSaldoAFavor.Designer.vb">
+      <DependentUpon>frmConsultaIngresosSaldoAFavor.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmConsultaIngresosSaldoAFavor.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmGrupoComercialBusquedaPorCliente.designer.vb">
@@ -536,6 +542,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmConsultaCargoTarjetaCliente.resx">
       <DependentUpon>frmConsultaCargoTarjetaCliente.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConsultaIngresosSaldoAFavor.resx">
+      <DependentUpon>frmConsultaIngresosSaldoAFavor.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGrupoComercialBusquedaPorCliente.resx">
       <DependentUpon>frmGrupoComercialBusquedaPorCliente.vb</DependentUpon>
