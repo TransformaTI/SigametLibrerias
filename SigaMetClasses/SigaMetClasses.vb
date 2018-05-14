@@ -6158,11 +6158,20 @@ Friend MustInherit Class MovimientoAConciliar
 
 #End Region
 
-    Public MustOverride Function leerMovimientoAConciliar(ByVal FolioMovimiento As Integer, ByVal AñoMovimiento As Integer) As MovimientoAConciliar
+    Public MustOverride Sub actualizarMovimientoAConciliar(ByVal MovimientoAConciliar As MovimientoAConciliar)
 
     Public MustOverride Sub guardarMovimientoAConciliar(ByVal MovimientoAConciliar As MovimientoAConciliar)
 
-    Public MustOverride Sub actualizarMovimientoAConciliar(ByVal MovimientoAConciliar As MovimientoAConciliar)
+    'Public MustOverride Function leerMovimientoAConciliar(ByVal FInicio As Date,
+    '                                                      ByVal FFin As Date,
+    '                                                      ByVal Cliente As Integer,
+    '                                                      ByVal Monto As Decimal,
+    '                                                      ByVal SaldoAFavor As Boolean) As List(Of MovimientoAConciliar)
+    Public MustOverride Function leerMovimientoAConciliar(ByVal FInicio As Date,
+                                                          ByVal FFin As Date,
+                                                          ByVal Cliente As Integer,
+                                                          ByVal Monto As Decimal,
+                                                          ByVal SaldoAFavor As Boolean) As DataSet
 
 End Class
 
@@ -6181,8 +6190,39 @@ Friend Class MovimientoAConciliarDatos
         Throw New NotImplementedException()
     End Sub
 
-    Public Overrides Function leerMovimientoAConciliar(FolioMovimiento As Integer, AñoMovimiento As Integer) As MovimientoAConciliar
-        Throw New NotImplementedException()
+    'Public Overrides Function leerMovimientoAConciliar(ByVal FechaInicio As Date,
+    '                                                      ByVal FechaFin As Date,
+    '                                                      ByVal Cliente As Integer,
+    '                                                      ByVal Monto As Decimal,
+    '                                                      ByVal SaldoAFavor As Boolean) As List(Of MovimientoAConciliar)
+    Public Overrides Function leerMovimientoAConciliar(ByVal FechaInicio As Date,
+                                                          ByVal FechaFin As Date,
+                                                          ByVal Cliente As Integer,
+                                                          ByVal Monto As Decimal,
+                                                          ByVal SaldoAFavor As Boolean) As DataSet
+        Dim cmd As New SqlCommand()
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "spCBConsultaMovimientoAConciliar"
+        cmd.Parameters.Add("@FInicio", SqlDbType.DateTime).Value = FechaInicio
+        cmd.Parameters.Add("@FFin", SqlDbType.DateTime).Value = FechaFin
+        cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+        cmd.Parameters.Add("@Monto", SqlDbType.Decimal).Value = Monto
+        cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Bit).Value = SaldoAFavor
+        cmd.Connection = DataLayer.Conexion
+        Dim da As New SqlDataAdapter(cmd)
+        Dim ds As New DataSet()
+
+        Try
+            da.Fill(ds, "MovimientoAConciliar")
+            Return ds
+        Catch ex As Exception
+            Throw ex
+        Finally
+            da.Dispose()
+            da = Nothing
+        End Try
+
+        'Throw New NotImplementedException()
     End Function
 End Class
 
