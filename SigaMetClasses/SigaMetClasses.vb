@@ -4247,10 +4247,21 @@ Public Class ClienteCuentaBancaria
 
 End Class
 #End Region
-
-
-
 #End Region
+
+#Region "clase Alta pago con targeta"
+Public Class AltaPagoTarjeta
+    Public Sub insertarPagoTarjeta(ByVal Año As Integer, ByVal Folio As Integer, ByVal TipoCargo As Short,@Cliente int,
+@Ruta smallint,@Autotanque smallint,@Afiliacion int,@TipoCobro tinyint,@Meses smallint,
+@NumeroTarjeta varchar(20),@Banco smallint,@Litros Decimal(14,2),@Importe money,@Remision varchar(20),
+@Serie varchar(10),@Autorizacion varchar(20),@Observacion varchar(100),@AñoCobro smallint,
+@Cobro int,@Status varchar(20),@FAlta datetime,@UsuarioAlta char(15))
+End Sub
+
+
+End Class
+#End Region
+
 
 
 #Region "TarjetaCredito"
