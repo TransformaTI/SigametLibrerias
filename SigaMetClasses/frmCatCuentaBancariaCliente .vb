@@ -10,6 +10,14 @@ Public Class frmCatCuentaBancariaCliente
         ' This call is required by the designer.
         InitializeComponent()
         UsuarioAlta = Usuario
+        grd_Cliente.AutoGenerateColumns = False
+        FormatoColumns()
+
+
+        ' Set the child form's MdiParent property to 
+        ' the current form.
+
+
         ' Add any initialization after the InitializeComponent() call.
     End Sub
     Private Sub TSBConsultar_Click(sender As Object, e As EventArgs) Handles TSBConsultar.Click
@@ -20,8 +28,6 @@ Public Class frmCatCuentaBancariaCliente
             Try
                 Dim Consulta As New ClienteCuentaBancaria()
                 grd_Cliente.DataSource = Consulta.ConsultaClienteCuentaBancaria(idCliente)
-                FormatoColumns()
-
             Catch ex As Exception
                 MessageBox.Show(ex.Message, "Consulta de cliente", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Finally
@@ -60,22 +66,27 @@ Public Class frmCatCuentaBancariaCliente
     Private Sub CatalogoAltaEditaCuentaBancariaCliente(TipoMovimiento As String, secuencia As String, clienteActualizar As Integer)
         Dim NombreCatalogo As String
         If (TipoMovimiento = "Alta") Then
-            NombreCatalogo = "Nuevo cuanta bancaria del cliente"
+            NombreCatalogo = "Nueva cuanta bancaria del cliente"
         End If
         If (TipoMovimiento = "Actualizar") Then
             NombreCatalogo = "Modificar cuanta bancaria del cliente"
         End If
-
         Dim f As Form
         For Each f In Me.MdiChildren
-            If f.Name = "CuentaBancariaCliente" Then
+            If f.Name = "frmAltaEditaCuentaBancariaCliente" Then
                 f.Focus()
                 Exit Sub
             End If
         Next
+
+        Cursor = Cursors.WaitCursor
         Dim CuentaBancariaClientees As New frmAltaEditaCuentaBancariaCliente(TipoMovimiento, secuencia, clienteActualizar, UsuarioAlta)
-        CuentaBancariaClientees.Text = NombreCatalogo
+
+        Cursor = Cursors.Default
+        'CuentaBancariaClientees.Text = NombreCatalogo
+        'CuentaBancariaClientees.MdiParent = Me.Parent As Forms.Form
         CuentaBancariaClientees.Show()
+        CuentaBancariaClientees.Focus()
 
     End Sub
 
@@ -90,10 +101,10 @@ Public Class frmCatCuentaBancariaCliente
             Dim dst As New DataSet
             Dim Consulta As New ClienteCuentaBancaria()
             grd_Cliente.DataSource = Consulta.ConsultaClienteCuentaBancaria(clienteActualizar)
-            grd_Cliente.Columns.Item(1).Visible = False
-            grd_Cliente.Columns.Item(8).Visible = False
-            grd_Cliente.Columns.Item(9).Visible = False
-            grd_Cliente.Columns.Item(10).Visible = False
+            'grd_Cliente.Columns.Item(1).Visible = False
+            'grd_Cliente.Columns.Item(8).Visible = False
+            'grd_Cliente.Columns.Item(9).Visible = False
+            'grd_Cliente.Columns.Item(10).Visible = False
 
 
             TxtB_Estatus.Text = grd_Cliente.Item(8, i).Value()
@@ -105,25 +116,40 @@ Public Class frmCatCuentaBancariaCliente
         End Try
     End Sub
     Private Sub FormatoColumns()
+        'CLIENTE
+        grd_Cliente.Columns(0).DataPropertyName = "Cliente"
+        grd_Cliente.Columns(0).Width = 80
+        'Secuencia
+        grd_Cliente.Columns(1).DataPropertyName = "Secuencia"
+        'Nombre
+        grd_Cliente.Columns(2).DataPropertyName = "Nombre"
+        grd_Cliente.Columns(2).Width = 200
+        ''Banco
+        grd_Cliente.Columns(3).DataPropertyName = "Banco"
+        grd_Cliente.Columns(3).Width = 125
+        ''cuenta bancaria
+        grd_Cliente.Columns(4).DataPropertyName = "CuentaBancaria"
+        grd_Cliente.Columns(4).HeaderText = "Cuenta Bancaria"
+        grd_Cliente.Columns(4).Width = 150
+        ''cable'
+        grd_Cliente.Columns(5).DataPropertyName = "Clabe"
+        grd_Cliente.Columns(5).HeaderText = "CLABE"
+        grd_Cliente.Columns(5).Width = 100
+        'sucursal
+        grd_Cliente.Columns(6).DataPropertyName = "Sucursal"
+        grd_Cliente.Columns(6).Width = 170
+        ''Referencia pago
+        grd_Cliente.Columns(7).DataPropertyName = "Referencia Pago"
+        grd_Cliente.Columns(7).Width = 164
+
+        grd_Cliente.Columns(8).DataPropertyName = "Status"
+        grd_Cliente.Columns(9).DataPropertyName = "FAlta"
+        grd_Cliente.Columns(10).DataPropertyName = "UsuarioAlta"
+
         grd_Cliente.Columns.Item(1).Visible = False
         grd_Cliente.Columns.Item(8).Visible = False
         grd_Cliente.Columns.Item(9).Visible = False
         grd_Cliente.Columns.Item(10).Visible = False
-        'CLIENTE
-        grd_Cliente.Columns(0).Width = 80
-        'Nombre
-        grd_Cliente.Columns(2).Width = 250
-        'Banco
-        grd_Cliente.Columns(3).Width = 125
-        'cuenta bancaria
-        grd_Cliente.Columns(4).Width = 100
-        'cable'
-        grd_Cliente.Columns(5).Width = 100
-        'sucursal
-        grd_Cliente.Columns(6).Width = 170
-        'Referencia pago
-        grd_Cliente.Columns(7).Width = 164
+
     End Sub
-
-
 End Class

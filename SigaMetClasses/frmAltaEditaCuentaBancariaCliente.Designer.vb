@@ -214,6 +214,7 @@ Partial Class frmAltaEditaCuentaBancariaCliente
         'Txtb_Referencia
         '
         Me.Txtb_Referencia.Location = New System.Drawing.Point(70, 133)
+        Me.Txtb_Referencia.MaxLength = 20
         Me.Txtb_Referencia.Name = "Txtb_Referencia"
         Me.Txtb_Referencia.Size = New System.Drawing.Size(367, 20)
         Me.Txtb_Referencia.TabIndex = 13
@@ -221,6 +222,7 @@ Partial Class frmAltaEditaCuentaBancariaCliente
         'Txtb_Sucursal
         '
         Me.Txtb_Sucursal.Location = New System.Drawing.Point(70, 107)
+        Me.Txtb_Sucursal.MaxLength = 20
         Me.Txtb_Sucursal.Name = "Txtb_Sucursal"
         Me.Txtb_Sucursal.Size = New System.Drawing.Size(367, 20)
         Me.Txtb_Sucursal.TabIndex = 12
@@ -228,6 +230,7 @@ Partial Class frmAltaEditaCuentaBancariaCliente
         'Txtb_Clave
         '
         Me.Txtb_Clave.Location = New System.Drawing.Point(70, 81)
+        Me.Txtb_Clave.MaxLength = 20
         Me.Txtb_Clave.Name = "Txtb_Clave"
         Me.Txtb_Clave.Size = New System.Drawing.Size(367, 20)
         Me.Txtb_Clave.TabIndex = 11
@@ -235,6 +238,7 @@ Partial Class frmAltaEditaCuentaBancariaCliente
         'Txtb_Ceunta
         '
         Me.Txtb_Ceunta.Location = New System.Drawing.Point(70, 55)
+        Me.Txtb_Ceunta.MaxLength = 20
         Me.Txtb_Ceunta.Name = "Txtb_Ceunta"
         Me.Txtb_Ceunta.Size = New System.Drawing.Size(367, 20)
         Me.Txtb_Ceunta.TabIndex = 10
@@ -307,7 +311,6 @@ Partial Class frmAltaEditaCuentaBancariaCliente
         '
         'BtnGuardar
         '
-        Me.BtnGuardar.Image = Global.SigaMetClasses.My.Resources.Resources.boton_guardar
         Me.BtnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.BtnGuardar.Location = New System.Drawing.Point(488, 58)
         Me.BtnGuardar.Name = "BtnGuardar"

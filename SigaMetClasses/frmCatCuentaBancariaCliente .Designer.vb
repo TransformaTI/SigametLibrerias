@@ -40,6 +40,17 @@ Partial Class frmCatCuentaBancariaCliente
         Me.lb_usuario = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.grd_Cliente = New System.Windows.Forms.DataGridView()
+        Me.dgrCliente = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.GrdSecuencia = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.GrdNombre = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.GrdBanco = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.GrdCuentaBancaria = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Grdclabe = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.GrdSucursal = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.GrdReferenciaPago = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.GrdStatus = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.GrdFAlta = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.GrdUsuarioAlta = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ToolStrip1.SuspendLayout()
         Me.TB_DATOS.SuspendLayout()
         Me.page_Datos.SuspendLayout()
@@ -193,14 +204,84 @@ Partial Class frmCatCuentaBancariaCliente
         'grd_Cliente
         '
         Me.grd_Cliente.AllowUserToAddRows = False
+        Me.grd_Cliente.AllowUserToDeleteRows = False
         Me.grd_Cliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.grd_Cliente.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.dgrCliente, Me.GrdSecuencia, Me.GrdNombre, Me.GrdBanco, Me.GrdCuentaBancaria, Me.Grdclabe, Me.GrdSucursal, Me.GrdReferenciaPago, Me.GrdStatus, Me.GrdFAlta, Me.GrdUsuarioAlta})
         Me.grd_Cliente.Dock = System.Windows.Forms.DockStyle.Fill
         Me.grd_Cliente.Location = New System.Drawing.Point(0, 0)
+        Me.grd_Cliente.MultiSelect = False
         Me.grd_Cliente.Name = "grd_Cliente"
+        Me.grd_Cliente.ReadOnly = True
         Me.grd_Cliente.RowHeadersVisible = False
         Me.grd_Cliente.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.grd_Cliente.Size = New System.Drawing.Size(993, 227)
         Me.grd_Cliente.TabIndex = 6
+        '
+        'dgrCliente
+        '
+        Me.dgrCliente.HeaderText = "Cliente"
+        Me.dgrCliente.Name = "dgrCliente"
+        Me.dgrCliente.ReadOnly = True
+        '
+        'GrdSecuencia
+        '
+        Me.GrdSecuencia.HeaderText = "Secuencia"
+        Me.GrdSecuencia.Name = "GrdSecuencia"
+        Me.GrdSecuencia.ReadOnly = True
+        '
+        'GrdNombre
+        '
+        Me.GrdNombre.HeaderText = "Nombre"
+        Me.GrdNombre.Name = "GrdNombre"
+        Me.GrdNombre.ReadOnly = True
+        '
+        'GrdBanco
+        '
+        Me.GrdBanco.HeaderText = "Banco"
+        Me.GrdBanco.Name = "GrdBanco"
+        Me.GrdBanco.ReadOnly = True
+        '
+        'GrdCuentaBancaria
+        '
+        Me.GrdCuentaBancaria.HeaderText = "CuentaBancaria"
+        Me.GrdCuentaBancaria.Name = "GrdCuentaBancaria"
+        Me.GrdCuentaBancaria.ReadOnly = True
+        '
+        'Grdclabe
+        '
+        Me.Grdclabe.HeaderText = "Clabe"
+        Me.Grdclabe.Name = "Grdclabe"
+        Me.Grdclabe.ReadOnly = True
+        '
+        'GrdSucursal
+        '
+        Me.GrdSucursal.HeaderText = "Sucursal"
+        Me.GrdSucursal.Name = "GrdSucursal"
+        Me.GrdSucursal.ReadOnly = True
+        '
+        'GrdReferenciaPago
+        '
+        Me.GrdReferenciaPago.HeaderText = "Referencia Pago"
+        Me.GrdReferenciaPago.Name = "GrdReferenciaPago"
+        Me.GrdReferenciaPago.ReadOnly = True
+        '
+        'GrdStatus
+        '
+        Me.GrdStatus.HeaderText = "Status"
+        Me.GrdStatus.Name = "GrdStatus"
+        Me.GrdStatus.ReadOnly = True
+        '
+        'GrdFAlta
+        '
+        Me.GrdFAlta.HeaderText = "FAlta"
+        Me.GrdFAlta.Name = "GrdFAlta"
+        Me.GrdFAlta.ReadOnly = True
+        '
+        'GrdUsuarioAlta
+        '
+        Me.GrdUsuarioAlta.HeaderText = "UsuarioAlta"
+        Me.GrdUsuarioAlta.Name = "GrdUsuarioAlta"
+        Me.GrdUsuarioAlta.ReadOnly = True
         '
         'frmCatCuentaBancariaCliente
         '
@@ -243,4 +324,15 @@ Partial Class frmCatCuentaBancariaCliente
     Friend WithEvents lb_usuario As Windows.Forms.Label
     Friend WithEvents Panel1 As Windows.Forms.Panel
     Friend WithEvents grd_Cliente As Windows.Forms.DataGridView
+    Friend WithEvents dgrCliente As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents GrdSecuencia As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents GrdNombre As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents GrdBanco As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents GrdCuentaBancaria As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Grdclabe As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents GrdSucursal As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents GrdReferenciaPago As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents GrdStatus As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents GrdFAlta As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents GrdUsuarioAlta As Windows.Forms.DataGridViewTextBoxColumn
 End Class

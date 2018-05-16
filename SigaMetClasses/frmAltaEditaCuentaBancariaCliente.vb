@@ -18,6 +18,7 @@ Public Class frmAltaEditaCuentaBancariaCliente
         Usuario = usuarioAlta
         CargarEstatus()
         CargarBancos()
+        inhabilitar()
         If (TipoMovimiento = "Alta") Then
             Cbb_Estatus.Visible = False
             Lb_Estatus.Visible = False
@@ -47,7 +48,7 @@ Public Class frmAltaEditaCuentaBancariaCliente
                     Txtb_Nombre.Text = CType(dr("Nombre"), String)
                     Txtb_calle.Text = CType(dr("CalleNombre"), String)
                     Txtb_Colonia.Text = CType(dr("ColoniaNombre"), String)
-                    Txtb_Municipio.Text = CType(dr("Municipio"), String)
+                    Txtb_Municipio.Text = CType(dr("MunicipioNombre"), String)
                     TxtBox_Ruta.Text = CType(dr("RutaDescripcion"), String)
 
 
@@ -95,7 +96,7 @@ Public Class frmAltaEditaCuentaBancariaCliente
     Private Sub BtnGuardar_Click(sender As Object, e As EventArgs) Handles BtnGuardar.Click
         If (TipoMovimiento = "Alta") Then
             AltaCuentaBancaria()
-            If MessageBox.Show("           Cuenta bancaria ¡Agragada!." + vbLf + "    ¿Desea agregar otra cuenta bancaria?", "Cuenta bancaria cliente",
+            If MessageBox.Show("           Cuenta bancaria ¡Agregada!." + vbLf + "    ¿Desea agregar otra cuenta bancaria?", "Cuenta bancaria cliente",
          MessageBoxButtons.YesNo, MessageBoxIcon.None
          ) _
          = DialogResult.No Then
@@ -153,7 +154,7 @@ Public Class frmAltaEditaCuentaBancariaCliente
                 Txtb_Nombre.Text = CType(dr("Nombre"), String)
                 Txtb_calle.Text = CType(dr("CalleNombre"), String)
                 Txtb_Colonia.Text = CType(dr("ColoniaNombre"), String)
-                Txtb_Municipio.Text = CType(dr("Municipio"), String)
+                Txtb_Municipio.Text = CType(dr("MunicipioNombre"), String)
                 TxtBox_Ruta.Text = CType(dr("RutaDescripcion"), String)
             Next
 
@@ -201,4 +202,14 @@ Public Class frmAltaEditaCuentaBancariaCliente
         Txtb_Referencia.Text = ""
         Cbb_Estatus.Text = ""
     End Sub
+    Public Sub inhabilitar()
+        TxtBox_Cliente.ReadOnly = True
+        TxtBox_Ruta.ReadOnly = True
+        Txtb_Nombre.ReadOnly = True
+        Txtb_Colonia.ReadOnly = True
+        Txtb_Municipio.ReadOnly = True
+        Txtb_calle.ReadOnly = True
+
+    End Sub
+
 End Class
