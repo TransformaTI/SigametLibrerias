@@ -5834,7 +5834,7 @@ Friend MustInherit Class MovimientoAConciliar
     Private _factura As Integer
     Private _añoCobro As Short
     Private _cobro As Integer
-    Private _monto As Decimal                   ' -- Verificar tipo de dato --
+    Private _monto As Decimal
     Private _statusMovimiento As String
     Private _fMovimiento As DateTime
     Private _statusConciliacion As String
@@ -6162,16 +6162,16 @@ Friend MustInherit Class MovimientoAConciliar
 
     Public MustOverride Sub guardarMovimientoAConciliar(ByVal MovimientoAConciliar As MovimientoAConciliar)
 
-    'Public MustOverride Function leerMovimientoAConciliar(ByVal FInicio As Date,
-    '                                                      ByVal FFin As Date,
+    'Public MustOverride Function leerMovimientoAConciliar(ByVal FechaInicio As Date,
+    '                                                      ByVal FechaFin As Date,
     '                                                      ByVal Cliente As Integer,
     '                                                      ByVal Monto As Decimal,
     '                                                      ByVal SaldoAFavor As Boolean) As List(Of MovimientoAConciliar)
-    Public MustOverride Function leerMovimientoAConciliar(ByVal FInicio As Date,
-                                                          ByVal FFin As Date,
+    Public MustOverride Function leerMovimientoAConciliar(ByVal FechaInicio As Date,
+                                                          ByVal FechaFin As Date,
                                                           ByVal Cliente As Integer,
                                                           ByVal Monto As Decimal,
-                                                          ByVal SaldoAFavor As Boolean) As DataSet
+                                                          ByVal SaldoAFavor As Boolean) As DataTable
 
 End Class
 
@@ -6199,30 +6199,46 @@ Friend Class MovimientoAConciliarDatos
                                                           ByVal FechaFin As Date,
                                                           ByVal Cliente As Integer,
                                                           ByVal Monto As Decimal,
-                                                          ByVal SaldoAFavor As Boolean) As DataSet
-        Dim cmd As New SqlCommand()
-        cmd.CommandType = CommandType.StoredProcedure
-        cmd.CommandText = "spCBConsultaMovimientoAConciliar"
-        cmd.Parameters.Add("@FInicio", SqlDbType.DateTime).Value = FechaInicio
-        cmd.Parameters.Add("@FFin", SqlDbType.DateTime).Value = FechaFin
-        cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
-        cmd.Parameters.Add("@Monto", SqlDbType.Decimal).Value = Monto
-        cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Bit).Value = SaldoAFavor
-        cmd.Connection = DataLayer.Conexion
-        Dim da As New SqlDataAdapter(cmd)
-        Dim ds As New DataSet()
+                                                          ByVal SaldoAFavor As Boolean) As DataTable
+        Dim da As SqlDataAdapter = Nothing
+        Dim dt As DataTable = Nothing
+        Dim cmd As SqlCommand = Nothing
 
         Try
-            da.Fill(ds, "MovimientoAConciliar")
-            Return ds
+            cmd = New SqlCommand()
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.CommandText = "spCBConsultarMovimientoAConciliar"
+            cmd.Connection = DataLayer.Conexion
+
+            If (FechaInicio > Date.MinValue) Then
+                cmd.Parameters.Add("@FInicio", SqlDbType.DateTime).Value = FechaInicio
+            End If
+            If (FechaFin > Date.MinValue) Then
+                cmd.Parameters.Add("@FFin", SqlDbType.DateTime).Value = FechaFin
+            End If
+            If (Cliente > 0) Then
+                cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+            End If
+            If (Monto > 0) Then
+                cmd.Parameters.Add("@Monto", SqlDbType.Decimal).Value = Monto
+            End If
+            If (SaldoAFavor) Then
+                cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Bit).Value = 1
+            End If
+
+            da = New SqlDataAdapter(cmd)
+            dt = New DataTable()
+            da.Fill(dt)
+            dt.TableName = "MovimientoAConciliar"
+
+            Return dt
         Catch ex As Exception
             Throw ex
         Finally
+            cmd.Dispose()
             da.Dispose()
             da = Nothing
         End Try
-
-        'Throw New NotImplementedException()
     End Function
 End Class
 
