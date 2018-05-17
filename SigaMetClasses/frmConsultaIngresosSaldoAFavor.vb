@@ -20,17 +20,17 @@ Public Class frmConsultaIngresosSaldoAFavor
     End Sub
 
     Private Sub btnBuscar_Click(sender As Object, e As EventArgs) Handles bnBuscar.Click
-        CargarIngresos()
+        ConsultarIngresos()
+        CargarGrid()
     End Sub
 
-    Private Sub CargarIngresos()
+    Private Sub ConsultarIngresos()
         Dim obMovimientoAConciliarDatos As MovimientoAConciliarDatos = Nothing
         Dim fechaInicio As Date
         Dim fechaFin As Date
         Dim cliente As Integer
         Dim monto As Decimal
         Dim filtrarSaldoAFavor As Boolean
-        Dim filtrarTodos As Boolean
         Dim filtrarFechas As Boolean
 
         Try
@@ -38,15 +38,13 @@ Public Class frmConsultaIngresosSaldoAFavor
             obMovimientoAConciliarDatos = New MovimientoAConciliarDatos
 
             filtrarSaldoAFavor = chkSaldosAFavor.Checked
-            filtrarTodos = chkTodos.Checked
             filtrarFechas = chkFechas.Checked
 
             If (filtrarFechas) Then
-                fechaInicio = Format(dtpFechaInicio.Value, "dd/mm/yyyy")
-                fechaFin = Format(dtpFechaFin.Value, "dd/mm/yyyy")
-                fechaFin.AddDays(1)
+                fechaInicio = DateValue(dtpFechaInicio.Value)
+                fechaFin = DateValue(dtpFechaFin.Value)
+                fechaFin = fechaFin.AddDays(1)
             End If
-
             If Not (String.IsNullOrEmpty(txtCliente.Text)) Then
                 cliente = Convert.ToInt32(txtCliente.Text)
             End If
@@ -54,27 +52,27 @@ Public Class frmConsultaIngresosSaldoAFavor
                 monto = Convert.ToDecimal(txtMonto.Text)
             End If
 
-            If (filtrarTodos) Then
-                dtIngresos = obMovimientoAConciliarDatos.leerMovimientoAConciliar(
-                                                                    Date.MinValue,
-                                                                    Date.MinValue,
-                                                                    -1,
-                                                                    -1,
-                                                                    filtrarSaldoAFavor)
-            Else
-                dtIngresos = obMovimientoAConciliarDatos.leerMovimientoAConciliar(
+            dtIngresos = obMovimientoAConciliarDatos.leerMovimientoAConciliar(
                                                                     fechaInicio,
                                                                     fechaFin,
                                                                     cliente,
                                                                     monto,
                                                                     filtrarSaldoAFavor)
-            End If
-
-            grdIngresos.DataSource = dtIngresos
         Catch ex As Exception
             MessageBox.Show(ex.Message, _Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
             Cursor = Cursors.Default
         End Try
+    End Sub
+
+    Private Sub CargarGrid()
+        grvIngresos.AutoGenerateColumns = False
+        grvIngresos.DataSource = dtIngresos
+        grvIngresos.Columns(1).DataPropertyName = "FolioMovimiento"
+        grvIngresos.Columns(2).DataPropertyName = "Cliente"
+        grvIngresos.Columns(3).DataPropertyName = "NombreCliente"
+        grvIngresos.Columns(4).DataPropertyName = "TipoMovimientoAConciliarDescripcion"
+        grvIngresos.Columns(5).DataPropertyName = "FOperacion"
+        grvIngresos.Columns(6).DataPropertyName = "Monto"
     End Sub
 End Class
