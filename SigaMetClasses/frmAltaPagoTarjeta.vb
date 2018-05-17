@@ -5,6 +5,17 @@ Public Class frmAltaPagoTarjeta
 
     Dim idCliente As Int32 = -1
     Dim oCliente As New SigaMetClasses.cCliente()
+    Dim ClienteI As Integer
+    Private _UsuarioAlta
+
+    Public Sub New(Usuario As String)
+
+        ' This call is required by the designer.
+        InitializeComponent()
+        _UsuarioAlta = Usuario
+        ' Add any initialization after the InitializeComponent() call.
+
+    End Sub
 
     Private Sub limpiaCliente()
         txtcliente.Clear()
@@ -103,12 +114,6 @@ Public Class frmAltaPagoTarjeta
 
 
     End Sub
-
-
-
-
-
-
     Private Sub btnBuscar_Click(sender As Object, e As EventArgs) Handles btnBuscar.Click
         Dim frmBusquedaCliente As New BusquedaCliente()
         frmBusquedaCliente.ShowDialog()
@@ -119,6 +124,7 @@ Public Class frmAltaPagoTarjeta
             Try
                 Cursor = Cursors.WaitCursor
                 dsDatos = oCliente.ConsultaDatos(idCliente, , , , True, True)
+                ClienteI = idCliente
                 dtCliente = dsDatos.Tables("Cliente")
                 For Each dr In dtCliente.Rows
                     txtcliente.Text = CType(dr("Cliente"), String)
@@ -176,6 +182,52 @@ Public Class frmAltaPagoTarjeta
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
 
         validarDatosCargo()
+        AltaPagoTarjeta()
+        MessageBox.Show("Pago tarjeta agregado")
 
     End Sub
+
+    Private Sub AltaPagoTarjeta()
+        Dim InsertPagoTarjeta As New AltaPagoTarjeta()
+        Dim Cliente, Folio, Afiliacion, Cobro As Integer
+        Dim Banco, TipoCargo, Ruta, Autotanque, Meses, AñoCobro As Short
+        Dim NumeroTarjeta, Remision, Serie,
+        Autorizacion, Observacion As String
+        Dim TipoCobro As Byte
+        Dim Litros As Double
+        Dim Importe As Decimal
+        Dim UsuarioAlta As String
+
+
+
+        Banco = cboBancos.SelectedValue
+        Afiliacion = cboAfiliacion.SelectedValue
+        NumeroTarjeta = txtTarjeta.Text
+        Meses = cboMeses.Text
+        Cliente = ClienteI
+        Litros = txtLitros.Text
+        Remision = txtRemision.Text
+        Autorizacion = txtAutorizacion.Text
+        Observacion = txtObservaciones.Text
+        Importe = txtImporte.Text
+        TipoCobro = cboTipoTarjeta.SelectedValue
+        Ruta = cboRuta.SelectedValue
+        Autotanque = cboAutotanque.Text
+        UsuarioAlta = _UsuarioAlta
+        'todo aqui esta harcord
+        Cobro = 10
+        TipoCargo = 2
+        AñoCobro = 2018
+        Serie = ""
+
+        'hasta aqui
+
+
+        InsertPagoTarjeta.insertarPagoTarjeta(Folio, TipoCargo, Cliente, Ruta, Autotanque, Afiliacion,
+                                              TipoCobro, Meses, NumeroTarjeta, Banco, Litros, Importe,
+                                              Remision, Serie, Autorizacion, Observacion, AñoCobro, Cobro,
+                                              UsuarioAlta)
+    End Sub
+
+
 End Class

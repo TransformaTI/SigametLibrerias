@@ -27,7 +27,7 @@ Partial Class frmAltaPagoTarjeta
         Me.RadioButton2 = New System.Windows.Forms.RadioButton()
         Me.rdCargoPorVenta = New System.Windows.Forms.RadioButton()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
+        Me.cboAutotanque = New System.Windows.Forms.ComboBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -110,7 +110,7 @@ Partial Class frmAltaPagoTarjeta
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.cboRuta)
-        Me.GroupBox1.Controls.Add(Me.ComboBox1)
+        Me.GroupBox1.Controls.Add(Me.cboAutotanque)
         Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.Label7)
         Me.GroupBox1.Controls.Add(Me.Label6)
@@ -132,13 +132,13 @@ Partial Class frmAltaPagoTarjeta
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Datos del cliente"
         '
-        'ComboBox1
+        'cboAutotanque
         '
-        Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(307, 162)
-        Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(108, 21)
-        Me.ComboBox1.TabIndex = 15
+        Me.cboAutotanque.FormattingEnabled = True
+        Me.cboAutotanque.Location = New System.Drawing.Point(307, 162)
+        Me.cboAutotanque.Name = "cboAutotanque"
+        Me.cboAutotanque.Size = New System.Drawing.Size(108, 21)
+        Me.cboAutotanque.TabIndex = 15
         '
         'Label8
         '
@@ -578,7 +578,7 @@ Partial Class frmAltaPagoTarjeta
     Friend WithEvents Label3 As Windows.Forms.Label
     Friend WithEvents Label2 As Windows.Forms.Label
     Friend WithEvents Label1 As Windows.Forms.Label
-    Friend WithEvents ComboBox1 As Windows.Forms.ComboBox
+    Friend WithEvents cboAutotanque As Windows.Forms.ComboBox
     Friend WithEvents Label8 As Windows.Forms.Label
     Friend WithEvents Label9 As Windows.Forms.Label
     Friend WithEvents GroupBox2 As Windows.Forms.GroupBox
