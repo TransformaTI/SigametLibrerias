@@ -4251,12 +4251,51 @@ End Class
 
 #Region "clase Alta pago con targeta"
 Public Class AltaPagoTarjeta
-    Public Sub insertarPagoTarjeta(ByVal Año As Integer, ByVal Folio As Integer, ByVal TipoCargo As Short,@Cliente int,
-@Ruta smallint,@Autotanque smallint,@Afiliacion int,@TipoCobro tinyint,@Meses smallint,
-@NumeroTarjeta varchar(20),@Banco smallint,@Litros Decimal(14,2),@Importe money,@Remision varchar(20),
-@Serie varchar(10),@Autorizacion varchar(20),@Observacion varchar(100),@AñoCobro smallint,
-@Cobro int,@Status varchar(20),@FAlta datetime,@UsuarioAlta char(15))
-End Sub
+    Public Sub insertarPagoTarjeta(ByVal Folio As Integer, ByVal TipoCargo As Short,
+                                   ByVal Cliente As Integer, ByVal Ruta As Short, ByVal Autotanque As Short,
+                                   ByVal Afiliacion As Integer, ByVal TipoCobro As Byte, ByVal Meses As Short,
+                                   ByVal NumeroTarjeta As String, ByVal Banco As Short, ByVal Litros As Double,
+                                   ByVal Importe As Decimal, ByVal Remision As String, ByVal Serie As String,
+                                   ByVal Autorizacion As String, ByVal Observacion As String, ByVal AñoCobro As Short,
+                                   ByVal Cobro As Integer, ByVal UsuarioAlta As String)
+
+        Dim cmd As New SqlCommand("spCBAltaAltaPagoTarjeta")
+        With cmd
+            .CommandType = CommandType.StoredProcedure
+            .Parameters.Add(New SqlParameter("@Folio", SqlDbType.Int)).Value = Folio
+            .Parameters.Add(New SqlParameter("@TipoCargo", SqlDbType.SmallInt)).Value = TipoCargo
+            .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = Cliente
+            .Parameters.Add(New SqlParameter("@Ruta", SqlDbType.SmallInt)).Value = Ruta
+            .Parameters.Add(New SqlParameter("@Autotanque", SqlDbType.SmallInt)).Value = Autotanque
+            .Parameters.Add(New SqlParameter("@Afiliacion", SqlDbType.Int)).Value = Afiliacion
+            .Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.TinyInt)).Value = TipoCobro
+            .Parameters.Add(New SqlParameter("@Meses", SqlDbType.SmallInt)).Value = Meses
+            .Parameters.Add(New SqlParameter("@NumeroTarjeta", SqlDbType.VarChar, 20)).Value = NumeroTarjeta
+            .Parameters.Add(New SqlParameter("@Banco", SqlDbType.SmallInt)).Value = Banco
+            .Parameters.Add(New SqlParameter("@Litros", SqlDbType.Decimal, 14, 2)).Value = Litros
+            .Parameters.Add(New SqlParameter("@Importe", SqlDbType.Decimal)).Value = Importe
+            .Parameters.Add(New SqlParameter("@Remision", SqlDbType.VarChar, 20)).Value = Remision
+            .Parameters.Add(New SqlParameter("@Serie", SqlDbType.VarChar, 20)).Value = Serie
+            .Parameters.Add(New SqlParameter("@Autorizacion", SqlDbType.VarChar, 20)).Value = Autorizacion
+            .Parameters.Add(New SqlParameter("@Observacion", SqlDbType.VarChar, 100)).Value = Observacion
+            .Parameters.Add(New SqlParameter("@AñoCobro", SqlDbType.SmallInt)).Value = AñoCobro
+            .Parameters.Add(New SqlParameter("@Cobro", SqlDbType.Int)).Value = Cobro
+            .Parameters.Add(New SqlParameter("@UsuarioAlta", SqlDbType.VarChar, 15)).Value = UsuarioAlta
+
+
+        End With
+
+        Try
+            AbreConexion()
+            cmd.Connection = DataLayer.Conexion
+            cmd.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw ex
+        Finally
+            CierraConexion()
+        End Try
+
+    End Sub
 
 
 End Class
