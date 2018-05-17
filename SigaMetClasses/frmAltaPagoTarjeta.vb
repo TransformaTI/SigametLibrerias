@@ -126,6 +126,7 @@ Public Class frmAltaPagoTarjeta
                 dsDatos = oCliente.ConsultaDatos(idCliente, , , , True, True)
                 ClienteI = idCliente
                 dtCliente = dsDatos.Tables("Cliente")
+
                 For Each dr In dtCliente.Rows
                     txtcliente.Text = CType(dr("Cliente"), String)
                     txtNombre.Text = CType(dr("Nombre"), String)
@@ -161,8 +162,18 @@ Public Class frmAltaPagoTarjeta
 
     Private Sub btnConsultaCliente_Click(sender As Object, e As EventArgs) Handles btnConsultaCliente.Click
         Dim frmConsultaCliente As New frmConsultaCliente(idCliente)
+        Dim pedidoreferencia As String
         frmConsultaCliente.ShowDialog()
+        pedidoreferencia = frmConsultaCliente.PedidoReferenciaSeleccionado()
+        MessageBox.Show(pedidoreferencia)
+        MessageBox.Show(frmConsultaCliente.PedidoFechaSeleccionado)
+        MessageBox.Show(frmConsultaCliente.PedidoImporteSeleccionado)
+        MessageBox.Show(frmConsultaCliente.PedidoLitroSeleccionado)
+
+
         If frmConsultaCliente.DialogResult = DialogResult.OK Then
+
+
 
         Else
 
@@ -229,5 +240,7 @@ Public Class frmAltaPagoTarjeta
                                               UsuarioAlta)
     End Sub
 
+    Private Sub cboAfiliacion_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboAfiliacion.SelectedIndexChanged
 
+    End Sub
 End Class

@@ -17,6 +17,10 @@ Public Class frmConsultaCliente
     Private _LinkQueja As Boolean           '20070622#CFSL001 Anexe este dato para no ver la etiqueta que llama las quejas
     Private _URLGateway As String
 
+    Private _Fecha As String
+    Private _Litro As Decimal
+    Private _Importe As Decimal
+
     Private _CambioEmpleadoNomina As Boolean
     Private _CambioClientePadre As Boolean
 
@@ -33,6 +37,26 @@ Public Class frmConsultaCliente
             Return _PedidoReferencia
         End Get
     End Property
+
+    Public ReadOnly Property PedidoFechaSeleccionado() As String
+        Get
+            Return _Fecha
+        End Get
+    End Property
+
+    Public ReadOnly Property PedidoLitroSeleccionado() As Decimal
+        Get
+            Return _Litro
+        End Get
+    End Property
+
+    Public ReadOnly Property PedidoImporteSeleccionado() As Decimal
+        Get
+            Return _Importe
+        End Get
+    End Property
+
+
 
 #Region " Windows Form Designer generated code "
 
@@ -2279,6 +2303,9 @@ Public Class frmConsultaCliente
 
     Private Sub grdDocumento_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles grdDocumento.CurrentCellChanged
         _PedidoReferencia = Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 3), String))
+        _Fecha = Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 7), String))
+        _Litro = CDec(Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 8), String)))
+        _Importe = CDec(Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 10), String)))
         If btnConsultaDocumento.Enabled = False And _PedidoReferencia <> "" Then btnConsultaDocumento.Enabled = True
         grdDocumento.Select(grdDocumento.CurrentRowIndex)
     End Sub
@@ -2291,6 +2318,7 @@ Public Class frmConsultaCliente
         'Se necesita saber la columna del PedidoReferencia
         If _SeleccionPedidoReferencia = True Then
             _PedidoReferencia = Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 3), String))
+
             DialogResult = DialogResult.OK
             Me.Close()
         End If
@@ -2471,6 +2499,10 @@ Public Class frmConsultaCliente
         Dim frmSeguimiento As New SeguimientoCliente.ListaSeguimiento(_Cliente, lblCliente.Text, _Usuario, SigaMetClasses.DataLayer.Conexion)
         frmSeguimiento.StartPosition = FormStartPosition.CenterScreen
         frmSeguimiento.ShowDialog()
+    End Sub
+
+    Private Sub grdDocumento_Navigate(sender As Object, ne As NavigateEventArgs) Handles grdDocumento.Navigate
+
     End Sub
 
     Private Sub DeshabilitaBotonQuejas()

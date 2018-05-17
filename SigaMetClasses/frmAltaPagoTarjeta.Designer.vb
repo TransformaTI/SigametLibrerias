@@ -138,7 +138,7 @@ Partial Class frmAltaPagoTarjeta
         Me.cboAutotanque.Location = New System.Drawing.Point(307, 162)
         Me.cboAutotanque.Name = "cboAutotanque"
         Me.cboAutotanque.Size = New System.Drawing.Size(108, 21)
-        Me.cboAutotanque.TabIndex = 15
+        Me.cboAutotanque.TabIndex = 8
         '
         'Label8
         '
@@ -173,7 +173,7 @@ Partial Class frmAltaPagoTarjeta
         Me.txtRuta.Name = "txtRuta"
         Me.txtRuta.ReadOnly = True
         Me.txtRuta.Size = New System.Drawing.Size(108, 20)
-        Me.txtRuta.TabIndex = 10
+        Me.txtRuta.TabIndex = 1
         '
         'Label5
         '
@@ -226,7 +226,7 @@ Partial Class frmAltaPagoTarjeta
         Me.txtMunicipio.Name = "txtMunicipio"
         Me.txtMunicipio.ReadOnly = True
         Me.txtMunicipio.Size = New System.Drawing.Size(325, 20)
-        Me.txtMunicipio.TabIndex = 4
+        Me.txtMunicipio.TabIndex = 6
         '
         'txtColonia
         '
@@ -234,7 +234,7 @@ Partial Class frmAltaPagoTarjeta
         Me.txtColonia.Name = "txtColonia"
         Me.txtColonia.ReadOnly = True
         Me.txtColonia.Size = New System.Drawing.Size(325, 20)
-        Me.txtColonia.TabIndex = 3
+        Me.txtColonia.TabIndex = 5
         '
         'txtNombre
         '
@@ -242,7 +242,7 @@ Partial Class frmAltaPagoTarjeta
         Me.txtNombre.Name = "txtNombre"
         Me.txtNombre.ReadOnly = True
         Me.txtNombre.Size = New System.Drawing.Size(325, 20)
-        Me.txtNombre.TabIndex = 2
+        Me.txtNombre.TabIndex = 3
         '
         'txtCalle
         '
@@ -250,7 +250,7 @@ Partial Class frmAltaPagoTarjeta
         Me.txtCalle.Name = "txtCalle"
         Me.txtCalle.ReadOnly = True
         Me.txtCalle.Size = New System.Drawing.Size(325, 20)
-        Me.txtCalle.TabIndex = 1
+        Me.txtCalle.TabIndex = 4
         '
         'txtcliente
         '
@@ -259,6 +259,7 @@ Partial Class frmAltaPagoTarjeta
         Me.txtcliente.ReadOnly = True
         Me.txtcliente.Size = New System.Drawing.Size(105, 20)
         Me.txtcliente.TabIndex = 0
+        Me.txtcliente.Tag = ""
         '
         'Label9
         '
@@ -305,14 +306,14 @@ Partial Class frmAltaPagoTarjeta
         Me.txtImporte.Location = New System.Drawing.Point(307, 112)
         Me.txtImporte.Name = "txtImporte"
         Me.txtImporte.Size = New System.Drawing.Size(108, 20)
-        Me.txtImporte.TabIndex = 35
+        Me.txtImporte.TabIndex = 15
         '
         'txtLitros
         '
         Me.txtLitros.Location = New System.Drawing.Point(90, 108)
         Me.txtLitros.Name = "txtLitros"
         Me.txtLitros.Size = New System.Drawing.Size(108, 20)
-        Me.txtLitros.TabIndex = 34
+        Me.txtLitros.TabIndex = 14
         '
         'cboMeses
         '
@@ -321,7 +322,7 @@ Partial Class frmAltaPagoTarjeta
         Me.cboMeses.Location = New System.Drawing.Point(307, 56)
         Me.cboMeses.Name = "cboMeses"
         Me.cboMeses.Size = New System.Drawing.Size(105, 21)
-        Me.cboMeses.TabIndex = 32
+        Me.cboMeses.TabIndex = 11
         '
         'cboTipoTarjeta
         '
@@ -330,7 +331,7 @@ Partial Class frmAltaPagoTarjeta
         Me.cboTipoTarjeta.Location = New System.Drawing.Point(90, 56)
         Me.cboTipoTarjeta.Name = "cboTipoTarjeta"
         Me.cboTipoTarjeta.Size = New System.Drawing.Size(108, 21)
-        Me.cboTipoTarjeta.TabIndex = 31
+        Me.cboTipoTarjeta.TabIndex = 10
         '
         'txtObservaciones
         '
@@ -338,14 +339,14 @@ Partial Class frmAltaPagoTarjeta
         Me.txtObservaciones.Multiline = True
         Me.txtObservaciones.Name = "txtObservaciones"
         Me.txtObservaciones.Size = New System.Drawing.Size(325, 52)
-        Me.txtObservaciones.TabIndex = 30
+        Me.txtObservaciones.TabIndex = 19
         '
         'txtRepiteAutorizacion
         '
         Me.txtRepiteAutorizacion.Location = New System.Drawing.Point(307, 162)
         Me.txtRepiteAutorizacion.Name = "txtRepiteAutorizacion"
         Me.txtRepiteAutorizacion.Size = New System.Drawing.Size(108, 20)
-        Me.txtRepiteAutorizacion.TabIndex = 29
+        Me.txtRepiteAutorizacion.TabIndex = 18
         '
         'Label10
         '
@@ -361,7 +362,7 @@ Partial Class frmAltaPagoTarjeta
         Me.txtAutorizacion.Location = New System.Drawing.Point(90, 162)
         Me.txtAutorizacion.Name = "txtAutorizacion"
         Me.txtAutorizacion.Size = New System.Drawing.Size(108, 20)
-        Me.txtAutorizacion.TabIndex = 27
+        Me.txtAutorizacion.TabIndex = 17
         '
         'Label20
         '
@@ -397,7 +398,7 @@ Partial Class frmAltaPagoTarjeta
         Me.cboAfiliacion.Location = New System.Drawing.Point(90, 31)
         Me.cboAfiliacion.Name = "cboAfiliacion"
         Me.cboAfiliacion.Size = New System.Drawing.Size(108, 21)
-        Me.cboAfiliacion.TabIndex = 17
+        Me.cboAfiliacion.TabIndex = 9
         '
         'Label18
         '
@@ -467,14 +468,14 @@ Partial Class frmAltaPagoTarjeta
         Me.txtRemision.Location = New System.Drawing.Point(90, 135)
         Me.txtRemision.Name = "txtRemision"
         Me.txtRemision.Size = New System.Drawing.Size(108, 20)
-        Me.txtRemision.TabIndex = 4
+        Me.txtRemision.TabIndex = 16
         '
         'txtTarjeta
         '
         Me.txtTarjeta.Location = New System.Drawing.Point(90, 83)
         Me.txtTarjeta.Name = "txtTarjeta"
         Me.txtTarjeta.Size = New System.Drawing.Size(108, 20)
-        Me.txtTarjeta.TabIndex = 1
+        Me.txtTarjeta.TabIndex = 12
         '
         'btnConsultaCliente
         '
@@ -525,7 +526,7 @@ Partial Class frmAltaPagoTarjeta
         Me.cboBancos.Location = New System.Drawing.Point(307, 85)
         Me.cboBancos.Name = "cboBancos"
         Me.cboBancos.Size = New System.Drawing.Size(105, 21)
-        Me.cboBancos.TabIndex = 36
+        Me.cboBancos.TabIndex = 13
         '
         'cboRuta
         '
@@ -534,7 +535,7 @@ Partial Class frmAltaPagoTarjeta
         Me.cboRuta.Location = New System.Drawing.Point(90, 165)
         Me.cboRuta.Name = "cboRuta"
         Me.cboRuta.Size = New System.Drawing.Size(121, 21)
-        Me.cboRuta.TabIndex = 16
+        Me.cboRuta.TabIndex = 7
         '
         'frmAltaPagoTarjeta
         '
