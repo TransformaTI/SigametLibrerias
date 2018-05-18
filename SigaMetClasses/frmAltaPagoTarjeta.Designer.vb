@@ -24,7 +24,7 @@ Partial Class frmAltaPagoTarjeta
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAltaPagoTarjeta))
         Me.gbOpciones = New System.Windows.Forms.GroupBox()
-        Me.RadioButton2 = New System.Windows.Forms.RadioButton()
+        Me.rdCargoPorCobranza = New System.Windows.Forms.RadioButton()
         Me.rdCargoPorVenta = New System.Windows.Forms.RadioButton()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.cboAutotanque = New System.Windows.Forms.ComboBox()
@@ -68,6 +68,7 @@ Partial Class frmAltaPagoTarjeta
         Me.btnConsultaCliente = New System.Windows.Forms.Button()
         Me.btnBuscar = New System.Windows.Forms.Button()
         Me.btnAceptar = New System.Windows.Forms.Button()
+        Me.Lbl_fechaCargo = New System.Windows.Forms.Label()
         Me.cboBancos = New SigaMetClasses.Combos.ComboBanco()
         Me.cboRuta = New SigaMetClasses.Combos.ComboRuta2Filtro()
         Me.gbOpciones.SuspendLayout()
@@ -77,7 +78,7 @@ Partial Class frmAltaPagoTarjeta
         '
         'gbOpciones
         '
-        Me.gbOpciones.Controls.Add(Me.RadioButton2)
+        Me.gbOpciones.Controls.Add(Me.rdCargoPorCobranza)
         Me.gbOpciones.Controls.Add(Me.rdCargoPorVenta)
         Me.gbOpciones.Location = New System.Drawing.Point(21, 12)
         Me.gbOpciones.Name = "gbOpciones"
@@ -85,16 +86,16 @@ Partial Class frmAltaPagoTarjeta
         Me.gbOpciones.TabIndex = 0
         Me.gbOpciones.TabStop = False
         '
-        'RadioButton2
+        'rdCargoPorCobranza
         '
-        Me.RadioButton2.AutoSize = True
-        Me.RadioButton2.Location = New System.Drawing.Point(169, 19)
-        Me.RadioButton2.Name = "RadioButton2"
-        Me.RadioButton2.Size = New System.Drawing.Size(118, 17)
-        Me.RadioButton2.TabIndex = 4
-        Me.RadioButton2.TabStop = True
-        Me.RadioButton2.Text = "Cargo por cobranza"
-        Me.RadioButton2.UseVisualStyleBackColor = True
+        Me.rdCargoPorCobranza.AutoSize = True
+        Me.rdCargoPorCobranza.Location = New System.Drawing.Point(169, 19)
+        Me.rdCargoPorCobranza.Name = "rdCargoPorCobranza"
+        Me.rdCargoPorCobranza.Size = New System.Drawing.Size(118, 17)
+        Me.rdCargoPorCobranza.TabIndex = 1
+        Me.rdCargoPorCobranza.TabStop = True
+        Me.rdCargoPorCobranza.Text = "Cargo por cobranza"
+        Me.rdCargoPorCobranza.UseVisualStyleBackColor = True
         '
         'rdCargoPorVenta
         '
@@ -102,7 +103,7 @@ Partial Class frmAltaPagoTarjeta
         Me.rdCargoPorVenta.Location = New System.Drawing.Point(9, 19)
         Me.rdCargoPorVenta.Name = "rdCargoPorVenta"
         Me.rdCargoPorVenta.Size = New System.Drawing.Size(101, 17)
-        Me.rdCargoPorVenta.TabIndex = 3
+        Me.rdCargoPorVenta.TabIndex = 0
         Me.rdCargoPorVenta.TabStop = True
         Me.rdCargoPorVenta.Text = "Cargo por venta"
         Me.rdCargoPorVenta.UseVisualStyleBackColor = True
@@ -519,6 +520,15 @@ Partial Class frmAltaPagoTarjeta
         Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnAceptar.UseVisualStyleBackColor = False
         '
+        'Lbl_fechaCargo
+        '
+        Me.Lbl_fechaCargo.AutoSize = True
+        Me.Lbl_fechaCargo.Location = New System.Drawing.Point(442, 35)
+        Me.Lbl_fechaCargo.Name = "Lbl_fechaCargo"
+        Me.Lbl_fechaCargo.Size = New System.Drawing.Size(65, 13)
+        Me.Lbl_fechaCargo.TabIndex = 23
+        Me.Lbl_fechaCargo.Text = "FechaCargo"
+        '
         'cboBancos
         '
         Me.cboBancos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -541,7 +551,9 @@ Partial Class frmAltaPagoTarjeta
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(580, 529)
+        Me.Controls.Add(Me.Lbl_fechaCargo)
         Me.Controls.Add(Me.btnAceptar)
         Me.Controls.Add(Me.btnConsultaCliente)
         Me.Controls.Add(Me.btnBuscar)
@@ -549,7 +561,10 @@ Partial Class frmAltaPagoTarjeta
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.gbOpciones)
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "frmAltaPagoTarjeta"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Alta pago con tarjeta"
         Me.gbOpciones.ResumeLayout(False)
         Me.gbOpciones.PerformLayout()
@@ -563,7 +578,7 @@ Partial Class frmAltaPagoTarjeta
     End Sub
 
     Friend WithEvents gbOpciones As Windows.Forms.GroupBox
-    Friend WithEvents RadioButton2 As Windows.Forms.RadioButton
+    Friend WithEvents rdCargoPorCobranza As Windows.Forms.RadioButton
     Friend WithEvents rdCargoPorVenta As Windows.Forms.RadioButton
     Friend WithEvents GroupBox1 As Windows.Forms.GroupBox
     Friend WithEvents txtMunicipio As Windows.Forms.TextBox
@@ -611,4 +626,5 @@ Partial Class frmAltaPagoTarjeta
     Friend WithEvents txtLitros As Windows.Forms.TextBox
     Friend WithEvents cboBancos As Combos.ComboBanco
     Friend WithEvents cboRuta As Combos.ComboRuta2Filtro
+    Friend WithEvents Lbl_fechaCargo As Windows.Forms.Label
 End Class

@@ -6,13 +6,17 @@ Public Class frmAltaPagoTarjeta
     Dim idCliente As Int32 = -1
     Dim oCliente As New SigaMetClasses.cCliente()
     Dim ClienteI As Integer
-    Private _UsuarioAlta
+    Dim FechaCarga As String
+    Dim Litro As Decimal
+    Private _Importe As Decimal
+    Private _UsuarioAlta As String
 
     Public Sub New(Usuario As String)
 
         ' This call is required by the designer.
         InitializeComponent()
         _UsuarioAlta = Usuario
+        Lbl_fechaCargo.Visible = False
         ' Add any initialization after the InitializeComponent() call.
 
     End Sub
@@ -26,13 +30,14 @@ Public Class frmAltaPagoTarjeta
         txtMunicipio.Clear()
         btnConsultaCliente.Enabled = False
         limpiaCargo()
+        Lbl_fechaCargo.Text = ""
     End Sub
 
     Private Sub limpiaCargo()
-        cboAfiliacion.SelectedItem = 0
-        cboTipoTarjeta.SelectedItem = 1
-        cboMeses.SelectedItem = 0
-        cboBancos.SelectedItem = 0
+        cboAfiliacion.Text = ""
+        cboTipoTarjeta.Text = ""
+        cboMeses.Text = ""
+        cboBancos.Text = ""
         txtTarjeta.Clear()
         txtLitros.Clear()
         txtImporte.Clear()
@@ -44,15 +49,12 @@ Public Class frmAltaPagoTarjeta
 
     Private Sub cargaDatos()
 
-        Dim lListado As New List(Of String)
-        Dim item As String
+        Dim dictionary As New Dictionary(Of Integer, String)
+        dictionary = Main.consultarAfiliacion()
+        cboAfiliacion.ValueMember = "Key"
+        cboAfiliacion.DisplayMember = "Value"
+        cboAfiliacion.DataSource = New BindingSource(dictionary, Nothing)
 
-        lListado.AddRange(Main.consultarAfiliacion)
-        cboAfiliacion.Items.Clear()
-
-        For Each item In lListado
-            cboAfiliacion.Items.Add(item)
-        Next
 
 
         Dim dListadoTipoTarjeta As Dictionary(Of Integer, String)
@@ -101,8 +103,8 @@ Public Class frmAltaPagoTarjeta
             lErrores.Add("Campos autorización y repite autorización son diferentes")
         End If
 
-        If Not Integer.TryParse(txtLitros.Text, iEntero) Then
-            lErrores.Add("Campo litros no tiene un valor entero válido")
+        If Not Integer.TryParse(txtLitros.Text, dDecimal) Then
+            lErrores.Add("Campo litros no tiene un valor decimal válido")
         End If
 
         If Not Double.TryParse(txtImporte.Text, dDecimal) Then
@@ -165,13 +167,15 @@ Public Class frmAltaPagoTarjeta
         Dim pedidoreferencia As String
         frmConsultaCliente.ShowDialog()
         pedidoreferencia = frmConsultaCliente.PedidoReferenciaSeleccionado()
-        MessageBox.Show(pedidoreferencia)
-        MessageBox.Show(frmConsultaCliente.PedidoFechaSeleccionado)
-        MessageBox.Show(frmConsultaCliente.PedidoImporteSeleccionado)
-        MessageBox.Show(frmConsultaCliente.PedidoLitroSeleccionado)
-
-
+        FechaCarga = frmConsultaCliente.PedidoFechaSeleccionado
+        Litro = frmConsultaCliente.PedidoLitroSeleccionado
+        _Importe = frmConsultaCliente.PedidoImporteSeleccionado
+        txtImporte.Text = _Importe
+        txtLitros.Text = Litro
+        Lbl_fechaCargo.Visible = True
+        Lbl_fechaCargo.Text = FechaCarga
         If frmConsultaCliente.DialogResult = DialogResult.OK Then
+
 
 
 
@@ -191,11 +195,10 @@ Public Class frmAltaPagoTarjeta
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
-
         validarDatosCargo()
         AltaPagoTarjeta()
         MessageBox.Show("Pago tarjeta agregado")
-
+        limpiaCargo()
     End Sub
 
     Private Sub AltaPagoTarjeta()
@@ -227,9 +230,15 @@ Public Class frmAltaPagoTarjeta
         UsuarioAlta = _UsuarioAlta
         'todo aqui esta harcord
         Cobro = 10
-        TipoCargo = 2
         AñoCobro = 2018
         Serie = ""
+        If rdCargoPorCobranza.Checked Then
+            TipoCargo = 1
+        End If
+        If rdCargoPorVenta.Checked Then
+            TipoCargo = 2
+        End If
+
 
         'hasta aqui
 
@@ -238,9 +247,5 @@ Public Class frmAltaPagoTarjeta
                                               TipoCobro, Meses, NumeroTarjeta, Banco, Litros, Importe,
                                               Remision, Serie, Autorizacion, Observacion, AñoCobro, Cobro,
                                               UsuarioAlta)
-    End Sub
-
-    Private Sub cboAfiliacion_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboAfiliacion.SelectedIndexChanged
-
     End Sub
 End Class
