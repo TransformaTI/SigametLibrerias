@@ -4302,7 +4302,6 @@ End Class
 #End Region
 
 
-
 #Region "TarjetaCredito"
 Public Class cTarjetaCredito
     Public Sub AltaModifica(ByVal Cliente As Integer,
@@ -5868,8 +5867,432 @@ Public Class MovimientoCajaCobro
 End Class
 #End Region
 
+#Region "Clase MovimientoAConciliar"
 
+Friend MustInherit Class MovimientoAConciliar
 
+    Private _folioMovimiento As Integer
+    Private _añoMovimiento As Integer
+    Private _tipoMovimientoAConciliar As Short
+    Private _empresaContable As Integer
+    Private _caja As Byte
+    Private _fOperacion As DateTime
+    Private _tipoFicha As Integer
+    Private _consecutivo As Integer
+    Private _tipoAplicacionIngreso As Byte
+    Private _consecutivoTipoAplicacion As Integer
+    Private _factura As Integer
+    Private _añoCobro As Short
+    Private _cobro As Integer
+    Private _monto As Decimal
+    Private _statusMovimiento As String
+    Private _fMovimiento As DateTime
+    Private _statusConciliacion As String
+    Private _fConciliacion As DateTime
+    Private _corporativoConciliacion As Byte
+    Private _sucursalConciliacion As Byte
+    Private _añoConciliacion As Integer
+    Private _mesConciliacion As Short
+    Private _folioConciliacion As Integer
+    Private _corporativoExterno As Byte
+    Private _sucursalExterno As Byte
+    Private _añoExterno As Integer
+    Private _folioExterno As Integer
+    Private _secuenciaExterno As Integer
+
+#Region "Propiedades"
+
+    Public Property FolioMovimiento As Integer
+        Get
+            Return _folioMovimiento
+        End Get
+        Set(value As Integer)
+            _folioMovimiento = value
+        End Set
+    End Property
+
+    Public Property AñoMovimiento As Integer
+        Get
+            Return _añoMovimiento
+        End Get
+        Set(value As Integer)
+            _añoMovimiento = value
+        End Set
+    End Property
+
+    Public Property TipoMovimientoAConciliar As Short
+        Get
+            Return _tipoMovimientoAConciliar
+        End Get
+        Set(value As Short)
+            _tipoMovimientoAConciliar = value
+        End Set
+    End Property
+
+    Public Property EmpresaContable As Integer
+        Get
+            Return _empresaContable
+        End Get
+        Set(value As Integer)
+            _empresaContable = value
+        End Set
+    End Property
+
+    Public Property Caja As Byte
+        Get
+            Return _caja
+        End Get
+        Set(value As Byte)
+            _caja = value
+        End Set
+    End Property
+
+    Public Property FOperacion As Date
+        Get
+            Return _fOperacion
+        End Get
+        Set(value As Date)
+            _fOperacion = value
+        End Set
+    End Property
+
+    Public Property TipoFicha As Integer
+        Get
+            Return _tipoFicha
+        End Get
+        Set(value As Integer)
+            _tipoFicha = value
+        End Set
+    End Property
+
+    Public Property Consecutivo As Integer
+        Get
+            Return _consecutivo
+        End Get
+        Set(value As Integer)
+            _consecutivo = value
+        End Set
+    End Property
+
+    Public Property TipoAplicacionIngreso As Byte
+        Get
+            Return _tipoAplicacionIngreso
+        End Get
+        Set(value As Byte)
+            _tipoAplicacionIngreso = value
+        End Set
+    End Property
+
+    Public Property ConsecutivoTipoAplicacion As Integer
+        Get
+            Return _consecutivoTipoAplicacion
+        End Get
+        Set(value As Integer)
+            _consecutivoTipoAplicacion = value
+        End Set
+    End Property
+
+    Public Property Factura As Integer
+        Get
+            Return _factura
+        End Get
+        Set(value As Integer)
+            _factura = value
+        End Set
+    End Property
+
+    Public Property AñoCobro As Short
+        Get
+            Return _añoCobro
+        End Get
+        Set(value As Short)
+            _añoCobro = value
+        End Set
+    End Property
+
+    Public Property Cobro As Integer
+        Get
+            Return _cobro
+        End Get
+        Set(value As Integer)
+            _cobro = value
+        End Set
+    End Property
+
+    Public Property Monto As Decimal
+        Get
+            Return _monto
+        End Get
+        Set(value As Decimal)
+            _monto = value
+        End Set
+    End Property
+
+    Public Property StatusMovimiento As String
+        Get
+            Return _statusMovimiento
+        End Get
+        Set(value As String)
+            _statusMovimiento = value
+        End Set
+    End Property
+
+    Public Property FMovimiento As Date
+        Get
+            Return _fMovimiento
+        End Get
+        Set(value As Date)
+            _fMovimiento = value
+        End Set
+    End Property
+
+    Public Property StatusConciliacion As String
+        Get
+            Return _statusConciliacion
+        End Get
+        Set(value As String)
+            _statusConciliacion = value
+        End Set
+    End Property
+
+    Public Property FConciliacion As Date
+        Get
+            Return _fConciliacion
+        End Get
+        Set(value As Date)
+            _fConciliacion = value
+        End Set
+    End Property
+
+    Public Property CorporativoConciliacion As Byte
+        Get
+            Return _corporativoConciliacion
+        End Get
+        Set(value As Byte)
+            _corporativoConciliacion = value
+        End Set
+    End Property
+
+    Public Property SucursalConciliacion As Byte
+        Get
+            Return _sucursalConciliacion
+        End Get
+        Set(value As Byte)
+            _sucursalConciliacion = value
+        End Set
+    End Property
+
+    Public Property AñoConciliacion As Integer
+        Get
+            Return _añoConciliacion
+        End Get
+        Set(value As Integer)
+            _añoConciliacion = value
+        End Set
+    End Property
+
+    Public Property MesConciliacion As Short
+        Get
+            Return _mesConciliacion
+        End Get
+        Set(value As Short)
+            _mesConciliacion = value
+        End Set
+    End Property
+
+    Public Property FolioConciliacion As Integer
+        Get
+            Return _folioConciliacion
+        End Get
+        Set(value As Integer)
+            _folioConciliacion = value
+        End Set
+    End Property
+
+    Public Property CorporativoExterno As Byte
+        Get
+            Return _corporativoExterno
+        End Get
+        Set(value As Byte)
+            _corporativoExterno = value
+        End Set
+    End Property
+
+    Public Property SucursalExterno As Byte
+        Get
+            Return _sucursalExterno
+        End Get
+        Set(value As Byte)
+            _sucursalExterno = value
+        End Set
+    End Property
+
+    Public Property AñoExterno As Integer
+        Get
+            Return _añoExterno
+        End Get
+        Set(value As Integer)
+            _añoExterno = value
+        End Set
+    End Property
+
+    Public Property FolioExterno As Integer
+        Get
+            Return _folioExterno
+        End Get
+        Set(value As Integer)
+            _folioExterno = value
+        End Set
+    End Property
+
+    Public Property SecuenciaExterno As Integer
+        Get
+            Return _secuenciaExterno
+        End Get
+        Set(value As Integer)
+            _secuenciaExterno = value
+        End Set
+    End Property
+
+#End Region
+
+#Region "Constructores"
+
+    Public Sub New()
+
+    End Sub
+
+    Public Sub New(_folioMovimiento As Integer, _añoMovimiento As Integer,
+                   _tipoMovimientoAConciliar As Short, _empresaContable As Integer,
+                   _caja As Byte, _fOperacion As Date,
+                   _tipoFicha As Integer, _consecutivo As Integer,
+                   _tipoAplicacionIngreso As Byte, _consecutivoTipoAplicacion As Integer,
+                   _factura As Integer, _añoCobro As Short,
+                   _cobro As Integer, _monto As Decimal,
+                   _statusMovimiento As String, _fMovimiento As Date,
+                   _statusConciliacion As String, _fConciliacion As Date,
+                   _corporativoConciliacion As Byte, _sucursalConciliacion As Byte,
+                   _añoConciliacion As Integer, _mesConciliacion As Short,
+                   _folioConciliacion As Integer, _corporativoExterno As Byte,
+                   _sucursalExterno As Byte, _añoExterno As Integer,
+                   _folioExterno As Integer, _secuenciaExterno As Integer)
+        Me._folioMovimiento = _folioMovimiento
+        Me._añoMovimiento = _añoMovimiento
+        Me._tipoMovimientoAConciliar = _tipoMovimientoAConciliar
+        Me._empresaContable = _empresaContable
+        Me._caja = _caja
+        Me._fOperacion = _fOperacion
+        Me._tipoFicha = _tipoFicha
+        Me._consecutivo = _consecutivo
+        Me._tipoAplicacionIngreso = _tipoAplicacionIngreso
+        Me._consecutivoTipoAplicacion = _consecutivoTipoAplicacion
+        Me._factura = _factura
+        Me._añoCobro = _añoCobro
+        Me._cobro = _cobro
+        Me._monto = _monto
+        Me._statusMovimiento = _statusMovimiento
+        Me._fMovimiento = _fMovimiento
+        Me._statusConciliacion = _statusConciliacion
+        Me._fConciliacion = _fConciliacion
+        Me._corporativoConciliacion = _corporativoConciliacion
+        Me._sucursalConciliacion = _sucursalConciliacion
+        Me._añoConciliacion = _añoConciliacion
+        Me._mesConciliacion = _mesConciliacion
+        Me._folioConciliacion = _folioConciliacion
+        Me._corporativoExterno = _corporativoExterno
+        Me._sucursalExterno = _sucursalExterno
+        Me._añoExterno = _añoExterno
+        Me._folioExterno = _folioExterno
+        Me._secuenciaExterno = _secuenciaExterno
+    End Sub
+
+#End Region
+
+    Public MustOverride Sub actualizarMovimientoAConciliar(ByVal MovimientoAConciliar As MovimientoAConciliar)
+
+    Public MustOverride Sub guardarMovimientoAConciliar(ByVal MovimientoAConciliar As MovimientoAConciliar)
+
+    'Public MustOverride Function leerMovimientoAConciliar(ByVal FechaInicio As Date,
+    '                                                      ByVal FechaFin As Date,
+    '                                                      ByVal Cliente As Integer,
+    '                                                      ByVal Monto As Decimal,
+    '                                                      ByVal SaldoAFavor As Boolean) As List(Of MovimientoAConciliar)
+    Public MustOverride Function leerMovimientoAConciliar(ByVal FechaInicio As Date,
+                                                          ByVal FechaFin As Date,
+                                                          ByVal Cliente As Integer,
+                                                          ByVal Monto As Decimal,
+                                                          ByVal SaldoAFavor As Boolean) As DataTable
+
+End Class
+
+#End Region
+
+#Region "MovimientoAConciliarDatos"
+
+Friend Class MovimientoAConciliarDatos
+    Inherits MovimientoAConciliar
+
+    Public Overrides Sub actualizarMovimientoAConciliar(MovimientoAConciliar As MovimientoAConciliar)
+        Throw New NotImplementedException()
+    End Sub
+
+    Public Overrides Sub guardarMovimientoAConciliar(MovimientoAConciliar As MovimientoAConciliar)
+        Throw New NotImplementedException()
+    End Sub
+
+    'Public Overrides Function leerMovimientoAConciliar(ByVal FechaInicio As Date,
+    '                                                      ByVal FechaFin As Date,
+    '                                                      ByVal Cliente As Integer,
+    '                                                      ByVal Monto As Decimal,
+    '                                                      ByVal SaldoAFavor As Boolean) As List(Of MovimientoAConciliar)
+    Public Overrides Function leerMovimientoAConciliar(ByVal FechaInicio As Date,
+                                                          ByVal FechaFin As Date,
+                                                          ByVal Cliente As Integer,
+                                                          ByVal Monto As Decimal,
+                                                          ByVal SaldoAFavor As Boolean) As DataTable
+        Dim da As SqlDataAdapter = Nothing
+        Dim dt As DataTable = Nothing
+        Dim cmd As SqlCommand = Nothing
+
+        Try
+            cmd = New SqlCommand()
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.CommandText = "spCBConsultarMovimientoAConciliar"
+            cmd.Connection = DataLayer.Conexion
+
+            If (FechaInicio > Date.MinValue) Then
+                cmd.Parameters.Add("@FInicio", SqlDbType.DateTime).Value = FechaInicio
+            End If
+            If (FechaFin > Date.MinValue) Then
+                cmd.Parameters.Add("@FFin", SqlDbType.DateTime).Value = FechaFin
+            End If
+            If (Cliente > 0) Then
+                cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+            End If
+            If (Monto > 0) Then
+                cmd.Parameters.Add("@Monto", SqlDbType.Decimal).Value = Monto
+            End If
+            If (SaldoAFavor) Then
+                cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Bit).Value = 1
+            End If
+
+            da = New SqlDataAdapter(cmd)
+            dt = New DataTable()
+            da.Fill(dt)
+            dt.TableName = "MovimientoAConciliar"
+
+            Return dt
+        Catch ex As Exception
+            Throw ex
+        Finally
+            cmd.Dispose()
+            da.Dispose()
+            da = Nothing
+        End Try
+    End Function
+End Class
+
+#End Region
 
 #Region "MovimientoCajaEntrada"
 Friend Class MovimientoCajaEntrada
