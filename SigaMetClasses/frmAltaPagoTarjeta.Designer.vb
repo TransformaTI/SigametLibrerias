@@ -305,6 +305,7 @@ Partial Class frmAltaPagoTarjeta
         'txtImporte
         '
         Me.txtImporte.Location = New System.Drawing.Point(307, 112)
+        Me.txtImporte.MaxLength = 100
         Me.txtImporte.Name = "txtImporte"
         Me.txtImporte.Size = New System.Drawing.Size(108, 20)
         Me.txtImporte.TabIndex = 15
@@ -312,6 +313,7 @@ Partial Class frmAltaPagoTarjeta
         'txtLitros
         '
         Me.txtLitros.Location = New System.Drawing.Point(90, 108)
+        Me.txtLitros.MaxLength = 100
         Me.txtLitros.Name = "txtLitros"
         Me.txtLitros.Size = New System.Drawing.Size(108, 20)
         Me.txtLitros.TabIndex = 14
@@ -361,6 +363,7 @@ Partial Class frmAltaPagoTarjeta
         'txtAutorizacion
         '
         Me.txtAutorizacion.Location = New System.Drawing.Point(90, 162)
+        Me.txtAutorizacion.MaxLength = 100
         Me.txtAutorizacion.Name = "txtAutorizacion"
         Me.txtAutorizacion.Size = New System.Drawing.Size(108, 20)
         Me.txtAutorizacion.TabIndex = 17
@@ -467,6 +470,7 @@ Partial Class frmAltaPagoTarjeta
         'txtRemision
         '
         Me.txtRemision.Location = New System.Drawing.Point(90, 135)
+        Me.txtRemision.MaxLength = 100
         Me.txtRemision.Name = "txtRemision"
         Me.txtRemision.Size = New System.Drawing.Size(108, 20)
         Me.txtRemision.TabIndex = 16
@@ -474,6 +478,7 @@ Partial Class frmAltaPagoTarjeta
         'txtTarjeta
         '
         Me.txtTarjeta.Location = New System.Drawing.Point(90, 83)
+        Me.txtTarjeta.MaxLength = 16
         Me.txtTarjeta.Name = "txtTarjeta"
         Me.txtTarjeta.Size = New System.Drawing.Size(108, 20)
         Me.txtTarjeta.TabIndex = 12

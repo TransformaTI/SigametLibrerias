@@ -5,7 +5,7 @@ Public Class frmAltaPagoTarjeta
 
     Dim idCliente As Int32 = -1
     Dim oCliente As New SigaMetClasses.cCliente()
-    Dim ClienteI As Integer
+    Dim ClienteI As Integer = 0
     Dim FechaCarga As String
     Dim Litro As Decimal
     Private _Importe As Decimal
@@ -34,10 +34,10 @@ Public Class frmAltaPagoTarjeta
     End Sub
 
     Private Sub limpiaCargo()
-        cboAfiliacion.Text = ""
-        cboTipoTarjeta.Text = ""
-        cboMeses.Text = ""
-        cboBancos.Text = ""
+        cboAfiliacion.SelectedItem = 0
+        cboTipoTarjeta.SelectedItem = 0
+        cboMeses.SelectedItem = 0
+        cboBancos.SelectedItem = 0
         txtTarjeta.Clear()
         txtLitros.Clear()
         txtImporte.Clear()
@@ -81,41 +81,75 @@ Public Class frmAltaPagoTarjeta
 
     End Sub
 
-    Private Sub validarDatosCargo()
+    Function validarDatosCargo() As Boolean
         Dim lErrores As New List(Of String)
         Dim iEntero As New Integer
         Dim dDecimal As New Double
+        Dim coun As Integer = 0
+        Dim validacion As Boolean
 
-
+        If ClienteI = 0 Then
+            lErrores.Add("Datos de cliente son requeridos")
+            validacion = False
+            coun = coun + 1
+        End If
         If (txtRemision.Text.Equals("")) Then
             lErrores.Add("Campo remisión es requerido")
+            validacion = False
+            coun = coun + 1
+        End If
+        If (txtTarjeta.Text.Equals("")) Then
+            lErrores.Add("Campo Tarjeta es requerido")
+            validacion = False
+            coun = coun + 1
+        End If
+        If (cboAutotanque.Text.Equals("")) Then
+            lErrores.Add("Campo autotanque es requerido")
+            validacion = False
+            coun = coun + 1
+        End If
+
+        If (cboBancos.Text.Equals("")) Then
+            lErrores.Add("Campo banco es requerido")
+            validacion = False
+            coun = coun + 1
         End If
 
         If (txtAutorizacion.Text.Equals("")) Then
             lErrores.Add("Campo autorización es requerido")
+            validacion = False
+            coun = coun + 1
         End If
-
         If (txtRepiteAutorizacion.Text.Equals("")) Then
             lErrores.Add("Campo repite autorización es requerido")
+            validacion = False
+            coun = coun + 1
         End If
-
         If (Not txtAutorizacion.Text.Equals(txtRepiteAutorizacion.Text)) Then
             lErrores.Add("Campos autorización y repite autorización son diferentes")
+            validacion = False
+            coun = coun + 1
         End If
-
-        If Not Integer.TryParse(txtLitros.Text, dDecimal) Then
+        If Not Double.TryParse(txtLitros.Text, dDecimal) Then
             lErrores.Add("Campo litros no tiene un valor decimal válido")
+            validacion = False
+            coun = coun + 1
         End If
-
         If Not Double.TryParse(txtImporte.Text, dDecimal) Then
             lErrores.Add("Campo importe no tiene un valor decimal válido")
+            validacion = False
+            coun = coun + 1
+        End If
+        If coun = 0 Then
+            validacion = True
+        End If
+        If coun > 0 Then
+            MessageBox.Show(String.Join(Environment.NewLine, lErrores.ToArray()), "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
 
-        MessageBox.Show(String.Join(Environment.NewLine, lErrores.ToArray()), "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        Return validacion
 
-
-
-    End Sub
+    End Function
     Private Sub btnBuscar_Click(sender As Object, e As EventArgs) Handles btnBuscar.Click
         Dim frmBusquedaCliente As New BusquedaCliente()
         frmBusquedaCliente.ShowDialog()
@@ -195,10 +229,14 @@ Public Class frmAltaPagoTarjeta
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
-        validarDatosCargo()
-        AltaPagoTarjeta()
-        MessageBox.Show("Pago tarjeta agregado")
-        limpiaCargo()
+        Dim validar As Boolean
+        validar = validarDatosCargo()
+        If validar = True Then
+            validarDatosCargo()
+            AltaPagoTarjeta()
+            MessageBox.Show("Pago tarjeta exitoso")
+            limpiaCargo()
+        End If
     End Sub
 
     Private Sub AltaPagoTarjeta()
@@ -212,40 +250,44 @@ Public Class frmAltaPagoTarjeta
         Dim Importe As Decimal
         Dim UsuarioAlta As String
 
+        Try
+
+            Banco = cboBancos.SelectedValue
+            Afiliacion = cboAfiliacion.SelectedValue
+            NumeroTarjeta = txtTarjeta.Text
+            Meses = cboMeses.Text
+            Cliente = ClienteI
+            Litros = txtLitros.Text
+            Remision = txtRemision.Text
+            Autorizacion = txtAutorizacion.Text
+            Observacion = txtObservaciones.Text
+            Importe = txtImporte.Text
+            TipoCobro = cboTipoTarjeta.SelectedValue
+            Ruta = cboRuta.SelectedValue
+            Autotanque = cboAutotanque.Text
+            UsuarioAlta = _UsuarioAlta
+            'todo aqui esta harcord
+            Cobro = 10
+            AñoCobro = 2018
+            Serie = ""
+            If rdCargoPorCobranza.Checked Then
+                TipoCargo = 1
+            End If
+            If rdCargoPorVenta.Checked Then
+                TipoCargo = 2
+            End If
 
 
-        Banco = cboBancos.SelectedValue
-        Afiliacion = cboAfiliacion.SelectedValue
-        NumeroTarjeta = txtTarjeta.Text
-        Meses = cboMeses.Text
-        Cliente = ClienteI
-        Litros = txtLitros.Text
-        Remision = txtRemision.Text
-        Autorizacion = txtAutorizacion.Text
-        Observacion = txtObservaciones.Text
-        Importe = txtImporte.Text
-        TipoCobro = cboTipoTarjeta.SelectedValue
-        Ruta = cboRuta.SelectedValue
-        Autotanque = cboAutotanque.Text
-        UsuarioAlta = _UsuarioAlta
-        'todo aqui esta harcord
-        Cobro = 10
-        AñoCobro = 2018
-        Serie = ""
-        If rdCargoPorCobranza.Checked Then
-            TipoCargo = 1
-        End If
-        If rdCargoPorVenta.Checked Then
-            TipoCargo = 2
-        End If
+            'hasta aqui
 
 
-        'hasta aqui
+            InsertPagoTarjeta.insertarPagoTarjeta(Folio, TipoCargo, Cliente, Ruta, Autotanque, Afiliacion,
+                                                  TipoCobro, Meses, NumeroTarjeta, Banco, Litros, Importe,
+                                                  Remision, Serie, Autorizacion, Observacion, AñoCobro, Cobro,
+                                                  UsuarioAlta)
+        Catch ex As Exception
+            Throw New Exception
+        End Try
 
-
-        InsertPagoTarjeta.insertarPagoTarjeta(Folio, TipoCargo, Cliente, Ruta, Autotanque, Afiliacion,
-                                              TipoCobro, Meses, NumeroTarjeta, Banco, Litros, Importe,
-                                              Remision, Serie, Autorizacion, Observacion, AñoCobro, Cobro,
-                                              UsuarioAlta)
     End Sub
 End Class
