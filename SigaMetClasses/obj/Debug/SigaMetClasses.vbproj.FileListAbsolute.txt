@@ -384,3 +384,4 @@ C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\S
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaIngresosSaldoAFavor.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojAssemblyReference.cache
