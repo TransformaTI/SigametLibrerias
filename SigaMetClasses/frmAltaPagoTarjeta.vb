@@ -292,14 +292,31 @@ Public Class frmAltaPagoTarjeta
     End Sub
 
     Private Sub txtLitros_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtLitros.KeyPress
-        If Not IsNumeric(e.KeyChar) Then
+        If Char.IsDigit(e.KeyChar) Then
+            e.Handled = False
+        ElseIf Char.IsControl(e.KeyChar) Then
+            e.Handled = False
+        ElseIf e.KeyChar = "." And Not txtImporte.Text.IndexOf(".") Then
+            e.Handled = True
+        ElseIf e.KeyChar = "." Then
+            e.Handled = False
+        Else
             e.Handled = True
         End If
     End Sub
 
     Private Sub txtImporte_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtImporte.KeyPress
-        If Not IsNumeric(e.KeyChar) Then
+        If Char.IsDigit(e.KeyChar) Then
+            e.Handled = False
+        ElseIf Char.IsControl(e.KeyChar) Then
+            e.Handled = False
+        ElseIf e.KeyChar = "." And Not txtImporte.Text.IndexOf(".") Then
+            e.Handled = True
+        ElseIf e.KeyChar = "." Then
+            e.Handled = False
+        Else
             e.Handled = True
         End If
     End Sub
+
 End Class
