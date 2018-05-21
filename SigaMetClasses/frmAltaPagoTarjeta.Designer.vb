@@ -24,7 +24,7 @@ Partial Class frmAltaPagoTarjeta
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAltaPagoTarjeta))
         Me.gbOpciones = New System.Windows.Forms.GroupBox()
-        Me.RadioButton2 = New System.Windows.Forms.RadioButton()
+        Me.rdCargoPorCobranza = New System.Windows.Forms.RadioButton()
         Me.rdCargoPorVenta = New System.Windows.Forms.RadioButton()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.cboAutotanque = New System.Windows.Forms.ComboBox()
@@ -68,6 +68,7 @@ Partial Class frmAltaPagoTarjeta
         Me.btnConsultaCliente = New System.Windows.Forms.Button()
         Me.btnBuscar = New System.Windows.Forms.Button()
         Me.btnAceptar = New System.Windows.Forms.Button()
+        Me.Lbl_fechaCargo = New System.Windows.Forms.Label()
         Me.cboBancos = New SigaMetClasses.Combos.ComboBanco()
         Me.cboRuta = New SigaMetClasses.Combos.ComboRuta2Filtro()
         Me.gbOpciones.SuspendLayout()
@@ -77,7 +78,7 @@ Partial Class frmAltaPagoTarjeta
         '
         'gbOpciones
         '
-        Me.gbOpciones.Controls.Add(Me.RadioButton2)
+        Me.gbOpciones.Controls.Add(Me.rdCargoPorCobranza)
         Me.gbOpciones.Controls.Add(Me.rdCargoPorVenta)
         Me.gbOpciones.Location = New System.Drawing.Point(21, 12)
         Me.gbOpciones.Name = "gbOpciones"
@@ -85,16 +86,16 @@ Partial Class frmAltaPagoTarjeta
         Me.gbOpciones.TabIndex = 0
         Me.gbOpciones.TabStop = False
         '
-        'RadioButton2
+        'rdCargoPorCobranza
         '
-        Me.RadioButton2.AutoSize = True
-        Me.RadioButton2.Location = New System.Drawing.Point(169, 19)
-        Me.RadioButton2.Name = "RadioButton2"
-        Me.RadioButton2.Size = New System.Drawing.Size(118, 17)
-        Me.RadioButton2.TabIndex = 4
-        Me.RadioButton2.TabStop = True
-        Me.RadioButton2.Text = "Cargo por cobranza"
-        Me.RadioButton2.UseVisualStyleBackColor = True
+        Me.rdCargoPorCobranza.AutoSize = True
+        Me.rdCargoPorCobranza.Location = New System.Drawing.Point(169, 19)
+        Me.rdCargoPorCobranza.Name = "rdCargoPorCobranza"
+        Me.rdCargoPorCobranza.Size = New System.Drawing.Size(118, 17)
+        Me.rdCargoPorCobranza.TabIndex = 1
+        Me.rdCargoPorCobranza.TabStop = True
+        Me.rdCargoPorCobranza.Text = "Cargo por cobranza"
+        Me.rdCargoPorCobranza.UseVisualStyleBackColor = True
         '
         'rdCargoPorVenta
         '
@@ -102,7 +103,7 @@ Partial Class frmAltaPagoTarjeta
         Me.rdCargoPorVenta.Location = New System.Drawing.Point(9, 19)
         Me.rdCargoPorVenta.Name = "rdCargoPorVenta"
         Me.rdCargoPorVenta.Size = New System.Drawing.Size(101, 17)
-        Me.rdCargoPorVenta.TabIndex = 3
+        Me.rdCargoPorVenta.TabIndex = 0
         Me.rdCargoPorVenta.TabStop = True
         Me.rdCargoPorVenta.Text = "Cargo por venta"
         Me.rdCargoPorVenta.UseVisualStyleBackColor = True
@@ -138,7 +139,7 @@ Partial Class frmAltaPagoTarjeta
         Me.cboAutotanque.Location = New System.Drawing.Point(307, 162)
         Me.cboAutotanque.Name = "cboAutotanque"
         Me.cboAutotanque.Size = New System.Drawing.Size(108, 21)
-        Me.cboAutotanque.TabIndex = 15
+        Me.cboAutotanque.TabIndex = 8
         '
         'Label8
         '
@@ -173,7 +174,7 @@ Partial Class frmAltaPagoTarjeta
         Me.txtRuta.Name = "txtRuta"
         Me.txtRuta.ReadOnly = True
         Me.txtRuta.Size = New System.Drawing.Size(108, 20)
-        Me.txtRuta.TabIndex = 10
+        Me.txtRuta.TabIndex = 1
         '
         'Label5
         '
@@ -226,7 +227,7 @@ Partial Class frmAltaPagoTarjeta
         Me.txtMunicipio.Name = "txtMunicipio"
         Me.txtMunicipio.ReadOnly = True
         Me.txtMunicipio.Size = New System.Drawing.Size(325, 20)
-        Me.txtMunicipio.TabIndex = 4
+        Me.txtMunicipio.TabIndex = 6
         '
         'txtColonia
         '
@@ -234,7 +235,7 @@ Partial Class frmAltaPagoTarjeta
         Me.txtColonia.Name = "txtColonia"
         Me.txtColonia.ReadOnly = True
         Me.txtColonia.Size = New System.Drawing.Size(325, 20)
-        Me.txtColonia.TabIndex = 3
+        Me.txtColonia.TabIndex = 5
         '
         'txtNombre
         '
@@ -242,7 +243,7 @@ Partial Class frmAltaPagoTarjeta
         Me.txtNombre.Name = "txtNombre"
         Me.txtNombre.ReadOnly = True
         Me.txtNombre.Size = New System.Drawing.Size(325, 20)
-        Me.txtNombre.TabIndex = 2
+        Me.txtNombre.TabIndex = 3
         '
         'txtCalle
         '
@@ -250,7 +251,7 @@ Partial Class frmAltaPagoTarjeta
         Me.txtCalle.Name = "txtCalle"
         Me.txtCalle.ReadOnly = True
         Me.txtCalle.Size = New System.Drawing.Size(325, 20)
-        Me.txtCalle.TabIndex = 1
+        Me.txtCalle.TabIndex = 4
         '
         'txtcliente
         '
@@ -259,6 +260,7 @@ Partial Class frmAltaPagoTarjeta
         Me.txtcliente.ReadOnly = True
         Me.txtcliente.Size = New System.Drawing.Size(105, 20)
         Me.txtcliente.TabIndex = 0
+        Me.txtcliente.Tag = ""
         '
         'Label9
         '
@@ -303,16 +305,18 @@ Partial Class frmAltaPagoTarjeta
         'txtImporte
         '
         Me.txtImporte.Location = New System.Drawing.Point(307, 112)
+        Me.txtImporte.MaxLength = 100
         Me.txtImporte.Name = "txtImporte"
         Me.txtImporte.Size = New System.Drawing.Size(108, 20)
-        Me.txtImporte.TabIndex = 35
+        Me.txtImporte.TabIndex = 15
         '
         'txtLitros
         '
         Me.txtLitros.Location = New System.Drawing.Point(90, 108)
+        Me.txtLitros.MaxLength = 100
         Me.txtLitros.Name = "txtLitros"
         Me.txtLitros.Size = New System.Drawing.Size(108, 20)
-        Me.txtLitros.TabIndex = 34
+        Me.txtLitros.TabIndex = 14
         '
         'cboMeses
         '
@@ -321,7 +325,7 @@ Partial Class frmAltaPagoTarjeta
         Me.cboMeses.Location = New System.Drawing.Point(307, 56)
         Me.cboMeses.Name = "cboMeses"
         Me.cboMeses.Size = New System.Drawing.Size(105, 21)
-        Me.cboMeses.TabIndex = 32
+        Me.cboMeses.TabIndex = 11
         '
         'cboTipoTarjeta
         '
@@ -330,7 +334,7 @@ Partial Class frmAltaPagoTarjeta
         Me.cboTipoTarjeta.Location = New System.Drawing.Point(90, 56)
         Me.cboTipoTarjeta.Name = "cboTipoTarjeta"
         Me.cboTipoTarjeta.Size = New System.Drawing.Size(108, 21)
-        Me.cboTipoTarjeta.TabIndex = 31
+        Me.cboTipoTarjeta.TabIndex = 10
         '
         'txtObservaciones
         '
@@ -338,14 +342,14 @@ Partial Class frmAltaPagoTarjeta
         Me.txtObservaciones.Multiline = True
         Me.txtObservaciones.Name = "txtObservaciones"
         Me.txtObservaciones.Size = New System.Drawing.Size(325, 52)
-        Me.txtObservaciones.TabIndex = 30
+        Me.txtObservaciones.TabIndex = 19
         '
         'txtRepiteAutorizacion
         '
         Me.txtRepiteAutorizacion.Location = New System.Drawing.Point(307, 162)
         Me.txtRepiteAutorizacion.Name = "txtRepiteAutorizacion"
         Me.txtRepiteAutorizacion.Size = New System.Drawing.Size(108, 20)
-        Me.txtRepiteAutorizacion.TabIndex = 29
+        Me.txtRepiteAutorizacion.TabIndex = 18
         '
         'Label10
         '
@@ -359,9 +363,10 @@ Partial Class frmAltaPagoTarjeta
         'txtAutorizacion
         '
         Me.txtAutorizacion.Location = New System.Drawing.Point(90, 162)
+        Me.txtAutorizacion.MaxLength = 100
         Me.txtAutorizacion.Name = "txtAutorizacion"
         Me.txtAutorizacion.Size = New System.Drawing.Size(108, 20)
-        Me.txtAutorizacion.TabIndex = 27
+        Me.txtAutorizacion.TabIndex = 17
         '
         'Label20
         '
@@ -397,7 +402,7 @@ Partial Class frmAltaPagoTarjeta
         Me.cboAfiliacion.Location = New System.Drawing.Point(90, 31)
         Me.cboAfiliacion.Name = "cboAfiliacion"
         Me.cboAfiliacion.Size = New System.Drawing.Size(108, 21)
-        Me.cboAfiliacion.TabIndex = 17
+        Me.cboAfiliacion.TabIndex = 9
         '
         'Label18
         '
@@ -465,16 +470,18 @@ Partial Class frmAltaPagoTarjeta
         'txtRemision
         '
         Me.txtRemision.Location = New System.Drawing.Point(90, 135)
+        Me.txtRemision.MaxLength = 100
         Me.txtRemision.Name = "txtRemision"
         Me.txtRemision.Size = New System.Drawing.Size(108, 20)
-        Me.txtRemision.TabIndex = 4
+        Me.txtRemision.TabIndex = 16
         '
         'txtTarjeta
         '
         Me.txtTarjeta.Location = New System.Drawing.Point(90, 83)
+        Me.txtTarjeta.MaxLength = 16
         Me.txtTarjeta.Name = "txtTarjeta"
         Me.txtTarjeta.Size = New System.Drawing.Size(108, 20)
-        Me.txtTarjeta.TabIndex = 1
+        Me.txtTarjeta.TabIndex = 12
         '
         'btnConsultaCliente
         '
@@ -518,6 +525,15 @@ Partial Class frmAltaPagoTarjeta
         Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnAceptar.UseVisualStyleBackColor = False
         '
+        'Lbl_fechaCargo
+        '
+        Me.Lbl_fechaCargo.AutoSize = True
+        Me.Lbl_fechaCargo.Location = New System.Drawing.Point(442, 35)
+        Me.Lbl_fechaCargo.Name = "Lbl_fechaCargo"
+        Me.Lbl_fechaCargo.Size = New System.Drawing.Size(65, 13)
+        Me.Lbl_fechaCargo.TabIndex = 23
+        Me.Lbl_fechaCargo.Text = "FechaCargo"
+        '
         'cboBancos
         '
         Me.cboBancos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -525,7 +541,7 @@ Partial Class frmAltaPagoTarjeta
         Me.cboBancos.Location = New System.Drawing.Point(307, 85)
         Me.cboBancos.Name = "cboBancos"
         Me.cboBancos.Size = New System.Drawing.Size(105, 21)
-        Me.cboBancos.TabIndex = 36
+        Me.cboBancos.TabIndex = 13
         '
         'cboRuta
         '
@@ -534,13 +550,15 @@ Partial Class frmAltaPagoTarjeta
         Me.cboRuta.Location = New System.Drawing.Point(90, 165)
         Me.cboRuta.Name = "cboRuta"
         Me.cboRuta.Size = New System.Drawing.Size(121, 21)
-        Me.cboRuta.TabIndex = 16
+        Me.cboRuta.TabIndex = 7
         '
         'frmAltaPagoTarjeta
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(580, 529)
+        Me.Controls.Add(Me.Lbl_fechaCargo)
         Me.Controls.Add(Me.btnAceptar)
         Me.Controls.Add(Me.btnConsultaCliente)
         Me.Controls.Add(Me.btnBuscar)
@@ -548,7 +566,10 @@ Partial Class frmAltaPagoTarjeta
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.gbOpciones)
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "frmAltaPagoTarjeta"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Alta pago con tarjeta"
         Me.gbOpciones.ResumeLayout(False)
         Me.gbOpciones.PerformLayout()
@@ -562,7 +583,7 @@ Partial Class frmAltaPagoTarjeta
     End Sub
 
     Friend WithEvents gbOpciones As Windows.Forms.GroupBox
-    Friend WithEvents RadioButton2 As Windows.Forms.RadioButton
+    Friend WithEvents rdCargoPorCobranza As Windows.Forms.RadioButton
     Friend WithEvents rdCargoPorVenta As Windows.Forms.RadioButton
     Friend WithEvents GroupBox1 As Windows.Forms.GroupBox
     Friend WithEvents txtMunicipio As Windows.Forms.TextBox
@@ -610,4 +631,5 @@ Partial Class frmAltaPagoTarjeta
     Friend WithEvents txtLitros As Windows.Forms.TextBox
     Friend WithEvents cboBancos As Combos.ComboBanco
     Friend WithEvents cboRuta As Combos.ComboRuta2Filtro
+    Friend WithEvents Lbl_fechaCargo As Windows.Forms.Label
 End Class

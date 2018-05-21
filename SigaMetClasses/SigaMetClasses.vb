@@ -9502,9 +9502,10 @@ Public Module Main
         Return listado
     End Function
 
-    Public Function consultarAfiliacion() As List(Of String)
-        Dim listado As New List(Of String)
 
+
+    Public Function consultarAfiliacion() As Dictionary(Of Integer, String)
+        Dim dictionary As New Dictionary(Of Integer, String)
         Dim conn As SqlConnection = DataLayer.Conexion
         Dim cmd As New SqlCommand("spCBConsultaAfiliacionTC", conn)
 
@@ -9516,12 +9517,10 @@ Public Module Main
         End Try
 
         Dim reader As SqlDataReader
-
-
         Try
             reader = cmd.ExecuteReader(CommandBehavior.CloseConnection)
             While reader.Read()
-                listado.Add(Convert.ToString(reader("NumeroAfiliacion")))
+                dictionary.Add(Convert.ToInt64(reader("Afiliacion")), Convert.ToString(reader("NumeroAfiliacion")))
             End While
 
         Catch ex As Exception
@@ -9529,7 +9528,7 @@ Public Module Main
             Return Nothing
         End Try
         conn.Close()
-        Return listado
+        Return dictionary
     End Function
 
     Public Function consultarCargoMeses() As Dictionary(Of Integer, Integer)
