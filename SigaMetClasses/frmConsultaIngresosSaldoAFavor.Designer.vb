@@ -23,10 +23,10 @@ Partial Class frmConsultaIngresosSaldoAFavor
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmConsultaIngresosSaldoAFavor))
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.chkSaldosAFavor = New System.Windows.Forms.CheckBox()
-        Me.bnBuscar = New System.Windows.Forms.Button()
+        Me.btnBuscar = New System.Windows.Forms.Button()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
@@ -34,35 +34,40 @@ Partial Class frmConsultaIngresosSaldoAFavor
         Me.dtpFechaFin = New System.Windows.Forms.DateTimePicker()
         Me.dtpFechaInicio = New System.Windows.Forms.DateTimePicker()
         Me.grvIngresos = New System.Windows.Forms.DataGridView()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Seleccionar = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.lblTituloGrid = New System.Windows.Forms.Label()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.btnAplicar = New System.Windows.Forms.Button()
+        Me.btnValidar = New System.Windows.Forms.Button()
+        Me.txtMonto = New SigaMetClasses.Controles.txtNumeroDecimal()
+        Me.txtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
+        Me.checkBoxColumnSeleccionar = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.FolioMovimiento = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Cliente = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.NombreCliente = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TipoMovimientoAConciliar = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.FOperacion = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Monto = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.StatusMovimiento = New System.Windows.Forms.DataGridViewComboBoxColumn()
-        Me.txtMonto = New SigaMetClasses.Controles.txtNumeroDecimal()
-        Me.txtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
+        Me.StatusMovimiento = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.AñoMovimiento = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.grvIngresos, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
         '
         Me.Panel1.Controls.Add(Me.chkSaldosAFavor)
-        Me.Panel1.Controls.Add(Me.bnBuscar)
+        Me.Panel1.Controls.Add(Me.btnBuscar)
         Me.Panel1.Controls.Add(Me.GroupBox3)
         Me.Panel1.Controls.Add(Me.GroupBox2)
         Me.Panel1.Controls.Add(Me.GroupBox1)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(791, 120)
+        Me.Panel1.Size = New System.Drawing.Size(867, 120)
         Me.Panel1.TabIndex = 0
         '
         'chkSaldosAFavor
@@ -75,18 +80,18 @@ Partial Class frmConsultaIngresosSaldoAFavor
         Me.chkSaldosAFavor.Text = "Saldos a favor"
         Me.chkSaldosAFavor.UseVisualStyleBackColor = True
         '
-        'bnBuscar
+        'btnBuscar
         '
-        Me.bnBuscar.BackColor = System.Drawing.SystemColors.Control
-        Me.bnBuscar.Image = CType(resources.GetObject("bnBuscar.Image"), System.Drawing.Image)
-        Me.bnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.bnBuscar.Location = New System.Drawing.Point(630, 19)
-        Me.bnBuscar.Name = "bnBuscar"
-        Me.bnBuscar.Size = New System.Drawing.Size(70, 24)
-        Me.bnBuscar.TabIndex = 5
-        Me.bnBuscar.Text = "&Buscar"
-        Me.bnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.bnBuscar.UseVisualStyleBackColor = False
+        Me.btnBuscar.BackColor = System.Drawing.SystemColors.Control
+        Me.btnBuscar.Image = CType(resources.GetObject("btnBuscar.Image"), System.Drawing.Image)
+        Me.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnBuscar.Location = New System.Drawing.Point(630, 19)
+        Me.btnBuscar.Name = "btnBuscar"
+        Me.btnBuscar.Size = New System.Drawing.Size(75, 24)
+        Me.btnBuscar.TabIndex = 5
+        Me.btnBuscar.Text = "&Buscar"
+        Me.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnBuscar.UseVisualStyleBackColor = False
         '
         'GroupBox3
         '
@@ -118,21 +123,22 @@ Partial Class frmConsultaIngresosSaldoAFavor
         Me.GroupBox1.Size = New System.Drawing.Size(357, 76)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Fecha:"
+        Me.GroupBox1.Text = "Fechas:"
         '
         'chkFechas
         '
         Me.chkFechas.AutoSize = True
         Me.chkFechas.Location = New System.Drawing.Point(7, 51)
         Me.chkFechas.Name = "chkFechas"
-        Me.chkFechas.Size = New System.Drawing.Size(55, 17)
+        Me.chkFechas.Size = New System.Drawing.Size(60, 17)
         Me.chkFechas.TabIndex = 3
-        Me.chkFechas.Text = "Fecha"
+        Me.chkFechas.Text = "Fechas"
         Me.chkFechas.UseVisualStyleBackColor = True
         '
         'dtpFechaFin
         '
         Me.dtpFechaFin.CustomFormat = ""
+        Me.dtpFechaFin.Enabled = False
         Me.dtpFechaFin.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.dtpFechaFin.Location = New System.Drawing.Point(179, 21)
         Me.dtpFechaFin.MinimumSize = New System.Drawing.Size(4, 22)
@@ -143,6 +149,7 @@ Partial Class frmConsultaIngresosSaldoAFavor
         'dtpFechaInicio
         '
         Me.dtpFechaInicio.CustomFormat = ""
+        Me.dtpFechaInicio.Enabled = False
         Me.dtpFechaInicio.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.dtpFechaInicio.Location = New System.Drawing.Point(7, 21)
         Me.dtpFechaInicio.MinimumSize = New System.Drawing.Size(4, 22)
@@ -160,31 +167,73 @@ Partial Class frmConsultaIngresosSaldoAFavor
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grvIngresos.BackgroundColor = System.Drawing.Color.Gainsboro
         Me.grvIngresos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grvIngresos.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Seleccionar, Me.FolioMovimiento, Me.Cliente, Me.NombreCliente, Me.TipoMovimientoAConciliar, Me.FOperacion, Me.Monto, Me.StatusMovimiento})
+        Me.grvIngresos.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.checkBoxColumnSeleccionar, Me.FolioMovimiento, Me.Cliente, Me.NombreCliente, Me.TipoMovimientoAConciliar, Me.FOperacion, Me.Monto, Me.StatusMovimiento, Me.AñoMovimiento})
         Me.grvIngresos.Location = New System.Drawing.Point(0, 142)
         Me.grvIngresos.Name = "grvIngresos"
-        Me.grvIngresos.Size = New System.Drawing.Size(791, 238)
+        Me.grvIngresos.Size = New System.Drawing.Size(867, 179)
         Me.grvIngresos.TabIndex = 3
         '
-        'Label1
+        'lblTituloGrid
         '
-        Me.Label1.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label1.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(0, 120)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(791, 21)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Ingresos generados por saldo a favor"
-        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblTituloGrid.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.lblTituloGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblTituloGrid.Dock = System.Windows.Forms.DockStyle.Top
+        Me.lblTituloGrid.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTituloGrid.Location = New System.Drawing.Point(0, 120)
+        Me.lblTituloGrid.Name = "lblTituloGrid"
+        Me.lblTituloGrid.Size = New System.Drawing.Size(867, 21)
+        Me.lblTituloGrid.TabIndex = 0
+        Me.lblTituloGrid.Text = "Ingresos generados por saldo a favor"
+        Me.lblTituloGrid.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'Seleccionar
+        'Panel2
         '
-        Me.Seleccionar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
-        Me.Seleccionar.HeaderText = ""
-        Me.Seleccionar.Name = "Seleccionar"
-        Me.Seleccionar.Width = 23
+        Me.Panel2.Controls.Add(Me.btnAplicar)
+        Me.Panel2.Controls.Add(Me.btnValidar)
+        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Panel2.Location = New System.Drawing.Point(0, 322)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(867, 47)
+        Me.Panel2.TabIndex = 4
+        '
+        'btnAplicar
+        '
+        Me.btnAplicar.Location = New System.Drawing.Point(406, 12)
+        Me.btnAplicar.Name = "btnAplicar"
+        Me.btnAplicar.Size = New System.Drawing.Size(75, 24)
+        Me.btnAplicar.TabIndex = 6
+        Me.btnAplicar.Text = "Aplicar"
+        Me.btnAplicar.UseVisualStyleBackColor = True
+        '
+        'btnValidar
+        '
+        Me.btnValidar.Location = New System.Drawing.Point(294, 12)
+        Me.btnValidar.Name = "btnValidar"
+        Me.btnValidar.Size = New System.Drawing.Size(75, 24)
+        Me.btnValidar.TabIndex = 5
+        Me.btnValidar.Text = "Validar"
+        Me.btnValidar.UseVisualStyleBackColor = True
+        '
+        'txtMonto
+        '
+        Me.txtMonto.Location = New System.Drawing.Point(6, 21)
+        Me.txtMonto.Name = "txtMonto"
+        Me.txtMonto.Size = New System.Drawing.Size(100, 21)
+        Me.txtMonto.TabIndex = 1
+        '
+        'txtCliente
+        '
+        Me.txtCliente.Location = New System.Drawing.Point(6, 21)
+        Me.txtCliente.Name = "txtCliente"
+        Me.txtCliente.Size = New System.Drawing.Size(100, 21)
+        Me.txtCliente.TabIndex = 1
+        '
+        'checkBoxColumnSeleccionar
+        '
+        Me.checkBoxColumnSeleccionar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
+        Me.checkBoxColumnSeleccionar.HeaderText = ""
+        Me.checkBoxColumnSeleccionar.Name = "checkBoxColumnSeleccionar"
+        Me.checkBoxColumnSeleccionar.Width = 23
         '
         'FolioMovimiento
         '
@@ -224,10 +273,10 @@ Partial Class frmConsultaIngresosSaldoAFavor
         'Monto
         '
         Me.Monto.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle2.Format = "C2"
-        DataGridViewCellStyle2.NullValue = Nothing
-        Me.Monto.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle1.Format = "C2"
+        DataGridViewCellStyle1.NullValue = Nothing
+        Me.Monto.DefaultCellStyle = DataGridViewCellStyle1
         Me.Monto.HeaderText = "Importe"
         Me.Monto.Name = "Monto"
         Me.Monto.ReadOnly = True
@@ -238,28 +287,21 @@ Partial Class frmConsultaIngresosSaldoAFavor
         Me.StatusMovimiento.HeaderText = "Estatus"
         Me.StatusMovimiento.Name = "StatusMovimiento"
         Me.StatusMovimiento.ReadOnly = True
-        Me.StatusMovimiento.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.StatusMovimiento.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
         '
-        'txtMonto
+        'AñoMovimiento
         '
-        Me.txtMonto.Location = New System.Drawing.Point(6, 21)
-        Me.txtMonto.Name = "txtMonto"
-        Me.txtMonto.Size = New System.Drawing.Size(100, 21)
-        Me.txtMonto.TabIndex = 1
-        '
-        'txtCliente
-        '
-        Me.txtCliente.Location = New System.Drawing.Point(6, 21)
-        Me.txtCliente.Name = "txtCliente"
-        Me.txtCliente.Size = New System.Drawing.Size(100, 21)
-        Me.txtCliente.TabIndex = 1
+        Me.AñoMovimiento.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
+        Me.AñoMovimiento.HeaderText = "Año"
+        Me.AñoMovimiento.Name = "AñoMovimiento"
+        Me.AñoMovimiento.ReadOnly = True
+        Me.AñoMovimiento.Visible = False
         '
         'frmConsultaIngresosSaldoAFavor
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit
-        Me.ClientSize = New System.Drawing.Size(791, 380)
-        Me.Controls.Add(Me.Label1)
+        Me.ClientSize = New System.Drawing.Size(867, 369)
+        Me.Controls.Add(Me.Panel2)
+        Me.Controls.Add(Me.lblTituloGrid)
         Me.Controls.Add(Me.grvIngresos)
         Me.Controls.Add(Me.Panel1)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -277,6 +319,7 @@ Partial Class frmConsultaIngresosSaldoAFavor
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         CType(Me.grvIngresos, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel2.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -290,16 +333,20 @@ Partial Class frmConsultaIngresosSaldoAFavor
     Friend WithEvents GroupBox2 As Windows.Forms.GroupBox
     Friend WithEvents GroupBox3 As Windows.Forms.GroupBox
     Friend WithEvents chkSaldosAFavor As Windows.Forms.CheckBox
-    Friend WithEvents bnBuscar As Windows.Forms.Button
+    Friend WithEvents btnBuscar As Windows.Forms.Button
     Friend WithEvents chkFechas As Windows.Forms.CheckBox
     Friend WithEvents grvIngresos As Windows.Forms.DataGridView
-    Friend WithEvents Label1 As Windows.Forms.Label
-    Friend WithEvents Seleccionar As Windows.Forms.DataGridViewCheckBoxColumn
+    Friend WithEvents lblTituloGrid As Windows.Forms.Label
+    Friend WithEvents Panel2 As Windows.Forms.Panel
+    Friend WithEvents btnAplicar As Windows.Forms.Button
+    Friend WithEvents btnValidar As Windows.Forms.Button
+    Friend WithEvents checkBoxColumnSeleccionar As Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents FolioMovimiento As Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Cliente As Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents NombreCliente As Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents TipoMovimientoAConciliar As Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents FOperacion As Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Monto As Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents StatusMovimiento As Windows.Forms.DataGridViewComboBoxColumn
+    Friend WithEvents StatusMovimiento As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents AñoMovimiento As Windows.Forms.DataGridViewTextBoxColumn
 End Class
