@@ -5,6 +5,7 @@ Imports System.Text
 Imports System.ComponentModel.Component
 Imports MySql.Data.MySqlClient
 Imports System.Collections.Generic
+Imports System.Data.SqlTypes
 
 
 'ENUMERADORES
@@ -37,6 +38,9 @@ Namespace Enumeradores
         'Se agregó para control de saldos a favor
         '01-04-2005 JAG
         SaldoAFavor = 14
+        'DacionEnPago = 0 No estan en la BD 1.30 sigametDEVTB
+        TarjetaDebito = 6
+        'AplicacionAnticipo = 0 No estan en la BD 1.30 sigametDEVTB
     End Enum
 
     Public Enum enumTipoOperacionCatalogo
@@ -6506,6 +6510,379 @@ Public Class cConfig
 End Class
 #End Region
 
+#Region "CobroDetalladoDatos"
+Public Class CobroDetalladoDatos
+#Region "Propiedades"
+    Private _AñoCobro As Int16
+    Private _Cobro As Integer
+    Private _Importe As Decimal
+    Private _Impuesto As Decimal
+    Private _Total As Decimal
+    Private _Referencia As Char
+    Private _Banco As Int16
+    Private _FAlta As Date
+    Private _Status As Char
+    Private _TipoCobro As Byte
+    Private _NumeroCheque As Char
+    Private _FCheque As Date
+    Private _NumeroCuenta As Char
+    Private _Observaciones As String
+    Private _FDevolucion As Date
+    Private _RazonDevCheque As Char
+    Private _Cliente As Integer
+    Private _Saldo As Decimal
+    Private _Usuario As Char
+    Private _FActualizacion As Date
+    Private _Folio As Integer
+    Private _FDeposito As Date
+    Private _FolioAtt As Integer
+    Private _AñoAtt As Int16
+    Private _NumeroCuentaDestino As Char
+    Private _BancoOrigen As Int16
+    Private _SaldoAFavor As Boolean
+    Private _StatusSaldoAFavor As Char
+    Private _AñoCobroOrigen As Int16
+    Private _CobroOrigen As Integer
+    Private _TPV As Boolean
+
+    Public Property AñoCobro() As Int16
+        Get
+            Return _AñoCobro
+        End Get
+        Set
+            _AñoCobro = Value
+        End Set
+    End Property
+    Public Property Cobro() As Integer
+        Get
+            Return _Cobro
+        End Get
+        Set
+            _Cobro = Value
+        End Set
+    End Property
+    Public Property Importe() As Decimal
+        Get
+            Return _Importe
+        End Get
+        Set
+            _Importe = Value
+        End Set
+    End Property
+    Public Property Impuesto() As Decimal
+        Get
+            Return _Impuesto
+        End Get
+        Set
+            _Impuesto = Value
+        End Set
+    End Property
+    Public Property Total() As Decimal
+        Get
+            Return _Total
+        End Get
+        Set
+            _Total = Value
+        End Set
+    End Property
+    Public Property Referencia() As Char
+        Get
+            Return _Referencia
+        End Get
+        Set
+            _Referencia = Value
+        End Set
+    End Property
+    Public Property Banco() As Int16
+        Get
+            Return _Banco
+        End Get
+        Set
+            _Banco = Value
+        End Set
+    End Property
+    Public Property FAlta() As Date
+        Get
+            Return _FAlta
+        End Get
+        Set
+            _FAlta = Value
+        End Set
+    End Property
+    Public Property Status() As Char
+        Get
+            Return _Status
+        End Get
+        Set
+            _Status = Value
+        End Set
+    End Property
+    Public Property TipoCobro() As Byte
+        Get
+            Return _TipoCobro
+        End Get
+        Set
+            _TipoCobro = Value
+        End Set
+    End Property
+    Public Property NumeroCheque() As Char
+        Get
+            Return _NumeroCheque
+        End Get
+        Set
+            _NumeroCheque = Value
+        End Set
+    End Property
+    Public Property FCheque() As Date
+        Get
+            Return _FCheque
+        End Get
+        Set
+            _FCheque = Value
+        End Set
+    End Property
+    Public Property NumeroCuenta() As Char
+        Get
+            Return _NumeroCuenta
+        End Get
+        Set
+            _NumeroCuenta = Value
+        End Set
+    End Property
+    Public Property Observaciones() As String
+        Get
+            Return _Observaciones
+        End Get
+        Set
+            _Observaciones = Value
+        End Set
+    End Property
+    Public Property FDevolucion() As Date
+        Get
+            Return _FDevolucion
+        End Get
+        Set
+            _FDevolucion = Value
+        End Set
+    End Property
+    Public Property RazonDevCheque() As Char
+        Get
+            Return _RazonDevCheque
+        End Get
+        Set
+            _RazonDevCheque = Value
+        End Set
+    End Property
+    Public Property Cliente() As Integer
+        Get
+            Return _Cliente
+        End Get
+        Set
+            _Cliente = Value
+        End Set
+    End Property
+    Public Property Saldo() As Decimal
+        Get
+            Return _Saldo
+        End Get
+        Set
+            _Saldo = Value
+        End Set
+    End Property
+    Public Property Usuario() As Char
+        Get
+            Return _Usuario
+        End Get
+        Set
+            _Usuario = Value
+        End Set
+    End Property
+    Public Property FActualizacion() As Date
+        Get
+            Return _FActualizacion
+        End Get
+        Set
+            _FActualizacion = Value
+        End Set
+    End Property
+    Public Property Folio() As Integer
+        Get
+            Return _Folio
+        End Get
+        Set
+            _Folio = Value
+        End Set
+    End Property
+    Public Property FDeposito() As Date
+        Get
+            Return _FDeposito
+        End Get
+        Set
+            _FDeposito = Value
+        End Set
+    End Property
+    Public Property FolioAtt() As Integer
+        Get
+            Return _FolioAtt
+        End Get
+        Set
+            _FolioAtt = Value
+        End Set
+    End Property
+    Public Property AñoAtt() As Int16
+        Get
+            Return _AñoAtt
+        End Get
+        Set
+            _AñoAtt = Value
+        End Set
+    End Property
+    Public Property NumeroCuentaDestino() As Char
+        Get
+            Return _NumeroCuentaDestino
+        End Get
+        Set
+            _NumeroCuentaDestino = Value
+        End Set
+    End Property
+    Public Property BancoOrigen() As Int16
+        Get
+            Return _BancoOrigen
+        End Get
+        Set
+            _BancoOrigen = Value
+        End Set
+    End Property
+    Public Property SaldoAFavor() As Boolean
+        Get
+            Return _SaldoAFavor
+        End Get
+        Set
+            _SaldoAFavor = Value
+        End Set
+    End Property
+    Public Property StatusSaldoAFavor() As Char
+        Get
+            Return _StatusSaldoAFavor
+        End Get
+        Set
+            _StatusSaldoAFavor = Value
+        End Set
+    End Property
+    Public Property AñoCobroOrigen() As Int16
+        Get
+            Return _AñoCobroOrigen
+        End Get
+        Set
+            _AñoCobroOrigen = Value
+        End Set
+    End Property
+    Public Property CobroOrigen() As Integer
+        Get
+            Return _CobroOrigen
+        End Get
+        Set
+            _CobroOrigen = Value
+        End Set
+    End Property
+    Public Property TPV() As Boolean
+        Get
+            Return _TPV
+        End Get
+        Set
+            _TPV = Value
+        End Set
+    End Property
+#End Region
+
+    Public Sub New()
+        MyBase.New()
+    End Sub
+
+    Function insertaCobro(AñoCobro As Int16,
+                            Cobro As Integer,
+                            Importe As Decimal,
+                            Impuesto As Decimal,
+                            Total As Decimal,
+                            Referencia As Char,
+                            Banco As Int16,
+                            FAlta As Date,
+                            Status As Char,
+                            TipoCobro As Byte,
+                            NumeroCheque As Char,
+                            FCheque As Date,
+                            NumeroCuenta As Char,
+                            Observaciones As String,
+                            FDevolucion As Date,
+                            RazonDevCheque As Char,
+                            Cliente As Integer,
+                            Saldo As Decimal,
+                            Usuario As Char,
+                            FActualizacion As Date,
+                            Folio As Integer,
+                            FDeposito As Date,
+                            FolioAtt As Integer,
+                            AñoAtt As Int16,
+                            NumeroCuentaDestino As Char,
+                            BancoOrigen As Int16,
+                            SaldoAFavor As Boolean,
+                            StatusSaldoAFavor As Char,
+                            AñoCobroOrigen As Int16,
+                            CobroOrigen As Integer,
+                            TPV As Boolean) As Boolean
+        Dim cmd As New SqlCommand("spLiq3AltaCobro")
+        With cmd
+            .CommandType = CommandType.StoredProcedure
+            .Parameters.Add(New SqlParameter("@AñoCobro", SqlDbType.SmallInt)).Value = AñoCobro
+            .Parameters.Add(New SqlParameter("@Cobro", SqlDbType.Int)).Value = Cobro
+            .Parameters.Add(New SqlParameter("@Importe", SqlDbType.Money)).Value = Importe
+            .Parameters.Add(New SqlParameter("@Impuesto", SqlDbType.Money)).Value = Impuesto
+            .Parameters.Add(New SqlParameter("@Total", SqlDbType.Money)).Value = Total
+            .Parameters.Add(New SqlParameter("@Referencia", SqlDbType.Char)).Value = Referencia
+            .Parameters.Add(New SqlParameter("@Banco", SqlDbType.SmallInt)).Value = IIf(Banco = 0, SqlInt16.Null, Banco)
+            .Parameters.Add(New SqlParameter("@FAlta", SqlDbType.DateTime)).Value = FAlta
+            .Parameters.Add(New SqlParameter("@Status", SqlDbType.Char)).Value = Status
+            .Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.TinyInt)).Value = TipoCobro
+            .Parameters.Add(New SqlParameter("@NumeroCheque", SqlDbType.Char)).Value = IIf(NumeroCheque = "", SqlString.Null, NumeroCheque)
+            .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = IIf(FCheque = Date.MinValue, SqlString.Null, NumeroCheque)
+            .Parameters.Add(New SqlParameter("@NumeroCuenta", SqlDbType.Char)).Value = NumeroCuenta
+            .Parameters.Add(New SqlParameter("@Observaciones", SqlDbType.VarChar)).Value = Observaciones
+            .Parameters.Add(New SqlParameter("@FDevolucion", SqlDbType.DateTime)).Value = IIf(FCheque = Date.MinValue, SqlString.Null, NumeroCheque)
+            .Parameters.Add(New SqlParameter("@RazonDevCheque", SqlDbType.Char)).Value = RazonDevCheque
+            .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = IIf(Cliente = 0, SqlInt32.Null, Cliente)
+            .Parameters.Add(New SqlParameter("@Saldo", SqlDbType.Money)).Value = Saldo
+            .Parameters.Add(New SqlParameter("@Usuario", SqlDbType.Char)).Value = Usuario
+            .Parameters.Add(New SqlParameter("@FActualizacion", SqlDbType.DateTime)).Value = FActualizacion
+            .Parameters.Add(New SqlParameter("@Folio", SqlDbType.Int)).Value = IIf(Folio = 0, SqlInt32.Null, Folio)
+            .Parameters.Add(New SqlParameter("@FDeposito", SqlDbType.DateTime)).Value = IIf(FDeposito = Date.MinValue, SqlString.Null, FDeposito)
+            .Parameters.Add(New SqlParameter("@FolioAtt", SqlDbType.Int)).Value = IIf(FolioAtt = 0, SqlInt32.Null, FolioAtt)
+            .Parameters.Add(New SqlParameter("@AñoAtt", SqlDbType.SmallInt)).Value = IIf(AñoAtt = 0, SqlInt16.Null, AñoAtt)
+            .Parameters.Add(New SqlParameter("@NumeroCuentaDestino", SqlDbType.Char)).Value = NumeroCuentaDestino
+            .Parameters.Add(New SqlParameter("@BancoOrigen", SqlDbType.SmallInt)).Value = IIf(BancoOrigen = 0, SqlInt16.Null, BancoOrigen)
+            .Parameters.Add(New SqlParameter("@SaldoAFavor", SqlDbType.Bit)).Value = SaldoAFavor
+            .Parameters.Add(New SqlParameter("@StatusSaldoAFavor", SqlDbType.Char)).Value = StatusSaldoAFavor
+            .Parameters.Add(New SqlParameter("@AñoCobroOrigen", SqlDbType.SmallInt)).Value = IIf(AñoCobroOrigen = 0, SqlInt16.Null, AñoCobroOrigen)
+            .Parameters.Add(New SqlParameter("@CobroOrigen", SqlDbType.Int)).Value = IIf(CobroOrigen = 0, SqlInt16.Null, CobroOrigen)
+            .Parameters.Add(New SqlParameter("@TPV", SqlDbType.Bit)).Value = TPV
+        End With
+
+        Try
+            AbreConexion()
+            cmd.Connection = DataLayer.Conexion
+            cmd.ExecuteNonQuery()
+            Return True
+        Catch ex As Exception
+            Throw ex
+        Finally
+            CierraConexion()
+            cmd = Nothing
+        End Try
+
+    End Function
+
+End Class
+#End Region
+
 #Region "Estructuras"
 #Region "Estructuras anteriores que no se usan"
 '<Serializable()> _
@@ -6936,7 +7313,7 @@ Public Structure sCobro
     Public ReadOnly Property InformacionCompleta() As String
         Get
             'Ult.Mod: 6 de mayo del 2003
-            Dim strInfo As String = "Cobro: " & LSet(Trim(_Consecutivo.ToString), 3) &
+            Dim strInfo As String = "Cobro:                  " & LSet(Trim(_Consecutivo.ToString), 3) &
                 LSet(Trim(_TipoCobro.ToString), 15) & " No.Documento: " &
                 LSet(Trim(_NoCheque), 8) & " Importe: " &
                 RSet(Trim(_Total.ToString("C")), 15)
