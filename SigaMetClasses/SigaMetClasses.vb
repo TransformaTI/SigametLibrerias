@@ -5,6 +5,7 @@ Imports System.Text
 Imports System.ComponentModel.Component
 Imports MySql.Data.MySqlClient
 Imports System.Collections.Generic
+Imports SigaMetClasses.Enumeradores
 
 
 'ENUMERADORES
@@ -6167,6 +6168,10 @@ Friend MustInherit Class MovimientoAConciliar
                                                     ByVal AñoMovimiento As Integer,
                                                     ByVal StatusMovimiento As String) As Boolean
 
+    Public MustOverride Function actualizarTipoMovimiento(ByVal FolioMovimiento As Integer,
+                                                            ByVal AñoMovimiento As Integer,
+                                                            ByVal TipoMovimientoAConciliar As enumTipoMovimientoAConciliar) As Boolean
+
     Public MustOverride Sub guardarMovimientoAConciliar(ByVal MovimientoAConciliar As MovimientoAConciliar)
 
     'Public MustOverride Function leerMovimientoAConciliar(ByVal FechaInicio As Date,
@@ -6178,7 +6183,7 @@ Friend MustInherit Class MovimientoAConciliar
                                                           ByVal FechaFin As Date,
                                                           ByVal Cliente As Integer,
                                                           ByVal Monto As Decimal,
-                                                          ByVal TipoMovimientoAConciliar As Enumeradores.enumTipoMovimientoAConciliar) As DataTable
+                                                          ByVal TipoMovimientoAConciliar As enumTipoMovimientoAConciliar) As DataTable
 
 End Class
 
@@ -6217,6 +6222,34 @@ Friend Class MovimientoAConciliarDatos
         End Try
     End Function
 
+    Public Overrides Function actualizarTipoMovimiento(FolioMovimiento As Integer,
+                                                       AñoMovimiento As Integer,
+                                                       TipoMovimientoAConciliar As enumTipoMovimientoAConciliar) As Boolean
+        Dim cmd As SqlCommand = Nothing
+        Dim filasAfectadas As Integer
+
+        Try
+            cmd = New SqlCommand()
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.CommandText = "spCBActualizarTipoMovimientoMovimientoAConciliar"
+            cmd.Connection = DataLayer.Conexion
+
+            cmd.Parameters.Add("@FolioMovimiento", SqlDbType.Int).Value = FolioMovimiento
+            cmd.Parameters.Add("@AñoMovimiento", SqlDbType.Int).Value = AñoMovimiento
+            cmd.Parameters.Add("@TipoMovimientoAConciliar", SqlDbType.SmallInt).Value = TipoMovimientoAConciliar
+
+            AbreConexion()
+            filasAfectadas = cmd.ExecuteNonQuery()
+
+            Return filasAfectadas > 0
+        Catch ex As Exception
+            Throw ex
+        Finally
+            CierraConexion()
+            cmd.Dispose()
+        End Try
+    End Function
+
     Public Overrides Sub guardarMovimientoAConciliar(MovimientoAConciliar As MovimientoAConciliar)
         Throw New NotImplementedException()
     End Sub
@@ -6230,7 +6263,7 @@ Friend Class MovimientoAConciliarDatos
                                                           ByVal FechaFin As Date,
                                                           ByVal Cliente As Integer,
                                                           ByVal Monto As Decimal,
-                                                          ByVal TipoMovimientoAConciliar As Enumeradores.enumTipoMovimientoAConciliar) As DataTable
+                                                          ByVal TipoMovimientoAConciliar As enumTipoMovimientoAConciliar) As DataTable
         Dim da As SqlDataAdapter = Nothing
         Dim dt As DataTable = Nothing
         Dim cmd As SqlCommand = Nothing

@@ -1,5 +1,6 @@
 ﻿Imports System.Windows.Forms
 Imports System.Collections.Generic
+Imports SigaMetClasses.Enumeradores
 
 Public Class frmConsultaIngresosSaldoAFavor
 
@@ -29,9 +30,7 @@ Public Class frmConsultaIngresosSaldoAFavor
 #Region "Eventos"
 
     Private Sub btnBuscar_Click(sender As Object, e As EventArgs) Handles btnBuscar.Click
-        CambiarTituloGrid()
-        ConsultarIngresos()
-        CargarGrid()
+        BuscarActualizar()
     End Sub
 
     Private Sub chkFechas_CheckedChanged(sender As Object, e As EventArgs) Handles chkFechas.CheckedChanged
@@ -57,55 +56,59 @@ Public Class frmConsultaIngresosSaldoAFavor
         End Try
     End Sub
 
+    Private Sub btnAplicar_Click(sender As Object, e As EventArgs) Handles btnAplicar.Click
+        Aplicar()
+    End Sub
+
+    Private Sub btnValidar_Click(sender As Object, e As EventArgs) Handles btnValidar.Click
+        Validar()
+    End Sub
+
 #End Region
 
+    ''' <summary>
+    ''' Busca o actualiza los datos del grid. Si el parámetro actualizar
+    ''' es verdadero no se cambia el título
+    ''' </summary>
+    ''' <param name="actualizar"></param>
+    Private Sub BuscarActualizar(Optional ByVal actualizar As Boolean = False)
+        Try
+            If (Not actualizar) Then
+                CambiarTituloGrid()
+            End If
+            ConsultarIngresos()
+            CargarGrid()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, _Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
     Private Sub ConsultarIngresos()
-        'Dim obMovimientoAConciliarDatos As MovimientoAConciliarDatos = Nothing
-        'Dim enumNotasDeIngreso As Enumeradores.enumTipoMovimientoAConciliar =
-        '    Enumeradores.enumTipoMovimientoAConciliar.NotasDeIngresoPorSaldoAFavor
         Dim fechaInicio As Date
         Dim fechaFin As Date
         Dim cliente As Integer
         Dim monto As Decimal
-        Dim consultaSaldoAFavor As Boolean
-        'Dim filtrarFechas As Boolean
+        Dim enumSaldosAFavor As enumTipoMovimientoAConciliar = enumTipoMovimientoAConciliar.SaldoAFavor
+        Dim enumNotasPorSaldoAFavor As enumTipoMovimientoAConciliar = enumTipoMovimientoAConciliar.NotasDeIngresoPorSaldoAFavor
 
-        Try
-            Cursor = Cursors.WaitCursor
-            'obMovimientoAConciliarDatos = New MovimientoAConciliarDatos
+        If (_FechasHabilitadas) Then
+            fechaInicio = DateValue(dtpFechaInicio.Value)
+            fechaFin = DateValue(dtpFechaFin.Value)
+            fechaFin = fechaFin.AddDays(1)
+        End If
+        If Not (String.IsNullOrEmpty(txtCliente.Text)) Then
+            cliente = Convert.ToInt32(txtCliente.Text)
+        End If
+        If Not (String.IsNullOrEmpty(txtMonto.Text)) Then
+            monto = Convert.ToDecimal(txtMonto.Text)
+        End If
 
-            consultaSaldoAFavor = chkSaldosAFavor.Checked
-            'filtrarFechas = chkFechas.Checked
-
-            If (_FechasHabilitadas) Then
-                fechaInicio = DateValue(dtpFechaInicio.Value)
-                fechaFin = DateValue(dtpFechaFin.Value)
-                fechaFin = fechaFin.AddDays(1)
-            End If
-            If Not (String.IsNullOrEmpty(txtCliente.Text)) Then
-                cliente = Convert.ToInt32(txtCliente.Text)
-            End If
-            If Not (String.IsNullOrEmpty(txtMonto.Text)) Then
-                monto = Convert.ToDecimal(txtMonto.Text)
-            End If
-
-            If (consultaSaldoAFavor) Then
-                dtIngresos = BuscarSaldosAFavor(fechaInicio, fechaFin, cliente, monto)
-            Else
-                dtIngresos = BuscarNotasDeIngreso(fechaInicio, fechaFin, cliente, monto)
-            End If
-
-            'dtIngresos = obMovimientoAConciliarDatos.leerMovimientoAConciliar(
-            '                                                        fechaInicio,
-            '                                                        fechaFin,
-            '                                                        cliente,
-            '                                                        monto,
-            '                                                        filtrarSaldoAFavor)
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, _Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Finally
-            Cursor = Cursors.Default
-        End Try
+        dtIngresos = Nothing
+        If (_SaldoAFavorSeleccionado) Then
+            dtIngresos = BuscarMovimientosAConciliar(fechaInicio, fechaFin, cliente, monto, enumSaldosAFavor)
+        Else
+            dtIngresos = BuscarMovimientosAConciliar(fechaInicio, fechaFin, cliente, monto, enumNotasPorSaldoAFavor)
+        End If
     End Sub
 
     Private Sub CargarGrid()
@@ -128,42 +131,28 @@ Public Class frmConsultaIngresosSaldoAFavor
         End Try
     End Sub
 
-    Private Function BuscarSaldosAFavor(ByVal fechaInicio As Date,
+    Private Function BuscarMovimientosAConciliar(ByVal fechaInicio As Date,
                                            ByVal fechaFin As Date,
                                            ByVal cliente As Integer,
-                                           ByVal monto As Decimal) As DataTable
+                                           ByVal monto As Decimal,
+                                           ByVal tipoMovimiento As Enumeradores.enumTipoMovimientoAConciliar) As DataTable
         Dim obMovimientoAConciliarDatos As MovimientoAConciliarDatos = New MovimientoAConciliarDatos
-        Dim enumSaldoAFavor As Enumeradores.enumTipoMovimientoAConciliar =
-            Enumeradores.enumTipoMovimientoAConciliar.SaldoAFavor
-
-        Return obMovimientoAConciliarDatos.leerMovimientoAConciliar(fechaInicio,
-                                                                        fechaFin,
-                                                                        cliente,
-                                                                        monto,
-                                                                        enumSaldoAFavor)
-    End Function
-
-    Private Function BuscarNotasDeIngreso(ByVal fechaInicio As Date,
-                                            ByVal fechaFin As Date,
-                                            ByVal cliente As Integer,
-                                            ByVal monto As Decimal) As DataTable
-        Dim obMovimientoAConciliarDatos As MovimientoAConciliarDatos = New MovimientoAConciliarDatos
-        Dim enumNotasDeIngreso As Enumeradores.enumTipoMovimientoAConciliar =
-            Enumeradores.enumTipoMovimientoAConciliar.NotasDeIngresoPorSaldoAFavor
 
         Return obMovimientoAConciliarDatos.leerMovimientoAConciliar(fechaInicio,
                                                                     fechaFin,
                                                                     cliente,
                                                                     monto,
-                                                                    enumNotasDeIngreso)
+                                                                    tipoMovimiento)
     End Function
 
-
+    ''' <summary>
+    ''' Habilita o deshabilita los controles de fechas
+    ''' </summary>
+    ''' <param name="habilitado"></param>
     Private Sub ConmutarDatePickers(ByVal habilitado As Boolean)
         dtpFechaInicio.Enabled = habilitado
         dtpFechaFin.Enabled = habilitado
     End Sub
-
 
     Private Sub CambiarTituloGrid()
         If (_SaldoAFavorSeleccionado) Then
@@ -173,29 +162,40 @@ Public Class frmConsultaIngresosSaldoAFavor
         End If
     End Sub
 
-    Private Sub btnAplicar_Click(sender As Object, e As EventArgs) Handles btnAplicar.Click
+    ''' <summary>
+    ''' Actualiza el estatus de REGISTRADO a PENDIENTE 
+    ''' en los registros seleccionados
+    ''' </summary>
+    Private Sub Aplicar()
         Try
+            Cursor = Cursors.WaitCursor
             ActualizarSeleccionados()
             ActualizarEstatus("PENDIENTE")
+            BuscarActualizar(True)
+            MostrarMensajeExito()
         Catch ex As Exception
             MessageBox.Show(ex.Message, _Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
         End Try
+    End Sub
+
+    Private Sub MostrarMensajeExito()
+        MessageBox.Show("Los cambios se aplicaron correctamente.", _Titulo, MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 
     Private Sub ActualizarSeleccionados()
         Dim Movimiento As MovimientoAConciliarDatos
         Dim año As Integer
         Dim folio As Integer
-        Dim dataRow As DataRow
 
         _MovimientosSeleccionados.Clear()
 
         If (grvIngresos.DataSource IsNot Nothing And grvIngresos.Rows.Count > 0) Then
             For Each row As DataGridViewRow In grvIngresos.Rows
-                If (row.Cells(checkBoxColumnSeleccionar.Name).Value = True) Then
-                    dataRow = dtIngresos.Rows(row.Index)
-                    folio = CInt(dataRow("FolioMovimiento").ToString())
-                    año = CInt(dataRow("AñoMovimiento").ToString())
+                If (row.Cells(gvcSeleccionar.Name).Value = True) Then
+                    folio = CInt(row.Cells(gvcFolioMovimiento.Name).Value)
+                    año = CInt(row.Cells(gvcAñoMovimiento.Name).Value)
 
                     Movimiento = New MovimientoAConciliarDatos()
                     Movimiento.FolioMovimiento = folio
@@ -216,6 +216,37 @@ Public Class frmConsultaIngresosSaldoAFavor
                                                               estatus)
             Next
         End If
+    End Sub
+
+    Private Sub ActualizarTipoMovimiento(ByVal TipoMovimiento As enumTipoMovimientoAConciliar)
+        Dim obMovimientoAConciliarDatos As New MovimientoAConciliarDatos
+
+        If (_MovimientosSeleccionados IsNot Nothing And _MovimientosSeleccionados.Count > 0) Then
+            For Each movimiento As MovimientoAConciliarDatos In _MovimientosSeleccionados
+                obMovimientoAConciliarDatos.actualizarTipoMovimiento(movimiento.FolioMovimiento,
+                                                                     movimiento.AñoMovimiento,
+                                                                     TipoMovimiento)
+            Next
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Actualiza el estatus de PENDIENTE a REGISTRADO y
+    ''' el TipoMovimiento de 4 a 1 en los registros seleccionados
+    ''' </summary>
+    Private Sub Validar()
+        Try
+            Cursor = Cursors.WaitCursor
+            ActualizarSeleccionados()
+            ActualizarEstatus("REGISTRADO")
+            ActualizarTipoMovimiento(enumTipoMovimientoAConciliar.SaldoAFavor)
+            BuscarActualizar(True)
+            MostrarMensajeExito()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, _Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+        End Try
     End Sub
 
 End Class
