@@ -5899,6 +5899,10 @@ Public Class frmLiquidacionPortatil
 
     End Sub
 
+    Private Sub btnCancelarPago_Click(sender As Object, e As EventArgs) Handles btnCancelarPago.Click
+        Close()
+    End Sub
+
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
 
     End Sub
