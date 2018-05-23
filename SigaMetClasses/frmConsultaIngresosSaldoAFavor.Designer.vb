@@ -36,19 +36,19 @@ Partial Class frmConsultaIngresosSaldoAFavor
         Me.grvIngresos = New System.Windows.Forms.DataGridView()
         Me.lblTituloGrid = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.btnAplicar = New System.Windows.Forms.Button()
-        Me.btnValidar = New System.Windows.Forms.Button()
+        Me.btnAccion = New System.Windows.Forms.Button()
         Me.txtMonto = New SigaMetClasses.Controles.txtNumeroDecimal()
         Me.txtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.gvcSeleccionar = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.gvcFolioMovimiento = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.gvcCliente = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.gvcNombreCliente = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.gvcTipoMovimientoAConciliar = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.gvcTipoMovimientoDescripcion = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.gvcFOperacion = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.gvcMonto = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.gvcStatusMovimiento = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.gvcAñoMovimiento = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.gvcTipoMovimiento = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -67,7 +67,7 @@ Partial Class frmConsultaIngresosSaldoAFavor
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(867, 120)
+        Me.Panel1.Size = New System.Drawing.Size(757, 120)
         Me.Panel1.TabIndex = 0
         '
         'chkSaldosAFavor
@@ -167,10 +167,10 @@ Partial Class frmConsultaIngresosSaldoAFavor
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grvIngresos.BackgroundColor = System.Drawing.Color.Gainsboro
         Me.grvIngresos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grvIngresos.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.gvcSeleccionar, Me.gvcFolioMovimiento, Me.gvcCliente, Me.gvcNombreCliente, Me.gvcTipoMovimientoAConciliar, Me.gvcFOperacion, Me.gvcMonto, Me.gvcStatusMovimiento, Me.gvcAñoMovimiento})
+        Me.grvIngresos.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.gvcSeleccionar, Me.gvcFolioMovimiento, Me.gvcCliente, Me.gvcNombreCliente, Me.gvcTipoMovimientoDescripcion, Me.gvcFOperacion, Me.gvcMonto, Me.gvcStatusMovimiento, Me.gvcAñoMovimiento, Me.gvcTipoMovimiento})
         Me.grvIngresos.Location = New System.Drawing.Point(0, 142)
         Me.grvIngresos.Name = "grvIngresos"
-        Me.grvIngresos.Size = New System.Drawing.Size(867, 179)
+        Me.grvIngresos.Size = New System.Drawing.Size(757, 174)
         Me.grvIngresos.TabIndex = 3
         '
         'lblTituloGrid
@@ -181,38 +181,28 @@ Partial Class frmConsultaIngresosSaldoAFavor
         Me.lblTituloGrid.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTituloGrid.Location = New System.Drawing.Point(0, 120)
         Me.lblTituloGrid.Name = "lblTituloGrid"
-        Me.lblTituloGrid.Size = New System.Drawing.Size(867, 21)
+        Me.lblTituloGrid.Size = New System.Drawing.Size(757, 21)
         Me.lblTituloGrid.TabIndex = 0
         Me.lblTituloGrid.Text = "Ingresos generados por saldo a favor"
         Me.lblTituloGrid.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Panel2
         '
-        Me.Panel2.Controls.Add(Me.btnAplicar)
-        Me.Panel2.Controls.Add(Me.btnValidar)
+        Me.Panel2.Controls.Add(Me.btnAccion)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel2.Location = New System.Drawing.Point(0, 322)
+        Me.Panel2.Location = New System.Drawing.Point(0, 317)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(867, 47)
+        Me.Panel2.Size = New System.Drawing.Size(757, 47)
         Me.Panel2.TabIndex = 4
         '
-        'btnAplicar
+        'btnAccion
         '
-        Me.btnAplicar.Location = New System.Drawing.Point(406, 12)
-        Me.btnAplicar.Name = "btnAplicar"
-        Me.btnAplicar.Size = New System.Drawing.Size(75, 24)
-        Me.btnAplicar.TabIndex = 6
-        Me.btnAplicar.Text = "Aplicar"
-        Me.btnAplicar.UseVisualStyleBackColor = True
-        '
-        'btnValidar
-        '
-        Me.btnValidar.Location = New System.Drawing.Point(294, 12)
-        Me.btnValidar.Name = "btnValidar"
-        Me.btnValidar.Size = New System.Drawing.Size(75, 24)
-        Me.btnValidar.TabIndex = 5
-        Me.btnValidar.Text = "Validar"
-        Me.btnValidar.UseVisualStyleBackColor = True
+        Me.btnAccion.Location = New System.Drawing.Point(335, 11)
+        Me.btnAccion.Name = "btnAccion"
+        Me.btnAccion.Size = New System.Drawing.Size(75, 24)
+        Me.btnAccion.TabIndex = 6
+        Me.btnAccion.Text = "Aplicar"
+        Me.btnAccion.UseVisualStyleBackColor = True
         '
         'txtMonto
         '
@@ -238,6 +228,7 @@ Partial Class frmConsultaIngresosSaldoAFavor
         'gvcFolioMovimiento
         '
         Me.gvcFolioMovimiento.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.gvcFolioMovimiento.FillWeight = 48.27586!
         Me.gvcFolioMovimiento.HeaderText = "Folio"
         Me.gvcFolioMovimiento.Name = "gvcFolioMovimiento"
         Me.gvcFolioMovimiento.ReadOnly = True
@@ -245,6 +236,7 @@ Partial Class frmConsultaIngresosSaldoAFavor
         'gvcCliente
         '
         Me.gvcCliente.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.gvcCliente.FillWeight = 108.6207!
         Me.gvcCliente.HeaderText = "Cliente"
         Me.gvcCliente.Name = "gvcCliente"
         Me.gvcCliente.ReadOnly = True
@@ -252,20 +244,23 @@ Partial Class frmConsultaIngresosSaldoAFavor
         'gvcNombreCliente
         '
         Me.gvcNombreCliente.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.gvcNombreCliente.FillWeight = 108.6207!
         Me.gvcNombreCliente.HeaderText = "Nombre cliente"
         Me.gvcNombreCliente.Name = "gvcNombreCliente"
         Me.gvcNombreCliente.ReadOnly = True
         '
-        'gvcTipoMovimientoAConciliar
+        'gvcTipoMovimientoDescripcion
         '
-        Me.gvcTipoMovimientoAConciliar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.gvcTipoMovimientoAConciliar.HeaderText = "Tipo de movimiento"
-        Me.gvcTipoMovimientoAConciliar.Name = "gvcTipoMovimientoAConciliar"
-        Me.gvcTipoMovimientoAConciliar.ReadOnly = True
+        Me.gvcTipoMovimientoDescripcion.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.gvcTipoMovimientoDescripcion.FillWeight = 108.6207!
+        Me.gvcTipoMovimientoDescripcion.HeaderText = "Tipo de movimiento"
+        Me.gvcTipoMovimientoDescripcion.Name = "gvcTipoMovimientoDescripcion"
+        Me.gvcTipoMovimientoDescripcion.ReadOnly = True
         '
         'gvcFOperacion
         '
         Me.gvcFOperacion.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.gvcFOperacion.FillWeight = 108.6207!
         Me.gvcFOperacion.HeaderText = "Fecha ingreso"
         Me.gvcFOperacion.Name = "gvcFOperacion"
         Me.gvcFOperacion.ReadOnly = True
@@ -277,6 +272,7 @@ Partial Class frmConsultaIngresosSaldoAFavor
         DataGridViewCellStyle1.Format = "C2"
         DataGridViewCellStyle1.NullValue = Nothing
         Me.gvcMonto.DefaultCellStyle = DataGridViewCellStyle1
+        Me.gvcMonto.FillWeight = 108.6207!
         Me.gvcMonto.HeaderText = "Importe"
         Me.gvcMonto.Name = "gvcMonto"
         Me.gvcMonto.ReadOnly = True
@@ -284,6 +280,7 @@ Partial Class frmConsultaIngresosSaldoAFavor
         'gvcStatusMovimiento
         '
         Me.gvcStatusMovimiento.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.gvcStatusMovimiento.FillWeight = 108.6207!
         Me.gvcStatusMovimiento.HeaderText = "Estatus"
         Me.gvcStatusMovimiento.Name = "gvcStatusMovimiento"
         Me.gvcStatusMovimiento.ReadOnly = True
@@ -296,10 +293,18 @@ Partial Class frmConsultaIngresosSaldoAFavor
         Me.gvcAñoMovimiento.ReadOnly = True
         Me.gvcAñoMovimiento.Visible = False
         '
+        'gvcTipoMovimiento
+        '
+        Me.gvcTipoMovimiento.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
+        Me.gvcTipoMovimiento.HeaderText = "TipoMovimiento Número"
+        Me.gvcTipoMovimiento.Name = "gvcTipoMovimiento"
+        Me.gvcTipoMovimiento.ReadOnly = True
+        Me.gvcTipoMovimiento.Visible = False
+        '
         'frmConsultaIngresosSaldoAFavor
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit
-        Me.ClientSize = New System.Drawing.Size(867, 369)
+        Me.ClientSize = New System.Drawing.Size(757, 364)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.lblTituloGrid)
         Me.Controls.Add(Me.grvIngresos)
@@ -338,15 +343,15 @@ Partial Class frmConsultaIngresosSaldoAFavor
     Friend WithEvents grvIngresos As Windows.Forms.DataGridView
     Friend WithEvents lblTituloGrid As Windows.Forms.Label
     Friend WithEvents Panel2 As Windows.Forms.Panel
-    Friend WithEvents btnAplicar As Windows.Forms.Button
-    Friend WithEvents btnValidar As Windows.Forms.Button
+    Friend WithEvents btnAccion As Windows.Forms.Button
     Friend WithEvents gvcSeleccionar As Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents gvcFolioMovimiento As Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents gvcCliente As Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents gvcNombreCliente As Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents gvcTipoMovimientoAConciliar As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents gvcTipoMovimientoDescripcion As Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents gvcFOperacion As Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents gvcMonto As Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents gvcStatusMovimiento As Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents gvcAñoMovimiento As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents gvcTipoMovimiento As Windows.Forms.DataGridViewTextBoxColumn
 End Class
