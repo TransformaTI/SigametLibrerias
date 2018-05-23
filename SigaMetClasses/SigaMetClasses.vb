@@ -6799,13 +6799,13 @@ Public Class CobroDetalladoDatos
         MyBase.New()
     End Sub
 
-    Function insertaCobro(AñoCobro As Int16,
+    Function insertaCobro(AñoCobro As Short,
                             Cobro As Integer,
                             Importe As Decimal,
                             Impuesto As Decimal,
                             Total As Decimal,
                             Referencia As Char,
-                            Banco As Int16,
+                            Banco As Short,
                             FAlta As Date,
                             Status As Char,
                             TipoCobro As Byte,
@@ -6822,12 +6822,12 @@ Public Class CobroDetalladoDatos
                             Folio As Integer,
                             FDeposito As Date,
                             FolioAtt As Integer,
-                            AñoAtt As Int16,
+                            AñoAtt As Short,
                             NumeroCuentaDestino As Char,
-                            BancoOrigen As Int16,
+                            BancoOrigen As Short,
                             SaldoAFavor As Boolean,
                             StatusSaldoAFavor As Char,
-                            AñoCobroOrigen As Int16,
+                            AñoCobroOrigen As Short,
                             CobroOrigen As Integer,
                             TPV As Boolean) As Boolean
         Dim cmd As New SqlCommand("spLiq3AltaCobro")
