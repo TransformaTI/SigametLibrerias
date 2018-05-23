@@ -6,6 +6,7 @@ Imports System.ComponentModel.Component
 Imports MySql.Data.MySqlClient
 Imports System.Collections.Generic
 Imports System.Data.SqlTypes
+Imports SigaMetClasses.Enumeradores
 
 
 'ENUMERADORES
@@ -94,6 +95,11 @@ Namespace Enumeradores
     Public Enum enumTipoSeguridadReporte
         Usuario = 1
         Grupo = 2
+    End Enum
+
+    Public Enum enumTipoMovimientoAConciliar As Short
+        SaldoAFavor = 1
+        NotasDeIngresoPorSaldoAFavor = 4
     End Enum
 
 #End Region
@@ -4251,60 +4257,10 @@ Public Class ClienteCuentaBancaria
 
 End Class
 #End Region
+
+
+
 #End Region
-
-#Region "clase Alta pago con targeta"
-Public Class AltaPagoTarjeta
-    Public Sub insertarPagoTarjeta(ByVal Folio As Integer, ByVal TipoCargo As Short,
-                                   ByVal Cliente As Integer, ByVal Ruta As Short, ByVal Autotanque As Short,
-                                   ByVal Afiliacion As Integer, ByVal TipoCobro As Byte, ByVal Meses As Short,
-                                   ByVal NumeroTarjeta As String, ByVal Banco As Short, ByVal Litros As Double,
-                                   ByVal Importe As Decimal, ByVal Remision As String, ByVal Serie As String,
-                                   ByVal Autorizacion As String, ByVal Observacion As String, ByVal AñoCobro As Short,
-                                   ByVal Cobro As Integer, ByVal UsuarioAlta As String)
-
-        Dim cmd As New SqlCommand("spCBAltaAltaPagoTarjeta")
-        With cmd
-            .CommandType = CommandType.StoredProcedure
-            .Parameters.Add(New SqlParameter("@Folio", SqlDbType.Int)).Value = Folio
-            .Parameters.Add(New SqlParameter("@TipoCargo", SqlDbType.SmallInt)).Value = TipoCargo
-            .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = Cliente
-            .Parameters.Add(New SqlParameter("@Ruta", SqlDbType.SmallInt)).Value = Ruta
-            .Parameters.Add(New SqlParameter("@Autotanque", SqlDbType.SmallInt)).Value = Autotanque
-            .Parameters.Add(New SqlParameter("@Afiliacion", SqlDbType.Int)).Value = Afiliacion
-            .Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.TinyInt)).Value = TipoCobro
-            .Parameters.Add(New SqlParameter("@Meses", SqlDbType.SmallInt)).Value = Meses
-            .Parameters.Add(New SqlParameter("@NumeroTarjeta", SqlDbType.VarChar, 20)).Value = NumeroTarjeta
-            .Parameters.Add(New SqlParameter("@Banco", SqlDbType.SmallInt)).Value = Banco
-            .Parameters.Add(New SqlParameter("@Litros", SqlDbType.Decimal, 14, 2)).Value = Litros
-            .Parameters.Add(New SqlParameter("@Importe", SqlDbType.Decimal)).Value = Importe
-            .Parameters.Add(New SqlParameter("@Remision", SqlDbType.VarChar, 20)).Value = Remision
-            .Parameters.Add(New SqlParameter("@Serie", SqlDbType.VarChar, 20)).Value = Serie
-            .Parameters.Add(New SqlParameter("@Autorizacion", SqlDbType.VarChar, 20)).Value = Autorizacion
-            .Parameters.Add(New SqlParameter("@Observacion", SqlDbType.VarChar, 100)).Value = Observacion
-            .Parameters.Add(New SqlParameter("@AñoCobro", SqlDbType.SmallInt)).Value = AñoCobro
-            .Parameters.Add(New SqlParameter("@Cobro", SqlDbType.Int)).Value = Cobro
-            .Parameters.Add(New SqlParameter("@UsuarioAlta", SqlDbType.VarChar, 15)).Value = UsuarioAlta
-
-
-        End With
-
-        Try
-            AbreConexion()
-            cmd.Connection = DataLayer.Conexion
-            cmd.ExecuteNonQuery()
-        Catch ex As Exception
-            Throw ex
-        Finally
-            CierraConexion()
-        End Try
-
-    End Sub
-
-
-End Class
-#End Region
-
 
 #Region "TarjetaCredito"
 Public Class cTarjetaCredito
@@ -6212,7 +6168,13 @@ Friend MustInherit Class MovimientoAConciliar
 
 #End Region
 
-    Public MustOverride Sub actualizarMovimientoAConciliar(ByVal MovimientoAConciliar As MovimientoAConciliar)
+    Public MustOverride Function actualizarEstatus(ByVal FolioMovimiento As Integer,
+                                                    ByVal AñoMovimiento As Integer,
+                                                    ByVal StatusMovimiento As String) As Boolean
+
+    Public MustOverride Function actualizarTipoMovimiento(ByVal FolioMovimiento As Integer,
+                                                            ByVal AñoMovimiento As Integer,
+                                                            ByVal TipoMovimientoAConciliar As enumTipoMovimientoAConciliar) As Boolean
 
     Public MustOverride Sub guardarMovimientoAConciliar(ByVal MovimientoAConciliar As MovimientoAConciliar)
 
@@ -6225,7 +6187,7 @@ Friend MustInherit Class MovimientoAConciliar
                                                           ByVal FechaFin As Date,
                                                           ByVal Cliente As Integer,
                                                           ByVal Monto As Decimal,
-                                                          ByVal SaldoAFavor As Boolean) As DataTable
+                                                          ByVal TipoMovimientoAConciliar As enumTipoMovimientoAConciliar) As DataTable
 
 End Class
 
@@ -6236,9 +6198,61 @@ End Class
 Friend Class MovimientoAConciliarDatos
     Inherits MovimientoAConciliar
 
-    Public Overrides Sub actualizarMovimientoAConciliar(MovimientoAConciliar As MovimientoAConciliar)
-        Throw New NotImplementedException()
-    End Sub
+    Public Overrides Function actualizarEstatus(ByVal FolioMovimiento As Integer,
+                                                ByVal AñoMovimiento As Integer,
+                                                ByVal StatusMovimiento As String) As Boolean
+        Dim cmd As SqlCommand = Nothing
+        Dim filasAfectadas As Integer
+
+        Try
+            cmd = New SqlCommand()
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.CommandText = "spCBActualizarStatusMovimientoAConciliar"
+            cmd.Connection = DataLayer.Conexion
+
+            cmd.Parameters.Add("@FolioMovimiento", SqlDbType.Int).Value = FolioMovimiento
+            cmd.Parameters.Add("@AñoMovimiento", SqlDbType.Int).Value = AñoMovimiento
+            cmd.Parameters.Add("@StatusMovimiento", SqlDbType.VarChar).Value = StatusMovimiento
+
+            AbreConexion()
+            filasAfectadas = cmd.ExecuteNonQuery()
+
+            Return filasAfectadas > 0
+        Catch ex As Exception
+            Throw ex
+        Finally
+            CierraConexion()
+            cmd.Dispose()
+        End Try
+    End Function
+
+    Public Overrides Function actualizarTipoMovimiento(FolioMovimiento As Integer,
+                                                       AñoMovimiento As Integer,
+                                                       TipoMovimientoAConciliar As enumTipoMovimientoAConciliar) As Boolean
+        Dim cmd As SqlCommand = Nothing
+        Dim filasAfectadas As Integer
+
+        Try
+            cmd = New SqlCommand()
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.CommandText = "spCBActualizarTipoMovimientoMovimientoAConciliar"
+            cmd.Connection = DataLayer.Conexion
+
+            cmd.Parameters.Add("@FolioMovimiento", SqlDbType.Int).Value = FolioMovimiento
+            cmd.Parameters.Add("@AñoMovimiento", SqlDbType.Int).Value = AñoMovimiento
+            cmd.Parameters.Add("@TipoMovimientoAConciliar", SqlDbType.SmallInt).Value = TipoMovimientoAConciliar
+
+            AbreConexion()
+            filasAfectadas = cmd.ExecuteNonQuery()
+
+            Return filasAfectadas > 0
+        Catch ex As Exception
+            Throw ex
+        Finally
+            CierraConexion()
+            cmd.Dispose()
+        End Try
+    End Function
 
     Public Overrides Sub guardarMovimientoAConciliar(MovimientoAConciliar As MovimientoAConciliar)
         Throw New NotImplementedException()
@@ -6253,7 +6267,7 @@ Friend Class MovimientoAConciliarDatos
                                                           ByVal FechaFin As Date,
                                                           ByVal Cliente As Integer,
                                                           ByVal Monto As Decimal,
-                                                          ByVal SaldoAFavor As Boolean) As DataTable
+                                                          ByVal TipoMovimientoAConciliar As enumTipoMovimientoAConciliar) As DataTable
         Dim da As SqlDataAdapter = Nothing
         Dim dt As DataTable = Nothing
         Dim cmd As SqlCommand = Nothing
@@ -6263,6 +6277,8 @@ Friend Class MovimientoAConciliarDatos
             cmd.CommandType = CommandType.StoredProcedure
             cmd.CommandText = "spCBConsultarMovimientoAConciliar"
             cmd.Connection = DataLayer.Conexion
+
+            cmd.Parameters.Add("@TipoMovimientoAConciliar", SqlDbType.SmallInt).Value = TipoMovimientoAConciliar
 
             If (FechaInicio > Date.MinValue) Then
                 cmd.Parameters.Add("@FInicio", SqlDbType.DateTime).Value = FechaInicio
@@ -6276,9 +6292,9 @@ Friend Class MovimientoAConciliarDatos
             If (Monto > 0) Then
                 cmd.Parameters.Add("@Monto", SqlDbType.Decimal).Value = Monto
             End If
-            If (SaldoAFavor) Then
-                cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Bit).Value = 1
-            End If
+            'If (SaldoAFavor) Then
+            '    cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Bit).Value = 1
+            'End If
 
             da = New SqlDataAdapter(cmd)
             dt = New DataTable()
