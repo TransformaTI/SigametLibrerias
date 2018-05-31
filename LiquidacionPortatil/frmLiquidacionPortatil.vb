@@ -5870,37 +5870,58 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnCapturarCheque_Click(sender As Object, e As EventArgs) Handles btnCapturarCheque.Click
-
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 3)
-        frmSeleTipoCobro.Show()
-
+        frmSeleTipoCobro.MostrarDacion = False
+        If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            Cursor = Cursors.WaitCursor
+            Cursor = Cursors.Default
+        End If
     End Sub
 
     Private Sub btnCapturarTarjeta_Click(sender As Object, e As EventArgs) Handles btnCapturarTarjeta.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 2)
-        frmSeleTipoCobro.Show()
-
+        frmSeleTipoCobro.MostrarDacion = False
+        If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            Cursor = Cursors.WaitCursor
+            Cursor = Cursors.Default
+        End If
     End Sub
 
     Private Sub btnTransferencia_Click(sender As Object, e As EventArgs) Handles btnTransferencia.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 6)
-        frmSeleTipoCobro.Show()
+        frmSeleTipoCobro.MostrarDacion = False
+        If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            Cursor = Cursors.WaitCursor
+            Cursor = Cursors.Default
+        End If
 
     End Sub
 
     Private Sub btnCapturarVale_Click(sender As Object, e As EventArgs) Handles btnCapturarVale.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 1)
-        frmSeleTipoCobro.Show()
+        frmSeleTipoCobro.MostrarDacion = False
+        If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            Cursor = Cursors.WaitCursor
+            Cursor = Cursors.Default
+        End If
     End Sub
 
     Private Sub btnAplicacionAnticipo_Click(sender As Object, e As EventArgs) Handles btnAplicacionAnticipo.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 4)
-        frmSeleTipoCobro.Show()
+        frmSeleTipoCobro.MostrarDacion = False
+        If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            Cursor = Cursors.WaitCursor
+            Cursor = Cursors.Default
+        End If
     End Sub
 
     Private Sub btnPagoEfectivo_Click(sender As Object, e As EventArgs) Handles btnPagoEfectivo.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 0)
-        frmSeleTipoCobro.Show()
+        frmSeleTipoCobro.MostrarDacion = False
+        If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            Cursor = Cursors.WaitCursor
+            Cursor = Cursors.Default
+        End If
     End Sub
 
     Private Sub lblAplicAnticipo_Click(sender As Object, e As EventArgs) Handles lblAplicAnticipotck.Click
