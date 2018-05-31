@@ -6834,7 +6834,7 @@ Public Class CobroDetalladoDatos
         With cmd
             .CommandType = CommandType.StoredProcedure
             .Parameters.Add(New SqlParameter("@AñoCobro", SqlDbType.SmallInt)).Value = AñoCobro
-            .Parameters.Add(New SqlParameter("@Cobro", SqlDbType.Int)).Value = Cobro
+            .Parameters.Add(New SqlParameter("@Cobro", SqlDbType.Int)).Value = DBNull.Value
             .Parameters.Add(New SqlParameter("@Importe", SqlDbType.Money)).Value = Importe
             .Parameters.Add(New SqlParameter("@Impuesto", SqlDbType.Money)).Value = Impuesto
             .Parameters.Add(New SqlParameter("@Total", SqlDbType.Money)).Value = Total
