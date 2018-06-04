@@ -1149,6 +1149,21 @@ Namespace Liquidacion
 
             Return trip
         End Function
+        Public Function spDesarrolladorAgrupador() As DataTable
+            Dim drTrip As SqlDataReader
+            Dim dtDesarrolladorAgrupador As New DataTable()
+            Dim cmd As New SqlCommand("spDesarrolladorAgrupador", GLOBAL_Conexion)
+            cmd.CommandType = CommandType.StoredProcedure
+            Try
+                GLOBAL_Conexion.Open()
+                drTrip = cmd.ExecuteReader()
+                dtDesarrolladorAgrupador.Load(drTrip)
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, "Liquidación portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+            GLOBAL_Conexion.Close()
+            Return dtDesarrolladorAgrupador
+        End Function
 
     End Class
 #End Region

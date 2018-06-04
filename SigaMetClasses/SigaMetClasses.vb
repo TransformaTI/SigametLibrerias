@@ -6867,68 +6867,68 @@ Public Class CobroDetalladoDatos
         MyBase.New()
     End Sub
 
-    Function insertaCobro(AñoCobro As Int16,
+    Function insertaCobro(AñoCobro As Short,
                             Cobro As Integer,
                             Importe As Decimal,
                             Impuesto As Decimal,
                             Total As Decimal,
-                            Referencia As Char,
-                            Banco As Int16,
+                            Referencia As String,
+                            Banco As Short,
                             FAlta As Date,
-                            Status As Char,
+                            Status As String,
                             TipoCobro As Byte,
-                            NumeroCheque As Char,
+                            NumeroCheque As String,
                             FCheque As Date,
-                            NumeroCuenta As Char,
+                            NumeroCuenta As String,
                             Observaciones As String,
                             FDevolucion As Date,
-                            RazonDevCheque As Char,
+                            RazonDevCheque As String,
                             Cliente As Integer,
                             Saldo As Decimal,
-                            Usuario As Char,
+                            Usuario As String,
                             FActualizacion As Date,
                             Folio As Integer,
                             FDeposito As Date,
                             FolioAtt As Integer,
-                            AñoAtt As Int16,
-                            NumeroCuentaDestino As Char,
-                            BancoOrigen As Int16,
+                            AñoAtt As Short,
+                            NumeroCuentaDestino As String,
+                            BancoOrigen As Short,
                             SaldoAFavor As Boolean,
-                            StatusSaldoAFavor As Char,
-                            AñoCobroOrigen As Int16,
+                            StatusSaldoAFavor As String,
+                            AñoCobroOrigen As Short,
                             CobroOrigen As Integer,
                             TPV As Boolean) As Boolean
         Dim cmd As New SqlCommand("spLiq3AltaCobro")
         With cmd
             .CommandType = CommandType.StoredProcedure
             .Parameters.Add(New SqlParameter("@AñoCobro", SqlDbType.SmallInt)).Value = AñoCobro
-            .Parameters.Add(New SqlParameter("@Cobro", SqlDbType.Int)).Value = Cobro
+            .Parameters.Add(New SqlParameter("@Cobro", SqlDbType.Int)).Value = DBNull.Value
             .Parameters.Add(New SqlParameter("@Importe", SqlDbType.Money)).Value = Importe
             .Parameters.Add(New SqlParameter("@Impuesto", SqlDbType.Money)).Value = Impuesto
             .Parameters.Add(New SqlParameter("@Total", SqlDbType.Money)).Value = Total
-            .Parameters.Add(New SqlParameter("@Referencia", SqlDbType.Char)).Value = Referencia
+            .Parameters.Add(New SqlParameter("@Referencia", SqlDbType.Char, 20)).Value = Referencia
             .Parameters.Add(New SqlParameter("@Banco", SqlDbType.SmallInt)).Value = IIf(Banco = 0, SqlInt16.Null, Banco)
             .Parameters.Add(New SqlParameter("@FAlta", SqlDbType.DateTime)).Value = FAlta
-            .Parameters.Add(New SqlParameter("@Status", SqlDbType.Char)).Value = Status
+            .Parameters.Add(New SqlParameter("@Status", SqlDbType.Char, 20)).Value = Status
             .Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.TinyInt)).Value = TipoCobro
-            .Parameters.Add(New SqlParameter("@NumeroCheque", SqlDbType.Char)).Value = IIf(NumeroCheque = "", SqlString.Null, NumeroCheque)
-            .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = IIf(FCheque = Date.MinValue, SqlString.Null, NumeroCheque)
-            .Parameters.Add(New SqlParameter("@NumeroCuenta", SqlDbType.Char)).Value = NumeroCuenta
+            .Parameters.Add(New SqlParameter("@NumeroCheque", SqlDbType.Char, 20)).Value = IIf(NumeroCheque = "", SqlString.Null, NumeroCheque)
+            .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = IIf(FCheque = Date.MinValue, SqlString.Null, Date.Now)
+            .Parameters.Add(New SqlParameter("@NumeroCuenta", SqlDbType.Char, 20)).Value = NumeroCuenta
             .Parameters.Add(New SqlParameter("@Observaciones", SqlDbType.VarChar)).Value = Observaciones
-            .Parameters.Add(New SqlParameter("@FDevolucion", SqlDbType.DateTime)).Value = IIf(FCheque = Date.MinValue, SqlString.Null, NumeroCheque)
-            .Parameters.Add(New SqlParameter("@RazonDevCheque", SqlDbType.Char)).Value = RazonDevCheque
+            .Parameters.Add(New SqlParameter("@FDevolucion", SqlDbType.DateTime)).Value = IIf(FCheque = Date.MinValue, SqlString.Null, Date.Now)
+            .Parameters.Add(New SqlParameter("@RazonDevCheque", SqlDbType.Char, 20)).Value = RazonDevCheque
             .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = IIf(Cliente = 0, SqlInt32.Null, Cliente)
             .Parameters.Add(New SqlParameter("@Saldo", SqlDbType.Money)).Value = Saldo
-            .Parameters.Add(New SqlParameter("@Usuario", SqlDbType.Char)).Value = Usuario
+            .Parameters.Add(New SqlParameter("@Usuario", SqlDbType.Char, 20)).Value = Usuario
             .Parameters.Add(New SqlParameter("@FActualizacion", SqlDbType.DateTime)).Value = FActualizacion
             .Parameters.Add(New SqlParameter("@Folio", SqlDbType.Int)).Value = IIf(Folio = 0, SqlInt32.Null, Folio)
             .Parameters.Add(New SqlParameter("@FDeposito", SqlDbType.DateTime)).Value = IIf(FDeposito = Date.MinValue, SqlString.Null, FDeposito)
             .Parameters.Add(New SqlParameter("@FolioAtt", SqlDbType.Int)).Value = IIf(FolioAtt = 0, SqlInt32.Null, FolioAtt)
             .Parameters.Add(New SqlParameter("@AñoAtt", SqlDbType.SmallInt)).Value = IIf(AñoAtt = 0, SqlInt16.Null, AñoAtt)
-            .Parameters.Add(New SqlParameter("@NumeroCuentaDestino", SqlDbType.Char)).Value = NumeroCuentaDestino
+            .Parameters.Add(New SqlParameter("@NumeroCuentaDestino", SqlDbType.Char, 20)).Value = NumeroCuentaDestino
             .Parameters.Add(New SqlParameter("@BancoOrigen", SqlDbType.SmallInt)).Value = IIf(BancoOrigen = 0, SqlInt16.Null, BancoOrigen)
             .Parameters.Add(New SqlParameter("@SaldoAFavor", SqlDbType.Bit)).Value = SaldoAFavor
-            .Parameters.Add(New SqlParameter("@StatusSaldoAFavor", SqlDbType.Char)).Value = StatusSaldoAFavor
+            .Parameters.Add(New SqlParameter("@StatusSaldoAFavor", SqlDbType.Char, 20)).Value = StatusSaldoAFavor
             .Parameters.Add(New SqlParameter("@AñoCobroOrigen", SqlDbType.SmallInt)).Value = IIf(AñoCobroOrigen = 0, SqlInt16.Null, AñoCobroOrigen)
             .Parameters.Add(New SqlParameter("@CobroOrigen", SqlDbType.Int)).Value = IIf(CobroOrigen = 0, SqlInt16.Null, CobroOrigen)
             .Parameters.Add(New SqlParameter("@TPV", SqlDbType.Bit)).Value = TPV

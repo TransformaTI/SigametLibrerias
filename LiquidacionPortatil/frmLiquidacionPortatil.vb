@@ -198,6 +198,7 @@ Public Class frmLiquidacionPortatil
     Friend WithEvents lblTransferElectck As Label
     Friend WithEvents lblTarjDebCred As Label
     Friend WithEvents lblTarjDebCredtck As Label
+    Friend WithEvents Button2 As Button
 
     'Indica si la ruta se encuentra en venta especial
     Private _RutaEspecial As Boolean = False
@@ -406,6 +407,7 @@ Public Class frmLiquidacionPortatil
         Me.btnTransferencia = New System.Windows.Forms.Button()
         Me.btnCapturarTarjeta = New System.Windows.Forms.Button()
         Me.btnCapturarCheque = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.grbInformacion.SuspendLayout()
         Me.grbDetalleProducto.SuspendLayout()
         CType(Me.grdDetalle, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -696,6 +698,7 @@ Public Class frmLiquidacionPortatil
         '
         'grbDetalleProducto
         '
+        Me.grbDetalleProducto.Controls.Add(Me.Button2)
         Me.grbDetalleProducto.Controls.Add(Me.btnDetalle)
         Me.grbDetalleProducto.Controls.Add(Me.lblTotalKilos)
         Me.grbDetalleProducto.Controls.Add(Me.lblKilosVendidos)
@@ -1720,8 +1723,17 @@ Public Class frmLiquidacionPortatil
         Me.btnCapturarCheque.Name = "btnCapturarCheque"
         Me.btnCapturarCheque.Size = New System.Drawing.Size(126, 23)
         Me.btnCapturarCheque.TabIndex = 0
-        Me.btnCapturarCheque.Text = "CapturarCheque"
+        Me.btnCapturarCheque.Text = "Capturar Cheque"
         Me.btnCapturarCheque.UseVisualStyleBackColor = True
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(216, 275)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 23)
+        Me.Button2.TabIndex = 102
+        Me.Button2.Text = "Button2"
+        Me.Button2.UseVisualStyleBackColor = True
         '
         'frmLiquidacionPortatil
         '
@@ -5858,37 +5870,58 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnCapturarCheque_Click(sender As Object, e As EventArgs) Handles btnCapturarCheque.Click
-
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 3)
-        Me.ShowDialog(frmSeleTipoCobro)
-
+        frmSeleTipoCobro.MostrarDacion = False
+        If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            Cursor = Cursors.WaitCursor
+            Cursor = Cursors.Default
+        End If
     End Sub
 
     Private Sub btnCapturarTarjeta_Click(sender As Object, e As EventArgs) Handles btnCapturarTarjeta.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 2)
-        Me.ShowDialog(frmSeleTipoCobro)
-
+        frmSeleTipoCobro.MostrarDacion = False
+        If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            Cursor = Cursors.WaitCursor
+            Cursor = Cursors.Default
+        End If
     End Sub
 
     Private Sub btnTransferencia_Click(sender As Object, e As EventArgs) Handles btnTransferencia.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 6)
-        Me.ShowDialog(frmSeleTipoCobro)
+        frmSeleTipoCobro.MostrarDacion = False
+        If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            Cursor = Cursors.WaitCursor
+            Cursor = Cursors.Default
+        End If
 
     End Sub
 
     Private Sub btnCapturarVale_Click(sender As Object, e As EventArgs) Handles btnCapturarVale.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 1)
-        Me.ShowDialog(frmSeleTipoCobro)
+        frmSeleTipoCobro.MostrarDacion = False
+        If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            Cursor = Cursors.WaitCursor
+            Cursor = Cursors.Default
+        End If
     End Sub
 
     Private Sub btnAplicacionAnticipo_Click(sender As Object, e As EventArgs) Handles btnAplicacionAnticipo.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 4)
-        Me.ShowDialog(frmSeleTipoCobro)
+        frmSeleTipoCobro.MostrarDacion = False
+        If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            Cursor = Cursors.WaitCursor
+            Cursor = Cursors.Default
+        End If
     End Sub
 
     Private Sub btnPagoEfectivo_Click(sender As Object, e As EventArgs) Handles btnPagoEfectivo.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 0)
-        Me.ShowDialog(frmSeleTipoCobro)
+        frmSeleTipoCobro.MostrarDacion = False
+        If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            Cursor = Cursors.WaitCursor
+            Cursor = Cursors.Default
+        End If
     End Sub
 
     Private Sub lblAplicAnticipo_Click(sender As Object, e As EventArgs) Handles lblAplicAnticipotck.Click
@@ -5897,6 +5930,18 @@ Public Class frmLiquidacionPortatil
 
     Private Sub lblVales_Click(sender As Object, e As EventArgs) Handles lblVales.Click
 
+    End Sub
+
+    Private Sub btnCancelarPago_Click(sender As Object, e As EventArgs) Handles btnCancelarPago.Click
+        Close()
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Dim DetalleGrid As DataTable
+        Dim oLiquidacionPedido As Liquidacion.cLiquidacion
+        oLiquidacionPedido = New Liquidacion.cLiquidacion(0, 0, 0, 0)
+        DetalleGrid = oLiquidacionPedido.spDesarrolladorAgrupador()
+        grdDetalle.DataSource = DetalleGrid
     End Sub
 
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
