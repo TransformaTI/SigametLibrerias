@@ -1985,6 +1985,7 @@ Public Class cCobranza
 #Region "Cierra"
     Public Sub Cierra(ByVal Cobranza As Integer,
                       ByVal ListaDocumentos As ArrayList,
+                      ByVal CargoTarjeta As CargoTarjeta,
              Optional ByVal MovimientoCajaClave As String = "")
 
         'MovimientoCajaClave - Nos sirve para relacionar la Cobranza con su MovimientoCaja
@@ -2016,6 +2017,12 @@ Public Class cCobranza
             '    cmd.CommandType = CommandType.Text
             '    cmd.ExecuteNonQuery()
             'End If
+
+            Dim cmdCT As New SqlCommand("CargoTarjeta_AplicaCobro", DataLayer.Conexion, Transaccion)
+            cmdCT.CommandType = CommandType.StoredProcedure
+            cmdCT.Parameters.Add("@Año", SqlDbType.Int).Value = CargoTarjeta.Año
+            cmdCT.Parameters.Add("@Folio", SqlDbType.Int).Value = CargoTarjeta.Folio
+            cmdCT.ExecuteNonQuery()
 
             Transaccion.Commit()
         Catch ex As Exception
