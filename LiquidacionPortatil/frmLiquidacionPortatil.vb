@@ -5482,6 +5482,7 @@ Public Class frmLiquidacionPortatil
         If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
             MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidación," + Chr(13) + "Favor de ajustar la fecha y hora conforme a la operación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
+
         End If
 
         If _BoletinEnLineaCamion = False Then
@@ -5585,7 +5586,6 @@ Public Class frmLiquidacionPortatil
                 cboZEconomica.SelectedIndex = 0
                 cbxAplicaDescuento.Checked = False
                 cbxAplicaDescuento.Enabled = False
-
                 TxtCliente.Clear()
                 lblNombreCliente.Text = ""
                 _ClienteNormal = 0
@@ -5934,6 +5934,8 @@ Public Class frmLiquidacionPortatil
         Dim DetalleGrid As DataTable
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
         DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+
         grdDetalle.DataSource = DetalleGrid
+
     End Sub
 End Class
