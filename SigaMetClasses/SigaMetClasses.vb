@@ -1985,6 +1985,47 @@ Public Class cCobranza
 #Region "Cierra"
     Public Sub Cierra(ByVal Cobranza As Integer,
                       ByVal ListaDocumentos As ArrayList,
+             Optional ByVal MovimientoCajaClave As String = "")
+
+        'MovimientoCajaClave - Nos sirve para relacionar la Cobranza con su MovimientoCaja
+        'Esta función pudo haber quedado en el alta del MovimientoCaja, pero creo que es 
+        'más significativo que esté aquí.
+
+        AbreConexion()
+        IniciaTransaccion()
+
+        Dim oPedCob As cPedidoCobranza
+        Try
+            For Each oPedCob In ListaDocumentos
+                oPedCob.Gestion(oPedCob.AñoPed, oPedCob.Celula, oPedCob.Pedido, oPedCob.Cobranza,
+                                oPedCob.Observaciones, oPedCob.DocumentoGestion,
+                                oPedCob.FCompromisoGestion, oPedCob.GestionFinal)
+            Next
+
+            Dim cmd As New SqlCommand("spCYCCobranzaCierra", DataLayer.Conexion, Transaccion)
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.Add("@Cobranza", SqlDbType.Int).Value = Cobranza
+            If MovimientoCajaClave <> "" Then
+                cmd.Parameters.Add("@Clave", SqlDbType.VarChar, 20).Value = MovimientoCajaClave
+            End If
+            cmd.ExecuteNonQuery()
+
+            'If MovimientoCajaClave <> "" Then
+            '    strQuery = "UPDATE MovimientoCaja SET Cobranza = " & Cobranza.ToString & " WHERE Clave = '" & MovimientoCajaClave & "'"
+            '    cmd.CommandText = strQuery
+            '    cmd.CommandType = CommandType.Text
+            '    cmd.ExecuteNonQuery()
+            'End If
+
+            Transaccion.Commit()
+        Catch ex As Exception
+            Transaccion.Rollback()
+            Throw ex
+        End Try
+    End Sub
+
+    Public Sub Cierra(ByVal Cobranza As Integer,
+                      ByVal ListaDocumentos As ArrayList,
                       ByVal CargoTarjeta As CargoTarjeta,
              Optional ByVal MovimientoCajaClave As String = "")
 
