@@ -198,7 +198,6 @@ Public Class frmLiquidacionPortatil
     Friend WithEvents lblTransferElectck As Label
     Friend WithEvents lblTarjDebCred As Label
     Friend WithEvents lblTarjDebCredtck As Label
-    Friend WithEvents Button2 As Button
 
     'Indica si la ruta se encuentra en venta especial
     Private _RutaEspecial As Boolean = False
@@ -407,7 +406,6 @@ Public Class frmLiquidacionPortatil
         Me.btnTransferencia = New System.Windows.Forms.Button()
         Me.btnCapturarTarjeta = New System.Windows.Forms.Button()
         Me.btnCapturarCheque = New System.Windows.Forms.Button()
-        Me.Button2 = New System.Windows.Forms.Button()
         Me.grbInformacion.SuspendLayout()
         Me.grbDetalleProducto.SuspendLayout()
         CType(Me.grdDetalle, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -698,7 +696,6 @@ Public Class frmLiquidacionPortatil
         '
         'grbDetalleProducto
         '
-        Me.grbDetalleProducto.Controls.Add(Me.Button2)
         Me.grbDetalleProducto.Controls.Add(Me.btnDetalle)
         Me.grbDetalleProducto.Controls.Add(Me.lblTotalKilos)
         Me.grbDetalleProducto.Controls.Add(Me.lblKilosVendidos)
@@ -1725,15 +1722,6 @@ Public Class frmLiquidacionPortatil
         Me.btnCapturarCheque.TabIndex = 0
         Me.btnCapturarCheque.Text = "Capturar Cheque"
         Me.btnCapturarCheque.UseVisualStyleBackColor = True
-        '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(216, 275)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(75, 23)
-        Me.Button2.TabIndex = 102
-        Me.Button2.Text = "Button2"
-        Me.Button2.UseVisualStyleBackColor = True
         '
         'frmLiquidacionPortatil
         '
@@ -5494,6 +5482,7 @@ Public Class frmLiquidacionPortatil
         If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
             MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidación," + Chr(13) + "Favor de ajustar la fecha y hora conforme a la operación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
+
         End If
 
         If _BoletinEnLineaCamion = False Then
@@ -5591,12 +5580,12 @@ Public Class frmLiquidacionPortatil
     Private Sub VerificarDatos()
         If VerificaDatos() Then
             If VerificaDatosClienteNormal() Then
-                CargaGrid()
+                'CargaGrid()
+                cargarRemisiones()
                 cboTipoCobro.SelectedIndex = 0
                 cboZEconomica.SelectedIndex = 0
                 cbxAplicaDescuento.Checked = False
                 cbxAplicaDescuento.Enabled = False
-
                 TxtCliente.Clear()
                 lblNombreCliente.Text = ""
                 _ClienteNormal = 0
@@ -5936,15 +5925,17 @@ Public Class frmLiquidacionPortatil
         Close()
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Dim DetalleGrid As DataTable
-        Dim oLiquidacionPedido As Liquidacion.cLiquidacion
-        oLiquidacionPedido = New Liquidacion.cLiquidacion(0, 0, 0, 0)
-        DetalleGrid = oLiquidacionPedido.spDesarrolladorAgrupador()
-        grdDetalle.DataSource = DetalleGrid
-    End Sub
 
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+
+    End Sub
+
+    Public Sub cargarRemisiones()
+        Dim DetalleGrid As DataTable
+        Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
+        DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+
+        grdDetalle.DataSource = DetalleGrid
 
     End Sub
 End Class

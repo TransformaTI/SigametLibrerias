@@ -6997,6 +6997,31 @@ Public Class CobroDetalladoDatos
     End Function
 
 End Class
+
+Public Class LiquidacionPortatil
+
+    Public Function cargarRemisionesPortatilALiquidar(ByVal Folio As Integer, ByVal Orden As Integer) As DataTable
+
+        Dim cmd As New SqlCommand()
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "spPTLMuestraRemisionesPortatilALiquidar"
+        cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio
+        cmd.Parameters.Add("@Orden", SqlDbType.Int).Value = Orden
+        cmd.Connection = DataLayer.Conexion
+        Dim da As New SqlDataAdapter(cmd)
+        Dim dt As New DataTable("Remision")
+
+        Try
+            da.Fill(dt)
+            Return dt
+        Catch ex As Exception
+            Throw ex
+        Finally
+            da.Dispose()
+            da = Nothing
+        End Try
+    End Function
+End Class
 #End Region
 
 #Region "Estructuras"
