@@ -4362,6 +4362,85 @@ Public Class AltaPagoTarjeta
 End Class
 #End Region
 
+#Region "MovimientoAConciliarCobro"
+Public Class cMovimientoAConciliarCobro
+#Region "Variables"
+    Private _Cliente As Integer
+    Private _StatusMovimiento As String
+    Private _FolioMovimiento As Integer
+    Private _AñoMovimiento As Integer
+#End Region
+
+#Region "Propiedades"
+    Public Property Cliente() As Integer
+        Get
+            Return _Cliente
+        End Get
+        Set(ByVal Value As Integer)
+            _Cliente = Value
+        End Set
+    End Property
+    Public Property StatusMovimiento() As String
+        Get
+            Return _StatusMovimiento
+        End Get
+        Set(ByVal Value As String)
+            _StatusMovimiento = Value
+        End Set
+    End Property
+
+    Public Property AñoMovimiento() As Integer
+        Get
+            Return _AñoMovimiento
+        End Get
+        Set(ByVal Value As Integer)
+            _AñoMovimiento = Value
+        End Set
+    End Property
+
+    Public Property FolioMovimiento() As Integer
+        Get
+            Return _FolioMovimiento
+        End Get
+        Set(ByVal Value As Integer)
+            _FolioMovimiento = Value
+        End Set
+    End Property
+
+#End Region
+
+#Region "Funciones"
+
+    Public Function ConsultarSaldoAnticipo(ByVal Cliente As Integer,
+                            ByVal StatusMovimiento As String,
+                            ByVal FolioMovimiento As Boolean,
+                            ByVal AñoMovimiento As Integer) As DataTable
+        Dim cmd As New SqlCommand("spLIQ2ConsultaSaldosAFavor")
+        With cmd
+            .CommandType = CommandType.StoredProcedure
+            .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = Cliente
+            .Parameters.Add(New SqlParameter("@StatusMovimiento", SqlDbType.VarChar, 20)).Value = StatusMovimiento
+            .Parameters.Add(New SqlParameter("@FolioMovimiento", SqlDbType.Int)).Value = FolioMovimiento
+            .Parameters.Add(New SqlParameter("@AñoMovimiento", SqlDbType.Int)).Value = AñoMovimiento
+        End With
+
+        Try
+            AbreConexion()
+            Dim da As New SqlDataAdapter(strQuery, DataLayer.Conexion)
+            Dim dt As New DataTable()
+            da.Fill(dt)
+            Return dt
+        Catch ex As Exception
+            Throw ex
+        Finally
+            CierraConexion()
+        End Try
+
+    End Function
+#End Region
+#End Region
+End Class
+
 #Region "TarjetaCredito"
 Public Class cTarjetaCredito
     Public Sub AltaModifica(ByVal Cliente As Integer,
