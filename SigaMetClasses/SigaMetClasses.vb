@@ -9610,6 +9610,151 @@ Namespace Combos
     End Class
 #End Region
 
+#Region "ComboProveedor"
+    Public Class ComboProveedor
+        Inherits ComboBox
+        Private _ValeProveedor As Integer
+        Private _Nombre As String
+        Private _Status As String
+
+
+
+        Public Sub New()
+            MyBase.New()
+            Me.DropDownStyle = ComboBoxStyle.DropDownList
+
+        End Sub
+
+#Region "Propiedades"
+        Public Property ValeProveedor() As Integer
+            Get
+                Return _ValeProveedor
+            End Get
+            Set(ByVal Value As Integer)
+                _ValeProveedor = Value
+            End Set
+        End Property
+
+        Public Property Nombre() As String
+            Get
+                Return _Nombre
+            End Get
+            Set(ByVal Value As String)
+                _Nombre = Value
+            End Set
+        End Property
+
+        Public Property Status() As String
+            Get
+                Return _Status
+            End Get
+            Set(ByVal Value As String)
+                _Status = Value
+            End Set
+        End Property
+
+
+#End Region
+
+
+        Public Sub CargaDatos()
+            Me.DataSource = Nothing
+            Me.Items.Clear()
+            strQuery = "spLiqConsultaValeProveedor"
+            da = New SqlDataAdapter(strQuery, DataLayer.Conexion)
+            dtDatos = New DataTable("Proveedor")
+            da.Fill(dtDatos)
+            With Me
+                .DataSource = dtDatos
+                .ValueMember = "ValeProveedor"
+                .DisplayMember = "Nombre"
+            End With
+
+            'Con estas líneas hago el binding de la columna a la propiedad
+            Me.DataBindings.Clear()
+            Me.DataBindings.Add("ValeProveedor", dtDatos, "ValeProveedor")
+            Me.DataBindings.Add("Nombre", dtDatos, "Nombre")
+
+        End Sub
+    End Class
+#End Region
+
+
+#Region "ComboValeTipo"
+    Public Class ComboValeTipo
+        Inherits ComboBox
+        Private _ValeTipo As Integer
+        Private _Descripcion As String
+        Private _Status As String
+
+
+
+        Public Sub New()
+            MyBase.New()
+            Me.DropDownStyle = ComboBoxStyle.DropDownList
+
+        End Sub
+
+#Region "Propiedades"
+        Public Property ValeTipo() As Integer
+            Get
+                Return _ValeTipo
+            End Get
+            Set(ByVal Value As Integer)
+                _ValeTipo = Value
+            End Set
+        End Property
+
+        Public Property Descripcion() As String
+            Get
+                Return _Descripcion
+            End Get
+            Set(ByVal Value As String)
+                _Descripcion = Value
+            End Set
+        End Property
+
+        Public Property Status() As String
+            Get
+                Return _Status
+            End Get
+            Set(ByVal Value As String)
+                _Status = Value
+            End Set
+        End Property
+
+
+#End Region
+
+
+        Public Sub CargaDatos()
+            Me.DataSource = Nothing
+            Me.Items.Clear()
+            strQuery = "spLiqConsultaValeTipo"
+            da = New SqlDataAdapter(strQuery, DataLayer.Conexion)
+            dtDatos = New DataTable("ValeTipo")
+            da.Fill(dtDatos)
+            With Me
+                .DataSource = dtDatos
+                .ValueMember = "ValeTipo"
+                .DisplayMember = "Descripcion"
+            End With
+
+            'Con estas líneas hago el binding de la columna a la propiedad
+            Me.DataBindings.Clear()
+            Me.DataBindings.Add("ValeTipo", dtDatos, "ValeTipo")
+            Me.DataBindings.Add("Descripcion", dtDatos, "Descripcion")
+
+        End Sub
+    End Class
+#End Region
+
+
+
+
+
+
+
 End Namespace
 
 
