@@ -9680,7 +9680,7 @@ Namespace Combos
 #End Region
 
 
-#Region "ComboValeTipo"
+#Region "ComboValeTipoo"
     Public Class ComboValeTipo
         Inherits ComboBox
         Private _ValeTipo As Integer
