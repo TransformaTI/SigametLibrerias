@@ -5580,7 +5580,7 @@ Public Class frmLiquidacionPortatil
     Private Sub VerificarDatos()
         If VerificaDatos() Then
             If VerificaDatosClienteNormal() Then
-                'CargaGrid()
+                ' CargaGrid()
                 cargarRemisiones()
                 cboTipoCobro.SelectedIndex = 0
                 cboZEconomica.SelectedIndex = 0
@@ -5933,8 +5933,12 @@ Public Class frmLiquidacionPortatil
     Public Sub cargarRemisiones()
         Dim DetalleGrid As DataTable
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
-        DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+        '        DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+        DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(119151, 90632)
+        For Each p As DataRow In DetalleGrid.Rows
 
+            MessageBox.Show(CType(p("Remision"), String))
+        Next
         grdDetalle.DataSource = DetalleGrid
 
     End Sub
