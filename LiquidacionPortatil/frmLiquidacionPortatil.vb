@@ -153,8 +153,6 @@ Public Class frmLiquidacionPortatil
 
     Private _obligaInsercionRemision As Boolean
 
-    Private saldo As Decimal
-
     Private _Liquidado As Boolean = False
     Friend WithEvents grpCobroEfectivo As GroupBox
     Friend WithEvents capEfectivo As CapturaEfectivo.Efectivo
@@ -5582,7 +5580,7 @@ Public Class frmLiquidacionPortatil
     Private Sub VerificarDatos()
         If VerificaDatos() Then
             If VerificaDatosClienteNormal() Then
-                ' CargaGrid()
+                'CargaGrid()
                 cargarRemisiones()
                 cboTipoCobro.SelectedIndex = 0
                 cboZEconomica.SelectedIndex = 0
@@ -5929,20 +5927,13 @@ Public Class frmLiquidacionPortatil
 
 
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
-
-    End Sub
-
-    Private Sub grdDetalle_DoubleClick(sender As Object, e As EventArgs) Handles grdDetalle.DoubleClick
-        Dim i As Integer
-        i = grdDetalle.CurrentRowIndex
-        MessageBox.Show(grdDetalle.Item(i, 7).ToString)
-        saldo = CDec(grdDetalle.Item(i, 7).ToString)
+        cargarRemisiones()
     End Sub
 
     Public Sub cargarRemisiones()
         Dim DetalleGrid As DataTable
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
-        '        DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+        'DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
         DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(119151, 90632)
         grdDetalle.DataSource = DetalleGrid
 
