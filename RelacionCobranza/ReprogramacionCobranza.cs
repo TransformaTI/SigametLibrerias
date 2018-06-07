@@ -11,7 +11,7 @@ namespace RelacionCobranza
 	/// <summary>
 	/// Summary description for ReprogramacionCobranza.
 	/// </summary>
-	public class ReprogramacionCobranza : System.Windows.Forms.Form
+	public class ReprogramacionCobranza :    System.Windows.Forms.Form
 	{
 		private DocumentosBSR.Documento txtDocumento;
 		/// <summary>
@@ -45,10 +45,10 @@ namespace RelacionCobranza
 		private System.Windows.Forms.Label lbEstatus;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.DateTimePicker dtpFCompromiso;
+        private string _URLGateway;
+        private ReprogramacionPedido _datos;
 
-		private ReprogramacionPedido _datos;
-
-		public ReprogramacionCobranza(string User)
+		public ReprogramacionCobranza(string User, string  URLGateway  = "")
 		{
 			//
 			// Required for Windows Form Designer support
@@ -60,7 +60,9 @@ namespace RelacionCobranza
 			//
 
 			_usuario = User;
-		}
+            _URLGateway = URLGateway;
+
+        }
 
 		/// <summary>
 		/// Clean up any resources being used.
@@ -401,8 +403,15 @@ namespace RelacionCobranza
 				lbSaldo.Text = _datos.Saldo.ToString("C");
 				lbTotal.Text = _datos.Total.ToString("C");
 
-				lbCliente.Text = _datos.Cliente.ToString().Trim() + " - " + _datos.NombreCliente.Trim();
-				lbFCargo.Text = _datos.FCargo.ToShortDateString();
+                if (string.IsNullOrEmpty(_URLGateway))
+                {
+                    lbCliente.Text = _datos.Cliente.ToString().Trim() + " - " + _datos.NombreCliente.Trim();
+                }
+                else
+                {
+                    lbCliente.Text = _datos.Cliente.ToString().Trim() + " - " + ObtenerNombreGateway(_datos.Cliente);
+                }
+                lbFCargo.Text = _datos.FCargo.ToShortDateString();
 
 				_datos.ConsultaUltimaCobranza(_datos.Celula, _datos.AñoPed, _datos.Pedido);
 
@@ -436,6 +445,31 @@ namespace RelacionCobranza
 					this.Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
+        private string ObtenerNombreGateway(int aCliente)
+        {
+            RTGMGateway.RTGMGateway oGateway;
+            RTGMGateway.SolicitudGateway oSolicitud;
+            RTGMCore.DireccionEntrega oDireccionEntrega;
+            string nombre = string.Empty;
+
+            if (!string.IsNullOrEmpty(_URLGateway))
+            {
+                oGateway = new RTGMGateway.RTGMGateway();
+                oSolicitud = new RTGMGateway.SolicitudGateway();
+                oGateway.URLServicio = _URLGateway;
+                oSolicitud.Fuente = RTGMCore.Fuente.CRM;
+                oSolicitud.IDCliente = aCliente;
+                oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud);
+                if (oDireccionEntrega != null)
+                {
+                    nombre = oDireccionEntrega.Nombre.Trim();
+                }
+
+            }
+            return nombre;
+        }
+
 
 		private void clean()
 		{
