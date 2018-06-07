@@ -5927,14 +5927,14 @@ Public Class frmLiquidacionPortatil
 
 
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
-
+        cargarRemisiones()
     End Sub
 
     Public Sub cargarRemisiones()
         Dim DetalleGrid As DataTable
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
-        DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
-
+        'DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+        DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(119151, 90632)
         grdDetalle.DataSource = DetalleGrid
 
     End Sub
