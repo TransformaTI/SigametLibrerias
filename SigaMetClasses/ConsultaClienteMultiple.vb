@@ -13,7 +13,7 @@ Public Class frmConsultaClienteMultiple
     Private _TotalSaldo, _TotalSaldoCartera As Decimal
     Private _TotalLitros, _TotalLitrosCartera As Decimal 'Modificado 10/09/2004
     Private _LinkQueja As Boolean
-
+    Private _URLGateway As String
     Private _ImporteAbono As Decimal
     'Importe de los abonos originales
     Private _ImporteAbonoOriginal As Decimal
@@ -651,23 +651,25 @@ Public Class frmConsultaClienteMultiple
 
 #End Region
 
-    Public Sub New(ByVal Cliente As Integer, _
-                   ByVal PedidosAbonados As ArrayList, _
-                   ByVal AbonosMovimiento As System.Windows.Forms.ListBox, _
-                   ByVal ImporteAbono As Decimal, _
-                   ByVal CalculoAutomatico As Boolean, _
-                   ByVal AbonoCarteraEspecial As Boolean, _
-                   ByVal AbonoEdificiosRestringido As Boolean, _
-                   ByVal AbonoEdificiosUsuario As Boolean, _
-          Optional ByVal Usuario As String = "", _
-          Optional ByVal SoloDocumentosACredito As Boolean = False, _
-          Optional ByVal SoloDocumentosSurtidos As Boolean = True, _
-          Optional ByVal PermiteSeleccionarDocumento As Boolean = False, _
-          Optional ByVal DSCatalogos As DataSet = Nothing)
+    Public Sub New(ByVal Cliente As Integer,
+                   ByVal PedidosAbonados As ArrayList,
+                   ByVal AbonosMovimiento As System.Windows.Forms.ListBox,
+                   ByVal ImporteAbono As Decimal,
+                   ByVal CalculoAutomatico As Boolean,
+                   ByVal AbonoCarteraEspecial As Boolean,
+                   ByVal AbonoEdificiosRestringido As Boolean,
+                   ByVal AbonoEdificiosUsuario As Boolean,
+          Optional ByVal Usuario As String = "",
+          Optional ByVal SoloDocumentosACredito As Boolean = False,
+          Optional ByVal SoloDocumentosSurtidos As Boolean = True,
+          Optional ByVal PermiteSeleccionarDocumento As Boolean = False,
+          Optional ByVal DSCatalogos As DataSet = Nothing,
+                    Optional ByVal URLGateway As String = "")
 
         MyBase.New()
         InitializeComponent()
 
+        _URLGateway = URLGateway
         _Cliente = Cliente
         _Usuario = Usuario
         _SoloCreditos = SoloDocumentosACredito
@@ -716,17 +718,34 @@ Public Class frmConsultaClienteMultiple
         Dim dtCliente As DataTable
         Dim dr As DataRow
 
+
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+
         Try
             Cursor = Cursors.WaitCursor
-            dsDatosCliente = oCliente.ConsultaDatosCliente(Cliente)
-            dtCliente = dsDatosCliente.Tables("Cliente")
+            If String.IsNullOrEmpty(_URLGateway) Then
+                dsDatosCliente = oCliente.ConsultaDatosCliente(Cliente)
+                dtCliente = dsDatosCliente.Tables("Cliente")
+                For Each dr In dtCliente.Rows
+                    lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("Nombre"), String)
+                    lblDireccion.Text = CType(dr("DireccionCompleta"), String)
+                Next
+            Else
+                oGateway = New RTGMGateway.RTGMGateway()
+                oSolicitud = New RTGMGateway.SolicitudGateway()
+                oGateway.URLServicio = _URLGateway
+                oSolicitud.Fuente = RTGMCore.Fuente.CRM
+                oSolicitud.IDCliente = Cliente
+                oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+                If Not IsNothing(oDireccionEntrega) Then
+                    lblCliente.Text = oDireccionEntrega.IDDireccionEntrega & " " & oDireccionEntrega.Nombre.Trim()
+                    lblDireccion.Text = oDireccionEntrega.DireccionCompleta.Trim()
+                End If
+            End If
 
-            For Each dr In dtCliente.Rows
-                lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("Nombre"), String)
-                lblDireccion.Text = CType(dr("DireccionCompleta"), String)
-            Next
-
-            consultarPedidos(Cliente, SoloPedidosCredito, SoloPedidosSurtidos)
+                consultarPedidos(Cliente, SoloPedidosCredito, SoloPedidosSurtidos)
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Consulta de cliente", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally

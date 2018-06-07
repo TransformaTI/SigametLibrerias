@@ -16,6 +16,7 @@ Public Class frmConsultaCliente
     Private _TotalLitros, _TotalLitrosCartera As Decimal 'Modificado 10/09/2004
     Private _LinkQueja As Boolean           '20070622#CFSL001 Anexe este dato para no ver la etiqueta que llama las quejas
     Private _URLGateway As String
+    Private _URLParada As String
 
     Private _Fecha As String
     Private _Litro As Decimal
@@ -1802,7 +1803,8 @@ Public Class frmConsultaCliente
           Optional ByVal PermiteCambioCtePadre As Boolean = False,
           Optional ByVal DSCatalogos As DataSet = Nothing,
           Optional ByVal LinkQueja As Boolean = True,
-          Optional ByVal URLGateway As String = "")
+          Optional ByVal URLGateway As String = ""
+                    )
 
         MyBase.New()
         InitializeComponent()
@@ -1812,6 +1814,9 @@ Public Class frmConsultaCliente
         _SoloSurtidos = SoloDocumentosSurtidos
         _SeleccionPedidoReferencia = PermiteSeleccionarDocumento
         _URLGateway = URLGateway
+
+
+
 
         _CambioEmpleadoNomina = PermiteCambioEmpleadoNomina
         _CambioClientePadre = PermiteCambioCtePadre
@@ -1861,6 +1866,7 @@ Public Class frmConsultaCliente
         MyBase.New()
         _Cliente = Cliente
         _URLGateway = URLGateway
+
 
         InitializeComponent()
 
@@ -2484,6 +2490,7 @@ Public Class frmConsultaCliente
 
     Private Sub frmConsultaCliente_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         DeshabilitaBotonQuejas()
+        DeshabilitaBotonModificar()
     End Sub
 #End Region
 
@@ -2508,6 +2515,16 @@ Public Class frmConsultaCliente
     Private Sub DeshabilitaBotonQuejas()
         If (Not String.IsNullOrEmpty(_URLGateway)) Then
             btnQuejas.Enabled = False
+        End If
+    End Sub
+
+    Private Sub DeshabilitaBotonModificar()
+        Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        _URLParada = CStr(oConfig.Parametros("URLParada")).Trim
+
+        If (Not String.IsNullOrEmpty(_URLParada)) Then
+            btnModificar.Enabled = False
+            lnkModificarDatosCredito.Enabled = False
         End If
     End Sub
 
@@ -2546,22 +2563,32 @@ Public Class frmConsultaCliente
 
                     lblCliente.Text = oDireccionEntrega.IDDireccionEntrega & " " & oDireccionEntrega.Nombre.Trim()
                     lblDireccion.Text = oDireccionEntrega.DireccionCompleta.Trim()
-                    lblTipoCliente.Text = IIf(IsNothing(oDireccionEntrega.TipoCliente), String.Empty, oDireccionEntrega.TipoCliente.Descripcion.Trim()).ToString()
+                    If Not IsNothing(oDireccionEntrega.TipoCliente) Then
+                        lblTipoCliente.Text = oDireccionEntrega.TipoCliente.Descripcion
+                    End If
 
                     'Teléfonos
                     lblTelCasa.Text = FormatoTelefono(oDireccionEntrega.Telefono1.Trim())
                     lblTelAlterno1.Text = FormatoTelefono(oDireccionEntrega.Telefono2.Trim())
                     lblTelAlterno2.Text = FormatoTelefono(oDireccionEntrega.Telefono3.Trim())
 
+                    If Not IsNothing(oDireccionEntrega.ZonaSuministro) Then
+                        lblCelula.Text = oDireccionEntrega.ZonaSuministro.Descripcion.ToString()
+                    End If
+                    If Not IsNothing(oDireccionEntrega.Ruta) Then
+                        lblRuta.Text = oDireccionEntrega.Ruta.Descripcion.Trim()
+                    End If
+                    lblStatus.Text = IIf(IsNothing(oDireccionEntrega.Status), String.Empty, oDireccionEntrega.Status).ToString()
 
-                    lblCelula.Text = IIf(IsNothing(oDireccionEntrega.ZonaSuministro), String.Empty, oDireccionEntrega.ZonaSuministro.Descripcion.ToString()).ToString()
-                    lblRuta.Text = IIf(IsNothing(oDireccionEntrega.Ruta), String.Empty, oDireccionEntrega.Ruta.Descripcion.Trim()).ToString()
-                    lblStatus.Text = oDireccionEntrega.Status.Trim()
-                    lblFAlta.Text = oDireccionEntrega.FAlta.ToString()
+                    If Not IsNothing(oDireccionEntrega.FAlta) Then
+                        lblFAlta.Text = oDireccionEntrega.FAlta.ToString()
+                    End If
                     lblObservaciones.Text = oDireccionEntrega.Observaciones.Trim()
 
                     If Not IsNothing(oDireccionEntrega.ProgramacionSuministro) Then
-                        lblProgramaCliente.Text = oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion.Trim
+                        If Not IsNothing(oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion) Then
+                            lblProgramaCliente.Text = oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion.Trim
+                        End If
                         lblProgramaCliente.ForeColor = lblProgramacion.ForeColor
 
                         If (oDireccionEntrega.ProgramacionSuministro.ProgramacionActiva) Then
