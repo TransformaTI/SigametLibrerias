@@ -6713,29 +6713,37 @@ Public Class CobroDetalladoDatos
     Private _Importe As Decimal
     Private _Impuesto As Decimal
     Private _Total As Decimal
-    Private _Referencia As Char
+    Private _Referencia As String
+
     Private _Banco As Int16
     Private _FAlta As Date
-    Private _Status As Char
+    Private _Status As String
+
     Private _TipoCobro As Byte
-    Private _NumeroCheque As Char
+    Private _NumeroCheque As String
+
     Private _FCheque As Date
-    Private _NumeroCuenta As Char
+    Private _NumeroCuenta As String
+
     Private _Observaciones As String
     Private _FDevolucion As Date
-    Private _RazonDevCheque As Char
+    Private _RazonDevCheque As String
+
     Private _Cliente As Integer
     Private _Saldo As Decimal
-    Private _Usuario As Char
+    Private _Usuario As String
+
     Private _FActualizacion As Date
     Private _Folio As Integer
     Private _FDeposito As Date
     Private _FolioAtt As Integer
     Private _AñoAtt As Int16
-    Private _NumeroCuentaDestino As Char
+    Private _NumeroCuentaDestino As String
+
     Private _BancoOrigen As Int16
     Private _SaldoAFavor As Boolean
-    Private _StatusSaldoAFavor As Char
+    Private _StatusSaldoAFavor As String
+
     Private _AñoCobroOrigen As Int16
     Private _CobroOrigen As Integer
     Private _TPV As Boolean
@@ -6780,7 +6788,7 @@ Public Class CobroDetalladoDatos
             _Total = Value
         End Set
     End Property
-    Public Property Referencia() As Char
+    Public Property Referencia() As String
         Get
             Return _Referencia
         End Get
@@ -6804,7 +6812,7 @@ Public Class CobroDetalladoDatos
             _FAlta = Value
         End Set
     End Property
-    Public Property Status() As Char
+    Public Property Status() As String
         Get
             Return _Status
         End Get
@@ -6820,7 +6828,7 @@ Public Class CobroDetalladoDatos
             _TipoCobro = Value
         End Set
     End Property
-    Public Property NumeroCheque() As Char
+    Public Property NumeroCheque() As String
         Get
             Return _NumeroCheque
         End Get
@@ -6836,7 +6844,7 @@ Public Class CobroDetalladoDatos
             _FCheque = Value
         End Set
     End Property
-    Public Property NumeroCuenta() As Char
+    Public Property NumeroCuenta() As String
         Get
             Return _NumeroCuenta
         End Get
@@ -6860,7 +6868,7 @@ Public Class CobroDetalladoDatos
             _FDevolucion = Value
         End Set
     End Property
-    Public Property RazonDevCheque() As Char
+    Public Property RazonDevCheque() As String
         Get
             Return _RazonDevCheque
         End Get
@@ -6884,7 +6892,7 @@ Public Class CobroDetalladoDatos
             _Saldo = Value
         End Set
     End Property
-    Public Property Usuario() As Char
+    Public Property Usuario() As String
         Get
             Return _Usuario
         End Get
@@ -6932,7 +6940,7 @@ Public Class CobroDetalladoDatos
             _AñoAtt = Value
         End Set
     End Property
-    Public Property NumeroCuentaDestino() As Char
+    Public Property NumeroCuentaDestino() As String
         Get
             Return _NumeroCuentaDestino
         End Get
@@ -6956,7 +6964,7 @@ Public Class CobroDetalladoDatos
             _SaldoAFavor = Value
         End Set
     End Property
-    Public Property StatusSaldoAFavor() As Char
+    Public Property StatusSaldoAFavor() As String
         Get
             Return _StatusSaldoAFavor
         End Get
