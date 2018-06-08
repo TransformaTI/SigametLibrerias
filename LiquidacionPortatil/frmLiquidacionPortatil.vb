@@ -51,6 +51,16 @@ Public Class frmLiquidacionPortatil
     Public dtRemisiones As New DataTable
     Public dtCantidades As New DataTable
 
+    Private _listaCobros As New List(Of SigaMetClasses.CobroDetalladoDatos)
+    Public Property Cobros() As List(Of SigaMetClasses.CobroDetalladoDatos)
+        Get
+            Return _listaCobros
+        End Get
+        Set(ByVal value As List(Of SigaMetClasses.CobroDetalladoDatos))
+            _listaCobros = value
+        End Set
+    End Property
+
 #Region "Variables"
     'Variables globales referentes al registro de "AutotanqueTurno"
     Private _AnoAtt As Short
@@ -5862,24 +5872,57 @@ Public Class frmLiquidacionPortatil
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 3)
         frmSeleTipoCobro.MostrarDacion = False
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            If _listaCobros.Count = 0 Then
+                _listaCobros = frmSeleTipoCobro.Cobros
+            Else
+                For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
+                    _listaCobros.Add(Cobro)
+                Next
+            End If
+            ActualizarTotalizadorFormasDePago(_listaCobros)
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
+
+
     End Sub
+
+
+    Private Sub ActualizarTotalizadorFormasDePago(Cobros As List(Of SigaMetClasses.CobroDetalladoDatos))
+
+    End Sub
+
 
     Private Sub btnCapturarTarjeta_Click(sender As Object, e As EventArgs) Handles btnCapturarTarjeta.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 2)
         frmSeleTipoCobro.MostrarDacion = False
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            If _listaCobros.Count = 0 Then
+                _listaCobros = frmSeleTipoCobro.Cobros
+            Else
+                For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
+                    _listaCobros.Add(Cobro)
+                Next
+            End If
+            ActualizarTotalizadorFormasDePago(_listaCobros)
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
+
     End Sub
 
     Private Sub btnTransferencia_Click(sender As Object, e As EventArgs) Handles btnTransferencia.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 6)
         frmSeleTipoCobro.MostrarDacion = False
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            If _listaCobros.Count = 0 Then
+                _listaCobros = frmSeleTipoCobro.Cobros
+            Else
+                For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
+                    _listaCobros.Add(Cobro)
+                Next
+            End If
+            ActualizarTotalizadorFormasDePago(_listaCobros)
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
@@ -5890,6 +5933,14 @@ Public Class frmLiquidacionPortatil
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 1)
         frmSeleTipoCobro.MostrarDacion = False
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            If _listaCobros.Count = 0 Then
+                _listaCobros = frmSeleTipoCobro.Cobros
+            Else
+                For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
+                    _listaCobros.Add(Cobro)
+                Next
+            End If
+            ActualizarTotalizadorFormasDePago(_listaCobros)
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
@@ -5899,6 +5950,14 @@ Public Class frmLiquidacionPortatil
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 4)
         frmSeleTipoCobro.MostrarDacion = False
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            If _listaCobros.Count = 0 Then
+                _listaCobros = frmSeleTipoCobro.Cobros
+            Else
+                For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
+                    _listaCobros.Add(Cobro)
+                Next
+            End If
+            ActualizarTotalizadorFormasDePago(_listaCobros)
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
@@ -5908,6 +5967,14 @@ Public Class frmLiquidacionPortatil
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 0)
         frmSeleTipoCobro.MostrarDacion = False
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+            If _listaCobros.Count = 0 Then
+                _listaCobros = frmSeleTipoCobro.Cobros
+            Else
+                For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
+                    _listaCobros.Add(Cobro)
+                Next
+            End If
+            ActualizarTotalizadorFormasDePago(_listaCobros)
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
