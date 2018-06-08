@@ -5889,8 +5889,24 @@ Public Class frmLiquidacionPortatil
 
 
     Private Sub ActualizarTotalizadorFormasDePago(Cobros As List(Of SigaMetClasses.CobroDetalladoDatos))
+        Dim TotalEfectivo As Decimal
+        Dim TotalVales As Decimal
+
+        For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
+            If Cobro.TipoCobro = 5 Then
+                TotalEfectivo = TotalEfectivo + Cobro.Importe
+            End If
+            If Cobro.TipoCobro = 2 Then
+                TotalVales = TotalVales + Cobro.Importe
+            End If
+        Next
+
+        lblEfectivo.Text = TotalEfectivo.ToString()
+        lblVales.Text = TotalVales.ToString()
+
 
     End Sub
+
 
 
     Private Sub btnCapturarTarjeta_Click(sender As Object, e As EventArgs) Handles btnCapturarTarjeta.Click
