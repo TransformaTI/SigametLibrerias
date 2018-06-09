@@ -9747,6 +9747,7 @@ Namespace Combos
 #End Region
 
 
+#End Region
         Public Sub CargaDatos()
             Me.DataSource = Nothing
             Me.Items.Clear()
@@ -9767,7 +9768,7 @@ Namespace Combos
 
         End Sub
     End Class
-#End Region
+
 
 
 #Region "ComboValeTipoo"
@@ -9814,9 +9815,6 @@ Namespace Combos
         End Property
 
 
-#End Region
-
-
         Public Sub CargaDatos()
             Me.DataSource = Nothing
             Me.Items.Clear()
@@ -9839,9 +9837,7 @@ Namespace Combos
     End Class
 #End Region
 
-
-
-
+#End Region
 
 
 
