@@ -6023,13 +6023,11 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnCancelarPago_Click(sender As Object, e As EventArgs) Handles btnCancelarPago.Click
-
         If MessageBox.Show("¿Realmente desea eliminar los cobros capturados para la liquidación de esta ruta?", Me.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) = DialogResult.OK Then
             _listaCobros.Clear()
             ActualizarTotalizadorFormasDePago(_listaCobros)
             Close()
         End If
-
     End Sub
 
 
