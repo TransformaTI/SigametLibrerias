@@ -4423,12 +4423,11 @@ Public Class cMovimientoAConciliarCobro
             .Parameters.Add(New SqlParameter("@FolioMovimiento", SqlDbType.Int)).Value = FolioMovimiento
             .Parameters.Add(New SqlParameter("@AñoMovimiento", SqlDbType.Int)).Value = AñoMovimiento
         End With
-
+        Dim da As New SqlDataAdapter(cmd)
         Try
-            AbreConexion()
-            Dim da As New SqlDataAdapter(strQuery, DataLayer.Conexion)
             Dim dt As New DataTable()
             da.Fill(dt)
+            dt.TableName = "Saldo"
             Return dt
         Catch ex As Exception
             Throw ex
