@@ -4413,7 +4413,7 @@ Public Class cMovimientoAConciliarCobro
 
     Public Function ConsultarSaldoAnticipo(ByVal Cliente As Integer,
                             ByVal StatusMovimiento As String,
-                            ByVal FolioMovimiento As Boolean,
+                            ByVal FolioMovimiento As Integer,
                             ByVal AñoMovimiento As Integer) As DataTable
         Dim cmd As New SqlCommand("spLIQ2ConsultaSaldosAFavor")
         With cmd
