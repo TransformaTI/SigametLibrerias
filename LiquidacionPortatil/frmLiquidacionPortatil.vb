@@ -5891,6 +5891,10 @@ Public Class frmLiquidacionPortatil
     Private Sub ActualizarTotalizadorFormasDePago(Cobros As List(Of SigaMetClasses.CobroDetalladoDatos))
         Dim TotalEfectivo As Decimal
         Dim TotalVales As Decimal
+        Dim TotalTransferencia As Decimal
+        Dim TotalTarjeta As Decimal
+        Dim TotalAnticipo As Decimal
+        Dim TotalCheques As Decimal
 
         For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
             If Cobro.TipoCobro = 5 Then
@@ -5899,12 +5903,26 @@ Public Class frmLiquidacionPortatil
             If Cobro.TipoCobro = 2 Then
                 TotalVales = TotalVales + Cobro.Importe
             End If
+            If Cobro.TipoCobro = 10 Then
+                TotalTransferencia = TotalTransferencia + Cobro.Importe
+            End If
+            If Cobro.TipoCobro = 6 Or Cobro.TipoCobro = 19 Then
+                TotalTarjeta = TotalTarjeta + Cobro.Importe
+            End If
+            If Cobro.TipoCobro = 30 Then
+                TotalAnticipo = TotalAnticipo + Cobro.Importe
+            End If
+            If Cobro.TipoCobro = 3 Then
+                TotalCheques = TotalCheques + Cobro.Importe
+            End If
         Next
 
         lblEfectivo.Text = TotalEfectivo.ToString()
         lblVales.Text = TotalVales.ToString()
-
-
+        lblTransferElect.Text = TotalTransferencia.ToString()
+        lblTarjDebCred.Text = TotalTarjeta.ToString()
+        lblAplicAnticipo.Text = TotalAnticipo.ToString()
+        lblCheque.Text = TotalCheques.ToString()
     End Sub
 
 
