@@ -5895,6 +5895,8 @@ Public Class frmLiquidacionPortatil
         Dim TotalTarjeta As Decimal
         Dim TotalAnticipo As Decimal
         Dim TotalCheques As Decimal
+        Dim TotalLiquidado As Decimal
+
 
         For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
             If Cobro.TipoCobro = 5 Then
@@ -5915,6 +5917,7 @@ Public Class frmLiquidacionPortatil
             If Cobro.TipoCobro = 3 Then
                 TotalCheques = TotalCheques + Cobro.Importe
             End If
+            TotalLiquidado = TotalLiquidado + Cobro.Importe
         Next
 
         lblEfectivo.Text = TotalEfectivo.ToString()
@@ -5923,6 +5926,9 @@ Public Class frmLiquidacionPortatil
         lblTarjDebCred.Text = TotalTarjeta.ToString()
         lblAplicAnticipo.Text = TotalAnticipo.ToString()
         lblCheque.Text = TotalCheques.ToString()
+        lblVentaTotal.Text = TotalLiquidado.ToString()
+
+
     End Sub
 
 
@@ -6033,6 +6039,22 @@ Public Class frmLiquidacionPortatil
 
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         cargarRemisiones()
+    End Sub
+
+    Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
+        Try
+            For Each Cobro As SigaMetClasses.CobroDetalladoDatos In _listaCobros
+                With Cobro
+                    Cobro.insertaCobro(.AñoCobro, .Cobro, .Importe, .Impuesto, .Total, .Referencia, .Banco, .FAlta, .Status, .TipoCobro, .NumeroCheque,
+                                    .FCheque, .NumeroCuenta, .Observaciones, .FDevolucion, .RazonDevCheque, .Cliente, .Saldo, .Usuario, .FActualizacion,
+                                    .Folio, .FDeposito, .FolioAtt, .AñoAtt, .NumeroCuentaDestino, .BancoOrigen, .SaldoAFavor, .StatusSaldoAFavor,
+                                    .AñoCobroOrigen, .CobroOrigen, .TPV)
+                End With
+            Next
+            MessageBox.Show("El proceso de registro de cobros concluyó exitosamente.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("Se generó el siguiente error: " & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Public Sub cargarRemisiones()

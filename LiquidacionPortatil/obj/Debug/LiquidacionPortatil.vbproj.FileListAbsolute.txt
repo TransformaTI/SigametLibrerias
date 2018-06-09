@@ -140,7 +140,6 @@ C:\Users\Transforma1\Source\repos\SigametLibrerias\LiquidacionPortatil\bin\Regul
 C:\Users\Transforma1\Source\repos\SigametLibrerias\LiquidacionPortatil\bin\ContactosDL.dll
 C:\Users\Transforma1\Source\repos\SigametLibrerias\LiquidacionPortatil\bin\SigaMetClasses.pdb
 C:\Users\Transforma1\Source\repos\SigametLibrerias\LiquidacionPortatil\bin\SigaMetClasses.xml
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.vbprojAssemblyReference.cache
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.frmDetallePedidoRemision.resources
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.AltaCheque.resources
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.frmAbonosExtraordinarios.resources
@@ -207,3 +206,4 @@ C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\De
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.dll
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.xml
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.pdb
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.vbprojAssemblyReference.cache
