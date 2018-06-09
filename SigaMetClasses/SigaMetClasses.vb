@@ -4415,15 +4415,19 @@ Public Class cMovimientoAConciliarCobro
                             ByVal StatusMovimiento As String,
                             ByVal FolioMovimiento As Integer,
                             ByVal AñoMovimiento As Integer) As DataTable
-        Dim cmd As New SqlCommand("spLIQ2ConsultaSaldosAFavor")
+        Dim cmd As New SqlCommand("spLIQ2ConsultaSaldosAFavor", DataLayer.Conexion)
+
         With cmd
             .CommandType = CommandType.StoredProcedure
+            .CommandText = "spLIQ2ConsultaSaldosAFavor"
             .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = Cliente
             .Parameters.Add(New SqlParameter("@StatusMovimiento", SqlDbType.VarChar, 20)).Value = StatusMovimiento
             .Parameters.Add(New SqlParameter("@FolioMovimiento", SqlDbType.Int)).Value = FolioMovimiento
             .Parameters.Add(New SqlParameter("@AñoMovimiento", SqlDbType.Int)).Value = AñoMovimiento
         End With
         Dim da As New SqlDataAdapter(cmd)
+        da.SelectCommand = cmd
+
         Try
             Dim dt As New DataTable()
             da.Fill(dt)
