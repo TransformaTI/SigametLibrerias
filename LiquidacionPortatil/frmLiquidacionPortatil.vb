@@ -5919,13 +5919,13 @@ Public Class frmLiquidacionPortatil
             TotalLiquidado = TotalLiquidado + Cobro.Importe
         Next
 
-        lblEfectivo.Text = TotalEfectivo.ToString()
-        lblVales.Text = TotalVales.ToString()
-        lblTransferElect.Text = TotalTransferencia.ToString()
-        lblTarjDebCred.Text = TotalTarjeta.ToString()
-        lblAplicAnticipo.Text = TotalAnticipo.ToString()
-        lblCheque.Text = TotalCheques.ToString()
-        lblVentaTotal.Text = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable)).ToString()
+        lblEfectivo.Text = TotalEfectivo.ToString("N2")
+        lblVales.Text = TotalVales.ToString("N2")
+        lblTransferElect.Text = TotalTransferencia.ToString("N2")
+        lblTarjDebCred.Text = TotalTarjeta.ToString("N2")
+        lblAplicAnticipo.Text = TotalAnticipo.ToString("N2")
+        lblCheque.Text = TotalCheques.ToString("N2")
+        lblVentaTotal.Text = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
 
     End Sub
 
