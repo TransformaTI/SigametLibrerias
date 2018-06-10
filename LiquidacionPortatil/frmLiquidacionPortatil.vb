@@ -61,6 +61,17 @@ Public Class frmLiquidacionPortatil
         End Set
     End Property
 
+    Private _listaDebitoAnticipos As New List(Of ModuloCaja.DebitoAnticipo)
+    Public Property DebitoAnticipo() As List(Of ModuloCaja.DebitoAnticipo)
+        Get
+            Return _listaDebitoAnticipos
+        End Get
+        Set(ByVal value As List(Of ModuloCaja.DebitoAnticipo))
+            _listaDebitoAnticipos = value
+        End Set
+    End Property
+
+
 #Region "Variables"
     'Variables globales referentes al registro de "AutotanqueTurno"
     Private _AnoAtt As Short
@@ -6008,6 +6019,7 @@ Public Class frmLiquidacionPortatil
     Private Sub btnAplicacionAnticipo_Click(sender As Object, e As EventArgs) Handles btnAplicacionAnticipo.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 4)
         frmSeleTipoCobro.MostrarDacion = False
+        frmSeleTipoCobro.DebitoAnticipos = _listaDebitoAnticipos
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -6016,6 +6028,15 @@ Public Class frmLiquidacionPortatil
                     _listaCobros.Add(Cobro)
                 Next
             End If
+
+            'If _listaDebitoAnticipos.Count = 0 Then
+            '    _listaDebitoAnticipos = frmSeleTipoCobro.DebitoAnticipos
+            'Else
+            '    For Each debito As ModuloCaja.DebitoAnticipo In frmSeleTipoCobro.DebitoAnticipos
+            '        _listaDebitoAnticipos.Add(debito)
+            '    Next
+            'End If
+
             ActualizarTotalizadorFormasDePago(_listaCobros)
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
