@@ -7054,7 +7054,9 @@ Public Class CobroDetalladoDatos
             .Parameters.Add(New SqlParameter("@NumeroCuenta", SqlDbType.Char, 20)).Value = NumeroCuenta
             .Parameters.Add(New SqlParameter("@Observaciones", SqlDbType.VarChar)).Value = Observaciones
             .Parameters.Add(New SqlParameter("@FDevolucion", SqlDbType.DateTime)).Value = IIf(FCheque = Date.MinValue, SqlString.Null, Date.Now)
-            .Parameters.Add(New SqlParameter("@RazonDevCheque", SqlDbType.Char, 20)).Value = RazonDevCheque
+
+            .Parameters.Add(New SqlParameter("@RazonDevCheque", SqlDbType.Char, 20)).Value = IIf(RazonDevCheque = Nothing, DBNull.Value, RazonDevCheque)
+
             .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = IIf(Cliente = 0, SqlInt32.Null, Cliente)
             .Parameters.Add(New SqlParameter("@Saldo", SqlDbType.Money)).Value = Saldo
             .Parameters.Add(New SqlParameter("@Usuario", SqlDbType.Char, 20)).Value = Usuario
