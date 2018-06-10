@@ -5926,7 +5926,7 @@ Public Class frmLiquidacionPortatil
         lblAplicAnticipo.Text = TotalAnticipo.ToString("N2")
         lblCheque.Text = TotalCheques.ToString("N2")
         lblVentaTotal.Text = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
-
+        lblCredito.Text = calcularCredito(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
     End Sub
 
     Private Function calcularVentaTotal(dt As DataTable) As Decimal
@@ -5937,6 +5937,18 @@ Public Class frmLiquidacionPortatil
         Next
 
         Return VentaTotal
+    End Function
+
+    Private Function calcularCredito(dt As DataTable) As Decimal
+        Dim VentaCredito As Decimal = 0
+
+        For Each dr As DataRow In dt.Rows
+            If dr("FormaPago").ToString() = "CREDITO" Then
+                VentaCredito = VentaCredito + Convert.ToDecimal(dr("Importe").ToString())
+            End If
+        Next
+
+        Return VentaCredito
     End Function
 
 
