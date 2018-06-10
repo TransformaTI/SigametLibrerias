@@ -206,3 +206,4 @@ C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\De
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.dll
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.xml
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.pdb
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.vbprojAssemblyReference.cache

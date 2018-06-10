@@ -5897,7 +5897,6 @@ Public Class frmLiquidacionPortatil
         Dim TotalCheques As Decimal
         Dim TotalLiquidado As Decimal
 
-
         For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
             If Cobro.TipoCobro = 5 Then
                 TotalEfectivo = TotalEfectivo + Cobro.Importe
@@ -5926,11 +5925,19 @@ Public Class frmLiquidacionPortatil
         lblTarjDebCred.Text = TotalTarjeta.ToString()
         lblAplicAnticipo.Text = TotalAnticipo.ToString()
         lblCheque.Text = TotalCheques.ToString()
-        lblVentaTotal.Text = TotalLiquidado.ToString()
-
+        lblVentaTotal.Text = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable)).ToString()
 
     End Sub
 
+    Private Function calcularVentaTotal(dt As DataTable) As Decimal
+        Dim VentaTotal As Decimal = 0
+
+        For Each dr As DataRow In dt.Rows
+            VentaTotal = VentaTotal + Convert.ToDecimal(dr("Importe").ToString())
+        Next
+
+        Return VentaTotal
+    End Function
 
 
     Private Sub btnCapturarTarjeta_Click(sender As Object, e As EventArgs) Handles btnCapturarTarjeta.Click
@@ -6032,7 +6039,6 @@ Public Class frmLiquidacionPortatil
         If MessageBox.Show("¿Realmente desea eliminar los cobros capturados para la liquidación de esta ruta?", Me.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) = DialogResult.OK Then
             _listaCobros.Clear()
             ActualizarTotalizadorFormasDePago(_listaCobros)
-            Close()
         End If
     End Sub
 
@@ -6052,8 +6058,10 @@ Public Class frmLiquidacionPortatil
                 End With
             Next
             MessageBox.Show("El proceso de registro de cobros concluyó exitosamente.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Me.Close()
         Catch ex As Exception
             MessageBox.Show("Se generó el siguiente error: " & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.Close()
         End Try
     End Sub
 
