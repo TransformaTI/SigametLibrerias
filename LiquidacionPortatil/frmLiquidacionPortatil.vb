@@ -5883,6 +5883,7 @@ Public Class frmLiquidacionPortatil
     Private Sub btnCapturarCheque_Click(sender As Object, e As EventArgs) Handles btnCapturarCheque.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 3)
         frmSeleTipoCobro.MostrarDacion = False
+        frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -5890,6 +5891,7 @@ Public Class frmLiquidacionPortatil
                 For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
                     _listaCobros.Add(Cobro)
                 Next
+                _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
             End If
             ActualizarTotalizadorFormasDePago(_listaCobros)
             Cursor = Cursors.WaitCursor
@@ -5967,6 +5969,7 @@ Public Class frmLiquidacionPortatil
     Private Sub btnCapturarTarjeta_Click(sender As Object, e As EventArgs) Handles btnCapturarTarjeta.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 2)
         frmSeleTipoCobro.MostrarDacion = False
+        frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -5974,6 +5977,7 @@ Public Class frmLiquidacionPortatil
                 For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
                     _listaCobros.Add(Cobro)
                 Next
+                _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
             End If
             ActualizarTotalizadorFormasDePago(_listaCobros)
             Cursor = Cursors.WaitCursor
@@ -5985,6 +5989,7 @@ Public Class frmLiquidacionPortatil
     Private Sub btnTransferencia_Click(sender As Object, e As EventArgs) Handles btnTransferencia.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 6)
         frmSeleTipoCobro.MostrarDacion = False
+        frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -5992,6 +5997,7 @@ Public Class frmLiquidacionPortatil
                 For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
                     _listaCobros.Add(Cobro)
                 Next
+                _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
             End If
             ActualizarTotalizadorFormasDePago(_listaCobros)
             Cursor = Cursors.WaitCursor
@@ -6003,6 +6009,7 @@ Public Class frmLiquidacionPortatil
     Private Sub btnCapturarVale_Click(sender As Object, e As EventArgs) Handles btnCapturarVale.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 1)
         frmSeleTipoCobro.MostrarDacion = False
+        frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -6010,6 +6017,7 @@ Public Class frmLiquidacionPortatil
                 For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
                     _listaCobros.Add(Cobro)
                 Next
+                _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
             End If
             ActualizarTotalizadorFormasDePago(_listaCobros)
             Cursor = Cursors.WaitCursor
@@ -6020,14 +6028,17 @@ Public Class frmLiquidacionPortatil
     Private Sub btnAplicacionAnticipo_Click(sender As Object, e As EventArgs) Handles btnAplicacionAnticipo.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 4)
         frmSeleTipoCobro.MostrarDacion = False
+        frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.DebitoAnticipos = _listaDebitoAnticipos
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
+
             Else
                 For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
                     _listaCobros.Add(Cobro)
                 Next
+                _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
             End If
 
             'If _listaDebitoAnticipos.Count = 0 Then
