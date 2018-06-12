@@ -6029,14 +6029,6 @@ Public Class frmLiquidacionPortatil
                 Next
             End If
 
-            'If _listaDebitoAnticipos.Count = 0 Then
-            '    _listaDebitoAnticipos = frmSeleTipoCobro.DebitoAnticipos
-            'Else
-            '    For Each debito As ModuloCaja.DebitoAnticipo In frmSeleTipoCobro.DebitoAnticipos
-            '        _listaDebitoAnticipos.Add(debito)
-            '    Next
-            'End If
-
             ActualizarTotalizadorFormasDePago(_listaCobros)
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
@@ -6078,6 +6070,7 @@ Public Class frmLiquidacionPortatil
 
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         cargarRemisiones()
+        ActualizarTotalizadorFormasDePago(_listaCobros)
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
