@@ -70,13 +70,19 @@ Public Class frmAltaPagoTarjeta
 
         dListadoMeses = Main.consultarCargoMeses()
 
-        cboMeses.ValueMember = "Key"
-        cboMeses.DisplayMember = "Value"
+        If (dListadoMeses.Count > 0) Then
+            cboMeses.ValueMember = "Key"
+            cboMeses.DisplayMember = "Value"
 
-        cboMeses.DataSource = New BindingSource(dListadoMeses, Nothing)
+            cboMeses.DataSource = New BindingSource(dListadoMeses, Nothing)
 
 
-        cboBancos.CargaDatos()
+            cboBancos.CargaDatos()
+        Else
+            MessageBox.Show("El catálogo de meses aplicables al pago no está configurado, por favor informe al área de soporte de aplicaciones", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Me.Close()
+        End If
+
 
 
     End Sub
