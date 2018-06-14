@@ -51,21 +51,28 @@ Public Class frmAltaPagoTarjeta
 
         Dim dictionary As New Dictionary(Of Integer, String)
         dictionary = Main.consultarAfiliacion()
-        cboAfiliacion.ValueMember = "Key"
-        cboAfiliacion.DisplayMember = "Value"
-        cboAfiliacion.DataSource = New BindingSource(dictionary, Nothing)
-
+        If (dictionary.Count > 0) Then
+            cboAfiliacion.ValueMember = "Key"
+            cboAfiliacion.DisplayMember = "Value"
+            cboAfiliacion.DataSource = New BindingSource(dictionary, Nothing)
+        Else
+            MessageBox.Show("El catálogo de afiliacion  no está configurado, por favor informe al área de soporte de aplicaciones", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Me.Close()
+        End If
 
 
         Dim dListadoTipoTarjeta As Dictionary(Of Integer, String)
 
         dListadoTipoTarjeta = Main.consultarTipoTarjeta()
+        If (dListadoTipoTarjeta.Count > 0) Then
+            cboTipoTarjeta.ValueMember = "Key"
+            cboTipoTarjeta.DisplayMember = "Value"
 
-        cboTipoTarjeta.ValueMember = "Key"
-        cboTipoTarjeta.DisplayMember = "Value"
-
-        cboTipoTarjeta.DataSource = New BindingSource(dListadoTipoTarjeta, Nothing)
-
+            cboTipoTarjeta.DataSource = New BindingSource(dListadoTipoTarjeta, Nothing)
+        Else
+            MessageBox.Show("El catálogo de tipotarjeta  no está configurado, por favor informe al área de soporte de aplicaciones", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Me.Close()
+        End If
         Dim dListadoMeses As Dictionary(Of Integer, Integer)
 
         dListadoMeses = Main.consultarCargoMeses()
@@ -73,16 +80,12 @@ Public Class frmAltaPagoTarjeta
         If (dListadoMeses.Count > 0) Then
             cboMeses.ValueMember = "Key"
             cboMeses.DisplayMember = "Value"
-
             cboMeses.DataSource = New BindingSource(dListadoMeses, Nothing)
-
-
             cboBancos.CargaDatos()
         Else
             MessageBox.Show("El catálogo de meses aplicables al pago no está configurado, por favor informe al área de soporte de aplicaciones", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Me.Close()
         End If
-
 
 
     End Sub
