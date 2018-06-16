@@ -53,6 +53,9 @@ Public Class frmLiquidacionPortatil
     Public dtCantidades As New DataTable
 
     Private _listaCobros As New List(Of SigaMetClasses.CobroDetalladoDatos)
+
+
+
     Public Property Cobros() As List(Of SigaMetClasses.CobroDetalladoDatos)
         Get
             Return _listaCobros
@@ -5887,16 +5890,31 @@ Public Class frmLiquidacionPortatil
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
+
             Else
                 For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
                     _listaCobros.Add(Cobro)
                 Next
+
                 _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
             End If
+
+            If _listaDebitoAnticipos.Count = 0 Then
+                _listaDebitoAnticipos = frmSeleTipoCobro.DebitoAnticipos
+            Else
+                For Each Debito As ModuloCaja.DebitoAnticipo In frmSeleTipoCobro.DebitoAnticipos
+                    _listaDebitoAnticipos.Add(Debito)
+                Next
+            End If
+
+
             ActualizarTotalizadorFormasDePago(_listaCobros)
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
+
+
+
 
 
     End Sub

@@ -113,9 +113,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\MobileGas.dll</HintPath>
     </Reference>
-    <Reference Include="ModuloCaja, Version=2.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="ModuloCaja, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Caja\Caja\ModuloCaja\bin\ModuloCaja.dll</HintPath>
+      <HintPath>..\..\Caja\Caja\ModuloCaja\bin\ModuloCaja.exe</HintPath>
     </Reference>
     <Reference Include="PortatilClasses, Version=1.7.0.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -125,8 +125,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\ReporteDinamicoOaxaca.dll</HintPath>
     </Reference>
-    <Reference Include="SigaMetClasses, Version=2.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SigaMetClasses">
       <HintPath>..\SigaMetClasses\bin\SigaMetClasses.dll</HintPath>
     </Reference>
     <Reference Include="SigametSeguridad, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
