@@ -40,7 +40,10 @@ Public Class frmConsultaIngresosSaldoAFavor
 #Region "Eventos"
 
     Private Sub btnBuscar_Click(sender As Object, e As EventArgs) Handles btnBuscar.Click
-        ConmutarBtnAccion(Not _SaldoAFavorSeleccionado)
+        If _TipoUsuario.Equals("CALIDAD") Or _TipoUsuario.Equals("USCAP") Then
+            ConmutarBtnAccion(Not _SaldoAFavorSeleccionado)
+        End If
+        'ConmutarBtnAccion(Not _SaldoAFavorSeleccionado)
         BuscarActualizar()
     End Sub
 
@@ -243,10 +246,14 @@ Public Class frmConsultaIngresosSaldoAFavor
     Private Sub AsignarFuncionalidadBtnAccion()
         If (_TipoUsuario = "CALIDAD") Then
             btnAccion.Text = "APLICAR"
+            btnAccion.Enabled = True
             AddHandler btnAccion.Click, AddressOf Aplicar
         ElseIf (_TipoUsuario = "USCAP") Then
             btnAccion.Text = "VALIDAR"
+            btnAccion.Enabled = True
             AddHandler btnAccion.Click, AddressOf Validar
+        Else
+            btnAccion.Enabled = False
         End If
     End Sub
 
