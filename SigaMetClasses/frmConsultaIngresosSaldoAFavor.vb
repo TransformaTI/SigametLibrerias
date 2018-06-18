@@ -21,7 +21,7 @@ Public Class frmConsultaIngresosSaldoAFavor
     ''' <summary>
     ''' Constructor del formulario
     ''' </summary>
-    ''' <param name="tipoUsuario">Puede ser CALIDAD o USCAP</param>
+    ''' <param name="tipoUsuario">Puede ser CALIDAD, USCAP o CONSULTA</param>
     Public Sub New(tipoUsuario As String)
         MyBase.New()
         'This call is required by the Windows Form Designer.
@@ -40,11 +40,14 @@ Public Class frmConsultaIngresosSaldoAFavor
 #Region "Eventos"
 
     Private Sub btnBuscar_Click(sender As Object, e As EventArgs) Handles btnBuscar.Click
-        If _TipoUsuario.Equals("CALIDAD") Or _TipoUsuario.Equals("USCAP") Then
-            ConmutarBtnAccion(Not _SaldoAFavorSeleccionado)
-        End If
-        'ConmutarBtnAccion(Not _SaldoAFavorSeleccionado)
-        BuscarActualizar()
+        Try
+            If _TipoUsuario.Equals("CALIDAD") Or _TipoUsuario.Equals("USCAP") Then
+                ConmutarBtnAccion(Not _SaldoAFavorSeleccionado)
+            End If
+            BuscarActualizar()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, _Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub chkFechas_CheckedChanged(sender As Object, e As EventArgs) Handles chkFechas.CheckedChanged
@@ -68,6 +71,19 @@ Public Class frmConsultaIngresosSaldoAFavor
         Catch ex As Exception
             MessageBox.Show(ex.Message, _Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub grvIngresos_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles grvIngresos.DataBindingComplete
+
+        If grvIngresos.Rows.Count > 0 Then
+            For Each row As DataGridViewRow In grvIngresos.Rows
+                Dim checkBoxColumnIndex As Integer = Me.gvcSeleccionar.Index
+                Dim cellCheckBox As DataGridViewCheckBoxCell = grvIngresos(checkBoxColumnIndex, row.Index)
+                Dim estatus As String = dtIngresos.Rows(row.Index).Item("StatusMovimiento").ToString
+
+                DeshabilitarCheckBox(cellCheckBox, estatus)
+            Next
+        End If
     End Sub
 
 #End Region
@@ -140,10 +156,10 @@ Public Class frmConsultaIngresosSaldoAFavor
     End Sub
 
     Private Function BuscarMovimientosAConciliar(ByVal fechaInicio As Date,
-                                           ByVal fechaFin As Date,
-                                           ByVal cliente As Integer,
-                                           ByVal monto As Decimal,
-                                           ByVal tipoMovimiento As Enumeradores.enumTipoMovimientoAConciliar) As DataTable
+                                                   ByVal fechaFin As Date,
+                                                   ByVal cliente As Integer,
+                                                   ByVal monto As Decimal,
+                                                   ByVal tipoMovimiento As Enumeradores.enumTipoMovimientoAConciliar) As DataTable
         Dim obMovimientoAConciliarDatos As MovimientoAConciliarDatos = New MovimientoAConciliarDatos
 
         Return obMovimientoAConciliarDatos.leerMovimientoAConciliar(fechaInicio,
@@ -292,6 +308,20 @@ Public Class frmConsultaIngresosSaldoAFavor
         Finally
             Cursor = Cursors.Default
         End Try
+    End Sub
+
+    ''' <summary>
+    ''' Deshabilita los CheckBox del grid dependiendo de las acciones que 
+    ''' puede realizar cada tipo de usuario
+    ''' </summary>
+    ''' <param name="cellCheckBox"></param>
+    ''' <param name="estatus"></param>
+    Private Sub DeshabilitarCheckBox(cellCheckBox As DataGridViewCheckBoxCell, estatus As String)
+        If _TipoUsuario.Equals("CALIDAD") And estatus.Equals("PENDIENTE") Then
+            cellCheckBox.ReadOnly = True
+        ElseIf _TipoUsuario.Equals("USCAP") And estatus.Equals("REGISTRADO") Then
+            cellCheckBox.ReadOnly = True
+        End If
     End Sub
 
 End Class
