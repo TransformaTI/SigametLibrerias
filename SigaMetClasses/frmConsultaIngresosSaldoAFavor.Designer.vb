@@ -23,23 +23,18 @@ Partial Class frmConsultaIngresosSaldoAFavor
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmConsultaIngresosSaldoAFavor))
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.chkSaldosAFavor = New System.Windows.Forms.CheckBox()
         Me.btnBuscar = New System.Windows.Forms.Button()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.txtMonto = New SigaMetClasses.Controles.txtNumeroDecimal()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.txtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.chkFechas = New System.Windows.Forms.CheckBox()
         Me.dtpFechaFin = New System.Windows.Forms.DateTimePicker()
         Me.dtpFechaInicio = New System.Windows.Forms.DateTimePicker()
         Me.grvIngresos = New System.Windows.Forms.DataGridView()
-        Me.lblTituloGrid = New System.Windows.Forms.Label()
-        Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.btnAccion = New System.Windows.Forms.Button()
         Me.gvcSeleccionar = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.gvcFolioMovimiento = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.gvcCliente = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -50,6 +45,11 @@ Partial Class frmConsultaIngresosSaldoAFavor
         Me.gvcStatusMovimiento = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.gvcAñoMovimiento = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.gvcTipoMovimiento = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.lblTituloGrid = New System.Windows.Forms.Label()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.btnAccion = New System.Windows.Forms.Button()
+        Me.txtMonto = New SigaMetClasses.Controles.txtNumeroDecimal()
+        Me.txtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.Panel1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -104,13 +104,6 @@ Partial Class frmConsultaIngresosSaldoAFavor
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Monto:"
         '
-        'txtMonto
-        '
-        Me.txtMonto.Location = New System.Drawing.Point(6, 21)
-        Me.txtMonto.Name = "txtMonto"
-        Me.txtMonto.Size = New System.Drawing.Size(100, 21)
-        Me.txtMonto.TabIndex = 1
-        '
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.txtCliente)
@@ -120,13 +113,6 @@ Partial Class frmConsultaIngresosSaldoAFavor
         Me.GroupBox2.TabIndex = 2
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Cliente:"
-        '
-        'txtCliente
-        '
-        Me.txtCliente.Location = New System.Drawing.Point(6, 21)
-        Me.txtCliente.Name = "txtCliente"
-        Me.txtCliente.Size = New System.Drawing.Size(100, 21)
-        Me.txtCliente.TabIndex = 1
         '
         'GroupBox1
         '
@@ -188,39 +174,6 @@ Partial Class frmConsultaIngresosSaldoAFavor
         Me.grvIngresos.Size = New System.Drawing.Size(735, 174)
         Me.grvIngresos.TabIndex = 3
         '
-        'lblTituloGrid
-        '
-        Me.lblTituloGrid.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.lblTituloGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblTituloGrid.Dock = System.Windows.Forms.DockStyle.Top
-        Me.lblTituloGrid.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTituloGrid.Location = New System.Drawing.Point(0, 120)
-        Me.lblTituloGrid.Name = "lblTituloGrid"
-        Me.lblTituloGrid.Size = New System.Drawing.Size(735, 21)
-        Me.lblTituloGrid.TabIndex = 0
-        Me.lblTituloGrid.Text = "Ingresos generados por saldo a favor"
-        Me.lblTituloGrid.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Panel2
-        '
-        Me.Panel2.Controls.Add(Me.btnAccion)
-        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel2.Location = New System.Drawing.Point(0, 317)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(735, 47)
-        Me.Panel2.TabIndex = 4
-        '
-        'btnAccion
-        '
-        Me.btnAccion.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.btnAccion.Enabled = False
-        Me.btnAccion.Location = New System.Drawing.Point(329, 11)
-        Me.btnAccion.Name = "btnAccion"
-        Me.btnAccion.Size = New System.Drawing.Size(75, 24)
-        Me.btnAccion.TabIndex = 6
-        Me.btnAccion.Text = "APLICAR"
-        Me.btnAccion.UseVisualStyleBackColor = True
-        '
         'gvcSeleccionar
         '
         Me.gvcSeleccionar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None
@@ -271,10 +224,10 @@ Partial Class frmConsultaIngresosSaldoAFavor
         'gvcMonto
         '
         Me.gvcMonto.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle5.Format = "C2"
-        DataGridViewCellStyle5.NullValue = Nothing
-        Me.gvcMonto.DefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle1.Format = "C2"
+        DataGridViewCellStyle1.NullValue = Nothing
+        Me.gvcMonto.DefaultCellStyle = DataGridViewCellStyle1
         Me.gvcMonto.FillWeight = 108.6207!
         Me.gvcMonto.HeaderText = "Importe"
         Me.gvcMonto.Name = "gvcMonto"
@@ -283,8 +236,8 @@ Partial Class frmConsultaIngresosSaldoAFavor
         'gvcStatusMovimiento
         '
         Me.gvcStatusMovimiento.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gvcStatusMovimiento.DefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvcStatusMovimiento.DefaultCellStyle = DataGridViewCellStyle2
         Me.gvcStatusMovimiento.FillWeight = 108.6207!
         Me.gvcStatusMovimiento.HeaderText = "Estatus"
         Me.gvcStatusMovimiento.Name = "gvcStatusMovimiento"
@@ -305,6 +258,53 @@ Partial Class frmConsultaIngresosSaldoAFavor
         Me.gvcTipoMovimiento.Name = "gvcTipoMovimiento"
         Me.gvcTipoMovimiento.ReadOnly = True
         Me.gvcTipoMovimiento.Visible = False
+        '
+        'lblTituloGrid
+        '
+        Me.lblTituloGrid.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.lblTituloGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblTituloGrid.Dock = System.Windows.Forms.DockStyle.Top
+        Me.lblTituloGrid.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTituloGrid.Location = New System.Drawing.Point(0, 120)
+        Me.lblTituloGrid.Name = "lblTituloGrid"
+        Me.lblTituloGrid.Size = New System.Drawing.Size(735, 21)
+        Me.lblTituloGrid.TabIndex = 0
+        Me.lblTituloGrid.Text = "Ingresos generados por saldo a favor"
+        Me.lblTituloGrid.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Panel2
+        '
+        Me.Panel2.Controls.Add(Me.btnAccion)
+        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Panel2.Location = New System.Drawing.Point(0, 317)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(735, 47)
+        Me.Panel2.TabIndex = 4
+        '
+        'btnAccion
+        '
+        Me.btnAccion.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.btnAccion.Enabled = False
+        Me.btnAccion.Location = New System.Drawing.Point(329, 11)
+        Me.btnAccion.Name = "btnAccion"
+        Me.btnAccion.Size = New System.Drawing.Size(75, 24)
+        Me.btnAccion.TabIndex = 6
+        Me.btnAccion.Text = "APLICAR"
+        Me.btnAccion.UseVisualStyleBackColor = True
+        '
+        'txtMonto
+        '
+        Me.txtMonto.Location = New System.Drawing.Point(6, 21)
+        Me.txtMonto.Name = "txtMonto"
+        Me.txtMonto.Size = New System.Drawing.Size(100, 21)
+        Me.txtMonto.TabIndex = 1
+        '
+        'txtCliente
+        '
+        Me.txtCliente.Location = New System.Drawing.Point(6, 21)
+        Me.txtCliente.Name = "txtCliente"
+        Me.txtCliente.Size = New System.Drawing.Size(100, 21)
+        Me.txtCliente.TabIndex = 1
         '
         'frmConsultaIngresosSaldoAFavor
         '
