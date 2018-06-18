@@ -5988,6 +5988,8 @@ Public Class frmLiquidacionPortatil
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 2)
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
+        frmSeleTipoCobro.TipoLiquidacion = "LiqPortatil"
+
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
