@@ -2453,24 +2453,36 @@ namespace LiquidacionSTN
 
         private Decimal ObtenerIVA()
         {
-            decimal resultado=0;
-            LiquidacionSTN.Modulo.CnnSigamet.Close();
-            string Consulta = "select ISNULL(Valor,0) as Valor from parametro where parametro = 'IVA' and modulo=3";
+            decimal resultado=0;            
+
+            /*string Consulta = "select ISNULL(Valor,0) as Valor from parametro where parametro = 'IVA' and modulo=3";
             SqlDataAdapter da = new SqlDataAdapter();
             System.Data.DataTable dt;
             dt = new DataTable("TarjetaCredito");
             LiquidacionSTN.Modulo.CnnSigamet.Open();
             da.SelectCommand = new SqlCommand(Consulta, LiquidacionSTN.Modulo.CnnSigamet);
             da.Fill(dt);
-
+            */
             try
             {
+                LiquidacionSTN.Modulo.CnnSigamet.Close();
+                LiquidacionSTN.Modulo.CnnSigamet.Open();
+                SqlCommand cmd = LiquidacionSTN.Modulo.CnnSigamet.CreateCommand();
+                cmd.CommandText = "spSTObtenerIVA";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    resultado = Convert.ToInt32(reader["Valor"]);
+                }
+                /*
                 System.Data.DataRow[] ConsultaC = dt.Select();
                 foreach (System.Data.DataRow dr in ConsultaC)
                 {
                     resultado = Convert.ToInt32(dr["Valor"]);
                 }
-
+                */
             }
             catch (Exception exc)
             {
@@ -2829,6 +2841,7 @@ namespace LiquidacionSTN
                                 try
                                 {
                                     Decimal iva = ObtenerIVA()/100;
+                                    int empresa=0;
                                     RTGMGateway.RTGMActualizarPedido objGateway = new RTGMGateway.RTGMActualizarPedido();
                                     objGateway.URLServicio = @"http://192.168.1.30:88/GasMetropolitanoRuntimeService.svc";
 
@@ -2836,33 +2849,46 @@ namespace LiquidacionSTN
 
                                     foreach (System.Data.DataRow dr in Query)
                                     {
+                                        RTGMGateway.RTGMGateway cliente = new RTGMGateway.RTGMGateway();
+                                        cliente.URLServicio = @"http://192.168.1.30:88/GasMetropolitanoRuntimeService.svc";
+
+                                        RTGMGateway.SolicitudGateway objSolicitud = new RTGMGateway.SolicitudGateway();
+                                        objSolicitud.IDCliente = Convert.ToInt32(dr["Cliente"]);
+                                        
+                                        RTGMCore.DireccionEntrega objDireccion = new RTGMCore.DireccionEntrega();
+                                        objDireccion = cliente.buscarDireccionEntrega(objSolicitud);
+                                                               
+                                        empresa = objDireccion.IDEmpresa;
+                                        //MessageBox.Show("dr[\"Cliente\"]: " + Convert.ToString(dr["Cliente"]) + "; objDireccion.IDDireccionEntrega: " + Convert.ToString(objDireccion.IDDireccionEntrega));
                                         RTGMCore.PedidoCRMDatos pedido = new RTGMCore.PedidoCRMDatos();
                                         pedido.IDPedido = Convert.ToInt32(dr["Pedido"]);
-                                        pedido.IDDireccionEntrega = Convert.ToInt32(dr["Cliente"]);
+                                        pedido.IDDireccionEntrega = objDireccion.IDDireccionEntrega;// Convert.ToInt32(dr["Cliente"]);
                                         pedido.FSuministro = Convert.ToDateTime(dr["FAtencion"]);
                                         pedido.Importe = (Convert.ToDecimal(dr["Total"]) / (1+iva));   // preguntar con Juan
                                         pedido.Impuesto = iva;
                                         pedido.Total = Convert.ToDecimal(dr["Total"]);
                                         pedido.AnioAtt = Convert.ToInt32(dr["AñoATT"]);
-                                        pedido.IDAutotanque = Convert.ToInt32(dr["Autotanque"]);
+                                        pedido.IDAutotanque = objDireccion.IDAutotanque;// Convert.ToInt32(dr["Autotanque"]);
                                         pedido.IDFolioAtt = Convert.ToInt32(dr["Folio"]);
 
                                         RTGMCore.RutaCRMDatos ruta = new RTGMCore.RutaCRMDatos();
-                                        ruta.IDRuta = Convert.ToInt32(dr["RutaCliente"]);
+                                        ruta.IDRuta = objDireccion.Ruta.IDRuta;// Convert.ToInt32(dr["RutaCliente"]);
 
-                                        pedido.RutaSuministro = ruta;
+                                        pedido.RutaSuministro = objDireccion.Ruta;// ruta;
                                         pedido.IDFormaPago = Convert.ToInt32(dr["TipoCobro"]);
 
                                         lstPedido.Add(pedido);
                                     }
                                     RTGMGateway.SolicitudActualizarPedido Solicitud = new RTGMGateway.SolicitudActualizarPedido();
                                     Solicitud.Fuente = RTGMCore.Fuente.CRM;
-                                    Solicitud.IDEmpresa = 1;
+                                    Solicitud.IDEmpresa = empresa;
                                     Solicitud.Pedidos = lstPedido;
                                     Solicitud.Portatil = false;
                                     Solicitud.TipoActualizacion = RTGMCore.TipoActualizacion.Liquidacion;
                                     Solicitud.Usuario = _Usuario;
                                     List<RTGMCore.Pedido> ListaRespuesta = objGateway.ActualizarPedido(Solicitud);
+
+                                    //MessageBox.Show("ListaRespuesta.Count: " + Convert.ToString(ListaRespuesta.Count));
 
                                     //rtgm
                                 }
