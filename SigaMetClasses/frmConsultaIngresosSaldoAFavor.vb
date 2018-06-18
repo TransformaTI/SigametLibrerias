@@ -74,16 +74,19 @@ Public Class frmConsultaIngresosSaldoAFavor
     End Sub
 
     Private Sub grvIngresos_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles grvIngresos.DataBindingComplete
+        Try
+            If grvIngresos.Rows.Count > 0 Then
+                For Each row As DataGridViewRow In grvIngresos.Rows
+                    Dim checkBoxColumnIndex As Integer = Me.gvcSeleccionar.Index
+                    Dim cellCheckBox As DataGridViewCheckBoxCell = grvIngresos(checkBoxColumnIndex, row.Index)
+                    Dim estatus As String = dtIngresos.Rows(row.Index).Item("StatusMovimiento").ToString
 
-        If grvIngresos.Rows.Count > 0 Then
-            For Each row As DataGridViewRow In grvIngresos.Rows
-                Dim checkBoxColumnIndex As Integer = Me.gvcSeleccionar.Index
-                Dim cellCheckBox As DataGridViewCheckBoxCell = grvIngresos(checkBoxColumnIndex, row.Index)
-                Dim estatus As String = dtIngresos.Rows(row.Index).Item("StatusMovimiento").ToString
-
-                DeshabilitarCheckBox(cellCheckBox, estatus)
-            Next
-        End If
+                    DeshabilitarCheckBox(cellCheckBox, estatus)
+                Next
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, _Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
 #End Region
