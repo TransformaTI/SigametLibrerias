@@ -4508,6 +4508,29 @@ Public Class cTarjetaCredito
         End Try
     End Function
 
+    Public Function ConsultaPagosConTarjeta(ByVal Cliente As Integer, Ruta As Integer, Autotanque As Integer) As DataTable
+        Dim cmd As New SqlCommand()
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "spCBConsultarCargoTarjetaClienteCaja"
+        cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+        cmd.Parameters.Add("@Ruta", SqlDbType.Int).Value = Ruta
+        cmd.Parameters.Add("@Autotanque", SqlDbType.Int).Value = Autotanque
+
+        cmd.Connection = DataLayer.Conexion
+        Dim da As New SqlDataAdapter(cmd)
+        Dim dt As New DataTable("CargoTarjeta")
+
+        Try
+            da.Fill(dt)
+            Return dt
+        Catch ex As Exception
+            Throw ex
+        Finally
+            da.Dispose()
+            da = Nothing
+        End Try
+    End Function
+
     Public Function Valida(ByVal TarjetaCredito As String) As Integer
         Dim cmd As New SqlCommand("exec sp_DigitoVerificadorContrato " & TarjetaCredito, DataLayer.Conexion)
         Try
@@ -4520,6 +4543,8 @@ Public Class cTarjetaCredito
             CierraConexion()
         End Try
     End Function
+
+
 End Class
 #End Region
 
