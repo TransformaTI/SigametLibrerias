@@ -5931,24 +5931,24 @@ Public Class frmLiquidacionPortatil
 
         For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
             If Cobro.TipoCobro = 5 Then
-                TotalEfectivo = TotalEfectivo + Cobro.Importe
+                TotalEfectivo = TotalEfectivo + Cobro.Total
             End If
             If Cobro.TipoCobro = 2 Then
-                TotalVales = TotalVales + Cobro.Importe
+                TotalVales = TotalVales + Cobro.Total
             End If
             If Cobro.TipoCobro = 10 Then
-                TotalTransferencia = TotalTransferencia + Cobro.Importe
+                TotalTransferencia = TotalTransferencia + Cobro.Total
             End If
             If Cobro.TipoCobro = 6 Or Cobro.TipoCobro = 19 Then
-                TotalTarjeta = TotalTarjeta + Cobro.Importe
+                TotalTarjeta = TotalTarjeta + Cobro.Total
             End If
             If Cobro.TipoCobro = 30 Then
-                TotalAnticipo = TotalAnticipo + Cobro.Importe
+                TotalAnticipo = TotalAnticipo + Cobro.Total
             End If
             If Cobro.TipoCobro = 3 Then
-                TotalCheques = TotalCheques + Cobro.Importe
+                TotalCheques = TotalCheques + Cobro.Total
             End If
-            TotalLiquidado = TotalLiquidado + Cobro.Importe
+            TotalLiquidado = TotalLiquidado + Cobro.Total
         Next
 
         lblEfectivo.Text = TotalEfectivo.ToString("N2")
@@ -6068,9 +6068,11 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnPagoEfectivo_Click(sender As Object, e As EventArgs) Handles btnPagoEfectivo.Click
-        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 0)
+        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 0, _Folio)
+        Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
+        frmSeleTipoCobro.fecha = fechaCargo
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
