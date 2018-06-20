@@ -6096,10 +6096,15 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnCancelarPago_Click(sender As Object, e As EventArgs) Handles btnCancelarPago.Click
-        If MessageBox.Show("¿Realmente desea eliminar los cobros capturados para la liquidación de esta ruta?", Me.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) = DialogResult.OK Then
-            _listaCobros.Clear()
-            ActualizarTotalizadorFormasDePago(_listaCobros)
+
+        Dim oCancelarPago As New frmCancelarPago()
+        oCancelarPago.Cobros = _listaCobros
+        oCancelarPago.Show()
+        If oCancelarPago.DialogResult = DialogResult.OK Then
+
         End If
+        ActualizarTotalizadorFormasDePago(_listaCobros)
+
     End Sub
 
 
