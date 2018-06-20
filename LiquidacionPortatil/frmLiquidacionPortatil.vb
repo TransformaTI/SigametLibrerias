@@ -5884,9 +5884,11 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnCapturarCheque_Click(sender As Object, e As EventArgs) Handles btnCapturarCheque.Click
-        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 3)
+        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 3, _Folio)
+        Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
+        frmSeleTipoCobro.fecha = fechaCargo
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -5985,11 +5987,12 @@ Public Class frmLiquidacionPortatil
 
 
     Private Sub btnCapturarTarjeta_Click(sender As Object, e As EventArgs) Handles btnCapturarTarjeta.Click
-        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 2)
+        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 2, _Folio)
+        Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.TipoLiquidacion = "LiqPortatil"
-
+        frmSeleTipoCobro.fecha = fechaCargo
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -6007,9 +6010,11 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnTransferencia_Click(sender As Object, e As EventArgs) Handles btnTransferencia.Click
-        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 6)
+        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 6, _Folio)
+        Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
+        frmSeleTipoCobro.fecha = fechaCargo
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -6027,9 +6032,11 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnCapturarVale_Click(sender As Object, e As EventArgs) Handles btnCapturarVale.Click
-        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 1)
+        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 1, _Folio)
+        Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
+        frmSeleTipoCobro.fecha = fechaCargo
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -6046,10 +6053,12 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnAplicacionAnticipo_Click(sender As Object, e As EventArgs) Handles btnAplicacionAnticipo.Click
-        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 4)
+        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 4, _Folio)
+        Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.DebitoAnticipos = _listaDebitoAnticipos
+        frmSeleTipoCobro.fecha = fechaCargo
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
