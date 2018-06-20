@@ -115,7 +115,7 @@
     </Reference>
     <Reference Include="ModuloCaja, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Caja\Caja\ModuloCaja\bin\ModuloCaja.exe</HintPath>
+      <HintPath>..\..\Caja\Caja\ModuloCaja\bin\ModuloCaja.dll</HintPath>
     </Reference>
     <Reference Include="PortatilClasses, Version=1.7.0.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -158,6 +158,12 @@
   <ItemGroup>
     <Compile Include="Celula.vb" />
     <Compile Include="frmAbonosExtraordinariosHidro.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCancelarPago.Designer.vb">
+      <DependentUpon>frmCancelarPago.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmCancelarPago.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmDetallePedidoRemision.vb">
@@ -224,6 +230,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmCancelarPago.resx">
+      <DependentUpon>frmCancelarPago.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmDetallePedidoRemision.resx">
       <DependentUpon>frmDetallePedidoRemision.vb</DependentUpon>
     </EmbeddedResource>
