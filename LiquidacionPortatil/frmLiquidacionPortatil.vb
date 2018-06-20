@@ -6137,11 +6137,22 @@ Public Class frmLiquidacionPortatil
         End Try
     End Sub
 
+    Private Sub grbDetalleProducto_Enter(sender As Object, e As EventArgs) Handles grbDetalleProducto.Enter
+
+    End Sub
+
     Public Sub cargarRemisiones()
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
+        Dim TotalKilos As New Decimal
         '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
         _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(119151, 90632)
         grdDetalle.DataSource = _DetalleGrid
+
+        TotalKilos = Convert.ToDecimal(_DetalleGrid.Compute("SUM(Kilos)", String.Empty))
+
+        lblTotalKilos.Text = Convert.ToString(TotalKilos)
+
+
 
     End Sub
 End Class
