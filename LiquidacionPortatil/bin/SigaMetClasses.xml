@@ -31,7 +31,7 @@ SigaMetClasses
  <summary>
  Constructor del formulario
  </summary>
- <param name="tipoUsuario">Puede ser CALIDAD o USCAP</param>
+ <param name="tipoUsuario">Puede ser CALIDAD, USCAP o CONSULTA</param>
 </member>
 <member name="M:SigaMetClasses.frmConsultaIngresosSaldoAFavor.BuscarActualizar(System.Boolean)">
  <summary>
@@ -63,6 +63,14 @@ SigaMetClasses
  Actualiza el estatus de PENDIENTE a REGISTRADO y
  el TipoMovimiento de 4 a 1 en los registros seleccionados
  </summary>
+</member>
+<member name="M:SigaMetClasses.frmConsultaIngresosSaldoAFavor.DeshabilitarCheckBox(System.Windows.Forms.DataGridViewCheckBoxCell,System.String)">
+ <summary>
+ Deshabilita los CheckBox del grid dependiendo de las acciones que 
+ puede realizar cada tipo de usuario
+ </summary>
+ <param name="cellCheckBox"></param>
+ <param name="estatus"></param>
 </member>
 </members>
 </doc>
