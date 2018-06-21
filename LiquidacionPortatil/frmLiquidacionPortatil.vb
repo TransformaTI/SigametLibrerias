@@ -6112,10 +6112,9 @@ Public Class frmLiquidacionPortatil
         oCancelarPago.Cobros = _listaCobros
         oCancelarPago.Show()
         If oCancelarPago.DialogResult = DialogResult.OK Then
-
+            _listaCobros = oCancelarPago.Cobros
         End If
         ActualizarTotalizadorFormasDePago(_listaCobros)
-
     End Sub
 
 

@@ -19,7 +19,7 @@ Public Class frmCancelarPago
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
-
+        Me.Close()
     End Sub
 
     Private Sub dgvCobros_CellContentClick(sender As Object, e As Windows.Forms.DataGridViewCellEventArgs) Handles dgvCobros.CellContentClick
@@ -31,7 +31,7 @@ Public Class frmCancelarPago
 
         If TypeOf grid.Columns(e.ColumnIndex) Is DataGridViewButtonColumn Then
             If grid.Columns(e.ColumnIndex).Name = "btnEliminar" Then
-                If MessageBox.Show("Está a punto de eliminar un cobro ¿desea continuar o cancelar?", Me.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) = DialogResult.OK Then
+                If MessageBox.Show("Está a punto de eliminar un cobro de forma irreversible ¿desea continuar o cancelar?", Me.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) = DialogResult.OK Then
                     MessageBox.Show(e.RowIndex.ToString & " filas " & _Cobros.Count.ToString)
                     Try
                         dgvCobros.DataSource = Nothing
