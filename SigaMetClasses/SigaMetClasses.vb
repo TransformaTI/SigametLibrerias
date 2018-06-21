@@ -6775,6 +6775,17 @@ Public Class CobroDetalladoDatos
     Private _AñoCobroOrigen As Int16
     Private _CobroOrigen As Integer
     Private _TPV As Boolean
+    Private _Pago As Integer
+
+    Public Property Pago() As Integer
+        Get
+            Return _Pago
+        End Get
+        Set(ByVal value As Integer)
+            _Pago = value
+        End Set
+    End Property
+
 
     Public Property AñoCobro() As Int16
         Get
@@ -7138,6 +7149,12 @@ Public Class LiquidacionPortatil
             da = Nothing
         End Try
     End Function
+End Class
+#End Region
+
+#Region "CobroRemision"
+Public Class CobroRemision
+
 End Class
 #End Region
 

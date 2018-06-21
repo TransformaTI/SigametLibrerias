@@ -4773,8 +4773,8 @@ Public Class frmLiquidacionPortatil
     '                Impuesto = Total - Importe
 
     '                If Not dtPedidoCobro.DefaultView.Item(k).Item(7) Is System.DBNull.Value Then
-    Dim oLiquidacionCobroPedido As New Liquidacion.cLiquidacion(1, CType(_drLiquidacion(0).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(7), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(8), Integer))
-                        oLiquidacionCobroPedido.LiquidacionPedidoyCobroPedido(0, Now, 0, 0, Importe, Impuesto, Total, "", 0, Now, 0, "", 0, 0, 0, CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer), "", 0, 0, 0, 0, "", 0, Now, Now, 0, 0, 0, 0, 0, 0, 0, 0)
+    'Dim oLiquidacionCobroPedido As New Liquidacion.cLiquidacion(1, CType(_drLiquidacion(0).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(7), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(8), Integer))
+    'oLiquidacionCobroPedido.LiquidacionPedidoyCobroPedido(0, Now, 0, 0, Importe, Impuesto, Total, "", 0, Now, 0, "", 0, 0, 0, CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer), "", 0, 0, 0, 0, "", 0, Now, Now, 0, 0, 0, 0, 0, 0, 0, 0)
     '                End If
     '            End If
     '            k = k + 1
@@ -6082,6 +6082,7 @@ Public Class frmLiquidacionPortatil
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.fecha = fechaCargo
+        frmSeleTipoCobro.TotalCobros = _listaCobros.Count
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -6160,7 +6161,6 @@ Public Class frmLiquidacionPortatil
         grdDetalle.DataSource = _DetalleGrid
 
         TotalKilos = Convert.ToDecimal(_DetalleGrid.Compute("SUM(Kilos)", String.Empty))
-
         lblTotalKilos.Text = Convert.ToString(TotalKilos)
 
 
