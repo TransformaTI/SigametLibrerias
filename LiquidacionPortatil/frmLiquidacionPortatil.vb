@@ -4773,8 +4773,8 @@ Public Class frmLiquidacionPortatil
     '                Impuesto = Total - Importe
 
     '                If Not dtPedidoCobro.DefaultView.Item(k).Item(7) Is System.DBNull.Value Then
-    '                    Dim oLiquidacionCobroPedido As New Liquidacion.cLiquidacion(1, CType(_drLiquidacion(0).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(7), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(8), Integer))
-    '                    oLiquidacionCobroPedido.LiquidacionPedidoyCobroPedido(0, Now, 0, 0, Importe, Impuesto, Total, "", 0, Now, 0, "", 0, 0, 0, CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer), "", 0, 0, 0, 0, "", 0, Now, Now, 0, 0, 0, 0, 0, 0, 0, 0)
+    Dim oLiquidacionCobroPedido As New Liquidacion.cLiquidacion(1, CType(_drLiquidacion(0).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(7), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(8), Integer))
+                        oLiquidacionCobroPedido.LiquidacionPedidoyCobroPedido(0, Now, 0, 0, Importe, Impuesto, Total, "", 0, Now, 0, "", 0, 0, 0, CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer), "", 0, 0, 0, 0, "", 0, Now, Now, 0, 0, 0, 0, 0, 0, 0, 0)
     '                End If
     '            End If
     '            k = k + 1
@@ -6115,7 +6115,7 @@ Public Class frmLiquidacionPortatil
                     _listaCobros = oCancelarPago.Cobros
                 End If
             Else
-                MessageBox.Show("No hay cobros registrados aún, imposible eliminarlos.", Me.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation)
+                MessageBox.Show("No hay cobros registrados aún, imposible eliminarlos.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
             ActualizarTotalizadorFormasDePago(_listaCobros)
         Catch ex As Exception

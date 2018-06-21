@@ -23,7 +23,6 @@ Partial Class frmCancelarPago
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.dgvCobros = New System.Windows.Forms.DataGridView()
-        Me.btnAceptar = New System.Windows.Forms.Button()
         Me.Pago = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Cliente = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Banco = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -32,6 +31,7 @@ Partial Class frmCancelarPago
         Me.Referencia = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TipoCobro = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.btnEliminar = New System.Windows.Forms.DataGridViewButtonColumn()
+        Me.btnAceptar = New System.Windows.Forms.Button()
         CType(Me.dgvCobros, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -45,15 +45,6 @@ Partial Class frmCancelarPago
         Me.dgvCobros.ReadOnly = True
         Me.dgvCobros.Size = New System.Drawing.Size(862, 267)
         Me.dgvCobros.TabIndex = 0
-        '
-        'btnAceptar
-        '
-        Me.btnAceptar.Location = New System.Drawing.Point(375, 296)
-        Me.btnAceptar.Name = "btnAceptar"
-        Me.btnAceptar.Size = New System.Drawing.Size(147, 23)
-        Me.btnAceptar.TabIndex = 1
-        Me.btnAceptar.Text = "&Aceptar"
-        Me.btnAceptar.UseVisualStyleBackColor = True
         '
         'Pago
         '
@@ -112,6 +103,15 @@ Partial Class frmCancelarPago
         Me.btnEliminar.ToolTipText = "Eliminar"
         Me.btnEliminar.UseColumnTextForButtonValue = True
         '
+        'btnAceptar
+        '
+        Me.btnAceptar.Location = New System.Drawing.Point(375, 296)
+        Me.btnAceptar.Name = "btnAceptar"
+        Me.btnAceptar.Size = New System.Drawing.Size(147, 23)
+        Me.btnAceptar.TabIndex = 1
+        Me.btnAceptar.Text = "&Aceptar"
+        Me.btnAceptar.UseVisualStyleBackColor = True
+        '
         'frmCancelarPago
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -119,7 +119,11 @@ Partial Class frmCancelarPago
         Me.ClientSize = New System.Drawing.Size(886, 341)
         Me.Controls.Add(Me.btnAceptar)
         Me.Controls.Add(Me.dgvCobros)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.MaximizeBox = False
         Me.Name = "frmCancelarPago"
+        Me.ShowInTaskbar = False
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Cancelar Pago"
         CType(Me.dgvCobros, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
