@@ -4443,7 +4443,6 @@ Public Class cMovimientoAConciliarCobro
 #End Region
 #End Region
 End Class
-
 #Region "TarjetaCredito"
 Public Class cTarjetaCredito
     Public Sub AltaModifica(ByVal Cliente As Integer,
@@ -6776,6 +6775,8 @@ Public Class CobroDetalladoDatos
     Private _CobroOrigen As Integer
     Private _TPV As Boolean
 
+    Private _Pedidos As New List(Of CobroPedidoDetalladoDatos)
+
     Public Property AñoCobro() As Int16
         Get
             Return _AñoCobro
@@ -7022,6 +7023,15 @@ Public Class CobroDetalladoDatos
         End Get
         Set
             _TPV = Value
+        End Set
+    End Property
+
+    Public Property Pedidos() As List(Of CobroPedidoDetalladoDatos)
+        Get
+            Return _Pedidos
+        End Get
+        Set(value As List(Of CobroPedidoDetalladoDatos))
+            _Pedidos = value
         End Set
     End Property
 #End Region
@@ -7841,6 +7851,21 @@ Public Structure sDiaSemana
     End Property
 End Structure
 #End Region
+
+#Region "CobroPedidoDetalladoDatos"
+Public Structure CobroPedidoDetalladoDatos
+    Public Celula As Short
+    Public AñoPed As Short
+    Public Pedido As Integer
+    Public Importe As Decimal
+    Public Impuesto As Decimal
+    Public Total As Decimal
+    Public AñoCobro As Decimal
+    Public Cobro As Decimal
+
+End Structure
+#End Region
+
 
 #End Region
 
