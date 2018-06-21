@@ -32,12 +32,11 @@ Public Class frmCancelarPago
         If TypeOf grid.Columns(e.ColumnIndex) Is DataGridViewButtonColumn Then
             If grid.Columns(e.ColumnIndex).Name = "btnEliminar" Then
                 If MessageBox.Show("Está a punto de eliminar un cobro de forma irreversible ¿desea continuar o cancelar?", Me.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) = DialogResult.OK Then
-                    MessageBox.Show(e.RowIndex.ToString & " filas " & _Cobros.Count.ToString)
                     Try
                         dgvCobros.DataSource = Nothing
                         _Cobros.RemoveAt(e.RowIndex)
                     Catch ex As IndexOutOfRangeException
-                        MessageBox.Show(e.RowIndex.ToString & " filas " & _Cobros.Count.ToString)
+                        MessageBox.Show("Error: " & ex.Message & " el intentar eliminar la fila " & e.RowIndex.ToString & " de " & _Cobros.Count.ToString & " filas ")
                     End Try
                     dgvCobros.DataSource = _Cobros
                 End If
