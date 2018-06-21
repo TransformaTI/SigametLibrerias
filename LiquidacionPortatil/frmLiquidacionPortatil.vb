@@ -6107,18 +6107,21 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnCancelarPago_Click(sender As Object, e As EventArgs) Handles btnCancelarPago.Click
-
-        If _listaCobros.Count > 0 Then
-            Dim oCancelarPago As New frmCancelarPago()
-            oCancelarPago.Cobros = _listaCobros
-            oCancelarPago.Show()
-            If oCancelarPago.DialogResult = DialogResult.OK Then
-                _listaCobros = oCancelarPago.Cobros
+        Try
+            If _listaCobros.Count > 0 Then
+                Dim oCancelarPago As New frmCancelarPago()
+                oCancelarPago.Cobros = _listaCobros
+                If oCancelarPago.ShowDialog = DialogResult.OK Then
+                    _listaCobros = oCancelarPago.Cobros
+                End If
+            Else
+                MessageBox.Show("No hay cobros registrados aún, imposible eliminarlos.", Me.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation)
             End If
-        Else
-            MessageBox.Show("No hay cobros registrados aún, imposible eliminarlos.", Me.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation)
-        End If
-        ActualizarTotalizadorFormasDePago(_listaCobros)
+            ActualizarTotalizadorFormasDePago(_listaCobros)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+
     End Sub
 
 
