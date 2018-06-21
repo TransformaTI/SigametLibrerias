@@ -199,14 +199,12 @@ C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\bin\Co
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\bin\ModuloCaja.pdb
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\bin\ModuloCaja.xml
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\bin\ModuloCaja.dll.config
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\bin\ModuloCaja.exe.config
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\bin\SigaMetClasses.pdb
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\bin\SigaMetClasses.xml
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.vbproj.CopyComplete
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.dll
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.xml
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.pdb
-C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.vbprojAssemblyReference.cache
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\LiquidacionPortatil.dll
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\LiquidacionPortatil.pdb
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\LiquidacionPortatil.xml
@@ -274,3 +272,6 @@ C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\obj\Debug\Liquidac
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.xml
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.pdb
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.vbprojAssemblyReference.cache
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.frmCancelarPago.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\bin\ModuloCaja.exe.config
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.vbprojAssemblyReference.cache
