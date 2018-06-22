@@ -53,9 +53,7 @@ Public Class frmLiquidacionPortatil
     Public dtCantidades As New DataTable
 
     Private _listaCobros As New List(Of SigaMetClasses.CobroDetalladoDatos)
-
-
-
+    Private _ListaCobroRemisiones As List(Of SigaMetClasses.CobroRemisiones)
     Public Property Cobros() As List(Of SigaMetClasses.CobroDetalladoDatos)
         Get
             Return _listaCobros
@@ -6094,6 +6092,8 @@ Public Class frmLiquidacionPortatil
             End If
             ActualizarTotalizadorFormasDePago(_listaCobros)
 
+            _ListaCobroRemisiones = frmSeleTipoCobro.CobroRemisiones
+
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
@@ -6112,8 +6112,13 @@ Public Class frmLiquidacionPortatil
             If _listaCobros.Count > 0 Then
                 Dim oCancelarPago As New frmCancelarPago()
                 oCancelarPago.Cobros = _listaCobros
+                oCancelarPago.CobroRemisiones = _ListaCobroRemisiones
+
+                oCancelarPago.Remisiones = _DetalleGrid
                 If oCancelarPago.ShowDialog = DialogResult.OK Then
                     _listaCobros = oCancelarPago.Cobros
+                    _DetalleGrid = oCancelarPago.Remisiones
+                    _ListaCobroRemisiones = oCancelarPago.CobroRemisiones
                 End If
             Else
                 MessageBox.Show("No hay cobros registrados aún, imposible eliminarlos.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
