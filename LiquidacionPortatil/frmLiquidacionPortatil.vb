@@ -5610,7 +5610,7 @@ Public Class frmLiquidacionPortatil
     Private Sub VerificarDatos()
         If VerificaDatos() Then
             If VerificaDatosClienteNormal() Then
-                'CargaGrid()
+                CargaGrid()
                 cargarRemisiones()
                 cboTipoCobro.SelectedIndex = 0
                 cboZEconomica.SelectedIndex = 0
