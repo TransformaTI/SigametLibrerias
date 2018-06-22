@@ -4773,8 +4773,8 @@ Public Class frmLiquidacionPortatil
     '                Impuesto = Total - Importe
 
     '                If Not dtPedidoCobro.DefaultView.Item(k).Item(7) Is System.DBNull.Value Then
-    Dim oLiquidacionCobroPedido As New Liquidacion.cLiquidacion(1, CType(_drLiquidacion(0).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(7), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(8), Integer))
-                        oLiquidacionCobroPedido.LiquidacionPedidoyCobroPedido(0, Now, 0, 0, Importe, Impuesto, Total, "", 0, Now, 0, "", 0, 0, 0, CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer), "", 0, 0, 0, 0, "", 0, Now, Now, 0, 0, 0, 0, 0, 0, 0, 0)
+    'Dim oLiquidacionCobroPedido As New Liquidacion.cLiquidacion(1, CType(_drLiquidacion(0).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(7), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(8), Integer))
+    '                   oLiquidacionCobroPedido.LiquidacionPedidoyCobroPedido(0, Now, 0, 0, Importe, Impuesto, Total, "", 0, Now, 0, "", 0, 0, 0, CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer), "", 0, 0, 0, 0, "", 0, Now, Now, 0, 0, 0, 0, 0, 0, 0, 0)
     '                End If
     '            End If
     '            k = k + 1
@@ -6132,6 +6132,111 @@ Public Class frmLiquidacionPortatil
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
         Try
+            If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
+                MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidación," + Chr(13) + "favor de ajustar la fecha y hora conforme a la operación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return
+            End If
+
+            If _LiqPrecioVigente = False Then
+                If MessageBox.Show("¿Está a punto de realizar la liquidación con precios probablemente no vigentes ¿Desea continuar?", Me.Text,
+                               MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
+                    Exit Sub
+                End If
+            End If
+
+            If grdDetalle.VisibleRowCount > 0 Then
+
+                If _FlagPedidoPortatil Then
+                    Dim oLiquidacionPedido As LiquidacionTransaccionada.cLiquidacion
+                    oLiquidacionPedido = New LiquidacionTransaccionada.cLiquidacion(0, CType(_drLiquidacion(0).Item(4), Short), 0, 0)
+                    Dim listaFolios As New ArrayList
+                    listaFolios = oLiquidacionPedido.ConsultaFoliosFaltantesMovil(_AnoAtt, _Folio, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime), New SqlConnection(PortatilClasses.Globals.GetInstance._CadenaConexion))
+
+                    If (listaFolios.Count > 0) Then
+                        Dim Mensaje As New StringBuilder()
+                        Mensaje.Append("Existe pérdida de folios en el rango que se desea liquidar.")
+                        Mensaje.AppendLine()
+                        Mensaje.Append("Los folios faltantes son :")
+                        Mensaje.AppendLine()
+                        Dim num As Integer
+                        For Each num In listaFolios
+                            Mensaje.Append(num)
+                            Mensaje.AppendLine()
+                        Next
+                        Mensaje.Append("Favor de verificarlo con el encargado de sistemas.")
+                        MessageBox.Show(Mensaje.ToString(), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        Return
+                    End If
+
+                    Dim listaFoliosALiquidar As New DataTable
+                    listaFoliosALiquidar = oLiquidacionPedido.ConsulaFoliosLiquidacion(_AnoAtt, _Folio, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime), New SqlConnection(PortatilClasses.Globals.GetInstance._CadenaConexion))
+
+
+                    If (listaFoliosALiquidar.Rows.Count > 0) Then
+                        Dim frmFolios As New frmFoliosLiquidacion()
+                        frmFolios.Datos = listaFoliosALiquidar
+                        frmFolios.ShowDialog()
+                    End If
+
+                End If
+
+
+                Dim oMovimiento As New PortatilClasses.Consulta.cMovAprobadoyVerificado(dtpFLiquidacion.Value, _AlmacenGas, 0) ' 20061114CAGP$001
+                If oMovimiento.RealizarMovimiento() Then        '20061114CAGP$001
+                    'lblEfectivo.Text = CType(capEfectivo.TotalEfectivo + Vales.TotalVales + ofrmPagoCheque._MontoCheque, Decimal).ToString("N2")
+                    '_Cambio = (capEfectivo.TotalEfectivo + Vales.TotalVales + ofrmPagoCheque._MontoCheque) - _TotalNetoCaja
+
+                    If _Cambio >= 0 Then
+                        lblCambio.Text = CType(_Cambio, Decimal).ToString("N2")
+                        If _Cambio > 0 Then
+                            Dim ofrmCambioPortatil As frmCambioPortatil
+                            ofrmCambioPortatil = New frmCambioPortatil(_Cambio)
+                            If ofrmCambioPortatil.ShowDialog() = DialogResult.OK Then
+                                If AceptaLiquidacion() Then
+                                    arrEfectivo = capEfectivo.CalculaDenominaciones
+                                    'arrVales = Vales.CalculaDenominaciones
+                                    arrCambio = ofrmCambioPortatil.Efectivo.CalculaDenominaciones
+                                    Cursor = Cursors.WaitCursor
+                                    RealizarLiquidacion()
+                                    _Liquidado = True
+                                    Me.DialogResult() = DialogResult.OK
+                                    Me.Close()
+                                    Cursor = Cursors.Default
+                                End If
+                            End If
+
+                        Else
+                            If AceptaLiquidacion() Then
+                                arrEfectivo = capEfectivo.CalculaDenominaciones
+                                'arrVales = Vales.CalculaDenominaciones
+                                Cursor = Cursors.WaitCursor
+                                RealizarLiquidacion()
+                                _Liquidado = True
+                                Me.DialogResult() = DialogResult.OK
+                                Me.Close()
+                                Cursor = Cursors.Default
+                            End If
+                        End If
+                    Else
+                        Dim oMensaje As New PortatilClasses.Mensaje(50)
+                        MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        lblEfectivo.Text = "0.00"
+                        lblVales.Text = "0.00"
+                    End If
+                    ' 20061114CAGP$001 /I
+                Else
+                    Dim Mensajes As New PortatilClasses.Mensaje(87, oMovimiento.Mensaje)
+                    MessageBox.Show(Mensajes.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    ActiveControl = dtpFLiquidacion
+                End If
+                oMovimiento = Nothing
+                ' 20061114CAGP$001 /F
+            Else
+                Dim oMensaje As New PortatilClasses.Mensaje(51)
+                MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+
+
             For Each Cobro As SigaMetClasses.CobroDetalladoDatos In _listaCobros
                 With Cobro
                     Cobro.insertaCobro(.AñoCobro, .Cobro, .Importe, .Impuesto, .Total, .Referencia, .Banco, .FAlta, .Status, .TipoCobro, .NumeroCheque,
