@@ -12,7 +12,6 @@ Public Class frmCancelarPago
             _Cobros = value
         End Set
     End Property
-
     Private Sub frmCancelarPago_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         dgvCobros.AutoGenerateColumns = False
         dgvCobros.DataSource = _Cobros
