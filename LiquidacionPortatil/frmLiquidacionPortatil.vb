@@ -5376,8 +5376,11 @@ Public Class frmLiquidacionPortatil
         Mensaje = Mensaje + "Crédito: " + Chr(9) + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblCredito.Text) + Chr(13)
         Mensaje = Mensaje + "TOTAL A COBRAR: " + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblTotalCobro.Text) + Chr(13)
         Mensaje = Mensaje + "Efectivo: " + Chr(9) + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblEfectivo.Text) + Chr(13)
-        Mensaje = Mensaje + "Vales de despensa: " + Chr(9) + "$" + String.Format("{0,15:C}", lblVales.Text) + Chr(13)
-        Mensaje = Mensaje + "Cheques: " + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblCheque.Text) + Chr(13)
+        Mensaje = Mensaje + "Vales de despensa:        " + Chr(9) + "$" + String.Format("{0,15:C}", lblVales.Text) + Chr(13)
+        Mensaje = Mensaje + "Transferencia Electrónic: " + Chr(9) + "$" + String.Format("{0,15:C}", lblTransferElect.Text) + Chr(13)
+        Mensaje = Mensaje + "Tarjeta débito y crédito: " + Chr(9) + "$" + String.Format("{0,15:C}", lblTarjDebCred.Text) + Chr(13)
+        Mensaje = Mensaje + "Aplicación de Anticipo:         " + Chr(9) + "$" + String.Format("{0,15:C}", lblAplicAnticipo.Text) + Chr(13)
+        Mensaje = Mensaje + "Cheques:         " + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblCheque.Text) + Chr(13)
         Mensaje = Mensaje + "Cambio: " + Chr(9) + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblCambio.Text) + Chr(13)
 
         If MessageBox.Show("¿Son correctos los datos de la liquidación?" + Chr(13) + Mensaje + Chr(13) + "Tripulación" + Chr(13) + strTripulacion, Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
