@@ -2583,7 +2583,6 @@ Public Class frmLiquidacionPortatil
                                     CType(oProducto.Rows(i).Item(2), Decimal),
                                     CType(oProducto.Rows(i).Item(3), Integer),
                                     CType(oProducto.Rows(i).Item(4), Integer))
-
                 '20150627CNSM$001-----------------
 
 
@@ -2591,8 +2590,7 @@ Public Class frmLiquidacionPortatil
                 InicializarComponentes(CType(oProducto.Rows(i).Item(0), Integer),
                                    CType(oProducto.Rows(i).Item(1), String),
                                    CType(oProducto.Rows(i).Item(2), Decimal),
-                                   CType(oProducto.Rows(i).Item(3), Integer),
-                                   1)
+                                   CType(oProducto.Rows(i).Item(3), Integer))
             End If
 
             i = i + 1
