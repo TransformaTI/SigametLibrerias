@@ -7136,6 +7136,69 @@ Public Class CobroDetalladoDatos
 
 End Class
 
+
+#Region "CobroRemisiones"
+#Region "Propiedades"
+Public Class CobroRemisiones
+    Public Sub New()
+        MyBase.New()
+    End Sub
+
+    Private _Serie As String
+    Private _Remision As String
+    Private _Pago As Integer
+    Private _MontoAbonado As Decimal
+
+    Public Property Pago() As Integer
+        Get
+            Return _Pago
+        End Get
+        Set(ByVal value As Integer)
+            _Pago = value
+        End Set
+    End Property
+
+
+    Public Property Serie() As String
+        Get
+            Return _Serie
+        End Get
+        Set(ByVal value As String)
+            _Serie = value
+        End Set
+    End Property
+
+    Public Property Remision() As String
+        Get
+            Return _Remision
+        End Get
+        Set(ByVal value As String)
+            _Remision = value
+        End Set
+    End Property
+
+
+    Public Property MontoAbonado() As Decimal
+        Get
+            Return _MontoAbonado
+        End Get
+        Set(ByVal value As Decimal)
+            _MontoAbonado = value
+        End Set
+    End Property
+
+
+End Class
+
+
+
+
+#End Region
+
+
+
+#End Region
+
 Public Class LiquidacionPortatil
 
     Public Function cargarRemisionesPortatilALiquidar(ByVal Folio As Integer, ByVal Orden As Integer) As DataTable
@@ -7161,6 +7224,9 @@ Public Class LiquidacionPortatil
     End Function
 End Class
 #End Region
+
+
+
 
 #Region "CobroRemision"
 Public Class CobroRemision
