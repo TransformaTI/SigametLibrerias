@@ -5,6 +5,7 @@ Public Class frmCancelarPago
     Private _Cobros As New List(Of SigaMetClasses.CobroDetalladoDatos)
 
     Private _ListaCobroRemisiones As List(Of SigaMetClasses.CobroRemisiones)
+    Private oCobroRemi As List(Of SigaMetClasses.CobroRemisiones)
 
 
     Private _Remisiones As DataTable
@@ -23,6 +24,7 @@ Public Class frmCancelarPago
         End Get
         Set(ByVal value As List(Of SigaMetClasses.CobroRemisiones))
             _ListaCobroRemisiones = value
+            ' oCobroRemi = _ListaCobroRemisiones
         End Set
     End Property
 
@@ -68,16 +70,26 @@ Public Class frmCancelarPago
                 End If
             End If
         End If
+
+        'CobroRemisiones = oCobroRemi
     End Sub
 
-    Private Sub ActualizaSaldoRemisiones(CobroEliminado As SigaMetClasses.CobroDetalladoDatos, Remisiones As DataTable, CobroRemisiones As List(Of SigaMetClasses.CobroRemisiones))
+    Private Sub ActualizaSaldoRemisiones(CobroEliminado As SigaMetClasses.CobroDetalladoDatos, Remisiones As DataTable, oCobroRemisiones As List(Of SigaMetClasses.CobroRemisiones))
+
+
         For Each Remision As DataRow In Remisiones.Rows
             For Each CobroRemision As SigaMetClasses.CobroRemisiones In CobroRemisiones
-                If (CobroEliminado.Pago = CobroRemision.Pago And CobroRemision.Remision = Remision("Remision").ToString() And CobroRemision.Serie = Remision("Serie").ToString()) Then
+                If (CobroEliminado.Pago = CobroRemision.Pago And CobroRemision.Remision.Trim() = Remision("Remision").ToString().Trim() And CobroRemision.Serie = Remision("Serie").ToString().Trim()) Then
+                    'Remisiones.BeginInit()
+
                     Remision("Saldo") = Convert.ToDecimal(Remision("Saldo")) + CobroRemision.MontoAbonado
-                    CobroRemisiones.Remove(CobroRemision)
+                    'Remisiones.EndInit()
+                    'oCobroRemi.Remove(CobroRemision)
+                    '_ListaCobroRemisiones.Remove(CobroRemision)
                 End If
             Next
         Next
+
+
     End Sub
 End Class

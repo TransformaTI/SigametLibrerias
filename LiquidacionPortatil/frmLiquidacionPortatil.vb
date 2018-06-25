@@ -6088,6 +6088,7 @@ Public Class frmLiquidacionPortatil
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.fecha = fechaCargo
         frmSeleTipoCobro.TotalCobros = _listaCobros.Count
+        frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
