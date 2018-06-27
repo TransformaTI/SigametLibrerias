@@ -99,7 +99,7 @@ Partial Class frmCancelarPago
         '
         'TipoCobro
         '
-        Me.TipoCobro.DataPropertyName = "TipoCobro"
+        Me.TipoCobro.DataPropertyName = "DscTipoCobro"
         Me.TipoCobro.HeaderText = "Tipo Cobro"
         Me.TipoCobro.Name = "TipoCobro"
         Me.TipoCobro.ReadOnly = True

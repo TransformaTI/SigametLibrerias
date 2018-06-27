@@ -3066,7 +3066,7 @@ Public Class frmLiquidacionPortatil
             Dim ExistenciaProducto As Integer
             'Dim lblExistenciaProducto As New System.Windows.Forms.Label()
             Dim i As Integer
-            While i < txtLista.Count
+            While i < _DetalleGrid.Rows.Count
                 'textBox1 = CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero)
                 'lblExistenciaProducto = CType(lblLista.Item(i), System.Windows.Forms.Label)
                 ExistenciaProducto = CType(ExistenciaLista(i), Integer)
@@ -6097,7 +6097,7 @@ Public Class frmLiquidacionPortatil
             frmSeleTipoCobro.fecha = fechaCargo
             frmSeleTipoCobro.TotalCobros = _listaCobros.Count
             frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
-            frmSeleTipoCobro.PagoEfectivoDefault = PagoEfectivoDefault
+
             If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
                 If _listaCobros.Count = 0 Then
                     _listaCobros = frmSeleTipoCobro.Cobros
@@ -6342,6 +6342,7 @@ Public Class frmLiquidacionPortatil
             .AñoCobroOrigen = CShort("0")
             .CobroOrigen = 0
             .TPV = False
+            .DscTipoCobro = "Efectivo"
         End With
         ' _listaCobros.Add(insertaCobro)
         Return insertaCobro
