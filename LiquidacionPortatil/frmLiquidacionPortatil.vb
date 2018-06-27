@@ -3150,7 +3150,9 @@ Public Class frmLiquidacionPortatil
                 drow(19) = cbxAplicaDescuento.Checked
 
                 ' If Not VerificaRegistroGrid(drow) Then
-                dtLiquidacionTotal.Rows.Add(drow)
+                If CDec(_DetalleGrid.Rows(i).Item(7)) = 0 Then
+                    dtLiquidacionTotal.Rows.Add(drow)
+                End If
                 'End If
 
                 grdDetalle.DataSource = Nothing
@@ -5512,39 +5514,6 @@ Public Class frmLiquidacionPortatil
 
     'Evento click en el boton Agregar que anexa la lista de productos a liquidar en el grid
     Private Sub btnAgregar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAgregar.Click
-        If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
-            MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidación," + Chr(13) + "Favor de ajustar la fecha y hora conforme a la operación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-
-        End If
-
-        If _BoletinEnLineaCamion = False Then
-            If _obligaInsercionRemision Then
-                If (TxtCliente.Text.Length > 0) Then
-                    If _ClienteVtaPublico = Convert.ToInt32(TxtCliente.Text) Or cboTipoCobro.Identificador = 15 Then
-                        VerificarDatos()
-                    Else
-                        If banderaRemisionManual = False Then
-                            ValidarInformacionGrid(cboTipoCobro.Text)
-                            InsertaRemisiones()
-                        Else
-                            VerificarDatos()
-                        End If
-                    End If
-                Else
-                    If banderaRemisionManual = False Then
-                        ValidarInformacionGrid(cboTipoCobro.Text)
-                        InsertaRemisiones()
-                    Else
-                        VerificarDatos()
-                    End If
-                End If
-            Else
-                VerificarDatos()
-            End If
-        Else
-            VerificarDatos()
-        End If
 
     End Sub
 
@@ -6140,6 +6109,7 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
+        CargaTablaLiquidacion()
         Dim validar As Boolean
         validar = Validacion()
         '   If validar = True Then
@@ -6306,5 +6276,42 @@ Public Class frmLiquidacionPortatil
 
         Return Validado
     End Function
+
+    Public Sub CargaTablaLiquidacion()
+        If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
+            MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidación," + Chr(13) + "Favor de ajustar la fecha y hora conforme a la operación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+
+        End If
+
+        If _BoletinEnLineaCamion = False Then
+            If _obligaInsercionRemision Then
+                If (TxtCliente.Text.Length > 0) Then
+                    If _ClienteVtaPublico = Convert.ToInt32(TxtCliente.Text) Or cboTipoCobro.Identificador = 15 Then
+                        VerificarDatos()
+                    Else
+                        If banderaRemisionManual = False Then
+                            ValidarInformacionGrid(cboTipoCobro.Text)
+                            InsertaRemisiones()
+                        Else
+                            VerificarDatos()
+                        End If
+                    End If
+                Else
+                    If banderaRemisionManual = False Then
+                        ValidarInformacionGrid(cboTipoCobro.Text)
+                        InsertaRemisiones()
+                    Else
+                        VerificarDatos()
+                    End If
+                End If
+            Else
+                VerificarDatos()
+            End If
+        Else
+            VerificarDatos()
+        End If
+
+    End Sub
 
 End Class
