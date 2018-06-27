@@ -5580,27 +5580,27 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub VerificarDatos()
-        If VerificaDatos() Then
-            If VerificaDatosClienteNormal() Then
-                CargaGrid()
-                cargarRemisiones()
-                cboTipoCobro.SelectedIndex = 0
-                cboZEconomica.SelectedIndex = 0
-                cbxAplicaDescuento.Checked = False
-                cbxAplicaDescuento.Enabled = False
-                TxtCliente.Clear()
-                lblNombreCliente.Text = ""
-                _ClienteNormal = 0
-                _TipoCobroClienteNormal = 0
-                _ZonaEconomicaClienteNormal = 0
-                Me.ActiveControl = cboTipoCobro
-                banderaRemisionManual = False
-            End If
-        Else
-            Dim Mensajes As PortatilClasses.Mensaje
-            Mensajes = New PortatilClasses.Mensaje(45)
-            MessageBox.Show(Mensajes.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        ' If VerificaDatos() Then
+        If VerificaDatosClienteNormal() Then
+            CargaGrid()
+            cargarRemisiones()
+            cboTipoCobro.SelectedIndex = 0
+            cboZEconomica.SelectedIndex = 0
+            cbxAplicaDescuento.Checked = False
+            cbxAplicaDescuento.Enabled = False
+            TxtCliente.Clear()
+            lblNombreCliente.Text = ""
+            _ClienteNormal = 0
+            _TipoCobroClienteNormal = 0
+            _ZonaEconomicaClienteNormal = 0
+            Me.ActiveControl = cboTipoCobro
+            banderaRemisionManual = False
         End If
+        '  Else
+        'Dim Mensajes As PortatilClasses.Mensaje
+        '    Mensajes = New PortatilClasses.Mensaje(45)
+        '    MessageBox.Show(Mensajes.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        'End If
     End Sub
 
 
@@ -6162,7 +6162,6 @@ Public Class frmLiquidacionPortatil
 
                 End If
 
-
                 Dim oMovimiento As New PortatilClasses.Consulta.cMovAprobadoyVerificado(dtpFLiquidacion.Value, _AlmacenGas, 0) ' 20061114CAGP$001
                 If oMovimiento.RealizarMovimiento() Then        '20061114CAGP$001
                     'lblEfectivo.Text = CType(capEfectivo.TotalEfectivo + Vales.TotalVales + ofrmPagoCheque._MontoCheque, Decimal).ToString("N2")
@@ -6219,14 +6218,14 @@ Public Class frmLiquidacionPortatil
             End If
 
 
-            For Each Cobro As SigaMetClasses.CobroDetalladoDatos In _listaCobros
-                With Cobro
-                    Cobro.insertaCobro(.AñoCobro, .Cobro, .Importe, .Impuesto, .Total, .Referencia, .Banco, .FAlta, .Status, .TipoCobro, .NumeroCheque,
-            .FCheque, .NumeroCuenta, .Observaciones, .FDevolucion, .RazonDevCheque, .Cliente, .Saldo, .Usuario, .FActualizacion,
-            .Folio, .FDeposito, .FolioAtt, .AñoAtt, .NumeroCuentaDestino, .BancoOrigen, .SaldoAFavor, .StatusSaldoAFavor,
-            .AñoCobroOrigen, .CobroOrigen, .TPV)
-                End With
-            Next
+            'For Each Cobro As SigaMetClasses.CobroDetalladoDatos In _listaCobros
+            '    With Cobro
+            '        Cobro.insertaCobro(.AñoCobro, .Cobro, .Importe, .Impuesto, .Total, .Referencia, .Banco, .FAlta, .Status, .TipoCobro, .NumeroCheque,
+            '.FCheque, .NumeroCuenta, .Observaciones, .FDevolucion, .RazonDevCheque, .Cliente, .Saldo, .Usuario, .FActualizacion,
+            '.Folio, .FDeposito, .FolioAtt, .AñoAtt, .NumeroCuentaDestino, .BancoOrigen, .SaldoAFavor, .StatusSaldoAFavor,
+            '.AñoCobroOrigen, .CobroOrigen, .TPV)
+            '    End With
+            'Next
             MessageBox.Show("El proceso de registro de cobros concluyó exitosamente.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         Catch ex As Exception
