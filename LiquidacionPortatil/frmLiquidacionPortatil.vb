@@ -3170,13 +3170,6 @@ Public Class frmLiquidacionPortatil
                     _TotalNetoCaja = _TotalNetoCaja + CType(drow(11), Decimal)
                 End If
 
-                lblTotalCobro.Text = CType(_TotalNetoCaja, Decimal).ToString("N2")
-                'lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
-                lblTotal.Text = CType((_TotalLiquidarPedido - (_TotalNetoCaja + _TotalCreditos)), Decimal).ToString("N2")
-                lblVentaTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
-                lblCredito.Text = CType(_TotalCreditos, Decimal).ToString("N2")
-                lblTotalKilos.Text = CType(_Kilos, Decimal).ToString("N1")
-
                 ' CType(lblLista.Item(1), System.Windows.Forms.Label).Text = CType(CType(CType(lblLista.Item(1), System.Windows.Forms.Label).Text, Integer) - ValorText, String)
                 ' CType(txtLista.Item(1), SigaMetClasses.Controles.txtNumeroEntero).Clear()
                 ' End If
@@ -6106,6 +6099,7 @@ Public Class frmLiquidacionPortatil
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         cargarRemisiones()
         ActualizarTotalizadorFormasDePago(_listaCobros)
+        Totalizador()
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
@@ -6312,5 +6306,26 @@ Public Class frmLiquidacionPortatil
         End If
 
     End Sub
+    Public Sub Totalizador()
+        Dim i As Integer
+        Dim TotalDescuento As Decimal
+        Dim CREDITO As Decimal
 
+        While i < _DetalleGrid.Rows.Count  'txtLista.Count
+
+            TotalDescuento = CType(_DetalleGrid.Rows(i).Item(5), Decimal)
+            ' If CType(_DetalleGrid.Rows(i).Item(6), String) = CREDITO Then
+            CREDITO = CType(_DetalleGrid.Rows(i).Item(6), Decimal)
+
+
+                i = i + 1
+        End While
+
+        lblTotalCobro.Text = CType(_TotalNetoCaja, Decimal).ToString("N2")
+        'lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
+        lblTotal.Text = TotalDescuento.ToString("N2")
+        lblVentaTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
+        lblCredito.Text = CType(_TotalCreditos, Decimal).ToString("N2")
+        lblTotalKilos.Text = CType(_Kilos, Decimal).ToString("N1")
+    End Sub
 End Class
