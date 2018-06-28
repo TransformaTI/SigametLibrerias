@@ -5419,6 +5419,7 @@ Public Class frmLiquidacionPortatil
     'Actualiza la etiqueta de efectivo a cobrar
     Private Sub capEfectivo_TotalActualizado() Handles capEfectivo.TotalActualizado
         lblEfectivo.Text = CType(capEfectivo.TotalEfectivo, Decimal).ToString("N2")
+        Validacion()
     End Sub
 
     'Actualiza la etiqueta de vales a cobrar
@@ -5580,7 +5581,6 @@ Public Class frmLiquidacionPortatil
         ' If VerificaDatos() Then
         If VerificaDatosClienteNormal() Then
             CargaGrid()
-            cargarRemisiones()
             cboTipoCobro.SelectedIndex = 0
             cboZEconomica.SelectedIndex = 0
             cbxAplicaDescuento.Checked = False
@@ -5888,11 +5888,6 @@ Public Class frmLiquidacionPortatil
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
-
-
-
-
-
     End Sub
 
 
@@ -5926,7 +5921,7 @@ Public Class frmLiquidacionPortatil
             End If
             TotalLiquidado = TotalLiquidado + Cobro.Total
         Next
-
+        lblTotalCobro.Text = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
         lblEfectivo.Text = TotalEfectivo.ToString("N2")
         lblVales.Text = TotalVales.ToString("N2")
         lblTransferElect.Text = TotalTransferencia.ToString("N2")
@@ -5941,7 +5936,7 @@ Public Class frmLiquidacionPortatil
         Dim VentaTotal As Decimal = 0
 
         For Each dr As DataRow In dt.Rows
-            VentaTotal = VentaTotal + Convert.ToDecimal(dr("Saldo").ToString())
+            VentaTotal = VentaTotal + Convert.ToDecimal(dr("importe").ToString())
         Next
 
         Return VentaTotal
@@ -5980,7 +5975,7 @@ Public Class frmLiquidacionPortatil
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
-
+        Validacion()
     End Sub
 
     Private Sub btnTransferencia_Click(sender As Object, e As EventArgs) Handles btnTransferencia.Click
@@ -6002,7 +5997,7 @@ Public Class frmLiquidacionPortatil
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
-
+        Validacion()
     End Sub
 
     Private Sub btnCapturarVale_Click(sender As Object, e As EventArgs) Handles btnCapturarVale.Click
@@ -6024,6 +6019,7 @@ Public Class frmLiquidacionPortatil
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
+        Validacion()
     End Sub
 
     Private Sub btnAplicacionAnticipo_Click(sender As Object, e As EventArgs) Handles btnAplicacionAnticipo.Click
@@ -6048,6 +6044,7 @@ Public Class frmLiquidacionPortatil
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
+        Validacion()
     End Sub
 
     Private Sub btnPagoEfectivo_Click(sender As Object, e As EventArgs) Handles btnPagoEfectivo.Click
@@ -6094,7 +6091,7 @@ Public Class frmLiquidacionPortatil
 
         End If
 
-
+        Validacion()
     End Sub
 
     Private Sub lblAplicAnticipo_Click(sender As Object, e As EventArgs) Handles lblAplicAnticipotck.Click
@@ -6111,17 +6108,19 @@ Public Class frmLiquidacionPortatil
                 Dim oCancelarPago As New frmCancelarPago()
                 oCancelarPago.Cobros = _listaCobros
                 oCancelarPago.CobroRemisiones = _ListaCobroRemisiones
-
+                Validacion()
                 oCancelarPago.Remisiones = _DetalleGrid
                 If oCancelarPago.ShowDialog = DialogResult.OK Then
                     _listaCobros = oCancelarPago.Cobros
                     _DetalleGrid = oCancelarPago.Remisiones
                     _ListaCobroRemisiones = oCancelarPago.CobroRemisiones
+                    Validacion()
                 End If
             Else
                 MessageBox.Show("No hay cobros registrados aún, imposible eliminarlos.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
             ActualizarTotalizadorFormasDePago(_listaCobros)
+            Validacion()
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
@@ -6132,7 +6131,6 @@ Public Class frmLiquidacionPortatil
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         cargarRemisiones()
         ActualizarTotalizadorFormasDePago(_listaCobros)
-        Totalizador()
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
@@ -6342,11 +6340,20 @@ Public Class frmLiquidacionPortatil
         Dim Validado As Boolean
         If totalCobro = totalPagos And totalCobro > 0 Then
             Validado = True
+        ElseIf totalPagos > totalCobro Then
+            Validado = True
+            lblCambio.Text = (totalPagos - totalCobro).ToString("N2")
+        ElseIf totalPagos <= totalCobro Then
+            lblCambio.Text = (0).ToString("N2")
         Else
             Validado = False
         End If
 
+
         Return Validado
+        totalCobro = 0
+        totalPagos = 0
+
     End Function
 
     Public Sub CargaTablaLiquidacion()
@@ -6385,33 +6392,4 @@ Public Class frmLiquidacionPortatil
         End If
 
     End Sub
-    Public Sub Totalizador()
-        Dim i As Integer
-        Dim TotalDescuento As Decimal = 0
-        Dim TotalCREDITO As Decimal = 0
-        Dim Kilostotal As Decimal = 0
-        Dim Ventatotal As Decimal = 0
-        Dim totalcobro As Decimal = 0
-
-        While i < _DetalleGrid.Rows.Count  'txtLista.Count
-
-            TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(5), Decimal)
-            If CType(_DetalleGrid.Rows(i).Item(8), String) = "CREDITO" Then
-                TotalCREDITO = TotalCREDITO + CType(_DetalleGrid.Rows(i).Item(8), Decimal)
-            End If
-            Kilostotal = Kilostotal + CType(_DetalleGrid.Rows(i).Item(4), Decimal)
-            Ventatotal = Ventatotal + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
-            totalcobro = totalcobro + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
-            i = i + 1
-        End While
-
-        lblTotalCobro.Text = totalcobro.ToString("N2")
-        _Totalcobro = totalcobro
-        'lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
-        lblTotal.Text = TotalDescuento.ToString("N2")
-        lblVentaTotal.Text = Ventatotal.ToString("N2")
-        lblCredito.Text = TotalCREDITO.ToString("N2")
-        lblTotalKilos.Text = Kilostotal.ToString("N1")
-    End Sub
-
 End Class
