@@ -3067,7 +3067,8 @@ Public Class frmLiquidacionPortatil
             Dim ExistenciaProducto As Integer
             'Dim lblExistenciaProducto As New System.Windows.Forms.Label()
             Dim i As Integer
-            While i < _DetalleGrid.Rows.Count  'txtLista.Count
+
+            While i < _DetalleGrid.Rows.Count
                 'textBox1 = CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero)
                 'lblExistenciaProducto = CType(lblLista.Item(i), System.Windows.Forms.Label)
                 '  ExistenciaProducto = CType(ExistenciaLista(i), Integer)
@@ -6050,29 +6051,50 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnPagoEfectivo_Click(sender As Object, e As EventArgs) Handles btnPagoEfectivo.Click
-        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 0, _Folio)
-        Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
-        frmSeleTipoCobro.MostrarDacion = False
-        frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
-        frmSeleTipoCobro.fecha = fechaCargo
-        frmSeleTipoCobro.TotalCobros = _listaCobros.Count
-        frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
-        If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
-            If _listaCobros.Count = 0 Then
-                _listaCobros = frmSeleTipoCobro.Cobros
-            Else
-                For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
-                    _listaCobros.Add(Cobro)
-                Next
-                _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
+        Dim PagoEfectivoDefault As Boolean
+        Dim Pago As Integer
+        Dim result As Integer = MessageBox.Show("¿Desea enviar las remisiones a Pago en Efectivo?", "Pago en Efectivo", MessageBoxButtons.YesNo)
+
+
+        If (result = DialogResult.No) Then
+            PagoEfectivoDefault = False
+            Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 0, _Folio)
+            Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
+
+            frmSeleTipoCobro.MostrarDacion = False
+            frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
+            frmSeleTipoCobro.fecha = fechaCargo
+            frmSeleTipoCobro.TotalCobros = _listaCobros.Count
+            frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
+
+            If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+                If _listaCobros.Count = 0 Then
+                    _listaCobros = frmSeleTipoCobro.Cobros
+                Else
+                    For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
+                        _listaCobros.Add(Cobro)
+                    Next
+                    _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
+                End If
+                ActualizarTotalizadorFormasDePago(_listaCobros)
+
+                _ListaCobroRemisiones = frmSeleTipoCobro.CobroRemisiones
+
+                Cursor = Cursors.WaitCursor
+                Cursor = Cursors.Default
             End If
+        Else
+            PagoEfectivoDefault = True
+
+            Pago = _listaCobros.Count + 1
+            Dim cobro As SigaMetClasses.CobroDetalladoDatos = AltaPagoEfectivo(Pago)
+            _listaCobros.Add(cobro)
             ActualizarTotalizadorFormasDePago(_listaCobros)
+            MessageBox.Show("¡Cobro de remisiones concluida!")
 
-            _ListaCobroRemisiones = frmSeleTipoCobro.CobroRemisiones
-
-            Cursor = Cursors.WaitCursor
-            Cursor = Cursors.Default
         End If
+
+
     End Sub
 
     Private Sub lblAplicAnticipo_Click(sender As Object, e As EventArgs) Handles lblAplicAnticipotck.Click
@@ -6270,6 +6292,50 @@ Public Class frmLiquidacionPortatil
         lblTotalKilos.Text = Convert.ToString(TotalKilos)
     End Sub
 
+    Public Function AltaPagoEfectivo(PagoNum As Integer) As SigaMetClasses.CobroDetalladoDatos
+        Dim insertaCobro As New SigaMetClasses.CobroDetalladoDatos()
+
+        Dim TotalRemisiones As Decimal = Convert.ToDecimal(_DetalleGrid.Compute("SUM(saldo)", String.Empty))
+
+        With insertaCobro
+            .Pago = PagoNum
+            .SaldoAFavor = False
+            .AñoCobro = CShort(DateTime.Now.Year)
+            .Cobro = 0
+            .Total = TotalRemisiones
+            .Importe = .Total / CDec(1 + (16 / 100))
+            .Impuesto = .Total - .Importe
+            .Referencia = "NULL" ' puede ser vacio
+            .Banco = CShort("0") 'puede ser null
+            .FAlta = CDate(DateTime.Now.ToString("dd/MM/yyyy"))
+            .Status = "EMITIDO"
+            .TipoCobro = 5
+            .NumeroCheque = "NULL" ' puede ser vacio
+            .FCheque = Date.MinValue
+            .NumeroCuenta = "NULL"
+            .Observaciones = "NULL"
+            .FDevolucion = Date.MinValue
+            .RazonDevCheque = Nothing
+            .Cliente = 0 ' este dato se debeb de obtener depues de las remisiones
+            .Saldo = 10 ' igual este dato
+            .Usuario = _Usuario
+            .FActualizacion = CDate(DateTime.Now.ToString("dd/MM/yyyy"))
+            .Folio = 0
+            .FDeposito = Date.MinValue
+            .FolioAtt = 0
+            .AñoAtt = CShort(Now.Year)
+            .NumeroCuentaDestino = "NULL"
+            .BancoOrigen = CShort("0")
+            .StatusSaldoAFavor = "NULL"
+            .AñoCobroOrigen = CShort("0")
+            .CobroOrigen = 0
+            .TPV = False
+            .DscTipoCobro = "Efectivo"
+        End With
+        ' _listaCobros.Add(insertaCobro)
+        Return insertaCobro
+    End Function
+
     Function Validacion() As Boolean
         Dim totalPagos As Decimal = CDec(lblTransferElect.Text) + CDec(lblTarjDebCred.Text) + CDec(lblAplicAnticipo.Text) + CDec(lblCheque.Text) + CDec(lblEfectivo.Text) + CDec(lblVales.Text)
         Dim totalCobro As Decimal = CDec(lblTotalCobro.Text)
@@ -6347,4 +6413,5 @@ Public Class frmLiquidacionPortatil
         lblCredito.Text = TotalCREDITO.ToString("N2")
         lblTotalKilos.Text = Kilostotal.ToString("N1")
     End Sub
+
 End Class

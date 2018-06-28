@@ -6777,6 +6777,16 @@ Public Class CobroDetalladoDatos
     Private _Pago As Integer
     Private _DscTipoCobro As String
 
+    Private _DscTipoCobro As String
+    Public Property DscTipoCobro() As String
+        Get
+            Return _DscTipoCobro
+        End Get
+        Set(ByVal value As String)
+            _DscTipoCobro = value
+        End Set
+    End Property
+
     Public Property Pago() As Integer
         Get
             Return _Pago

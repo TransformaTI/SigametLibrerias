@@ -9,6 +9,7 @@ Public Class frmCancelarPago
 
 
     Private _Remisiones As DataTable
+
     Public Property Remisiones As DataTable
         Get
             Return _Remisiones
@@ -36,6 +37,7 @@ Public Class frmCancelarPago
             _Cobros = value
         End Set
     End Property
+
     Private Sub frmCancelarPago_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         dgvCobros.AutoGenerateColumns = False
         dgvCobros.DataSource = _Cobros
@@ -60,7 +62,10 @@ Public Class frmCancelarPago
                         dgvCobros.DataSource = Nothing
 
                         Dim oCobroEliminado As SigaMetClasses.CobroDetalladoDatos = _Cobros(e.RowIndex)
-                        ActualizaSaldoRemisiones(oCobroEliminado, Remisiones, CobroRemisiones)
+
+                        If Not CobroRemisiones Is Nothing Then
+                            ActualizaSaldoRemisiones(oCobroEliminado, Remisiones, CobroRemisiones)
+                        End If
 
                         _Cobros.RemoveAt(e.RowIndex)
                     Catch ex As IndexOutOfRangeException
@@ -71,12 +76,9 @@ Public Class frmCancelarPago
             End If
         End If
 
-        'CobroRemisiones = oCobroRemi
     End Sub
 
     Private Sub ActualizaSaldoRemisiones(CobroEliminado As SigaMetClasses.CobroDetalladoDatos, Remisiones As DataTable, oCobroRemisiones As List(Of SigaMetClasses.CobroRemisiones))
-
-
         For Each Remision As DataRow In Remisiones.Rows
             For Each CobroRemision As SigaMetClasses.CobroRemisiones In CobroRemisiones
                 If (CobroEliminado.Pago = CobroRemision.Pago And CobroRemision.Remision.Trim() = Remision("Remision").ToString().Trim() And CobroRemision.Serie = Remision("Serie").ToString().Trim()) Then
