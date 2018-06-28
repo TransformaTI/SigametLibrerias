@@ -3163,7 +3163,7 @@ Public Class frmLiquidacionPortatil
                 grdDetalle.DataSource = dtLiquidacionTotal
 
 
-                _Kilos = _Kilos '+ (CType(CType(txtLista.Item(1), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(oProducto.dtTable.Rows(1).Item(6), Integer))
+                _Kilos = CInt(Convert.ToDecimal(_DetalleGrid.Compute("SUM(Kilos)", String.Empty))) '_Kilos '+ (CType(CType(txtLista.Item(1), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(oProducto.dtTable.Rows(1).Item(6), Integer))
 
                 _TotalLiquidarPedido = _TotalLiquidarPedido ' + CType(drow(8), Decimal)
                 If CType(drow(10), Integer) = _TipoCobroCredito Then
