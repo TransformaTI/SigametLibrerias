@@ -922,26 +922,28 @@ Public Class LiquidacionTransaccionada
 
         'Método de la clase Liquidacion que permite registrar la liquidación portátil y
         'la registra en la tabla Pedido y CobroPedido
-        Public Sub LiquidacionPedidoyCobroPedido(ByVal Producto As Integer, ByVal FPedido As DateTime, _
-                                           ByVal Precio As Decimal, ByVal PrecioPublico As Decimal, _
-                                           ByVal Importe As Decimal, ByVal Impuesto As Decimal, _
-                                           ByVal Total As Decimal, ByVal Status As String, _
-                                           ByVal Cliente As Integer, ByVal FAlta As DateTime, _
-                                           ByVal Saldo As Decimal, ByVal PedidoReferencia As String, _
-                                           ByVal Cartera As Short, ByVal TipoCargo As Short, _
-                                           ByVal RutaSuministro As Short, ByVal AnoCobro As Short, _
-                                           ByVal Cobro As Integer, ByVal Usuario As String, _
-                                           ByVal Ruta As Short, ByVal TipoCobro As Short, _
-                                           ByVal AnoAtt As Short, ByVal Folio As Integer, _
-                                           ByVal StatusCobranza As String, ByVal Autotanque As Short, _
-                                           ByVal FActualizacion As DateTime, ByVal FAtencion As DateTime, _
-                                           ByVal ClientePortatil As Integer, ByVal MovimientoAlmacen As Integer, _
-                                           ByVal AlmacenGas As Integer, ByVal TotalComisionPedido As Decimal, _
-                                           ByVal ZonaEconomica As Short, ByVal Secuencia As Short, _
-                                           ByVal Cantidad As Integer, ByVal Kilos As Decimal, _
-                                           ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction, _
-                                           Optional ByVal Descuento As Decimal = 0, Optional ByVal Observaciones As String = "", _
-                                           Optional ByVal DescuentoAplicado As Boolean = False)
+        Public Sub LiquidacionPedidoyCobroPedido(ByVal Producto As Integer, ByVal FPedido As DateTime,
+                                           ByVal Precio As Decimal, ByVal PrecioPublico As Decimal,
+                                           ByVal Importe As Decimal, ByVal Impuesto As Decimal,
+                                           ByVal Total As Decimal, ByVal Status As String,
+                                           ByVal Cliente As Integer, ByVal FAlta As DateTime,
+                                           ByVal Saldo As Decimal, ByVal PedidoReferencia As String,
+                                           ByVal Cartera As Short, ByVal TipoCargo As Short,
+                                           ByVal RutaSuministro As Short, ByVal AnoCobro As Short,
+                                           ByVal Cobro As Integer, ByVal Usuario As String,
+                                           ByVal Ruta As Short, ByVal TipoCobro As Short,
+                                           ByVal AnoAtt As Short, ByVal Folio As Integer,
+                                           ByVal StatusCobranza As String, ByVal Autotanque As Short,
+                                           ByVal FActualizacion As DateTime, ByVal FAtencion As DateTime,
+                                           ByVal ClientePortatil As Integer, ByVal MovimientoAlmacen As Integer,
+                                           ByVal AlmacenGas As Integer, ByVal TotalComisionPedido As Decimal,
+                                           ByVal ZonaEconomica As Short, ByVal Secuencia As Short,
+                                           ByVal Cantidad As Integer, ByVal Kilos As Decimal,
+                                           ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction,
+                                           Optional ByVal Descuento As Decimal = 0, Optional ByVal Observaciones As String = "",
+                                           Optional ByVal DescuentoAplicado As Boolean = False,
+                                           Optional ByVal SerieRemision As String = "0",
+                                           Optional ByVal Remision As Integer = 0)
             Dim dr As SqlDataReader
             Dim cmd As SqlCommand
 

@@ -6777,7 +6777,6 @@ Public Class CobroDetalladoDatos
     Private _Pago As Integer
     Private _DscTipoCobro As String
 
-    Private _DscTipoCobro As String
     Public Property DscTipoCobro() As String
         Get
             Return _DscTipoCobro
@@ -7045,14 +7044,6 @@ Public Class CobroDetalladoDatos
         End Get
         Set
             _TPV = Value
-        End Set
-    End Property
-    Public Property DscTipoCobro() As String
-        Get
-            Return _DscTipoCobro
-        End Get
-        Set(ByVal value As String)
-            _DscTipoCobro = value
         End Set
     End Property
 

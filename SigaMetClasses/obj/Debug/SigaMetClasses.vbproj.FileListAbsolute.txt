@@ -537,3 +537,4 @@ C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaM
 C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.dll
 C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
 C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojResolveAssemblyReference.cache
