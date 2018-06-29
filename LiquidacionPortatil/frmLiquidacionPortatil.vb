@@ -6136,6 +6136,10 @@ Public Class frmLiquidacionPortatil
             Dim cobro As SigaMetClasses.CobroDetalladoDatos = AltaPagoEfectivo(Pago)
             _listaCobros.Add(cobro)
             ActualizarTotalizadorFormasDePago(_listaCobros)
+            For Each row As DataRow In _DetalleGrid.Rows
+                _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo") = 0
+            Next
+
             MessageBox.Show("¡Cobro de remisiones concluida!")
 
         End If
