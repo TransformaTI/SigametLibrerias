@@ -6447,6 +6447,7 @@ Public Class frmLiquidacionPortatil
         TxtSerie.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Serie").ToString()
         TxtRemision.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Remision").ToString()
 
+
     End Sub
 
     Private Sub TxtNumeroEntero2_TextChanged(sender As Object, e As EventArgs) Handles TxtRemision.TextChanged
