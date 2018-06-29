@@ -574,6 +574,8 @@ Public Class LiquidacionTransaccionada
         Private _AnoPedido As Short
         Private _Pedido As Integer
 
+        Private _FolioTablaCobro As Integer
+
         Public ReadOnly Property Configuracion() As Short
             Get
                 Return _Configuracion
@@ -912,6 +914,9 @@ Public Class LiquidacionTransaccionada
                 dr.Read()
                 _AnoCobro = CType(dr(0), Short)
                 _Cobro = CType(dr(1), Integer)
+
+                _FolioTablaCobro = FolioAtt
+
                 cmd.Dispose()
                 dr.Close()
             Catch ex As Exception
@@ -969,12 +974,12 @@ Public Class LiquidacionTransaccionada
                 cmd.Parameters.Add("@TipoCargo", SqlDbType.TinyInt).Value = TipoCargo
                 cmd.Parameters.Add("@RutaSuministro", SqlDbType.SmallInt).Value = RutaSuministro
                 cmd.Parameters.Add("@AnoCobro", SqlDbType.SmallInt).Value = AnoCobro
-                cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
+                cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = _Cobro 'Cobro se cambia la variable local del metodo por la variable global 
                 cmd.Parameters.Add("@Usuario", SqlDbType.VarChar).Value = Usuario
                 cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = Ruta
                 cmd.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = TipoCobro
                 cmd.Parameters.Add("@AnoAtt", SqlDbType.SmallInt).Value = AnoAtt
-                cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio
+                cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = _FolioTablaCobro 'Folio se cambia la variable local del metodo por la variable global 
                 cmd.Parameters.Add("@StatusCobranza", SqlDbType.VarChar).Value = StatusCobranza
                 cmd.Parameters.Add("@Autotanque", SqlDbType.SmallInt).Value = Autotanque
                 cmd.Parameters.Add("@FActualizacion", SqlDbType.DateTime).Value = FActualizacion
