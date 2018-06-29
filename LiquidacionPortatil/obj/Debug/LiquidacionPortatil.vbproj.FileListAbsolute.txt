@@ -273,3 +273,5 @@ C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\CapturaCostoGL
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\SIGAMETSecurity.dll
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ModuloCaja.pdb
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ModuloCaja.exe.config
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ModuloCaja.xml
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.vbprojAssemblyReference.cache

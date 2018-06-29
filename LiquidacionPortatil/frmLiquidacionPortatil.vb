@@ -350,6 +350,10 @@ Public Class frmLiquidacionPortatil
         Me.lblCamion = New System.Windows.Forms.Label()
         Me.lblCamiontck = New System.Windows.Forms.Label()
         Me.grbDetalleProducto = New System.Windows.Forms.GroupBox()
+        Me.TxtSerie = New System.Windows.Forms.TextBox()
+        Me.TxtRemision = New SigaMetClasses.Controles.txtNumeroEntero()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
         Me.btnDetalle = New ControlesBase.BotonBase()
         Me.lblTotalKilos = New System.Windows.Forms.Label()
         Me.lblKilosVendidos = New System.Windows.Forms.Label()
@@ -434,10 +438,6 @@ Public Class frmLiquidacionPortatil
         Me.btnTransferencia = New System.Windows.Forms.Button()
         Me.btnCapturarTarjeta = New System.Windows.Forms.Button()
         Me.btnCapturarCheque = New System.Windows.Forms.Button()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.TxtRemision = New SigaMetClasses.Controles.txtNumeroEntero()
-        Me.TxtSerie = New System.Windows.Forms.TextBox()
         Me.grbInformacion.SuspendLayout()
         Me.grbDetalleProducto.SuspendLayout()
         CType(Me.grdDetalle, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -758,6 +758,40 @@ Public Class frmLiquidacionPortatil
         Me.grbDetalleProducto.TabIndex = 27
         Me.grbDetalleProducto.TabStop = False
         Me.grbDetalleProducto.Text = "Productos a liquidar"
+        '
+        'TxtSerie
+        '
+        Me.TxtSerie.Location = New System.Drawing.Point(96, 121)
+        Me.TxtSerie.Name = "TxtSerie"
+        Me.TxtSerie.Size = New System.Drawing.Size(128, 20)
+        Me.TxtSerie.TabIndex = 105
+        '
+        'TxtRemision
+        '
+        Me.TxtRemision.Location = New System.Drawing.Point(297, 121)
+        Me.TxtRemision.Name = "TxtRemision"
+        Me.TxtRemision.Size = New System.Drawing.Size(123, 20)
+        Me.TxtRemision.TabIndex = 104
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.Location = New System.Drawing.Point(245, 124)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(53, 13)
+        Me.Label13.TabIndex = 103
+        Me.Label13.Text = "Remisión:"
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label11.Location = New System.Drawing.Point(16, 124)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(34, 13)
+        Me.Label11.TabIndex = 101
+        Me.Label11.Text = "Serie:"
         '
         'btnDetalle
         '
@@ -1761,40 +1795,6 @@ Public Class frmLiquidacionPortatil
         Me.btnCapturarCheque.TabIndex = 0
         Me.btnCapturarCheque.Text = "Capturar Cheque"
         Me.btnCapturarCheque.UseVisualStyleBackColor = True
-        '
-        'Label11
-        '
-        Me.Label11.AutoSize = True
-        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(16, 124)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(34, 13)
-        Me.Label11.TabIndex = 101
-        Me.Label11.Text = "Serie:"
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(245, 124)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(53, 13)
-        Me.Label13.TabIndex = 103
-        Me.Label13.Text = "Remisión:"
-        '
-        'TxtRemision
-        '
-        Me.TxtRemision.Location = New System.Drawing.Point(297, 121)
-        Me.TxtRemision.Name = "TxtRemision"
-        Me.TxtRemision.Size = New System.Drawing.Size(123, 20)
-        Me.TxtRemision.TabIndex = 104
-        '
-        'TxtSerie
-        '
-        Me.TxtSerie.Location = New System.Drawing.Point(96, 121)
-        Me.TxtSerie.Name = "TxtSerie"
-        Me.TxtSerie.Size = New System.Drawing.Size(128, 20)
-        Me.TxtSerie.TabIndex = 105
         '
         'frmLiquidacionPortatil
         '
@@ -6452,16 +6452,59 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub grdDetalle_Click(sender As Object, e As EventArgs) Handles grdDetalle.Click
+        Dim dt As DataTable = New DataTable
+        Dim producto As String = ""
+
+        dt.Columns.Add("DcsProducto", GetType(String))
+        dt.Columns.Add("Cantidad", GetType(Integer))
+
         TxtCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Cliente").ToString()
         lblNombreCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Nombre").ToString()
         cboZEconomica.SelectedIndex = cboZEconomica.FindString(_DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("zonaeconomica").ToString())
         TxtSerie.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Serie").ToString()
         TxtRemision.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Remision").ToString()
+        producto = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("producto").ToString()
+
+        'Dim result() As DataRow = _DetalleGrid.Select("Cliente ='" + TxtCliente.Text + "' And Serie = '" + TxtSerie.Text + "' and remision='" + TxtRemision.Text + "'")
+
+
+
+
+
+
+        For Each row As DataRow In _DetalleGrid.Rows
+            If (row.Item("cliente").ToString() = TxtCliente.Text) And TxtSerie.Text = row.Item("serie").ToString() And
+                 row.Item("producto").ToString() = producto And row.Item("remision").ToString() = TxtRemision.Text Then
+
+                For Each ctrl As Control In pnlProducto.Controls
+                    If (ctrl.GetType() Is GetType(TextBox)) Then
+                        MessageBox.Show(ctrl.Name)
+                        MessageBox.Show(ctrl.Text)
+                    End If
+
+
+                    If (ctrl.GetType() Is GetType(Label)) Then
+                        MessageBox.Show(ctrl.Name)
+                        MessageBox.Show(ctrl.Text)
+
+                        If (ctrl.Text.Contains(row.Item("descripcion").ToString())) Then
+
+                        End If
+                    End If
+                Next
+
+            End If
+        Next
+
 
 
     End Sub
 
     Private Sub TxtNumeroEntero2_TextChanged(sender As Object, e As EventArgs) Handles TxtRemision.TextChanged
+
+    End Sub
+
+    Private Sub grpEfectivo_Enter(sender As Object, e As EventArgs) Handles grpEfectivo.Enter
 
     End Sub
 
