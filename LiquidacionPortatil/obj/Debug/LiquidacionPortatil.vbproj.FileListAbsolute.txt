@@ -212,22 +212,9 @@ C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\CrystalDecisio
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\CrystalDecisions.ReportSource.dll
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\CrystalDecisions.Shared.dll
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\CrystalDecisions.Windows.Forms.dll
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ModuloCaja.exe
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\SigaMetClasses.dll
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\MySql.Data.dll
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\CatalogoBase.dll
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\NombreEmpresa.dll
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ControlDeValesPromocionales.dll
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ValidaSaldosCaja.dll
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\vistaDeLiquidacionMultiplesIvas.dll
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\Catalogo.dll
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ReporteDinamico.dll
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ControlFolios.dll
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\CambioDeFechaLiquidacion.dll
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ActualizacionCobranza.dll
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\CapturaCostoGLP.dll
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\RTGMGateway.dll
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\SIGAMETSecurity.dll
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ProgramacionCobranza.dll
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\DocumentosBSR.dll
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\SVCC.dll
@@ -242,10 +229,6 @@ C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\RegularValidat
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\stdole.dll
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\SGDAC.dll
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ContactosDL.dll
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ModuloCaja.pdb
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ModuloCaja.xml
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ModuloCaja.dll.config
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ModuloCaja.exe.config
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\SigaMetClasses.pdb
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\SigaMetClasses.xml
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.frmDetallePedidoRemision.resources
@@ -271,7 +254,24 @@ C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\obj\Debug\Liquidac
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.dll
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.xml
 C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.pdb
-C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.vbprojAssemblyReference.cache
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.frmCancelarPago.resources
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\bin\ModuloCaja.exe.config
 C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.vbprojAssemblyReference.cache
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.frmCancelarPago.resources
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ModuloCaja.dll
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\CatalogoBase.dll
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\NombreEmpresa.dll
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ControlDeValesPromocionales.dll
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ValidaSaldosCaja.dll
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\vistaDeLiquidacionMultiplesIvas.dll
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\Catalogo.dll
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ReporteDinamico.dll
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ControlFolios.dll
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\CambioDeFechaLiquidacion.dll
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ActualizacionCobranza.dll
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\CapturaCostoGLP.dll
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\SIGAMETSecurity.dll
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ModuloCaja.pdb
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ModuloCaja.xml
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\bin\ModuloCaja.exe.config
+C:\Users\Diego\Documents\SigametLibrerias\LiquidacionPortatil\obj\Debug\LiquidacionPortatil.vbprojAssemblyReference.cache
