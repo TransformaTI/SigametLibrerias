@@ -2168,6 +2168,17 @@ Public Class frmLiquidacionPortatil
             dcColumna.DataType = System.Type.GetType("System.Boolean")
             dcColumna.ColumnName = "AplicaDescuento"
             dtLiquidacionTotal.Columns.Add(dcColumna)
+            'Columna 020
+            dcColumna = New DataColumn()
+            dcColumna.DataType = System.Type.GetType("System.String")
+            dcColumna.ColumnName = "SerieRemision"
+            dtLiquidacionTotal.Columns.Add(dcColumna)
+            'Columna 021
+            dcColumna = New DataColumn()
+            dcColumna.DataType = System.Type.GetType("System.Int32")
+            dcColumna.ColumnName = "Remision"
+            dtLiquidacionTotal.Columns.Add(dcColumna)
+
         End If
     End Sub
 
@@ -3197,6 +3208,8 @@ Public Class frmLiquidacionPortatil
                 End If
 
                 drow(19) = cbxAplicaDescuento.Checked
+                drow(20) = _DetalleGrid.Rows(i).Item(0)
+                drow(21) = _DetalleGrid.Rows(i).Item(1)
 
                 ' If Not VerificaRegistroGrid(drow) Then
                 If CDec(_DetalleGrid.Rows(i).Item(7)) = 0 Then
@@ -4104,7 +4117,8 @@ Public Class frmLiquidacionPortatil
                                                                                  _AlmacenGas, 0,
                                                                                  CType(dtLiquidacionTotal.Rows(i).Item(0), Short),
                                                                                  0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer),
-                                                                                 CType(dtLiquidacionTotal.Rows(i).Item(4), Integer) * CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction)
+                                                                                 CType(dtLiquidacionTotal.Rows(i).Item(4), Integer) * CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction,
+                                                                                 0, "", False, CType(dtLiquidacionTotal.Rows(i).Item(20), String), CInt(dtLiquidacionTotal.Rows(i).Item(21)))
                                 _TotalContado = _TotalContado + Total
 
                             ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
