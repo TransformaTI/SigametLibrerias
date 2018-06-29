@@ -384,6 +384,7 @@ Public Class frmLiquidacionPortatil
         Me.col004 = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.col005 = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.tltLiquidacion = New System.Windows.Forms.ToolTip(Me.components)
+        Me.grdDetalle = New System.Windows.Forms.DataGrid()
         Me.grpCobroEfectivo = New System.Windows.Forms.GroupBox()
         Me.capEfectivo = New CapturaEfectivo.Efectivo()
         Me.grpEfectivo = New System.Windows.Forms.GroupBox()
@@ -439,16 +440,15 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.lblTotalKilos = New System.Windows.Forms.Label()
         Me.lblKilosVendidos = New System.Windows.Forms.Label()
-        Me.grdDetalle = New System.Windows.Forms.DataGrid()
         Me.grbInformacion.SuspendLayout()
         Me.grbDetalleProducto.SuspendLayout()
         Me.pnlProducto.SuspendLayout()
+        CType(Me.grdDetalle, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpCobroEfectivo.SuspendLayout()
         Me.grpEfectivo.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.grpFormasPago.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
-        CType(Me.grdDetalle, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'grbInformacion
@@ -1113,6 +1113,26 @@ Public Class frmLiquidacionPortatil
         Me.col005.MappingName = "Total"
         Me.col005.Width = 75
         '
+        'grdDetalle
+        '
+        Me.grdDetalle.AccessibleName = ""
+        Me.grdDetalle.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grdDetalle.BackgroundColor = System.Drawing.Color.Gainsboro
+        Me.grdDetalle.CaptionBackColor = System.Drawing.Color.RoyalBlue
+        Me.grdDetalle.CaptionText = "Detalle de productos a liquidar"
+        Me.grdDetalle.DataMember = ""
+        Me.grdDetalle.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grdDetalle.HeaderFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grdDetalle.HeaderForeColor = System.Drawing.SystemColors.ControlText
+        Me.grdDetalle.Location = New System.Drawing.Point(1, 19)
+        Me.grdDetalle.Name = "grdDetalle"
+        Me.grdDetalle.ReadOnly = True
+        Me.grdDetalle.Size = New System.Drawing.Size(962, 182)
+        Me.grdDetalle.TabIndex = 43
+        Me.tltLiquidacion.SetToolTip(Me.grdDetalle, "Detalle de productos a liquidar")
+        '
         'grpCobroEfectivo
         '
         Me.grpCobroEfectivo.BackColor = System.Drawing.Color.Gainsboro
@@ -1638,7 +1658,7 @@ Public Class frmLiquidacionPortatil
         '
         'btnCancelarPago
         '
-        Me.btnCancelarPago.Location = New System.Drawing.Point(20, 210)
+        Me.btnCancelarPago.Location = New System.Drawing.Point(20, 195)
         Me.btnCancelarPago.Name = "btnCancelarPago"
         Me.btnCancelarPago.Size = New System.Drawing.Size(126, 23)
         Me.btnCancelarPago.TabIndex = 6
@@ -1647,7 +1667,7 @@ Public Class frmLiquidacionPortatil
         '
         'btnPagoEfectivo
         '
-        Me.btnPagoEfectivo.Location = New System.Drawing.Point(20, 176)
+        Me.btnPagoEfectivo.Location = New System.Drawing.Point(20, 165)
         Me.btnPagoEfectivo.Name = "btnPagoEfectivo"
         Me.btnPagoEfectivo.Size = New System.Drawing.Size(126, 23)
         Me.btnPagoEfectivo.TabIndex = 5
@@ -1656,7 +1676,7 @@ Public Class frmLiquidacionPortatil
         '
         'btnAplicacionAnticipo
         '
-        Me.btnAplicacionAnticipo.Location = New System.Drawing.Point(20, 147)
+        Me.btnAplicacionAnticipo.Location = New System.Drawing.Point(20, 136)
         Me.btnAplicacionAnticipo.Name = "btnAplicacionAnticipo"
         Me.btnAplicacionAnticipo.Size = New System.Drawing.Size(126, 23)
         Me.btnAplicacionAnticipo.TabIndex = 4
@@ -1665,7 +1685,7 @@ Public Class frmLiquidacionPortatil
         '
         'btnCapturarVale
         '
-        Me.btnCapturarVale.Location = New System.Drawing.Point(20, 112)
+        Me.btnCapturarVale.Location = New System.Drawing.Point(20, 107)
         Me.btnCapturarVale.Name = "btnCapturarVale"
         Me.btnCapturarVale.Size = New System.Drawing.Size(126, 23)
         Me.btnCapturarVale.TabIndex = 3
@@ -1674,7 +1694,7 @@ Public Class frmLiquidacionPortatil
         '
         'btnTransferencia
         '
-        Me.btnTransferencia.Location = New System.Drawing.Point(20, 83)
+        Me.btnTransferencia.Location = New System.Drawing.Point(20, 78)
         Me.btnTransferencia.Name = "btnTransferencia"
         Me.btnTransferencia.Size = New System.Drawing.Size(126, 23)
         Me.btnTransferencia.TabIndex = 2
@@ -1683,7 +1703,7 @@ Public Class frmLiquidacionPortatil
         '
         'btnCapturarTarjeta
         '
-        Me.btnCapturarTarjeta.Location = New System.Drawing.Point(20, 54)
+        Me.btnCapturarTarjeta.Location = New System.Drawing.Point(20, 49)
         Me.btnCapturarTarjeta.Name = "btnCapturarTarjeta"
         Me.btnCapturarTarjeta.Size = New System.Drawing.Size(126, 23)
         Me.btnCapturarTarjeta.TabIndex = 1
@@ -1789,26 +1809,6 @@ Public Class frmLiquidacionPortatil
         Me.lblKilosVendidos.TabIndex = 70
         Me.lblKilosVendidos.Text = "Kilos vendidos:"
         '
-        'grdDetalle
-        '
-        Me.grdDetalle.AccessibleName = ""
-        Me.grdDetalle.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.grdDetalle.BackgroundColor = System.Drawing.Color.Gainsboro
-        Me.grdDetalle.CaptionBackColor = System.Drawing.Color.RoyalBlue
-        Me.grdDetalle.CaptionText = "Detalle de productos a liquidar"
-        Me.grdDetalle.DataMember = ""
-        Me.grdDetalle.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grdDetalle.HeaderFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grdDetalle.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.grdDetalle.Location = New System.Drawing.Point(1, 19)
-        Me.grdDetalle.Name = "grdDetalle"
-        Me.grdDetalle.ReadOnly = True
-        Me.grdDetalle.Size = New System.Drawing.Size(962, 182)
-        Me.grdDetalle.TabIndex = 43
-        Me.tltLiquidacion.SetToolTip(Me.grdDetalle, "Detalle de productos a liquidar")
-        '
         'frmLiquidacionPortatil
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -1832,12 +1832,12 @@ Public Class frmLiquidacionPortatil
         Me.grbDetalleProducto.PerformLayout()
         Me.pnlProducto.ResumeLayout(False)
         Me.pnlProducto.PerformLayout()
+        CType(Me.grdDetalle, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpCobroEfectivo.ResumeLayout(False)
         Me.grpEfectivo.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.grpFormasPago.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
-        CType(Me.grdDetalle, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -5924,7 +5924,7 @@ Public Class frmLiquidacionPortatil
         End If
     End Sub
 
-    Private Sub btnCapturarCheque_Click(sender As Object, e As EventArgs)
+    Private Sub btnCapturarCheque_Click(sender As Object, e As EventArgs) Handles btnCapturarCheque.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 3, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
         frmSeleTipoCobro.MostrarDacion = False
@@ -6022,7 +6022,7 @@ Public Class frmLiquidacionPortatil
     End Function
 
 
-    Private Sub btnCapturarTarjeta_Click(sender As Object, e As EventArgs)
+    Private Sub btnCapturarTarjeta_Click(sender As Object, e As EventArgs) Handles btnCapturarTarjeta.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 2, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
         frmSeleTipoCobro.MostrarDacion = False
@@ -6045,7 +6045,7 @@ Public Class frmLiquidacionPortatil
         Validacion()
     End Sub
 
-    Private Sub btnTransferencia_Click(sender As Object, e As EventArgs)
+    Private Sub btnTransferencia_Click(sender As Object, e As EventArgs) Handles btnTransferencia.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 6, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
         frmSeleTipoCobro.MostrarDacion = False
@@ -6067,7 +6067,7 @@ Public Class frmLiquidacionPortatil
         Validacion()
     End Sub
 
-    Private Sub btnCapturarVale_Click(sender As Object, e As EventArgs)
+    Private Sub btnCapturarVale_Click(sender As Object, e As EventArgs) Handles btnCapturarVale.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 1, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
         frmSeleTipoCobro.MostrarDacion = False
@@ -6089,7 +6089,7 @@ Public Class frmLiquidacionPortatil
         Validacion()
     End Sub
 
-    Private Sub btnAplicacionAnticipo_Click(sender As Object, e As EventArgs)
+    Private Sub btnAplicacionAnticipo_Click(sender As Object, e As EventArgs) Handles btnAplicacionAnticipo.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 4, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
         frmSeleTipoCobro.MostrarDacion = False
@@ -6114,7 +6114,7 @@ Public Class frmLiquidacionPortatil
         Validacion()
     End Sub
 
-    Private Sub btnPagoEfectivo_Click(sender As Object, e As EventArgs)
+    Private Sub btnPagoEfectivo_Click(sender As Object, e As EventArgs) Handles btnPagoEfectivo.Click
         Dim PagoEfectivoDefault As Boolean
         Dim Pago As Integer
         Dim result As Integer = MessageBox.Show("¿Desea enviar las remisiones a Pago en Efectivo?", "Pago en Efectivo", MessageBoxButtons.YesNo)
@@ -6169,7 +6169,7 @@ Public Class frmLiquidacionPortatil
 
     End Sub
 
-    Private Sub btnCancelarPago_Click(sender As Object, e As EventArgs)
+    Private Sub btnCancelarPago_Click(sender As Object, e As EventArgs) Handles btnCancelarPago.Click
         Try
             If _listaCobros.Count > 0 Then
                 Dim oCancelarPago As New frmCancelarPago()
