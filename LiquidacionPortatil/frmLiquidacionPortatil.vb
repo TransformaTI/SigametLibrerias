@@ -4105,7 +4105,33 @@ Public Class frmLiquidacionPortatil
 
                             If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = _TipoCobroCredito Then
 
-                                oLiquidacionPedido.LiquidacionPedidoyCobroPedido(ProductoTemp, Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", ClienteTemp, Now, SaldoTemp, "", 1, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, 0, TipoCobroTemp, _AnoAtt, _Folio, "PENDIENTE", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, ZonaEconomicaTemp, 0, CantidadTemp, CantidadTemp * ValorTemp, connection, transaction)
+                                oLiquidacionPedido.LiquidacionPedidoyCobroPedido(
+                                    ProductoTemp,
+                                    Now, 0, 0,
+                                    Importe,
+                                    Impuesto,
+                                    Total,
+                                    "SURTIDO",
+                                    ClienteTemp,
+                                    Now,
+                                    SaldoTemp,
+                                    "", 1, 8,
+                                    CType(_drLiquidacion(0).Item(25), Short),
+                                    0, 0,
+                                    _Usuario, 0,
+                                    TipoCobroTemp,
+                                    _AnoAtt,
+                                    _Folio, "PENDIENTE",
+                                    CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0,
+                                    oMovimientoAlmacenS.Identificador,
+                                    _AlmacenGas, 0,
+                                    ZonaEconomicaTemp, 0,
+                                    CantidadTemp,
+                                    CantidadTemp * ValorTemp,
+                                    connection, transaction, 0, "", False,
+                                    TxtSerie.Text,
+                                    Int32.Parse(TxtRemision.Text)
+                                )
                                 _TotalCredito = _TotalCredito + CType(dtLiquidacionTotal.Rows(i).Item(15), Decimal)
 
                             ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 5 Then
@@ -4122,7 +4148,11 @@ Public Class frmLiquidacionPortatil
                                                                                  _AlmacenGas, 0,
                                                                                  CType(dtLiquidacionTotal.Rows(i).Item(0), Short),
                                                                                  0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer),
-                                                                                 CType(dtLiquidacionTotal.Rows(i).Item(4), Integer) * CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction)
+                                                                                 CType(dtLiquidacionTotal.Rows(i).Item(4), Integer) * CType(dtLiquidacionTotal.Rows(i).Item(9), Integer),
+                                                                                 connection, transaction,
+                                                                                 0, "", False,
+                                                                                 TxtSerie.Text,
+                                                                                 Int32.Parse(TxtRemision.Text))
                                 _TotalContado = _TotalContado + Total
 
                             ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
