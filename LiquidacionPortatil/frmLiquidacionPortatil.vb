@@ -430,7 +430,6 @@ Public Class frmLiquidacionPortatil
         Me.btnTransferencia = New System.Windows.Forms.Button()
         Me.btnCapturarTarjeta = New System.Windows.Forms.Button()
         Me.btnCapturarCheque = New System.Windows.Forms.Button()
-
         Me.col0004 = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.col0005 = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.col0003 = New System.Windows.Forms.DataGridTextBoxColumn()
@@ -441,7 +440,6 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.lblTotalKilos = New System.Windows.Forms.Label()
         Me.lblKilosVendidos = New System.Windows.Forms.Label()
-
         Me.grbInformacion.SuspendLayout()
         Me.grbDetalleProducto.SuspendLayout()
         Me.pnlProducto.SuspendLayout()
@@ -916,16 +914,14 @@ Public Class frmLiquidacionPortatil
         Me.btnBorrar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnBorrar.ImageIndex = 3
         Me.btnBorrar.ImageList = Me.ImageList1
-        Me.btnBorrar.Location = New System.Drawing.Point(383, 274)
+        Me.btnBorrar.Location = New System.Drawing.Point(450, 186)
         Me.btnBorrar.Name = "btnBorrar"
-        Me.btnBorrar.Size = New System.Drawing.Size(80, 24)
+        Me.btnBorrar.Size = New System.Drawing.Size(38, 24)
         Me.btnBorrar.TabIndex = 41
-        Me.btnBorrar.Text = "Borrar"
         Me.btnBorrar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.btnBorrar, "Presione borrar para eliminar el registro seleccionado en en el detalle de produc" &
         "tos a liquidar")
         Me.btnBorrar.UseVisualStyleBackColor = False
-        Me.btnBorrar.Visible = False
         '
         'btnAgregar
         '
@@ -934,15 +930,13 @@ Public Class frmLiquidacionPortatil
         Me.btnAgregar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnAgregar.ImageIndex = 2
         Me.btnAgregar.ImageList = Me.ImageList1
-        Me.btnAgregar.Location = New System.Drawing.Point(297, 274)
+        Me.btnAgregar.Location = New System.Drawing.Point(450, 159)
         Me.btnAgregar.Name = "btnAgregar"
-        Me.btnAgregar.Size = New System.Drawing.Size(80, 24)
+        Me.btnAgregar.Size = New System.Drawing.Size(38, 24)
         Me.btnAgregar.TabIndex = 40
-        Me.btnAgregar.Text = "Agregar"
         Me.btnAgregar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.btnAgregar, "Presione agregar para anexar los productos a la tabla de productos a liquidar")
         Me.btnAgregar.UseVisualStyleBackColor = False
-        Me.btnAgregar.Visible = False
         '
         'pnlProducto
         '
@@ -1128,10 +1122,10 @@ Public Class frmLiquidacionPortatil
         Me.grdDetalle.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.grdDetalle.HeaderFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.grdDetalle.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.grdDetalle.Location = New System.Drawing.Point(1, 19)
+        Me.grdDetalle.Location = New System.Drawing.Point(0, 19)
         Me.grdDetalle.Name = "grdDetalle"
         Me.grdDetalle.ReadOnly = True
-        Me.grdDetalle.Size = New System.Drawing.Size(962, 182)
+        Me.grdDetalle.Size = New System.Drawing.Size(957, 174)
         Me.grdDetalle.TabIndex = 43
         Me.tltLiquidacion.SetToolTip(Me.grdDetalle, "Detalle de productos a liquidar")
         '
@@ -1216,9 +1210,9 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox1.Controls.Add(Me.lblTotaltck)
         Me.GroupBox1.Controls.Add(Me.lblCambiotck)
         Me.GroupBox1.Controls.Add(Me.lblCambio)
-        Me.GroupBox1.Location = New System.Drawing.Point(680, 252)
+        Me.GroupBox1.Location = New System.Drawing.Point(680, 247)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(337, 276)
+        Me.GroupBox1.Size = New System.Drawing.Size(313, 253)
         Me.GroupBox1.TabIndex = 50
         Me.GroupBox1.TabStop = False
         '
@@ -1653,7 +1647,7 @@ Public Class frmLiquidacionPortatil
         Me.grpFormasPago.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.grpFormasPago.Location = New System.Drawing.Point(680, 13)
         Me.grpFormasPago.Name = "grpFormasPago"
-        Me.grpFormasPago.Size = New System.Drawing.Size(152, 247)
+        Me.grpFormasPago.Size = New System.Drawing.Size(152, 233)
         Me.grpFormasPago.TabIndex = 52
         Me.grpFormasPago.TabStop = False
         Me.grpFormasPago.Text = "Formas de Pago"
@@ -1721,7 +1715,6 @@ Public Class frmLiquidacionPortatil
         Me.btnCapturarCheque.Text = "Capturar Cheque"
         Me.btnCapturarCheque.UseVisualStyleBackColor = True
         '
-
         'col0004
         '
         Me.col0004.Alignment = System.Windows.Forms.HorizontalAlignment.Right
@@ -1786,9 +1779,9 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox2.Controls.Add(Me.lblTotalKilos)
         Me.GroupBox2.Controls.Add(Me.lblKilosVendidos)
         Me.GroupBox2.Controls.Add(Me.grdDetalle)
-        Me.GroupBox2.Location = New System.Drawing.Point(24, 503)
+        Me.GroupBox2.Location = New System.Drawing.Point(24, 511)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(826, 220)
+        Me.GroupBox2.Size = New System.Drawing.Size(963, 212)
         Me.GroupBox2.TabIndex = 56
         Me.GroupBox2.TabStop = False
         '
@@ -1796,7 +1789,7 @@ Public Class frmLiquidacionPortatil
         '
         Me.lblTotalKilos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotalKilos.ForeColor = System.Drawing.Color.Green
-        Me.lblTotalKilos.Location = New System.Drawing.Point(576, 0)
+        Me.lblTotalKilos.Location = New System.Drawing.Point(483, 0)
         Me.lblTotalKilos.Name = "lblTotalKilos"
         Me.lblTotalKilos.Size = New System.Drawing.Size(64, 16)
         Me.lblTotalKilos.TabIndex = 71
@@ -1806,13 +1799,12 @@ Public Class frmLiquidacionPortatil
         'lblKilosVendidos
         '
         Me.lblKilosVendidos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblKilosVendidos.Location = New System.Drawing.Point(480, 0)
+        Me.lblKilosVendidos.Location = New System.Drawing.Point(387, 0)
         Me.lblKilosVendidos.Name = "lblKilosVendidos"
         Me.lblKilosVendidos.Size = New System.Drawing.Size(88, 16)
         Me.lblKilosVendidos.TabIndex = 70
         Me.lblKilosVendidos.Text = "Kilos vendidos:"
         '
-
         'frmLiquidacionPortatil
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
