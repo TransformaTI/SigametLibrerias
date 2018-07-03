@@ -238,6 +238,7 @@ Public Class frmLiquidacionPortatil
     Friend WithEvents lblTotalKilos As Label
     Friend WithEvents lblKilosVendidos As Label
     Friend WithEvents grdDetalle As DataGrid
+    Friend WithEvents btnCrearRemision As Button
 
     'Indica si la ruta se encuentra en venta especial
     Private _RutaEspecial As Boolean = False
@@ -430,7 +431,6 @@ Public Class frmLiquidacionPortatil
         Me.btnTransferencia = New System.Windows.Forms.Button()
         Me.btnCapturarTarjeta = New System.Windows.Forms.Button()
         Me.btnCapturarCheque = New System.Windows.Forms.Button()
-
         Me.col0004 = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.col0005 = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.col0003 = New System.Windows.Forms.DataGridTextBoxColumn()
@@ -441,7 +441,7 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.lblTotalKilos = New System.Windows.Forms.Label()
         Me.lblKilosVendidos = New System.Windows.Forms.Label()
-
+        Me.btnCrearRemision = New System.Windows.Forms.Button()
         Me.grbInformacion.SuspendLayout()
         Me.grbDetalleProducto.SuspendLayout()
         Me.pnlProducto.SuspendLayout()
@@ -734,6 +734,7 @@ Public Class frmLiquidacionPortatil
         '
         'grbDetalleProducto
         '
+        Me.grbDetalleProducto.Controls.Add(Me.btnCrearRemision)
         Me.grbDetalleProducto.Controls.Add(Me.TxtSerie)
         Me.grbDetalleProducto.Controls.Add(Me.TxtRemision)
         Me.grbDetalleProducto.Controls.Add(Me.Label13)
@@ -1721,7 +1722,6 @@ Public Class frmLiquidacionPortatil
         Me.btnCapturarCheque.Text = "Capturar Cheque"
         Me.btnCapturarCheque.UseVisualStyleBackColor = True
         '
-
         'col0004
         '
         Me.col0004.Alignment = System.Windows.Forms.HorizontalAlignment.Right
@@ -1812,7 +1812,15 @@ Public Class frmLiquidacionPortatil
         Me.lblKilosVendidos.TabIndex = 70
         Me.lblKilosVendidos.Text = "Kilos vendidos:"
         '
-
+        'btnCrearRemision
+        '
+        Me.btnCrearRemision.Location = New System.Drawing.Point(394, 44)
+        Me.btnCrearRemision.Name = "btnCrearRemision"
+        Me.btnCrearRemision.Size = New System.Drawing.Size(27, 23)
+        Me.btnCrearRemision.TabIndex = 57
+        Me.btnCrearRemision.Text = "+"
+        Me.btnCrearRemision.UseVisualStyleBackColor = True
+        '
         'frmLiquidacionPortatil
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -6544,6 +6552,10 @@ Public Class frmLiquidacionPortatil
     Private Sub GroupBox2_Enter(sender As Object, e As EventArgs) Handles GroupBox2.Enter
 
 
+    End Sub
+
+    Private Sub btnCrearRemision_Click(sender As Object, e As EventArgs) Handles btnCrearRemision.Click
+        InsertaRemisiones()
     End Sub
 
     Public Sub Totalizador()
