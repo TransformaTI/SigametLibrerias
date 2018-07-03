@@ -2632,7 +2632,7 @@ Public Class frmLiquidacionPortatil
                                     CType(oProducto.Rows(i).Item(1), String),
                                     CType(oProducto.Rows(i).Item(2), Decimal),
                                     CType(oProducto.Rows(i).Item(3), Integer),
-                                    CType(oProducto.Rows(i).Item(4), Integer))
+                                    CType(oProducto.Rows(i).Item(4), Integer), "pdto" + oProducto.Rows(i).Item(0).ToString())
                 '20150627CNSM$001-----------------
 
 
@@ -2641,7 +2641,7 @@ Public Class frmLiquidacionPortatil
                                    CType(oProducto.Rows(i).Item(1), String),
                                    CType(oProducto.Rows(i).Item(2), Decimal),
                                    CType(oProducto.Rows(i).Item(3), Integer),
-                                   1) 'el uno esta hardcode 
+                                   1, "pdto" + oProducto.Rows(i).Item(0).ToString()) 'el uno esta hardcode 
 
             End If
 
@@ -2657,7 +2657,7 @@ Public Class frmLiquidacionPortatil
     Private Sub InicializarComponentes(ByVal Producto As Integer,
                                      ByVal Descripcion As String,
                                      ByVal Valor As Decimal,
-                                     ByVal Existencia As Integer, Optional ByVal CantidadPortatil As Integer = 0)
+                                     ByVal Existencia As Integer, Optional ByVal CantidadPortatil As Integer = 0, Optional ByVal ComponenteNombre As String = "")
         If NumProductos = 0 Then
 
             lblProducto1.Text = Descripcion
@@ -2693,7 +2693,7 @@ Public Class frmLiquidacionPortatil
             Dim y As Integer
             y = NumProductos * 28
             AddControls(Descripcion, Valor, Existencia, CantidadPortatil, lblProducto1.Location.Y + y,
-                        lblExistencia1.Location.Y + y, txtCantidad1.Location.Y + y)
+                        lblExistencia1.Location.Y + y, txtCantidad1.Location.Y + y, ComponenteNombre)
         End If
 
         pdtoLista.Add(Producto)
@@ -2704,7 +2704,7 @@ Public Class frmLiquidacionPortatil
     '20150627CNSM$001-----------------
     Public Sub AddControls(ByVal Descripcion As String, ByVal Valor As Decimal, ByVal Existencia As Integer,
        ByVal CantidadPortatil As Integer, ByVal ylbl As Integer, ByVal ylbl2 As Integer,
-                                  ByVal ytxt As Integer)
+                                  ByVal ytxt As Integer, Optional ByVal NameControl As String = "")
 
         Dim textBox1 As New SigaMetClasses.Controles.txtNumeroEntero()
         Dim label1 As New Label()
@@ -2744,6 +2744,7 @@ Public Class frmLiquidacionPortatil
         textBox1.Size = txtCantidad1.Size
         textBox1.TabIndex = txtCantidad1.TabIndex + NumProductos
         textBox1.AcceptsReturn = txtCantidad1.AcceptsReturn
+        textBox1.Name = "Txt" + NameControl
 
         AddHandler textBox1.KeyDown, AddressOf txtCantidad1_KeyDown
         pnlProducto.Controls.Add(textBox1)
@@ -6452,11 +6453,11 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub grdDetalle_Click(sender As Object, e As EventArgs) Handles grdDetalle.Click
-        Dim dt As DataTable = New DataTable
-        Dim producto As String = ""
 
-        dt.Columns.Add("DcsProducto", GetType(String))
-        dt.Columns.Add("Cantidad", GetType(Integer))
+        Dim producto As String = ""
+        Dim Total As Integer = 0
+
+
 
         TxtCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Cliente").ToString()
         lblNombreCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Nombre").ToString()
@@ -6465,39 +6466,25 @@ Public Class frmLiquidacionPortatil
         TxtRemision.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Remision").ToString()
         producto = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("producto").ToString()
 
-        'Dim result() As DataRow = _DetalleGrid.Select("Cliente ='" + TxtCliente.Text + "' And Serie = '" + TxtSerie.Text + "' and remision='" + TxtRemision.Text + "'")
-
-
-
-
-
 
         For Each row As DataRow In _DetalleGrid.Rows
-            If (row.Item("cliente").ToString() = TxtCliente.Text) And TxtSerie.Text = row.Item("serie").ToString() And
-                 row.Item("producto").ToString() = producto And row.Item("remision").ToString() = TxtRemision.Text Then
+            If (row.Item("cliente").ToString() = TxtCliente.Text And TxtSerie.Text = row.Item("serie").ToString() And row.Item("producto").ToString() = producto) Then
 
-                For Each ctrl As Control In pnlProducto.Controls
-                    If (ctrl.GetType() Is GetType(TextBox)) Then
-                        MessageBox.Show(ctrl.Name)
-                        MessageBox.Show(ctrl.Text)
-                    End If
-
-
-                    If (ctrl.GetType() Is GetType(Label)) Then
-                        MessageBox.Show(ctrl.Name)
-                        MessageBox.Show(ctrl.Text)
-
-                        If (ctrl.Text.Contains(row.Item("descripcion").ToString())) Then
-
-                        End If
-                    End If
-                Next
+                Total = Total + Convert.ToInt16(row.Item("cantidad").ToString())
 
             End If
         Next
 
 
+        For Each ctrl As Control In pnlProducto.Controls
 
+
+            If (ctrl.Name.Contains("pdto" + producto.ToString().Trim())) Then
+
+                ctrl.Text = Total.ToString()
+            End If
+
+        Next
     End Sub
 
     Private Sub TxtNumeroEntero2_TextChanged(sender As Object, e As EventArgs) Handles TxtRemision.TextChanged
