@@ -6475,7 +6475,6 @@ Public Class frmLiquidacionPortatil
             End If
         Next
 
-
         For Each ctrl As Control In pnlProducto.Controls
 
 
