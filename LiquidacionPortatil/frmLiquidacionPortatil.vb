@@ -238,7 +238,6 @@ Public Class frmLiquidacionPortatil
     Friend WithEvents lblTotalKilos As Label
     Friend WithEvents lblKilosVendidos As Label
     Friend WithEvents grdDetalle As DataGrid
-    Friend WithEvents btnCrearRemision As Button
 
     'Indica si la ruta se encuentra en venta especial
     Private _RutaEspecial As Boolean = False
@@ -441,9 +440,6 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.lblTotalKilos = New System.Windows.Forms.Label()
         Me.lblKilosVendidos = New System.Windows.Forms.Label()
-
-        Me.btnCrearRemision = New System.Windows.Forms.Button()
-
         Me.grbInformacion.SuspendLayout()
         Me.grbDetalleProducto.SuspendLayout()
         Me.pnlProducto.SuspendLayout()
@@ -736,7 +732,6 @@ Public Class frmLiquidacionPortatil
         '
         'grbDetalleProducto
         '
-        Me.grbDetalleProducto.Controls.Add(Me.btnCrearRemision)
         Me.grbDetalleProducto.Controls.Add(Me.TxtSerie)
         Me.grbDetalleProducto.Controls.Add(Me.TxtRemision)
         Me.grbDetalleProducto.Controls.Add(Me.Label13)
@@ -935,9 +930,9 @@ Public Class frmLiquidacionPortatil
         Me.btnAgregar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnAgregar.ImageIndex = 2
         Me.btnAgregar.ImageList = Me.ImageList1
-        Me.btnAgregar.Location = New System.Drawing.Point(450, 159)
+        Me.btnAgregar.Location = New System.Drawing.Point(394, 44)
         Me.btnAgregar.Name = "btnAgregar"
-        Me.btnAgregar.Size = New System.Drawing.Size(38, 24)
+        Me.btnAgregar.Size = New System.Drawing.Size(45, 24)
         Me.btnAgregar.TabIndex = 40
         Me.btnAgregar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.btnAgregar, "Presione agregar para anexar los productos a la tabla de productos a liquidar")
@@ -1810,18 +1805,6 @@ Public Class frmLiquidacionPortatil
         Me.lblKilosVendidos.TabIndex = 70
         Me.lblKilosVendidos.Text = "Kilos vendidos:"
         '
-
-        'btnCrearRemision
-        '
-        Me.btnCrearRemision.Location = New System.Drawing.Point(394, 44)
-        Me.btnCrearRemision.Name = "btnCrearRemision"
-        Me.btnCrearRemision.Size = New System.Drawing.Size(27, 23)
-        Me.btnCrearRemision.TabIndex = 57
-        Me.btnCrearRemision.Text = "+"
-        Me.btnCrearRemision.UseVisualStyleBackColor = True
-        '
-
-
         'frmLiquidacionPortatil
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -5577,10 +5560,15 @@ Public Class frmLiquidacionPortatil
             Dim oCliente As New PortatilClasses.Consulta.cCliente(0, ofrmBusquedaCliente.Cliente)
             oCliente.CargaDatos()
             lblNombreCliente.Text = oCliente.Cliente
-            ActiveControl = TxtCliente
+            ' ActiveControl = TxtCliente
             ActiveControl = txtCantidad1
         Else
             ActiveControl = TxtCliente
+        End If
+        If lblNombreCliente.Text <> "" Then
+            btnAgregar.Enabled = True
+        Else
+            btnAgregar.Enabled = False
         End If
     End Sub
 
@@ -5634,7 +5622,7 @@ Public Class frmLiquidacionPortatil
 
     'Evento click en el boton Agregar que anexa la lista de productos a liquidar en el grid
     Private Sub btnAgregar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAgregar.Click
-
+        InsertaRemisiones()
     End Sub
 
     Public Function ValidarFechas(ByVal FCarga As DateTime, ByVal FLiquidacion As DateTime) As Boolean
@@ -6257,6 +6245,7 @@ Public Class frmLiquidacionPortatil
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         'grdDetalle.SelectionMode =
         cargarRemisiones()
+        btnAgregar.Enabled = False
         ActualizarTotalizadorFormasDePago(_listaCobros)
     End Sub
 
@@ -6566,8 +6555,8 @@ Public Class frmLiquidacionPortatil
 
     End Sub
 
-    Private Sub btnCrearRemision_Click(sender As Object, e As EventArgs) Handles btnCrearRemision.Click
-        InsertaRemisiones()
+    Private Sub btnCrearRemision_Click(sender As Object, e As EventArgs)
+
     End Sub
 
     Public Sub Totalizador()
