@@ -33,6 +33,14 @@ Public Class frmRemisionManual
     Private _Cliente As Integer
 
 
+
+    Public ReadOnly Property Remisiones() As DataTable
+        Get
+            Return dtLiquidacionTotal
+        End Get
+    End Property
+
+
 #Region " Windows Form Designer generated code "
 
     Public Sub New(ByVal FolioAtt As Integer, ByVal AñoAtt As Short, ByVal Configuracion As Short, ByVal DtCantidades As DataTable, ByVal DtRemisiones As DataTable, ByVal Cliente As Integer)
