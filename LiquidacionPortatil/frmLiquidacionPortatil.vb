@@ -4162,8 +4162,8 @@ Public Class frmLiquidacionPortatil
                                                                                  CType(dtLiquidacionTotal.Rows(i).Item(4), Integer) * CType(dtLiquidacionTotal.Rows(i).Item(9), Integer),
                                                                                  connection, transaction,
                                                                                  0, "", False,
-                                                                                 TxtSerie.Text,
-                                                                                 Int32.Parse(TxtRemision.Text))
+                                                                                  CType(dtLiquidacionTotal.Rows(i).Item(20), String),
+                                                                                  CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
                                 _TotalContado = _TotalContado + Total
 
                             ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
