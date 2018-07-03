@@ -51,6 +51,8 @@ Public Class frmLiquidacionPortatil
     Dim banderaRemisionManual As Boolean = False
     Public dtRemisiones As New DataTable
     Public dtCantidades As New DataTable
+    Dim dtRemisionesManuales As New DataTable
+    Dim oProductoRemManuales As DataTable
 
     Private _listaCobros As New List(Of SigaMetClasses.CobroDetalladoDatos)
     Private _ListaCobroRemisiones As List(Of SigaMetClasses.CobroRemisiones)
@@ -351,6 +353,7 @@ Public Class frmLiquidacionPortatil
         Me.lblCamion = New System.Windows.Forms.Label()
         Me.lblCamiontck = New System.Windows.Forms.Label()
         Me.grbDetalleProducto = New System.Windows.Forms.GroupBox()
+        Me.btnCrearRemision = New System.Windows.Forms.Button()
         Me.TxtSerie = New System.Windows.Forms.TextBox()
         Me.TxtRemision = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.Label13 = New System.Windows.Forms.Label()
@@ -759,6 +762,15 @@ Public Class frmLiquidacionPortatil
         Me.grbDetalleProducto.TabIndex = 27
         Me.grbDetalleProducto.TabStop = False
         Me.grbDetalleProducto.Text = "Productos a liquidar"
+        '
+        'btnCrearRemision
+        '
+        Me.btnCrearRemision.Location = New System.Drawing.Point(394, 44)
+        Me.btnCrearRemision.Name = "btnCrearRemision"
+        Me.btnCrearRemision.Size = New System.Drawing.Size(27, 23)
+        Me.btnCrearRemision.TabIndex = 57
+        Me.btnCrearRemision.Text = "+"
+        Me.btnCrearRemision.UseVisualStyleBackColor = True
         '
         'TxtSerie
         '
@@ -5637,6 +5649,19 @@ Public Class frmLiquidacionPortatil
         Dim oLiquidacionPedido As Liquidacion.cLiquidacion
         oLiquidacionPedido = New Liquidacion.cLiquidacion(0, 0, 0, 0)
         Dim Cliente As Integer
+        Dim row As DataRow
+        Dim oLiquidacion As New PortatilClasses.cLiquidacion()
+        Dim Camion As Integer
+
+        Camion = CType(lblCamion.Text, Integer)
+
+        oLiquidacion.ConsultaExistencia(5, _AlmacenGas, _Ruta,
+                                            _MovimientoAlmacen, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime),
+                                            Camion)
+
+        oProductoRemManuales = oLiquidacion.dtTable
+
+
         If TxtCliente.Text.Length > 0 Then
             Cliente = Convert.ToInt32(TxtCliente.Text)
         Else
@@ -5667,7 +5692,41 @@ Public Class frmLiquidacionPortatil
                 End While
             Next
             banderaRemisionManual = True
+
+
+
+
+            dtRemisionesManuales = oRemisionManual.Remisiones
+
+            For Each item As DataRow In dtRemisionesManuales.Rows
+
+                Dim dr() As DataRow = oProductoRemManuales.Select("producto=" + item("producto").ToString())
+
+                row = _DetalleGrid.NewRow()
+                row("Serie") = item("Serie")
+                row("Remision") = item("Remision")
+                row("Cliente") = TxtCliente.Text
+                row("Nombre") = lblNombreCliente.Text
+                row("Kilos") = Convert.ToInt64(item("Cantidad"))
+                row("descuento") = 0
+                row("Importe") = item("TotalNeto")
+                row("Saldo") = item("TotalNeto")
+                row("FormaPago") = "CONTADO"
+                row("Descripcion") = item("ProductoDescripcion")
+                row("Cantidad") = item("Cantidad")
+                row("producto") = item("producto")
+                row("zonaeconomica") = cboZEconomica.Text
+
+                _DetalleGrid.Rows.Add(row)
+            Next
+
+            grdDetalle.DataSource = _DetalleGrid
+
+
         End If
+
+
+
     End Sub
 
     Private Sub ValidarInformacionGrid(ByVal valorABuscar As String)
@@ -6556,6 +6615,10 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnCrearRemision_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub grpCobroEfectivo_Enter(sender As Object, e As EventArgs) Handles grpCobroEfectivo.Enter
 
     End Sub
 
