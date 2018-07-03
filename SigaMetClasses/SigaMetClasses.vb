@@ -3251,7 +3251,13 @@ Public Class cCliente
     Private _saldo As Decimal
     Private _maxImporteCredito As Decimal
     Private _falta As Date
-
+    Private _TotalNC As Decimal
+    Private _FechaNC As DateTime
+    Private _Folio As Integer
+    Private _Serie As String
+    Private _FacturaNC As Integer
+    Private _ExisteNC As Boolean
+    Private conexnc As SqlConnection
 
     Public Property Cliente() As Integer
         Get
@@ -3383,6 +3389,42 @@ Public Class cCliente
         Get
             Return _falta
         End Get
+    End Property
+
+    Public Property TotalNC() As Decimal
+        Get
+            Return _TotalNC
+        End Get
+        Set(ByVal Value As Decimal)
+            _TotalNC = Value
+        End Set
+    End Property
+
+    Public Property FechaNC() As DateTime
+        Get
+            Return _FechaNC
+        End Get
+        Set(ByVal Value As DateTime)
+            _FechaNC = Value
+        End Set
+    End Property
+
+    Public Property FacturaNC() As Integer
+        Get
+            Return _FacturaNC
+        End Get
+        Set(ByVal Value As Integer)
+            _FacturaNC = Value
+        End Set
+    End Property
+
+    Public Property ExisteNC() As Boolean
+        Get
+            Return _ExisteNC
+        End Get
+        Set(ByVal Value As Boolean)
+            _ExisteNC = Value
+        End Set
     End Property
 #End Region
 
@@ -4025,6 +4067,79 @@ Public Class cCliente
         End Try
 
         Return dtDirecciones
+    End Function
+
+
+    Public Function ConsultaNotaCredito(ByVal intFolio As Integer,
+                                        ByVal intCliente As Integer,
+                                        ByVal Serie As String)
+
+        Dim conn As SqlConnection
+        conn = DataLayer.Conexion
+
+        Dim strQuery As String =
+        "SELECT Total, FFactura, Factura FROM Factura WHERE TipoDocumento = 2 and Status <> 'Cancelado' and Folio = @Folio and Serie = @Serie and Cliente = @Cliente"
+
+        Dim cmd As New SqlCommand(strQuery, DataLayer.Conexion)
+        With cmd
+            .CommandType = CommandType.Text
+            .Parameters.Add("@Cliente", SqlDbType.Int).Value = intCliente
+            .Parameters.Add("@Folio", SqlDbType.Int).Value = intFolio
+            .Parameters.Add("@Serie", SqlDbType.VarChar).Value = Serie
+        End With
+
+        Try
+            conn.Open()
+
+            Dim dr As SqlDataReader = cmd.ExecuteReader()
+
+            If dr.HasRows Then
+
+                While dr.Read
+
+                    _TotalNC = CType(dr("Total"), Decimal)
+                    _FechaNC = CType(dr("FFactura"), DateTime)
+                    _FacturaNC = CType(dr("Factura"), Integer)
+
+                End While
+
+                dr.Close()
+
+                Dim strQuery2 As String = "Select * From Cobro where TipoCobro = 12 and Referencia = @Referencia and Status <> 'Cancelado'"
+
+                Dim cmd2 As New SqlCommand(strQuery2, DataLayer.Conexion)
+                With cmd2
+                    .CommandType = CommandType.Text
+                    .Parameters.Add("@Referencia", SqlDbType.Int).Value = _FacturaNC
+                End With
+
+                Dim dr2 As SqlDataReader = cmd2.ExecuteReader()
+
+                If dr2.HasRows Then
+
+                    _ExisteNC = True
+
+                Else
+
+                    _ExisteNC = False
+
+                End If
+                dr2.Close()
+                cmd2 = Nothing
+
+            Else
+
+                _TotalNC = 0
+
+            End If
+            dr.Close()
+
+        Catch ex As Exception
+            Throw ex
+        Finally
+            conn.Close()
+            cmd = Nothing
+        End Try
     End Function
 
 #Region "Portatil"
