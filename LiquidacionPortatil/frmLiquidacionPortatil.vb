@@ -2186,6 +2186,16 @@ Public Class frmLiquidacionPortatil
             dcColumna.DataType = System.Type.GetType("System.Boolean")
             dcColumna.ColumnName = "AplicaDescuento"
             dtLiquidacionTotal.Columns.Add(dcColumna)
+            'Columna 020
+            dcColumna = New DataColumn()
+            dcColumna.DataType = System.Type.GetType("System.String")
+            dcColumna.ColumnName = "Serie"
+            dtLiquidacionTotal.Columns.Add(dcColumna)
+            'Columna 021
+            dcColumna = New DataColumn()
+            dcColumna.DataType = System.Type.GetType("System.Int32")
+            dcColumna.ColumnName = "Remision"
+            dtLiquidacionTotal.Columns.Add(dcColumna)
         End If
     End Sub
 
@@ -3215,7 +3225,8 @@ Public Class frmLiquidacionPortatil
                 End If
 
                 drow(19) = cbxAplicaDescuento.Checked
-
+                drow(20) = _DetalleGrid.Rows(i).Item(0)
+                drow(21) = _DetalleGrid.Rows(i).Item(1)
                 ' If Not VerificaRegistroGrid(drow) Then
                 If CDec(_DetalleGrid.Rows(i).Item(7)) = 0 Then
                     dtLiquidacionTotal.Rows.Add(drow)

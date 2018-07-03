@@ -953,7 +953,8 @@ Public Class LiquidacionTransaccionada
             Dim cmd As SqlCommand
 
             Try
-                cmd = New SqlCommand("spPTLLiquidacionPedidoyCobroPedidoTRN", Connection)
+                'cmd = New SqlCommand("spPTLLiquidacionPedidoyCobroPedidoTRN", Connection)
+                cmd = New SqlCommand("spPTLLiquidacionPedidoyCobroPedidoTRNVersion2Remision", Connection)
                 cmd.Transaction = Transaction
                 cmd.CommandType = CommandType.StoredProcedure
                 cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
@@ -976,12 +977,12 @@ Public Class LiquidacionTransaccionada
                 cmd.Parameters.Add("@TipoCargo", SqlDbType.TinyInt).Value = TipoCargo
                 cmd.Parameters.Add("@RutaSuministro", SqlDbType.SmallInt).Value = RutaSuministro
                 cmd.Parameters.Add("@AnoCobro", SqlDbType.SmallInt).Value = AnoCobro
-                cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = _Cobro 'Cobro se cambia la variable local del metodo por la variable global 
+                cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro 'Cobro se cambia la variable local del metodo por la variable global 
                 cmd.Parameters.Add("@Usuario", SqlDbType.VarChar).Value = Usuario
                 cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = Ruta
                 cmd.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = TipoCobro
                 cmd.Parameters.Add("@AnoAtt", SqlDbType.SmallInt).Value = AnoAtt
-                cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = _FolioTablaCobro 'Folio se cambia la variable local del metodo por la variable global 
+                cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio  'Folio se cambia la variable local del metodo por la variable global 
                 cmd.Parameters.Add("@StatusCobranza", SqlDbType.VarChar).Value = StatusCobranza
                 cmd.Parameters.Add("@Autotanque", SqlDbType.SmallInt).Value = Autotanque
                 cmd.Parameters.Add("@FActualizacion", SqlDbType.DateTime).Value = FActualizacion
@@ -991,7 +992,7 @@ Public Class LiquidacionTransaccionada
                 cmd.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = AlmacenGas
                 cmd.Parameters.Add("@TotalComisionPedido", SqlDbType.Money).Value = TotalComisionPedido
 
-                cmd.Parameters.Add("@Serie", SqlDbType.VarChar).Value = Serie
+                cmd.Parameters.Add("@SerieRemision", SqlDbType.VarChar).Value = Serie
                 cmd.Parameters.Add("@Remision", SqlDbType.Int).Value = Remision
 
                 If ZonaEconomica >= 0 Then
