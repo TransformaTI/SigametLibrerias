@@ -236,10 +236,6 @@ Public Class frmLiquidacionPortatil
     Friend WithEvents lblTotalKilos As Label
     Friend WithEvents lblKilosVendidos As Label
     Friend WithEvents grdDetalle As DataGrid
-    Friend WithEvents TxtSerie As TextBox
-    Friend WithEvents TxtRemision As SigaMetClasses.Controles.txtNumeroEntero
-    Friend WithEvents Label13 As Label
-    Friend WithEvents Label11 As Label
     Friend WithEvents Label16 As Label
     Friend WithEvents Label15 As Label
     Friend WithEvents Label14 As Label
@@ -440,10 +436,6 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.lblTotalKilos = New System.Windows.Forms.Label()
         Me.lblKilosVendidos = New System.Windows.Forms.Label()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.TxtSerie = New System.Windows.Forms.TextBox()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.TxtRemision = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
@@ -740,10 +732,6 @@ Public Class frmLiquidacionPortatil
         '
         'grbDetalleProducto
         '
-        Me.grbDetalleProducto.Controls.Add(Me.TxtSerie)
-        Me.grbDetalleProducto.Controls.Add(Me.TxtRemision)
-        Me.grbDetalleProducto.Controls.Add(Me.Label13)
-        Me.grbDetalleProducto.Controls.Add(Me.Label11)
         Me.grbDetalleProducto.Controls.Add(Me.btnDetalle)
         Me.grbDetalleProducto.Controls.Add(Me.cbxAplicaDescuento)
         Me.grbDetalleProducto.Controls.Add(Me.txtAplicaDescuento)
@@ -763,7 +751,7 @@ Public Class frmLiquidacionPortatil
         Me.grbDetalleProducto.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.grbDetalleProducto.Location = New System.Drawing.Point(5, 199)
         Me.grbDetalleProducto.Name = "grbDetalleProducto"
-        Me.grbDetalleProducto.Size = New System.Drawing.Size(494, 306)
+        Me.grbDetalleProducto.Size = New System.Drawing.Size(494, 291)
         Me.grbDetalleProducto.TabIndex = 27
         Me.grbDetalleProducto.TabStop = False
         Me.grbDetalleProducto.Text = "Productos a liquidar"
@@ -905,7 +893,7 @@ Public Class frmLiquidacionPortatil
         Me.pnlProducto.Controls.Add(Me.lbltckExistencia)
         Me.pnlProducto.Controls.Add(Me.Label8)
         Me.pnlProducto.Controls.Add(Me.lbltckProducto)
-        Me.pnlProducto.Location = New System.Drawing.Point(18, 149)
+        Me.pnlProducto.Location = New System.Drawing.Point(19, 128)
         Me.pnlProducto.Name = "pnlProducto"
         Me.pnlProducto.Size = New System.Drawing.Size(432, 142)
         Me.pnlProducto.TabIndex = 36
@@ -1755,7 +1743,7 @@ Public Class frmLiquidacionPortatil
         '
         Me.lblTotalKilos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotalKilos.ForeColor = System.Drawing.Color.Green
-        Me.lblTotalKilos.Location = New System.Drawing.Point(483, 0)
+        Me.lblTotalKilos.Location = New System.Drawing.Point(452, -2)
         Me.lblTotalKilos.Name = "lblTotalKilos"
         Me.lblTotalKilos.Size = New System.Drawing.Size(64, 16)
         Me.lblTotalKilos.TabIndex = 71
@@ -1765,49 +1753,11 @@ Public Class frmLiquidacionPortatil
         'lblKilosVendidos
         '
         Me.lblKilosVendidos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblKilosVendidos.Location = New System.Drawing.Point(387, 0)
+        Me.lblKilosVendidos.Location = New System.Drawing.Point(428, 0)
         Me.lblKilosVendidos.Name = "lblKilosVendidos"
         Me.lblKilosVendidos.Size = New System.Drawing.Size(88, 16)
         Me.lblKilosVendidos.TabIndex = 70
         Me.lblKilosVendidos.Text = "Kilos vendidos:"
-        '
-        'Label11
-        '
-        Me.Label11.AutoSize = True
-        Me.Label11.Enabled = False
-        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(16, 124)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(34, 13)
-        Me.Label11.TabIndex = 101
-        Me.Label11.Text = "Serie:"
-        '
-        'TxtSerie
-        '
-        Me.TxtSerie.Enabled = False
-        Me.TxtSerie.Location = New System.Drawing.Point(96, 121)
-        Me.TxtSerie.Name = "TxtSerie"
-        Me.TxtSerie.Size = New System.Drawing.Size(128, 20)
-        Me.TxtSerie.TabIndex = 105
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Enabled = False
-        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(245, 124)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(53, 13)
-        Me.Label13.TabIndex = 103
-        Me.Label13.Text = "Remisión:"
-        '
-        'TxtRemision
-        '
-        Me.TxtRemision.Enabled = False
-        Me.TxtRemision.Location = New System.Drawing.Point(297, 121)
-        Me.TxtRemision.Name = "TxtRemision"
-        Me.TxtRemision.Size = New System.Drawing.Size(123, 20)
-        Me.TxtRemision.TabIndex = 104
         '
         'Label14
         '
@@ -2727,8 +2677,8 @@ Public Class frmLiquidacionPortatil
                 InicializarComponentes(CType(oProducto.Rows(i).Item(0), Integer),
                                    CType(oProducto.Rows(i).Item(1), String),
                                    CType(oProducto.Rows(i).Item(2), Decimal),
-                                   CType(oProducto.Rows(i).Item(3), Integer),
-                                   1, "pdto" + oProducto.Rows(i).Item(0).ToString()) 'el uno esta hardcode 
+                                   CType(oProducto.Rows(i).Item(3), Integer))
+                '   1, "pdto" + oProducto.Rows(i).Item(0).ToString()) 'el uno esta hardcode 
 
             End If
 
@@ -4200,8 +4150,8 @@ Public Class frmLiquidacionPortatil
                                     CantidadTemp,
                                     CantidadTemp * ValorTemp,
                                     connection, transaction, 0, "", False,
-                                    TxtSerie.Text,
-                                    Int32.Parse(TxtRemision.Text)
+                                    CType(dtLiquidacionTotal.Rows(i).Item(20), String),
+                                   CInt(dtLiquidacionTotal.Rows(i).Item(21))
                                 )
                                 _TotalCredito = _TotalCredito + CType(dtLiquidacionTotal.Rows(i).Item(15), Decimal)
 
@@ -6339,6 +6289,7 @@ Public Class frmLiquidacionPortatil
 
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         cargarRemisiones()
+        CargaTablaLiquidacion()
         validarForfasPago()
         ActualizarTotalizadorFormasDePago(_listaCobros)
     End Sub
@@ -6616,13 +6567,13 @@ Public Class frmLiquidacionPortatil
         TxtCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Cliente").ToString()
         lblNombreCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Nombre").ToString()
         cboZEconomica.SelectedIndex = cboZEconomica.FindString(_DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("zonaeconomica").ToString())
-        TxtSerie.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Serie").ToString()
-        TxtRemision.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Remision").ToString()
+        ' TxtSerie.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Serie").ToString()
+        ' TxtRemision.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Remision").ToString()
         producto = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("producto").ToString()
 
 
         For Each row As DataRow In _DetalleGrid.Rows
-            If (row.Item("cliente").ToString() = TxtCliente.Text And TxtSerie.Text = row.Item("serie").ToString() And row.Item("producto").ToString() = producto) Then
+            If (row.Item("cliente").ToString() = TxtCliente.Text And _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Serie").ToString() = row.Item("serie").ToString() And row.Item("producto").ToString() = producto) Then
 
                 Total = Total + Convert.ToInt16(row.Item("cantidad").ToString())
 
@@ -6640,9 +6591,6 @@ Public Class frmLiquidacionPortatil
         Next
     End Sub
 
-    Private Sub TxtNumeroEntero2_TextChanged(sender As Object, e As EventArgs) Handles TxtRemision.TextChanged
-
-    End Sub
 
     Private Sub GroupBox2_Enter(sender As Object, e As EventArgs) Handles GroupBox2.Enter
 
