@@ -183,10 +183,6 @@ Public Class frmLiquidacionPortatil
     Friend WithEvents grpCobroEfectivo As GroupBox
     Friend WithEvents capEfectivo As CapturaEfectivo.Efectivo
     Friend WithEvents grpEfectivo As GroupBox
-    Friend WithEvents TxtRemision As SigaMetClasses.Controles.txtNumeroEntero
-    Friend WithEvents Label13 As Label
-    Friend WithEvents Label11 As Label
-    Friend WithEvents TxtSerie As TextBox
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents Label20 As Label
     Friend WithEvents Label19 As Label
@@ -240,6 +236,14 @@ Public Class frmLiquidacionPortatil
     Friend WithEvents lblTotalKilos As Label
     Friend WithEvents lblKilosVendidos As Label
     Friend WithEvents grdDetalle As DataGrid
+    Friend WithEvents TxtSerie As TextBox
+    Friend WithEvents TxtRemision As SigaMetClasses.Controles.txtNumeroEntero
+    Friend WithEvents Label13 As Label
+    Friend WithEvents Label11 As Label
+    Friend WithEvents Label16 As Label
+    Friend WithEvents Label15 As Label
+    Friend WithEvents Label14 As Label
+    Friend WithEvents btnBuscarCliente As ControlesBase.BotonBase
 
     'Indica si la ruta se encuentra en venta especial
     Private _RutaEspecial As Boolean = False
@@ -313,7 +317,6 @@ Public Class frmLiquidacionPortatil
     Friend WithEvents tltLiquidacion As System.Windows.Forms.ToolTip
     Friend WithEvents lblCliente As System.Windows.Forms.Label
     Friend WithEvents TxtCliente As SigaMetClasses.Controles.txtNumeroEntero
-    Friend WithEvents btnBuscarCliente As ControlesBase.BotonBase
     Friend WithEvents ImageList1 As System.Windows.Forms.ImageList
     Friend WithEvents lblOrdentck As System.Windows.Forms.Label
     Friend WithEvents lblOrden As System.Windows.Forms.Label
@@ -353,16 +356,11 @@ Public Class frmLiquidacionPortatil
         Me.lblCamion = New System.Windows.Forms.Label()
         Me.lblCamiontck = New System.Windows.Forms.Label()
         Me.grbDetalleProducto = New System.Windows.Forms.GroupBox()
-        Me.TxtSerie = New System.Windows.Forms.TextBox()
-        Me.TxtRemision = New SigaMetClasses.Controles.txtNumeroEntero()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.Label11 = New System.Windows.Forms.Label()
         Me.btnDetalle = New ControlesBase.BotonBase()
         Me.cbxAplicaDescuento = New System.Windows.Forms.CheckBox()
         Me.txtAplicaDescuento = New System.Windows.Forms.Label()
         Me.lblNombreCliente = New System.Windows.Forms.Label()
         Me.lblNombreClientetck = New System.Windows.Forms.Label()
-        Me.btnBuscarCliente = New ControlesBase.BotonBase()
         Me.TxtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.lblCliente = New System.Windows.Forms.Label()
         Me.lblTipoCobro = New System.Windows.Forms.Label()
@@ -442,6 +440,14 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.lblTotalKilos = New System.Windows.Forms.Label()
         Me.lblKilosVendidos = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.TxtSerie = New System.Windows.Forms.TextBox()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.TxtRemision = New SigaMetClasses.Controles.txtNumeroEntero()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.btnBuscarCliente = New ControlesBase.BotonBase()
         Me.grbInformacion.SuspendLayout()
         Me.grbDetalleProducto.SuspendLayout()
         Me.pnlProducto.SuspendLayout()
@@ -762,40 +768,6 @@ Public Class frmLiquidacionPortatil
         Me.grbDetalleProducto.TabStop = False
         Me.grbDetalleProducto.Text = "Productos a liquidar"
         '
-        'TxtSerie
-        '
-        Me.TxtSerie.Location = New System.Drawing.Point(96, 121)
-        Me.TxtSerie.Name = "TxtSerie"
-        Me.TxtSerie.Size = New System.Drawing.Size(128, 20)
-        Me.TxtSerie.TabIndex = 105
-        '
-        'TxtRemision
-        '
-        Me.TxtRemision.Location = New System.Drawing.Point(297, 121)
-        Me.TxtRemision.Name = "TxtRemision"
-        Me.TxtRemision.Size = New System.Drawing.Size(123, 20)
-        Me.TxtRemision.TabIndex = 104
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(245, 124)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(53, 13)
-        Me.Label13.TabIndex = 103
-        Me.Label13.Text = "Remisión:"
-        '
-        'Label11
-        '
-        Me.Label11.AutoSize = True
-        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(16, 124)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(34, 13)
-        Me.Label11.TabIndex = 101
-        Me.Label11.Text = "Serie:"
-        '
         'btnDetalle
         '
         Me.btnDetalle.BackColor = System.Drawing.SystemColors.Control
@@ -855,23 +827,6 @@ Public Class frmLiquidacionPortatil
         Me.lblNombreClientetck.TabIndex = 64
         Me.lblNombreClientetck.Text = "Nombre:"
         '
-        'btnBuscarCliente
-        '
-        Me.btnBuscarCliente.BackColor = System.Drawing.SystemColors.Control
-        Me.btnBuscarCliente.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnBuscarCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnBuscarCliente.ImageIndex = 4
-        Me.btnBuscarCliente.ImageList = Me.ImageList1
-        Me.btnBuscarCliente.Location = New System.Drawing.Point(394, 18)
-        Me.btnBuscarCliente.Name = "btnBuscarCliente"
-        Me.btnBuscarCliente.Size = New System.Drawing.Size(80, 24)
-        Me.btnBuscarCliente.TabIndex = 2
-        Me.btnBuscarCliente.TabStop = False
-        Me.btnBuscarCliente.Text = "&Buscar"
-        Me.btnBuscarCliente.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.tltLiquidacion.SetToolTip(Me.btnBuscarCliente, "Presione buscar para localizar un cliente por diferentes datos")
-        Me.btnBuscarCliente.UseVisualStyleBackColor = False
-        '
         'TxtCliente
         '
         Me.TxtCliente.Location = New System.Drawing.Point(96, 20)
@@ -916,7 +871,7 @@ Public Class frmLiquidacionPortatil
         Me.btnBorrar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnBorrar.ImageIndex = 3
         Me.btnBorrar.ImageList = Me.ImageList1
-        Me.btnBorrar.Location = New System.Drawing.Point(450, 186)
+        Me.btnBorrar.Location = New System.Drawing.Point(394, 81)
         Me.btnBorrar.Name = "btnBorrar"
         Me.btnBorrar.Size = New System.Drawing.Size(38, 24)
         Me.btnBorrar.TabIndex = 41
@@ -1179,6 +1134,9 @@ Public Class frmLiquidacionPortatil
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Label16)
+        Me.GroupBox1.Controls.Add(Me.Label15)
+        Me.GroupBox1.Controls.Add(Me.Label14)
         Me.GroupBox1.Controls.Add(Me.Label20)
         Me.GroupBox1.Controls.Add(Me.Label19)
         Me.GroupBox1.Controls.Add(Me.Label18)
@@ -1665,6 +1623,7 @@ Public Class frmLiquidacionPortatil
         '
         'btnPagoEfectivo
         '
+        Me.btnPagoEfectivo.Enabled = False
         Me.btnPagoEfectivo.Location = New System.Drawing.Point(20, 165)
         Me.btnPagoEfectivo.Name = "btnPagoEfectivo"
         Me.btnPagoEfectivo.Size = New System.Drawing.Size(126, 23)
@@ -1674,6 +1633,7 @@ Public Class frmLiquidacionPortatil
         '
         'btnAplicacionAnticipo
         '
+        Me.btnAplicacionAnticipo.Enabled = False
         Me.btnAplicacionAnticipo.Location = New System.Drawing.Point(20, 136)
         Me.btnAplicacionAnticipo.Name = "btnAplicacionAnticipo"
         Me.btnAplicacionAnticipo.Size = New System.Drawing.Size(126, 23)
@@ -1683,6 +1643,7 @@ Public Class frmLiquidacionPortatil
         '
         'btnCapturarVale
         '
+        Me.btnCapturarVale.Enabled = False
         Me.btnCapturarVale.Location = New System.Drawing.Point(20, 107)
         Me.btnCapturarVale.Name = "btnCapturarVale"
         Me.btnCapturarVale.Size = New System.Drawing.Size(126, 23)
@@ -1692,6 +1653,7 @@ Public Class frmLiquidacionPortatil
         '
         'btnTransferencia
         '
+        Me.btnTransferencia.Enabled = False
         Me.btnTransferencia.Location = New System.Drawing.Point(20, 78)
         Me.btnTransferencia.Name = "btnTransferencia"
         Me.btnTransferencia.Size = New System.Drawing.Size(126, 23)
@@ -1701,6 +1663,7 @@ Public Class frmLiquidacionPortatil
         '
         'btnCapturarTarjeta
         '
+        Me.btnCapturarTarjeta.Enabled = False
         Me.btnCapturarTarjeta.Location = New System.Drawing.Point(20, 49)
         Me.btnCapturarTarjeta.Name = "btnCapturarTarjeta"
         Me.btnCapturarTarjeta.Size = New System.Drawing.Size(126, 23)
@@ -1710,6 +1673,7 @@ Public Class frmLiquidacionPortatil
         '
         'btnCapturarCheque
         '
+        Me.btnCapturarCheque.Enabled = False
         Me.btnCapturarCheque.Location = New System.Drawing.Point(20, 20)
         Me.btnCapturarCheque.Name = "btnCapturarCheque"
         Me.btnCapturarCheque.Size = New System.Drawing.Size(126, 23)
@@ -1806,6 +1770,97 @@ Public Class frmLiquidacionPortatil
         Me.lblKilosVendidos.Size = New System.Drawing.Size(88, 16)
         Me.lblKilosVendidos.TabIndex = 70
         Me.lblKilosVendidos.Text = "Kilos vendidos:"
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Enabled = False
+        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label11.Location = New System.Drawing.Point(16, 124)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(34, 13)
+        Me.Label11.TabIndex = 101
+        Me.Label11.Text = "Serie:"
+        '
+        'TxtSerie
+        '
+        Me.TxtSerie.Enabled = False
+        Me.TxtSerie.Location = New System.Drawing.Point(96, 121)
+        Me.TxtSerie.Name = "TxtSerie"
+        Me.TxtSerie.Size = New System.Drawing.Size(128, 20)
+        Me.TxtSerie.TabIndex = 105
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Enabled = False
+        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.Location = New System.Drawing.Point(245, 124)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(53, 13)
+        Me.Label13.TabIndex = 103
+        Me.Label13.Text = "Remisión:"
+        '
+        'TxtRemision
+        '
+        Me.TxtRemision.Enabled = False
+        Me.TxtRemision.Location = New System.Drawing.Point(297, 121)
+        Me.TxtRemision.Name = "TxtRemision"
+        Me.TxtRemision.Size = New System.Drawing.Size(123, 20)
+        Me.TxtRemision.TabIndex = 104
+        '
+        'Label14
+        '
+        Me.Label14.BackColor = System.Drawing.Color.White
+        Me.Label14.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label14.ForeColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.Label14.Location = New System.Drawing.Point(182, 39)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(15, 15)
+        Me.Label14.TabIndex = 124
+        Me.Label14.Text = "$"
+        Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label15
+        '
+        Me.Label15.BackColor = System.Drawing.Color.DimGray
+        Me.Label15.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label15.ForeColor = System.Drawing.Color.Yellow
+        Me.Label15.Location = New System.Drawing.Point(182, 98)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(15, 15)
+        Me.Label15.TabIndex = 125
+        Me.Label15.Text = "$"
+        Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label16
+        '
+        Me.Label16.BackColor = System.Drawing.Color.DimGray
+        Me.Label16.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label16.ForeColor = System.Drawing.Color.Lime
+        Me.Label16.Location = New System.Drawing.Point(183, 80)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(15, 15)
+        Me.Label16.TabIndex = 126
+        Me.Label16.Text = "$"
+        Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'btnBuscarCliente
+        '
+        Me.btnBuscarCliente.BackColor = System.Drawing.SystemColors.Control
+        Me.btnBuscarCliente.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnBuscarCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnBuscarCliente.ImageIndex = 4
+        Me.btnBuscarCliente.ImageList = Me.ImageList1
+        Me.btnBuscarCliente.Location = New System.Drawing.Point(394, 18)
+        Me.btnBuscarCliente.Name = "btnBuscarCliente"
+        Me.btnBuscarCliente.Size = New System.Drawing.Size(80, 24)
+        Me.btnBuscarCliente.TabIndex = 2
+        Me.btnBuscarCliente.TabStop = False
+        Me.btnBuscarCliente.Text = "&Buscar"
+        Me.btnBuscarCliente.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.tltLiquidacion.SetToolTip(Me.btnBuscarCliente, "Presione buscar para localizar un cliente por diferentes datos")
+        Me.btnBuscarCliente.UseVisualStyleBackColor = False
         '
         'frmLiquidacionPortatil
         '
@@ -5508,9 +5563,6 @@ Public Class frmLiquidacionPortatil
         If (e.KeyData = Keys.Enter) Then
             Me.SelectNextControl(CType(sender, Control), True, True, True, True)
         End If
-        If TxtCliente.Text = "" Then
-            btnAgregar.Enabled = False
-        End If
     End Sub
 
     'Evento que despliega la ventana para mostrar la liquidacion
@@ -5570,11 +5622,7 @@ Public Class frmLiquidacionPortatil
         Else
             ActiveControl = TxtCliente
         End If
-        If lblNombreCliente.Text <> "" Then
-            btnAgregar.Enabled = True
-        Else
-            btnAgregar.Enabled = False
-        End If
+
     End Sub
 
     'Realiza la busqueda del cliente al teclear un numero de cliente y salir del editor de tecto
@@ -5628,6 +5676,8 @@ Public Class frmLiquidacionPortatil
     'Evento click en el boton Agregar que anexa la lista de productos a liquidar en el grid
     Private Sub btnAgregar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAgregar.Click
         InsertaRemisiones()
+        validarForfasPago()
+        Totalizador()
     End Sub
 
     Public Function ValidarFechas(ByVal FCarga As DateTime, ByVal FLiquidacion As DateTime) As Boolean
@@ -5651,6 +5701,7 @@ Public Class frmLiquidacionPortatil
         dtRemisiones = oLiquidacionPedido.ConsultaPedidoPortatilCapturaManual(cboZEconomica.Identificador, _AnoAtt, _Folio, Cliente, cboTipoCobro.Identificador)
 
         Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente)
+        oRemisionManual.ClienteVentasPublico = _ClienteVentasPublico
         oRemisionManual.ShowDialog()
 
         If oRemisionManual.DialogResult = DialogResult.OK Then
@@ -5683,8 +5734,14 @@ Public Class frmLiquidacionPortatil
                 row = _DetalleGrid.NewRow()
                 row("Serie") = item("Serie")
                 row("Remision") = item("Remision")
-                row("Cliente") = TxtCliente.Text
-                row("Nombre") = lblNombreCliente.Text
+                If TxtCliente.Text <> "" Then
+                    row("Cliente") = TxtCliente.Text
+                    row("Nombre") = lblNombreCliente.Text
+                Else
+                    row("Cliente") = _ClienteVentasPublico
+                    row("Nombre") = "Cliente ventas Publico"
+                End If
+
                 row("Kilos") = Convert.ToInt64(item("Cantidad"))
                 row("descuento") = 0
                 row("Importe") = item("TotalNeto")
@@ -6276,9 +6333,8 @@ Public Class frmLiquidacionPortatil
 
 
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
-        'grdDetalle.SelectionMode =
         cargarRemisiones()
-        btnAgregar.Enabled = False
+        validarForfasPago()
         ActualizarTotalizadorFormasDePago(_listaCobros)
     End Sub
 
@@ -6431,8 +6487,8 @@ Public Class frmLiquidacionPortatil
     Public Sub cargarRemisiones()
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
         Dim TotalKilos As New Decimal
-        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
-        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(119151, 90632)
+        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+        ' _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(119151, 90632)
         grdDetalle.DataSource = _DetalleGrid
 
         TotalKilos = Convert.ToDecimal(_DetalleGrid.Compute("SUM(Kilos)", String.Empty))
@@ -6621,4 +6677,22 @@ Public Class frmLiquidacionPortatil
         lblTotalKilos.Text = Kilostotal.ToString("N1")
     End Sub
 
+    Private Sub txtAplicaDescuento_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub btnBorrar_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Public Sub validarForfasPago()
+        If grdDetalle.VisibleRowCount > 0 Then
+            btnCapturarTarjeta.Enabled = True
+            btnCapturarCheque.Enabled = True
+            btnTransferencia.Enabled = True
+            btnCapturarVale.Enabled = True
+            btnPagoEfectivo.Enabled = True
+            btnAplicacionAnticipo.Enabled = True
+        End If
+    End Sub
 End Class
