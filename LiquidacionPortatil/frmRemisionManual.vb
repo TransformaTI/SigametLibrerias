@@ -949,11 +949,11 @@ Public Class frmRemisionManual
                     drow(8) = CType(dtProducto.Rows(i).Item(4), Decimal) 'Iva
                     drow(9) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal) 'Total
                     If TxtCliente.Text <> "" Then
-                        drow(10) = CType(TxtCliente.Text, Integer)
-                        drow(11) = lblNombreCliente.Text
+                        drow("Cliente") = CType(TxtCliente.Text, Integer)
+                        drow("Nombre") = lblNombreCliente.Text
                     Else
-                        drow(10) = _ClienteVentasPublico
-                        drow(11) = "Cliente Ventas Publico"
+                        drow("Cliente") = _ClienteVentasPublico
+                        drow("Nombre") = "Cliente Ventas Publico"
                     End If
 
                     If Not VerificaRegistroGrid(drow) Then
@@ -979,6 +979,8 @@ Public Class frmRemisionManual
             'Limpiamos componentes de captura
             txtRemision.Clear()
             txtSerie.Clear()
+            TxtCliente.Clear()
+            lblNombreCliente.Text = ""
             Me.ActiveControl = txtRemision
 
         End If
