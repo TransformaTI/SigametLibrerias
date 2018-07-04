@@ -5518,6 +5518,9 @@ Public Class frmLiquidacionPortatil
         If (e.KeyData = Keys.Enter) Then
             Me.SelectNextControl(CType(sender, Control), True, True, True, True)
         End If
+        If TxtCliente.Text = "" Then
+            btnCrearRemision.Enabled = False
+        End If
     End Sub
 
     'Evento que despliega la ventana para mostrar la liquidacion
@@ -5572,15 +5575,19 @@ Public Class frmLiquidacionPortatil
             Dim oCliente As New PortatilClasses.Consulta.cCliente(0, ofrmBusquedaCliente.Cliente)
             oCliente.CargaDatos()
             lblNombreCliente.Text = oCliente.Cliente
-            ' ActiveControl = TxtCliente
+            'ActiveControl = TxtCliente
+
             ActiveControl = txtCantidad1
         Else
             ActiveControl = TxtCliente
         End If
+
+
         If lblNombreCliente.Text <> "" Then
-            btnAgregar.Enabled = True
+            btnCrearRemision.Enabled = True
         Else
-            btnAgregar.Enabled = False
+            btnCrearRemision.Enabled = False
+
         End If
     End Sub
 
@@ -6306,6 +6313,7 @@ Public Class frmLiquidacionPortatil
         cargarRemisiones()
         btnAgregar.Enabled = False
         ActualizarTotalizadorFormasDePago(_listaCobros)
+        btnCrearRemision.Enabled = False
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
@@ -6619,6 +6627,10 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub grpCobroEfectivo_Enter(sender As Object, e As EventArgs) Handles grpCobroEfectivo.Enter
+
+    End Sub
+
+    Private Sub TxtCliente_TextChanged(sender As Object, e As EventArgs) Handles TxtCliente.TextChanged
 
     End Sub
 
