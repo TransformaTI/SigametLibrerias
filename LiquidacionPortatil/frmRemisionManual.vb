@@ -79,9 +79,29 @@ Public Class frmRemisionManual
         LimpiarComponentes()
         CargarProductosVarios()
 
-
+        Dim _DetalleGrid As New DataTable
         If DtRemisiones.Rows.Count > 0 Then
-            Me.dtLiquidacionTotal = DtRemisiones
+            Dim row As DataRow
+            If DtRemisiones.Rows.Count > 0 Then
+                '    For Each item As DataRow In DtRemisiones.Rows
+                '        row = DtRemisiones.NewRow()
+                '        row("Remision") = item("Remision")
+                '        row("Serie") = item("Serie")
+                '        row("FRemision") = item("FRemision")
+                '        row("Producto") = item("Producto")
+                '        row("ProductoDescripcion") = item("ProductoDescripcion")
+                '        row("valor") = item("valor")
+                '        row("Cantidad") = item("Cantidad")
+                '        row("Subtotal") = item("Subtotal")
+                '        row("Impuesto") = item("Impuesto")
+                '        row("TotalNeto") = item("TotalNeto")
+                '        row("Cliente") = _Cliente
+                '        row("Nombre") = "_ClienteVentasPublico"
+                '        _DetalleGrid.Rows.Add(row)
+                '    Next
+                '    DtRemisiones = _DetalleGrid
+                Me.dtLiquidacionTotal = DtRemisiones
+            End If
         End If
 
         If _Configuracion <> 0 Then
@@ -948,14 +968,16 @@ Public Class frmRemisionManual
                     drow(7) = ((CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal))) / ((CType((dtProducto.Rows(i).Item(4)), Decimal) / 100) + 1) 'SubTotal
                     drow(8) = CType(dtProducto.Rows(i).Item(4), Decimal) 'Iva
                     drow(9) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal) 'Total
-                    If TxtCliente.Text <> "" Then
-                        drow("Cliente") = CType(TxtCliente.Text, Integer)
-                        drow("Nombre") = lblNombreCliente.Text
-                    Else
-                        drow("Cliente") = _ClienteVentasPublico
-                        drow("Nombre") = "Cliente Ventas Publico"
-                    End If
-
+                    Try
+                        If TxtCliente.Text <> "" Then
+                            drow("Cliente") = CType(TxtCliente.Text, Integer)
+                            drow("Nombre") = lblNombreCliente.Text
+                        Else
+                            drow("Cliente") = _ClienteVentasPublico
+                            drow("Nombre") = "Cliente Ventas Publico"
+                        End If
+                    Finally
+                    End Try
                     If Not VerificaRegistroGrid(drow) Then
                         dtLiquidacionTotal.Rows.Add(drow)
                     End If

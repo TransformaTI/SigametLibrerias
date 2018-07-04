@@ -5740,8 +5740,13 @@ Public Class frmLiquidacionPortatil
                 row = _DetalleGrid.NewRow()
                 row("Serie") = item("Serie")
                 row("Remision") = item("Remision")
-                row("Cliente") = item("Cliente")
-                row("Nombre") = item("Nombre")
+                If item("Cliente").ToString = Nothing Then
+                    row("Cliente") = _ClienteVentasPublico
+                    row("Nombre") = "Cliente Ventas Publico"
+                Else
+                    row("Cliente") = item("Cliente")
+                    row("Nombre") = item("Nombre")
+                End If
                 row("Kilos") = Convert.ToInt64(item("Cantidad"))
                 row("descuento") = 0
                 row("Importe") = item("TotalNeto")
