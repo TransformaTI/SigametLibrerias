@@ -357,6 +357,7 @@ Public Class frmLiquidacionPortatil
         Me.txtAplicaDescuento = New System.Windows.Forms.Label()
         Me.lblNombreCliente = New System.Windows.Forms.Label()
         Me.lblNombreClientetck = New System.Windows.Forms.Label()
+        Me.btnBuscarCliente = New ControlesBase.BotonBase()
         Me.TxtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.lblCliente = New System.Windows.Forms.Label()
         Me.lblTipoCobro = New System.Windows.Forms.Label()
@@ -385,6 +386,9 @@ Public Class frmLiquidacionPortatil
         Me.capEfectivo = New CapturaEfectivo.Efectivo()
         Me.grpEfectivo = New System.Windows.Forms.GroupBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.Label19 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
@@ -436,10 +440,6 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.lblTotalKilos = New System.Windows.Forms.Label()
         Me.lblKilosVendidos = New System.Windows.Forms.Label()
-        Me.Label14 = New System.Windows.Forms.Label()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.Label16 = New System.Windows.Forms.Label()
-        Me.btnBuscarCliente = New ControlesBase.BotonBase()
         Me.grbInformacion.SuspendLayout()
         Me.grbDetalleProducto.SuspendLayout()
         Me.pnlProducto.SuspendLayout()
@@ -815,6 +815,23 @@ Public Class frmLiquidacionPortatil
         Me.lblNombreClientetck.TabIndex = 64
         Me.lblNombreClientetck.Text = "Nombre:"
         '
+        'btnBuscarCliente
+        '
+        Me.btnBuscarCliente.BackColor = System.Drawing.SystemColors.Control
+        Me.btnBuscarCliente.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnBuscarCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnBuscarCliente.ImageIndex = 4
+        Me.btnBuscarCliente.ImageList = Me.ImageList1
+        Me.btnBuscarCliente.Location = New System.Drawing.Point(394, 18)
+        Me.btnBuscarCliente.Name = "btnBuscarCliente"
+        Me.btnBuscarCliente.Size = New System.Drawing.Size(80, 24)
+        Me.btnBuscarCliente.TabIndex = 2
+        Me.btnBuscarCliente.TabStop = False
+        Me.btnBuscarCliente.Text = "&Buscar"
+        Me.btnBuscarCliente.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.tltLiquidacion.SetToolTip(Me.btnBuscarCliente, "Presione buscar para localizar un cliente por diferentes datos")
+        Me.btnBuscarCliente.UseVisualStyleBackColor = False
+        '
         'TxtCliente
         '
         Me.TxtCliente.Location = New System.Drawing.Point(96, 20)
@@ -1163,6 +1180,42 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox1.Size = New System.Drawing.Size(313, 253)
         Me.GroupBox1.TabIndex = 50
         Me.GroupBox1.TabStop = False
+        '
+        'Label16
+        '
+        Me.Label16.BackColor = System.Drawing.Color.DimGray
+        Me.Label16.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label16.ForeColor = System.Drawing.Color.Lime
+        Me.Label16.Location = New System.Drawing.Point(183, 80)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(15, 15)
+        Me.Label16.TabIndex = 126
+        Me.Label16.Text = "$"
+        Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label15
+        '
+        Me.Label15.BackColor = System.Drawing.Color.DimGray
+        Me.Label15.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label15.ForeColor = System.Drawing.Color.Yellow
+        Me.Label15.Location = New System.Drawing.Point(182, 98)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(15, 15)
+        Me.Label15.TabIndex = 125
+        Me.Label15.Text = "$"
+        Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label14
+        '
+        Me.Label14.BackColor = System.Drawing.Color.White
+        Me.Label14.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label14.ForeColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.Label14.Location = New System.Drawing.Point(182, 39)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(15, 15)
+        Me.Label14.TabIndex = 124
+        Me.Label14.Text = "$"
+        Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label20
         '
@@ -1743,9 +1796,9 @@ Public Class frmLiquidacionPortatil
         '
         Me.lblTotalKilos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotalKilos.ForeColor = System.Drawing.Color.Green
-        Me.lblTotalKilos.Location = New System.Drawing.Point(452, -2)
+        Me.lblTotalKilos.Location = New System.Drawing.Point(480, -2)
         Me.lblTotalKilos.Name = "lblTotalKilos"
-        Me.lblTotalKilos.Size = New System.Drawing.Size(64, 16)
+        Me.lblTotalKilos.Size = New System.Drawing.Size(33, 16)
         Me.lblTotalKilos.TabIndex = 71
         Me.lblTotalKilos.Text = "Total"
         Me.lblTotalKilos.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -1755,62 +1808,9 @@ Public Class frmLiquidacionPortatil
         Me.lblKilosVendidos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblKilosVendidos.Location = New System.Drawing.Point(428, 0)
         Me.lblKilosVendidos.Name = "lblKilosVendidos"
-        Me.lblKilosVendidos.Size = New System.Drawing.Size(88, 16)
+        Me.lblKilosVendidos.Size = New System.Drawing.Size(62, 14)
         Me.lblKilosVendidos.TabIndex = 70
         Me.lblKilosVendidos.Text = "Kilos vendidos:"
-        '
-        'Label14
-        '
-        Me.Label14.BackColor = System.Drawing.Color.White
-        Me.Label14.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label14.ForeColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Label14.Location = New System.Drawing.Point(182, 39)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(15, 15)
-        Me.Label14.TabIndex = 124
-        Me.Label14.Text = "$"
-        Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label15
-        '
-        Me.Label15.BackColor = System.Drawing.Color.DimGray
-        Me.Label15.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.ForeColor = System.Drawing.Color.Yellow
-        Me.Label15.Location = New System.Drawing.Point(182, 98)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(15, 15)
-        Me.Label15.TabIndex = 125
-        Me.Label15.Text = "$"
-        Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label16
-        '
-        Me.Label16.BackColor = System.Drawing.Color.DimGray
-        Me.Label16.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label16.ForeColor = System.Drawing.Color.Lime
-        Me.Label16.Location = New System.Drawing.Point(183, 80)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(15, 15)
-        Me.Label16.TabIndex = 126
-        Me.Label16.Text = "$"
-        Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'btnBuscarCliente
-        '
-        Me.btnBuscarCliente.BackColor = System.Drawing.SystemColors.Control
-        Me.btnBuscarCliente.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnBuscarCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnBuscarCliente.ImageIndex = 4
-        Me.btnBuscarCliente.ImageList = Me.ImageList1
-        Me.btnBuscarCliente.Location = New System.Drawing.Point(394, 18)
-        Me.btnBuscarCliente.Name = "btnBuscarCliente"
-        Me.btnBuscarCliente.Size = New System.Drawing.Size(80, 24)
-        Me.btnBuscarCliente.TabIndex = 2
-        Me.btnBuscarCliente.TabStop = False
-        Me.btnBuscarCliente.Text = "&Buscar"
-        Me.btnBuscarCliente.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.tltLiquidacion.SetToolTip(Me.btnBuscarCliente, "Presione buscar para localizar un cliente por diferentes datos")
-        Me.btnBuscarCliente.UseVisualStyleBackColor = False
         '
         'frmLiquidacionPortatil
         '
@@ -2678,7 +2678,6 @@ Public Class frmLiquidacionPortatil
                                    CType(oProducto.Rows(i).Item(1), String),
                                    CType(oProducto.Rows(i).Item(2), Decimal),
                                    CType(oProducto.Rows(i).Item(3), Integer))
-                '   1, "pdto" + oProducto.Rows(i).Item(0).ToString()) 'el uno esta hardcode 
 
             End If
 
@@ -5657,6 +5656,8 @@ Public Class frmLiquidacionPortatil
         dtRemisiones = oLiquidacionPedido.ConsultaPedidoPortatilCapturaManual(cboZEconomica.Identificador, _AnoAtt, _Folio, Cliente, cboTipoCobro.Identificador)
 
         Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente)
+        _DetalleGrid.Clear()
+        grdDetalle.DataSource = _DetalleGrid
         oRemisionManual.ClienteVentasPublico = _ClienteVentasPublico
         oRemisionManual.ShowDialog()
 
@@ -5697,7 +5698,7 @@ Public Class frmLiquidacionPortatil
                     row("Cliente") = item("Cliente")
                     row("Nombre") = item("Nombre")
                 End If
-                row("Kilos") = Convert.ToInt64(item("Cantidad"))
+                row("Kilos") = Convert.ToInt64(item("Valor"))
                 row("descuento") = 0
                 row("Importe") = item("TotalNeto")
                 row("Saldo") = item("TotalNeto")

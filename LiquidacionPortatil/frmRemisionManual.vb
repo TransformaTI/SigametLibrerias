@@ -152,6 +152,7 @@ Public Class frmRemisionManual
             If Me.dtLiquidacionTotal.Rows.Count > 0 Then
                 grdDetalle.DataSource = dtLiquidacionTotal
             End If
+
         End If
 
     End Sub
@@ -1243,6 +1244,7 @@ Public Class frmRemisionManual
                 Me.Tag = Nothing
                 Me.Tag = Me.dtCantidades
                 Me.DialogResult() = DialogResult.OK
+
                 Me.Close()
             Else
                 If ValidaCaptura() Then
@@ -1347,6 +1349,7 @@ Public Class frmRemisionManual
     End Sub
 
     Private Sub frmRemisionManual_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
 
     End Sub
 End Class
