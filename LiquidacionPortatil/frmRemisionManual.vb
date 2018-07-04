@@ -1116,6 +1116,7 @@ Public Class frmRemisionManual
         Return Resultado
     End Function
 
+
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
         If grdDetalle.VisibleRowCount > 0 Then
 
