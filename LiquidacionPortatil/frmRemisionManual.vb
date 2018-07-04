@@ -1323,4 +1323,8 @@ Public Class frmRemisionManual
             Me.SelectNextControl(CType(sender, Control), True, True, True, True)
         End If
     End Sub
+
+    Private Sub frmRemisionManual_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class

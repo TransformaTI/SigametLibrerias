@@ -2307,6 +2307,12 @@ Public Class frmLiquidacionPortatil
             dcColumna.DataType = System.Type.GetType("System.Decimal")
             dcColumna.ColumnName = "TotalNeto"
             dtRemisiones.Columns.Add(dcColumna)
+            'Columna 011
+            'Columna 012
+            dcColumna = New DataColumn()
+            dcColumna.DataType = System.Type.GetType("System.String")
+            dcColumna.ColumnName = "Nombre"
+            dtLiquidacionTotal.Columns.Add(dcColumna)
         End If
     End Sub
 

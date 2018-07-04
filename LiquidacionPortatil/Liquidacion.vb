@@ -1101,6 +1101,15 @@ Namespace Liquidacion
                 GLOBAL_Conexion.Open()
                 drTrip = cmd.ExecuteReader()
                 dtRemisiones.Load(drTrip)
+                Dim dcColumna As DataColumn
+                dcColumna = New DataColumn()
+                dcColumna.DataType = System.Type.GetType("System.Int32")
+                dcColumna.ColumnName = "Cliente"
+                dtRemisiones.Columns.Add(dcColumna)
+                dcColumna = New DataColumn()
+                dcColumna.DataType = System.Type.GetType("System.String")
+                dcColumna.ColumnName = "Nombre"
+                dtRemisiones.Columns.Add(dcColumna)
 
             Catch ex As Exception
                 MessageBox.Show(ex.Message, "Liquidación portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
