@@ -37,6 +37,7 @@ Public Class frmRemisionManual
     Friend WithEvents lblNombreClientetck As Label
     Private _Cliente As Integer
     Private _ClienteVentasPublico As Integer
+    Private _RutaMovil As Boolean
 
 
 
@@ -52,6 +53,14 @@ Public Class frmRemisionManual
         End Get
         Set(value As Integer)
             _ClienteVentasPublico = value
+        End Set
+    End Property
+    Public Property RutamovilGas() As Boolean
+        Get
+            Return _RutaMovil
+        End Get
+        Set(value As Boolean)
+            _RutaMovil = value
         End Set
     End Property
 

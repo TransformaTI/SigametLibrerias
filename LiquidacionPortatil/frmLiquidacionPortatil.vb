@@ -54,6 +54,7 @@ Public Class frmLiquidacionPortatil
 
     Private _listaCobros As New List(Of SigaMetClasses.CobroDetalladoDatos)
     Private _ListaCobroRemisiones As List(Of SigaMetClasses.CobroRemisiones)
+    Private _RutaMovil As Boolean
     Public Property Cobros() As List(Of SigaMetClasses.CobroDetalladoDatos)
         Get
             Return _listaCobros
@@ -307,7 +308,7 @@ Public Class frmLiquidacionPortatil
     Friend WithEvents col003 As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents col004 As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents col005 As System.Windows.Forms.DataGridTextBoxColumn
-    Friend WithEvents btnBorrar As ControlesBase.BotonBase
+    Friend WithEvents btnModificar As ControlesBase.BotonBase
     Friend WithEvents lblTipoCobro As System.Windows.Forms.Label
     Friend WithEvents cboTipoCobro As PortatilClasses.Combo.ComboBase
     Friend WithEvents tltLiquidacion As System.Windows.Forms.ToolTip
@@ -362,7 +363,7 @@ Public Class frmLiquidacionPortatil
         Me.lblCliente = New System.Windows.Forms.Label()
         Me.lblTipoCobro = New System.Windows.Forms.Label()
         Me.cboTipoCobro = New PortatilClasses.Combo.ComboBase(Me.components)
-        Me.btnBorrar = New ControlesBase.BotonBase()
+        Me.btnModificar = New ControlesBase.BotonBase()
         Me.btnAgregar = New ControlesBase.BotonBase()
         Me.pnlProducto = New System.Windows.Forms.Panel()
         Me.lblExistencia1 = New System.Windows.Forms.Label()
@@ -742,7 +743,7 @@ Public Class frmLiquidacionPortatil
         Me.grbDetalleProducto.Controls.Add(Me.lblCliente)
         Me.grbDetalleProducto.Controls.Add(Me.lblTipoCobro)
         Me.grbDetalleProducto.Controls.Add(Me.cboTipoCobro)
-        Me.grbDetalleProducto.Controls.Add(Me.btnBorrar)
+        Me.grbDetalleProducto.Controls.Add(Me.btnModificar)
         Me.grbDetalleProducto.Controls.Add(Me.btnAgregar)
         Me.grbDetalleProducto.Controls.Add(Me.pnlProducto)
         Me.grbDetalleProducto.Controls.Add(Me.cboZEconomica)
@@ -869,21 +870,21 @@ Public Class frmLiquidacionPortatil
         Me.cboTipoCobro.TabIndex = 4
         Me.tltLiquidacion.SetToolTip(Me.cboTipoCobro, "Seleccione la forma de cobro que realizará")
         '
-        'btnBorrar
+        'btnModificar
         '
-        Me.btnBorrar.BackColor = System.Drawing.SystemColors.Control
-        Me.btnBorrar.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnBorrar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnBorrar.ImageIndex = 3
-        Me.btnBorrar.ImageList = Me.ImageList1
-        Me.btnBorrar.Location = New System.Drawing.Point(394, 81)
-        Me.btnBorrar.Name = "btnBorrar"
-        Me.btnBorrar.Size = New System.Drawing.Size(38, 24)
-        Me.btnBorrar.TabIndex = 41
-        Me.btnBorrar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.tltLiquidacion.SetToolTip(Me.btnBorrar, "Presione borrar para eliminar el registro seleccionado en en el detalle de produc" &
-        "tos a liquidar")
-        Me.btnBorrar.UseVisualStyleBackColor = False
+        Me.btnModificar.BackColor = System.Drawing.SystemColors.Control
+        Me.btnModificar.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnModificar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnModificar.ImageIndex = 3
+        Me.btnModificar.ImageList = Me.ImageList1
+        Me.btnModificar.Location = New System.Drawing.Point(394, 78)
+        Me.btnModificar.Name = "btnModificar"
+        Me.btnModificar.Size = New System.Drawing.Size(83, 24)
+        Me.btnModificar.TabIndex = 41
+        Me.btnModificar.Text = "Modificar"
+        Me.btnModificar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.tltLiquidacion.SetToolTip(Me.btnModificar, "Modifica la remision que es seleccionada")
+        Me.btnModificar.UseVisualStyleBackColor = False
         '
         'btnAgregar
         '
@@ -1796,7 +1797,7 @@ Public Class frmLiquidacionPortatil
         '
         Me.lblTotalKilos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotalKilos.ForeColor = System.Drawing.Color.Green
-        Me.lblTotalKilos.Location = New System.Drawing.Point(480, -2)
+        Me.lblTotalKilos.Location = New System.Drawing.Point(468, -2)
         Me.lblTotalKilos.Name = "lblTotalKilos"
         Me.lblTotalKilos.Size = New System.Drawing.Size(33, 16)
         Me.lblTotalKilos.TabIndex = 71
@@ -2635,21 +2636,21 @@ Public Class frmLiquidacionPortatil
 
         'Condicion que valida si la ruta tiene movil, asi como tambien que la ruta tenga pedidos portatiles producto denro de la condicion especificada y el camion tenga boletin en linea
         If _SucursalMovil And CType(oRutaMovil.Rows(0).Item(0), Boolean) Then
-
+            _RutaMovil = CType(oRutaMovil.Rows(0).Item(0), Boolean)
             oLiquidacion.ConsultaExistencia(5, _AlmacenGas, _Ruta,
                                             _MovimientoAlmacen, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime),
                                             Camion)
 
             oProducto = oLiquidacion.dtTable
             btnDetalle.Enabled = True
-            btnBorrar.Enabled = False
+            btnModificar.Enabled = False
             '20150627CNSM$001-----------------
         Else
             oLiquidacion.ConsultaExistencia(0, _AlmacenGas)
             oProducto = oLiquidacion.dtTable
             '20150627CNSM$001-----------------
             btnDetalle.Enabled = False
-            btnBorrar.Enabled = True
+            btnModificar.Enabled = True
             _FlagPedidoPortatil = False
             '20150627CNSM$001-----------------
 
@@ -5655,9 +5656,12 @@ Public Class frmLiquidacionPortatil
         End If
         dtRemisiones = oLiquidacionPedido.ConsultaPedidoPortatilCapturaManual(cboZEconomica.Identificador, _AnoAtt, _Folio, Cliente, cboTipoCobro.Identificador)
 
+
         Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente)
         _DetalleGrid.Clear()
         grdDetalle.DataSource = _DetalleGrid
+        oRemisionManual.RutamovilGas = _RutaMovil
+        MessageBox.Show(_RutaMovil.ToString)
         oRemisionManual.ClienteVentasPublico = _ClienteVentasPublico
         oRemisionManual.ShowDialog()
 
@@ -6636,6 +6640,10 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnBorrar_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub btnModificar_Click(sender As Object, e As EventArgs) Handles btnModificar.Click
 
     End Sub
 
