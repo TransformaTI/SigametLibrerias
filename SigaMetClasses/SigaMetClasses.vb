@@ -4454,11 +4454,9 @@ Public Class AltaPagoTarjeta
             .Parameters.Add(New SqlParameter("@Serie", SqlDbType.VarChar, 20)).Value = Serie
             .Parameters.Add(New SqlParameter("@Autorizacion", SqlDbType.VarChar, 20)).Value = Autorizacion
             .Parameters.Add(New SqlParameter("@Observacion", SqlDbType.VarChar, 100)).Value = Observacion
-            .Parameters.Add(New SqlParameter("@AñoCobro", SqlDbType.SmallInt)).Value = AñoCobro
-            .Parameters.Add(New SqlParameter("@Cobro", SqlDbType.Int)).Value = Cobro
+            .Parameters.Add(New SqlParameter("@AñoCobro", SqlDbType.SmallInt)).Value = DBNull.Value
+            .Parameters.Add(New SqlParameter("@Cobro", SqlDbType.Int)).Value = DBNull.Value
             .Parameters.Add(New SqlParameter("@UsuarioAlta", SqlDbType.VarChar, 15)).Value = UsuarioAlta
-
-
         End With
 
         Try
@@ -4472,6 +4470,27 @@ Public Class AltaPagoTarjeta
         End Try
 
     End Sub
+
+    Public Function consultarAutotanques() As Dictionary(Of Int32, String)
+        Dim diccionario As New Dictionary(Of Int32, String)
+        Dim cmd As New SqlCommand("spLOGConsultaCamiones")
+        Dim dr As SqlDataReader
+
+        Try
+            AbreConexion()
+            cmd.Connection = DataLayer.Conexion
+            dr = cmd.ExecuteReader()
+
+            While dr.Read()
+                diccionario.Add(Convert.ToInt32(dr(0)), dr(1).ToString())
+            End While
+        Catch ex As Exception
+            Throw ex
+        End Try
+
+        Return diccionario
+    End Function
+
 
 
 End Class

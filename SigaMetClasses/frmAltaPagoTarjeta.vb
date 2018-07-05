@@ -19,6 +19,7 @@ Public Class frmAltaPagoTarjeta
         Lbl_fechaCargo.Visible = False
         ' Add any initialization after the InitializeComponent() call.
 
+
     End Sub
 
     Private Sub limpiaCliente()
@@ -230,7 +231,12 @@ Public Class frmAltaPagoTarjeta
     Private Sub frmAltaPagoTarjeta_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         limpiaCliente()
         cargaDatos()
-
+        Dim InsertPagoTarjeta As New AltaPagoTarjeta()
+        cboAutotanque.DisplayMember = "Value"
+        cboAutotanque.ValueMember = "Key"
+        Dim Diccionario As New Dictionary(Of Int32, String)
+        Diccionario = InsertPagoTarjeta.consultarAutotanques()
+        cboAutotanque.DataSource = New BindingSource(Diccionario, Nothing)
     End Sub
 
     Private Sub ComboRuta1_SelectedIndexChanged(sender As Object, e As EventArgs)
@@ -243,7 +249,7 @@ Public Class frmAltaPagoTarjeta
         If validar = True Then
             validarDatosCargo()
             AltaPagoTarjeta()
-            MessageBox.Show("Pago tarjeta exitoso")
+            MessageBox.Show("Pago con tarjeta registrado exitosamente")
             limpiaCargo()
         End If
     End Sub
@@ -261,6 +267,10 @@ Public Class frmAltaPagoTarjeta
 
         Try
 
+            If cboAutotanque.SelectedValue Is Nothing Then
+                Throw New Exception("No existe un autotanque seleccionado, por favor corrija")
+            End If
+
             Banco = cboBancos.SelectedValue
             Afiliacion = cboAfiliacion.SelectedValue
             NumeroTarjeta = txtTarjeta.Text
@@ -273,11 +283,10 @@ Public Class frmAltaPagoTarjeta
             Importe = txtImporte.Text
             TipoCobro = cboTipoTarjeta.SelectedValue
             Ruta = cboRuta.SelectedValue
-            Autotanque = cboAutotanque.Text
+            Autotanque = cboAutotanque.SelectedValue
             UsuarioAlta = _UsuarioAlta
-            'todo aqui esta harcord
-            Cobro = 10
-            AñoCobro = 2018
+            Cobro = Nothing
+            AñoCobro = Nothing
             Serie = ""
             If rdCargoPorCobranza.Checked Then
                 TipoCargo = 1
@@ -286,16 +295,12 @@ Public Class frmAltaPagoTarjeta
                 TipoCargo = 2
             End If
 
-
-            'hasta aqui
-
-
             InsertPagoTarjeta.insertarPagoTarjeta(Folio, TipoCargo, Cliente, Ruta, Autotanque, Afiliacion,
                                                   TipoCobro, Meses, NumeroTarjeta, Banco, Litros, Importe,
                                                   Remision, Serie, Autorizacion, Observacion, AñoCobro, Cobro,
                                                   UsuarioAlta)
         Catch ex As Exception
-            Throw New Exception
+            Throw ex
         End Try
 
     End Sub
