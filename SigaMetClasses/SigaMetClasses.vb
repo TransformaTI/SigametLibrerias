@@ -4662,6 +4662,42 @@ Public Class cTarjetaCredito
 End Class
 #End Region
 
+#Region "Anticipo"
+Public Class Anticpo
+    Public Sub New()
+        MyBase.New()
+    End Sub
+
+    ''' <summary>
+    ''' Consulta Pagos Anticipados
+    ''' </summary> 
+    Public Function ConsultaPagosAnticipados(Cliente As Integer) As DataTable
+        Dim cmd As New SqlCommand()
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "spLIQ2ConsultaSaldosAFavor"
+        cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+        cmd.Parameters.Add("@StatusMovimiento", SqlDbType.VarChar).Value = "REGISTRADO"
+        cmd.Parameters.Add("@FolioMovimiento", SqlDbType.Int).Value = 0
+        cmd.Parameters.Add("@AñoMovimiento", SqlDbType.Int).Value = 0
+
+        cmd.Connection = DataLayer.Conexion
+        Dim da As New SqlDataAdapter(cmd)
+        Dim dt As New DataTable("PagosAnticipados")
+
+        Try
+            da.Fill(dt)
+            Return dt
+        Catch ex As Exception
+            Throw ex
+        Finally
+            da.Dispose()
+            da = Nothing
+        End Try
+    End Function
+
+End Class
+#End Region
+
 #Region "Clase Operador"
 Public Class cOperador
     Inherits System.ComponentModel.Component
