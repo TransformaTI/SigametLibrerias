@@ -1184,7 +1184,7 @@ Public Class frmLiquidacionPortatil
         '
         'Label16
         '
-        Me.Label16.BackColor = System.Drawing.Color.DimGray
+        Me.Label16.BackColor = System.Drawing.Color.Black
         Me.Label16.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label16.ForeColor = System.Drawing.Color.Lime
         Me.Label16.Location = New System.Drawing.Point(183, 80)
@@ -1797,7 +1797,7 @@ Public Class frmLiquidacionPortatil
         '
         Me.lblTotalKilos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotalKilos.ForeColor = System.Drawing.Color.Green
-        Me.lblTotalKilos.Location = New System.Drawing.Point(468, -2)
+        Me.lblTotalKilos.Location = New System.Drawing.Point(480, -2)
         Me.lblTotalKilos.Name = "lblTotalKilos"
         Me.lblTotalKilos.Size = New System.Drawing.Size(33, 16)
         Me.lblTotalKilos.TabIndex = 71
@@ -1807,9 +1807,9 @@ Public Class frmLiquidacionPortatil
         'lblKilosVendidos
         '
         Me.lblKilosVendidos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblKilosVendidos.Location = New System.Drawing.Point(428, 0)
+        Me.lblKilosVendidos.Location = New System.Drawing.Point(384, -2)
         Me.lblKilosVendidos.Name = "lblKilosVendidos"
-        Me.lblKilosVendidos.Size = New System.Drawing.Size(62, 14)
+        Me.lblKilosVendidos.Size = New System.Drawing.Size(105, 18)
         Me.lblKilosVendidos.TabIndex = 70
         Me.lblKilosVendidos.Text = "Kilos vendidos:"
         '
@@ -5658,10 +5658,9 @@ Public Class frmLiquidacionPortatil
 
 
         Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente)
-        _DetalleGrid.Clear()
-        grdDetalle.DataSource = _DetalleGrid
+        '_DetalleGrid.Clear()
+        'grdDetalle.DataSource = _DetalleGrid
         oRemisionManual.RutamovilGas = _RutaMovil
-        MessageBox.Show(_RutaMovil.ToString)
         oRemisionManual.ClienteVentasPublico = _ClienteVentasPublico
         oRemisionManual.ShowDialog()
 
@@ -5711,6 +5710,7 @@ Public Class frmLiquidacionPortatil
                 row("Cantidad") = item("Cantidad")
                 row("producto") = item("producto")
                 row("zonaeconomica") = cboZEconomica.Text
+                row("FormaPago") = item("FormaPago")
 
                 _DetalleGrid.Rows.Add(row)
             Next
