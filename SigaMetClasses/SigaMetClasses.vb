@@ -39,7 +39,7 @@ Namespace Enumeradores
         'Se agregó para control de saldos a favor
         '01-04-2005 JAG
         SaldoAFavor = 14
-        'DacionEnPago = 0 No estan en la BD 1.30 sigametDEVTB
+        DacionEnPago = 20 'No estan en la BD 1.30 sigametDEVTB
         TarjetaDebito = 6
         'AplicacionAnticipo = 0 No estan en la BD 1.30 sigametDEVTB
     End Enum
