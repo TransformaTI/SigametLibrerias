@@ -236,7 +236,12 @@ Public Class frmAltaPagoTarjeta
         cboAutotanque.ValueMember = "Key"
         Dim Diccionario As New Dictionary(Of Int32, String)
         Diccionario = InsertPagoTarjeta.consultarAutotanques()
-        cboAutotanque.DataSource = New BindingSource(Diccionario, Nothing)
+        If Diccionario.Count > 0 Then
+            cboAutotanque.DataSource = New BindingSource(Diccionario, Nothing)
+        Else
+            MessageBox.Show("Error, no hay registros de autotanques")
+        End If
+
     End Sub
 
     Private Sub ComboRuta1_SelectedIndexChanged(sender As Object, e As EventArgs)

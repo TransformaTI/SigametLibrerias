@@ -4473,7 +4473,7 @@ Public Class AltaPagoTarjeta
 
     Public Function consultarAutotanques() As Dictionary(Of Int32, String)
         Dim diccionario As New Dictionary(Of Int32, String)
-        Dim cmd As New SqlCommand("spLOGConsultaCamiones")
+        Dim cmd As New SqlCommand("spLOGConsultaCamionesEstacionario")
         Dim dr As SqlDataReader
 
         Try
