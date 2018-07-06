@@ -5098,6 +5098,37 @@ Public Class Cobro
         End Try
     End Function
 
+    Public Function DacionPago(ByVal Total As Decimal,
+                                      ByVal TipoCobro As Enumeradores.enumTipoCobro,
+                                      ByVal Usuario As String,
+                             Optional ByVal Observaciones As String = "") As Integer
+        Dim cmd As New SqlCommand("spCobroDacionPago")
+        With cmd
+            .CommandType = CommandType.StoredProcedure
+            .Transaction = Transaccion
+            .Parameters.Add(New SqlParameter("@Total", SqlDbType.Money)).Value = Total
+            .Parameters.Add(New SqlParameter("@Usuario", SqlDbType.Char, 15)).Value = Usuario
+            If TipoCobro = Enumeradores.enumTipoCobro.DacionEnPago Then
+                .Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.TinyInt)).Value = TipoCobro
+            End If
+            .Parameters.Add(New SqlParameter("@Observaciones", SqlDbType.VarChar, 250)).Value = Observaciones
+            .Parameters.Add(New SqlParameter("@Consecutivo", SqlDbType.Int)).Direction = ParameterDirection.Output
+        End With
+
+        Try
+            cmd.Connection = DataLayer.Conexion
+            cmd.ExecuteNonQuery()
+
+            Return CType(cmd.Parameters("@Consecutivo").Value, Integer)
+        Catch ex As Exception
+
+            Throw ex
+            Return -1
+        Finally
+            cmd = Nothing
+        End Try
+    End Function
+
     Public Sub Modifica(ByVal AnoCobro As Short,
                         ByVal Cobro As Integer,
                         ByVal Banco As Short,
@@ -5540,6 +5571,9 @@ Public Class TransaccionMovimientoCaja
                     Case Enumeradores.enumTipoCobro.SaldoAFavor
                         FolioCobro = objCobro.SaldoAFavorAlta(Cobro.Total, Cobro.Cliente, Cobro.AnioCobroOrigen, Cobro.CobroOrigen,
                             Cobro.Observaciones, Cobro.TipoCobro, Usuario)
+
+                    Case Enumeradores.enumTipoCobro.DacionEnPago 'MCC 06-07-2018
+                        FolioCobro = objCobro.DacionPago(Cobro.Total, CType(Cobro.TipoCobro, Enumeradores.enumTipoCobro), Usuario, Cobro.Observaciones)
 
                 End Select
 

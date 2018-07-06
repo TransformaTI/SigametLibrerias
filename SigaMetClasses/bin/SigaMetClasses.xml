@@ -72,5 +72,10 @@ SigaMetClasses
  <param name="cellCheckBox"></param>
  <param name="estatus"></param>
 </member>
+<member name="M:SigaMetClasses.Anticpo.ConsultaPagosAnticipados(System.Int32)">
+ <summary>
+ Consulta Pagos Anticipados
+ </summary> 
+</member>
 </members>
 </doc>

@@ -537,7 +537,10 @@ C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaM
 C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.dll
 C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
 C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
-C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojAssemblyReference.cache
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.dll
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.pdb
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.xml
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\stdole.dll
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AcercaDe.resources
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AltaGrupoComercial.resources
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.BuscaCliente.resources
@@ -606,11 +609,7 @@ C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasse
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ListViewComparador.resources
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.GenerateResource.cache
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CoreCompileInputs.cache
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CopyComplete
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.dll
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
-C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.dll
-C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.pdb
-C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.xml
-C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\stdole.dll
-C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CopyComplete
