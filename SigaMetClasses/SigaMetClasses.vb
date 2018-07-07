@@ -10108,13 +10108,13 @@ Namespace Combos
             With Me
                 .DataSource = dtDatos
                 .ValueMember = "ValeProveedor"
-                .DisplayMember = "Nombre"
+                .DisplayMember = "NombreProveedor"
             End With
 
             'Con estas líneas hago el binding de la columna a la propiedad
             Me.DataBindings.Clear()
             Me.DataBindings.Add("ValeProveedor", dtDatos, "ValeProveedor")
-            Me.DataBindings.Add("Nombre", dtDatos, "Nombre")
+            Me.DataBindings.Add("NombreProveedor", dtDatos, "NombreProveedor")
 
         End Sub
     End Class
