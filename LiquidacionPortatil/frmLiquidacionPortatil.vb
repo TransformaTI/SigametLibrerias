@@ -5645,7 +5645,6 @@ Public Class frmLiquidacionPortatil
         InsertaRemisiones()
         validarForfasPago()
         Totalizador()
-        VerificaDatos()
 
     End Sub
 
@@ -5700,6 +5699,7 @@ Public Class frmLiquidacionPortatil
                 While i < pdtoLista.Count
                     If Convert.ToInt32(pdtoLista.Item(i)) = Convert.ToInt32(p("IdProducto")) Then
                         CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text = p("Cantidad").ToString()
+                        CType(lblLista.Item(i), System.Windows.Forms.Label).Text = CType(CType(CType(lblLista.Item(i), System.Windows.Forms.Label).Text, Integer) - CType(p("Cantidad"), Integer), String)
                         Exit While
                     End If
                     i = i + 1
@@ -6314,12 +6314,15 @@ Public Class frmLiquidacionPortatil
 
 
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+        ocultar()
+        ' validarForfasPago()
+
+        ActualziarExistencias()
         cargarRemisiones()
         CargaTablaLiquidacion()
-        validarForfasPago()
         ActualizarTotalizadorFormasDePago(_listaCobros)
-        ocultar()
-        CargaTablaLiquidacion()
+
+
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
@@ -6636,21 +6639,21 @@ Public Class frmLiquidacionPortatil
         Dim Kilostotal As Decimal = 0
         Dim Ventatotal As Decimal = 0
         Dim totalcobro As Decimal = 0
+        If _DetalleGrid.Rows.Count <> 0 Then
+            While i < _DetalleGrid.Rows.Count  'txtLista.Count
 
-        While i < _DetalleGrid.Rows.Count  'txtLista.Count
-
-            TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(5), Decimal)
-            If Convert.ToString(_DetalleGrid.Rows(i).Item(8)) <> "" Then
-                If CType(_DetalleGrid.Rows(i).Item(8), String) = "CREDITO" Then
-                    TotalCREDITO = TotalCREDITO + CType(_DetalleGrid.Rows(i).Item(8), Decimal)
+                TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(5), Decimal)
+                If Convert.ToString(_DetalleGrid.Rows(i).Item(8)) <> "" Then
+                    If CType(_DetalleGrid.Rows(i).Item(8), String) = "CREDITO" Then
+                        TotalCREDITO = TotalCREDITO + CType(_DetalleGrid.Rows(i).Item(8), Decimal)
+                    End If
                 End If
-            End If
-            Kilostotal = Kilostotal + CType(_DetalleGrid.Rows(i).Item(4), Decimal)
-            Ventatotal = Ventatotal + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
-            totalcobro = totalcobro + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
-            i = i + 1
-        End While
-
+                Kilostotal = Kilostotal + CType(_DetalleGrid.Rows(i).Item(4), Decimal)
+                Ventatotal = Ventatotal + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
+                totalcobro = totalcobro + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
+                i = i + 1
+            End While
+        End If
         lblTotalCobro.Text = totalcobro.ToString("N2")
         _Totalcobro = totalcobro
         'lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
@@ -6697,6 +6700,10 @@ Public Class frmLiquidacionPortatil
         lblNombreClientetck.Visible = False
     End Sub
 
+    Public Sub ActualziarExistencias()
+
+
+    End Sub
 
 
 
