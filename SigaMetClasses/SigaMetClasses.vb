@@ -10099,18 +10099,21 @@ Namespace Combos
 
 #End Region
         Public Sub CargaDatos()
-            Me.DataSource = Nothing
-            Me.Items.Clear()
-            strQuery = "spLiqConsultaValeProveedor"
-            da = New SqlDataAdapter(strQuery, DataLayer.Conexion)
-            dtDatos = New DataTable("Proveedor")
-            da.Fill(dtDatos)
-            With Me
-                .DataSource = dtDatos
-                .ValueMember = "ValeProveedor"
-                .DisplayMember = "NombreProveedor"
-            End With
-
+            Try
+                Me.DataSource = Nothing
+                Me.Items.Clear()
+                strQuery = "spLiqConsultaValeProveedor"
+                da = New SqlDataAdapter(strQuery, DataLayer.Conexion)
+                dtDatos = New DataTable("Proveedor")
+                da.Fill(dtDatos)
+                With Me
+                    .DataSource = dtDatos
+                    .ValueMember = "ValeProveedor"
+                    .DisplayMember = "NombreProveedor"
+                End With
+            Catch ex As Exception
+                MessageBox.Show("Se ha registrado un error en la carga del combo de proveedor de vales.")
+            End Try
         End Sub
     End Class
 
