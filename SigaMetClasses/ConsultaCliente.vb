@@ -2520,12 +2520,16 @@ Public Class frmConsultaCliente
 
     Private Sub DeshabilitaBotonModificar()
         Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
-        _URLParada = CStr(oConfig.Parametros("URLParada")).Trim
+        Try
+            _URLParada = CStr(oConfig.Parametros("URLParada")).Trim
 
-        If (Not String.IsNullOrEmpty(_URLParada)) Then
-            btnModificar.Enabled = False
-            lnkModificarDatosCredito.Enabled = False
-        End If
+            If (Not String.IsNullOrEmpty(_URLParada)) Then
+                btnModificar.Enabled = False
+                lnkModificarDatosCredito.Enabled = False
+            End If
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub ConsultaCliente(ByVal Cliente As Integer,
