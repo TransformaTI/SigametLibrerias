@@ -4077,13 +4077,11 @@ Public Class cCliente
         Dim conn As SqlConnection
         conn = DataLayer.Conexion
 
-        Dim strQuery As String =
-        "SELECT Total, FFactura, Factura FROM Factura WHERE TipoDocumento = 2 and Status <> 'Cancelado' and Folio = @Folio and Serie = @Serie and Cliente = @Cliente"
+        Dim strQuery As String = "spCyCConsultaNotaCredito"
 
         Dim cmd As New SqlCommand(strQuery, DataLayer.Conexion)
         With cmd
-            .CommandType = CommandType.Text
-            .Parameters.Add("@Cliente", SqlDbType.Int).Value = intCliente
+            .CommandType = CommandType.StoredProcedure
             .Parameters.Add("@Folio", SqlDbType.Int).Value = intFolio
             .Parameters.Add("@Serie", SqlDbType.VarChar).Value = Serie
         End With
@@ -4135,7 +4133,7 @@ Public Class cCliente
             dr.Close()
 
         Catch ex As Exception
-            Throw ex
+            Throw New Exception("Error mientras se recuperaban las remisiones. Detalles: " + ex.Message)
         Finally
             conn.Close()
             cmd = Nothing
