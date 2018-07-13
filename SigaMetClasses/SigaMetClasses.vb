@@ -170,6 +170,7 @@ Public Class CargoTarjeta
     Private _Meses As Int16
     Private _NumeroTarjeta As String
     Private _Banco As Int16
+    Private _BancoOrigen As Int16
     Private _Litros As Decimal
     Private _Importe As Decimal
     Private _Remision As String
@@ -283,6 +284,14 @@ Public Class CargoTarjeta
         End Get
         Set(value As Int16)
             _Banco = value
+        End Set
+    End Property
+    Public Property BancoOrigen As Int16
+        Get
+            Return _BancoOrigen
+        End Get
+        Set(value As Int16)
+            _BancoOrigen = value
         End Set
     End Property
 
@@ -428,6 +437,7 @@ Public Class CargoTarjeta
         _Meses = Nothing
         _NumeroTarjeta = Nothing
         _Banco = Nothing
+        _BancoOrigen = Nothing
         _Litros = Nothing
         _Importe = Nothing
         _Remision = Nothing
@@ -657,6 +667,7 @@ Public Class CargoTarjetaDatos
                 If Not IsDBNull(dr("Meses")) Then objCargoTarjeta.Meses = CType(dr("Meses"), Int16) Else objCargoTarjeta.Meses = Nothing
                 If Not IsDBNull(dr("NumeroTarjeta")) Then objCargoTarjeta.NumeroTarjeta = CType(dr("NumeroTarjeta"), String).Trim Else objCargoTarjeta.NumeroTarjeta = " "
                 If Not IsDBNull(dr("Banco")) Then objCargoTarjeta.Banco = CType(dr("Banco"), Int16) Else objCargoTarjeta.Banco = Nothing
+                If Not IsDBNull(dr("BancoOrigen")) Then objCargoTarjeta.BancoOrigen = CType(dr("BancoOrigen"), Int16) Else objCargoTarjeta.BancoOrigen = Nothing
                 If Not IsDBNull(dr("Litros")) Then objCargoTarjeta.Litros = CType(dr("Litros"), Decimal) Else objCargoTarjeta.Litros = Nothing
                 If Not IsDBNull(dr("Importe")) Then objCargoTarjeta.Importe = CType(dr("Importe"), Decimal) Else objCargoTarjeta.Importe = Nothing
                 If Not IsDBNull(dr("Remision")) Then objCargoTarjeta.Remision = CType(dr("Remision"), String).Trim Else objCargoTarjeta.Remision = " "
