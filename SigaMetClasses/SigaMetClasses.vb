@@ -4109,6 +4109,7 @@ Public Class cCliente
                     _TotalNC = CType(dr("Total"), Decimal)
                     _FechaNC = CType(dr("FFactura"), DateTime)
                     _FacturaNC = CType(dr("Factura"), Integer)
+                    _Cliente = CType(dr("Cliente"), Integer)
 
                 End While
 
