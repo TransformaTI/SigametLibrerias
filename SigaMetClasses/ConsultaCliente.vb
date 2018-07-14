@@ -2,6 +2,7 @@ Option Strict On
 
 Imports System.Windows.Forms
 Imports System.Configuration
+Imports System.Data.SqlTypes
 
 Public Class frmConsultaCliente
     Inherits System.Windows.Forms.Form
@@ -1904,9 +1905,10 @@ Public Class frmConsultaCliente
             dtCliente = dsDatos.Tables("Cliente")
             For Each dr In dtCliente.Rows
                 lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("Nombre"), String)
-                lblDireccion.Text = CType(dr("DireccionCompleta"), String)
-                lblTipoCliente.Text = CType(dr("TipoClienteDescripcion"), String)
-
+                If dr("DireccionCompleta") IsNot DBNull.Value Then
+                    lblDireccion.Text = CType(dr("DireccionCompleta"), String)
+                    lblTipoCliente.Text = CType(dr("TipoClienteDescripcion"), String)
+                End If
                 'Teléfonos
                 lblTelCasa.Text = FormatoTelefono(CType(dr("TelCasa"), String).Trim)
                 lblTelAlterno1.Text = FormatoTelefono(CType(dr("TelAlterno1"), String).Trim)
