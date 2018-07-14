@@ -730,7 +730,9 @@ Public Class frmConsultaClienteMultiple
                 dtCliente = dsDatosCliente.Tables("Cliente")
                 For Each dr In dtCliente.Rows
                     lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("Nombre"), String)
-                    lblDireccion.Text = CType(dr("DireccionCompleta"), String)
+                    If dr("DireccionCompleta") IsNot DBNull.Value Then
+                        lblDireccion.Text = CType(dr("DireccionCompleta"), String)
+                    End If
                 Next
             Else
                 oGateway = New RTGMGateway.RTGMGateway()
