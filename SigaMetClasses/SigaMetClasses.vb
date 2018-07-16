@@ -644,7 +644,7 @@ Public Class CargoTarjetaDatos
         Dim objCargoTarjeta As New CargoTarjeta
         Dim ListaCargoTarjeta As New List(Of CargoTarjeta)
         Dim conn As SqlConnection = DataLayer.Conexion
-        Dim cmd As New SqlCommand("spCBConsultarCargoTarjetaCliente ", conn)
+        Dim cmd As New SqlCommand("spCyCConsultarCargoTarjetaCliente", conn)
         Dim dr As SqlDataReader
 
         Try
@@ -667,7 +667,7 @@ Public Class CargoTarjetaDatos
                 If Not IsDBNull(dr("Meses")) Then objCargoTarjeta.Meses = CType(dr("Meses"), Int16) Else objCargoTarjeta.Meses = Nothing
                 If Not IsDBNull(dr("NumeroTarjeta")) Then objCargoTarjeta.NumeroTarjeta = CType(dr("NumeroTarjeta"), String).Trim Else objCargoTarjeta.NumeroTarjeta = " "
                 If Not IsDBNull(dr("Banco")) Then objCargoTarjeta.Banco = CType(dr("Banco"), Int16) Else objCargoTarjeta.Banco = Nothing
-                If Not IsDBNull(dr("BancoOrigen")) Then objCargoTarjeta.BancoOrigen = CType(dr("BancoOrigen"), Int16) Else objCargoTarjeta.BancoOrigen = Nothing
+                'If Not IsDBNull(dr("BancoOrigen")) Then objCargoTarjeta.BancoOrigen = CType(dr("BancoOrigen"), Int16) Else objCargoTarjeta.BancoOrigen = Nothing
                 If Not IsDBNull(dr("Litros")) Then objCargoTarjeta.Litros = CType(dr("Litros"), Decimal) Else objCargoTarjeta.Litros = Nothing
                 If Not IsDBNull(dr("Importe")) Then objCargoTarjeta.Importe = CType(dr("Importe"), Decimal) Else objCargoTarjeta.Importe = Nothing
                 If Not IsDBNull(dr("Remision")) Then objCargoTarjeta.Remision = CType(dr("Remision"), String).Trim Else objCargoTarjeta.Remision = " "
