@@ -31,6 +31,7 @@ Namespace Enumeradores
         FichaDeposito = 7
         NotaCredito = 12
         NotaIngreso = 13
+        AplicacionAnticipo = 21 ' NO ESTA EN LABASE DE DATOS
 
         'Se agregó para captura de transferencias bancarias
         '23-03-2005 JAG
@@ -4943,7 +4944,7 @@ Public Class Cobro
             End If
             If TipoCobro <> Enumeradores.enumTipoCobro.EfectivoVales Then
                 .Parameters.Add(New SqlParameter("@NumeroCheque", SqlDbType.Char, 20)).Value = strNumeroCheque
-                .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = dtmFCheque
+                .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = IIf(dtmFCheque = Date.MinValue, SqlString.Null, Date.Now)
             End If
             .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = intCliente
             .Parameters.Add(New SqlParameter("@Banco", SqlDbType.SmallInt)).Value = shrBanco
@@ -5568,7 +5569,8 @@ Public Class TransaccionMovimientoCaja
                         Enumeradores.enumTipoCobro.FichaDeposito,
                         Enumeradores.enumTipoCobro.NotaCredito,
                         Enumeradores.enumTipoCobro.NotaIngreso,
-                        Enumeradores.enumTipoCobro.Transferencia
+                        Enumeradores.enumTipoCobro.Transferencia,
+                        Enumeradores.enumTipoCobro.AplicacionAnticipo
                         FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Cobro.FechaCheque, Cobro.Cliente, Cobro.Banco,
                             Cobro.Observaciones, Cobro.TipoCobro, Usuario, Cobro.Saldo, Cobro.NoCuentaDestino, Cobro.BancoOrigen, Cobro.SaldoAFavor,
                             Cobro.Posfechado)
