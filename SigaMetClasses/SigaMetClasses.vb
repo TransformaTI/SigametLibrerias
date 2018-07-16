@@ -31,7 +31,7 @@ Namespace Enumeradores
         FichaDeposito = 7
         NotaCredito = 12
         NotaIngreso = 13
-        AplicacionAnticipo = 21 ' NO ESTA EN LABASE DE DATOS
+        AplicacionAnticipo = 30 ' NO ESTA EN LABASE DE DATOS
         'Se agregó para captura de transferencias bancarias
         '23-03-2005 JAG
         Transferencia = 10
