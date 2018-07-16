@@ -240,7 +240,7 @@ Public Class frmAltaPagoTarjeta
         If Diccionario.Count > 0 Then
             cboAutotanque.DataSource = New BindingSource(Diccionario, Nothing)
         Else
-            MessageBox.Show("Error, no hay registros de autotanques")
+            MessageBox.Show("Error, no hay registros de autotanques", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
 
     End Sub
@@ -254,13 +254,18 @@ Public Class frmAltaPagoTarjeta
         validar = validarDatosCargo()
         If validar = True Then
             validarDatosCargo()
-            AltaPagoTarjeta()
-            MessageBox.Show("Pago con tarjeta registrado exitosamente")
+
+            If AltaPagoTarjeta() Then
+                MessageBox.Show("Pago con tarjeta registrado exitosamente", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                MessageBox.Show("Pago con tarjeta no registrado", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
             limpiaCargo()
         End If
     End Sub
 
-    Private Sub AltaPagoTarjeta()
+    Private Function AltaPagoTarjeta() As Boolean
+        Dim Resultado As Boolean = True
         Dim InsertPagoTarjeta As New AltaPagoTarjeta()
         Dim Cliente, Folio, Afiliacion, Cobro As Integer
         Dim Banco, TipoCargo, Ruta, Autotanque, Meses, AñoCobro As Short
@@ -306,10 +311,17 @@ Public Class frmAltaPagoTarjeta
                                                   Remision, Serie, Autorizacion, Observacion, AñoCobro, Cobro,
                                                   UsuarioAlta)
         Catch ex As Exception
-            Throw ex
-        End Try
+            Resultado = False
+            If ex.Message.Contains("UC_CargoTarjeta") Then
+                MessageBox.Show("El pago ya fue registrado anteriormente, verifique.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
-    End Sub
+            Else
+                Throw ex
+            End If
+        End Try
+        Return Resultado
+
+    End Function
 
     Private Sub txtLitros_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtLitros.KeyPress
         If Char.IsDigit(e.KeyChar) Then
