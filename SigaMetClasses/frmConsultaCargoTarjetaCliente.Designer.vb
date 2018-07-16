@@ -23,14 +23,14 @@ Partial Class frmConsultaCargoTarjetaCliente
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.dgvCargos = New System.Windows.Forms.DataGridView()
-        Me.btnInsertar = New System.Windows.Forms.Button()
-        Me.btnCancelar = New System.Windows.Forms.Button()
         Me.TipoCobro = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Tarjeta = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Banco = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Autorizacion = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Importe = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Observacion = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.btnInsertar = New System.Windows.Forms.Button()
+        Me.btnCancelar = New System.Windows.Forms.Button()
         CType(Me.dgvCargos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -40,37 +40,20 @@ Partial Class frmConsultaCargoTarjetaCliente
         Me.dgvCargos.AllowUserToResizeRows = False
         Me.dgvCargos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvCargos.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TipoCobro, Me.Tarjeta, Me.Banco, Me.Autorizacion, Me.Importe, Me.Observacion})
+        Me.dgvCargos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2
         Me.dgvCargos.ImeMode = System.Windows.Forms.ImeMode.[On]
         Me.dgvCargos.Location = New System.Drawing.Point(12, 12)
         Me.dgvCargos.MultiSelect = False
         Me.dgvCargos.Name = "dgvCargos"
         Me.dgvCargos.ReadOnly = True
         Me.dgvCargos.RowHeadersVisible = False
+        Me.dgvCargos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dgvCargos.ShowCellErrors = False
         Me.dgvCargos.ShowCellToolTips = False
         Me.dgvCargos.ShowEditingIcon = False
         Me.dgvCargos.ShowRowErrors = False
         Me.dgvCargos.Size = New System.Drawing.Size(802, 241)
         Me.dgvCargos.TabIndex = 0
-        '
-        'btnInsertar
-        '
-        Me.btnInsertar.Location = New System.Drawing.Point(314, 270)
-        Me.btnInsertar.Name = "btnInsertar"
-        Me.btnInsertar.Size = New System.Drawing.Size(81, 25)
-        Me.btnInsertar.TabIndex = 1
-        Me.btnInsertar.Text = "Insertar"
-        Me.btnInsertar.UseVisualStyleBackColor = True
-        '
-        'btnCancelar
-        '
-        Me.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancelar.Location = New System.Drawing.Point(434, 270)
-        Me.btnCancelar.Name = "btnCancelar"
-        Me.btnCancelar.Size = New System.Drawing.Size(81, 25)
-        Me.btnCancelar.TabIndex = 2
-        Me.btnCancelar.Text = "Cancelar"
-        Me.btnCancelar.UseVisualStyleBackColor = True
         '
         'TipoCobro
         '
@@ -109,15 +92,38 @@ Partial Class frmConsultaCargoTarjetaCliente
         Me.Observacion.ReadOnly = True
         Me.Observacion.Width = 300
         '
+        'btnInsertar
+        '
+        Me.btnInsertar.Location = New System.Drawing.Point(314, 270)
+        Me.btnInsertar.Name = "btnInsertar"
+        Me.btnInsertar.Size = New System.Drawing.Size(81, 25)
+        Me.btnInsertar.TabIndex = 1
+        Me.btnInsertar.Text = "Insertar"
+        Me.btnInsertar.UseVisualStyleBackColor = True
+        '
+        'btnCancelar
+        '
+        Me.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btnCancelar.Location = New System.Drawing.Point(434, 270)
+        Me.btnCancelar.Name = "btnCancelar"
+        Me.btnCancelar.Size = New System.Drawing.Size(81, 25)
+        Me.btnCancelar.TabIndex = 2
+        Me.btnCancelar.Text = "Cancelar"
+        Me.btnCancelar.UseVisualStyleBackColor = True
+        '
         'frmConsultaCargoTarjetaCliente
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(826, 307)
         Me.Controls.Add(Me.btnCancelar)
         Me.Controls.Add(Me.btnInsertar)
         Me.Controls.Add(Me.dgvCargos)
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "frmConsultaCargoTarjetaCliente"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Cargos del mismo cliente"
         CType(Me.dgvCargos, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
