@@ -95,52 +95,74 @@ Public Class frmAltaEditaCuentaBancariaCliente
 
     Private Sub BtnGuardar_Click(sender As Object, e As EventArgs) Handles BtnGuardar.Click
         If (TipoMovimiento = "Alta") Then
-            AltaCuentaBancaria()
-            If MessageBox.Show("           Cuenta bancaria ¡Agregada!." + vbLf + "    ¿Desea agregar otra cuenta bancaria?", "Cuenta bancaria cliente",
-         MessageBoxButtons.YesNo, MessageBoxIcon.None
+            If AltaCuentaBancaria() Then
+                If MessageBox.Show("           Cuenta bancaria ¡Agregada!." + vbLf + "    ¿Desea agregar otra cuenta bancaria?", "Cuenta bancaria cliente",
+         MessageBoxButtons.YesNo, MessageBoxIcon.Information
          ) _
          = DialogResult.No Then
-                Close()
+                    Close()
+                End If
+                BorrarDatos()
+            Else
+                MessageBox.Show("Cuenta bancaria cliente no registrada.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
-            BorrarDatos()
-
         End If
-
         If (TipoMovimiento = "Actualizar") Then
-            ActualizarCuentaBancaria()
-            MessageBox.Show("Cuenta bancaria ¡ACTUALIZADA!")
-            Close()
+            If ActualizarCuentaBancari() Then
+                MessageBox.Show("Cuenta bancaria ¡ACTUALIZADA!")
+                Close()
+            Else
+                MessageBox.Show("Cuenta bancaria cliente no actualizada.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         End If
     End Sub
-    Public Sub AltaCuentaBancaria()
-        Dim InsertCuentaBancaria As New ClienteCuentaBancaria()
-        Dim Cliente As Integer
-        Dim Banco As Short
-        Dim CuentaBancaria, Clabe, Sucursal, ReferenciaPago, UsuarioAlta As String
-        Cliente = TxtBox_Cliente.Text
-        Banco = Cbb_Banco.SelectedValue
-        CuentaBancaria = Txtb_Ceunta.Text
-        Clabe = Txtb_Clave.Text
-        Sucursal = Txtb_Sucursal.Text
-        ReferenciaPago = Txtb_Referencia.Text
-        UsuarioAlta = Usuario  
-        InsertCuentaBancaria.insertarClienteCuentaBancaria(Cliente, Banco, CuentaBancaria, Clabe, Sucursal, ReferenciaPago, UsuarioAlta)
-    End Sub
+    Public Function AltaCuentaBancaria() As Boolean
+        Dim Resultado As Boolean = True
+        Try
+            Dim InsertCuentaBancaria As New ClienteCuentaBancaria()
+            Dim Cliente As Integer
+            Dim Banco As Short
+            Dim CuentaBancaria, Clabe, Sucursal, ReferenciaPago, UsuarioAlta As String
+            Cliente = TxtBox_Cliente.Text
+            Banco = Cbb_Banco.SelectedValue
+            CuentaBancaria = Txtb_Ceunta.Text
+            Clabe = Txtb_Clave.Text
+            Sucursal = Txtb_Sucursal.Text
+            ReferenciaPago = Txtb_Referencia.Text
+            UsuarioAlta = Usuario
+            InsertCuentaBancaria.insertarClienteCuentaBancaria(Cliente, Banco, CuentaBancaria, Clabe, Sucursal, ReferenciaPago, UsuarioAlta)
+        Catch ex As Exception
+            Resultado = False
+            If ex.Message.Contains("UQ_ClienteCuenta") Then
+                MessageBox.Show("La cuenta bancaria del cliente ya fue registrada anteriormente.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
+        Return Resultado
+    End Function
 
-    Public Sub ActualizarCuentaBancaria()
-        Dim ActualizarCuentaBancaria As New ClienteCuentaBancaria()
-        Dim Cliente As Integer
-        Dim Banco As Short
-        Dim CuentaBancaria, Clabe, Sucursal, ReferenciaPago, Estatus As String
-        Cliente = TxtBox_Cliente.Text
-        Banco = Cbb_Banco.SelectedValue
-        CuentaBancaria = Txtb_Ceunta.Text
-        Clabe = Txtb_Clave.Text
-        Sucursal = Txtb_Sucursal.Text
-        ReferenciaPago = Txtb_Referencia.Text
-        Estatus = Cbb_Estatus.Text
-        ActualizarCuentaBancaria.ActualizaClienteCuentaBancaria(Cliente, Secuenciaa, Banco, CuentaBancaria, Clabe, Sucursal, ReferenciaPago, Estatus)
-    End Sub
+    Public Function ActualizarCuentaBancari() As Boolean
+        Dim Resultado As Boolean = True
+        Try
+            Dim ActualizarCuentaBancaria As New ClienteCuentaBancaria()
+            Dim Cliente As Integer
+            Dim Banco As Short
+            Dim CuentaBancaria, Clabe, Sucursal, ReferenciaPago, Estatus As String
+            Cliente = TxtBox_Cliente.Text
+            Banco = Cbb_Banco.SelectedValue
+            CuentaBancaria = Txtb_Ceunta.Text
+            Clabe = Txtb_Clave.Text
+            Sucursal = Txtb_Sucursal.Text
+            ReferenciaPago = Txtb_Referencia.Text
+            Estatus = Cbb_Estatus.Text
+            ActualizarCuentaBancaria.ActualizaClienteCuentaBancaria(Cliente, Secuenciaa, Banco, CuentaBancaria, Clabe, Sucursal, ReferenciaPago, Estatus)
+        Catch ex As Exception
+            Resultado = False
+            If ex.Message.Contains("UQ_ClienteCuenta") Then
+                MessageBox.Show("La cuenta bancaria del cliente ya fue registrada anteriormente.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
+        Return Resultado
+    End Function
 
     Public Sub CargaDatosCliente(ClienteActualizar As Integer)
         Dim dsDatos As System.Data.DataSet
