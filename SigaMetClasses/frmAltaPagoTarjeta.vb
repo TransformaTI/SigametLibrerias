@@ -10,6 +10,7 @@ Public Class frmAltaPagoTarjeta
     Dim Litro As Decimal
     Private _Importe As Decimal
     Private _UsuarioAlta As String
+    Private _statusCliente As Boolean
 
     Public Sub New(Usuario As String)
 
@@ -181,12 +182,14 @@ Public Class frmAltaPagoTarjeta
                     txtColonia.Text = CType(dr("ColoniaNombre"), String)
                     txtMunicipio.Text = CType(dr("Nombre"), String)
                     txtRuta.Text = CType(dr("RutaDescripcion"), String)
-
-
-
                     cboRuta.CargaDatos(False, 0)
-
                     cboRuta.SelectedValue = CType(dr("Ruta"), Short)
+                    If Trim(CType(dr("Status"), String)) = "INACTIVO" Then
+                        MessageBox.Show("El cliente está inactivo, buscar un cliente Activo", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        _statusCliente = False
+                    Else
+                        _statusCliente = True
+                    End If
 
                 Next
                 btnConsultaCliente.Enabled = True
@@ -209,6 +212,7 @@ Public Class frmAltaPagoTarjeta
 
     Private Sub btnConsultaCliente_Click(sender As Object, e As EventArgs) Handles btnConsultaCliente.Click
         Dim frmConsultaCliente As New frmConsultaCliente(idCliente)
+
         Dim pedidoreferencia As String
         frmConsultaCliente.ShowDialog()
         pedidoreferencia = frmConsultaCliente.PedidoReferenciaSeleccionado()
@@ -250,17 +254,21 @@ Public Class frmAltaPagoTarjeta
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
-        Dim validar As Boolean
-        validar = validarDatosCargo()
-        If validar = True Then
-            validarDatosCargo()
+        If _statusCliente Then
+            Dim validar As Boolean
+            validar = validarDatosCargo()
+            If validar = True Then
+                validarDatosCargo()
 
-            If AltaPagoTarjeta() Then
-                MessageBox.Show("Pago con tarjeta registrado exitosamente", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                MessageBox.Show("Pago con tarjeta no registrado", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                If AltaPagoTarjeta() Then
+                    MessageBox.Show("Pago con tarjeta registrado exitosamente", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    MessageBox.Show("Pago con tarjeta no registrado", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                End If
+                limpiaCargo()
             End If
-            limpiaCargo()
+        Else
+            MessageBox.Show("El sistema no permitir capturar una tajera de un cliente inactivo, intente bucar un cliente activo", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
