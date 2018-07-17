@@ -57,10 +57,14 @@ Public Class frmCatCuentaBancariaCliente
     End Sub
 
     Private Sub TSBModificar_Click(sender As Object, e As EventArgs) Handles TSBModificar.Click
-        If Secuencia > 0 Then
-            Dim TipoMovimiento As String = "Actualizar"
-            CatalogoAltaEditaCuentaBancariaCliente(TipoMovimiento, Secuencia, clienteActualizar)
-        End If
+        Try
+            If Secuencia > 0 Then
+                Dim TipoMovimiento As String = "Actualizar"
+                CatalogoAltaEditaCuentaBancariaCliente(TipoMovimiento, Secuencia, clienteActualizar)
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub CatalogoAltaEditaCuentaBancariaCliente(TipoMovimiento As String, secuencia As String, clienteActualizar As Integer)
@@ -81,12 +85,15 @@ Public Class frmCatCuentaBancariaCliente
 
         Cursor = Cursors.WaitCursor
         Dim CuentaBancariaClientees As New frmAltaEditaCuentaBancariaCliente(TipoMovimiento, secuencia, clienteActualizar, UsuarioAlta)
-
         Cursor = Cursors.Default
         'CuentaBancariaClientees.Text = NombreCatalogo
         'CuentaBancariaClientees.MdiParent = Me.Parent As Forms.Form
-        CuentaBancariaClientees.Show()
+        CuentaBancariaClientees.ShowDialog()
         CuentaBancariaClientees.Focus()
+        If CuentaBancariaClientees.DialogResult = DialogResult.OK Then
+        Else
+            ConsultaActualziada(clienteActualizar)
+        End If
 
     End Sub
 
@@ -150,6 +157,14 @@ Public Class frmCatCuentaBancariaCliente
         grd_Cliente.Columns.Item(8).Visible = False
         grd_Cliente.Columns.Item(9).Visible = False
         grd_Cliente.Columns.Item(10).Visible = False
+
+    End Sub
+    Public Sub ConsultaActualziada(Cliente As Integer)
+        Dim Consulta As New ClienteCuentaBancaria()
+        grd_Cliente.DataSource = Consulta.ConsultaClienteCuentaBancaria(Cliente)
+    End Sub
+
+    Private Sub ToolStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ToolStrip1.ItemClicked
 
     End Sub
 End Class
