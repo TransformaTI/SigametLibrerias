@@ -5236,47 +5236,73 @@ Public Class Cobro
         End Try
     End Function
 
-    Public Function ChequeDevolucion(ByVal AñoCobro As Short,
-                                     ByVal Cobro As Integer,
-                                     ByVal RazonDevCheque As String,
-                                     ByVal Observaciones As String,
-                                     ByVal FDevolucion As DateTime,
-                                     Optional ByVal AplicarComision As Boolean = False,
-                                     Optional ByVal MultiDev As Boolean = False) As String
+	Public Function ChequeDevolucion(ByVal AñoCobro As Short,
+									 ByVal Cobro As Integer,
+									 ByVal RazonDevCheque As String,
+									 ByVal Observaciones As String,
+									 ByVal FDevolucion As DateTime,
+									 Optional ByVal AplicarComision As Boolean = False,
+									 Optional ByVal MultiDev As Boolean = False,
+									 Optional ByRef total As Decimal = 0) As String
 
-        Dim cmd As New SqlCommand("spCYCChequeDevolucion")
-        With cmd
-            .CommandType = CommandType.StoredProcedure
-            '.CommandTimeout = 180
-            .Parameters.Add("@AñoCobro", SqlDbType.SmallInt).Value = AñoCobro
-            .Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
-            .Parameters.Add("@RazonDevCheque", SqlDbType.Char, 2).Value = RazonDevCheque
-            .Parameters.Add("@Observaciones", SqlDbType.VarChar, 250).Value = Observaciones
-            .Parameters.Add("@FDevolucion", SqlDbType.DateTime).Value = FDevolucion
-            'para generar comisiones por cheque devuelto
-            .Parameters.Add("@AplicarComision", SqlDbType.Bit).Value = AplicarComision
-            .Parameters.Add("@NuevoPedidoReferencia", SqlDbType.Char, 20).Direction = ParameterDirection.Output
+		Dim cmd As New SqlCommand("spCYCChequeDevolucion")
+		With cmd
+			.CommandType = CommandType.StoredProcedure
+			'.CommandTimeout = 180
+			.Parameters.Add("@AñoCobro", SqlDbType.SmallInt).Value = AñoCobro
+			.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
+			.Parameters.Add("@RazonDevCheque", SqlDbType.Char, 2).Value = RazonDevCheque
+			.Parameters.Add("@Observaciones", SqlDbType.VarChar, 250).Value = Observaciones
+			.Parameters.Add("@FDevolucion", SqlDbType.DateTime).Value = FDevolucion
+			'para generar comisiones por cheque devuelto
+			.Parameters.Add("@AplicarComision", SqlDbType.Bit).Value = AplicarComision
+			.Parameters.Add("@NuevoPedidoReferencia", SqlDbType.Char, 20).Direction = ParameterDirection.Output
+			.Parameters.Add("@Total", SqlDbType.Money).Direction = ParameterDirection.Output
 
-            'Controlar la devolución multiple de un cheque, para que solo se efectue mediante programa
-            .Parameters.Add("@NuevaDevolucion", SqlDbType.Bit).Value = MultiDev
-        End With
+			'Controlar la devolución multiple de un cheque, para que solo se efectue mediante programa
+			.Parameters.Add("@NuevaDevolucion", SqlDbType.Bit).Value = MultiDev
+		End With
 
-        Try
-            AbreConexion()
-            IniciaTransaccion()
-            cmd.Transaction = Transaccion
-            cmd.Connection = DataLayer.Conexion
-            cmd.ExecuteNonQuery()
-            Transaccion.Commit()
-            Return cmd.Parameters("@NuevoPedidoReferencia").Value
-        Catch ex As Exception
-            Transaccion.Rollback()
-            Throw ex
-        Finally
-            CierraConexion()
-            cmd = Nothing
-        End Try
-    End Function
+		Try
+			AbreConexion()
+			cmd.Transaction = Transaccion
+			cmd.Connection = DataLayer.Conexion
+			cmd.ExecuteNonQuery()
+			total = CDec(cmd.Parameters("@total").Value)
+			Return cmd.Parameters("@NuevoPedidoReferencia").Value
+		Catch ex As Exception
+
+			Throw ex
+		Finally
+			CierraConexion()
+			cmd = Nothing
+		End Try
+	End Function
+
+	Public Sub actualizarPedido(ByVal PedidoReferenciaActual As String,
+								 ByVal PedidoReferenciaNuevo As String)
+
+		Dim cmd As New SqlCommand("spActualizaPedidoPedidoReferencia")
+		With cmd
+			.CommandType = CommandType.StoredProcedure
+			'.CommandTimeout = 180
+			.Parameters.Add("@PedidoReferenciaActual", SqlDbType.VarChar, 20).Value = PedidoReferenciaActual
+			.Parameters.Add("@PedidoReferenciaNuevo", SqlDbType.VarChar, 20).Value = PedidoReferenciaNuevo
+		End With
+
+		Try
+			AbreConexion()
+			cmd.Transaction = Transaccion
+			cmd.Connection = DataLayer.Conexion
+			cmd.ExecuteNonQuery()
+		Catch ex As Exception
+			Throw ex
+		Finally
+			CierraConexion()
+			cmd = Nothing
+		End Try
+
+	End Sub
 
 #End Region
 
