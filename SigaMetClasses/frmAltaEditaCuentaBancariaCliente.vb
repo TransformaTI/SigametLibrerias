@@ -6,6 +6,7 @@ Public Class frmAltaEditaCuentaBancariaCliente
     Private TipoMovimiento As String
     Private Secuenciaa As Integer
     Private Usuario As String
+    Private _statusCliente As Boolean
     Dim idCliente As Int32 = -1
     Dim oCliente As New SigaMetClasses.cCliente()
 
@@ -32,7 +33,6 @@ Public Class frmAltaEditaCuentaBancariaCliente
 
 
     Private Sub btnBuscarCliente_Click(sender As Object, e As EventArgs) Handles btnBuscarCliente.Click
-
         Dim frmBusquedaCliente As New BusquedaCliente()
         frmBusquedaCliente.ShowDialog()
         If frmBusquedaCliente.DialogResult = DialogResult.OK Then
@@ -50,7 +50,12 @@ Public Class frmAltaEditaCuentaBancariaCliente
                     Txtb_Colonia.Text = CType(dr("ColoniaNombre"), String)
                     Txtb_Municipio.Text = CType(dr("MunicipioNombre"), String)
                     TxtBox_Ruta.Text = CType(dr("RutaDescripcion"), String)
-
+                    If Trim(CType(dr("Status"), String)) = "INACTIVO" Then
+                        MessageBox.Show("El cliente está inactivo, buscar un cliente Activo", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        _statusCliente = False
+                    Else
+                        _statusCliente = True
+                    End If
 
                 Next
 
@@ -94,26 +99,30 @@ Public Class frmAltaEditaCuentaBancariaCliente
     End Sub
 
     Private Sub BtnGuardar_Click(sender As Object, e As EventArgs) Handles BtnGuardar.Click
-        If (TipoMovimiento = "Alta") Then
-            If AltaCuentaBancaria() Then
-                If MessageBox.Show("           Cuenta bancaria ¡Agregada!." + vbLf + "    ¿Desea agregar otra cuenta bancaria?", "Cuenta bancaria cliente",
-         MessageBoxButtons.YesNo, MessageBoxIcon.Information
-         ) _
-         = DialogResult.No Then
-                    Close()
+        If _statusCliente Then
+            If (TipoMovimiento = "Alta") Then
+                If AltaCuentaBancaria() Then
+                    If MessageBox.Show("           Cuenta bancaria ¡Agregada!." + vbLf + "    ¿Desea agregar otra cuenta bancaria?", "Cuenta bancaria cliente",
+             MessageBoxButtons.YesNo, MessageBoxIcon.Information
+             ) _
+             = DialogResult.No Then
+                        Close()
+                    End If
+                    BorrarDatos()
+                Else
+                    MessageBox.Show("Cuenta bancaria cliente no registrada.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
-                BorrarDatos()
-            Else
-                MessageBox.Show("Cuenta bancaria cliente no registrada.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
-        End If
-        If (TipoMovimiento = "Actualizar") Then
-            If ActualizarCuentaBancari() Then
-                MessageBox.Show("Cuenta bancaria ¡ACTUALIZADA!")
-                Close()
-            Else
-                MessageBox.Show("Cuenta bancaria cliente no actualizada.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            If (TipoMovimiento = "Actualizar") Then
+                If ActualizarCuentaBancari() Then
+                    MessageBox.Show("Cuenta bancaria ¡ACTUALIZADA!")
+                    Close()
+                Else
+                    MessageBox.Show("Cuenta bancaria cliente no actualizada.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                End If
             End If
+        Else
+            MessageBox.Show("El sistema no permitir capturar un cliente inactivo, intente bucar un cliente activo", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
     Public Function AltaCuentaBancaria() As Boolean
@@ -234,4 +243,7 @@ Public Class frmAltaEditaCuentaBancariaCliente
 
     End Sub
 
+    Private Sub frmAltaEditaCuentaBancariaCliente_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+
+    End Sub
 End Class
