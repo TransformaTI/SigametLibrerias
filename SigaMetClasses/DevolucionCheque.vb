@@ -370,7 +370,12 @@ Public Class DevolucionCheque
 					Dim oConfig As New cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
 					Dim url As String
 
-					url = CType(oConfig.Parametros("URLGateway"), String).Trim()
+					Try
+						url = CType(oConfig.Parametros("URLGateway"), String).Trim()
+					Catch ex As Exception
+						url = ""
+					End Try
+
 
 
 					If (Not url.Equals("")) Then
@@ -401,11 +406,8 @@ Public Class DevolucionCheque
 
 
 						oCobro.actualizarPedido(_PedidoReferencia, ListaRespuesta(0).PedidoReferencia)
-
-
-						Transaccion.Commit()
-
 					End If
+					Transaccion.Commit()
 
 					DialogResult = DialogResult.OK
 					Me.Close()
