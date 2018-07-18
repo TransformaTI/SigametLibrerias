@@ -353,7 +353,6 @@ Public Class frmLiquidacionPortatil
         Me.lblCamion = New System.Windows.Forms.Label()
         Me.lblCamiontck = New System.Windows.Forms.Label()
         Me.grbDetalleProducto = New System.Windows.Forms.GroupBox()
-        Me.btnDetalle = New ControlesBase.BotonBase()
         Me.cbxAplicaDescuento = New System.Windows.Forms.CheckBox()
         Me.txtAplicaDescuento = New System.Windows.Forms.Label()
         Me.lblNombreCliente = New System.Windows.Forms.Label()
@@ -363,6 +362,7 @@ Public Class frmLiquidacionPortatil
         Me.lblCliente = New System.Windows.Forms.Label()
         Me.lblTipoCobro = New System.Windows.Forms.Label()
         Me.cboTipoCobro = New PortatilClasses.Combo.ComboBase(Me.components)
+        Me.btnModificar = New ControlesBase.BotonBase()
         Me.btnAgregar = New ControlesBase.BotonBase()
         Me.pnlProducto = New System.Windows.Forms.Panel()
         Me.lblExistencia1 = New System.Windows.Forms.Label()
@@ -373,6 +373,7 @@ Public Class frmLiquidacionPortatil
         Me.lbltckProducto = New System.Windows.Forms.Label()
         Me.cboZEconomica = New PortatilClasses.Combo.ComboZEconomicaPtl()
         Me.lblZonaEconomica = New System.Windows.Forms.Label()
+        Me.btnDetalle = New ControlesBase.BotonBase()
         Me.btnCancelar = New ControlesBase.BotonBase()
         Me.btnAceptar = New ControlesBase.BotonBase()
         Me.col001 = New System.Windows.Forms.DataGridTextBoxColumn()
@@ -440,7 +441,6 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.lblTotalKilos = New System.Windows.Forms.Label()
         Me.lblKilosVendidos = New System.Windows.Forms.Label()
-        Me.btnModificar = New ControlesBase.BotonBase()
         Me.grbInformacion.SuspendLayout()
         Me.grbDetalleProducto.SuspendLayout()
         Me.pnlProducto.SuspendLayout()
@@ -733,7 +733,6 @@ Public Class frmLiquidacionPortatil
         '
         'grbDetalleProducto
         '
-        Me.grbDetalleProducto.Controls.Add(Me.btnDetalle)
         Me.grbDetalleProducto.Controls.Add(Me.cbxAplicaDescuento)
         Me.grbDetalleProducto.Controls.Add(Me.txtAplicaDescuento)
         Me.grbDetalleProducto.Controls.Add(Me.lblNombreCliente)
@@ -757,64 +756,52 @@ Public Class frmLiquidacionPortatil
         Me.grbDetalleProducto.TabStop = False
         Me.grbDetalleProducto.Text = "Productos a liquidar"
         '
-        'btnDetalle
-        '
-        Me.btnDetalle.BackColor = System.Drawing.SystemColors.Control
-        Me.btnDetalle.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDetalle.Image = CType(resources.GetObject("btnDetalle.Image"), System.Drawing.Image)
-        Me.btnDetalle.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnDetalle.Location = New System.Drawing.Point(11, 274)
-        Me.btnDetalle.Name = "btnDetalle"
-        Me.btnDetalle.Size = New System.Drawing.Size(27, 24)
-        Me.btnDetalle.TabIndex = 100
-        Me.btnDetalle.TabStop = False
-        Me.btnDetalle.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.tltLiquidacion.SetToolTip(Me.btnDetalle, "Presione visualizar el detalle de las remisiones")
-        Me.btnDetalle.UseVisualStyleBackColor = False
-        Me.btnDetalle.Visible = False
-        '
         'cbxAplicaDescuento
         '
         Me.cbxAplicaDescuento.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cbxAplicaDescuento.Location = New System.Drawing.Point(276, 96)
+        Me.cbxAplicaDescuento.Location = New System.Drawing.Point(273, 270)
         Me.cbxAplicaDescuento.Name = "cbxAplicaDescuento"
         Me.cbxAplicaDescuento.Size = New System.Drawing.Size(105, 16)
         Me.cbxAplicaDescuento.TabIndex = 4
         Me.cbxAplicaDescuento.TabStop = False
         Me.cbxAplicaDescuento.Text = "Aplica descuento"
+        Me.cbxAplicaDescuento.Visible = False
         '
         'txtAplicaDescuento
         '
         Me.txtAplicaDescuento.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.txtAplicaDescuento.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtAplicaDescuento.Location = New System.Drawing.Point(271, 94)
+        Me.txtAplicaDescuento.Location = New System.Drawing.Point(270, 267)
         Me.txtAplicaDescuento.Name = "txtAplicaDescuento"
         Me.txtAplicaDescuento.Size = New System.Drawing.Size(110, 21)
         Me.txtAplicaDescuento.TabIndex = 67
         Me.txtAplicaDescuento.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.tltLiquidacion.SetToolTip(Me.txtAplicaDescuento, "Número de ruta")
+        Me.txtAplicaDescuento.Visible = False
         '
         'lblNombreCliente
         '
         Me.lblNombreCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblNombreCliente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblNombreCliente.ForeColor = System.Drawing.Color.Blue
-        Me.lblNombreCliente.Location = New System.Drawing.Point(96, 44)
+        Me.lblNombreCliente.Location = New System.Drawing.Point(95, 213)
         Me.lblNombreCliente.Name = "lblNombreCliente"
         Me.lblNombreCliente.Size = New System.Drawing.Size(285, 21)
         Me.lblNombreCliente.TabIndex = 65
         Me.lblNombreCliente.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.tltLiquidacion.SetToolTip(Me.lblNombreCliente, "Fecha de la carga")
+        Me.lblNombreCliente.Visible = False
         '
         'lblNombreClientetck
         '
         Me.lblNombreClientetck.AutoSize = True
         Me.lblNombreClientetck.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNombreClientetck.Location = New System.Drawing.Point(16, 48)
+        Me.lblNombreClientetck.Location = New System.Drawing.Point(15, 217)
         Me.lblNombreClientetck.Name = "lblNombreClientetck"
         Me.lblNombreClientetck.Size = New System.Drawing.Size(48, 13)
         Me.lblNombreClientetck.TabIndex = 64
         Me.lblNombreClientetck.Text = "Nombre:"
+        Me.lblNombreClientetck.Visible = False
         '
         'btnBuscarCliente
         '
@@ -823,7 +810,7 @@ Public Class frmLiquidacionPortatil
         Me.btnBuscarCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnBuscarCliente.ImageIndex = 4
         Me.btnBuscarCliente.ImageList = Me.ImageList1
-        Me.btnBuscarCliente.Location = New System.Drawing.Point(394, 18)
+        Me.btnBuscarCliente.Location = New System.Drawing.Point(383, 186)
         Me.btnBuscarCliente.Name = "btnBuscarCliente"
         Me.btnBuscarCliente.Size = New System.Drawing.Size(80, 24)
         Me.btnBuscarCliente.TabIndex = 2
@@ -832,43 +819,65 @@ Public Class frmLiquidacionPortatil
         Me.btnBuscarCliente.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.btnBuscarCliente, "Presione buscar para localizar un cliente por diferentes datos")
         Me.btnBuscarCliente.UseVisualStyleBackColor = False
+        Me.btnBuscarCliente.Visible = False
         '
         'TxtCliente
         '
-        Me.TxtCliente.Location = New System.Drawing.Point(96, 20)
+        Me.TxtCliente.Location = New System.Drawing.Point(85, 188)
         Me.TxtCliente.Name = "TxtCliente"
         Me.TxtCliente.Size = New System.Drawing.Size(285, 20)
         Me.TxtCliente.TabIndex = 2
+        Me.TxtCliente.Visible = False
         '
         'lblCliente
         '
         Me.lblCliente.AutoSize = True
         Me.lblCliente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCliente.Location = New System.Drawing.Point(16, 24)
+        Me.lblCliente.Location = New System.Drawing.Point(5, 192)
         Me.lblCliente.Name = "lblCliente"
         Me.lblCliente.Size = New System.Drawing.Size(44, 13)
         Me.lblCliente.TabIndex = 63
         Me.lblCliente.Text = "Cliente:"
+        Me.lblCliente.Visible = False
         '
         'lblTipoCobro
         '
         Me.lblTipoCobro.AutoSize = True
         Me.lblTipoCobro.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTipoCobro.Location = New System.Drawing.Point(15, 98)
+        Me.lblTipoCobro.Location = New System.Drawing.Point(15, 270)
         Me.lblTipoCobro.Name = "lblTipoCobro"
         Me.lblTipoCobro.Size = New System.Drawing.Size(61, 13)
         Me.lblTipoCobro.TabIndex = 42
         Me.lblTipoCobro.Text = "Tipo cobro:"
+        Me.lblTipoCobro.Visible = False
         '
         'cboTipoCobro
         '
         Me.cboTipoCobro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboTipoCobro.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboTipoCobro.Location = New System.Drawing.Point(96, 94)
+        Me.cboTipoCobro.Location = New System.Drawing.Point(96, 266)
         Me.cboTipoCobro.Name = "cboTipoCobro"
         Me.cboTipoCobro.Size = New System.Drawing.Size(168, 21)
         Me.cboTipoCobro.TabIndex = 4
         Me.tltLiquidacion.SetToolTip(Me.cboTipoCobro, "Seleccione la forma de cobro que realizará")
+        Me.cboTipoCobro.Visible = False
+        '
+        'btnModificar
+        '
+        Me.btnModificar.BackColor = System.Drawing.SystemColors.Control
+        Me.btnModificar.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnModificar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnModificar.ImageIndex = 3
+        Me.btnModificar.ImageList = Me.ImageList1
+        Me.btnModificar.Location = New System.Drawing.Point(395, 265)
+        Me.btnModificar.Name = "btnModificar"
+        Me.btnModificar.Size = New System.Drawing.Size(83, 24)
+        Me.btnModificar.TabIndex = 41
+        Me.btnModificar.Text = "Modificar"
+        Me.btnModificar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.tltLiquidacion.SetToolTip(Me.btnModificar, "Modifica la remision que es seleccionada")
+        Me.btnModificar.UseVisualStyleBackColor = False
+        Me.btnModificar.Visible = False
         '
         'btnAgregar
         '
@@ -877,10 +886,11 @@ Public Class frmLiquidacionPortatil
         Me.btnAgregar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnAgregar.ImageIndex = 2
         Me.btnAgregar.ImageList = Me.ImageList1
-        Me.btnAgregar.Location = New System.Drawing.Point(394, 44)
+        Me.btnAgregar.Location = New System.Drawing.Point(31, 165)
         Me.btnAgregar.Name = "btnAgregar"
-        Me.btnAgregar.Size = New System.Drawing.Size(45, 24)
+        Me.btnAgregar.Size = New System.Drawing.Size(82, 24)
         Me.btnAgregar.TabIndex = 40
+        Me.btnAgregar.Text = "Remisiones"
         Me.btnAgregar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.btnAgregar, "Presione agregar para anexar los productos a la tabla de productos a liquidar")
         Me.btnAgregar.UseVisualStyleBackColor = False
@@ -895,7 +905,7 @@ Public Class frmLiquidacionPortatil
         Me.pnlProducto.Controls.Add(Me.lbltckExistencia)
         Me.pnlProducto.Controls.Add(Me.Label8)
         Me.pnlProducto.Controls.Add(Me.lbltckProducto)
-        Me.pnlProducto.Location = New System.Drawing.Point(19, 128)
+        Me.pnlProducto.Location = New System.Drawing.Point(31, 19)
         Me.pnlProducto.Name = "pnlProducto"
         Me.pnlProducto.Size = New System.Drawing.Size(432, 142)
         Me.pnlProducto.TabIndex = 36
@@ -965,21 +975,39 @@ Public Class frmLiquidacionPortatil
         '
         Me.cboZEconomica.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboZEconomica.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboZEconomica.Location = New System.Drawing.Point(96, 70)
+        Me.cboZEconomica.Location = New System.Drawing.Point(95, 241)
         Me.cboZEconomica.Name = "cboZEconomica"
         Me.cboZEconomica.Size = New System.Drawing.Size(285, 21)
         Me.cboZEconomica.TabIndex = 3
         Me.tltLiquidacion.SetToolTip(Me.cboZEconomica, "Seleccione la zona económica donde se relaizó la venta")
+        Me.cboZEconomica.Visible = False
         '
         'lblZonaEconomica
         '
         Me.lblZonaEconomica.AutoSize = True
         Me.lblZonaEconomica.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblZonaEconomica.Location = New System.Drawing.Point(15, 74)
+        Me.lblZonaEconomica.Location = New System.Drawing.Point(14, 245)
         Me.lblZonaEconomica.Name = "lblZonaEconomica"
         Me.lblZonaEconomica.Size = New System.Drawing.Size(78, 13)
         Me.lblZonaEconomica.TabIndex = 34
         Me.lblZonaEconomica.Text = "Z. económica.:"
+        Me.lblZonaEconomica.Visible = False
+        '
+        'btnDetalle
+        '
+        Me.btnDetalle.BackColor = System.Drawing.SystemColors.Control
+        Me.btnDetalle.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDetalle.Image = CType(resources.GetObject("btnDetalle.Image"), System.Drawing.Image)
+        Me.btnDetalle.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnDetalle.Location = New System.Drawing.Point(44, 496)
+        Me.btnDetalle.Name = "btnDetalle"
+        Me.btnDetalle.Size = New System.Drawing.Size(27, 24)
+        Me.btnDetalle.TabIndex = 100
+        Me.btnDetalle.TabStop = False
+        Me.btnDetalle.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.tltLiquidacion.SetToolTip(Me.btnDetalle, "Presione visualizar el detalle de las remisiones")
+        Me.btnDetalle.UseVisualStyleBackColor = False
+        Me.btnDetalle.Visible = False
         '
         'btnCancelar
         '
@@ -1768,8 +1796,6 @@ Public Class frmLiquidacionPortatil
         '
         'GroupBox2
         '
-        Me.GroupBox2.Controls.Add(Me.lblTotalKilos)
-        Me.GroupBox2.Controls.Add(Me.lblKilosVendidos)
         Me.GroupBox2.Controls.Add(Me.grdDetalle)
         Me.GroupBox2.Location = New System.Drawing.Point(24, 511)
         Me.GroupBox2.Name = "GroupBox2"
@@ -1781,9 +1807,9 @@ Public Class frmLiquidacionPortatil
         '
         Me.lblTotalKilos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotalKilos.ForeColor = System.Drawing.Color.Green
-        Me.lblTotalKilos.Location = New System.Drawing.Point(480, -2)
+        Me.lblTotalKilos.Location = New System.Drawing.Point(504, 500)
         Me.lblTotalKilos.Name = "lblTotalKilos"
-        Me.lblTotalKilos.Size = New System.Drawing.Size(33, 16)
+        Me.lblTotalKilos.Size = New System.Drawing.Size(35, 20)
         Me.lblTotalKilos.TabIndex = 71
         Me.lblTotalKilos.Text = "Total"
         Me.lblTotalKilos.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -1791,33 +1817,20 @@ Public Class frmLiquidacionPortatil
         'lblKilosVendidos
         '
         Me.lblKilosVendidos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblKilosVendidos.Location = New System.Drawing.Point(384, -2)
+        Me.lblKilosVendidos.Location = New System.Drawing.Point(393, 500)
         Me.lblKilosVendidos.Name = "lblKilosVendidos"
-        Me.lblKilosVendidos.Size = New System.Drawing.Size(105, 18)
+        Me.lblKilosVendidos.Size = New System.Drawing.Size(105, 20)
         Me.lblKilosVendidos.TabIndex = 70
         Me.lblKilosVendidos.Text = "Kilos vendidos:"
-        '
-        'btnModificar
-        '
-        Me.btnModificar.BackColor = System.Drawing.SystemColors.Control
-        Me.btnModificar.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnModificar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnModificar.ImageIndex = 3
-        Me.btnModificar.ImageList = Me.ImageList1
-        Me.btnModificar.Location = New System.Drawing.Point(394, 78)
-        Me.btnModificar.Name = "btnModificar"
-        Me.btnModificar.Size = New System.Drawing.Size(83, 24)
-        Me.btnModificar.TabIndex = 41
-        Me.btnModificar.Text = "Modificar"
-        Me.btnModificar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.tltLiquidacion.SetToolTip(Me.btnModificar, "Modifica la remision que es seleccionada")
-        Me.btnModificar.UseVisualStyleBackColor = False
         '
         'frmLiquidacionPortatil
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.ClientSize = New System.Drawing.Size(999, 729)
+        Me.Controls.Add(Me.lblTotalKilos)
+        Me.Controls.Add(Me.lblKilosVendidos)
+        Me.Controls.Add(Me.btnDetalle)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.grpFormasPago)
         Me.Controls.Add(Me.GroupBox1)
@@ -5634,6 +5647,7 @@ Public Class frmLiquidacionPortatil
         InsertaRemisiones()
         validarForfasPago()
         Totalizador()
+
     End Sub
 
     Public Function ValidarFechas(ByVal FCarga As DateTime, ByVal FLiquidacion As DateTime) As Boolean
@@ -5663,10 +5677,13 @@ Public Class frmLiquidacionPortatil
         oRemisionManual.RutamovilGas = _RutaMovil
         oRemisionManual.ClienteVentasPublico = _ClienteVentasPublico
         oRemisionManual.ClienteNormal = _ClienteNormal
+        oRemisionManual.ZonaEconomicaClienteNormal = _ZonaEconomicaClienteNormal
+        oRemisionManual.TipoCobroClienteVentasPublico = _TipoCobroClienteVentasPublico
+        oRemisionManual.TipoCobroClienteNormal = _TipoCobroClienteNormal
         oRemisionManual.Usuario = _Usuario
         oRemisionManual.DatosCliente = _DatosCliente
-
-
+        oRemisionManual.DetalleGrid = _DetalleGrid
+        grdDetalle.DataSource = Nothing
         oRemisionManual.ShowDialog()
         oRemisionManual.TipoCobroClienteNormal = _TipoCobroClienteNormal
 
@@ -5684,6 +5701,7 @@ Public Class frmLiquidacionPortatil
                 While i < pdtoLista.Count
                     If Convert.ToInt32(pdtoLista.Item(i)) = Convert.ToInt32(p("IdProducto")) Then
                         CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text = p("Cantidad").ToString()
+                        CType(lblLista.Item(i), System.Windows.Forms.Label).Text = CType(CType(CType(lblLista.Item(i), System.Windows.Forms.Label).Text, Integer) - CType(p("Cantidad"), Integer), String)
                         Exit While
                     End If
                     i = i + 1
@@ -5711,7 +5729,6 @@ Public Class frmLiquidacionPortatil
                 row("descuento") = 0
                 row("Importe") = item("TotalNeto")
                 row("Saldo") = item("TotalNeto")
-                row("FormaPago") = "CONTADO"
                 row("Descripcion") = item("ProductoDescripcion")
                 row("Cantidad") = item("Cantidad")
                 row("producto") = item("producto")
@@ -6299,10 +6316,13 @@ Public Class frmLiquidacionPortatil
 
 
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+        ocultar()
+        ' validarForfasPago()
         cargarRemisiones()
         CargaTablaLiquidacion()
-        validarForfasPago()
         ActualizarTotalizadorFormasDePago(_listaCobros)
+
+
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
@@ -6619,19 +6639,21 @@ Public Class frmLiquidacionPortatil
         Dim Kilostotal As Decimal = 0
         Dim Ventatotal As Decimal = 0
         Dim totalcobro As Decimal = 0
+        If _DetalleGrid.Rows.Count <> 0 Then
+            While i < _DetalleGrid.Rows.Count  'txtLista.Count
 
-        While i < _DetalleGrid.Rows.Count  'txtLista.Count
-
-            TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(5), Decimal)
-            If CType(_DetalleGrid.Rows(i).Item(8), String) = "CREDITO" Then
-                TotalCREDITO = TotalCREDITO + CType(_DetalleGrid.Rows(i).Item(8), Decimal)
-            End If
-            Kilostotal = Kilostotal + CType(_DetalleGrid.Rows(i).Item(4), Decimal)
-            Ventatotal = Ventatotal + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
-            totalcobro = totalcobro + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
-            i = i + 1
-        End While
-
+                TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(5), Decimal)
+                If Convert.ToString(_DetalleGrid.Rows(i).Item(8)) <> "" Then
+                    If CType(_DetalleGrid.Rows(i).Item(8), String) = "CREDITO" Then
+                        TotalCREDITO = TotalCREDITO + CType(_DetalleGrid.Rows(i).Item(8), Decimal)
+                    End If
+                End If
+                Kilostotal = Kilostotal + CType(_DetalleGrid.Rows(i).Item(4), Decimal)
+                Ventatotal = Ventatotal + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
+                totalcobro = totalcobro + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
+                i = i + 1
+            End While
+        End If
         lblTotalCobro.Text = totalcobro.ToString("N2")
         _Totalcobro = totalcobro
         'lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
@@ -6663,4 +6685,19 @@ Public Class frmLiquidacionPortatil
             btnAplicacionAnticipo.Enabled = True
         End If
     End Sub
+
+    Public Sub ocultar()
+        TxtCliente.Visible = False
+        lblNombreCliente.Visible = False
+        lblCliente.Visible = False
+        cboZEconomica.Visible = False
+        cboTipoCobro.Visible = False
+        lblZonaEconomica.Visible = False
+        lblTipoCobro.Visible = False
+        cbxAplicaDescuento.Visible = False
+        btnBuscarCliente.Visible = False
+        btnModificar.Visible = False
+        lblNombreClientetck.Visible = False
+    End Sub
+
 End Class

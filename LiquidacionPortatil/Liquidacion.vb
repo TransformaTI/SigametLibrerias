@@ -1110,6 +1110,10 @@ Namespace Liquidacion
                 dcColumna.DataType = System.Type.GetType("System.String")
                 dcColumna.ColumnName = "Nombre"
                 dtRemisiones.Columns.Add(dcColumna)
+                dcColumna = New DataColumn()
+                dcColumna.DataType = System.Type.GetType("System.String")
+                dcColumna.ColumnName = "FormaPago"
+                dtRemisiones.Columns.Add(dcColumna)
 
             Catch ex As Exception
                 MessageBox.Show(ex.Message, "Liquidación portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
