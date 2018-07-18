@@ -5284,40 +5284,40 @@ Public Class Cobro
 		End With
 
 		Try
-			cmd.Transaction = Transaccion
-			cmd.Connection = DataLayer.Conexion
-			cmd.ExecuteNonQuery()
-			total = CDec(cmd.Parameters("@total").Value)
-			Return cmd.Parameters("@NuevoPedidoReferencia").Value
-		Catch ex As Exception
-			Throw ex
-		Finally
+            cmd.Transaction = Transaccion
+            cmd.Connection = DataLayer.Conexion
+            cmd.ExecuteNonQuery()
+            total = CDec(cmd.Parameters("@total").Value)
+            Return cmd.Parameters("@NuevoPedidoReferencia").Value
+        Catch ex As Exception
+            Throw ex
+        Finally
 
-			cmd = Nothing
-		End Try
-	End Function
+            cmd = Nothing
+        End Try
+    End Function
 
-	Public Sub actualizarPedido(ByVal PedidoReferenciaActual As String,
-								 ByVal PedidoReferenciaNuevo As String)
+    Public Sub actualizarPedido(ByVal PedidoReferenciaActual As String,
+                                 ByVal PedidoReferenciaNuevo As String)
 
-		Dim cmd As New SqlCommand("spActualizaPedidoPedidoReferencia")
-		With cmd
-			.CommandType = CommandType.StoredProcedure
-			'.CommandTimeout = 180
-			.Parameters.Add("@PedidoReferenciaActual", SqlDbType.VarChar, 20).Value = PedidoReferenciaActual
-			.Parameters.Add("@PedidoReferenciaNuevo", SqlDbType.VarChar, 20).Value = PedidoReferenciaNuevo
-		End With
+        Dim cmd As New SqlCommand("spActualizaPedidoPedidoReferencia")
+        With cmd
+            .CommandType = CommandType.StoredProcedure
+            '.CommandTimeout = 180
+            .Parameters.Add("@PedidoReferenciaActual", SqlDbType.VarChar, 20).Value = PedidoReferenciaActual
+            .Parameters.Add("@PedidoReferenciaNuevo", SqlDbType.VarChar, 20).Value = PedidoReferenciaNuevo
+        End With
 
-		Try
-			AbreConexion()
-			cmd.Transaction = Transaccion
-			cmd.Connection = DataLayer.Conexion
-			cmd.ExecuteNonQuery()
-		Catch ex As Exception
-			Throw ex
-		Finally
+        Try
+            AbreConexion()
+            cmd.Transaction = Transaccion
+            cmd.Connection = DataLayer.Conexion
+            cmd.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw ex
+        Finally
 
-			cmd = Nothing
+            cmd = Nothing
 		End Try
 
 	End Sub
