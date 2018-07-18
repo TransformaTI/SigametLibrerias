@@ -276,6 +276,19 @@ Public Class frmAltaPagoTarjeta
         End If
     End Sub
 
+    Private Sub txtLitros_Leave(sender As Object, e As EventArgs) Handles txtLitros.Leave
+        Dim litros As Integer = txtLitros.Text
+        ' Dim precio As New Precio
+        'precio.ZonaEconomica = 100000
+        Try
+            ' txtImporte.Text = FormatNumber(precio.calcularImporte(litros), 2)
+        Catch ex As Exception
+            txtLitros.Clear()
+            MessageBox.Show(ex.Message, "ERROR!")
+        End Try
+
+    End Sub
+
     Private Function AltaPagoTarjeta() As Boolean
         Dim Resultado As Boolean = True
         Dim InsertPagoTarjeta As New AltaPagoTarjeta()
