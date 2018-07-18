@@ -696,6 +696,26 @@ Public Class CargoTarjetaDatos
         Return ListaCargoTarjeta
     End Function
 
+    Public Sub actualizaStatusCargoTarjeta(ByVal Cliente As Integer, ByVal Autorizacion As String, ByVal StatusActual As String, ByVal StatusNuevo As String)
+        Dim cmd As New SqlCommand("spCyCActualizaCargoTarjetaStatus")
+        cmd.CommandType = CommandType.StoredProcedure
+        Try
+            AbreConexion()
+            cmd.Connection = DataLayer.Conexion
+            cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+            cmd.Parameters.Add("@Autorizacion", SqlDbType.VarChar).Value = Autorizacion
+            cmd.Parameters.Add("@StatusActual", SqlDbType.VarChar).Value = StatusActual
+            cmd.Parameters.Add("@StatusNuevo", SqlDbType.VarChar).Value = StatusNuevo
+            Dim res As Int32 = cmd.ExecuteNonQuery()
+            If res <> 0 Then
+                MessageBox.Show("La asignación fue realizada correctamente", "Mensaje del sistema", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                MessageBox.Show("Hubo un error y no se pudo realizar la asignación", "Mensaje del sistema", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
 
 End Class
 #End Region
