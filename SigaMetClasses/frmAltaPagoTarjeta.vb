@@ -10,9 +10,10 @@ Public Class frmAltaPagoTarjeta
     Dim Litro As Decimal
     Private _Importe As Decimal
     Private _UsuarioAlta As String
-    Private _statusCliente As Boolean
+	Private _statusCliente As Boolean
+	Private _zonaEconomica As Integer
 
-    Public Sub New(Usuario As String)
+	Public Sub New(Usuario As String)
 
         ' This call is required by the designer.
         InitializeComponent()
@@ -32,8 +33,9 @@ Public Class frmAltaPagoTarjeta
         txtMunicipio.Clear()
         btnConsultaCliente.Enabled = False
         limpiaCargo()
-        Lbl_fechaCargo.Text = ""
-    End Sub
+		Lbl_fechaCargo.Text = ""
+		_zonaEconomica = 0
+	End Sub
 
     Private Sub limpiaCargo()
         cboAfiliacion.SelectedItem = 0
@@ -185,17 +187,21 @@ Public Class frmAltaPagoTarjeta
                     txtCalle.Text = CType(dr("CalleNombre"), String)
                     txtColonia.Text = CType(dr("ColoniaNombre"), String)
                     txtMunicipio.Text = CType(dr("Nombre"), String)
-                    txtRuta.Text = CType(dr("RutaDescripcion"), String)
-                    cboRuta.CargaDatos(False, 0)
-                    cboRuta.SelectedValue = CType(dr("Ruta"), Short)
-                    If Trim(CType(dr("Status"), String)) = "INACTIVO" Then
-                        MessageBox.Show("El cliente está inactivo, buscar un cliente Activo", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        _statusCliente = False
-                    Else
-                        _statusCliente = True
-                    End If
+					txtRuta.Text = CType(dr("RutaDescripcion"), String)
+					_zonaEconomica = CType(dr("ZonaEconomica"), Integer)
+					cboRuta.CargaDatos(False, 0)
+					cboRuta.SelectedValue = CType(dr("Ruta"), Short)
+					If Trim(CType(dr("Status"), String)) = "INACTIVO" Then
+						MessageBox.Show("El cliente está inactivo, buscar un cliente Activo", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+						_statusCliente = False
+					Else
+						_statusCliente = True
+					End If
+					If _zonaEconomica = Nothing Then
+						_zonaEconomica = 0
+					End If
 
-                Next
+				Next
                 btnConsultaCliente.Enabled = True
             Catch ex As Exception
                 MessageBox.Show(ex.Message, "Consulta de cliente", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -276,113 +282,138 @@ Public Class frmAltaPagoTarjeta
         End If
     End Sub
 
-    Private Sub txtLitros_Leave(sender As Object, e As EventArgs) Handles txtLitros.Leave
-        Dim litros As Integer = txtLitros.Text
-        ' Dim precio As New Precio
-        'precio.ZonaEconomica = 100000
-        Try
-            ' txtImporte.Text = FormatNumber(precio.calcularImporte(litros), 2)
-        Catch ex As Exception
-            txtLitros.Clear()
-            MessageBox.Show(ex.Message, "ERROR!")
-        End Try
+	Private Sub txtLitros_Leave(sender As Object, e As EventArgs) Handles txtLitros.Leave
+		If (Not txtLitros.Text.Equals("")) Then
+			Dim litros As Integer = txtLitros.Text
+			Dim precio As New Precio
+			precio.ZonaEconomica = _zonaEconomica
 
-    End Sub
+			Try
+				txtImporte.Text = FormatNumber(precio.calcularImporte(litros), 2)
+			Catch ex As Exception
+				txtLitros.Clear()
+				MessageBox.Show(ex.Message, "ERROR!")
+			End Try
+		Else
+			txtImporte.Clear()
 
-    Private Function AltaPagoTarjeta() As Boolean
-        Dim Resultado As Boolean = True
-        Dim InsertPagoTarjeta As New AltaPagoTarjeta()
-        Dim Cliente, Folio, Afiliacion, Cobro As Integer
-        Dim Banco, TipoCargo, Ruta, Autotanque, Meses, AñoCobro As Short
-        Dim NumeroTarjeta, Remision, Serie,
-        Autorizacion, Observacion As String
-        Dim TipoCobro As Byte
-        Dim Litros As Double
-        Dim Importe As Decimal
-        Dim UsuarioAlta As String
+		End If
 
-        Try
+	End Sub
 
-            If cboAutotanque.SelectedValue Is Nothing Then
-                Throw New Exception("No existe un autotanque seleccionado, por favor corrija")
-            End If
+	Private Function AltaPagoTarjeta() As Boolean
+		Dim Resultado As Boolean = True
+		Dim InsertPagoTarjeta As New AltaPagoTarjeta()
+		Dim Cliente, Folio, Afiliacion, Cobro As Integer
+		Dim Banco, TipoCargo, Ruta, Autotanque, Meses, AñoCobro As Short
+		Dim NumeroTarjeta, Remision, Serie,
+		Autorizacion, Observacion As String
+		Dim TipoCobro As Byte
+		Dim Litros As Double
+		Dim Importe As Decimal
+		Dim UsuarioAlta As String
 
-            Banco = cboBancos.SelectedValue
-            Afiliacion = cboAfiliacion.SelectedValue
-            NumeroTarjeta = txtTarjeta.Text
-            Meses = cboMeses.Text
-            Cliente = ClienteI
-            Litros = txtLitros.Text
-            Remision = txtRemision.Text
-            Autorizacion = txtAutorizacion.Text
-            Observacion = txtObservaciones.Text
-            Importe = txtImporte.Text
-            TipoCobro = cboTipoTarjeta.SelectedValue
-            Ruta = cboRuta.SelectedValue
-            Autotanque = cboAutotanque.SelectedValue
-            UsuarioAlta = _UsuarioAlta
-            Cobro = Nothing
-            AñoCobro = Nothing
-            Serie = ""
-            If rdCargoPorCobranza.Checked Then
-                TipoCargo = 1
-            End If
-            If rdCargoPorVenta.Checked Then
-                TipoCargo = 2
-            End If
+		Try
 
-            InsertPagoTarjeta.insertarPagoTarjeta(Folio, TipoCargo, Cliente, Ruta, Autotanque, Afiliacion,
-                                                  TipoCobro, Meses, NumeroTarjeta, Banco, Litros, Importe,
-                                                  Remision, Serie, Autorizacion, Observacion, AñoCobro, Cobro,
-                                                  UsuarioAlta)
-        Catch ex As Exception
-            Resultado = False
-            If ex.Message.Contains("UC_CargoTarjeta") Then
-                MessageBox.Show("El pago ya fue registrado anteriormente, verifique.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+			If cboAutotanque.SelectedValue Is Nothing Then
+				Throw New Exception("No existe un autotanque seleccionado, por favor corrija")
+			End If
 
-            Else
-                Throw ex
-            End If
-        End Try
-        Return Resultado
+			Banco = cboBancos.SelectedValue
+			Afiliacion = cboAfiliacion.SelectedValue
+			NumeroTarjeta = txtTarjeta.Text
+			Meses = cboMeses.Text
+			Cliente = ClienteI
+			Litros = txtLitros.Text
+			Remision = txtRemision.Text
+			Autorizacion = txtAutorizacion.Text
+			Observacion = txtObservaciones.Text
+			Importe = txtImporte.Text
+			TipoCobro = cboTipoTarjeta.SelectedValue
+			Ruta = cboRuta.SelectedValue
+			Autotanque = cboAutotanque.SelectedValue
+			UsuarioAlta = _UsuarioAlta
+			Cobro = Nothing
+			AñoCobro = Nothing
+			Serie = ""
+			If rdCargoPorCobranza.Checked Then
+				TipoCargo = 1
+			End If
+			If rdCargoPorVenta.Checked Then
+				TipoCargo = 2
+			End If
 
-    End Function
+			InsertPagoTarjeta.insertarPagoTarjeta(Folio, TipoCargo, Cliente, Ruta, Autotanque, Afiliacion,
+												  TipoCobro, Meses, NumeroTarjeta, Banco, Litros, Importe,
+												  Remision, Serie, Autorizacion, Observacion, AñoCobro, Cobro,
+												  UsuarioAlta)
+		Catch ex As Exception
+			Resultado = False
+			If ex.Message.Contains("UC_CargoTarjeta") Then
+				MessageBox.Show("El pago ya fue registrado anteriormente, verifique.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
-    Private Sub txtLitros_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtLitros.KeyPress
-        If Char.IsDigit(e.KeyChar) Then
-            e.Handled = False
-        ElseIf Char.IsControl(e.KeyChar) Then
-            e.Handled = False
-        ElseIf e.KeyChar = "." And Not txtImporte.Text.IndexOf(".") Then
-            e.Handled = True
-        ElseIf e.KeyChar = "." Then
-            e.Handled = False
-        Else
-            e.Handled = True
-        End If
-    End Sub
+			Else
+				Throw ex
+			End If
+		End Try
+		Return Resultado
 
-    Private Sub txtImporte_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtImporte.KeyPress
-        If Char.IsDigit(e.KeyChar) Then
-            e.Handled = False
-        ElseIf Char.IsControl(e.KeyChar) Then
-            e.Handled = False
-        ElseIf e.KeyChar = "." And Not txtImporte.Text.IndexOf(".") Then
-            e.Handled = True
-        ElseIf e.KeyChar = "." Then
-            e.Handled = False
-        Else
-            e.Handled = True
-        End If
-    End Sub
+	End Function
 
-    Private Sub txtTarjeta_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtTarjeta.KeyPress
-        If Char.IsDigit(e.KeyChar) Then
-            e.Handled = False
-        ElseIf Char.IsControl(e.KeyChar) Then
-            e.Handled = False
-        Else
-            e.Handled = True
-        End If
-    End Sub
+	Private Sub txtLitros_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtLitros.KeyPress
+		If Char.IsDigit(e.KeyChar) Then
+			e.Handled = False
+		ElseIf Char.IsControl(e.KeyChar) Then
+			e.Handled = False
+		ElseIf e.KeyChar = "." And Not txtImporte.Text.IndexOf(".") Then
+			e.Handled = True
+		ElseIf e.KeyChar = "." Then
+			e.Handled = False
+		Else
+			e.Handled = True
+		End If
+	End Sub
+
+	Private Sub txtImporte_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtImporte.KeyPress
+		If Char.IsDigit(e.KeyChar) Then
+			e.Handled = False
+		ElseIf Char.IsControl(e.KeyChar) Then
+			e.Handled = False
+		ElseIf e.KeyChar = "." And Not txtImporte.Text.IndexOf(".") Then
+			e.Handled = True
+		ElseIf e.KeyChar = "." Then
+			e.Handled = False
+		Else
+			e.Handled = True
+		End If
+	End Sub
+
+	Private Sub txtTarjeta_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtTarjeta.KeyPress
+		If Char.IsDigit(e.KeyChar) Then
+			e.Handled = False
+		ElseIf Char.IsControl(e.KeyChar) Then
+			e.Handled = False
+		Else
+			e.Handled = True
+		End If
+	End Sub
+
+
+
+	Private Sub txtImporte_Leave(sender As Object, e As EventArgs) Handles txtImporte.Leave
+		If (Not txtImporte.Text.Equals("")) Then
+			Dim importe As Decimal = txtImporte.Text
+			Dim precio As New Precio
+			precio.ZonaEconomica = _zonaEconomica
+			Try
+				txtLitros.Text = FormatNumber(precio.calcularLitros(importe), 2)
+			Catch ex As Exception
+				txtImporte.Clear()
+				MessageBox.Show(ex.Message, "ERROR!")
+			End Try
+		Else
+			txtLitros.Clear()
+		End If
+
+	End Sub
 End Class
