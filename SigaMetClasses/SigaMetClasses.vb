@@ -5253,17 +5253,15 @@ Public Class Cobro
 		End With
 
 		Try
-			AbreConexion()
 			cmd.Transaction = Transaccion
 			cmd.Connection = DataLayer.Conexion
 			cmd.ExecuteNonQuery()
 			total = CDec(cmd.Parameters("@total").Value)
 			Return cmd.Parameters("@NuevoPedidoReferencia").Value
 		Catch ex As Exception
-
 			Throw ex
 		Finally
-			CierraConexion()
+
 			cmd = Nothing
 		End Try
 	End Function
@@ -5287,7 +5285,7 @@ Public Class Cobro
 		Catch ex As Exception
 			Throw ex
 		Finally
-			CierraConexion()
+
 			cmd = Nothing
 		End Try
 

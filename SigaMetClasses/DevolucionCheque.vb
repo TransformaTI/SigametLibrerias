@@ -137,7 +137,7 @@ Public Class DevolucionCheque
 	Friend WithEvents ComboRazonDevCheque As SigaMetClasses.Combos.ComboRazonDevCheque
 	Friend WithEvents chkComisionCheqDev As System.Windows.Forms.CheckBox
 	<System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-		Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(DevolucionCheque))
+		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(DevolucionCheque))
 		Me.dtpFDevolucion = New System.Windows.Forms.DateTimePicker()
 		Me.lblFDevolucion = New System.Windows.Forms.Label()
 		Me.txtObservaciones = New System.Windows.Forms.TextBox()
@@ -152,8 +152,8 @@ Public Class DevolucionCheque
 		Me.lblNumeroCheque = New System.Windows.Forms.Label()
 		Me.btnAceptar = New System.Windows.Forms.Button()
 		Me.btnCancelar = New System.Windows.Forms.Button()
-		Me.ComboRazonDevCheque = New SigaMetClasses.Combos.ComboRazonDevCheque()
 		Me.chkComisionCheqDev = New System.Windows.Forms.CheckBox()
+		Me.ComboRazonDevCheque = New SigaMetClasses.Combos.ComboRazonDevCheque()
 		Me.GroupBox1.SuspendLayout()
 		Me.SuspendLayout()
 		'
@@ -170,26 +170,24 @@ Public Class DevolucionCheque
 		Me.lblFDevolucion.AutoSize = True
 		Me.lblFDevolucion.Location = New System.Drawing.Point(16, 139)
 		Me.lblFDevolucion.Name = "lblFDevolucion"
-		Me.lblFDevolucion.Size = New System.Drawing.Size(161, 14)
+		Me.lblFDevolucion.Size = New System.Drawing.Size(157, 13)
 		Me.lblFDevolucion.TabIndex = 2
 		Me.lblFDevolucion.Text = "Fecha de la devolución / cargo:"
 		'
 		'txtObservaciones
 		'
-		Me.txtObservaciones.AutoSize = False
 		Me.txtObservaciones.Location = New System.Drawing.Point(184, 200)
 		Me.txtObservaciones.Multiline = True
 		Me.txtObservaciones.Name = "txtObservaciones"
 		Me.txtObservaciones.Size = New System.Drawing.Size(320, 48)
 		Me.txtObservaciones.TabIndex = 3
-		Me.txtObservaciones.Text = ""
 		'
 		'lblObservaciones
 		'
 		Me.lblObservaciones.AutoSize = True
 		Me.lblObservaciones.Location = New System.Drawing.Point(16, 200)
 		Me.lblObservaciones.Name = "lblObservaciones"
-		Me.lblObservaciones.Size = New System.Drawing.Size(80, 14)
+		Me.lblObservaciones.Size = New System.Drawing.Size(82, 13)
 		Me.lblObservaciones.TabIndex = 4
 		Me.lblObservaciones.Text = "Observaciones:"
 		'
@@ -198,13 +196,18 @@ Public Class DevolucionCheque
 		Me.lblRazonDevCheque.AutoSize = True
 		Me.lblRazonDevCheque.Location = New System.Drawing.Point(16, 171)
 		Me.lblRazonDevCheque.Name = "lblRazonDevCheque"
-		Me.lblRazonDevCheque.Size = New System.Drawing.Size(123, 14)
+		Me.lblRazonDevCheque.Size = New System.Drawing.Size(121, 13)
 		Me.lblRazonDevCheque.TabIndex = 5
 		Me.lblRazonDevCheque.Text = "Razón de la devolución:"
 		'
 		'GroupBox1
 		'
-		Me.GroupBox1.Controls.AddRange(New System.Windows.Forms.Control() {Me.Label1, Me.lblBanco, Me.Label2, Me.lblCliente, Me.lblNumeroCheque2, Me.lblNumeroCheque})
+		Me.GroupBox1.Controls.Add(Me.Label1)
+		Me.GroupBox1.Controls.Add(Me.lblBanco)
+		Me.GroupBox1.Controls.Add(Me.Label2)
+		Me.GroupBox1.Controls.Add(Me.lblCliente)
+		Me.GroupBox1.Controls.Add(Me.lblNumeroCheque2)
+		Me.GroupBox1.Controls.Add(Me.lblNumeroCheque)
 		Me.GroupBox1.Location = New System.Drawing.Point(8, 8)
 		Me.GroupBox1.Name = "GroupBox1"
 		Me.GroupBox1.Size = New System.Drawing.Size(512, 112)
@@ -218,7 +221,7 @@ Public Class DevolucionCheque
 		Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.Label1.Location = New System.Drawing.Point(16, 51)
 		Me.Label1.Name = "Label1"
-		Me.Label1.Size = New System.Drawing.Size(38, 14)
+		Me.Label1.Size = New System.Drawing.Size(40, 13)
 		Me.Label1.TabIndex = 19
 		Me.Label1.Text = "Banco:"
 		'
@@ -238,7 +241,7 @@ Public Class DevolucionCheque
 		Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.Label2.Location = New System.Drawing.Point(16, 75)
 		Me.Label2.Name = "Label2"
-		Me.Label2.Size = New System.Drawing.Size(42, 14)
+		Me.Label2.Size = New System.Drawing.Size(44, 13)
 		Me.Label2.TabIndex = 17
 		Me.Label2.Text = "Cliente:"
 		'
@@ -258,7 +261,7 @@ Public Class DevolucionCheque
 		Me.lblNumeroCheque2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.lblNumeroCheque2.Location = New System.Drawing.Point(16, 27)
 		Me.lblNumeroCheque2.Name = "lblNumeroCheque2"
-		Me.lblNumeroCheque2.Size = New System.Drawing.Size(66, 14)
+		Me.lblNumeroCheque2.Size = New System.Drawing.Size(68, 13)
 		Me.lblNumeroCheque2.TabIndex = 13
 		Me.lblNumeroCheque2.Text = "No. Cheque:"
 		'
@@ -275,32 +278,28 @@ Public Class DevolucionCheque
 		'btnAceptar
 		'
 		Me.btnAceptar.BackColor = System.Drawing.SystemColors.Control
-		Me.btnAceptar.Image = CType(resources.GetObject("btnAceptar.Image"), System.Drawing.Bitmap)
+		Me.btnAceptar.Image = CType(resources.GetObject("btnAceptar.Image"), System.Drawing.Image)
 		Me.btnAceptar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
 		Me.btnAceptar.Location = New System.Drawing.Point(536, 16)
 		Me.btnAceptar.Name = "btnAceptar"
+		Me.btnAceptar.Size = New System.Drawing.Size(75, 23)
 		Me.btnAceptar.TabIndex = 7
 		Me.btnAceptar.Text = "&Aceptar"
 		Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+		Me.btnAceptar.UseVisualStyleBackColor = False
 		'
 		'btnCancelar
 		'
 		Me.btnCancelar.BackColor = System.Drawing.SystemColors.Control
-		Me.btnCancelar.Image = CType(resources.GetObject("btnCancelar.Image"), System.Drawing.Bitmap)
+		Me.btnCancelar.Image = CType(resources.GetObject("btnCancelar.Image"), System.Drawing.Image)
 		Me.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
 		Me.btnCancelar.Location = New System.Drawing.Point(536, 48)
 		Me.btnCancelar.Name = "btnCancelar"
+		Me.btnCancelar.Size = New System.Drawing.Size(75, 23)
 		Me.btnCancelar.TabIndex = 8
 		Me.btnCancelar.Text = "&Cancelar"
 		Me.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-		'
-		'ComboRazonDevCheque
-		'
-		Me.ComboRazonDevCheque.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-		Me.ComboRazonDevCheque.Location = New System.Drawing.Point(184, 168)
-		Me.ComboRazonDevCheque.Name = "ComboRazonDevCheque"
-		Me.ComboRazonDevCheque.Size = New System.Drawing.Size(320, 21)
-		Me.ComboRazonDevCheque.TabIndex = 9
+		Me.btnCancelar.UseVisualStyleBackColor = False
 		'
 		'chkComisionCheqDev
 		'
@@ -313,13 +312,30 @@ Public Class DevolucionCheque
 		Me.chkComisionCheqDev.Text = "Comisión"
 		Me.chkComisionCheqDev.Visible = False
 		'
+		'ComboRazonDevCheque
+		'
+		Me.ComboRazonDevCheque.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.ComboRazonDevCheque.Location = New System.Drawing.Point(184, 168)
+		Me.ComboRazonDevCheque.Name = "ComboRazonDevCheque"
+		Me.ComboRazonDevCheque.Size = New System.Drawing.Size(320, 21)
+		Me.ComboRazonDevCheque.TabIndex = 9
+		'
 		'DevolucionCheque
 		'
 		Me.AcceptButton = Me.btnAceptar
 		Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
 		Me.BackColor = System.Drawing.Color.Gainsboro
 		Me.ClientSize = New System.Drawing.Size(618, 287)
-		Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.chkComisionCheqDev, Me.ComboRazonDevCheque, Me.btnCancelar, Me.btnAceptar, Me.GroupBox1, Me.lblRazonDevCheque, Me.lblObservaciones, Me.lblFDevolucion, Me.txtObservaciones, Me.dtpFDevolucion})
+		Me.Controls.Add(Me.chkComisionCheqDev)
+		Me.Controls.Add(Me.ComboRazonDevCheque)
+		Me.Controls.Add(Me.btnCancelar)
+		Me.Controls.Add(Me.btnAceptar)
+		Me.Controls.Add(Me.GroupBox1)
+		Me.Controls.Add(Me.lblRazonDevCheque)
+		Me.Controls.Add(Me.lblObservaciones)
+		Me.Controls.Add(Me.lblFDevolucion)
+		Me.Controls.Add(Me.txtObservaciones)
+		Me.Controls.Add(Me.dtpFDevolucion)
 		Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
 		Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -329,7 +345,9 @@ Public Class DevolucionCheque
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
 		Me.Text = "Devolución de cheques"
 		Me.GroupBox1.ResumeLayout(False)
+		Me.GroupBox1.PerformLayout()
 		Me.ResumeLayout(False)
+		Me.PerformLayout()
 
 	End Sub
 
@@ -356,18 +374,25 @@ Public Class DevolucionCheque
 	End Sub
 
 	Private Sub btnAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAceptar.Click
+
 		If ValidaCaptura() = True Then
 			If MessageBox.Show("¿Están correctos los datos?", Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
 				Cursor = Cursors.WaitCursor
 				Dim oCobro As New SigaMetClasses.Cobro()
+				Dim oConfig As New cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+				Dim referenciaCRm As String
+
 				Dim total As Decimal
 				Try
+
+
+
+					AbreConexion()
 					IniciaTransaccion()
+
 					_PedidoReferencia = oCobro.ChequeDevolucion(_AñoCobro, _Cobro, CType(ComboRazonDevCheque.SelectedValue, String), Trim(txtObservaciones.Text), dtpFDevolucion.Value.Date, chkComisionCheqDev.Checked,
 						_DevolucionMultipleSeleccionada, total)
 
-
-					Dim oConfig As New cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
 					Dim url As String
 
 					Try
@@ -377,15 +402,17 @@ Public Class DevolucionCheque
 					End Try
 
 
-
 					If (Not url.Equals("")) Then
+
 
 						Dim pedido As New RTGMCore.PedidoCRMSaldo
 
 						pedido.Abono = total
 
 						Dim listaPedidos As New List(Of RTGMCore.Pedido)
+
 						listaPedidos.Add(pedido)
+
 
 						Dim ListaRespuesta As List(Of RTGMCore.Pedido)
 						Dim objGateway As New RTGMGateway.RTGMActualizarPedido()
@@ -395,19 +422,34 @@ Public Class DevolucionCheque
 
 
 						SolicitudActualizarPedido.Fuente = RTGMCore.Fuente.CRM
+
 						SolicitudActualizarPedido.IDEmpresa = GLOBAL_Empresa
+
 						SolicitudActualizarPedido.Pedidos = listaPedidos
+
 						SolicitudActualizarPedido.Portatil = False
+
 						SolicitudActualizarPedido.TipoActualizacion = RTGMCore.TipoActualizacion.Saldo
-						SolicitudActualizarPedido.Usuario = GLOBAL_IDUsuario.ToString
+
+						SolicitudActualizarPedido.Usuario = GLOBAL_Usuario
 
 
 						ListaRespuesta = objGateway.ActualizarPedido(SolicitudActualizarPedido)
 
+						referenciaCRm = ListaRespuesta(0).PedidoReferencia
 
-						oCobro.actualizarPedido(_PedidoReferencia, ListaRespuesta(0).PedidoReferencia)
+						If referenciaCRm = Nothing Then
+							referenciaCRm = ""
+						End If
+
+
+
+						oCobro.actualizarPedido(_PedidoReferencia, referenciaCRm)
+
 					End If
+
 					Transaccion.Commit()
+
 
 					DialogResult = DialogResult.OK
 					Me.Close()
