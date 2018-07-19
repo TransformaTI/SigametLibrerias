@@ -6326,7 +6326,7 @@ Public Class frmLiquidacionPortatil
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         ocultar()
         Movilgas()
-        ' validarForfasPago()
+        validarForfasPago()
         cargarRemisiones()
         CargaTablaLiquidacion()
         ActualizarTotalizadorFormasDePago(_listaCobros)
@@ -6484,7 +6484,7 @@ Public Class frmLiquidacionPortatil
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
         Dim TotalKilos As New Decimal
         _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
-        ' _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(119151, 90632)
+        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(119151, 90632)
         grdDetalle.DataSource = _DetalleGrid
 
         TotalKilos = Convert.ToDecimal(_DetalleGrid.Compute("SUM(Kilos)", String.Empty))
