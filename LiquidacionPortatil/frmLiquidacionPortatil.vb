@@ -5669,11 +5669,7 @@ Public Class frmLiquidacionPortatil
             Cliente = _ClienteVentasPublico
         End If
         dtRemisiones = oLiquidacionPedido.ConsultaPedidoPortatilCapturaManual(cboZEconomica.Identificador, _AnoAtt, _Folio, Cliente, cboTipoCobro.Identificador)
-
-
         Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente)
-        '_DetalleGrid.Clear()
-        'grdDetalle.DataSource = _DetalleGrid
         oRemisionManual.RutamovilGas = _RutaMovil
         oRemisionManual.ClienteVentasPublico = _ClienteVentasPublico
         oRemisionManual.ClienteNormal = _ClienteNormal
@@ -5710,30 +5706,30 @@ Public Class frmLiquidacionPortatil
             banderaRemisionManual = True
 
             dtRemisionesManuales = oRemisionManual.Remisiones
+            _DetalleGrid.Rows.Clear()
 
             For Each item As DataRow In dtRemisionesManuales.Rows
 
                 '               Dim dr() As DataRow = oProductoRemManuales.Select("producto=" + item("producto").ToString())
-
                 row = _DetalleGrid.NewRow()
                 row("Serie") = item("Serie")
-                row("Remision") = item("Remision")
-                If item("Cliente").ToString = Nothing Then
-                    row("Cliente") = _ClienteVentasPublico
-                    row("Nombre") = "Cliente Ventas Publico"
-                Else
-                    row("Cliente") = item("Cliente")
-                    row("Nombre") = item("Nombre")
-                End If
-                row("Kilos") = Convert.ToInt64(item("Valor"))
-                row("descuento") = 0
-                row("Importe") = item("TotalNeto")
-                row("Saldo") = item("TotalNeto")
-                row("Descripcion") = item("ProductoDescripcion")
-                row("Cantidad") = item("Cantidad")
-                row("producto") = item("producto")
-                row("zonaeconomica") = cboZEconomica.Text
-                row("FormaPago") = item("FormaPago")
+                    row("Remision") = item("Remision")
+                    If item("Cliente").ToString = Nothing Then
+                        row("Cliente") = _ClienteVentasPublico
+                        row("Nombre") = "Cliente Ventas Publico"
+                    Else
+                        row("Cliente") = item("Cliente")
+                        row("Nombre") = item("Nombre")
+                    End If
+                    row("Kilos") = Convert.ToInt64(item("Valor"))
+                    row("descuento") = 0
+                    row("Importe") = item("TotalNeto")
+                    row("Saldo") = item("TotalNeto")
+                    row("Descripcion") = item("ProductoDescripcion")
+                    row("Cantidad") = item("Cantidad")
+                    row("producto") = item("producto")
+                    row("zonaeconomica") = cboZEconomica.Text
+                    row("FormaPago") = item("FormaPago")
 
                 _DetalleGrid.Rows.Add(row)
             Next
