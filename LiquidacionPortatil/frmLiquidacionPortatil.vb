@@ -242,6 +242,7 @@ Public Class frmLiquidacionPortatil
     Friend WithEvents Label14 As Label
     Friend WithEvents btnBuscarCliente As ControlesBase.BotonBase
     Friend WithEvents btnModificar As ControlesBase.BotonBase
+    Friend WithEvents lblmovilgas As Label
 
     'Indica si la ruta se encuentra en venta especial
     Private _RutaEspecial As Boolean = False
@@ -441,6 +442,7 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.lblTotalKilos = New System.Windows.Forms.Label()
         Me.lblKilosVendidos = New System.Windows.Forms.Label()
+        Me.lblmovilgas = New System.Windows.Forms.Label()
         Me.grbInformacion.SuspendLayout()
         Me.grbDetalleProducto.SuspendLayout()
         Me.pnlProducto.SuspendLayout()
@@ -733,6 +735,7 @@ Public Class frmLiquidacionPortatil
         '
         'grbDetalleProducto
         '
+        Me.grbDetalleProducto.Controls.Add(Me.lblmovilgas)
         Me.grbDetalleProducto.Controls.Add(Me.cbxAplicaDescuento)
         Me.grbDetalleProducto.Controls.Add(Me.txtAplicaDescuento)
         Me.grbDetalleProducto.Controls.Add(Me.lblNombreCliente)
@@ -1822,6 +1825,15 @@ Public Class frmLiquidacionPortatil
         Me.lblKilosVendidos.Size = New System.Drawing.Size(105, 20)
         Me.lblKilosVendidos.TabIndex = 70
         Me.lblKilosVendidos.Text = "Kilos vendidos:"
+        '
+        'lblmovilgas
+        '
+        Me.lblmovilgas.AutoSize = True
+        Me.lblmovilgas.Location = New System.Drawing.Point(146, 171)
+        Me.lblmovilgas.Name = "lblmovilgas"
+        Me.lblmovilgas.Size = New System.Drawing.Size(51, 13)
+        Me.lblmovilgas.TabIndex = 68
+        Me.lblmovilgas.Text = "Label11"
         '
         'frmLiquidacionPortatil
         '
@@ -5670,7 +5682,7 @@ Public Class frmLiquidacionPortatil
         End If
         dtRemisiones = oLiquidacionPedido.ConsultaPedidoPortatilCapturaManual(cboZEconomica.Identificador, _AnoAtt, _Folio, Cliente, cboTipoCobro.Identificador)
         Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente)
-        oRemisionManual.RutamovilGas = _RutaMovil
+        oRemisionManual.RutamovilGas = _BoletinEnLineaCamion
         oRemisionManual.ClienteVentasPublico = _ClienteVentasPublico
         oRemisionManual.ClienteNormal = _ClienteNormal
         oRemisionManual.ZonaEconomicaClienteNormal = _ZonaEconomicaClienteNormal
@@ -6313,6 +6325,7 @@ Public Class frmLiquidacionPortatil
 
     Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         ocultar()
+        Movilgas()
         ' validarForfasPago()
         cargarRemisiones()
         CargaTablaLiquidacion()
@@ -6694,6 +6707,13 @@ Public Class frmLiquidacionPortatil
         btnBuscarCliente.Visible = False
         btnModificar.Visible = False
         lblNombreClientetck.Visible = False
+    End Sub
+    Public Sub Movilgas()
+        If _BoletinEnLineaCamion = True Then
+            lblmovilgas.Text = "Movil gas"
+        Else
+            lblmovilgas.Text = "No es Movil gas"
+        End If
     End Sub
 
 End Class

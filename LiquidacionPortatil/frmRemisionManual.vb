@@ -1236,17 +1236,20 @@ Public Class frmRemisionManual
     End Sub
 
     Private Sub btnAgregar_Click(sender As Object, e As EventArgs) Handles btnAgregar.Click
-        'Validamos los datos capturados pertenecientes a la remision
-        If ValidaRemision() Then
-            If VerificaDatos() Then
-                CargaGrid()
-            Else
-                Dim Mensajes As PortatilClasses.Mensaje
-                Mensajes = New PortatilClasses.Mensaje(135)
-                MessageBox.Show(Mensajes.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        If _RutaMovil = False Then
+            'Validamos los datos capturados pertenecientes a la remision
+            If ValidaRemision() Then
+                If VerificaDatos() Then
+                    CargaGrid()
+                Else
+                    Dim Mensajes As PortatilClasses.Mensaje
+                    Mensajes = New PortatilClasses.Mensaje(135)
+                    MessageBox.Show(Mensajes.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                End If
             End If
+        Else
+            MessageBox.Show("El proceso viene de MovilGas no se puede agregar remisiones", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
-
     End Sub
 
     Private Sub btnBorrar_Click(sender As Object, e As EventArgs) Handles btnBorrar.Click
@@ -1620,17 +1623,21 @@ Public Class frmRemisionManual
     End Sub
 
     Private Sub grdDetalle_CurrentCellChanged(sender As Object, e As EventArgs) Handles grdDetalle.CurrentCellChanged
-        If _DetalleGrid.Rows.Count > 0 Then
-
-            i = grdDetalle.CurrentRowIndex
-            TxtCliente.Text = grdDetalle.Item(i, 2).ToString
-            cboTipoCobro.Text = grdDetalle.Item(i, 8).ToString
-            txtDescuento.Text = grdDetalle.Item(i, 5).ToString
-            txtImporte.Text = grdDetalle.Item(i, 6).ToString
-        End If
-
-
-
+        Try
+            If _DetalleGrid.Rows.Count > 0 Then
+                i = grdDetalle.CurrentRowIndex
+                TxtCliente.Text = grdDetalle.Item(i, 2).ToString
+                cboTipoCobro.Text = grdDetalle.Item(i, 8).ToString
+                txtDescuento.Text = grdDetalle.Item(i, 5).ToString
+                txtImporte.Text = grdDetalle.Item(i, 6).ToString
+                If _RutaMovil = False Then
+                    txtRemision.Text = grdDetalle.Item(i, 1).ToString
+                    txtSerie.Text = grdDetalle.Item(i, 0).ToString
+                End If
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub lblImporte_Click(sender As Object, e As EventArgs) Handles lblImporte.Click
@@ -1657,12 +1664,20 @@ Public Class frmRemisionManual
     End Sub
 
     Public Sub CargaGridModificado()
-        grdDetalle.Item(i, 2) = TxtCliente.Text
-        grdDetalle.Item(i, 3) = lblNombreCliente.Text
-        grdDetalle.Item(i, 8) = cboTipoCobro.Text
-        grdDetalle.Item(i, 5) = txtDescuento.Text
-        grdDetalle.Item(i, 6) = txtImporte.Text
-        grdDetalle.Item(i, 7) = txtImporte.Text
-        _DetalleGrid = CType(grdDetalle.DataSource, DataTable)
+        Try
+            grdDetalle.Item(i, 2) = TxtCliente.Text
+            grdDetalle.Item(i, 3) = lblNombreCliente.Text
+            grdDetalle.Item(i, 8) = cboTipoCobro.Text
+            grdDetalle.Item(i, 5) = txtDescuento.Text
+            grdDetalle.Item(i, 6) = txtImporte.Text
+            grdDetalle.Item(i, 7) = txtImporte.Text
+            If _RutaMovil = False Then
+                grdDetalle.Item(i, 0) = txtSerie.Text
+                grdDetalle.Item(i, 1) = txtRemision.Text
+            End If
+            _DetalleGrid = CType(grdDetalle.DataSource, DataTable)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 End Class
