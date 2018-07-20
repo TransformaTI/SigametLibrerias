@@ -5686,7 +5686,7 @@ Public Class frmLiquidacionPortatil
         oRemisionManual.RutamovilGas = _BoletinEnLineaCamion
         oRemisionManual.ClienteVentasPublico = _ClienteVentasPublico
         oRemisionManual.ClienteNormal = _ClienteNormal
-        oRemisionManual.ZonaEconomicaClienteNormal = _ZonaEconomicaClienteNormal
+        'oRemisionManual.ZonaEconomicaClienteNormal = _ZonaEconomicaClienteNormal
         oRemisionManual.TipoCobroClienteVentasPublico = _TipoCobroClienteVentasPublico
         oRemisionManual.TipoCobroClienteNormal = _TipoCobroClienteNormal
         oRemisionManual.Usuario = _Usuario
@@ -6737,7 +6737,7 @@ Public Class frmLiquidacionPortatil
             SerieTemp = CType(_DetalleGrid.Rows(i).Item("Serie"), String)
             FRemision = FRemision.Now
 
-            ProductoTemp = CType(_DetalleGrid.Rows(i).Item("descripcion"), Integer)
+            ProductoTemp = CType(_DetalleGrid.Rows(i).Item("Producto"), Integer)
             CantidadTemp = CType(_DetalleGrid.Rows(i).Item("Cantidad"), Integer)
             Clientep = CType(_DetalleGrid.Rows(i).Item("Cliente"), Integer)
 
