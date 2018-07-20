@@ -1418,6 +1418,16 @@ Public Class frmRemisionManual
         Return Resultado
     End Function
 
+    Private Sub ActualizarGrid()
+        'If dtLiquidacionTotal IsNot Nothing AndAlso dtLiquidacionTotal.Rows.Count > 0 Then
+        If _DetalleGrid IsNot Nothing AndAlso _DetalleGrid.Rows.Count > 0 Then
+            dtLiquidacionTotal = Nothing
+            dtLiquidacionTotal = _DetalleGrid
+
+            grdDetalle.DataSource = Nothing
+            grdDetalle.DataSource = _DetalleGrid
+        End If
+    End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
         If grdDetalle.VisibleRowCount > 0 Then
@@ -1429,6 +1439,10 @@ Public Class frmRemisionManual
                 ' RealizarPedidoRemision()
                 Me.Tag = Nothing
                 Me.Tag = Me.dtCantidades
+
+                'dtLiquidacionTotal = Nothing
+                'dtLiquidacionTotal = _DetalleGrid
+
                 Me.DialogResult() = DialogResult.OK
 
                 Me.Close()
@@ -1538,7 +1552,7 @@ Public Class frmRemisionManual
         cboTipoCobro.CargaDatosBase("spPTLCargaComboTipoCobro", 0, "ROPIMA") '_Usuario)
         Me.cboZEconomica.CargaDatos(0, _Usuario)
         Me.cboZEconomica.SelectedIndex = 0
-
+        ActualizarGrid()
     End Sub
 
     Private Sub cboTipoCobro_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTipoCobro.SelectedIndexChanged
