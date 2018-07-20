@@ -50,6 +50,9 @@ Public Class frmRemisionManual
     Private _DatosCliente As Array = Array.CreateInstance(GetType(String), 9)
     Private _TipoCobroClienteVentasPublico As Integer
     Friend WithEvents Btn_Modificar As ControlesBase.BotonBase
+    Friend WithEvents DataGridTextBoxColumn11 As DataGridTextBoxColumn
+    Friend WithEvents DataGridTextBoxColumn12 As DataGridTextBoxColumn
+    Friend WithEvents DataGridTextBoxColumn13 As DataGridTextBoxColumn
     Private _Usuario As String
 
     Property DetalleGrid As DataTable
@@ -324,6 +327,9 @@ Public Class frmRemisionManual
         Me.lblNombreClientetck = New System.Windows.Forms.Label()
         Me.TxtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.lblCliente = New System.Windows.Forms.Label()
+        Me.DataGridTextBoxColumn11 = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.DataGridTextBoxColumn12 = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.DataGridTextBoxColumn13 = New System.Windows.Forms.DataGridTextBoxColumn()
         CType(Me.grdDetalle, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlProducto.SuspendLayout()
         Me.grbInformacion.SuspendLayout()
@@ -362,7 +368,7 @@ Public Class frmRemisionManual
         'DataGridTableStyle1
         '
         Me.DataGridTableStyle1.DataGrid = Me.grdDetalle
-        Me.DataGridTableStyle1.GridColumnStyles.AddRange(New System.Windows.Forms.DataGridColumnStyle() {Me.DataGridTextBoxColumn1, Me.DataGridTextBoxColumn2, Me.DataGridTextBoxColumn3, Me.DataGridTextBoxColumn4, Me.DataGridTextBoxColumn5, Me.DataGridTextBoxColumn6, Me.DataGridTextBoxColumn7, Me.DataGridTextBoxColumn8, Me.DataGridTextBoxColumn9, Me.DataGridTextBoxColumn10})
+        Me.DataGridTableStyle1.GridColumnStyles.AddRange(New System.Windows.Forms.DataGridColumnStyle() {Me.DataGridTextBoxColumn1, Me.DataGridTextBoxColumn2, Me.DataGridTextBoxColumn3, Me.DataGridTextBoxColumn4, Me.DataGridTextBoxColumn5, Me.DataGridTextBoxColumn6, Me.DataGridTextBoxColumn7, Me.DataGridTextBoxColumn8, Me.DataGridTextBoxColumn9, Me.DataGridTextBoxColumn10, Me.DataGridTextBoxColumn11, Me.DataGridTextBoxColumn12, Me.DataGridTextBoxColumn13})
         Me.DataGridTableStyle1.HeaderForeColor = System.Drawing.SystemColors.ControlText
         Me.DataGridTableStyle1.MappingName = "LiquidacionTotal"
         '
@@ -446,7 +452,7 @@ Public Class frmRemisionManual
         Me.DataGridTextBoxColumn10.FormatInfo = Nothing
         Me.DataGridTextBoxColumn10.HeaderText = "Total a pagar"
         Me.DataGridTextBoxColumn10.MappingName = "TotalNeto"
-        Me.DataGridTextBoxColumn10.Width = 75
+        Me.DataGridTextBoxColumn10.Width = 79
         '
         'btnBorrar
         '
@@ -823,6 +829,30 @@ Public Class frmRemisionManual
         Me.lblCliente.Size = New System.Drawing.Size(49, 13)
         Me.lblCliente.TabIndex = 65
         Me.lblCliente.Text = "Cliente:"
+        '
+        'DataGridTextBoxColumn11
+        '
+        Me.DataGridTextBoxColumn11.Format = ""
+        Me.DataGridTextBoxColumn11.FormatInfo = Nothing
+        Me.DataGridTextBoxColumn11.HeaderText = "Cliente"
+        Me.DataGridTextBoxColumn11.MappingName = "Cliente"
+        Me.DataGridTextBoxColumn11.Width = 65
+        '
+        'DataGridTextBoxColumn12
+        '
+        Me.DataGridTextBoxColumn12.Format = ""
+        Me.DataGridTextBoxColumn12.FormatInfo = Nothing
+        Me.DataGridTextBoxColumn12.HeaderText = "Nombre"
+        Me.DataGridTextBoxColumn12.MappingName = "Nombre"
+        Me.DataGridTextBoxColumn12.Width = 150
+        '
+        'DataGridTextBoxColumn13
+        '
+        Me.DataGridTextBoxColumn13.Format = ""
+        Me.DataGridTextBoxColumn13.FormatInfo = Nothing
+        Me.DataGridTextBoxColumn13.HeaderText = "Forma pago"
+        Me.DataGridTextBoxColumn13.MappingName = "FormaPago"
+        Me.DataGridTextBoxColumn13.Width = 95
         '
         'frmRemisionManual
         '
