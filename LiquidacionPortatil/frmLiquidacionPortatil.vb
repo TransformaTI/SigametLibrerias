@@ -51,6 +51,7 @@ Public Class frmLiquidacionPortatil
     Dim banderaRemisionManual As Boolean = False
     Public dtRemisiones As New DataTable
     Public dtCantidades As New DataTable
+    Private _Configuracion As Integer
 
     Private _listaCobros As New List(Of SigaMetClasses.CobroDetalladoDatos)
     Private _ListaCobroRemisiones As List(Of SigaMetClasses.CobroRemisiones)
@@ -1882,7 +1883,7 @@ Public Class frmLiquidacionPortatil
         Dim oReporte As New ReporteDinamicoOaxaca.frmReporte(_RutaReportes, "ReporteLiquidacion.rpt", _Servidor,
                               _Database, _Usuario, _Password, False)
 
-
+        _Configuracion = Configuracion
         oReporte.ListaParametros.Add(Configuracion)
         oReporte.ListaParametros.Add(MovimientoAlmacen)
 
@@ -6335,6 +6336,7 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
+        RealizarPedidoRemision()
         CargaTablaLiquidacion()
         Dim validar As Boolean
         validar = Validacion()
@@ -6715,5 +6717,56 @@ Public Class frmLiquidacionPortatil
             lblmovilgas.Text = "No es Movil gas"
         End If
     End Sub
+    Private Sub RealizarPedidoRemision()
+        Cursor = Cursors.WaitCursor
+        Dim oLiquidacionPedido As Liquidacion.cLiquidacion
+        If _Configuracion = 0 Then
+            oLiquidacionPedido = New Liquidacion.cLiquidacion(1, 0, 0, 0)
+        Else
+            oLiquidacionPedido = New Liquidacion.cLiquidacion(4, 0, 0, 0)
+        End If
 
+        Dim i As Integer = 0
+        While i < _DetalleGrid.Rows.Count
+
+            Dim RemisionTemp, ProductoTemp, CantidadTemp As Integer
+            Dim SerieTemp As String
+            Dim FRemision As DateTime
+            Dim Clientep As Integer
+            RemisionTemp = CType(_DetalleGrid.Rows(i).Item("Remision"), Integer)
+            SerieTemp = CType(_DetalleGrid.Rows(i).Item("Serie"), String)
+            FRemision = FRemision.Now
+
+            ProductoTemp = CType(_DetalleGrid.Rows(i).Item("descripcion"), Integer)
+            CantidadTemp = CType(_DetalleGrid.Rows(i).Item("Cantidad"), Integer)
+            Clientep = CType(_DetalleGrid.Rows(i).Item("Cliente"), Integer)
+
+            'Insercion en la tabla pedido detalle remision_AnoAtt, _Folio
+            oLiquidacionPedido.PedidoDetalleRemision(ProductoTemp, 0, 0, Nothing, Nothing, 0, 0, 0, 0, 0, _Folio, _AnoAtt, FRemision, RemisionTemp, SerieTemp, CantidadTemp, Clientep)
+
+            Dim encontrado As Boolean = False
+            For Each p As DataRow In Me.dtCantidades.Rows
+                If Convert.ToInt32(p("IdProducto")) = ProductoTemp Then
+                    p.BeginEdit()
+                    p("Cantidad") = Convert.ToInt32(p("Cantidad")) + CantidadTemp
+                    p.EndEdit()
+                    encontrado = True
+                    Exit For
+                End If
+            Next
+            If Not encontrado Then
+                Dim p As DataRow
+
+                p = Me.dtCantidades.NewRow()
+                p("IdProducto") = ProductoTemp
+                p("Cantidad") = CantidadTemp
+
+                Me.dtCantidades.Rows.Add(p)
+            End If
+
+            i = i + 1
+        End While
+
+        Cursor = Cursors.Default
+    End Sub
 End Class
