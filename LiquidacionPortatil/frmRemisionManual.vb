@@ -162,12 +162,12 @@ Public Class frmRemisionManual
         LimpiarComponentes()
         CargarProductosVarios()
 
-        'Dim _DetalleGrid As New DataTable
-        'If DtRemisiones.Rows.Count > 0 Then
-        '    If DtRemisiones.Rows.Count > 0 Then
-        '        Me.dtLiquidacionTotal = DtRemisiones
-        '    End If
-        'End If
+        Dim _DetalleGrid As New DataTable
+        If DtRemisiones.Rows.Count > 0 Then
+            If DtRemisiones.Rows.Count > 0 Then
+                Me.dtLiquidacionTotal = DtRemisiones
+            End If
+        End If
 
         If _Configuracion <> 0 Then
             Dim i As Integer = 0
@@ -343,7 +343,7 @@ Public Class frmRemisionManual
         Me.txtRemision.MaxLength = 8
         Me.txtRemision.Name = "txtRemision"
         Me.txtRemision.Size = New System.Drawing.Size(110, 20)
-        Me.txtRemision.TabIndex = 3
+        Me.txtRemision.TabIndex = 5
         Me.txtRemision.Text = "TxtNumeroEntero1"
         Me.tltLiquidacion.SetToolTip(Me.txtRemision, "Introduzca la cantidad de productos a liquidar")
         '
@@ -357,11 +357,11 @@ Public Class frmRemisionManual
         Me.grdDetalle.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.grdDetalle.HeaderFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.grdDetalle.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.grdDetalle.Location = New System.Drawing.Point(39, 391)
+        Me.grdDetalle.Location = New System.Drawing.Point(33, 395)
         Me.grdDetalle.Name = "grdDetalle"
         Me.grdDetalle.ReadOnly = True
         Me.grdDetalle.Size = New System.Drawing.Size(567, 184)
-        Me.grdDetalle.TabIndex = 23
+        Me.grdDetalle.TabIndex = 24
         Me.grdDetalle.TableStyles.AddRange(New System.Windows.Forms.DataGridTableStyle() {Me.DataGridTableStyle1})
         Me.tltLiquidacion.SetToolTip(Me.grdDetalle, "Detalle de productos liquidados")
         '
@@ -460,10 +460,10 @@ Public Class frmRemisionManual
         Me.btnBorrar.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnBorrar.Image = CType(resources.GetObject("btnBorrar.Image"), System.Drawing.Image)
         Me.btnBorrar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnBorrar.Location = New System.Drawing.Point(337, 361)
+        Me.btnBorrar.Location = New System.Drawing.Point(330, 365)
         Me.btnBorrar.Name = "btnBorrar"
         Me.btnBorrar.Size = New System.Drawing.Size(80, 24)
-        Me.btnBorrar.TabIndex = 0
+        Me.btnBorrar.TabIndex = 23
         Me.btnBorrar.Text = "Borrar"
         Me.btnBorrar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.btnBorrar, "Presione borrar para eliminar el registro seleccionado en en el detalle de produc" &
@@ -476,11 +476,10 @@ Public Class frmRemisionManual
         Me.btnAgregar.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAgregar.Image = CType(resources.GetObject("btnAgregar.Image"), System.Drawing.Image)
         Me.btnAgregar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAgregar.Location = New System.Drawing.Point(213, 361)
+        Me.btnAgregar.Location = New System.Drawing.Point(213, 365)
         Me.btnAgregar.Name = "btnAgregar"
         Me.btnAgregar.Size = New System.Drawing.Size(80, 24)
-        Me.btnAgregar.TabIndex = 0
-        Me.btnAgregar.Tag = "25"
+        Me.btnAgregar.TabIndex = 22
         Me.btnAgregar.Text = "Agregar"
         Me.btnAgregar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.btnAgregar, "Presione agregar para anexar los productos a la tabla de productos a procesar por" &
@@ -495,8 +494,7 @@ Public Class frmRemisionManual
         Me.btnAceptar.Location = New System.Drawing.Point(643, 21)
         Me.btnAceptar.Name = "btnAceptar"
         Me.btnAceptar.Size = New System.Drawing.Size(75, 23)
-        Me.btnAceptar.TabIndex = 24
-        Me.btnAceptar.Tag = "27"
+        Me.btnAceptar.TabIndex = 8
         Me.btnAceptar.Text = "Aceptar"
         Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.btnAceptar, "Presione aceptar para registrar el pedido por remisión")
@@ -517,8 +515,7 @@ Public Class frmRemisionManual
         Me.btnCancelar.Location = New System.Drawing.Point(643, 53)
         Me.btnCancelar.Name = "btnCancelar"
         Me.btnCancelar.Size = New System.Drawing.Size(75, 23)
-        Me.btnCancelar.TabIndex = 25
-        Me.btnCancelar.Tag = "28"
+        Me.btnCancelar.TabIndex = 9
         Me.btnCancelar.Text = "Cancelar"
         Me.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.btnCancelar, "Presione cancelar para no registrar el pedido por remisión")
@@ -542,7 +539,7 @@ Public Class frmRemisionManual
         Me.cboTipoCobro.Location = New System.Drawing.Point(92, 177)
         Me.cboTipoCobro.Name = "cboTipoCobro"
         Me.cboTipoCobro.Size = New System.Drawing.Size(168, 21)
-        Me.cboTipoCobro.TabIndex = 7
+        Me.cboTipoCobro.TabIndex = 5
         Me.tltLiquidacion.SetToolTip(Me.cboTipoCobro, "Seleccione la forma de cobro que realizará")
         '
         'cboZEconomica
@@ -552,7 +549,7 @@ Public Class frmRemisionManual
         Me.cboZEconomica.Location = New System.Drawing.Point(110, 143)
         Me.cboZEconomica.Name = "cboZEconomica"
         Me.cboZEconomica.Size = New System.Drawing.Size(285, 21)
-        Me.cboZEconomica.TabIndex = 6
+        Me.cboZEconomica.TabIndex = 4
         Me.tltLiquidacion.SetToolTip(Me.cboZEconomica, "Seleccione la zona económica donde se relaizó la venta")
         '
         'Btn_Modificar
@@ -564,7 +561,7 @@ Public Class frmRemisionManual
         Me.Btn_Modificar.Location = New System.Drawing.Point(421, 168)
         Me.Btn_Modificar.Name = "Btn_Modificar"
         Me.Btn_Modificar.Size = New System.Drawing.Size(96, 27)
-        Me.Btn_Modificar.TabIndex = 0
+        Me.Btn_Modificar.TabIndex = 73
         Me.Btn_Modificar.Text = "Modificar"
         Me.Btn_Modificar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.Btn_Modificar, "Presione agregar para anexar los productos a la tabla de productos a procesar por" &
@@ -600,7 +597,7 @@ Public Class frmRemisionManual
         Me.pnlProducto.Controls.Add(Me.lbltckExistencia)
         Me.pnlProducto.Controls.Add(Me.Label8)
         Me.pnlProducto.Controls.Add(Me.lbltckProducto)
-        Me.pnlProducto.Location = New System.Drawing.Point(90, 213)
+        Me.pnlProducto.Location = New System.Drawing.Point(90, 217)
         Me.pnlProducto.Name = "pnlProducto"
         Me.pnlProducto.Size = New System.Drawing.Size(432, 142)
         Me.pnlProducto.TabIndex = 21
@@ -632,8 +629,7 @@ Public Class frmRemisionManual
         Me.txtCantidad1.Location = New System.Drawing.Point(330, 26)
         Me.txtCantidad1.Name = "txtCantidad1"
         Me.txtCantidad1.Size = New System.Drawing.Size(61, 20)
-        Me.txtCantidad1.TabIndex = 10
-        Me.txtCantidad1.Tag = "10"
+        Me.txtCantidad1.TabIndex = 7
         Me.txtCantidad1.Text = "TxtNumeroEntero1"
         '
         'lbltckExistencia
@@ -696,7 +692,7 @@ Public Class frmRemisionManual
         'lblTotalKilos
         '
         Me.lblTotalKilos.ForeColor = System.Drawing.Color.Green
-        Me.lblTotalKilos.Location = New System.Drawing.Point(483, 593)
+        Me.lblTotalKilos.Location = New System.Drawing.Point(482, 596)
         Me.lblTotalKilos.Name = "lblTotalKilos"
         Me.lblTotalKilos.Size = New System.Drawing.Size(64, 16)
         Me.lblTotalKilos.TabIndex = 26
@@ -705,7 +701,7 @@ Public Class frmRemisionManual
         '
         'lblKilosLiquidados
         '
-        Me.lblKilosLiquidados.Location = New System.Drawing.Point(395, 595)
+        Me.lblKilosLiquidados.Location = New System.Drawing.Point(394, 598)
         Me.lblKilosLiquidados.Name = "lblKilosLiquidados"
         Me.lblKilosLiquidados.Size = New System.Drawing.Size(88, 16)
         Me.lblKilosLiquidados.TabIndex = 25
@@ -714,7 +710,7 @@ Public Class frmRemisionManual
         'lblTotal
         '
         Me.lblTotal.ForeColor = System.Drawing.Color.Green
-        Me.lblTotal.Location = New System.Drawing.Point(483, 609)
+        Me.lblTotal.Location = New System.Drawing.Point(482, 612)
         Me.lblTotal.Name = "lblTotal"
         Me.lblTotal.Size = New System.Drawing.Size(64, 16)
         Me.lblTotal.TabIndex = 28
@@ -723,7 +719,7 @@ Public Class frmRemisionManual
         '
         'lblTotalLiquidado
         '
-        Me.lblTotalLiquidado.Location = New System.Drawing.Point(395, 611)
+        Me.lblTotalLiquidado.Location = New System.Drawing.Point(394, 614)
         Me.lblTotalLiquidado.Name = "lblTotalLiquidado"
         Me.lblTotalLiquidado.Size = New System.Drawing.Size(88, 16)
         Me.lblTotalLiquidado.TabIndex = 27
@@ -759,7 +755,7 @@ Public Class frmRemisionManual
         Me.grbInformacion.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.grbInformacion.Location = New System.Drawing.Point(12, 9)
         Me.grbInformacion.Name = "grbInformacion"
-        Me.grbInformacion.Size = New System.Drawing.Size(606, 641)
+        Me.grbInformacion.Size = New System.Drawing.Size(606, 647)
         Me.grbInformacion.TabIndex = 0
         Me.grbInformacion.TabStop = False
         Me.grbInformacion.Text = "Productos  a procesar por remisión"
@@ -780,7 +776,7 @@ Public Class frmRemisionManual
         Me.cbxAplicaDescuento.Location = New System.Drawing.Point(283, 179)
         Me.cbxAplicaDescuento.Name = "cbxAplicaDescuento"
         Me.cbxAplicaDescuento.Size = New System.Drawing.Size(105, 16)
-        Me.cbxAplicaDescuento.TabIndex = 8
+        Me.cbxAplicaDescuento.TabIndex = 6
         Me.cbxAplicaDescuento.TabStop = False
         Me.cbxAplicaDescuento.Text = "Aplica descuento"
         '
@@ -799,7 +795,7 @@ Public Class frmRemisionManual
         Me.Btn_Buscar.Location = New System.Drawing.Point(398, 88)
         Me.Btn_Buscar.Name = "Btn_Buscar"
         Me.Btn_Buscar.Size = New System.Drawing.Size(75, 23)
-        Me.Btn_Buscar.TabIndex = 0
+        Me.Btn_Buscar.TabIndex = 31
         Me.Btn_Buscar.Text = "Buscar"
         Me.Btn_Buscar.UseVisualStyleBackColor = True
         '
@@ -818,7 +814,7 @@ Public Class frmRemisionManual
         Me.TxtCliente.Location = New System.Drawing.Point(90, 90)
         Me.TxtCliente.Name = "TxtCliente"
         Me.TxtCliente.Size = New System.Drawing.Size(285, 21)
-        Me.TxtCliente.TabIndex = 4
+        Me.TxtCliente.TabIndex = 3
         '
         'lblCliente
         '
@@ -858,7 +854,7 @@ Public Class frmRemisionManual
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
         Me.CancelButton = Me.btnCancelar
-        Me.ClientSize = New System.Drawing.Size(721, 667)
+        Me.ClientSize = New System.Drawing.Size(721, 671)
         Me.Controls.Add(Me.grbInformacion)
         Me.Controls.Add(Me.btnCancelar)
         Me.Controls.Add(Me.btnAceptar)
@@ -1141,6 +1137,21 @@ Public Class frmRemisionManual
                     drow(2) = dtpFRemision.Value 'FRemision
 
                     drow(3) = CType(dtProducto.Rows(i).Item(0), Integer) 'Producto
+                    ' Se agreg validacion de descuento
+                    Dim Descuento As Decimal
+                    If cbxAplicaDescuento.Checked Then
+                        Try
+                            Descuento = CDec(_DatosCliente.GetValue(7))
+                            Dim descuentoGrupal As Decimal
+                            descuentoGrupal = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * Descuento
+                            drow(9) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
+
+                        Catch ex As Exception
+                            Descuento = 0
+                        End Try
+                    Else
+                        drow(9) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal) 'Total
+                    End If
                     drow(4) = CType(dtProducto.Rows(i).Item(1), String) 'ProductoDesc
                     drow(5) = CType(dtProducto.Rows(i).Item(5), Integer) 'Valor
                     drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) 'Cantidad
@@ -1149,7 +1160,7 @@ Public Class frmRemisionManual
 
                     drow(7) = ((CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal))) / ((CType((dtProducto.Rows(i).Item(4)), Decimal) / 100) + 1) 'SubTotal
                     drow(8) = CType(dtProducto.Rows(i).Item(4), Decimal) 'Iva
-                    drow(9) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal) 'Total
+
                     Try
                         If TxtCliente.Text <> "" Then
                             drow("Cliente") = CType(TxtCliente.Text, Integer)
@@ -1159,7 +1170,30 @@ Public Class frmRemisionManual
                             drow("Nombre") = "Cliente Ventas Publico"
                         End If
 
-                        drow("FormaPago") = cboTipoCobro.Text
+                        If cboTipoCobro.Identificador = 18 And CBool(_DatosCliente.GetValue(3)) = True Then
+                            drow("FormaPago") = cboTipoCobro.Text
+                            If cbxAplicaDescuento.Checked Then
+                                drow("FormaPago") = cboTipoCobro.Text
+                            End If
+                        Else
+                            If cboTipoCobro.Identificador = 18 Then
+                                drow("FormaPago") = "Efectivo"
+                            Else
+                                If cboTipoCobro.Identificador = 17 And CBool(_DatosCliente.GetValue(4)) = True Then
+                                    drow("FormaPago") = cboTipoCobro.Text
+                                Else
+                                    If cboTipoCobro.Identificador = 17 Then
+                                        drow("FormaPago") = "Efectivo"
+                                    Else
+                                        drow("FormaPago") = cboTipoCobro.Text
+                                        If cbxAplicaDescuento.Checked Then
+                                            drow("FormaPago") = cboTipoCobro.Text
+                                        End If
+                                    End If
+                                End If
+                            End If
+                        End If
+
                     Finally
                     End Try
                     If Not VerificaRegistroGrid(drow) Then
@@ -1226,8 +1260,8 @@ Public Class frmRemisionManual
     End Sub
 
     Private Sub btnAgregar_Click(sender As Object, e As EventArgs) Handles btnAgregar.Click
+        'Validamos los datos capturados pertenecientes a la remision
         If _RutaMovil = False Then
-            'Validamos los datos capturados pertenecientes a la remision
             If ValidaRemision() Then
                 If VerificaDatos() Then
                     CargaGrid()
@@ -1240,6 +1274,7 @@ Public Class frmRemisionManual
         Else
             MessageBox.Show("El proceso viene de MovilGas no se puede agregar remisiones", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
+
     End Sub
 
     Private Sub btnBorrar_Click(sender As Object, e As EventArgs) Handles btnBorrar.Click
@@ -1436,7 +1471,7 @@ Public Class frmRemisionManual
                 Me.dtCantidades = New DataTable()
                 Me.dtCantidades.Columns.Add("IdProducto", GetType(Integer))
                 Me.dtCantidades.Columns.Add("Cantidad", GetType(Integer))
-                ' RealizarPedidoRemision()
+                'RealizarPedidoRemision()
                 Me.Tag = Nothing
                 Me.Tag = Me.dtCantidades
 
@@ -1448,7 +1483,7 @@ Public Class frmRemisionManual
                 Me.Close()
             Else
                 If ValidaCaptura() Then
-                    ' RealizarPedidoRemision()
+                    '  RealizarPedidoRemision()
                     Me.DialogResult() = DialogResult.OK
                     Me.Close()
                 Else
@@ -1540,6 +1575,7 @@ Public Class frmRemisionManual
             cboZEconomica.SelectedIndex = 0
             cboTipoCobro.SelectedIndex = 0
         End If
+
     End Sub
 
     Private Sub TxtCliente_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtCliente.KeyDown
@@ -1627,19 +1663,15 @@ Public Class frmRemisionManual
     End Sub
 
     Private Sub grdDetalle_CurrentCellChanged(sender As Object, e As EventArgs) Handles grdDetalle.CurrentCellChanged
-        Try
-            If _DetalleGrid.Rows.Count > 0 Then
-                i = grdDetalle.CurrentRowIndex
-                TxtCliente.Text = grdDetalle.Item(i, 2).ToString
-                cboTipoCobro.Text = grdDetalle.Item(i, 8).ToString
-                If _RutaMovil = False Then
-                    txtRemision.Text = grdDetalle.Item(i, 1).ToString
-                    txtSerie.Text = grdDetalle.Item(i, 0).ToString
-                End If
-            End If
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+        If _DetalleGrid.Rows.Count > 0 Then
+
+            i = grdDetalle.CurrentRowIndex
+            TxtCliente.Text = grdDetalle.Item(i, 2).ToString
+            cboTipoCobro.Text = grdDetalle.Item(i, 8).ToString
+        End If
+
+
+
     End Sub
 
     Private Sub lblImporte_Click(sender As Object, e As EventArgs)
@@ -1666,17 +1698,16 @@ Public Class frmRemisionManual
     End Sub
 
     Public Sub CargaGridModificado()
-        Try
+        If grdDetalle.VisibleRowCount > 0 Then
             grdDetalle.Item(i, 2) = TxtCliente.Text
             grdDetalle.Item(i, 3) = lblNombreCliente.Text
             grdDetalle.Item(i, 8) = cboTipoCobro.Text
-            If _RutaMovil = False Then
-                grdDetalle.Item(i, 0) = txtSerie.Text
-                grdDetalle.Item(i, 1) = txtRemision.Text
-            End If
             _DetalleGrid = CType(grdDetalle.DataSource, DataTable)
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+        End If
+    End Sub
+
+    Public Sub ValidarDescuento()
+
+
     End Sub
 End Class
