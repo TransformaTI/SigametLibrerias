@@ -880,7 +880,7 @@ Public Class ConsultaMovimientos
         _Modulo = Modulo
         _ModuloUsuario = ModuloUsuario
         _ModuloEmpleado = ModuloEmpleado
-        _URLGateway = URLGateway
+        _URLGateway = URLGateway.Trim
     End Sub
 
     Public Sub CargaDatos()
@@ -1386,10 +1386,17 @@ Public Class ConsultaMovimientos
     End Sub
 
     Private Sub ConsultarDocumento()
+        Dim oConsultaDocumento As ConsultaCargo
+
         If _Documento <> "" Then
             Cursor = Cursors.WaitCursor
-            Dim oConsultaDocumento As New ConsultaCargo(_Documento)
-            oConsultaDocumento.ShowDialog()
+            If _URLGateway > "" Then
+                oConsultaDocumento = New ConsultaCargo(_Documento, _URLGateway)
+                oConsultaDocumento.ShowDialog()
+            Else
+                oConsultaDocumento = New ConsultaCargo(_Documento)
+                oConsultaDocumento.ShowDialog()
+            End If
             Cursor = Cursors.Default
         End If
     End Sub

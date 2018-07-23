@@ -2369,7 +2369,7 @@ Public Class frmConsultaCliente
 
     Private Sub btnConsultaDocumento_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultaDocumento.Click
         Cursor = Cursors.WaitCursor
-        Dim frmConsultaCargo As New ConsultaCargo(_PedidoReferencia,,)
+        Dim frmConsultaCargo As New ConsultaCargo(_PedidoReferencia)
         frmConsultaCargo.ShowDialog()
         Cursor = Cursors.Default
     End Sub
