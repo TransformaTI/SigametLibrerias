@@ -6113,15 +6113,17 @@ Public Class frmLiquidacionPortatil
             End If
             TotalLiquidado = TotalLiquidado + Cobro.Total
         Next
-        lblTotalCobro.Text = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
-        lblEfectivo.Text = TotalEfectivo.ToString("N2")
-        lblVales.Text = TotalVales.ToString("N2")
-        lblTransferElect.Text = TotalTransferencia.ToString("N2")
-        lblTarjDebCred.Text = TotalTarjeta.ToString("N2")
-        lblAplicAnticipo.Text = TotalAnticipo.ToString("N2")
-        lblCheque.Text = TotalCheques.ToString("N2")
-        lblVentaTotal.Text = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
-        lblCredito.Text = calcularCredito(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
+        If grdDetalle.VisibleRowCount > 0 Then
+            lblTotalCobro.Text = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
+            lblEfectivo.Text = TotalEfectivo.ToString("N2")
+            lblVales.Text = TotalVales.ToString("N2")
+            lblTransferElect.Text = TotalTransferencia.ToString("N2")
+            lblTarjDebCred.Text = TotalTarjeta.ToString("N2")
+            lblAplicAnticipo.Text = TotalAnticipo.ToString("N2")
+            lblCheque.Text = TotalCheques.ToString("N2")
+            lblVentaTotal.Text = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
+            lblCredito.Text = calcularCredito(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
+        End If
     End Sub
 
     Private Function calcularVentaTotal(dt As DataTable) As Decimal
