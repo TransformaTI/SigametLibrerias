@@ -60,8 +60,9 @@ Public Class frmCatCuentaBancariaCliente
         Try
             If Secuencia > 0 Then
                 Dim TipoMovimiento As String = "Actualizar"
-                CatalogoAltaEditaCuentaBancariaCliente(TipoMovimiento, Secuencia, clienteActualizar)
-            End If
+				CatalogoAltaEditaCuentaBancariaCliente(TipoMovimiento, Secuencia, clienteActualizar)
+				ConsultaRefrescar()
+			End If
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try

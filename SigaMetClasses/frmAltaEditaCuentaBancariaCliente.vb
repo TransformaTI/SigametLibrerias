@@ -49,8 +49,10 @@ Public Class frmAltaEditaCuentaBancariaCliente
                     Txtb_calle.Text = CType(dr("CalleNombre"), String)
                     Txtb_Colonia.Text = CType(dr("ColoniaNombre"), String)
                     Txtb_Municipio.Text = CType(dr("MunicipioNombre"), String)
-                    TxtBox_Ruta.Text = CType(dr("RutaDescripcion"), String)
-                    If Trim(CType(dr("Status"), String)) = "INACTIVO" Then
+					TxtBox_Ruta.Text = CType(dr("RutaDescripcion"), String)
+
+
+					If Trim(CType(dr("Status"), String)) = "INACTIVO" Then
                         MessageBox.Show("El cliente está inactivo, buscar un cliente Activo", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         _statusCliente = False
                     Else
@@ -186,8 +188,13 @@ Public Class frmAltaEditaCuentaBancariaCliente
                 Txtb_calle.Text = CType(dr("CalleNombre"), String)
                 Txtb_Colonia.Text = CType(dr("ColoniaNombre"), String)
                 Txtb_Municipio.Text = CType(dr("MunicipioNombre"), String)
-                TxtBox_Ruta.Text = CType(dr("RutaDescripcion"), String)
-            Next
+				TxtBox_Ruta.Text = CType(dr("RutaDescripcion"), String)
+				If Trim(CType(dr("Status"), String)) = "INACTIVO" Then
+					_statusCliente = False
+				Else
+					_statusCliente = True
+				End If
+			Next
 
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Consulta de cliente", MessageBoxButtons.OK, MessageBoxIcon.Error)
