@@ -1352,20 +1352,21 @@ Public Class ConsultaCargo
         ConsultaCatalogoFiltros()
     End Sub
 
-    Public Sub New(ByVal strURLGateway As String)
-        MyBase.New()
-        InitializeComponent()
-        _URLGateway = strURLGateway
+    'Public Sub New(ByVal strURLGateway As String)
+    '    MyBase.New()
+    '    InitializeComponent()
+    '    _URLGateway = strURLGateway
 
-        ConsultaCatalogoFiltros()
-    End Sub
+    '    ConsultaCatalogoFiltros()
+    'End Sub
 
     Public Sub New(ByVal strPedidoReferencia As String,
-          Optional ByVal VentanaDefault As enumConsultaCargo = enumConsultaCargo.DatosPedido,
-          Optional ByVal strURLGateway As String = "")
+          ByVal strURLGateway As String,
+          Optional ByVal VentanaDefault As enumConsultaCargo = enumConsultaCargo.DatosPedido)
 
         MyBase.New()
         InitializeComponent()
+        _PedidoReferencia = strPedidoReferencia.Trim
         txtPedidoReferencia.Text = strPedidoReferencia.Trim.ToUpper
         lblPedidoReferencia.Text = txtPedidoReferencia.Text
         lblPedidoReferencia.Visible = True
@@ -1373,12 +1374,45 @@ Public Class ConsultaCargo
         txtPedidoReferencia.Enabled = False
         lblPedidoReferencia.BorderStyle = BorderStyle.None
         btnBuscar.Visible = False
-        _URLGateway = strURLGateway
+        _URLGateway = strURLGateway.Trim
 
         cboTipoBusqueda.Enabled = False
         ConsultaCatalogoFiltros()
 
-        ConsultaDocumento(strPedidoReferencia)
+        ConsultaDocumento(_PedidoReferencia, _URLGateway)
+        'Mejorar
+        If VentanaDefault = enumConsultaCargo.DatosCheque Then
+            Me.tabDatos.SelectedTab = Me.tpCheque
+        End If
+
+        If VentanaDefault = enumConsultaCargo.HistoricoAbonos Then
+            Me.tabDatos.SelectedTab = Me.tpHistoricoAbono
+        End If
+
+        If VentanaDefault = enumConsultaCargo.HistoricoGestiones Then
+            Me.tabDatos.SelectedTab = Me.tpHistoricoGestion
+        End If
+
+    End Sub
+
+    Public Sub New(ByVal strPedidoReferencia As String,
+          Optional ByVal VentanaDefault As enumConsultaCargo = enumConsultaCargo.DatosPedido)
+
+        MyBase.New()
+        InitializeComponent()
+        _PedidoReferencia = strPedidoReferencia.Trim
+        txtPedidoReferencia.Text = strPedidoReferencia.Trim.ToUpper
+        lblPedidoReferencia.Text = txtPedidoReferencia.Text
+        lblPedidoReferencia.Visible = True
+        txtPedidoReferencia.Visible = False
+        txtPedidoReferencia.Enabled = False
+        lblPedidoReferencia.BorderStyle = BorderStyle.None
+        btnBuscar.Visible = False
+
+        cboTipoBusqueda.Enabled = False
+        ConsultaCatalogoFiltros()
+
+        ConsultaDocumento(_PedidoReferencia)
         'Mejorar
         If VentanaDefault = enumConsultaCargo.DatosCheque Then
             Me.tabDatos.SelectedTab = Me.tpCheque
@@ -1640,91 +1674,91 @@ Public Class ConsultaCargo
         Dim objGateway As RTGMGateway.RTGMPedidoGateway
         Dim objSolicitud As RTGMGateway.SolicitudPedidoGateway
         Dim lstPedidos As New Generic.List(Of RTGMCore.Pedido)
-        Dim Referencia As Integer
+        'Dim Referencia As Integer
 
         Try
             LimpiaCajas()
-            Referencia = Convert.ToInt32(PedidoReferencia)
+            'Referencia = Convert.ToInt32(PedidoReferencia)
 
-            If (Referencia > 0) Then
-                objGateway = New RTGMGateway.RTGMPedidoGateway
-                objGateway.URLServicio = URLGateway
+            'If (Referencia > 0) Then
+            objGateway = New RTGMGateway.RTGMPedidoGateway
+            objGateway.URLServicio = URLGateway
 
-                objSolicitud = New RTGMGateway.SolicitudPedidoGateway With {
-                    .IDEmpresa = 0,
-                    .FuenteDatos = RTGMCore.Fuente.Sigamet,
-                    .TipoConsultaPedido = RTGMCore.TipoConsultaPedido.Boletin,
-                    .IDDireccionEntrega = Referencia,
-                    .FechaCompromisoInicio = DateTime.Now.Date,
-                    .IDZona = 201,
-                    .EstatusBoletin = "BOLETIN",
-                    .Portatil = False,
-                    .IDUsuario = Nothing,
-                    .IDSucursal = Nothing,
-                    .FechaCompromisoFin = Nothing,
-                    .FechaSuministroInicio = Nothing,
-                    .FechaSuministroFin = Nothing,
-                    .IDRutaOrigen = Nothing,
-                    .IDRutaBoletin = Nothing,
-                    .IDRutaSuministro = Nothing,
-                    .IDEstatusPedido = Nothing,
-                    .EstatusPedidoDescripcion = Nothing,
-                    .IDEstatusBoletin = Nothing,
-                    .IDEstatusMovil = Nothing,
-                    .EstatusMovilDescripcion = Nothing,
-                    .IDAutotanque = Nothing,
-                    .IDAutotanqueMovil = Nothing,
-                    .SerieRemision = Nothing,
-                    .FolioRemision = Nothing,
-                    .SerieFactura = Nothing,
-                    .FolioFactura = Nothing,
-                    .IDZonaLecturista = Nothing,
-                    .TipoPedido = Nothing,
-                    .TipoServicio = Nothing,
-                    .AñoPed = Nothing,
-                    .IDPedido = Nothing,
-                    .PedidoReferencia = Nothing
-                }
+            objSolicitud = New RTGMGateway.SolicitudPedidoGateway With {
+                .IDEmpresa = 1,
+                .FuenteDatos = RTGMCore.Fuente.Sigamet,
+                .TipoConsultaPedido = RTGMCore.TipoConsultaPedido.Boletin,
+                .IDDireccionEntrega = Nothing,
+                .FechaCompromisoInicio = DateTime.Now.Date,
+                .IDZona = Nothing,
+                .EstatusBoletin = "BOLETIN",
+                .Portatil = False,
+                .IDUsuario = Nothing,
+                .IDSucursal = Nothing,
+                .FechaCompromisoFin = Nothing,
+                .FechaSuministroInicio = Nothing,
+                .FechaSuministroFin = Nothing,
+                .IDRutaOrigen = Nothing,
+                .IDRutaBoletin = Nothing,
+                .IDRutaSuministro = Nothing,
+                .IDEstatusPedido = Nothing,
+                .EstatusPedidoDescripcion = Nothing,
+                .IDEstatusBoletin = Nothing,
+                .IDEstatusMovil = Nothing,
+                .EstatusMovilDescripcion = Nothing,
+                .IDAutotanque = Nothing,
+                .IDAutotanqueMovil = Nothing,
+                .SerieRemision = Nothing,
+                .FolioRemision = Nothing,
+                .SerieFactura = Nothing,
+                .FolioFactura = Nothing,
+                .IDZonaLecturista = Nothing,
+                .TipoPedido = Nothing,
+                .TipoServicio = Nothing,
+                .AñoPed = Nothing,
+                .IDPedido = Nothing,
+                .PedidoReferencia = PedidoReferencia
+            }
 
-                lstPedidos = objGateway.buscarPedidos(objSolicitud)
+            lstPedidos = objGateway.buscarPedidos(objSolicitud)
 
-                If lstPedidos.Count > 0 Then
-                    lblPedido.Text = lstPedidos(0).PedidoReferencia.Trim
+            If lstPedidos.Count > 0 Then
+                lblPedido.Text = lstPedidos(0).PedidoReferencia.Trim
 
-                    lblAnoPed.Text = lstPedidos(0).AnioPed.ToString
+                lblAnoPed.Text = lstPedidos(0).AnioPed.ToString
 
-                    lblTipoDocumento.Text = lstPedidos(0).TipoCargo.Trim
+                lblTipoDocumento.Text = lstPedidos(0).TipoCargo.Trim
 
-                    lblStatusPedido.Text = lstPedidos(0).EstatusPedido.Trim
+                lblStatusPedido.Text = lstPedidos(0).EstatusPedido.Trim
 
-                    lblStatusCobranza.Text = lstPedidos(0).EstatusPedido.Trim
+                lblStatusCobranza.Text = lstPedidos(0).EstatusPedido.Trim
 
-                    If Not IsNothing(lstPedidos(0).DireccionEntrega) Then
-                        lblCliente.Text = lstPedidos(0).DireccionEntrega.IDDireccionEntrega & " " &
-                            lstPedidos(0).DireccionEntrega.Nombre.Trim
-                    End If
+                If Not IsNothing(lstPedidos(0).DireccionEntrega) Then
+                    lblCliente.Text = lstPedidos(0).DireccionEntrega.IDDireccionEntrega & " " &
+                        lstPedidos(0).DireccionEntrega.Nombre.Trim
+                End If
 
-                    If Not IsNothing(lstPedidos(0).RutaSuministro) Then
-                        lblRutaSuministro.Text = lstPedidos(0).RutaSuministro.Descripcion
-                    End If
+                If Not IsNothing(lstPedidos(0).RutaSuministro) Then
+                    lblRutaSuministro.Text = lstPedidos(0).RutaSuministro.Descripcion
+                End If
 
-                    lblFCargo.Text = lstPedidos(0).FCargo.ToString
+                lblFCargo.Text = lstPedidos(0).FCargo.ToString
 
-                    If Not IsNothing(lstPedidos(0).Importe) Then
-                        lblImporte.Text = CDec(lstPedidos(0).Importe).ToString("C")
-                    End If
+                If Not IsNothing(lstPedidos(0).Importe) Then
+                    lblImporte.Text = CDec(lstPedidos(0).Importe).ToString("C")
+                End If
 
-                    If Not IsNothing(lstPedidos(0).Saldo) Then
-                        lblSaldo.Text = CDec(lstPedidos(0).Saldo).ToString("C")
-                    End If
-                Else
-                    MessageBox.Show("No se encontró la referencia.", Me.Titulo,
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If Not IsNothing(lstPedidos(0).Saldo) Then
+                    lblSaldo.Text = CDec(lstPedidos(0).Saldo).ToString("C")
                 End If
             Else
-                MessageBox.Show("Introduzca un número de documento válido.",
-                    Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                MessageBox.Show("No se encontró la referencia.", Me.Titulo,
+                                MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
+            'Else
+            '    MessageBox.Show("Introduzca un número de documento válido.",
+            '        Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            'End If
         Catch ex As System.OverflowException
             MessageBox.Show("Introduzca un número de documento válido.",
              Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
