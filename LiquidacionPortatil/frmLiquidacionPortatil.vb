@@ -6489,8 +6489,10 @@ Public Class frmLiquidacionPortatil
         '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(119151, 90632)
         grdDetalle.DataSource = _DetalleGrid
 
-        TotalKilos = Convert.ToDecimal(_DetalleGrid.Compute("SUM(Kilos)", String.Empty))
-        lblTotalKilos.Text = Convert.ToString(TotalKilos)
+        If _DetalleGrid.Rows.Count > 0 Then
+            TotalKilos = Convert.ToDecimal(_DetalleGrid.Compute("SUM(Kilos)", String.Empty))
+            lblTotalKilos.Text = Convert.ToString(TotalKilos)
+        End If
     End Sub
 
     Public Function AltaPagoEfectivo(PagoNum As Integer) As SigaMetClasses.CobroDetalladoDatos
