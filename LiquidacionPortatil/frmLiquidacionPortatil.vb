@@ -5726,23 +5726,23 @@ Public Class frmLiquidacionPortatil
                 '               Dim dr() As DataRow = oProductoRemManuales.Select("producto=" + item("producto").ToString())
                 row = _DetalleGrid.NewRow()
                 row("Serie") = item("Serie")
-                    row("Remision") = item("Remision")
-                    If item("Cliente").ToString = Nothing Then
-                        row("Cliente") = _ClienteVentasPublico
-                        row("Nombre") = "Cliente Ventas Publico"
-                    Else
-                        row("Cliente") = item("Cliente")
-                        row("Nombre") = item("Nombre")
-                    End If
-                    row("Kilos") = Convert.ToInt64(item("Valor"))
-                    row("descuento") = 0
-                    row("Importe") = item("TotalNeto")
-                    row("Saldo") = item("TotalNeto")
-                    row("Descripcion") = item("ProductoDescripcion")
-                    row("Cantidad") = item("Cantidad")
-                    row("producto") = item("producto")
-                    row("zonaeconomica") = cboZEconomica.Text
-                    row("FormaPago") = item("FormaPago")
+                row("Remision") = item("Remision")
+                If item("Cliente").ToString = Nothing Then
+                    row("Cliente") = _ClienteVentasPublico
+                    row("Nombre") = "Cliente Ventas Publico"
+                Else
+                    row("Cliente") = item("Cliente")
+                    row("Nombre") = item("Nombre")
+                End If
+                row("Kilos") = Convert.ToInt64(item("Valor"))
+                row("descuento") = 0
+                row("Importe") = item("TotalNeto")
+                row("Saldo") = item("TotalNeto")
+                row("Descripcion") = item("ProductoDescripcion")
+                row("Cantidad") = item("Cantidad")
+                row("producto") = item("producto")
+                row("zonaeconomica") = cboZEconomica.Text
+                row("FormaPago") = item("FormaPago")
 
                 _DetalleGrid.Rows.Add(row)
             Next
@@ -6602,35 +6602,31 @@ Public Class frmLiquidacionPortatil
 
 
     Private Sub grdDetalle_Click(sender As Object, e As EventArgs) Handles grdDetalle.Click
-
         Dim producto As String = ""
         Dim Total As Integer = 0
 
-        TxtCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Cliente").ToString()
-        lblNombreCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Nombre").ToString()
-        cboZEconomica.SelectedIndex = cboZEconomica.FindString(_DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("zonaeconomica").ToString())
-        ' TxtSerie.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Serie").ToString()
-        ' TxtRemision.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Remision").ToString()
-        producto = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("producto").ToString()
+        If grdDetalle.VisibleRowCount > 0 Then
+            TxtCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Cliente").ToString()
+            lblNombreCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Nombre").ToString()
+            cboZEconomica.SelectedIndex = cboZEconomica.FindString(_DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("zonaeconomica").ToString())
+            ' TxtSerie.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Serie").ToString()
+            ' TxtRemision.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Remision").ToString()
+            producto = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("producto").ToString()
 
+            For Each row As DataRow In _DetalleGrid.Rows
+                If (row.Item("cliente").ToString() = TxtCliente.Text And _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Serie").ToString() = row.Item("serie").ToString() And row.Item("producto").ToString() = producto) Then
 
-        For Each row As DataRow In _DetalleGrid.Rows
-            If (row.Item("cliente").ToString() = TxtCliente.Text And _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Serie").ToString() = row.Item("serie").ToString() And row.Item("producto").ToString() = producto) Then
+                    Total = Total + Convert.ToInt16(row.Item("cantidad").ToString())
 
-                Total = Total + Convert.ToInt16(row.Item("cantidad").ToString())
+                End If
+            Next
 
-            End If
-        Next
-
-        For Each ctrl As Control In pnlProducto.Controls
-
-
-            If (ctrl.Name.Contains("pdto" + producto.ToString().Trim())) Then
-
-                ctrl.Text = Total.ToString()
-            End If
-
-        Next
+            For Each ctrl As Control In pnlProducto.Controls
+                If (ctrl.Name.Contains("pdto" + producto.ToString().Trim())) Then
+                    ctrl.Text = Total.ToString()
+                End If
+            Next
+        End If
     End Sub
 
 
