@@ -5681,75 +5681,85 @@ Public Class frmLiquidacionPortatil
         Else
             Cliente = _ClienteVentasPublico
         End If
-        dtRemisiones = oLiquidacionPedido.ConsultaPedidoPortatilCapturaManual(cboZEconomica.Identificador, _AnoAtt, _Folio, Cliente, cboTipoCobro.Identificador)
-        Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente)
-        oRemisionManual.RutamovilGas = _BoletinEnLineaCamion
-        oRemisionManual.ClienteVentasPublico = _ClienteVentasPublico
-        oRemisionManual.ClienteNormal = _ClienteNormal
-        'oRemisionManual.ZonaEconomicaClienteNormal = _ZonaEconomicaClienteNormal
-        oRemisionManual.TipoCobroClienteVentasPublico = _TipoCobroClienteVentasPublico
-        oRemisionManual.TipoCobroClienteNormal = _TipoCobroClienteNormal
-        oRemisionManual.Usuario = _Usuario
-        oRemisionManual.DatosCliente = _DatosCliente
-        oRemisionManual.DetalleGrid = _DetalleGrid
-        grdDetalle.DataSource = Nothing
-        oRemisionManual.ShowDialog()
-        oRemisionManual.TipoCobroClienteNormal = _TipoCobroClienteNormal
+        Try
+            dtRemisiones = oLiquidacionPedido.ConsultaPedidoPortatilCapturaManual(cboZEconomica.Identificador, _AnoAtt, _Folio, Cliente, cboTipoCobro.Identificador)
+            Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente)
+            oRemisionManual.RutamovilGas = _BoletinEnLineaCamion
+            oRemisionManual.ClienteVentasPublico = _ClienteVentasPublico
+            oRemisionManual.ClienteNormal = _ClienteNormal
+            'oRemisionManual.ZonaEconomicaClienteNormal = _ZonaEconomicaClienteNormal
+            oRemisionManual.TipoCobroClienteVentasPublico = _TipoCobroClienteVentasPublico
+            oRemisionManual.TipoCobroClienteNormal = _TipoCobroClienteNormal
+            oRemisionManual.Usuario = _Usuario
+            oRemisionManual.DatosCliente = _DatosCliente
+            oRemisionManual.DetalleGrid = _DetalleGrid
+            grdDetalle.DataSource = Nothing
+            oRemisionManual.ShowDialog()
+            oRemisionManual.TipoCobroClienteNormal = _TipoCobroClienteNormal
 
-        If oRemisionManual.DialogResult = DialogResult.OK Then
-            dtCantidades.Clear()
-            dtCantidades = CType(oRemisionManual.Tag, DataTable)
-            Dim dataView As New DataView(dtCantidades)
-            dataView.Sort = "IdProducto ASC"
-            Dim dataTable As DataTable = dataView.ToTable()
-            dtCantidades = dataTable
+            If oRemisionManual.DialogResult = DialogResult.OK Then
+                dtCantidades.Clear()
+                dtCantidades = CType(oRemisionManual.Tag, DataTable)
+                Dim dataView As New DataView(dtCantidades)
+                dataView.Sort = "IdProducto ASC"
+                Dim dataTable As DataTable = dataView.ToTable()
+                dtCantidades = dataTable
 
-            Dim i As Integer
+                Dim i As Integer
 
-            For Each p As DataRow In dtCantidades.Rows
-                While i < pdtoLista.Count
-                    If Convert.ToInt32(pdtoLista.Item(i)) = Convert.ToInt32(p("IdProducto")) Then
-                        CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text = p("Cantidad").ToString()
-                        CType(lblLista.Item(i), System.Windows.Forms.Label).Text = CType(CType(CType(lblLista.Item(i), System.Windows.Forms.Label).Text, Integer) - CType(p("Cantidad"), Integer), String)
-                        Exit While
-                    End If
-                    i = i + 1
-                End While
-            Next
-            banderaRemisionManual = True
+                For Each p As DataRow In dtCantidades.Rows
+                    While i < pdtoLista.Count
+                        If Convert.ToInt32(pdtoLista.Item(i)) = Convert.ToInt32(p("IdProducto")) Then
+                            CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text = p("Cantidad").ToString()
+                            CType(lblLista.Item(i), System.Windows.Forms.Label).Text = CType(CType(CType(lblLista.Item(i), System.Windows.Forms.Label).Text, Integer) - CType(p("Cantidad"), Integer), String)
+                            Exit While
+                        End If
+                        i = i + 1
+                    End While
+                Next
+                banderaRemisionManual = True
 
-            dtRemisionesManuales = oRemisionManual.Remisiones
-            _DetalleGrid.Rows.Clear()
 
-            For Each item As DataRow In dtRemisionesManuales.Rows
 
-                '               Dim dr() As DataRow = oProductoRemManuales.Select("producto=" + item("producto").ToString())
-                row = _DetalleGrid.NewRow()
-                row("Serie") = item("Serie")
-                row("Remision") = item("Remision")
-                If item("Cliente").ToString = Nothing Then
-                    row("Cliente") = _ClienteVentasPublico
-                    row("Nombre") = "Cliente Ventas Publico"
-                Else
-                    row("Cliente") = item("Cliente")
-                    row("Nombre") = item("Nombre")
+                dtRemisionesManuales = oRemisionManual.Remisiones
+                If dtRemisionesManuales.Rows.Count > 0 Then
+                    '_DetalleGrid.Rows.Clear()
+
+                    For Each item As DataRow In dtRemisionesManuales.Rows
+
+                        '               Dim dr() As DataRow = oProductoRemManuales.Select("producto=" + item("producto").ToString())
+                        row = _DetalleGrid.NewRow()
+                        row("Serie") = item("Serie")
+                        row("Remision") = item("Remision")
+                        If item("Cliente").ToString = Nothing Then
+                            row("Cliente") = _ClienteVentasPublico
+                            row("Nombre") = "Cliente Ventas Publico"
+                        Else
+                            row("Cliente") = item("Cliente")
+                            row("Nombre") = item("Nombre")
+                        End If
+                        row("Kilos") = Convert.ToInt64(item("Valor"))
+                        row("descuento") = 0
+                        row("Importe") = item("TotalNeto")
+                        row("Saldo") = item("TotalNeto")
+                        row("Descripcion") = item("ProductoDescripcion")
+                        row("Cantidad") = item("Cantidad")
+                        row("producto") = item("producto")
+                        row("zonaeconomica") = cboZEconomica.Text
+                        row("FormaPago") = item("FormaPago")
+
+                        _DetalleGrid.Rows.Add(row)
+                    Next
                 End If
-                row("Kilos") = Convert.ToInt64(item("Valor"))
-                row("descuento") = 0
-                row("Importe") = item("TotalNeto")
-                row("Saldo") = item("TotalNeto")
-                row("Descripcion") = item("ProductoDescripcion")
-                row("Cantidad") = item("Cantidad")
-                row("producto") = item("producto")
-                row("zonaeconomica") = cboZEconomica.Text
-                row("FormaPago") = item("FormaPago")
 
-                _DetalleGrid.Rows.Add(row)
-            Next
+                grdDetalle.DataSource = _DetalleGrid
+            Else
+                    grdDetalle.DataSource = _DetalleGrid
+            End If
 
-            grdDetalle.DataSource = _DetalleGrid
-
-        End If
+        Catch ex As Exception
+            Throw ex
+        End Try
     End Sub
 
     Private Sub ValidarInformacionGrid(ByVal valorABuscar As String)
@@ -6129,22 +6139,24 @@ Public Class frmLiquidacionPortatil
     Private Function calcularVentaTotal(dt As DataTable) As Decimal
         Dim VentaTotal As Decimal = 0
 
-        For Each dr As DataRow In dt.Rows
-            VentaTotal = VentaTotal + Convert.ToDecimal(dr("importe").ToString())
-        Next
-
+        If Not dt Is Nothing Then
+            For Each dr As DataRow In dt.Rows
+                VentaTotal = VentaTotal + Convert.ToDecimal(dr("importe").ToString())
+            Next
+        End If
         Return VentaTotal
     End Function
 
     Private Function calcularCredito(dt As DataTable) As Decimal
         Dim VentaCredito As Decimal = 0
 
-        For Each dr As DataRow In dt.Rows
-            If dr("FormaPago").ToString() = "CREDITO" Then
-                VentaCredito = VentaCredito + Convert.ToDecimal(dr("Importe").ToString())
-            End If
-        Next
-
+        If Not dt Is Nothing Then
+            For Each dr As DataRow In dt.Rows
+                If dr("FormaPago").ToString() = "CREDITO" Then
+                    VentaCredito = VentaCredito + Convert.ToDecimal(dr("Importe").ToString())
+                End If
+            Next
+        End If
         Return VentaCredito
     End Function
 
@@ -6612,6 +6624,7 @@ Public Class frmLiquidacionPortatil
         Dim producto As String = ""
         Dim Total As Integer = 0
 
+
         If grdDetalle.VisibleRowCount > 0 Then
             TxtCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Cliente").ToString()
             lblNombreCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Nombre").ToString()
@@ -6760,11 +6773,14 @@ Public Class frmLiquidacionPortatil
             If Not encontrado Then
                 Dim p As DataRow
 
-                p = Me.dtCantidades.NewRow()
-                p("IdProducto") = ProductoTemp
-                p("Cantidad") = CantidadTemp
+                If Me.dtCantidades.Rows.Count > 0 And Me.dtCantidades.Columns.Count > 0 Then
+                    p = Me.dtCantidades.NewRow()
+                    p("IdProducto") = ProductoTemp
+                    p("Cantidad") = CantidadTemp
 
-                Me.dtCantidades.Rows.Add(p)
+                    Me.dtCantidades.Rows.Add(p)
+                End If
+
             End If
 
             i = i + 1
