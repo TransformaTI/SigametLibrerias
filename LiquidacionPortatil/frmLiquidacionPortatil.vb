@@ -54,7 +54,7 @@ Public Class frmLiquidacionPortatil
     Private _Configuracion As Integer
 
     Private _listaCobros As New List(Of SigaMetClasses.CobroDetalladoDatos)
-    Private _ListaCobroRemisiones As List(Of SigaMetClasses.CobroRemisiones)
+    Private _ListaCobroRemisiones As New List(Of SigaMetClasses.CobroRemisiones)
     Private _RutaMovil As Boolean
     Public Property Cobros() As List(Of SigaMetClasses.CobroDetalladoDatos)
         Get
@@ -6297,7 +6297,9 @@ Public Class frmLiquidacionPortatil
                     _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
                 End If
                 ActualizarTotalizadorFormasDePago(_listaCobros)
-                _ListaCobroRemisiones = frmSeleTipoCobro.CobroRemisiones
+                If frmSeleTipoCobro.CobroRemisiones.Count > 0 Then
+                    _ListaCobroRemisiones.Add(frmSeleTipoCobro.CobroRemisiones(0))
+                End If
                 Cursor = Cursors.WaitCursor
                 Cursor = Cursors.Default
             End If
