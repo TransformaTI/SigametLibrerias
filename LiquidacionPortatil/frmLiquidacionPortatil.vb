@@ -6350,8 +6350,6 @@ Public Class frmLiquidacionPortatil
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
         If grdDetalle.VisibleRowCount > 0 Then
-            RealizarPedidoRemision()
-            CargaTablaLiquidacion()
             Dim validar As Boolean
             validar = Validacion()
             If validar = True Then
@@ -6367,6 +6365,8 @@ Public Class frmLiquidacionPortatil
                             Exit Sub
                         End If
                     End If
+
+                    CargaTablaLiquidacion()
 
                     If grdDetalle.VisibleRowCount > 0 Then
 
@@ -6421,6 +6421,7 @@ Public Class frmLiquidacionPortatil
                                             arrCambio = ofrmCambioPortatil.Efectivo.CalculaDenominaciones
                                             Cursor = Cursors.WaitCursor
                                             RealizarLiquidacion()
+                                            RealizarPedidoRemision()
                                             _Liquidado = True
                                             Me.DialogResult() = DialogResult.OK
                                             Me.Close()
@@ -6434,6 +6435,7 @@ Public Class frmLiquidacionPortatil
                                         'arrVales = Vales.CalculaDenominaciones
                                         Cursor = Cursors.WaitCursor
                                         RealizarLiquidacion()
+                                        RealizarPedidoRemision()
                                         _Liquidado = True
                                         Me.DialogResult() = DialogResult.OK
                                         Me.Close()
@@ -6762,7 +6764,8 @@ Public Class frmLiquidacionPortatil
 
             Dim encontrado As Boolean = False
             For Each p As DataRow In Me.dtCantidades.Rows
-                If Convert.ToInt32(p("IdProducto")) = ProductoTemp Then
+                'If Convert.ToInt32(p("IdProducto")) = ProductoTemp Then
+                If Convert.ToInt32(p("Producto")) = ProductoTemp Then
                     p.BeginEdit()
                     p("Cantidad") = Convert.ToInt32(p("Cantidad")) + CantidadTemp
                     p.EndEdit()
@@ -6775,7 +6778,8 @@ Public Class frmLiquidacionPortatil
 
                 If Me.dtCantidades.Rows.Count > 0 And Me.dtCantidades.Columns.Count > 0 Then
                     p = Me.dtCantidades.NewRow()
-                    p("IdProducto") = ProductoTemp
+                    'p("IdProducto") = ProductoTemp
+                    p("Producto") = ProductoTemp
                     p("Cantidad") = CantidadTemp
 
                     Me.dtCantidades.Rows.Add(p)
