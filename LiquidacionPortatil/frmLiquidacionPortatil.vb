@@ -5754,7 +5754,7 @@ Public Class frmLiquidacionPortatil
 
                 grdDetalle.DataSource = _DetalleGrid
             Else
-                    grdDetalle.DataSource = _DetalleGrid
+                grdDetalle.DataSource = _DetalleGrid
             End If
 
         Catch ex As Exception
@@ -6065,6 +6065,7 @@ Public Class frmLiquidacionPortatil
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.fecha = fechaCargo
+        frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -6084,9 +6085,10 @@ Public Class frmLiquidacionPortatil
                     _listaDebitoAnticipos.Add(Debito)
                 Next
             End If
-
-
             ActualizarTotalizadorFormasDePago(_listaCobros)
+            If frmSeleTipoCobro.CobroRemisiones.Count > 0 Then
+                _ListaCobroRemisiones.Add(frmSeleTipoCobro.CobroRemisiones(0))
+            End If
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
@@ -6168,6 +6170,7 @@ Public Class frmLiquidacionPortatil
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.TipoLiquidacion = "LiqPortatil"
         frmSeleTipoCobro.fecha = fechaCargo
+        frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -6178,6 +6181,9 @@ Public Class frmLiquidacionPortatil
                 _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
             End If
             ActualizarTotalizadorFormasDePago(_listaCobros)
+            If frmSeleTipoCobro.CobroRemisiones.Count > 0 Then
+                _ListaCobroRemisiones.Add(frmSeleTipoCobro.CobroRemisiones(0))
+            End If
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
@@ -6190,9 +6196,11 @@ Public Class frmLiquidacionPortatil
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.fecha = fechaCargo
+        frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
+
             Else
                 For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
                     _listaCobros.Add(Cobro)
@@ -6200,6 +6208,9 @@ Public Class frmLiquidacionPortatil
                 _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
             End If
             ActualizarTotalizadorFormasDePago(_listaCobros)
+            If frmSeleTipoCobro.CobroRemisiones.Count > 0 Then
+                _ListaCobroRemisiones.Add(frmSeleTipoCobro.CobroRemisiones(0))
+            End If
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
@@ -6212,6 +6223,7 @@ Public Class frmLiquidacionPortatil
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.fecha = fechaCargo
+        frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -6222,6 +6234,9 @@ Public Class frmLiquidacionPortatil
                 _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
             End If
             ActualizarTotalizadorFormasDePago(_listaCobros)
+            If frmSeleTipoCobro.CobroRemisiones.Count > 0 Then
+                _ListaCobroRemisiones.Add(frmSeleTipoCobro.CobroRemisiones(0))
+            End If
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
@@ -6235,18 +6250,20 @@ Public Class frmLiquidacionPortatil
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.DebitoAnticipos = _listaDebitoAnticipos
         frmSeleTipoCobro.fecha = fechaCargo
+        frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
-
             Else
                 For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
                     _listaCobros.Add(Cobro)
                 Next
                 _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
             End If
-
             ActualizarTotalizadorFormasDePago(_listaCobros)
+            If frmSeleTipoCobro.CobroRemisiones.Count > 0 Then
+                _ListaCobroRemisiones.Add(frmSeleTipoCobro.CobroRemisiones(0))
+            End If
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
@@ -6280,9 +6297,7 @@ Public Class frmLiquidacionPortatil
                     _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
                 End If
                 ActualizarTotalizadorFormasDePago(_listaCobros)
-
                 _ListaCobroRemisiones = frmSeleTipoCobro.CobroRemisiones
-
                 Cursor = Cursors.WaitCursor
                 Cursor = Cursors.Default
             End If
