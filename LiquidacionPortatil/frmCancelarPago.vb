@@ -79,19 +79,27 @@ Public Class frmCancelarPago
     End Sub
 
     Private Sub ActualizaSaldoRemisiones(CobroEliminado As SigaMetClasses.CobroDetalladoDatos, Remisiones As DataTable, oCobroRemisiones As List(Of SigaMetClasses.CobroRemisiones))
+        Dim saldoDevuelto As Boolean = False
+
         For Each Remision As DataRow In Remisiones.Rows
             For Each CobroRemision As SigaMetClasses.CobroRemisiones In CobroRemisiones
-                If (CobroEliminado.Pago = CobroRemision.Pago And CobroRemision.Remision.Trim() = Remision("Remision").ToString().Trim() And CobroRemision.Serie = Remision("Serie").ToString().Trim()) Then
+                If (CobroRemision.Remision.Trim() = Remision("Remision").ToString().Trim() And CobroRemision.Serie = Remision("Serie").ToString().Trim()) Then
+                    'CobroEliminado.Pago = CobroRemision.Pago And
                     'Remisiones.BeginInit()
 
                     Remision("Saldo") = Convert.ToDecimal(Remision("Saldo")) + CobroRemision.MontoAbonado
+                    CobroRemisiones.Remove(CobroRemision)
+                    saldoDevuelto = True
                     Exit For
                     'Remisiones.EndInit()
                     'oCobroRemi.Remove(CobroRemision)
                     '_ListaCobroRemisiones.Remove(CobroRemision)
                 End If
-            Next
-        Next
+            Next CobroRemision
+            If saldoDevuelto Then
+                Exit For
+            End If
+        Next Remision
 
 
     End Sub
