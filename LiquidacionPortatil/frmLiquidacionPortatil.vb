@@ -6551,7 +6551,8 @@ Public Class frmLiquidacionPortatil
             .Banco = CShort("0") 'puede ser null
             .FAlta = CDate(DateTime.Now.ToString("dd/MM/yyyy"))
             .Status = "EMITIDO"
-            .TipoCobro = 5
+            .TipoCobro = CByte(SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales)
+            .DscTipoCobro = "Efectivo"
             .NumeroCheque = "NULL" ' puede ser vacio
             .FCheque = Date.MinValue
             .NumeroCuenta = "NULL"
@@ -6572,7 +6573,6 @@ Public Class frmLiquidacionPortatil
             .AñoCobroOrigen = CShort("0")
             .CobroOrigen = 0
             .TPV = False
-            .DscTipoCobro = "Efectivo"
         End With
         ' _listaCobros.Add(insertaCobro)
         Return insertaCobro
