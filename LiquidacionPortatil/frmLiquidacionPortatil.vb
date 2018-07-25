@@ -6061,19 +6061,20 @@ Public Class frmLiquidacionPortatil
     Private Sub btnCapturarCheque_Click(sender As Object, e As EventArgs) Handles btnCapturarCheque.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 3, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
+
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.fecha = fechaCargo
+        frmSeleTipoCobro.TotalCobros = _listaCobros.Count
         frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
+
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
-
             Else
                 For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
                     _listaCobros.Add(Cobro)
                 Next
-
                 _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
             End If
 
@@ -6165,11 +6166,14 @@ Public Class frmLiquidacionPortatil
     Private Sub btnCapturarTarjeta_Click(sender As Object, e As EventArgs) Handles btnCapturarTarjeta.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 2, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
+
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.TipoLiquidacion = "LiqPortatil"
         frmSeleTipoCobro.fecha = fechaCargo
+        frmSeleTipoCobro.TotalCobros = _listaCobros.Count
         frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
+
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -6192,10 +6196,13 @@ Public Class frmLiquidacionPortatil
     Private Sub btnTransferencia_Click(sender As Object, e As EventArgs) Handles btnTransferencia.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 6, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
+
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.fecha = fechaCargo
+        frmSeleTipoCobro.TotalCobros = _listaCobros.Count
         frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
+
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -6219,10 +6226,13 @@ Public Class frmLiquidacionPortatil
     Private Sub btnCapturarVale_Click(sender As Object, e As EventArgs) Handles btnCapturarVale.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 1, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
+
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.fecha = fechaCargo
+        frmSeleTipoCobro.TotalCobros = _listaCobros.Count
         frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
+
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -6245,11 +6255,14 @@ Public Class frmLiquidacionPortatil
     Private Sub btnAplicacionAnticipo_Click(sender As Object, e As EventArgs) Handles btnAplicacionAnticipo.Click
         Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 4, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
+
         frmSeleTipoCobro.MostrarDacion = False
         frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
         frmSeleTipoCobro.DebitoAnticipos = _listaDebitoAnticipos
         frmSeleTipoCobro.fecha = fechaCargo
+        frmSeleTipoCobro.TotalCobros = _listaCobros.Count
         frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
+
         If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
             If _listaCobros.Count = 0 Then
                 _listaCobros = frmSeleTipoCobro.Cobros
@@ -6441,11 +6454,11 @@ Public Class frmLiquidacionPortatil
                                                 RealizarPedidoRemision()
                                             End If
                                             _Liquidado = True
-                                                Me.DialogResult() = DialogResult.OK
-                                                Me.Close()
-                                                Cursor = Cursors.Default
-                                            End If
+                                            Me.DialogResult() = DialogResult.OK
+                                            Me.Close()
+                                            Cursor = Cursors.Default
                                         End If
+                                    End If
 
                                 Else
                                     If AceptaLiquidacion() Then
@@ -6457,11 +6470,11 @@ Public Class frmLiquidacionPortatil
                                             RealizarPedidoRemision()
                                         End If
                                         _Liquidado = True
-                                            Me.DialogResult() = DialogResult.OK
-                                            Me.Close()
-                                            Cursor = Cursors.Default
-                                        End If
+                                        Me.DialogResult() = DialogResult.OK
+                                        Me.Close()
+                                        Cursor = Cursors.Default
                                     End If
+                                End If
                             Else
                                 Dim oMensaje As New PortatilClasses.Mensaje(50)
                                 MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
