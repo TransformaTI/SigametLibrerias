@@ -85,6 +85,7 @@ Public Class frmCancelarPago
                     'Remisiones.BeginInit()
 
                     Remision("Saldo") = Convert.ToDecimal(Remision("Saldo")) + CobroRemision.MontoAbonado
+                    Exit For
                     'Remisiones.EndInit()
                     'oCobroRemi.Remove(CobroRemision)
                     '_ListaCobroRemisiones.Remove(CobroRemision)
