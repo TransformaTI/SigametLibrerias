@@ -6659,8 +6659,7 @@ Public Class frmLiquidacionPortatil
         Dim producto As String = ""
         Dim Total As Integer = 0
 
-
-        If grdDetalle.VisibleRowCount > 0 Then
+        If grdDetalle.CurrentRowIndex > -1 Then
             TxtCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Cliente").ToString()
             lblNombreCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Nombre").ToString()
             cboZEconomica.SelectedIndex = cboZEconomica.FindString(_DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("zonaeconomica").ToString())
