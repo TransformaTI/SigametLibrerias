@@ -54,6 +54,7 @@ Public Class frmRemisionManual
     Friend WithEvents DataGridTextBoxColumn12 As DataGridTextBoxColumn
     Friend WithEvents DataGridTextBoxColumn13 As DataGridTextBoxColumn
     Private _Usuario As String
+    Friend WithEvents DataGridTextBoxColumn14 As DataGridTextBoxColumn
     Private _addRemision As Boolean = False
 
     Property DetalleGrid As DataTable
@@ -300,6 +301,9 @@ Public Class frmRemisionManual
         Me.DataGridTextBoxColumn8 = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.DataGridTextBoxColumn9 = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.DataGridTextBoxColumn10 = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.DataGridTextBoxColumn11 = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.DataGridTextBoxColumn12 = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.DataGridTextBoxColumn13 = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.btnBorrar = New ControlesBase.BotonBase()
         Me.btnAgregar = New ControlesBase.BotonBase()
         Me.btnAceptar = New System.Windows.Forms.Button()
@@ -333,9 +337,7 @@ Public Class frmRemisionManual
         Me.lblNombreClientetck = New System.Windows.Forms.Label()
         Me.TxtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.lblCliente = New System.Windows.Forms.Label()
-        Me.DataGridTextBoxColumn11 = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.DataGridTextBoxColumn12 = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.DataGridTextBoxColumn13 = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.DataGridTextBoxColumn14 = New System.Windows.Forms.DataGridTextBoxColumn()
         CType(Me.grdDetalle, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlProducto.SuspendLayout()
         Me.grbInformacion.SuspendLayout()
@@ -374,7 +376,7 @@ Public Class frmRemisionManual
         'DataGridTableStyle1
         '
         Me.DataGridTableStyle1.DataGrid = Me.grdDetalle
-        Me.DataGridTableStyle1.GridColumnStyles.AddRange(New System.Windows.Forms.DataGridColumnStyle() {Me.DataGridTextBoxColumn1, Me.DataGridTextBoxColumn2, Me.DataGridTextBoxColumn3, Me.DataGridTextBoxColumn4, Me.DataGridTextBoxColumn5, Me.DataGridTextBoxColumn6, Me.DataGridTextBoxColumn7, Me.DataGridTextBoxColumn8, Me.DataGridTextBoxColumn9, Me.DataGridTextBoxColumn10, Me.DataGridTextBoxColumn11, Me.DataGridTextBoxColumn12, Me.DataGridTextBoxColumn13})
+        Me.DataGridTableStyle1.GridColumnStyles.AddRange(New System.Windows.Forms.DataGridColumnStyle() {Me.DataGridTextBoxColumn1, Me.DataGridTextBoxColumn2, Me.DataGridTextBoxColumn3, Me.DataGridTextBoxColumn4, Me.DataGridTextBoxColumn5, Me.DataGridTextBoxColumn6, Me.DataGridTextBoxColumn7, Me.DataGridTextBoxColumn8, Me.DataGridTextBoxColumn9, Me.DataGridTextBoxColumn10, Me.DataGridTextBoxColumn11, Me.DataGridTextBoxColumn12, Me.DataGridTextBoxColumn13, Me.DataGridTextBoxColumn14})
         Me.DataGridTableStyle1.HeaderForeColor = System.Drawing.SystemColors.ControlText
         Me.DataGridTableStyle1.MappingName = "LiquidacionTotal"
         '
@@ -459,6 +461,30 @@ Public Class frmRemisionManual
         Me.DataGridTextBoxColumn10.HeaderText = "Total a pagar"
         Me.DataGridTextBoxColumn10.MappingName = "TotalNeto"
         Me.DataGridTextBoxColumn10.Width = 79
+        '
+        'DataGridTextBoxColumn11
+        '
+        Me.DataGridTextBoxColumn11.Format = ""
+        Me.DataGridTextBoxColumn11.FormatInfo = Nothing
+        Me.DataGridTextBoxColumn11.HeaderText = "Cliente"
+        Me.DataGridTextBoxColumn11.MappingName = "Cliente"
+        Me.DataGridTextBoxColumn11.Width = 65
+        '
+        'DataGridTextBoxColumn12
+        '
+        Me.DataGridTextBoxColumn12.Format = ""
+        Me.DataGridTextBoxColumn12.FormatInfo = Nothing
+        Me.DataGridTextBoxColumn12.HeaderText = "Nombre"
+        Me.DataGridTextBoxColumn12.MappingName = "Nombre"
+        Me.DataGridTextBoxColumn12.Width = 150
+        '
+        'DataGridTextBoxColumn13
+        '
+        Me.DataGridTextBoxColumn13.Format = ""
+        Me.DataGridTextBoxColumn13.FormatInfo = Nothing
+        Me.DataGridTextBoxColumn13.HeaderText = "Forma pago"
+        Me.DataGridTextBoxColumn13.MappingName = "FormaPago"
+        Me.DataGridTextBoxColumn13.Width = 95
         '
         'btnBorrar
         '
@@ -832,29 +858,13 @@ Public Class frmRemisionManual
         Me.lblCliente.TabIndex = 65
         Me.lblCliente.Text = "Cliente:"
         '
-        'DataGridTextBoxColumn11
+        'DataGridTextBoxColumn14
         '
-        Me.DataGridTextBoxColumn11.Format = ""
-        Me.DataGridTextBoxColumn11.FormatInfo = Nothing
-        Me.DataGridTextBoxColumn11.HeaderText = "Cliente"
-        Me.DataGridTextBoxColumn11.MappingName = "Cliente"
-        Me.DataGridTextBoxColumn11.Width = 65
-        '
-        'DataGridTextBoxColumn12
-        '
-        Me.DataGridTextBoxColumn12.Format = ""
-        Me.DataGridTextBoxColumn12.FormatInfo = Nothing
-        Me.DataGridTextBoxColumn12.HeaderText = "Nombre"
-        Me.DataGridTextBoxColumn12.MappingName = "Nombre"
-        Me.DataGridTextBoxColumn12.Width = 150
-        '
-        'DataGridTextBoxColumn13
-        '
-        Me.DataGridTextBoxColumn13.Format = ""
-        Me.DataGridTextBoxColumn13.FormatInfo = Nothing
-        Me.DataGridTextBoxColumn13.HeaderText = "Forma pago"
-        Me.DataGridTextBoxColumn13.MappingName = "FormaPago"
-        Me.DataGridTextBoxColumn13.Width = 95
+        Me.DataGridTextBoxColumn14.Format = ""
+        Me.DataGridTextBoxColumn14.FormatInfo = Nothing
+        Me.DataGridTextBoxColumn14.HeaderText = "Descuento"
+        Me.DataGridTextBoxColumn14.MappingName = "Descuento"
+        Me.DataGridTextBoxColumn14.Width = 75
         '
         'frmRemisionManual
         '
@@ -955,7 +965,11 @@ Public Class frmRemisionManual
             dcColumna.DataType = System.Type.GetType("System.String")
             dcColumna.ColumnName = "FormaPago"
             dtLiquidacionTotal.Columns.Add(dcColumna)
-
+            'Columna 013
+            dcColumna = New DataColumn()
+            dcColumna.DataType = System.Type.GetType("System.Decimal")
+            dcColumna.ColumnName = "Descuento"
+            dtLiquidacionTotal.Columns.Add(dcColumna)
 
         End If
     End Sub
@@ -1166,7 +1180,7 @@ Public Class frmRemisionManual
 
                     drow(7) = ((CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal))) / ((CType((dtProducto.Rows(i).Item(4)), Decimal) / 100) + 1) 'SubTotal
                     drow(8) = CType(dtProducto.Rows(i).Item(4), Decimal) 'Iva
-
+                    drow("Descuento") = 0
                     Try
                         If TxtCliente.Text <> "" Then
                             drow("Cliente") = CType(TxtCliente.Text, Integer)
@@ -1658,27 +1672,42 @@ Public Class frmRemisionManual
     End Sub
 
     Private Sub Btn_Modificar_Click(sender As Object, e As EventArgs) Handles Btn_Modificar.Click
-        If grdDetalle.VisibleRowCount <= 0 Then
-            If _DetalleGrid.Rows.Count > 0 Then
-                grdDetalle.DataSource = _DetalleGrid
+        'If grdDetalle.VisibleRowCount <= 0 Then
+        '    If _DetalleGrid.Rows.Count > 0 Then
+        '        grdDetalle.DataSource = _DetalleGrid
 
-            End If
-        Else
-            CargaGridModificado()
-        End If
+        '    End If
+        'Else
+        CargaGridModificado()
+        'End If
 
     End Sub
 
     Private Sub grdDetalle_CurrentCellChanged(sender As Object, e As EventArgs) Handles grdDetalle.CurrentCellChanged
-        If _DetalleGrid.Rows.Count > 0 Then
-
-            i = grdDetalle.CurrentRowIndex
-            TxtCliente.Text = grdDetalle.Item(i, 2).ToString
-            cboTipoCobro.Text = grdDetalle.Item(i, 8).ToString
-        End If
-
-
-
+        Try
+            If grdDetalle.VisibleRowCount > 0 Then
+                i = grdDetalle.CurrentRowIndex
+                If _RutaMovil = True Then
+                    TxtCliente.Text = grdDetalle.Item(i, 2).ToString
+                    cboTipoCobro.Text = CType(grdDetalle.Item(i, 8), String)
+                Else
+                    If grdDetalle.VisibleColumnCount = 10 Then
+                        TxtCliente.Text = grdDetalle.Item(i, 10).ToString
+                        lblNombreCliente.Text = grdDetalle.Item(i, 11).ToString
+                        cboTipoCobro.Text = grdDetalle.Item(i, 12).ToString
+                        txtRemision.Text = grdDetalle.Item(i, 0).ToString
+                        txtSerie.Text = grdDetalle.Item(i, 1).ToString
+                    Else
+                        TxtCliente.Text = grdDetalle.Item(i, 2).ToString
+                        cboTipoCobro.Text = grdDetalle.Item(i, 8).ToString
+                        txtRemision.Text = grdDetalle.Item(i, 0).ToString
+                        txtSerie.Text = grdDetalle.Item(i, 1).ToString
+                    End If
+                End If
+                End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub lblImporte_Click(sender As Object, e As EventArgs)
@@ -1705,12 +1734,177 @@ Public Class frmRemisionManual
     End Sub
 
     Public Sub CargaGridModificado()
-        If grdDetalle.VisibleRowCount > 0 Then
-            grdDetalle.Item(i, 2) = TxtCliente.Text
-            grdDetalle.Item(i, 3) = lblNombreCliente.Text
-            grdDetalle.Item(i, 8) = cboTipoCobro.Text
-            _DetalleGrid = CType(grdDetalle.DataSource, DataTable)
-        End If
+        Try
+            If grdDetalle.VisibleRowCount > 0 Then
+                If _RutaMovil = True Then
+                    If TxtCliente.Text <> "" And lblNombreCliente.Text <> "" Then
+                        grdDetalle.Item(i, 2) = TxtCliente.Text
+                        grdDetalle.Item(i, 3) = lblNombreCliente.Text
+                    Else
+                        grdDetalle.Item(i, 2) = _ClienteVentasPublico
+                        grdDetalle.Item(i, 3) = "VENTA AL PUBLICO GENERAL"
+                    End If
+
+
+                    Dim Descuento As Decimal
+
+
+                    If cboTipoCobro.Identificador = 18 And CBool(_DatosCliente.GetValue(3)) = True Then
+                        grdDetalle.Item(i, 8) = cboTipoCobro.Text
+                        If cbxAplicaDescuento.Checked Then
+                            grdDetalle.Item(i, 8) = cboTipoCobro.Text
+                        End If
+                    Else
+                        If cboTipoCobro.Identificador = 18 Then
+                            grdDetalle.Item(i, 8) = "Efectivo"
+                        Else
+                            If cboTipoCobro.Identificador = 17 And CBool(_DatosCliente.GetValue(4)) = True Then
+                                grdDetalle.Item(i, 8) = cboTipoCobro.Text
+                                If cbxAplicaDescuento.Checked Then
+                                    Try
+                                        Descuento = CDec(_DatosCliente.GetValue(7))
+                                        grdDetalle.Item(i, 5) = Descuento
+                                        Dim descuentoGrupal As Decimal
+                                        descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
+                                        grdDetalle.Item(i, 7) = CType(grdDetalle.Item(i, 6), Decimal) - descuentoGrupal  'Total
+                                    Catch ex As Exception
+                                        Descuento = 0
+                                    End Try
+                                Else
+                                    grdDetalle.Item(i, 8) = "Efectivo"
+                                End If
+                            Else
+                                If cboTipoCobro.Identificador = 17 Then
+                                    grdDetalle.Item(i, 8) = "Efectivo"
+                                Else
+                                    grdDetalle.Item(i, 8) = cboTipoCobro.Text
+                                    If cbxAplicaDescuento.Checked Then
+                                        grdDetalle.Item(i, 8) = cboTipoCobro.Text
+                                    End If
+                                End If
+                            End If
+                        End If
+                    End If
+                    _DetalleGrid = CType(grdDetalle.DataSource, DataTable)
+                Else
+                    'Aqui empieza modificacion de cuando es sin movil gas
+                    Try
+                        If grdDetalle.VisibleColumnCount = 10 Then
+                            If txtRemision.Text <> "" Or txtSerie.Text <> "" Then
+                                grdDetalle.Item(i, 0) = txtRemision.Text
+                                grdDetalle.Item(i, 1) = txtSerie.Text
+                                If TxtCliente.Text <> "" And lblNombreCliente.Text <> "" Then
+
+
+                                    grdDetalle.Item(i, 10) = TxtCliente.Text
+                                    grdDetalle.Item(i, 11) = lblNombreCliente.Text
+                                Else
+                                    grdDetalle.Item(i, 10) = _ClienteVentasPublico
+                                    grdDetalle.Item(i, 11) = "VENTA AL PUBLICO GENERAL"
+                                End If
+                                Dim Descuento As Decimal
+                                If cboTipoCobro.Identificador = 18 And CBool(_DatosCliente.GetValue(3)) = True Then
+                                    grdDetalle.Item(i, 12) = cboTipoCobro.Text
+                                    If cbxAplicaDescuento.Checked Then
+                                        grdDetalle.Item(i, 12) = cboTipoCobro.Text
+                                    End If
+                                Else
+                                    If cboTipoCobro.Identificador = 18 Then
+                                        grdDetalle.Item(i, 12) = "Efectivo"
+                                    Else
+                                        If cboTipoCobro.Identificador = 17 And CBool(_DatosCliente.GetValue(4)) = True Then
+                                            grdDetalle.Item(i, 12) = cboTipoCobro.Text
+                                            If cbxAplicaDescuento.Checked Then
+                                                Try
+                                                    Descuento = CDec(_DatosCliente.GetValue(7))
+                                                    grdDetalle.Item(i, 13) = Descuento ' FALTA AGRAGAR COLUMNA DESCUENTO
+                                                    Dim descuentoGrupal As Decimal
+                                                    descuentoGrupal = CType(grdDetalle.Item(i, 6), Decimal) * Descuento
+                                                    grdDetalle.Item(i, 9) = CType(grdDetalle.Item(i, 9), Decimal) - descuentoGrupal  'Total
+                                                Catch ex As Exception
+                                                    Descuento = 0
+                                                End Try
+                                            Else
+                                                grdDetalle.Item(i, 12) = "Efectivo"
+                                            End If
+                                        Else
+                                            If cboTipoCobro.Identificador = 17 Then
+                                                grdDetalle.Item(i, 12) = "Efectivo"
+                                            Else
+                                                grdDetalle.Item(i, 12) = cboTipoCobro.Text
+                                                If cbxAplicaDescuento.Checked Then
+                                                    grdDetalle.Item(i, 12) = cboTipoCobro.Text
+                                                End If
+                                            End If
+                                        End If
+                                    End If
+                                End If
+                                _DetalleGrid = CType(grdDetalle.DataSource, DataTable)
+                            Else
+                                If txtRemision.Text <> "" Or txtSerie.Text <> "" Then
+                                    txtRemision.Text = grdDetalle.Item(i, 1).ToString
+                                    txtSerie.Text = grdDetalle.Item(i, 0).ToString
+                                    If TxtCliente.Text <> "" And lblNombreCliente.Text <> "" Then
+                                        grdDetalle.Item(i, 2) = TxtCliente.Text
+                                        grdDetalle.Item(i, 3) = lblNombreCliente.Text
+                                    Else
+                                        grdDetalle.Item(i, 2) = _ClienteVentasPublico
+                                        grdDetalle.Item(i, 3) = "VENTA AL PUBLICO GENERAL"
+                                    End If
+                                    Dim Descuento As Decimal
+                                    If cboTipoCobro.Identificador = 18 And CBool(_DatosCliente.GetValue(3)) = True Then
+                                        grdDetalle.Item(i, 8) = cboTipoCobro.Text
+                                        If cbxAplicaDescuento.Checked Then
+                                            grdDetalle.Item(i, 8) = cboTipoCobro.Text
+                                        End If
+                                    Else
+                                        If cboTipoCobro.Identificador = 18 Then
+                                            grdDetalle.Item(i, 8) = "Efectivo"
+                                        Else
+                                            If cboTipoCobro.Identificador = 17 And CBool(_DatosCliente.GetValue(4)) = True Then
+                                                grdDetalle.Item(i, 8) = cboTipoCobro.Text
+                                                If cbxAplicaDescuento.Checked Then
+                                                    Try
+                                                        Descuento = CDec(_DatosCliente.GetValue(7))
+                                                        grdDetalle.Item(i, 5) = Descuento
+                                                        Dim descuentoGrupal As Decimal
+                                                        descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
+                                                        grdDetalle.Item(i, 7) = CType(grdDetalle.Item(i, 6), Decimal) - descuentoGrupal  'Total
+                                                    Catch ex As Exception
+                                                        Descuento = 0
+                                                    End Try
+                                                Else
+                                                    grdDetalle.Item(i, 8) = "Efectivo"
+                                                End If
+                                            Else
+                                                If cboTipoCobro.Identificador = 17 Then
+                                                    grdDetalle.Item(i, 8) = "Efectivo"
+                                                Else
+                                                    grdDetalle.Item(i, 8) = cboTipoCobro.Text
+                                                    If cbxAplicaDescuento.Checked Then
+                                                        grdDetalle.Item(i, 8) = cboTipoCobro.Text
+                                                    End If
+                                                End If
+                                            End If
+                                        End If
+                                    End If
+                                    _DetalleGrid = CType(grdDetalle.DataSource, DataTable)
+                                Else
+                                    MessageBox.Show("Se requiere remision y serie", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                End If
+                            End If
+
+                            End If
+                    Catch ex As Exception
+                        MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End Try
+
+                End If
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Public Sub ValidarDescuento()
