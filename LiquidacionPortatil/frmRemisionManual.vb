@@ -54,6 +54,7 @@ Public Class frmRemisionManual
     Friend WithEvents DataGridTextBoxColumn12 As DataGridTextBoxColumn
     Friend WithEvents DataGridTextBoxColumn13 As DataGridTextBoxColumn
     Private _Usuario As String
+    Private _addRemision As Boolean = False
 
     Property DetalleGrid As DataTable
         Get
@@ -102,6 +103,11 @@ Public Class frmRemisionManual
         Set(value As Integer)
             _ZonaEconomicaClienteNormal = value
         End Set
+    End Property
+    Public ReadOnly Property addRemision() As Boolean
+        Get
+            Return _addRemision
+        End Get
     End Property
     Property TipoCobroClienteNormal() As Integer
         Get
@@ -1265,6 +1271,7 @@ Public Class frmRemisionManual
             If ValidaRemision() Then
                 If VerificaDatos() Then
                     CargaGrid()
+                    _addRemision = True
                 Else
                     Dim Mensajes As PortatilClasses.Mensaje
                     Mensajes = New PortatilClasses.Mensaje(135)
