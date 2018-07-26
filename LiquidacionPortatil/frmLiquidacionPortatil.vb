@@ -6324,6 +6324,7 @@ Public Class frmLiquidacionPortatil
             ActualizarTotalizadorFormasDePago(_listaCobros)
             For Each row As DataRow In _DetalleGrid.Rows
                 _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo") = 0
+                _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales
             Next
 
             MessageBox.Show("¡Cobro de remisiones concluida!")
