@@ -7485,6 +7485,11 @@ Public Class LiquidacionPortatil
 
         Try
             da.Fill(dt)
+            Dim dcColumna As DataColumn
+            dcColumna = New DataColumn()
+            dcColumna.DataType = System.Type.GetType("System.Int32")
+            dcColumna.ColumnName = "Tipocobro"
+            dt.Columns.Add(dcColumna)
             Return dt
         Catch ex As Exception
             Throw ex
