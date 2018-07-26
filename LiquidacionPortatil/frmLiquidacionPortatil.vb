@@ -356,6 +356,7 @@ Public Class frmLiquidacionPortatil
         Me.lblCamion = New System.Windows.Forms.Label()
         Me.lblCamiontck = New System.Windows.Forms.Label()
         Me.grbDetalleProducto = New System.Windows.Forms.GroupBox()
+        Me.lblmovilgas = New System.Windows.Forms.Label()
         Me.cbxAplicaDescuento = New System.Windows.Forms.CheckBox()
         Me.txtAplicaDescuento = New System.Windows.Forms.Label()
         Me.lblNombreCliente = New System.Windows.Forms.Label()
@@ -444,7 +445,6 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.lblTotalKilos = New System.Windows.Forms.Label()
         Me.lblKilosVendidos = New System.Windows.Forms.Label()
-        Me.lblmovilgas = New System.Windows.Forms.Label()
         Me.grbInformacion.SuspendLayout()
         Me.grbDetalleProducto.SuspendLayout()
         Me.pnlProducto.SuspendLayout()
@@ -760,6 +760,15 @@ Public Class frmLiquidacionPortatil
         Me.grbDetalleProducto.TabIndex = 27
         Me.grbDetalleProducto.TabStop = False
         Me.grbDetalleProducto.Text = "Productos a liquidar"
+        '
+        'lblmovilgas
+        '
+        Me.lblmovilgas.AutoSize = True
+        Me.lblmovilgas.Location = New System.Drawing.Point(146, 171)
+        Me.lblmovilgas.Name = "lblmovilgas"
+        Me.lblmovilgas.Size = New System.Drawing.Size(51, 13)
+        Me.lblmovilgas.TabIndex = 68
+        Me.lblmovilgas.Text = "Label11"
         '
         'cbxAplicaDescuento
         '
@@ -1814,10 +1823,10 @@ Public Class frmLiquidacionPortatil
         Me.lblTotalKilos.ForeColor = System.Drawing.Color.Green
         Me.lblTotalKilos.Location = New System.Drawing.Point(504, 500)
         Me.lblTotalKilos.Name = "lblTotalKilos"
-        Me.lblTotalKilos.Size = New System.Drawing.Size(35, 20)
+        Me.lblTotalKilos.Size = New System.Drawing.Size(113, 20)
         Me.lblTotalKilos.TabIndex = 71
         Me.lblTotalKilos.Text = "Total"
-        Me.lblTotalKilos.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblTotalKilos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblKilosVendidos
         '
@@ -1827,15 +1836,6 @@ Public Class frmLiquidacionPortatil
         Me.lblKilosVendidos.Size = New System.Drawing.Size(105, 20)
         Me.lblKilosVendidos.TabIndex = 70
         Me.lblKilosVendidos.Text = "Kilos vendidos:"
-        '
-        'lblmovilgas
-        '
-        Me.lblmovilgas.AutoSize = True
-        Me.lblmovilgas.Location = New System.Drawing.Point(146, 171)
-        Me.lblmovilgas.Name = "lblmovilgas"
-        Me.lblmovilgas.Size = New System.Drawing.Size(51, 13)
-        Me.lblmovilgas.TabIndex = 68
-        Me.lblmovilgas.Text = "Label11"
         '
         'frmLiquidacionPortatil
         '
