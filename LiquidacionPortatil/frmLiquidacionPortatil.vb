@@ -206,10 +206,8 @@ Public Class frmLiquidacionPortatil
     Friend WithEvents lblCredito As Label
     Friend WithEvents Label9 As Label
     Friend WithEvents Label7 As Label
-    Friend WithEvents Label4 As Label
     Friend WithEvents lblEfectivo As Label
     Friend WithEvents lblEfectivotck As Label
-    Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents lblVentaTotal As Label
@@ -245,6 +243,9 @@ Public Class frmLiquidacionPortatil
     Friend WithEvents btnBuscarCliente As ControlesBase.BotonBase
     Friend WithEvents btnModificar As ControlesBase.BotonBase
     Friend WithEvents lblmovilgas As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents lblResto As Label
+    Friend WithEvents Label11 As Label
 
     'Indica si la ruta se encuentra en venta especial
     Private _RutaEspecial As Boolean = False
@@ -413,10 +414,8 @@ Public Class frmLiquidacionPortatil
         Me.lblCredito = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
         Me.lblEfectivo = New System.Windows.Forms.Label()
         Me.lblEfectivotck = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.lblVentaTotal = New System.Windows.Forms.Label()
@@ -445,6 +444,9 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.lblTotalKilos = New System.Windows.Forms.Label()
         Me.lblKilosVendidos = New System.Windows.Forms.Label()
+        Me.lblResto = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.grbInformacion.SuspendLayout()
         Me.grbDetalleProducto.SuspendLayout()
         Me.pnlProducto.SuspendLayout()
@@ -1166,6 +1168,9 @@ Public Class frmLiquidacionPortatil
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Label2)
+        Me.GroupBox1.Controls.Add(Me.lblResto)
+        Me.GroupBox1.Controls.Add(Me.Label11)
         Me.GroupBox1.Controls.Add(Me.Label16)
         Me.GroupBox1.Controls.Add(Me.Label15)
         Me.GroupBox1.Controls.Add(Me.Label14)
@@ -1188,10 +1193,8 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox1.Controls.Add(Me.lblCredito)
         Me.GroupBox1.Controls.Add(Me.Label9)
         Me.GroupBox1.Controls.Add(Me.Label7)
-        Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.lblEfectivo)
         Me.GroupBox1.Controls.Add(Me.lblEfectivotck)
-        Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.lblVentaTotal)
@@ -1204,7 +1207,7 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox1.Controls.Add(Me.lblCambio)
         Me.GroupBox1.Location = New System.Drawing.Point(680, 247)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(313, 253)
+        Me.GroupBox1.Size = New System.Drawing.Size(313, 280)
         Me.GroupBox1.TabIndex = 50
         Me.GroupBox1.TabStop = False
         '
@@ -1225,7 +1228,7 @@ Public Class frmLiquidacionPortatil
         Me.Label15.BackColor = System.Drawing.Color.DimGray
         Me.Label15.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label15.ForeColor = System.Drawing.Color.Yellow
-        Me.Label15.Location = New System.Drawing.Point(182, 98)
+        Me.Label15.Location = New System.Drawing.Point(182, 121)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(15, 15)
         Me.Label15.TabIndex = 125
@@ -1249,7 +1252,7 @@ Public Class frmLiquidacionPortatil
         Me.Label20.BackColor = System.Drawing.Color.DimGray
         Me.Label20.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label20.ForeColor = System.Drawing.Color.Yellow
-        Me.Label20.Location = New System.Drawing.Point(183, 159)
+        Me.Label20.Location = New System.Drawing.Point(183, 182)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(15, 15)
         Me.Label20.TabIndex = 122
@@ -1261,7 +1264,7 @@ Public Class frmLiquidacionPortatil
         Me.Label19.BackColor = System.Drawing.Color.DimGray
         Me.Label19.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label19.ForeColor = System.Drawing.Color.Yellow
-        Me.Label19.Location = New System.Drawing.Point(182, 183)
+        Me.Label19.Location = New System.Drawing.Point(183, 206)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(15, 15)
         Me.Label19.TabIndex = 121
@@ -1273,7 +1276,7 @@ Public Class frmLiquidacionPortatil
         Me.Label18.BackColor = System.Drawing.Color.DimGray
         Me.Label18.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label18.ForeColor = System.Drawing.Color.Yellow
-        Me.Label18.Location = New System.Drawing.Point(183, 138)
+        Me.Label18.Location = New System.Drawing.Point(183, 161)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(15, 15)
         Me.Label18.TabIndex = 120
@@ -1286,7 +1289,7 @@ Public Class frmLiquidacionPortatil
         Me.lblAplicAnticipo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblAplicAnticipo.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAplicAnticipo.ForeColor = System.Drawing.Color.Yellow
-        Me.lblAplicAnticipo.Location = New System.Drawing.Point(181, 180)
+        Me.lblAplicAnticipo.Location = New System.Drawing.Point(181, 203)
         Me.lblAplicAnticipo.Name = "lblAplicAnticipo"
         Me.lblAplicAnticipo.Size = New System.Drawing.Size(126, 21)
         Me.lblAplicAnticipo.TabIndex = 119
@@ -1299,7 +1302,7 @@ Public Class frmLiquidacionPortatil
         Me.lblAplicAnticipotck.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblAplicAnticipotck.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAplicAnticipotck.ForeColor = System.Drawing.Color.Yellow
-        Me.lblAplicAnticipotck.Location = New System.Drawing.Point(6, 180)
+        Me.lblAplicAnticipotck.Location = New System.Drawing.Point(6, 203)
         Me.lblAplicAnticipotck.Name = "lblAplicAnticipotck"
         Me.lblAplicAnticipotck.Size = New System.Drawing.Size(176, 21)
         Me.lblAplicAnticipotck.TabIndex = 118
@@ -1312,7 +1315,7 @@ Public Class frmLiquidacionPortatil
         Me.lblTransferElect.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblTransferElect.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTransferElect.ForeColor = System.Drawing.Color.Yellow
-        Me.lblTransferElect.Location = New System.Drawing.Point(181, 138)
+        Me.lblTransferElect.Location = New System.Drawing.Point(181, 161)
         Me.lblTransferElect.Name = "lblTransferElect"
         Me.lblTransferElect.Size = New System.Drawing.Size(126, 21)
         Me.lblTransferElect.TabIndex = 117
@@ -1325,7 +1328,7 @@ Public Class frmLiquidacionPortatil
         Me.lblTransferElectck.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblTransferElectck.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTransferElectck.ForeColor = System.Drawing.Color.Yellow
-        Me.lblTransferElectck.Location = New System.Drawing.Point(6, 138)
+        Me.lblTransferElectck.Location = New System.Drawing.Point(6, 161)
         Me.lblTransferElectck.Name = "lblTransferElectck"
         Me.lblTransferElectck.Size = New System.Drawing.Size(176, 21)
         Me.lblTransferElectck.TabIndex = 116
@@ -1338,7 +1341,7 @@ Public Class frmLiquidacionPortatil
         Me.lblTarjDebCred.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblTarjDebCred.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTarjDebCred.ForeColor = System.Drawing.Color.Yellow
-        Me.lblTarjDebCred.Location = New System.Drawing.Point(181, 159)
+        Me.lblTarjDebCred.Location = New System.Drawing.Point(181, 182)
         Me.lblTarjDebCred.Name = "lblTarjDebCred"
         Me.lblTarjDebCred.Size = New System.Drawing.Size(126, 21)
         Me.lblTarjDebCred.TabIndex = 115
@@ -1351,7 +1354,7 @@ Public Class frmLiquidacionPortatil
         Me.lblTarjDebCredtck.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblTarjDebCredtck.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTarjDebCredtck.ForeColor = System.Drawing.Color.Yellow
-        Me.lblTarjDebCredtck.Location = New System.Drawing.Point(6, 159)
+        Me.lblTarjDebCredtck.Location = New System.Drawing.Point(6, 182)
         Me.lblTarjDebCredtck.Name = "lblTarjDebCredtck"
         Me.lblTarjDebCredtck.Size = New System.Drawing.Size(176, 21)
         Me.lblTarjDebCredtck.TabIndex = 114
@@ -1363,7 +1366,7 @@ Public Class frmLiquidacionPortatil
         Me.Label12.BackColor = System.Drawing.Color.DimGray
         Me.Label12.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label12.ForeColor = System.Drawing.Color.Yellow
-        Me.Label12.Location = New System.Drawing.Point(182, 118)
+        Me.Label12.Location = New System.Drawing.Point(182, 142)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(15, 15)
         Me.Label12.TabIndex = 113
@@ -1376,7 +1379,7 @@ Public Class frmLiquidacionPortatil
         Me.lblVales.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblVales.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblVales.ForeColor = System.Drawing.Color.Yellow
-        Me.lblVales.Location = New System.Drawing.Point(181, 117)
+        Me.lblVales.Location = New System.Drawing.Point(181, 140)
         Me.lblVales.Name = "lblVales"
         Me.lblVales.Size = New System.Drawing.Size(126, 21)
         Me.lblVales.TabIndex = 112
@@ -1389,7 +1392,7 @@ Public Class frmLiquidacionPortatil
         Me.lblValetck.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblValetck.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblValetck.ForeColor = System.Drawing.Color.Yellow
-        Me.lblValetck.Location = New System.Drawing.Point(6, 117)
+        Me.lblValetck.Location = New System.Drawing.Point(6, 140)
         Me.lblValetck.Name = "lblValetck"
         Me.lblValetck.Size = New System.Drawing.Size(176, 21)
         Me.lblValetck.TabIndex = 111
@@ -1401,7 +1404,7 @@ Public Class frmLiquidacionPortatil
         Me.Label6.BackColor = System.Drawing.Color.DimGray
         Me.Label6.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.Color.Yellow
-        Me.Label6.Location = New System.Drawing.Point(182, 202)
+        Me.Label6.Location = New System.Drawing.Point(183, 227)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(15, 15)
         Me.Label6.TabIndex = 110
@@ -1414,7 +1417,7 @@ Public Class frmLiquidacionPortatil
         Me.lblCheque.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblCheque.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCheque.ForeColor = System.Drawing.Color.Yellow
-        Me.lblCheque.Location = New System.Drawing.Point(181, 201)
+        Me.lblCheque.Location = New System.Drawing.Point(181, 224)
         Me.lblCheque.Name = "lblCheque"
         Me.lblCheque.Size = New System.Drawing.Size(126, 21)
         Me.lblCheque.TabIndex = 109
@@ -1427,7 +1430,7 @@ Public Class frmLiquidacionPortatil
         Me.lblChequetck.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblChequetck.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChequetck.ForeColor = System.Drawing.Color.Yellow
-        Me.lblChequetck.Location = New System.Drawing.Point(6, 201)
+        Me.lblChequetck.Location = New System.Drawing.Point(6, 224)
         Me.lblChequetck.Name = "lblChequetck"
         Me.lblChequetck.Size = New System.Drawing.Size(176, 21)
         Me.lblChequetck.TabIndex = 108
@@ -1477,24 +1480,12 @@ Public Class frmLiquidacionPortatil
         Me.Label7.BackColor = System.Drawing.Color.Silver
         Me.Label7.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ForeColor = System.Drawing.Color.Red
-        Me.Label7.Location = New System.Drawing.Point(182, 224)
+        Me.Label7.Location = New System.Drawing.Point(183, 248)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(15, 15)
         Me.Label7.TabIndex = 104
         Me.Label7.Text = "$"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label4
-        '
-        Me.Label4.BackColor = System.Drawing.Color.DimGray
-        Me.Label4.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.ForeColor = System.Drawing.Color.Yellow
-        Me.Label4.Location = New System.Drawing.Point(182, 115)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(15, 15)
-        Me.Label4.TabIndex = 103
-        Me.Label4.Text = "$"
-        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'lblEfectivo
         '
@@ -1502,7 +1493,7 @@ Public Class frmLiquidacionPortatil
         Me.lblEfectivo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblEfectivo.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEfectivo.ForeColor = System.Drawing.Color.Yellow
-        Me.lblEfectivo.Location = New System.Drawing.Point(181, 97)
+        Me.lblEfectivo.Location = New System.Drawing.Point(181, 120)
         Me.lblEfectivo.Name = "lblEfectivo"
         Me.lblEfectivo.Size = New System.Drawing.Size(126, 21)
         Me.lblEfectivo.TabIndex = 102
@@ -1515,24 +1506,12 @@ Public Class frmLiquidacionPortatil
         Me.lblEfectivotck.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblEfectivotck.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEfectivotck.ForeColor = System.Drawing.Color.Yellow
-        Me.lblEfectivotck.Location = New System.Drawing.Point(6, 97)
+        Me.lblEfectivotck.Location = New System.Drawing.Point(6, 120)
         Me.lblEfectivotck.Name = "lblEfectivotck"
         Me.lblEfectivotck.Size = New System.Drawing.Size(176, 21)
         Me.lblEfectivotck.TabIndex = 101
         Me.lblEfectivotck.Text = "Efectivo:"
         Me.lblEfectivotck.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label2
-        '
-        Me.Label2.BackColor = System.Drawing.Color.Black
-        Me.Label2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.ForeColor = System.Drawing.Color.Lime
-        Me.Label2.Location = New System.Drawing.Point(182, 95)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(15, 15)
-        Me.Label2.TabIndex = 100
-        Me.Label2.Text = "$"
-        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label1
         '
@@ -1551,7 +1530,7 @@ Public Class frmLiquidacionPortatil
         Me.Label3.BackColor = System.Drawing.Color.White
         Me.Label3.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.Navy
-        Me.Label3.Location = New System.Drawing.Point(182, 18)
+        Me.Label3.Location = New System.Drawing.Point(182, 19)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(15, 15)
         Me.Label3.TabIndex = 98
@@ -1642,7 +1621,7 @@ Public Class frmLiquidacionPortatil
         Me.lblCambiotck.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblCambiotck.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCambiotck.ForeColor = System.Drawing.Color.Red
-        Me.lblCambiotck.Location = New System.Drawing.Point(6, 222)
+        Me.lblCambiotck.Location = New System.Drawing.Point(6, 245)
         Me.lblCambiotck.Name = "lblCambiotck"
         Me.lblCambiotck.Size = New System.Drawing.Size(176, 21)
         Me.lblCambiotck.TabIndex = 91
@@ -1655,7 +1634,7 @@ Public Class frmLiquidacionPortatil
         Me.lblCambio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblCambio.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCambio.ForeColor = System.Drawing.Color.Red
-        Me.lblCambio.Location = New System.Drawing.Point(181, 222)
+        Me.lblCambio.Location = New System.Drawing.Point(181, 245)
         Me.lblCambio.Name = "lblCambio"
         Me.lblCambio.Size = New System.Drawing.Size(126, 21)
         Me.lblCambio.TabIndex = 123
@@ -1811,7 +1790,7 @@ Public Class frmLiquidacionPortatil
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.grdDetalle)
-        Me.GroupBox2.Location = New System.Drawing.Point(24, 511)
+        Me.GroupBox2.Location = New System.Drawing.Point(24, 536)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(963, 212)
         Me.GroupBox2.TabIndex = 56
@@ -1836,6 +1815,44 @@ Public Class frmLiquidacionPortatil
         Me.lblKilosVendidos.Size = New System.Drawing.Size(105, 20)
         Me.lblKilosVendidos.TabIndex = 70
         Me.lblKilosVendidos.Text = "Kilos vendidos:"
+        '
+        'lblResto
+        '
+        Me.lblResto.BackColor = System.Drawing.Color.Black
+        Me.lblResto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblResto.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblResto.ForeColor = System.Drawing.Color.DodgerBlue
+        Me.lblResto.Location = New System.Drawing.Point(181, 98)
+        Me.lblResto.Name = "lblResto"
+        Me.lblResto.Size = New System.Drawing.Size(126, 21)
+        Me.lblResto.TabIndex = 128
+        Me.lblResto.Text = "0.00"
+        Me.lblResto.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label11
+        '
+        Me.Label11.BackColor = System.Drawing.Color.Black
+        Me.Label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label11.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label11.ForeColor = System.Drawing.Color.DodgerBlue
+        Me.Label11.Location = New System.Drawing.Point(6, 98)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(176, 21)
+        Me.Label11.TabIndex = 127
+        Me.Label11.Text = "Resto:"
+        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label2
+        '
+        Me.Label2.BackColor = System.Drawing.Color.Black
+        Me.Label2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.ForeColor = System.Drawing.Color.DodgerBlue
+        Me.Label2.Location = New System.Drawing.Point(182, 101)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(15, 15)
+        Me.Label2.TabIndex = 129
+        Me.Label2.Text = "$"
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'frmLiquidacionPortatil
         '
@@ -6103,6 +6120,8 @@ Public Class frmLiquidacionPortatil
         Dim TotalAnticipo As Decimal
         Dim TotalCheques As Decimal
         Dim TotalLiquidado As Decimal
+        Dim Acumulado As Decimal
+        Dim VentaTotal As Decimal
 
         For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
             If Cobro.TipoCobro = 5 Then
@@ -6126,15 +6145,24 @@ Public Class frmLiquidacionPortatil
             TotalLiquidado = TotalLiquidado + Cobro.Total
         Next
         If grdDetalle.VisibleRowCount > 0 Then
-            lblTotalCobro.Text = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
+            VentaTotal = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable))
+
+            lblTotalCobro.Text = VentaTotal.ToString("N2")
             lblEfectivo.Text = TotalEfectivo.ToString("N2")
             lblVales.Text = TotalVales.ToString("N2")
             lblTransferElect.Text = TotalTransferencia.ToString("N2")
             lblTarjDebCred.Text = TotalTarjeta.ToString("N2")
             lblAplicAnticipo.Text = TotalAnticipo.ToString("N2")
             lblCheque.Text = TotalCheques.ToString("N2")
-            lblVentaTotal.Text = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
+            lblVentaTotal.Text = VentaTotal.ToString("N2")
             lblCredito.Text = calcularCredito(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
+
+            Acumulado = TotalEfectivo + TotalVales +
+                        TotalTransferencia + TotalTarjeta +
+                        TotalAnticipo + TotalCheques +
+                        calcularCredito(TryCast(grdDetalle.DataSource, DataTable))
+            lblResto.Text = (VentaTotal - Acumulado).ToString("N2")
+
         End If
     End Sub
 
