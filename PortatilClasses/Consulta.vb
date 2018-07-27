@@ -341,8 +341,7 @@ Public MustInherit Class Consulta
                 cnSigamet.Close()
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
                 objSolicitudGateway.IDCliente = Me.IdCliente
-                'objSolicitudGateway.IDEmpresa = Me.IdCorporativo
-                objSolicitudGateway.IDEmpresa = 1
+                objSolicitudGateway.IDEmpresa = Me.IdCorporativo
                 objSolicitudGateway.Fuente = RTGMCore.Fuente.CRM
 
                 Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
@@ -1299,9 +1298,9 @@ Public MustInherit Class Consulta
         Inherits ConsultaBase3
 
         Public Sub New(ByVal Conf As Integer, ByVal IdCliente As Integer, ByVal IdCorporativo As Integer)
-            Configuracion = Conf
-            IdCliente = IdCliente
-            IdCorporativo = IdCorporativo
+            Me.Configuracion = Conf
+            Me.IdCliente = IdCliente
+            Me.IdCorporativo = IdCorporativo
         End Sub
 
         Public Sub CargaDatos()
