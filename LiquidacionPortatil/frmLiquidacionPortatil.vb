@@ -6570,8 +6570,8 @@ Public Class frmLiquidacionPortatil
     Public Sub cargarRemisiones()
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
         Dim TotalKilos As New Decimal
-        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
-        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
+        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
         grdDetalle.DataSource = _DetalleGrid
 
         If _DetalleGrid.Rows.Count > 0 Then
