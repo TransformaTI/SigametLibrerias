@@ -5422,9 +5422,14 @@ Public Class frmLiquidacionPortatil
                 Total = CType(dtPedidoCobro.DefaultView.Item(k).Item(5), Decimal)
                 Importe = Total / ((CType(dtPedidoCobro.DefaultView.Item(k).Item(3), Decimal) / 100) + 1)
                 Impuesto = Total - Importe
-
-                oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
-
+                Dim X As Integer
+                Dim ListCobro As Integer = 0
+                For X = 0 To _listaCobros.Count - 1
+                    Dim cobro_Tipocobro As SigaMetClasses.CobroDetalladoDatos = _listaCobros(ListCobro)
+                    oLiquidacionCobro.LiquidacionCobro(cobro_Tipocobro.Importe, cobro_Tipocobro.Impuesto, cobro_Tipocobro.Total, "", 0, Now, "EMITIDO", cobro_Tipocobro.TipoCobro, "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
+                    ListCobro = ListCobro + 1
+                    'oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
+                Next
                 dtPedidoCobro.DefaultView.Item(k).Item(17) = oLiquidacionCobro.Cobro
                 dtPedidoCobro.DefaultView.Item(k).Item(16) = oLiquidacionCobro.AnoCobro
 
@@ -6565,8 +6570,8 @@ Public Class frmLiquidacionPortatil
     Public Sub cargarRemisiones()
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
         Dim TotalKilos As New Decimal
-        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
-        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
+        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
         grdDetalle.DataSource = _DetalleGrid
 
         If _DetalleGrid.Rows.Count > 0 Then
@@ -6615,7 +6620,7 @@ Public Class frmLiquidacionPortatil
             .CobroOrigen = 0
             .TPV = False
         End With
-        ' _listaCobros.Add(insertaCobro)
+
         Return insertaCobro
     End Function
 
