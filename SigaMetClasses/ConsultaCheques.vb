@@ -903,8 +903,10 @@ Public Class ConsultaCheques
         Try
             _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
         Catch ex As Exception
-            MessageBox.Show("El parámetro URL Gateway no esta configurado")
-        End Try
+			If Not ex.Message.Contains("Index") Then
+				MessageBox.Show("Error al consultar Parametro URLGateway: " + ex.Message)
+			End If
+		End Try
 
         If (_URLGateway <> String.Empty) Then
             Dim ConsultaCliente As New frmConsultaCliente(_Cliente)
