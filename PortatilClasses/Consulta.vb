@@ -341,13 +341,20 @@ Public MustInherit Class Consulta
                 cnSigamet.Close()
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
                 objSolicitudGateway.IDCliente = Me.IdCliente
+                objSolicitudGateway.IDEmpresa = Me.IdCorporativo
+                objSolicitudGateway.Fuente = RTGMCore.Fuente.CRM
+
                 Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
                 objGateway.URLServicio = URL
+
                 Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
-                Me.Cliente = objRtgCore.Nombre
+
+                If objRtgCore.Nombre IsNot Nothing Then
+                    Me.Cliente = objRtgCore.Nombre
+                End If
 
             Catch exc As Exception
-                EventLog.WriteEntry("Clase Consulta" & exc.Source, exc.Message, EventLogEntryType.Error)
+                'EventLog.WriteEntry("Clase Consulta" & exc.Source, exc.Message, EventLogEntryType.Error)
                 MessageBox.Show(exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End Sub
@@ -1290,9 +1297,10 @@ Public MustInherit Class Consulta
 
         Inherits ConsultaBase3
 
-        Public Sub New(ByVal Conf As Integer, ByVal IdenCliente As Integer)
-            Configuracion = Conf
-            IdCliente = IdenCliente
+        Public Sub New(ByVal Conf As Integer, ByVal IdCliente As Integer, ByVal IdCorporativo As Integer)
+            Me.Configuracion = Conf
+            Me.IdCliente = IdCliente
+            Me.IdCorporativo = IdCorporativo
         End Sub
 
         Public Sub CargaDatos()
