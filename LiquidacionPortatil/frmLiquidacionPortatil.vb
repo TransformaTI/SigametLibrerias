@@ -6645,8 +6645,8 @@ Public Class frmLiquidacionPortatil
     Public Sub cargarRemisiones()
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
         Dim TotalKilos As New Decimal
-        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
-        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
+        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
         grdDetalle.DataSource = _DetalleGrid
 
         If _DetalleGrid.Rows.Count > 0 Then
@@ -6700,7 +6700,7 @@ Public Class frmLiquidacionPortatil
     End Function
 
     Function Validacion() As Boolean
-        Dim totalPagos As Decimal = CDec(lblTransferElect.Text) + CDec(lblTarjDebCred.Text) + CDec(lblAplicAnticipo.Text) + CDec(lblCheque.Text) + CDec(lblEfectivo.Text) + CDec(lblVales.Text)
+        Dim totalPagos As Decimal = CDec(lblTransferElect.Text) + CDec(lblTarjDebCred.Text) + CDec(lblAplicAnticipo.Text) + CDec(lblCheque.Text) + CDec(lblEfectivo.Text) + CDec(lblVales.Text) + CDec(lblCredito.Text)
         Dim totalCobro As Decimal = CDec(lblTotalCobro.Text)
         Dim Validado As Boolean
         If totalCobro = totalPagos And totalCobro > 0 Then
