@@ -392,6 +392,9 @@ Public Class frmLiquidacionPortatil
         Me.capEfectivo = New CapturaEfectivo.Efectivo()
         Me.grpEfectivo = New System.Windows.Forms.GroupBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.lblResto = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
@@ -444,9 +447,6 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.lblTotalKilos = New System.Windows.Forms.Label()
         Me.lblKilosVendidos = New System.Windows.Forms.Label()
-        Me.lblResto = New System.Windows.Forms.Label()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.grbInformacion.SuspendLayout()
         Me.grbDetalleProducto.SuspendLayout()
         Me.pnlProducto.SuspendLayout()
@@ -1211,6 +1211,44 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox1.TabIndex = 50
         Me.GroupBox1.TabStop = False
         '
+        'Label2
+        '
+        Me.Label2.BackColor = System.Drawing.Color.Black
+        Me.Label2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.ForeColor = System.Drawing.Color.DodgerBlue
+        Me.Label2.Location = New System.Drawing.Point(182, 101)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(15, 15)
+        Me.Label2.TabIndex = 129
+        Me.Label2.Text = "$"
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblResto
+        '
+        Me.lblResto.BackColor = System.Drawing.Color.Black
+        Me.lblResto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblResto.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblResto.ForeColor = System.Drawing.Color.DodgerBlue
+        Me.lblResto.Location = New System.Drawing.Point(181, 98)
+        Me.lblResto.Name = "lblResto"
+        Me.lblResto.Size = New System.Drawing.Size(126, 21)
+        Me.lblResto.TabIndex = 128
+        Me.lblResto.Text = "0.00"
+        Me.lblResto.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label11
+        '
+        Me.Label11.BackColor = System.Drawing.Color.Black
+        Me.Label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label11.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label11.ForeColor = System.Drawing.Color.DodgerBlue
+        Me.Label11.Location = New System.Drawing.Point(6, 98)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(176, 21)
+        Me.Label11.TabIndex = 127
+        Me.Label11.Text = "Resto:"
+        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
         'Label16
         '
         Me.Label16.BackColor = System.Drawing.Color.Black
@@ -1816,44 +1854,6 @@ Public Class frmLiquidacionPortatil
         Me.lblKilosVendidos.TabIndex = 70
         Me.lblKilosVendidos.Text = "Kilos vendidos:"
         '
-        'lblResto
-        '
-        Me.lblResto.BackColor = System.Drawing.Color.Black
-        Me.lblResto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblResto.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblResto.ForeColor = System.Drawing.Color.DodgerBlue
-        Me.lblResto.Location = New System.Drawing.Point(181, 98)
-        Me.lblResto.Name = "lblResto"
-        Me.lblResto.Size = New System.Drawing.Size(126, 21)
-        Me.lblResto.TabIndex = 128
-        Me.lblResto.Text = "0.00"
-        Me.lblResto.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label11
-        '
-        Me.Label11.BackColor = System.Drawing.Color.Black
-        Me.Label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label11.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.ForeColor = System.Drawing.Color.DodgerBlue
-        Me.Label11.Location = New System.Drawing.Point(6, 98)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(176, 21)
-        Me.Label11.TabIndex = 127
-        Me.Label11.Text = "Resto:"
-        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label2
-        '
-        Me.Label2.BackColor = System.Drawing.Color.Black
-        Me.Label2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.ForeColor = System.Drawing.Color.DodgerBlue
-        Me.Label2.Location = New System.Drawing.Point(182, 101)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(15, 15)
-        Me.Label2.TabIndex = 129
-        Me.Label2.Text = "$"
-        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
         'frmLiquidacionPortatil
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -1900,6 +1900,7 @@ Public Class frmLiquidacionPortatil
     Private Sub MostrarEnPantalla(ByVal Configuracion As Integer, ByVal MovimientoAlmacen As Integer)
         Dim oReporte As New ReporteDinamicoOaxaca.frmReporte(_RutaReportes, "ReporteLiquidacion.rpt", _Servidor,
                               _Database, _Usuario, _Password, False)
+
 
         _Configuracion = Configuracion
         oReporte.ListaParametros.Add(Configuracion)
@@ -5654,6 +5655,7 @@ Public Class frmLiquidacionPortatil
     Private Sub capEfectivo_TotalActualizado() Handles capEfectivo.TotalActualizado
         lblEfectivo.Text = CType(capEfectivo.TotalEfectivo, Decimal).ToString("N2")
         Validacion()
+
     End Sub
 
     'Actualiza la etiqueta de vales a cobrar
@@ -5843,11 +5845,11 @@ Public Class frmLiquidacionPortatil
                     End If
                 End If
 
-                    grdDetalle.DataSource = _DetalleGrid
+                grdDetalle.DataSource = _DetalleGrid
             Else
                 grdDetalle.DataSource = _DetalleGrid
             End If
-
+            Totalizador()
         Catch ex As Exception
             Throw ex
         End Try
@@ -6596,8 +6598,6 @@ Public Class frmLiquidacionPortatil
                         Dim oMensaje As New PortatilClasses.Mensaje(51)
                         MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     End If
-
-
                     'For Each Cobro As SigaMetClasses.CobroDetalladoDatos In _listaCobros
                     '    With Cobro
                     '        Cobro.insertaCobro(.AñoCobro, .Cobro, .Importe, .Impuesto, .Total, .Referencia, .Banco, .FAlta, .Status, .TipoCobro, .NumeroCheque,
@@ -6808,8 +6808,8 @@ Public Class frmLiquidacionPortatil
 
                 TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(5), Decimal)
                 If Convert.ToString(_DetalleGrid.Rows(i).Item(8)) <> "" Then
-                    If CType(_DetalleGrid.Rows(i).Item(8), String) = "CREDITO" Then
-                        TotalCREDITO = TotalCREDITO + CType(_DetalleGrid.Rows(i).Item(8), Decimal)
+                    If CType(_DetalleGrid.Rows(i).Item(8), String).Trim = "Crédito Portátil" Then
+                        TotalCREDITO = TotalCREDITO + CType(_DetalleGrid.Rows(i).Item("Saldo"), Decimal)
                     End If
                 End If
                 Kilostotal = Kilostotal + CType(_DetalleGrid.Rows(i).Item(4), Decimal)
@@ -6870,6 +6870,11 @@ Public Class frmLiquidacionPortatil
             lblmovilgas.Text = "No es Movil gas"
         End If
     End Sub
+
+    Private Sub capEfectivo_Load(sender As Object, e As EventArgs) Handles capEfectivo.Load
+
+    End Sub
+
     Private Sub RealizarPedidoRemision()
         Cursor = Cursors.WaitCursor
         Dim oLiquidacionPedido As Liquidacion.cLiquidacion
