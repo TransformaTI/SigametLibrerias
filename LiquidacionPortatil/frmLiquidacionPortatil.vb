@@ -6182,10 +6182,16 @@ Public Class frmLiquidacionPortatil
                     _listaDebitoAnticipos.Add(Debito)
                 Next
             End If
+
             ActualizarTotalizadorFormasDePago(_listaCobros)
             If frmSeleTipoCobro.CobroRemisiones.Count > 0 Then
-                _ListaCobroRemisiones.Add(frmSeleTipoCobro.CobroRemisiones(0))
+                '_ListaCobroRemisiones.Add(frmSeleTipoCobro.CobroRemisiones(0))
+
+                For Each cobroRemision As SigaMetClasses.CobroRemisiones In frmSeleTipoCobro.CobroRemisiones
+                    _ListaCobroRemisiones.Add(cobroRemision)
+                Next
             End If
+
             Cursor = Cursors.WaitCursor
             Cursor = Cursors.Default
         End If
