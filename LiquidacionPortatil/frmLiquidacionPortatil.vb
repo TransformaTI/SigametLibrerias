@@ -1838,7 +1838,7 @@ Public Class frmLiquidacionPortatil
         '
         Me.lblTotalKilos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotalKilos.ForeColor = System.Drawing.Color.Green
-        Me.lblTotalKilos.Location = New System.Drawing.Point(504, 500)
+        Me.lblTotalKilos.Location = New System.Drawing.Point(504, 496)
         Me.lblTotalKilos.Name = "lblTotalKilos"
         Me.lblTotalKilos.Size = New System.Drawing.Size(113, 20)
         Me.lblTotalKilos.TabIndex = 71
@@ -2577,7 +2577,7 @@ Public Class frmLiquidacionPortatil
             'Reestablecemos el grid
 
             dtLiquidacionTotal.Clear()
-            grdDetalle.DataSource = Nothing
+            'grdDetalle.DataSource = Nothing
 
             'Caculamos importes
             ' lblTotalCobro.Text = CType(_TotalNetoCaja, Decimal).ToString("N2")
@@ -5785,7 +5785,7 @@ Public Class frmLiquidacionPortatil
             oRemisionManual.Usuario = _Usuario
             oRemisionManual.DatosCliente = _DatosCliente
             oRemisionManual.DetalleGrid = _DetalleGrid
-            grdDetalle.DataSource = Nothing
+            'grdDetalle.DataSource = Nothing
             oRemisionManual.ShowDialog()
             oRemisionManual.TipoCobroClienteNormal = _TipoCobroClienteNormal
 
@@ -5845,10 +5845,13 @@ Public Class frmLiquidacionPortatil
                     End If
                 End If
 
+                grdDetalle.DataSource = Nothing
                 grdDetalle.DataSource = _DetalleGrid
             Else
+                grdDetalle.DataSource = Nothing
                 grdDetalle.DataSource = _DetalleGrid
             End If
+
             Totalizador()
         Catch ex As Exception
             Throw ex
@@ -6646,7 +6649,7 @@ Public Class frmLiquidacionPortatil
 
         If _DetalleGrid.Rows.Count > 0 Then
             TotalKilos = Convert.ToDecimal(_DetalleGrid.Compute("SUM(Kilos)", String.Empty))
-            lblTotalKilos.Text = Convert.ToString(TotalKilos)
+            lblTotalKilos.Text = CType(_Kilos, Decimal).ToString("N1")
         End If
     End Sub
 
