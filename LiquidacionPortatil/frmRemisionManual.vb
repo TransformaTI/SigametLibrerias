@@ -1253,17 +1253,30 @@ Public Class frmRemisionManual
             Dim ExistenciaProducto As Integer = Nothing
             Dim lblExistenciaProducto As New System.Windows.Forms.Label()
             Dim i As Integer = 0
+            Dim producto, KILOS, cantidad As Integer
+            Dim total As Decimal
 
-            While i < dtProducto.Rows.Count And CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(3), Integer) <> CType(dtProducto.Rows(i).Item(0), Integer)
+            If dtLiquidacionTotal.Columns.Count = 13 Then
+                producto = CInt(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(11))
+                KILOS = (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(4), Integer))
+                cantidad = (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(10), Integer))
+                total = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(7), Decimal)
+            Else
+                producto = CInt(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(3))
+                KILOS = (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(5), Integer))
+                cantidad = (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(6), Integer))
+                Total = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(9), Decimal)
+            End If
+            While i < dtProducto.Rows.Count And producto <> CType(dtProducto.Rows(i).Item(0), Integer)
                 i = i + 1
             End While
 
-            If CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(3), Integer) = CType(dtProducto.Rows(i).Item(0), Integer) Then
+            If producto = CType(dtProducto.Rows(i).Item(0), Integer) Then
                 lblExistenciaProducto = CType(lblListaExistencia.Item(i), System.Windows.Forms.Label)
                 lblExistenciaProducto.Text = CType(CType(lblExistenciaProducto.Text, Integer) + CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(6), Integer), String)
 
-                _Kilos = _Kilos - (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(6), Integer) * CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(5), Integer))
-                _TotalLiquidarPedido = _TotalLiquidarPedido - CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(9), Decimal)
+                _Kilos = _Kilos - cantidad * KILOS
+                _TotalLiquidarPedido = _TotalLiquidarPedido - total
 
                 Dim Indice As Integer = grdDetalle.CurrentRowIndex
 
@@ -1299,44 +1312,70 @@ Public Class frmRemisionManual
     End Sub
 
     Private Sub btnBorrar_Click(sender As Object, e As EventArgs) Handles btnBorrar.Click
-        Cursor = Cursors.WaitCursor
-        If dtLiquidacionTotal.Rows.Count > 0 Then
-            If _Configuracion = 1 Then
-                Dim oLiquidacionPedido As Liquidacion.cLiquidacion
-                If _Configuracion = 0 Then
-                    oLiquidacionPedido = New Liquidacion.cLiquidacion(1, 0, 0, 0)
+        Try
+            Cursor = Cursors.WaitCursor
+            If dtLiquidacionTotal.Rows.Count > 0 Then
+                If _Configuracion = 1 Then
+                    Dim oLiquidacionPedido As Liquidacion.cLiquidacion
+                    If _Configuracion = 0 Then
+                        oLiquidacionPedido = New Liquidacion.cLiquidacion(1, 0, 0, 0)
+                    Else
+                        Dim fecha As DateTime
+                        Dim Serie As String
+                        Dim Remision, Poroductotempo As Integer
+
+                        If dtLiquidacionTotal.Columns.Count = 13 Then
+                            fecha = dtpFRemision.Value
+                            Serie = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(0), String)
+                            Remision = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(1), Integer)
+                        Else
+                            fecha = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(2), DateTime)
+                            Serie = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(1), String)
+                            Remision = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(0), Integer)
+
+                        End If
+                        oLiquidacionPedido = New Liquidacion.cLiquidacion(5, 0, 0, 0)
+                        oLiquidacionPedido.PedidoDetalleRemision(0, 0, 0, Nothing, Nothing, 0, 0, 0, 0, 0, 0, 0, fecha,
+                                                        Remision,
+                                                        Serie, 0, _Cliente)
+                        Dim ind As Integer = 0
+                        Dim CantidadTemporal As Integer
+                        If dtLiquidacionTotal.Columns.Count = 13 Then
+                            Poroductotempo = CType(dtLiquidacionTotal.Rows(ind).Item(11), Integer)
+                            CantidadTemporal = CType(dtLiquidacionTotal.Rows(ind).Item(10), Integer)
+                        Else
+                            Poroductotempo = CType(dtLiquidacionTotal.Rows(ind).Item(3), Integer)
+                            CantidadTemporal = CType(dtLiquidacionTotal.Rows(ind).Item(6), Integer)
+                        End If
+                        While ind < dtLiquidacionTotal.Rows.Count
+                            Dim ProductoTemp As Integer = Poroductotempo
+                            Dim CantidadTemp As Integer = CantidadTemporal
+                            Dim encontrado As Boolean = False
+                            For Each p As DataRow In Me.dtCantidades.Rows
+                                If Convert.ToInt32(p("IdProducto")) = ProductoTemp Then
+                                    p.BeginEdit()
+                                    p("Cantidad") = Convert.ToInt32(p("Cantidad")) - CantidadTemp
+                                    p.EndEdit()
+                                    encontrado = True
+                                    Exit For
+                                End If
+                            Next
+                            ind = ind + 1
+                        End While
+
+                    End If
+
+
+                    BorrarGridPedido()
+
                 Else
-                    oLiquidacionPedido = New Liquidacion.cLiquidacion(5, 0, 0, 0)
-                    oLiquidacionPedido.PedidoDetalleRemision(0, 0, 0, Nothing, Nothing, 0, 0, 0, 0, 0, 0, 0, CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(2), DateTime),
-                                                        CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(0), Integer),
-                                                        CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(1), String), 0, _Cliente)
-                    Dim ind As Integer = 0
-                    While ind < dtLiquidacionTotal.Rows.Count
-                        Dim ProductoTemp As Integer = CType(dtLiquidacionTotal.Rows(ind).Item(3), Integer)
-                        Dim CantidadTemp As Integer = CType(dtLiquidacionTotal.Rows(ind).Item(6), Integer)
-                        Dim encontrado As Boolean = False
-                        For Each p As DataRow In Me.dtCantidades.Rows
-                            If Convert.ToInt32(p("IdProducto")) = ProductoTemp Then
-                                p.BeginEdit()
-                                p("Cantidad") = Convert.ToInt32(p("Cantidad")) - CantidadTemp
-                                p.EndEdit()
-                                encontrado = True
-                                Exit For
-                            End If
-                        Next
-                        ind = ind + 1
-                    End While
-
+                    BorrarGridPedido()
                 End If
-
-
-                BorrarGridPedido()
-
-            Else
-                BorrarGridPedido()
             End If
-        End If
-        Cursor = Cursors.Default
+            Cursor = Cursors.Default
+        Catch EX As Exception
+            MessageBox.Show(EX.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub dtpFRemision_KeyDown(sender As Object, e As KeyEventArgs) Handles dtpFRemision.KeyDown, txtRemision.KeyDown, txtSerie.KeyDown

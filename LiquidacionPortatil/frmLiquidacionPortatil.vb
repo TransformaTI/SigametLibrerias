@@ -2579,7 +2579,7 @@ Public Class frmLiquidacionPortatil
             grdDetalle.DataSource = Nothing
 
             'Caculamos importes
-            lblTotalCobro.Text = CType(_TotalNetoCaja, Decimal).ToString("N2")
+            ' lblTotalCobro.Text = CType(_TotalNetoCaja, Decimal).ToString("N2")
             ' lblTotal.Text = CType((_TotalLiquidarPedido - (_TotalNetoCaja + _TotalCreditos)), Decimal).ToString("N2")
             lblVentaTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
             lblCredito.Text = CType(_TotalCreditos, Decimal).ToString("N2")
