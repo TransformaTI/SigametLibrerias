@@ -57,6 +57,7 @@ Public Class frmLiquidacionPortatil
     Private _ListaCobroRemisiones As New List(Of SigaMetClasses.CobroRemisiones)
     Private _RutaMovil As Boolean
     Private _addRemisiones As Boolean
+    Dim Credito As Decimal
     Public Property Cobros() As List(Of SigaMetClasses.CobroDetalladoDatos)
         Get
             Return _listaCobros
@@ -6202,7 +6203,7 @@ Public Class frmLiquidacionPortatil
 
         For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
             If Cobro.TipoCobro = 5 Then
-                TotalEfectivo = TotalEfectivo + Cobro.Total
+                TotalEfectivo = TotalEfectivo + Cobro.Total - Credito
             End If
             If Cobro.TipoCobro = 2 Then
                 TotalVales = TotalVales + Cobro.Total
@@ -6259,7 +6260,7 @@ Public Class frmLiquidacionPortatil
 
         If Not dt Is Nothing Then
             For Each dr As DataRow In dt.Rows
-                If dr("FormaPago").ToString() = "CREDITO" Then
+                If dr("FormaPago").ToString().Trim = "Crédito Portátil" Then
                     VentaCredito = VentaCredito + Convert.ToDecimal(dr("Importe").ToString())
                 End If
             Next
@@ -6426,11 +6427,15 @@ Public Class frmLiquidacionPortatil
             Pago = _listaCobros.Count + 1
             Dim cobro As SigaMetClasses.CobroDetalladoDatos = AltaPagoEfectivo(Pago)
             _listaCobros.Add(cobro)
-            ActualizarTotalizadorFormasDePago(_listaCobros)
-            For Each row As DataRow In _DetalleGrid.Rows
-                _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo") = 0
-            Next
 
+            For Each row As DataRow In _DetalleGrid.Rows
+                If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim <> "Crédito Portátil" Then
+                    _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo") = 0
+                Else
+                    Credito = Credito + CDec(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"))
+                End If
+            Next
+            ActualizarTotalizadorFormasDePago(_listaCobros)
             MessageBox.Show("¡Cobro de remisiones concluida!")
 
         End If
@@ -6640,8 +6645,8 @@ Public Class frmLiquidacionPortatil
     Public Sub cargarRemisiones()
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
         Dim TotalKilos As New Decimal
-        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
-        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
+        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
         grdDetalle.DataSource = _DetalleGrid
 
         If _DetalleGrid.Rows.Count > 0 Then
