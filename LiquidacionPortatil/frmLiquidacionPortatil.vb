@@ -5426,78 +5426,18 @@ Public Class frmLiquidacionPortatil
                 Impuesto = Total - Importe
                 Dim X As Integer
                 Dim ListCobro As Integer = 0
-                Dim importeefectivo, impuestoEfectivo, totalefectivo As Decimal
-                Dim importeCheque, impuestoCheque, totalCheque As Decimal
-                Dim importetarjeta, impuestotarjeta, totaltarjeta As Decimal
-                Dim importeTransferencia, impuestoTransferencia, totaltransferencia As Decimal
-                Dim importevale, impuestovale, totalvale As Decimal
-                Dim importeAnticipo, impuestoAnticipo, totalAnticipo As Decimal
+
                 For X = 0 To _listaCobros.Count - 1
                     Dim cobro_Tipocobro As SigaMetClasses.CobroDetalladoDatos = _listaCobros(ListCobro)
 
                     If cobro_Tipocobro.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales Then
-                        importeefectivo = importeefectivo + cobro_Tipocobro.Importe
-                        totalefectivo = totalefectivo + cobro_Tipocobro.Total
-                        impuestoEfectivo = impuestoEfectivo + cobro_Tipocobro.Impuesto
+
                     End If
-                    If cobro_Tipocobro.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Cheque Then
-                        importeCheque = importeCheque + cobro_Tipocobro.Importe
-                        impuestoCheque = impuestoCheque + cobro_Tipocobro.Impuesto
-                        totalCheque = totalCheque + cobro_Tipocobro.Total
-                    End If
-                    If cobro_Tipocobro.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito Then
-                        importetarjeta = importetarjeta + cobro_Tipocobro.Importe
-                        totaltarjeta = totaltarjeta + cobro_Tipocobro.Total
-                        impuestotarjeta = impuestotarjeta + cobro_Tipocobro.Impuesto
-                    End If
-                    If cobro_Tipocobro.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Transferencia Then
-                        importeTransferencia = importeTransferencia + cobro_Tipocobro.Importe
-                        totaltransferencia = totaltransferencia + cobro_Tipocobro.Total
-                        impuestoTransferencia = impuestoTransferencia + cobro_Tipocobro.Impuesto
-                    End If
-                    If cobro_Tipocobro.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.Vales Then
-                        importevale = importevale + cobro_Tipocobro.Importe
-                        totalvale = totalvale + cobro_Tipocobro.Total
-                        impuestovale = impuestovale + cobro_Tipocobro.Impuesto
-                    End If
-                    If cobro_Tipocobro.TipoCobro = SigaMetClasses.Enumeradores.enumTipoCobro.AplicacionAnticipo Then
-                        importeAnticipo = importeAnticipo + cobro_Tipocobro.Importe
-                        totalAnticipo = totalAnticipo + cobro_Tipocobro.Total
-                        impuestoAnticipo = impuestoAnticipo + cobro_Tipocobro.Impuesto
-                    End If
+
+
+                    oLiquidacionCobro.LiquidacionCobro(cobro_Tipocobro.Importe, cobro_Tipocobro.Impuesto, cobro_Tipocobro.Total, "", 0, Now, "EMITIDO", cobro_Tipocobro.TipoCobro, "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
                     ListCobro = ListCobro + 1
-                    'oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
                 Next
-
-                If totalefectivo > 0 Then
-                    oLiquidacionCobro.LiquidacionCobro(importeefectivo, impuestoEfectivo, totalefectivo, "", 0, Now, "EMITIDO", CShort(SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
-                End If
-                If totalCheque > 0 Then
-                    oLiquidacionCobro.LiquidacionCobro(importeCheque, impuestoCheque, totalCheque, "", 0, Now, "EMITIDO", CShort(SigaMetClasses.Enumeradores.enumTipoCobro.Cheque), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
-                End If
-                If totaltarjeta > 0 Then
-                    oLiquidacionCobro.LiquidacionCobro(importetarjeta, impuestotarjeta, totaltarjeta, "", 0, Now, "EMITIDO", CShort(SigaMetClasses.Enumeradores.enumTipoCobro.TarjetaCredito), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
-                End If
-
-                If totaltransferencia > 0 Then
-                    oLiquidacionCobro.LiquidacionCobro(importeTransferencia, impuestoTransferencia, totaltransferencia, "", 0, Now, "EMITIDO", CShort(SigaMetClasses.Enumeradores.enumTipoCobro.Transferencia), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
-                End If
-
-                If totalvale > 0 Then
-                    oLiquidacionCobro.LiquidacionCobro(importevale, impuestovale, totalvale, "", 0, Now, "EMITIDO", CShort(SigaMetClasses.Enumeradores.enumTipoCobro.Vales), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
-                End If
-
-                If totalAnticipo > 0 Then
-                    oLiquidacionCobro.LiquidacionCobro(importeAnticipo, impuestoAnticipo, totalAnticipo, "", 0, Now, "EMITIDO", CShort(SigaMetClasses.Enumeradores.enumTipoCobro.AplicacionAnticipo), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
-                End If
-
-
-
-
-
-
-
-
 
                 dtPedidoCobro.DefaultView.Item(k).Item(17) = oLiquidacionCobro.Cobro
                 dtPedidoCobro.DefaultView.Item(k).Item(16) = oLiquidacionCobro.AnoCobro
@@ -6674,8 +6614,8 @@ Public Class frmLiquidacionPortatil
     Public Sub cargarRemisiones()
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
         Dim TotalKilos As New Decimal
-        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
-        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
+        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
         grdDetalle.DataSource = _DetalleGrid
 
         If _DetalleGrid.Rows.Count > 0 Then
