@@ -304,6 +304,7 @@ Public Class frmRemisionManual
         Me.DataGridTextBoxColumn11 = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.DataGridTextBoxColumn12 = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.DataGridTextBoxColumn13 = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.DataGridTextBoxColumn14 = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.btnBorrar = New ControlesBase.BotonBase()
         Me.btnAgregar = New ControlesBase.BotonBase()
         Me.btnAceptar = New System.Windows.Forms.Button()
@@ -337,7 +338,6 @@ Public Class frmRemisionManual
         Me.lblNombreClientetck = New System.Windows.Forms.Label()
         Me.TxtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.lblCliente = New System.Windows.Forms.Label()
-        Me.DataGridTextBoxColumn14 = New System.Windows.Forms.DataGridTextBoxColumn()
         CType(Me.grdDetalle, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlProducto.SuspendLayout()
         Me.grbInformacion.SuspendLayout()
@@ -347,11 +347,11 @@ Public Class frmRemisionManual
         '
         Me.txtRemision.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRemision.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.txtRemision.Location = New System.Drawing.Point(421, 64)
+        Me.txtRemision.Location = New System.Drawing.Point(316, 53)
         Me.txtRemision.MaxLength = 8
         Me.txtRemision.Name = "txtRemision"
-        Me.txtRemision.Size = New System.Drawing.Size(110, 20)
-        Me.txtRemision.TabIndex = 5
+        Me.txtRemision.Size = New System.Drawing.Size(94, 20)
+        Me.txtRemision.TabIndex = 3
         Me.txtRemision.Text = "TxtNumeroEntero1"
         Me.tltLiquidacion.SetToolTip(Me.txtRemision, "Introduzca la cantidad de productos a liquidar")
         '
@@ -369,7 +369,7 @@ Public Class frmRemisionManual
         Me.grdDetalle.Name = "grdDetalle"
         Me.grdDetalle.ReadOnly = True
         Me.grdDetalle.Size = New System.Drawing.Size(567, 184)
-        Me.grdDetalle.TabIndex = 24
+        Me.grdDetalle.TabIndex = 15
         Me.grdDetalle.TableStyles.AddRange(New System.Windows.Forms.DataGridTableStyle() {Me.DataGridTableStyle1})
         Me.tltLiquidacion.SetToolTip(Me.grdDetalle, "Detalle de productos liquidados")
         '
@@ -486,6 +486,14 @@ Public Class frmRemisionManual
         Me.DataGridTextBoxColumn13.MappingName = "FormaPago"
         Me.DataGridTextBoxColumn13.Width = 95
         '
+        'DataGridTextBoxColumn14
+        '
+        Me.DataGridTextBoxColumn14.Format = ""
+        Me.DataGridTextBoxColumn14.FormatInfo = Nothing
+        Me.DataGridTextBoxColumn14.HeaderText = "Descuento"
+        Me.DataGridTextBoxColumn14.MappingName = "Descuento"
+        Me.DataGridTextBoxColumn14.Width = 75
+        '
         'btnBorrar
         '
         Me.btnBorrar.BackColor = System.Drawing.SystemColors.Control
@@ -495,7 +503,7 @@ Public Class frmRemisionManual
         Me.btnBorrar.Location = New System.Drawing.Point(330, 365)
         Me.btnBorrar.Name = "btnBorrar"
         Me.btnBorrar.Size = New System.Drawing.Size(80, 24)
-        Me.btnBorrar.TabIndex = 23
+        Me.btnBorrar.TabIndex = 12
         Me.btnBorrar.Text = "Borrar"
         Me.btnBorrar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.btnBorrar, "Presione borrar para eliminar el registro seleccionado en en el detalle de produc" &
@@ -511,7 +519,7 @@ Public Class frmRemisionManual
         Me.btnAgregar.Location = New System.Drawing.Point(213, 365)
         Me.btnAgregar.Name = "btnAgregar"
         Me.btnAgregar.Size = New System.Drawing.Size(80, 24)
-        Me.btnAgregar.TabIndex = 22
+        Me.btnAgregar.TabIndex = 11
         Me.btnAgregar.Text = "Agregar"
         Me.btnAgregar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.btnAgregar, "Presione agregar para anexar los productos a la tabla de productos a procesar por" &
@@ -526,7 +534,7 @@ Public Class frmRemisionManual
         Me.btnAceptar.Location = New System.Drawing.Point(643, 21)
         Me.btnAceptar.Name = "btnAceptar"
         Me.btnAceptar.Size = New System.Drawing.Size(75, 23)
-        Me.btnAceptar.TabIndex = 8
+        Me.btnAceptar.TabIndex = 13
         Me.btnAceptar.Text = "Aceptar"
         Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.btnAceptar, "Presione aceptar para registrar el pedido por remisión")
@@ -547,7 +555,7 @@ Public Class frmRemisionManual
         Me.btnCancelar.Location = New System.Drawing.Point(643, 53)
         Me.btnCancelar.Name = "btnCancelar"
         Me.btnCancelar.Size = New System.Drawing.Size(75, 23)
-        Me.btnCancelar.TabIndex = 9
+        Me.btnCancelar.TabIndex = 14
         Me.btnCancelar.Text = "Cancelar"
         Me.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.btnCancelar, "Presione cancelar para no registrar el pedido por remisión")
@@ -557,7 +565,7 @@ Public Class frmRemisionManual
         Me.lblNombreCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblNombreCliente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblNombreCliente.ForeColor = System.Drawing.Color.Blue
-        Me.lblNombreCliente.Location = New System.Drawing.Point(90, 114)
+        Me.lblNombreCliente.Location = New System.Drawing.Point(125, 110)
         Me.lblNombreCliente.Name = "lblNombreCliente"
         Me.lblNombreCliente.Size = New System.Drawing.Size(285, 21)
         Me.lblNombreCliente.TabIndex = 67
@@ -568,20 +576,20 @@ Public Class frmRemisionManual
         '
         Me.cboTipoCobro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboTipoCobro.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboTipoCobro.Location = New System.Drawing.Point(92, 177)
+        Me.cboTipoCobro.Location = New System.Drawing.Point(125, 168)
         Me.cboTipoCobro.Name = "cboTipoCobro"
         Me.cboTipoCobro.Size = New System.Drawing.Size(168, 21)
-        Me.cboTipoCobro.TabIndex = 5
+        Me.cboTipoCobro.TabIndex = 7
         Me.tltLiquidacion.SetToolTip(Me.cboTipoCobro, "Seleccione la forma de cobro que realizará")
         '
         'cboZEconomica
         '
         Me.cboZEconomica.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboZEconomica.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboZEconomica.Location = New System.Drawing.Point(110, 143)
+        Me.cboZEconomica.Location = New System.Drawing.Point(125, 139)
         Me.cboZEconomica.Name = "cboZEconomica"
         Me.cboZEconomica.Size = New System.Drawing.Size(285, 21)
-        Me.cboZEconomica.TabIndex = 4
+        Me.cboZEconomica.TabIndex = 6
         Me.tltLiquidacion.SetToolTip(Me.cboZEconomica, "Seleccione la zona económica donde se relaizó la venta")
         '
         'Btn_Modificar
@@ -590,10 +598,10 @@ Public Class frmRemisionManual
         Me.Btn_Modificar.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Modificar.Image = CType(resources.GetObject("Btn_Modificar.Image"), System.Drawing.Image)
         Me.Btn_Modificar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Btn_Modificar.Location = New System.Drawing.Point(421, 168)
+        Me.Btn_Modificar.Location = New System.Drawing.Point(431, 164)
         Me.Btn_Modificar.Name = "Btn_Modificar"
         Me.Btn_Modificar.Size = New System.Drawing.Size(96, 27)
-        Me.Btn_Modificar.TabIndex = 73
+        Me.Btn_Modificar.TabIndex = 9
         Me.Btn_Modificar.Text = "Modificar"
         Me.Btn_Modificar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.tltLiquidacion.SetToolTip(Me.Btn_Modificar, "Presione agregar para anexar los productos a la tabla de productos a procesar por" &
@@ -614,9 +622,9 @@ Public Class frmRemisionManual
         Me.dtpFRemision.CustomFormat = "dddd dd 'de' MMMM 'de' yyy, hh:mm tt"
         Me.dtpFRemision.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpFRemision.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpFRemision.Location = New System.Drawing.Point(129, 27)
+        Me.dtpFRemision.Location = New System.Drawing.Point(125, 25)
         Me.dtpFRemision.Name = "dtpFRemision"
-        Me.dtpFRemision.Size = New System.Drawing.Size(397, 21)
+        Me.dtpFRemision.Size = New System.Drawing.Size(285, 21)
         Me.dtpFRemision.TabIndex = 1
         '
         'pnlProducto
@@ -632,7 +640,7 @@ Public Class frmRemisionManual
         Me.pnlProducto.Location = New System.Drawing.Point(90, 217)
         Me.pnlProducto.Name = "pnlProducto"
         Me.pnlProducto.Size = New System.Drawing.Size(432, 142)
-        Me.pnlProducto.TabIndex = 21
+        Me.pnlProducto.TabIndex = 10
         '
         'lblExistencia1
         '
@@ -697,7 +705,7 @@ Public Class frmRemisionManual
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(309, 67)
+        Me.Label1.Location = New System.Drawing.Point(248, 60)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(62, 13)
         Me.Label1.TabIndex = 4
@@ -705,17 +713,17 @@ Public Class frmRemisionManual
         '
         'txtSerie
         '
-        Me.txtSerie.Location = New System.Drawing.Point(60, 63)
+        Me.txtSerie.Location = New System.Drawing.Point(125, 52)
         Me.txtSerie.MaxLength = 10
         Me.txtSerie.Name = "txtSerie"
-        Me.txtSerie.Size = New System.Drawing.Size(233, 21)
+        Me.txtSerie.Size = New System.Drawing.Size(94, 21)
         Me.txtSerie.TabIndex = 2
         Me.txtSerie.Text = "TxtString1"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(15, 67)
+        Me.Label2.Location = New System.Drawing.Point(17, 60)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(39, 13)
         Me.Label2.TabIndex = 2
@@ -796,7 +804,7 @@ Public Class frmRemisionManual
         '
         Me.lblZonaEconomica.AutoSize = True
         Me.lblZonaEconomica.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblZonaEconomica.Location = New System.Drawing.Point(17, 151)
+        Me.lblZonaEconomica.Location = New System.Drawing.Point(17, 147)
         Me.lblZonaEconomica.Name = "lblZonaEconomica"
         Me.lblZonaEconomica.Size = New System.Drawing.Size(87, 13)
         Me.lblZonaEconomica.TabIndex = 72
@@ -805,10 +813,10 @@ Public Class frmRemisionManual
         'cbxAplicaDescuento
         '
         Me.cbxAplicaDescuento.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cbxAplicaDescuento.Location = New System.Drawing.Point(283, 179)
+        Me.cbxAplicaDescuento.Location = New System.Drawing.Point(310, 173)
         Me.cbxAplicaDescuento.Name = "cbxAplicaDescuento"
         Me.cbxAplicaDescuento.Size = New System.Drawing.Size(105, 16)
-        Me.cbxAplicaDescuento.TabIndex = 6
+        Me.cbxAplicaDescuento.TabIndex = 8
         Me.cbxAplicaDescuento.TabStop = False
         Me.cbxAplicaDescuento.Text = "Aplica descuento"
         '
@@ -816,7 +824,7 @@ Public Class frmRemisionManual
         '
         Me.lblTipoCobro.AutoSize = True
         Me.lblTipoCobro.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTipoCobro.Location = New System.Drawing.Point(17, 180)
+        Me.lblTipoCobro.Location = New System.Drawing.Point(17, 176)
         Me.lblTipoCobro.Name = "lblTipoCobro"
         Me.lblTipoCobro.Size = New System.Drawing.Size(69, 13)
         Me.lblTipoCobro.TabIndex = 69
@@ -824,10 +832,10 @@ Public Class frmRemisionManual
         '
         'Btn_Buscar
         '
-        Me.Btn_Buscar.Location = New System.Drawing.Point(398, 88)
+        Me.Btn_Buscar.Location = New System.Drawing.Point(431, 79)
         Me.Btn_Buscar.Name = "Btn_Buscar"
         Me.Btn_Buscar.Size = New System.Drawing.Size(75, 23)
-        Me.Btn_Buscar.TabIndex = 31
+        Me.Btn_Buscar.TabIndex = 5
         Me.Btn_Buscar.Text = "Buscar"
         Me.Btn_Buscar.UseVisualStyleBackColor = True
         '
@@ -835,7 +843,7 @@ Public Class frmRemisionManual
         '
         Me.lblNombreClientetck.AutoSize = True
         Me.lblNombreClientetck.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNombreClientetck.Location = New System.Drawing.Point(15, 122)
+        Me.lblNombreClientetck.Location = New System.Drawing.Point(17, 118)
         Me.lblNombreClientetck.Name = "lblNombreClientetck"
         Me.lblNombreClientetck.Size = New System.Drawing.Size(54, 13)
         Me.lblNombreClientetck.TabIndex = 66
@@ -843,28 +851,20 @@ Public Class frmRemisionManual
         '
         'TxtCliente
         '
-        Me.TxtCliente.Location = New System.Drawing.Point(90, 90)
+        Me.TxtCliente.Location = New System.Drawing.Point(125, 81)
         Me.TxtCliente.Name = "TxtCliente"
         Me.TxtCliente.Size = New System.Drawing.Size(285, 21)
-        Me.TxtCliente.TabIndex = 3
+        Me.TxtCliente.TabIndex = 4
         '
         'lblCliente
         '
         Me.lblCliente.AutoSize = True
         Me.lblCliente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCliente.Location = New System.Drawing.Point(15, 93)
+        Me.lblCliente.Location = New System.Drawing.Point(17, 89)
         Me.lblCliente.Name = "lblCliente"
         Me.lblCliente.Size = New System.Drawing.Size(49, 13)
         Me.lblCliente.TabIndex = 65
         Me.lblCliente.Text = "Cliente:"
-        '
-        'DataGridTextBoxColumn14
-        '
-        Me.DataGridTextBoxColumn14.Format = ""
-        Me.DataGridTextBoxColumn14.FormatInfo = Nothing
-        Me.DataGridTextBoxColumn14.HeaderText = "Descuento"
-        Me.DataGridTextBoxColumn14.MappingName = "Descuento"
-        Me.DataGridTextBoxColumn14.Width = 75
         '
         'frmRemisionManual
         '
