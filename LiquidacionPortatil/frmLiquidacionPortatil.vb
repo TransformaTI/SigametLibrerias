@@ -4225,6 +4225,11 @@ Public Class frmLiquidacionPortatil
                             ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
                                 oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, MovimientoAlmacenSalidaObsequio, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(4), Integer) * CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction)
                                 _TotalContado = _TotalContado + Total
+                            ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 3 Then
+                                oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, MovimientoAlmacenSalidaObsequio, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(4), Integer) * CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction)
+                                _TotalContado = _TotalContado + Total
+
+
                             End If
                             dtLiquidacionTotal.Rows(i).Item(16) = oLiquidacionPedido.AnoPedido
                             dtLiquidacionTotal.Rows(i).Item(17) = oLiquidacionPedido.Pedido
@@ -6368,62 +6373,66 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnPagoEfectivo_Click(sender As Object, e As EventArgs) Handles btnPagoEfectivo.Click
+
         Dim PagoEfectivoDefault As Boolean
         Dim Pago As Integer
         Dim result As Integer = MessageBox.Show("¿Desea enviar las remisiones a Pago en Efectivo?", "Pago en Efectivo", MessageBoxButtons.YesNo)
+        Try
 
+            If (result = DialogResult.No) Then
+                PagoEfectivoDefault = False
+                Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 0, _Folio)
+                Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
 
-        If (result = DialogResult.No) Then
-            PagoEfectivoDefault = False
-            Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 0, _Folio)
-            Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
+                frmSeleTipoCobro.MostrarDacion = False
+                frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
+                frmSeleTipoCobro.fecha = fechaCargo
+                frmSeleTipoCobro.TotalCobros = _listaCobros.Count
+                frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
 
-            frmSeleTipoCobro.MostrarDacion = False
-            frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
-            frmSeleTipoCobro.fecha = fechaCargo
-            frmSeleTipoCobro.TotalCobros = _listaCobros.Count
-            frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
+                If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
+                    If _listaCobros.Count = 0 Then
+                        _listaCobros = frmSeleTipoCobro.Cobros
+                    Else
+                        For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
+                            _listaCobros.Add(Cobro)
+                        Next
+                        _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
+                    End If
+                    ActualizarTotalizadorFormasDePago(_listaCobros)
+                    If frmSeleTipoCobro.CobroRemisiones.Count > 0 Then
+                        '_ListaCobroRemisiones.Add(frmSeleTipoCobro.CobroRemisiones(0))
 
-            If frmSeleTipoCobro.ShowDialog() = DialogResult.OK Then
-                If _listaCobros.Count = 0 Then
-                    _listaCobros = frmSeleTipoCobro.Cobros
-                Else
-                    For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
-                        _listaCobros.Add(Cobro)
-                    Next
-                    _DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones
+                        For Each cobroRemision As SigaMetClasses.CobroRemisiones In frmSeleTipoCobro.CobroRemisiones
+                            _ListaCobroRemisiones.Add(cobroRemision)
+                        Next
+                    End If
+                    Cursor = Cursors.WaitCursor
+                    Cursor = Cursors.Default
                 End If
+            Else
+                PagoEfectivoDefault = True
+
+                Pago = _listaCobros.Count + 1
+                Dim cobro As SigaMetClasses.CobroDetalladoDatos = AltaPagoEfectivo(Pago)
+                _listaCobros.Add(cobro)
+
+                For Each row As DataRow In _DetalleGrid.Rows
+                    If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim <> "Crédito Portátil" Then
+                        _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo") = 0
+                    Else
+                        Credito = Credito + CDec(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"))
+                    End If
+                Next
                 ActualizarTotalizadorFormasDePago(_listaCobros)
-                If frmSeleTipoCobro.CobroRemisiones.Count > 0 Then
-                    '_ListaCobroRemisiones.Add(frmSeleTipoCobro.CobroRemisiones(0))
+                MessageBox.Show("¡Cobro de remisiones concluida!")
 
-                    For Each cobroRemision As SigaMetClasses.CobroRemisiones In frmSeleTipoCobro.CobroRemisiones
-                        _ListaCobroRemisiones.Add(cobroRemision)
-                    Next
-                End If
-                Cursor = Cursors.WaitCursor
-                Cursor = Cursors.Default
             End If
-        Else
-            PagoEfectivoDefault = True
 
-            Pago = _listaCobros.Count + 1
-            Dim cobro As SigaMetClasses.CobroDetalladoDatos = AltaPagoEfectivo(Pago)
-            _listaCobros.Add(cobro)
-
-            For Each row As DataRow In _DetalleGrid.Rows
-                If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim <> "Crédito Portátil" Then
-                    _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo") = 0
-                Else
-                    Credito = Credito + CDec(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"))
-                End If
-            Next
-            ActualizarTotalizadorFormasDePago(_listaCobros)
-            MessageBox.Show("¡Cobro de remisiones concluida!")
-
-        End If
-
-        Validacion()
+            Validacion()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub lblAplicAnticipo_Click(sender As Object, e As EventArgs)
@@ -6640,46 +6649,50 @@ Public Class frmLiquidacionPortatil
 
     Public Function AltaPagoEfectivo(PagoNum As Integer) As SigaMetClasses.CobroDetalladoDatos
         Dim insertaCobro As New SigaMetClasses.CobroDetalladoDatos()
-
         Dim TotalRemisiones As Decimal = Convert.ToDecimal(_DetalleGrid.Compute("SUM(saldo)", String.Empty))
+        If TotalRemisiones > 0 Then
+            With insertaCobro
+                .Pago = PagoNum
+                .SaldoAFavor = False
+                .AñoCobro = CShort(DateTime.Now.Year)
+                .Cobro = 0
+                .Total = TotalRemisiones
+                .Importe = .Total / CDec(1 + (16 / 100))
+                .Impuesto = .Total - .Importe
+                .Referencia = "NULL" ' puede ser vacio
+                .Banco = CShort("0") 'puede ser null
+                .FAlta = CDate(DateTime.Now.ToString("dd/MM/yyyy"))
+                .Status = "EMITIDO"
+                .TipoCobro = CByte(SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales)
+                .DscTipoCobro = "Efectivo"
+                .NumeroCheque = "NULL" ' puede ser vacio
+                .FCheque = Date.MinValue
+                .NumeroCuenta = "NULL"
+                .Observaciones = "NULL"
+                .FDevolucion = Date.MinValue
+                .RazonDevCheque = Nothing
+                .Cliente = 0 ' este dato se debeb de obtener depues de las remisiones
+                .Saldo = 10 ' igual este dato
+                .Usuario = _Usuario
+                .FActualizacion = CDate(DateTime.Now.ToString("dd/MM/yyyy"))
+                .Folio = 0
+                .FDeposito = Date.MinValue
+                .FolioAtt = 0
+                .AñoAtt = CShort(Now.Year)
+                .NumeroCuentaDestino = "NULL"
+                .BancoOrigen = CShort("0")
+                .StatusSaldoAFavor = "NULL"
+                .AñoCobroOrigen = CShort("0")
+                .CobroOrigen = 0
+                .TPV = False
+            End With
+        Else
+            Throw New Exception("El monto de un cobro no puede ser cero")
 
-        With insertaCobro
-            .Pago = PagoNum
-            .SaldoAFavor = False
-            .AñoCobro = CShort(DateTime.Now.Year)
-            .Cobro = 0
-            .Total = TotalRemisiones
-            .Importe = .Total / CDec(1 + (16 / 100))
-            .Impuesto = .Total - .Importe
-            .Referencia = "NULL" ' puede ser vacio
-            .Banco = CShort("0") 'puede ser null
-            .FAlta = CDate(DateTime.Now.ToString("dd/MM/yyyy"))
-            .Status = "EMITIDO"
-            .TipoCobro = CByte(SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales)
-            .DscTipoCobro = "Efectivo"
-            .NumeroCheque = "NULL" ' puede ser vacio
-            .FCheque = Date.MinValue
-            .NumeroCuenta = "NULL"
-            .Observaciones = "NULL"
-            .FDevolucion = Date.MinValue
-            .RazonDevCheque = Nothing
-            .Cliente = 0 ' este dato se debeb de obtener depues de las remisiones
-            .Saldo = 10 ' igual este dato
-            .Usuario = _Usuario
-            .FActualizacion = CDate(DateTime.Now.ToString("dd/MM/yyyy"))
-            .Folio = 0
-            .FDeposito = Date.MinValue
-            .FolioAtt = 0
-            .AñoAtt = CShort(Now.Year)
-            .NumeroCuentaDestino = "NULL"
-            .BancoOrigen = CShort("0")
-            .StatusSaldoAFavor = "NULL"
-            .AñoCobroOrigen = CShort("0")
-            .CobroOrigen = 0
-            .TPV = False
-        End With
+        End If
 
         Return insertaCobro
+
     End Function
 
     Function Validacion() As Boolean
