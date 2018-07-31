@@ -52,7 +52,7 @@ Public Class frmLiquidacionPortatil
     Public dtRemisiones As New DataTable
     Public dtCantidades As New DataTable
     Private _Configuracion As Integer
-
+    Dim Indexgrddetalle As Integer
     Private _listaCobros As New List(Of SigaMetClasses.CobroDetalladoDatos)
     Private _ListaCobroRemisiones As New List(Of SigaMetClasses.CobroRemisiones)
     Private _RutaMovil As Boolean
@@ -5654,7 +5654,20 @@ Public Class frmLiquidacionPortatil
     'Actualiza la etiqueta de efectivo a cobrar
     Private Sub capEfectivo_TotalActualizado() Handles capEfectivo.TotalActualizado
         lblEfectivo.Text = CType(capEfectivo.TotalEfectivo, Decimal).ToString("N2")
-        Validacion()
+        ''Validacion()
+        Dim SaldoDec, pagoEfectivo As Decimal
+        pagoEfectivo = CType(capEfectivo.Morralla, Decimal)
+        SaldoDec = CDec(_DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Importe"))
+
+        If pagoEfectivo > SaldoDec Then
+            _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("saldo") = 0
+            Dim Cambio As Decimal = pagoEfectivo - SaldoDec
+            lblCambio.Text = Cambio.ToString("N2")
+        Else
+            _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("saldo") = 0
+        End If
+        Totalizador()
+
 
     End Sub
 
@@ -6640,8 +6653,8 @@ Public Class frmLiquidacionPortatil
     Public Sub cargarRemisiones()
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
         Dim TotalKilos As New Decimal
-        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
-        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
+        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
         grdDetalle.DataSource = _DetalleGrid
 
         If _DetalleGrid.Rows.Count > 0 Then
@@ -6761,7 +6774,7 @@ Public Class frmLiquidacionPortatil
     Private Sub grdDetalle_Click(sender As Object, e As EventArgs) Handles grdDetalle.Click
         Dim producto As String = ""
         Dim Total As Integer = 0
-
+        Indexgrddetalle = grdDetalle.CurrentRowIndex
         If grdDetalle.CurrentRowIndex > -1 Then
             TxtCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Cliente").ToString()
             lblNombreCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Nombre").ToString()
@@ -6803,6 +6816,7 @@ Public Class frmLiquidacionPortatil
         Dim Kilostotal As Decimal = 0
         Dim Ventatotal As Decimal = 0
         Dim totalcobro As Decimal = 0
+        Dim totalresto As Decimal = 0
         If _DetalleGrid.Rows.Count <> 0 Then
             While i < _DetalleGrid.Rows.Count  'txtLista.Count
 
@@ -6813,8 +6827,9 @@ Public Class frmLiquidacionPortatil
                     End If
                 End If
                 Kilostotal = Kilostotal + CType(_DetalleGrid.Rows(i).Item(4), Decimal)
-                Ventatotal = Ventatotal + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
-                totalcobro = totalcobro + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
+                Ventatotal = Ventatotal + CType(_DetalleGrid.Rows(i).Item(6), Decimal)
+                totalcobro = totalcobro + CType(_DetalleGrid.Rows(i).Item(6), Decimal)
+                totalresto = totalresto + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
                 i = i + 1
             End While
         End If
@@ -6824,7 +6839,7 @@ Public Class frmLiquidacionPortatil
         lblTotal.Text = TotalDescuento.ToString("N2")
         lblVentaTotal.Text = Ventatotal.ToString("N2")
         lblCredito.Text = TotalCREDITO.ToString("N2")
-        lblTotalKilos.Text = Kilostotal.ToString("N1")
+        lblResto.Text = totalresto.ToString("N2")
     End Sub
 
     Private Sub txtAplicaDescuento_Click(sender As Object, e As EventArgs)
