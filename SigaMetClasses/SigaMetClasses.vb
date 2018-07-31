@@ -22,11 +22,13 @@ Namespace Enumeradores
     End Enum
 
     Public Enum enumTipoCobro
-        Efectivo = 1
-        Vales = 2
+        'Efectivo = 1
+        'Vales = 2
+        Vales = 16
         Cheque = 3
         Cambio = 4
         EfectivoVales = 5
+        Efectivo = 5
         TarjetaCredito = 6
         FichaDeposito = 7
         NotaCredito = 12
