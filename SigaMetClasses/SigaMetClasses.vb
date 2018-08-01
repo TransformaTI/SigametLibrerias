@@ -27,7 +27,7 @@ Namespace Enumeradores
         Cheque = 3
         Cambio = 4
         EfectivoVales = 5
-        Efectivo = 5
+        'Efectivo = 5
         TarjetaCredito = 6
         FichaDeposito = 7
         NotaCredito = 12
