@@ -78,7 +78,7 @@ Public Class Precio
 
         lista = consultarPrecioVigente()
 
-        If _ZonaEconomica <> Nothing Then
+        If Not _ZonaEconomica <> Nothing Then
             Try
                 detalle = (From Y In lista Where Y.ZonaEconomica = _ZonaEconomica).First
                 precio = detalle.Precio
@@ -105,7 +105,7 @@ Public Class Precio
 
         lista = consultarPrecioVigente()
 
-        If _ZonaEconomica <> Nothing Then
+        If Not _ZonaEconomica <> Nothing Then
             Try
                 detalle = (From Y In lista Where Y.ZonaEconomica = _ZonaEconomica).First
                 precio = detalle.Precio
