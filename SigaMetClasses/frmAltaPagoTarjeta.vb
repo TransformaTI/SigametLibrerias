@@ -193,8 +193,9 @@ Public Class frmAltaPagoTarjeta
 					cboRuta.SelectedValue = CType(dr("Ruta"), Short)
 					If Trim(CType(dr("Status"), String)) = "INACTIVO" Then
 						MessageBox.Show("El cliente está inactivo, buscar un cliente Activo", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-						_statusCliente = False
-					Else
+                        _statusCliente = False
+                        limpiaCliente()
+                    Else
 						_statusCliente = True
 					End If
 					If _zonaEconomica = Nothing Then
@@ -275,6 +276,7 @@ Public Class frmAltaPagoTarjeta
                 Else
                     MessageBox.Show("Pago con tarjeta no registrado", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
+                limpiaCliente()
                 limpiaCargo()
             End If
         Else
