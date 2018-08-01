@@ -4290,36 +4290,26 @@ Public Class frmLiquidacionPortatil
                         oMovimientoCaja.AltaMovimientoCaja(_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, 0, _TotalNetoCaja, _Empleado, _Usuario, 2, "EMITIDO", CType(_drLiquidacion(0).Item(25), Short), _ClienteVentasPublico, Now, "", 0, dtpFLiquidacion.Value.Date, "", _AnoAtt, _Folio, connection, transaction)
 
                         'GRABA EL MOVIMIENTO CAJA COBRO
-
                         Dim k As Integer = 0
                         dtPedidoCobro.DefaultView.RowFilter = "Tabla = 0 and TipoCobro = 5"
                         If dtPedidoCobro.DefaultView.Count > 0 Then
-                            Dim cobrointeger As Integer = 0
-                            Dim cobrointeger1 As Integer = 0
-                            For i = 0 To _listaCobros.Count - 1
-                                Dim CobroTipo As SigaMetClasses.CobroDetalladoDatos = _listaCobros(cobrointeger)
-                                Dim _CobroTemp As Integer = CobroTipo.Cobro
-                                Dim _AnoCobroTemp As Short = CobroTipo.AñoCobro
-                                While k < _listaCobros.Count
-                                    Dim CobroTipo1 As SigaMetClasses.CobroDetalladoDatos = _listaCobros(cobrointeger1)
-                                    Dim _CobroTemp1 As Integer = CobroTipo1.Cobro
-                                    Dim _AnoCobroTemp1 As Short = CobroTipo1.AñoCobro
-                                    Dim oMovimientoCajaCobro As New LiquidacionTransaccionada.cMovimientoCaja()
-                                    oMovimientoCajaCobro.AltaMovimientoCajaCobro(_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, oMovimientoCaja.Folio, _AnoCobroTemp1, _CobroTemp1, connection, transaction)
-                                    k = k + 1
-                                    cobrointeger1 = cobrointeger1 + 1
-                                End While
+                            Dim _CobroTemp As Integer = CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer)
+                            Dim _AnoCobroTemp As Short = CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short)
+                            While k < dtPedidoCobro.DefaultView.Count
+                                Dim oMovimientoCajaCobro As New LiquidacionTransaccionada.cMovimientoCaja()
+                                oMovimientoCajaCobro.AltaMovimientoCajaCobro(_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, oMovimientoCaja.Folio, _AnoCobroTemp, _CobroTemp, connection, transaction)
+                                k = k + 1
+                            End While
 
-                                'Alta del efectivo en movimientocaja entrada
-                                MovimientoCajasEntrada(oMovimientoCaja.Folio, _AnoCobroTemp, _CobroTemp, connection, transaction)
+                            'Alta del efectivo en movimientocaja entrada
+                            MovimientoCajasEntrada(oMovimientoCaja.Folio, _AnoCobroTemp, _CobroTemp, connection, transaction)
 
-                                'Alta de vales en movimientocaja entrada
-                                MovimientoCajasEntradaVales(oMovimientoCaja.Folio, _AnoCobroTemp, _CobroTemp, connection, transaction)
+                            'Alta de vales en movimientocaja entrada
+                            MovimientoCajasEntradaVales(oMovimientoCaja.Folio, _AnoCobroTemp, _CobroTemp, connection, transaction)
 
-                                'Alta salida de dinero en caja por Cambio de la liquidacion
-                                MovimientoCajasSalida(oMovimientoCaja.Folio, connection, transaction)
-                                cobrointeger = cobrointeger + 1
-                            Next
+                            'Alta salida de dinero en caja por Cambio de la liquidacion
+                            MovimientoCajasSalida(oMovimientoCaja.Folio, connection, transaction)
+
                         End If
 
                         'GRABA EL MOVIMIENTO CAJA COBRO Y MOVIMIENTO CAJA ENTRADA DE CHEQUES
@@ -5377,6 +5367,32 @@ Public Class frmLiquidacionPortatil
                 End While
                 dtPedidoCobro.Rows.Add(drPedidoCobro)
             End If
+
+            dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1  and TipoCobro = 3"
+            If dtPedidoCobro.DefaultView.Count > 0 Then
+                Dim j As Integer = 0
+                'Dim drPedidoCobro As DataRow
+                drPedidoCobro = dtPedidoCobro.NewRow
+                drPedidoCobro(0) = 0
+                'drPedidoCobro(1) = cboZEconomica.Identificador
+                drPedidoCobro(1) = 0
+                'drPedidoCobro(3) = dtPedidoCobro.DefaultView.Item(0).Item(3)
+                drPedidoCobro(3) = 15
+                drPedidoCobro(4) = 3
+                drPedidoCobro(5) = 0
+                drPedidoCobro(18) = False
+                While j < dtPedidoCobro.DefaultView.Count
+                    drPedidoCobro(5) = CType(drPedidoCobro(5), Decimal) + CType(dtPedidoCobro.DefaultView.Item(j).Item(5), Decimal)
+                    j = j + 1
+                End While
+                dtPedidoCobro.Rows.Add(drPedidoCobro)
+            End If
+
+
+
+
+
+
             dtPedidoCobro.DefaultView.RowFilter = ""
 
             'k = 0
@@ -5429,37 +5445,32 @@ Public Class frmLiquidacionPortatil
 
             'Registra en la tabla COBRO los cobros
             dtPedidoCobro.DefaultView.RowFilter = "Tabla = 0"
-            Dim ListCobro As Integer = 0
-            Dim COBRO1 As Integer
-            Dim año As Short
-            While k < _listaCobros.Count
+            While k < dtPedidoCobro.DefaultView.Count
                 Dim oLiquidacionCobro As New LiquidacionTransaccionada.cLiquidacion(0, 0, 0)
-                'Dim Total As Decimal
-                'Dim Importe As Decimal
-                'Dim Impuesto As Decimal
 
-                'Total = CType(dtPedidoCobro.DefaultView.Item(k).Item(5), Decimal)
-                'Importe = Total / ((CType(dtPedidoCobro.DefaultView.Item(k).Item(3), Decimal) / 100) + 1)
-                'Impuesto = Total - Importe
-                'Dim X As Integer
+                Dim Total As Decimal
+                Dim Importe As Decimal
+                Dim Impuesto As Decimal
 
-                'For X = 0 To _listaCobros.Count - 1
-                Dim cobro_Tipocobro As SigaMetClasses.CobroDetalladoDatos = _listaCobros(ListCobro)
+                Total = CType(dtPedidoCobro.DefaultView.Item(k).Item(5), Decimal)
+                Importe = Total / ((CType(dtPedidoCobro.DefaultView.Item(k).Item(3), Decimal) / 100) + 1)
+                Impuesto = Total - Importe
 
+                If CType(dtPedidoCobro.DefaultView.Item(k).Item(18), Boolean) Then
+                    If CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal) > 0 Then
+                        oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, True, Connection, Transaction)
+                    Else
+                        oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
+                    End If
+                Else
+                    oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
+                End If
 
+                dtPedidoCobro.DefaultView.Item(k).Item(17) = oLiquidacionCobro.Cobro
+                dtPedidoCobro.DefaultView.Item(k).Item(16) = oLiquidacionCobro.AnoCobro
 
-                oLiquidacionCobro.LiquidacionCobro(cobro_Tipocobro.Importe, cobro_Tipocobro.Impuesto, cobro_Tipocobro.Total, "", 0, Now, "EMITIDO", cobro_Tipocobro.TipoCobro, "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
-
-                'Next
-                cobro_Tipocobro.Cobro = oLiquidacionCobro.Cobro
-                cobro_Tipocobro.AñoCobro = oLiquidacionCobro.AnoCobro
-                COBRO1 = oLiquidacionCobro.Cobro
-                año = oLiquidacionCobro.AnoCobro
                 k = k + 1
-                ListCobro = ListCobro + 1
             End While
-            'dtPedidoCobro.DefaultView.Item(k).Item(17) = COBRO1
-            'dtPedidoCobro.DefaultView.Item(k).Item(16) = año
 
             Dim dtCobro As New DataTable()
             dtCobro = dtPedidoCobro.DefaultView.Table
