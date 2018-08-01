@@ -7003,6 +7003,8 @@ Public Class frmLiquidacionPortatil
         Dim Kilostotal As Decimal = 0
         Dim Ventatotal As Decimal = 0
         Dim totalcobro As Decimal = 0
+        Dim cantidad As Decimal = 0
+        Dim Kilos As Decimal = 0
         If _DetalleGrid.Rows.Count <> 0 Then
             While i < _DetalleGrid.Rows.Count  'txtLista.Count
 
@@ -7012,9 +7014,11 @@ Public Class frmLiquidacionPortatil
                         TotalCREDITO = TotalCREDITO + CType(_DetalleGrid.Rows(i).Item("Saldo"), Decimal)
                     End If
                 End If
-                Kilostotal = Kilostotal + CType(_DetalleGrid.Rows(i).Item(4), Decimal)
+                Kilostotal = CType(_DetalleGrid.Rows(i).Item(4), Decimal)
                 Ventatotal = Ventatotal + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
                 totalcobro = totalcobro + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
+                cantidad = CType(_DetalleGrid.Rows(i).Item("Cantidad"), Decimal)
+                Kilos = Kilos + (Kilostotal * cantidad)
                 i = i + 1
             End While
         End If
@@ -7024,7 +7028,7 @@ Public Class frmLiquidacionPortatil
         lblTotal.Text = TotalDescuento.ToString("N2")
         lblVentaTotal.Text = Ventatotal.ToString("N2")
         lblCredito.Text = TotalCREDITO.ToString("N2")
-        lblTotalKilos.Text = Kilostotal.ToString("N1")
+        lblTotalKilos.Text = Kilos.ToString("N1")
     End Sub
 
     Private Sub txtAplicaDescuento_Click(sender As Object, e As EventArgs)
