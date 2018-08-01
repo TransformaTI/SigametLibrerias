@@ -4301,6 +4301,7 @@ Public Class frmLiquidacionPortatil
                                 k = k + 1
                             End While
 
+
                             'Alta del efectivo en movimientocaja entrada
                             MovimientoCajasEntrada(oMovimientoCaja.Folio, _AnoCobroTemp, _CobroTemp, connection, transaction)
 
@@ -4312,7 +4313,6 @@ Public Class frmLiquidacionPortatil
 
                         End If
 
-                        'GRABA EL MOVIMIENTO CAJA COBRO Y MOVIMIENTO CAJA ENTRADA DE CHEQUES
                         k = 0
                         dtPedidoCobro.DefaultView.RowFilter = "Tabla = 0 and TipoCobro = 3"
                         While k < dtPedidoCobro.DefaultView.Count
@@ -4320,7 +4320,7 @@ Public Class frmLiquidacionPortatil
                             Dim _AnoCobroTemporal As Short = CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short)
                             Dim oMovimientoCajaCobro As New LiquidacionTransaccionada.cMovimientoCaja()
                             oMovimientoCajaCobro.AltaMovimientoCajaCobro(_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, oMovimientoCaja.Folio, _AnoCobroTemporal, _CobroTemporal, connection, transaction)
-                            MovimientoCajasEntradaCheque(oMovimientoCaja.Folio, _AnoCobroTemporal, _CobroTemporal, CType(dtPedidoCobro.DefaultView.Item(k).Item(13), Decimal), connection, transaction)
+                            'MovimientoCajasEntradaCheque(oMovimientoCaja.Folio, _AnoCobroTemporal, _CobroTemporal, CType(dtPedidoCobro.DefaultView.Item(k).Item(13), Decimal), connection, transaction)
                             k = k + 1
                         End While
 
@@ -5481,28 +5481,37 @@ Public Class frmLiquidacionPortatil
             'Arma la tabla para el registro de la relacion PedidoCobro
             dtCobro.DefaultView.RowFilter = "Tabla = 0"
             Dim numreg As Integer = dtCobro.DefaultView.Count
-            'Dim numreg As Integer = _listaCobros.Count  
-            'While k < numreg
-            Dim cobrotemp As New SigaMetClasses.CobroDetalladoDatos
-            For i = 0 To _listaCobros.Count - 1
-                cobrotemp = _listaCobros(i)
+            While k < numreg
                 dtCobro.DefaultView.RowFilter = "Tabla = 0"
-                Dim TipoCobro As String = cobrotemp.TipoCobro.ToString
-                Dim AnoCobro As Integer = cobrotemp.AñoCobro
-                Dim Cobro As Integer = cobrotemp.Cobro
-                'dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1 And ZonaEconomica = " + CType(dtCobro.DefaultView.Item(k).Item(1), String) + " And TipoCobro = " + CType(dtCobro.DefaultView.Item(k).Item(4), String) + " And PagoCheque = " + CType(dtCobro.DefaultView.Item(k).Item(18), String)
-                dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1 And TipoCobro = " + TipoCobro
-                If dtPedidoCobro.DefaultView.Count > 0 Then
-                    i = 0
-                    While i < dtPedidoCobro.DefaultView.Count
-                        dtPedidoCobro.DefaultView.Item(i).Item(17) = Cobro
-                        dtPedidoCobro.DefaultView.Item(i).Item(16) = AnoCobro
-                        i = i + 1
-                    End While
+                Dim TipoCobro As String = CType(dtCobro.DefaultView.Item(k).Item(4), String)
+                Dim AnoCobro As Integer = CType(dtCobro.DefaultView.Item(k).Item(16), Integer)
+                Dim Cobro As Integer = CType(dtCobro.DefaultView.Item(k).Item(17), Integer)
+
+                If CType(dtCobro.DefaultView.Item(k).Item(18), Boolean) Then
+                    dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1 And Banco = " + CType(dtCobro.DefaultView.Item(k).Item(9), String) + " And Cheque = " + CType(dtCobro.DefaultView.Item(k).Item(11), String) + " And Cuenta = " + CType(dtCobro.DefaultView.Item(k).Item(12), String) + " And PagoCheque = " + CType(dtCobro.DefaultView.Item(k).Item(18), String)
+                    If dtPedidoCobro.DefaultView.Count > 0 Then
+                        i = 0
+                        While i < dtPedidoCobro.DefaultView.Count
+                            dtPedidoCobro.DefaultView.Item(i).Item(17) = Cobro
+                            dtPedidoCobro.DefaultView.Item(i).Item(16) = AnoCobro
+                            i = i + 1
+                        End While
+                    End If
+                Else
+                    'dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1 And ZonaEconomica = " + CType(dtCobro.Rows(k).Item(1), String) + " And TipoCobro = " + CType(dtCobro.Rows(k).Item(4), String) + " And PagoCheque = " + CType(dtCobro.Rows(k).Item(18), String)
+                    dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1 And TipoCobro = " + TipoCobro
+                    If dtPedidoCobro.DefaultView.Count > 0 Then
+                        i = 0
+                        While i < dtPedidoCobro.DefaultView.Count
+                            dtPedidoCobro.DefaultView.Item(i).Item(17) = Cobro
+                            dtPedidoCobro.DefaultView.Item(i).Item(16) = AnoCobro
+                            i = i + 1
+                        End While
+                    End If
                 End If
                 k = k + 1
-                'End While
-            Next
+                dtCobro.DefaultView.RowFilter = ""
+            End While
 
             k = 0
 
