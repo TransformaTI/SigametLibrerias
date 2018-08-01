@@ -4218,7 +4218,7 @@ Public Class frmLiquidacionPortatil
                                                                                  _AlmacenGas, 0,
                                                                                  CType(dtLiquidacionTotal.Rows(i).Item(0), Short),
                                                                                  0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer),
-                                                                                 CType(dtLiquidacionTotal.Rows(i).Item(4), Integer) * CType(dtLiquidacionTotal.Rows(i).Item(9), Integer),
+                                                                                 CType(dtLiquidacionTotal.Rows(i).Item(9), Integer),
                                                                                  connection, transaction,
                                                                                  0, "", False,
                                                                                   CType(dtLiquidacionTotal.Rows(i).Item(20), String),
@@ -6836,8 +6836,8 @@ Public Class frmLiquidacionPortatil
     Public Sub cargarRemisiones()
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
         Dim TotalKilos As New Decimal
-        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
-        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
+        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
         grdDetalle.DataSource = _DetalleGrid
 
         If _DetalleGrid.Rows.Count > 0 Then
