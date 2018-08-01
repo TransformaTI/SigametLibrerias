@@ -265,23 +265,29 @@ Public Class frmAltaPagoTarjeta
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
-        If _statusCliente Then
-            Dim validar As Boolean
-            validar = validarDatosCargo()
-            If validar = True Then
-                validarDatosCargo()
+        Try
+            If _statusCliente Then
+                Dim validar As Boolean
+                validar = validarDatosCargo()
+                If validar = True Then
+                    validarDatosCargo()
 
-                If AltaPagoTarjeta() Then
-                    MessageBox.Show("Pago con tarjeta registrado exitosamente", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Else
-                    MessageBox.Show("Pago con tarjeta no registrado", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    If AltaPagoTarjeta() Then
+                        MessageBox.Show("Pago con tarjeta registrado exitosamente", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Else
+                        MessageBox.Show("Pago con tarjeta no registrado", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    End If
+                    limpiaCliente()
+                    limpiaCargo()
                 End If
-                limpiaCliente()
-                limpiaCargo()
+            Else
+                MessageBox.Show("El sistema no permitir capturar una tajera de un cliente inactivo, intente bucar un cliente activo", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
-        Else
-            MessageBox.Show("El sistema no permitir capturar una tajera de un cliente inactivo, intente bucar un cliente activo", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End If
+        Catch ex As Exception
+            If ex.Message.Contains("UC_CargoTarjeta") Then
+                MessageBox.Show("Operación rechazada, el cargo con tarjeta ya está registrado, por favor corrija.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
     End Sub
 
 	Private Sub txtLitros_Leave(sender As Object, e As EventArgs) Handles txtLitros.Leave
