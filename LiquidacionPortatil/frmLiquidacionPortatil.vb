@@ -6366,7 +6366,7 @@ Public Class frmLiquidacionPortatil
             If Cobro.TipoCobro = 5 Then
                 TotalEfectivo = TotalEfectivo + Cobro.Total - Credito
             End If
-            If Cobro.TipoCobro = 2 Then
+            If Cobro.TipoCobro = 16 Then
                 TotalVales = TotalVales + Cobro.Total
             End If
             If Cobro.TipoCobro = 10 Then

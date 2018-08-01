@@ -23,7 +23,7 @@ Namespace Enumeradores
 
     Public Enum enumTipoCobro
         Efectivo = 1
-        Vales = 2
+        Vales = 16
         Cheque = 3
         Cambio = 4
         EfectivoVales = 5
