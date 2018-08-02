@@ -1111,7 +1111,7 @@ Public Class frmRemisionManual
         Dim Flag As Boolean = False
 
         While i < dtLiquidacionTotal.Rows.Count()
-            If dtLiquidacionTotal.Columns.Count <> 13 Then
+            If dtLiquidacionTotal.Columns.Item(5).ToString.Trim = "Valor" Then
                 If CType(_drRow(0), Integer) = CType(dtLiquidacionTotal.Rows(i).Item(0), Integer) And
                 CType(_drRow(1), String) = CType(dtLiquidacionTotal.Rows(i).Item(1), String) And
                 CType(_drRow(3), Integer) = CType(dtLiquidacionTotal.Rows(i).Item(3), Integer) Then
@@ -1163,7 +1163,9 @@ Public Class frmRemisionManual
 
                     Dim drow As DataRow
                     drow = dtLiquidacionTotal.NewRow
-                    If dtLiquidacionTotal.Columns.Count <> 13 Then
+
+                    If dtLiquidacionTotal.Columns.Item(5).ToString.Trim = "Valor" Then
+
                         drow(0) = CType(txtRemision.Text, Integer) 'Remision
                         drow(1) = txtSerie.Text 'Serie 
                         drow(2) = dtpFRemision.Value 'FRemision
@@ -1381,7 +1383,7 @@ Public Class frmRemisionManual
             If ValidaRemision() Then
                 If VerificaDatos() Then
                     CargaGrid()
-                    _addRemision = True
+
                 Else
                     Dim Mensajes As PortatilClasses.Mensaje
                     Mensajes = New PortatilClasses.Mensaje(135)
@@ -1805,6 +1807,7 @@ Public Class frmRemisionManual
                 If _RutaMovil = True Then
                     TxtCliente.Text = grdDetalle.Item(i, 2).ToString
                     cboTipoCobro.Text = CType(grdDetalle.Item(i, 8), String)
+
                 Else
                     If grdDetalle.VisibleColumnCount = 10 Then
                         TxtCliente.Text = grdDetalle.Item(i, 10).ToString
@@ -1812,11 +1815,14 @@ Public Class frmRemisionManual
                         cboTipoCobro.Text = grdDetalle.Item(i, 12).ToString
                         txtRemision.Text = grdDetalle.Item(i, 0).ToString
                         txtSerie.Text = grdDetalle.Item(i, 1).ToString
+
                     Else
                         TxtCliente.Text = grdDetalle.Item(i, 2).ToString
                         cboTipoCobro.Text = grdDetalle.Item(i, 8).ToString
                         txtRemision.Text = grdDetalle.Item(i, 0).ToString
                         txtSerie.Text = grdDetalle.Item(i, 1).ToString
+
+
                     End If
                 End If
                 End If

@@ -4431,6 +4431,29 @@ Public Class frmLiquidacionPortatil
                         End If
 
                         k = 0
+                        dtPedidoCobro.DefaultView.RowFilter = "Tabla = 0 and TipoCobro = 15"
+                        If dtPedidoCobro.DefaultView.Count > 0 Then
+                            Dim _CobroTemp As Integer = CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer)
+                            Dim _AnoCobroTemp As Short = CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short)
+                            While k < dtPedidoCobro.DefaultView.Count
+                                Dim oMovimientoCajaCobro As New LiquidacionTransaccionada.cMovimientoCaja()
+                                oMovimientoCajaCobro.AltaMovimientoCajaCobro(_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, oMovimientoCaja.Folio, _AnoCobroTemp, _CobroTemp, connection, transaction)
+                                k = k + 1
+                            End While
+
+
+                            'Alta del efectivo en movimientocaja entrada
+                            MovimientoCajasEntrada(oMovimientoCaja.Folio, _AnoCobroTemp, _CobroTemp, connection, transaction)
+
+                            'Alta de vales en movimientocaja entrada
+                            MovimientoCajasEntradaVales(oMovimientoCaja.Folio, _AnoCobroTemp, _CobroTemp, connection, transaction)
+
+                            'Alta salida de dinero en caja por Cambio de la liquidacion
+                            MovimientoCajasSalida(oMovimientoCaja.Folio, connection, transaction)
+
+                        End If
+
+                        k = 0
                         dtPedidoCobro.DefaultView.RowFilter = "Tabla = 0 and TipoCobro = 3"
                         While k < dtPedidoCobro.DefaultView.Count
                             Dim _CobroTemporal As Integer = CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer)
@@ -5989,7 +6012,7 @@ Public Class frmLiquidacionPortatil
                 dtRemisionesManuales = oRemisionManual.Remisiones
                 If dtRemisionesManuales.Rows.Count > 0 Then
                     '_DetalleGrid.Rows.Clear()
-                    If dtRemisionesManuales.Columns.Count <> 14 Then
+                    If dtRemisionesManuales.Columns.Count = 14 Then
                         For Each item As DataRow In dtRemisionesManuales.Rows
                             '               Dim dr() As DataRow = oProductoRemManuales.Select("producto=" + item("producto").ToString())
 
@@ -6003,6 +6026,7 @@ Public Class frmLiquidacionPortatil
                                 row("Cliente") = item("Cliente")
                                 row("Nombre") = item("Nombre")
                             End If
+
                             row("Kilos") = Convert.ToInt64(item("Valor"))
                             row("descuento") = 0
                             row("Importe") = item("TotalNeto")
@@ -6017,6 +6041,7 @@ Public Class frmLiquidacionPortatil
                             _DetalleGrid.Rows.Add(row)
                         Next
                     End If
+
                 End If
 
                 grdDetalle.DataSource = Nothing
