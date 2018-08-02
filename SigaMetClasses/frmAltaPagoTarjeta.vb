@@ -424,4 +424,11 @@ Public Class frmAltaPagoTarjeta
 		End If
 
 	End Sub
+
+    Private Sub btnTarjetaConsultaDia_Click(sender As Object, e As EventArgs) Handles btnTarjetaConsultaDia.Click
+        Dim oForm As New frmConsultaCargosTarjeta()
+        If oForm.ShowDialog() Then
+
+        End If
+    End Sub
 End Class

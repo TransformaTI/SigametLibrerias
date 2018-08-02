@@ -1275,6 +1275,29 @@ Public Class cCalle
 
     End Function
 
+    Public Function ConsultaCargoTarjetaXDia(ByVal FechaAlta As DateTime) As DataTable
+        Dim strQuery As String = "spCyCConsultaCargoTarjetaXDia"
+        Dim cmd As New SqlCommand(strQuery, DataLayer.Conexion)
+        cmd.CommandType = CommandType.StoredProcedure
+
+        Dim dt As New DataTable()
+        Dim da As New SqlDataAdapter(cmd)
+        cmd.Parameters.Add("@FAlta", SqlDbType.DateTime).Value = FechaAlta
+
+        Try
+            If cmd.Connection.State = ConnectionState.Open Then
+                cmd.Connection.Close()
+            End If
+            da.Fill(dt)
+            Return dt
+        Catch ex As Exception
+            Throw ex
+        Finally
+            da.Dispose()
+            cmd.Dispose()
+        End Try
+
+    End Function
 
 End Class
 #End Region

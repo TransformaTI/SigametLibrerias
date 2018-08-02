@@ -512,51 +512,56 @@ Public Class frmLiquidacionConsulta
     Private Sub btnAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAceptar.Click
         Dim _Copias As String = "1"
         Dim _FormaImprimir As String = "1"
-        If _EmpresaComisionista = "0" Then
-            Dim oConfig As New SigaMetClasses.cConfig(16, _CorporativoUsuario, _SucursalUsuario)
-            _Copias = CType(oConfig.Parametros("NumeroImpresion"), String).Trim
-            _FormaImprimir = CType(oConfig.Parametros("FormaImprimir"), String).Trim
-            Dim FechaMin, FechaMax, FechaLiq As DateTime
-            FechaLiq = CType(_drLiquidacionCarga(0).Item(3), DateTime)
-            If FechaLiq > Now Then
-                FechaMax = FechaLiq.AddHours(Now.Hour).AddMinutes(Now.Minute)
-                FechaMin = FechaLiq.AddHours(Now.Hour).AddMinutes(Now.Minute).AddDays(-CType(CType(oConfig.Parametros("NumDiasLiquidacion"), String).Trim, Double))
-            Else
-                FechaMax = Now
-                FechaMin = Now.AddDays(-CType(CType(oConfig.Parametros("NumDiasLiquidacion"), String).Trim, Double))
-            End If
-            'If FechaLiq >= FechaMin And FechaLiq <= FechaMax Then
-            If FechaLiq >= CDate("01/02/2015") And FechaLiq <= FechaMax Then
-                Dim frmLiquidacionPortatil As New frmLiquidacionPortatil(_AnoAtt, _Folio, _AlmacenGas, _Corporativo, _MovimientoAlmacen, _NDocumento, _drLiquidacionCarga, _Usuario, _Empleado, _CajaUsuario, _FactorDensidad, _Servidor, _Database, _Password, _CorporativoUsuario, _SucursalUsuario, _ReglaHoraLiquidar, _MaxHoraLiquidar)
-                frmLiquidacionPortatil._Copias = CType(_Copias, Integer)
-                frmLiquidacionPortatil._FormaImprimir = _FormaImprimir
-                If frmLiquidacionPortatil.ShowDialog() = DialogResult.OK Then
-                    Cursor = Cursors.WaitCursor
-                    btnBuscar_Click(btnBuscar, e)
-                    Cursor = Cursors.Default
+
+        Try
+            If _EmpresaComisionista = "0" Then
+                Dim oConfig As New SigaMetClasses.cConfig(16, _CorporativoUsuario, _SucursalUsuario)
+                _Copias = CType(oConfig.Parametros("NumeroImpresion"), String).Trim
+                _FormaImprimir = CType(oConfig.Parametros("FormaImprimir"), String).Trim
+                Dim FechaMin, FechaMax, FechaLiq As DateTime
+                FechaLiq = CType(_drLiquidacionCarga(0).Item(3), DateTime)
+                If FechaLiq > Now Then
+                    FechaMax = FechaLiq.AddHours(Now.Hour).AddMinutes(Now.Minute)
+                    FechaMin = FechaLiq.AddHours(Now.Hour).AddMinutes(Now.Minute).AddDays(-CType(CType(oConfig.Parametros("NumDiasLiquidacion"), String).Trim, Double))
+                Else
+                    FechaMax = Now
+                    FechaMin = Now.AddDays(-CType(CType(oConfig.Parametros("NumDiasLiquidacion"), String).Trim, Double))
                 End If
-            Else
-                Dim Mensajes As New PortatilClasses.Mensaje(125)
-                MessageBox.Show(Mensajes.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            End If
-        End If
-        If _EmpresaComisionista = "1" Then
-            If _StatusLogistica = "INICIO" Then
-                Dim frmLiquidacionPortatilComisionista As New frmLiquidacionPortatilComisionista(_AnoAtt, _Folio, _AlmacenGas, _Corporativo, _MovimientoAlmacen, _NDocumento, _drLiquidacionCarga, _Usuario, _Empleado, _CajaUsuario, _FactorDensidad, _Servidor, _Database, _Password, _CorporativoUsuario, _SucursalUsuario)
-                If frmLiquidacionPortatilComisionista.ShowDialog() = DialogResult.OK Then
-                    Cursor = Cursors.WaitCursor
-                    btnBuscar_Click(btnBuscar, e)
-                    Cursor = Cursors.Default
-                End If
-            Else
-                Dim frmLiquidacionPortatilComisionista As New frmLiquidacionCyC(_AnoAtt, _Folio, _AlmacenGas, _Corporativo, _MovimientoAlmacen, _NDocumento, _drLiquidacionCarga, _Usuario, _Empleado, _CajaUsuario, _FactorDensidad, _Servidor, _Database, _Password, _CorporativoUsuario, _SucursalUsuario)
-                If frmLiquidacionPortatilComisionista.ShowDialog() = DialogResult.OK Then
-                    Cursor = Cursors.WaitCursor
-                    btnBuscar_Click(btnBuscar, e)
-                    Cursor = Cursors.Default
+                'If FechaLiq >= FechaMin And FechaLiq <= FechaMax Then
+                If FechaLiq >= CDate("01/02/2015") And FechaLiq <= FechaMax Then
+                    Dim frmLiquidacionPortatil As New frmLiquidacionPortatil(_AnoAtt, _Folio, _AlmacenGas, _Corporativo, _MovimientoAlmacen, _NDocumento, _drLiquidacionCarga, _Usuario, _Empleado, _CajaUsuario, _FactorDensidad, _Servidor, _Database, _Password, _CorporativoUsuario, _SucursalUsuario, _ReglaHoraLiquidar, _MaxHoraLiquidar)
+                    frmLiquidacionPortatil._Copias = CType(_Copias, Integer)
+                    frmLiquidacionPortatil._FormaImprimir = _FormaImprimir
+                    If frmLiquidacionPortatil.ShowDialog() = DialogResult.OK Then
+                        Cursor = Cursors.WaitCursor
+                        btnBuscar_Click(btnBuscar, e)
+                        Cursor = Cursors.Default
+                    End If
+                Else
+                    Dim Mensajes As New PortatilClasses.Mensaje(125)
+                    MessageBox.Show(Mensajes.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
             End If
-        End If
+            If _EmpresaComisionista = "1" Then
+                If _StatusLogistica = "INICIO" Then
+                    Dim frmLiquidacionPortatilComisionista As New frmLiquidacionPortatilComisionista(_AnoAtt, _Folio, _AlmacenGas, _Corporativo, _MovimientoAlmacen, _NDocumento, _drLiquidacionCarga, _Usuario, _Empleado, _CajaUsuario, _FactorDensidad, _Servidor, _Database, _Password, _CorporativoUsuario, _SucursalUsuario)
+                    If frmLiquidacionPortatilComisionista.ShowDialog() = DialogResult.OK Then
+                        Cursor = Cursors.WaitCursor
+                        btnBuscar_Click(btnBuscar, e)
+                        Cursor = Cursors.Default
+                    End If
+                Else
+                    Dim frmLiquidacionPortatilComisionista As New frmLiquidacionCyC(_AnoAtt, _Folio, _AlmacenGas, _Corporativo, _MovimientoAlmacen, _NDocumento, _drLiquidacionCarga, _Usuario, _Empleado, _CajaUsuario, _FactorDensidad, _Servidor, _Database, _Password, _CorporativoUsuario, _SucursalUsuario)
+                    If frmLiquidacionPortatilComisionista.ShowDialog() = DialogResult.OK Then
+                        Cursor = Cursors.WaitCursor
+                        btnBuscar_Click(btnBuscar, e)
+                        Cursor = Cursors.Default
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
     End Sub
 
     Private Sub btnCerrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCerrar.Click
