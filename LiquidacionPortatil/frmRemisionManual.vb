@@ -1164,7 +1164,7 @@ Public Class frmRemisionManual
                     Dim drow As DataRow
                     drow = dtLiquidacionTotal.NewRow
 
-                    If dtLiquidacionTotal.Columns.Item(5).ToString.Trim = "Valor" Then
+                    If dtLiquidacionTotal.TableName = "LiquidacionTotal" Then
 
                         drow(0) = CType(txtRemision.Text, Integer) 'Remision
                         drow(1) = txtSerie.Text 'Serie 
@@ -1227,7 +1227,7 @@ Public Class frmRemisionManual
                                     End If
                                 End If
                             End If
-
+                            _TotalLiquidarPedido = _TotalLiquidarPedido + CType(drow(9), Decimal)
                         Finally
                         End Try
                     Else
@@ -1293,7 +1293,7 @@ Public Class frmRemisionManual
                                     End If
                                 End If
                             End If
-
+                            _TotalLiquidarPedido = _TotalLiquidarPedido + CType(drow(7), Decimal)
                         Finally
                         End Try
                     End If
@@ -1305,11 +1305,11 @@ Public Class frmRemisionManual
                         grdDetalle.DataSource = dtLiquidacionTotal
 
                         _Kilos = _Kilos + (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(5), Integer))
-                    If dtLiquidacionTotal.Columns.Count <> 13 Then
-                        _TotalLiquidarPedido = _TotalLiquidarPedido + CType(drow(9), Decimal)
-                    Else
-                        _TotalLiquidarPedido = _TotalLiquidarPedido + CType(drow(7), Decimal)
-                    End If
+                    'If dtLiquidacionTotal.Columns.Count <> 13 Then
+                    '    _TotalLiquidarPedido = _TotalLiquidarPedido + CType(drow(9), Decimal)
+                    'Else
+                    '    _TotalLiquidarPedido = _TotalLiquidarPedido + CType(drow(7), Decimal)
+                    'End If
 
                     lblTotalKilos.Text = CType(_Kilos, Decimal).ToString("N2")
                         lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")

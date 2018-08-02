@@ -6012,7 +6012,7 @@ Public Class frmLiquidacionPortatil
                 dtRemisionesManuales = oRemisionManual.Remisiones
                 If dtRemisionesManuales.Rows.Count > 0 Then
                     '_DetalleGrid.Rows.Clear()
-                    If dtRemisionesManuales.Columns.Count = 14 Then
+                    If dtRemisionesManuales.TableName = "LiquidacionTotal" Then
                         For Each item As DataRow In dtRemisionesManuales.Rows
                             '               Dim dr() As DataRow = oProductoRemManuales.Select("producto=" + item("producto").ToString())
 
