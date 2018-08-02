@@ -3039,7 +3039,7 @@ Public Class frmLiquidacionPortatil
 
             dtpFLiquidacion.Value = Fmin 'CType(_drLiquidacion(0).Item(3), Date).AddHours(Factual.Hour).AddMinutes(Factual.Minute)
 
-            ConsultarCliente(_ClienteVentasPublico)
+            'ConsultarCliente(_ClienteVentasPublico)
             Me.ActiveControl = txtCantidad1
             lblTotalKilos.Text = "0.0"
 
