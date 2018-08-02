@@ -22,7 +22,9 @@ Public Class frmRemisionManual
     Private _DetalleGrid As DataTable
 
     'Vairables generales
-    Dim dtProducto As DataTable
+    Dim _dtProductos As DataTable
+    Dim _dtProductosPadre As DataTable = New DataTable
+    Dim _cargarProductosPadre As Boolean
     Dim i As Integer
     'Variables donde se almacena los totales de efectivo
     Private _Kilos As Integer
@@ -105,11 +107,13 @@ Public Class frmRemisionManual
             _ZonaEconomicaClienteNormal = value
         End Set
     End Property
+
     Public ReadOnly Property addRemision() As Boolean
         Get
             Return _addRemision
         End Get
     End Property
+
     Property TipoCobroClienteNormal() As Integer
         Get
             Return _TipoCobroClienteNormal
@@ -136,6 +140,7 @@ Public Class frmRemisionManual
             _ClienteVentasPublico = value
         End Set
     End Property
+
     Public Property RutamovilGas() As Boolean
         Get
             Return _RutaMovil
@@ -145,11 +150,36 @@ Public Class frmRemisionManual
         End Set
     End Property
 
+    Public Property ProductosPadre As DataTable
+        Get
+            Return _dtProductosPadre
+        End Get
+        Set(ByVal value As DataTable)
+            _dtProductosPadre = value
+        End Set
+    End Property
+
+    'Public WriteOnly Property CargarProductosPadre As Boolean
+    '    Get
+    '        Return _cargarProductosPadre
+    '    End Get
+    '    Set(value As Boolean)
+    '        _cargarProductosPadre = value
+    '    End Set
+    'End Property
 
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(ByVal FolioAtt As Integer, ByVal AñoAtt As Short, ByVal Configuracion As Short, ByVal DtCantidades As DataTable, ByVal DtRemisiones As DataTable, ByVal Cliente As Integer)
+    Public Sub New(ByVal FolioAtt As Integer,
+                   ByVal AñoAtt As Short,
+                   ByVal Configuracion As Short,
+                   ByVal DtCantidades As DataTable,
+                   ByVal DtRemisiones As DataTable,
+                   ByVal Cliente As Integer,
+                   Optional ByVal ProductosPadre As DataTable = Nothing,
+                   Optional CargarProductosPadre As Boolean = False)
+        ',ByVal DtProductos As DataTable)
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
@@ -158,6 +188,7 @@ Public Class frmRemisionManual
         _AñoAtt = AñoAtt
         _Configuracion = Configuracion
         _Cliente = Cliente
+        _dtProductosPadre = ProductosPadre
 
         Me.dtCantidades.Columns.Add("IdProducto", GetType(Integer))
         Me.dtCantidades.Columns.Add("Cantidad", GetType(Integer))
@@ -167,7 +198,12 @@ Public Class frmRemisionManual
 
         'Add any initialization after the InitializeComponent() call
         LimpiarComponentes()
-        CargarProductosVarios()
+
+        If CargarProductosPadre Then
+            CargarProductosVarios_Padre()
+        Else
+            CargarProductosVarios()
+        End If
 
         Dim _DetalleGrid As New DataTable
         If DtRemisiones.Rows.Count > 0 Then
@@ -211,8 +247,8 @@ Public Class frmRemisionManual
                 Me.dtCantidades = dataTable
                 Dim ind As Integer
                 For Each p As DataRow In Me.dtCantidades.Rows
-                    While ind < dtProducto.Rows.Count
-                        If CType(dtProducto.Rows(ind).Item(0), Integer) = Convert.ToInt32(p("IdProducto")) Then
+                    While ind < _dtProductos.Rows.Count
+                        If CType(_dtProductos.Rows(ind).Item(0), Integer) = Convert.ToInt32(p("IdProducto")) Then
                             CType(lblListaExistencia.Item(ind), System.Windows.Forms.Label).Text = CType(CType(CType(lblListaExistencia.Item(ind), System.Windows.Forms.Label).Text, Integer) - CType(p("Cantidad").ToString(), Integer), String)
                             Exit While
                         End If
@@ -1004,15 +1040,15 @@ Public Class frmRemisionManual
     Private Sub CargarProductosVarios()
 
         Dim oLiquidacion As New PortatilClasses.cLiquidacion()
-        dtProducto = New DataTable
+        _dtProductos = New DataTable
         oLiquidacion.ConsultaPedido(_Configuracion, _FolioAtt, _AñoAtt)
-        dtProducto = oLiquidacion.dtTable
+        _dtProductos = oLiquidacion.dtTable
 
-        If dtProducto.Rows.Count > 0 Then
+        If _dtProductos.Rows.Count > 0 Then
             'Cargamos valores al datetimepicker
-            dtpFRemision.MinDate = CType(dtProducto.Rows(0).Item(6), DateTime)
-            dtpFRemision.MaxDate = CType(dtProducto.Rows(0).Item(7), DateTime)
-            dtpFRemision.Value = CType(dtProducto.Rows(0).Item(7), DateTime)
+            dtpFRemision.MinDate = CType(_dtProductos.Rows(0).Item(6), DateTime)
+            dtpFRemision.MaxDate = CType(_dtProductos.Rows(0).Item(7), DateTime)
+            dtpFRemision.Value = CType(_dtProductos.Rows(0).Item(7), DateTime)
         Else
             lblProducto1.Visible = False
             lblExistencia1.Visible = False
@@ -1021,8 +1057,36 @@ Public Class frmRemisionManual
 
         NumProductos = 0
         Dim i As Integer = 0
-        While i < dtProducto.Rows.Count
-            InicializarComponentes(CType(dtProducto.Rows(i).Item(1), String), CType(dtProducto.Rows(i).Item(3), Integer))
+        While i < _dtProductos.Rows.Count
+            InicializarComponentes(CType(_dtProductos.Rows(i).Item(1), String), CType(_dtProductos.Rows(i).Item(3), Integer))
+            i = i + 1
+        End While
+        oLiquidacion = Nothing
+    End Sub
+
+    Private Sub CargarProductosVarios_Padre()
+
+        Dim oLiquidacion As New PortatilClasses.cLiquidacion()
+        _dtProductos = New DataTable
+        'oLiquidacion.ConsultaPedido(_Configuracion, _FolioAtt, _AñoAtt)
+        '_dtProductos = oLiquidacion.dtTable
+        _dtProductos = _dtProductosPadre.Copy()
+
+        If _dtProductos.Rows.Count > 0 Then
+            'Cargamos valores al datetimepicker
+            'dtpFRemision.MinDate = CType(_dtProductos.Rows(0).Item(6), DateTime)
+            'dtpFRemision.MaxDate = CType(_dtProductos.Rows(0).Item(7), DateTime)
+            'dtpFRemision.Value = CType(_dtProductos.Rows(0).Item(7), DateTime)
+        Else
+            lblProducto1.Visible = False
+            lblExistencia1.Visible = False
+            txtCantidad1.Visible = False
+        End If
+
+        NumProductos = 0
+        Dim i As Integer = 0
+        While i < _dtProductos.Rows.Count
+            InicializarComponentes(CType(_dtProductos.Rows(i).Item(1), String), CType(_dtProductos.Rows(i).Item(3), Integer))
             i = i + 1
         End While
         oLiquidacion = Nothing
@@ -1168,7 +1232,7 @@ Public Class frmRemisionManual
                         drow(1) = txtSerie.Text 'Serie 
                         drow(2) = dtpFRemision.Value 'FRemision
 
-                        drow(3) = CType(dtProducto.Rows(i).Item(0), Integer) 'Producto
+                        drow(3) = CType(_dtProductos.Rows(i).Item(0), Integer) 'Producto
                         ' Se agreg validacion de descuento
                         Dim Descuento As Decimal
                         If cbxAplicaDescuento.Checked Then
@@ -1176,22 +1240,22 @@ Public Class frmRemisionManual
                                 Descuento = CDec(_DatosCliente.GetValue(7))
                                 Dim descuentoGrupal As Decimal
                                 descuentoGrupal = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * Descuento
-                                drow(9) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
+                                drow(9) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
 
                             Catch ex As Exception
                                 Descuento = 0
                             End Try
                         Else
-                            drow(9) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal) 'Total
+                            drow(9) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal) 'Total
                         End If
-                        drow(4) = CType(dtProducto.Rows(i).Item(1), String) 'ProductoDesc
-                        drow(5) = CType(dtProducto.Rows(i).Item(5), Integer) 'Valor
+                        drow(4) = CType(_dtProductos.Rows(i).Item(1), String) 'ProductoDesc
+                        drow(5) = CType(_dtProductos.Rows(i).Item(5), Integer) 'Valor
                         drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) 'Cantidad
 
 
 
-                        drow(7) = ((CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal))) / ((CType((dtProducto.Rows(i).Item(4)), Decimal) / 100) + 1) 'SubTotal
-                        drow(8) = CType(dtProducto.Rows(i).Item(4), Decimal) 'Iva
+                        drow(7) = ((CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal))) / ((CType((_dtProductos.Rows(i).Item(4)), Decimal) / 100) + 1) 'SubTotal
+                        drow(8) = CType(_dtProductos.Rows(i).Item(4), Decimal) 'Iva
                         drow("Descuento") = 0
                         Try
                             If TxtCliente.Text <> "" Then
@@ -1233,7 +1297,7 @@ Public Class frmRemisionManual
                         drow(0) = txtSerie.Text 'Serie 
                         'drow(2) = dtpFRemision.Value 'FRemision
 
-                        drow(11) = CType(dtProducto.Rows(i).Item(0), Integer) 'Producto
+                        drow(11) = CType(_dtProductos.Rows(i).Item(0), Integer) 'Producto
                         ' Se agreg validacion de descuento
                         Dim Descuento As Decimal
                         If cbxAplicaDescuento.Checked Then
@@ -1241,23 +1305,23 @@ Public Class frmRemisionManual
                                 Descuento = CDec(_DatosCliente.GetValue(7))
                                 Dim descuentoGrupal As Decimal
                                 descuentoGrupal = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * Descuento
-                                drow(7) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
-                                drow(6) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
+                                drow(7) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
+                                drow(6) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
 
                             Catch ex As Exception
                                 Descuento = 0
                             End Try
                         Else
-                            drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal) 'Total
+                            drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal) 'Total
                         End If
-                        drow(9) = CType(dtProducto.Rows(i).Item(1), String) 'ProductoDesc
-                        drow(4) = CType(dtProducto.Rows(i).Item(5), Integer) 'Valor
+                        drow(9) = CType(_dtProductos.Rows(i).Item(1), String) 'ProductoDesc
+                        drow(4) = CType(_dtProductos.Rows(i).Item(5), Integer) 'Valor
                         drow(10) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) 'Cantidad
 
 
 
-                        'drow(7) = ((CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal))) / ((CType((dtProducto.Rows(i).Item(4)), Decimal) / 100) + 1) 'SubTotal
-                        'drow(8) = CType(dtProducto.Rows(i).Item(4), Decimal) 'Iva
+                        'drow(7) = ((CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal))) / ((CType((_dtProductos.Rows(i).Item(4)), Decimal) / 100) + 1) 'SubTotal
+                        'drow(8) = CType(_dtProductos.Rows(i).Item(4), Decimal) 'Iva
                         drow("Descuento") = 0
                         Try
                             If TxtCliente.Text <> "" Then
@@ -1296,13 +1360,13 @@ Public Class frmRemisionManual
                         End Try
                     End If
                     If Not VerificaRegistroGrid(drow) Then
-                            dtLiquidacionTotal.Rows.Add(drow)
-                        End If
+                        dtLiquidacionTotal.Rows.Add(drow)
+                    End If
 
-                        grdDetalle.DataSource = Nothing
-                        grdDetalle.DataSource = dtLiquidacionTotal
+                    grdDetalle.DataSource = Nothing
+                    grdDetalle.DataSource = dtLiquidacionTotal
 
-                        _Kilos = _Kilos + (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(5), Integer))
+                    _Kilos = _Kilos + (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(5), Integer))
                     If dtLiquidacionTotal.Columns.Count <> 13 Then
                         _TotalLiquidarPedido = _TotalLiquidarPedido + CType(drow(9), Decimal)
                     Else
@@ -1310,13 +1374,18 @@ Public Class frmRemisionManual
                     End If
 
                     lblTotalKilos.Text = CType(_Kilos, Decimal).ToString("N2")
-                        lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
+                    lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
 
-                        CType(lblListaExistencia.Item(i), System.Windows.Forms.Label).Text = CType(CType(CType(lblListaExistencia.Item(i), System.Windows.Forms.Label).Text, Integer) - ValorText, String)
-                        CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Clear()
+                    CType(lblListaExistencia.Item(i), System.Windows.Forms.Label).Text = CType(CType(CType(lblListaExistencia.Item(i), System.Windows.Forms.Label).Text, Integer) - ValorText, String)
 
-                    End If
-                    i = i + 1
+                    _dtProductosPadre.Rows(i).BeginEdit()
+                    _dtProductosPadre.Rows(i).Item("Cantidad") = Convert.ToInt32(CType(lblListaExistencia.Item(i), Label).Text)
+                    _dtProductosPadre.Rows(i).EndEdit()
+
+                    CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Clear()
+
+                End If
+                i = i + 1
             End While
 
             'Limpiamos componentes de captura
@@ -1348,13 +1417,13 @@ Public Class frmRemisionManual
                 producto = CInt(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(3))
                 KILOS = (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(5), Integer))
                 cantidad = (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(6), Integer))
-                Total = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(9), Decimal)
+                total = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(9), Decimal)
             End If
-            While i < dtProducto.Rows.Count And producto <> CType(dtProducto.Rows(i).Item(0), Integer)
+            While i < _dtProductos.Rows.Count And producto <> CType(_dtProductos.Rows(i).Item(0), Integer)
                 i = i + 1
             End While
 
-            If producto = CType(dtProducto.Rows(i).Item(0), Integer) Then
+            If producto = CType(_dtProductos.Rows(i).Item(0), Integer) Then
                 lblExistenciaProducto = CType(lblListaExistencia.Item(i), System.Windows.Forms.Label)
                 lblExistenciaProducto.Text = CType(CType(lblExistenciaProducto.Text, Integer) + CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(6), Integer), String)
 
@@ -1819,7 +1888,7 @@ Public Class frmRemisionManual
                         txtSerie.Text = grdDetalle.Item(i, 1).ToString
                     End If
                 End If
-                End If
+            End If
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -2012,7 +2081,7 @@ Public Class frmRemisionManual
                                 End If
                             End If
 
-                            End If
+                        End If
                     Catch ex As Exception
                         MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
                     End Try
@@ -2029,4 +2098,5 @@ Public Class frmRemisionManual
 
 
     End Sub
+
 End Class

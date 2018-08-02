@@ -58,8 +58,7 @@ Public Class frmLiquidacionPortatil
     Private _RutaMovil As Boolean
     Private _addRemisiones As Boolean
     Dim Credito As Decimal
-
-
+    Private _cargarProductosPadre As Boolean = False
 
     Public Property Cobros() As List(Of SigaMetClasses.CobroDetalladoDatos)
         Get
@@ -114,7 +113,8 @@ Public Class frmLiquidacionPortatil
     Private _FlagPedidoPortatil As Boolean
     '20150627CNSM$001-----------------
 
-
+    'RM_02_08_2018 Variable para mantener en memoria los productos
+    Private _dtProductos As DataTable = New DataTable
 
     'Variables para el cliente al momento de liquidar
     Private _ClienteVentasPublico As Integer
@@ -2595,11 +2595,33 @@ Public Class frmLiquidacionPortatil
 
     End Sub
 
+    Private Sub LimpiarProductos()
+        'Limpiar controles del panel
+        pnlProducto.Controls.Clear()
+
+        pnlProducto.Controls.Add(lbltckProducto)
+        pnlProducto.Controls.Add(lbltckExistencia)
+        pnlProducto.Controls.Add(Label8)
+        pnlProducto.Controls.Add(lblProducto1)
+        pnlProducto.Controls.Add(lblExistencia1)
+        pnlProducto.Controls.Add(txtCantidad1)
+
+        lblProducto1.Text = ""
+        lblExistencia1.Text = ""
+
+        'Limpiamos variables globlaes para los componentes que se crearan
+        NumProductos = 0
+        txtLista.Clear()
+        lblLista.Clear()
+        pdtoLista.Clear()
+        ExistenciaLista.Clear()
+    End Sub
+
     '20150627CNSM$001-----------------
     Private Sub CargarProductosVarios()
 
         Dim oLiquidacion As New PortatilClasses.cLiquidacion()
-        Dim oProducto As DataTable
+        'Dim oProducto As DataTable
 
         '20150627CNSM$001-----------------
         Dim oRutaMovil As DataTable
@@ -2690,13 +2712,15 @@ Public Class frmLiquidacionPortatil
                                             _MovimientoAlmacen, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime),
                                             Camion)
 
-            oProducto = oLiquidacion.dtTable
+            'oProducto = oLiquidacion.dtTable
+            _dtProductos = oLiquidacion.dtTable
             btnDetalle.Enabled = True
             btnModificar.Enabled = False
             '20150627CNSM$001-----------------
         Else
             oLiquidacion.ConsultaExistencia(0, _AlmacenGas)
-            oProducto = oLiquidacion.dtTable
+            'oProducto = oLiquidacion.dtTable
+            _dtProductos = oLiquidacion.dtTable
             '20150627CNSM$001-----------------
             btnDetalle.Enabled = False
             btnModificar.Enabled = True
@@ -2711,23 +2735,24 @@ Public Class frmLiquidacionPortatil
         NumProductos = 0
         Dim i As Integer = 0
 
-        While i < oProducto.Rows.Count
+        'While i < oProducto.Rows.Count
+        While i < _dtProductos.Rows.Count
 
             If _FlagPedidoPortatil Then
                 '20150627CNSM$001-----------------
-                InicializarComponentes(CType(oProducto.Rows(i).Item(0), Integer),
-                                    CType(oProducto.Rows(i).Item(1), String),
-                                    CType(oProducto.Rows(i).Item(2), Decimal),
-                                    CType(oProducto.Rows(i).Item(3), Integer),
-                                    CType(oProducto.Rows(i).Item(4), Integer), "pdto" + oProducto.Rows(i).Item(0).ToString())
+                InicializarComponentes(CType(_dtProductos.Rows(i).Item(0), Integer),
+                                    CType(_dtProductos.Rows(i).Item(1), String),
+                                    CType(_dtProductos.Rows(i).Item(2), Decimal),
+                                    CType(_dtProductos.Rows(i).Item(3), Integer),
+                                    CType(_dtProductos.Rows(i).Item(4), Integer), "pdto" + _dtProductos.Rows(i).Item(0).ToString())
                 '20150627CNSM$001-----------------
 
 
             Else
-                InicializarComponentes(CType(oProducto.Rows(i).Item(0), Integer),
-                                   CType(oProducto.Rows(i).Item(1), String),
-                                   CType(oProducto.Rows(i).Item(2), Decimal),
-                                   CType(oProducto.Rows(i).Item(3), Integer))
+                InicializarComponentes(CType(_dtProductos.Rows(i).Item(0), Integer),
+                                   CType(_dtProductos.Rows(i).Item(1), String),
+                                   CType(_dtProductos.Rows(i).Item(2), Decimal),
+                                   CType(_dtProductos.Rows(i).Item(3), Integer))
 
             End If
 
@@ -2735,7 +2760,7 @@ Public Class frmLiquidacionPortatil
 
         End While
 
-        oProducto = Nothing
+        'oProducto = Nothing
 
     End Sub
 
@@ -5942,7 +5967,10 @@ Public Class frmLiquidacionPortatil
         End If
         Try
             dtRemisiones = oLiquidacionPedido.ConsultaPedidoPortatilCapturaManual(cboZEconomica.Identificador, _AnoAtt, _Folio, Cliente, cboTipoCobro.Identificador)
-            Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente)
+            'Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente)
+            Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente, _dtProductos.Copy, _cargarProductosPadre)
+            _cargarProductosPadre = True
+            'Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente, _dtProductos)
             oRemisionManual.RutamovilGas = _BoletinEnLineaCamion
             oRemisionManual.ClienteVentasPublico = _ClienteVentasPublico
             oRemisionManual.ClienteNormal = _ClienteNormal
@@ -5952,9 +5980,10 @@ Public Class frmLiquidacionPortatil
             oRemisionManual.Usuario = _Usuario
             oRemisionManual.DatosCliente = _DatosCliente
             oRemisionManual.DetalleGrid = _DetalleGrid
+            'oRemisionManual.ProductosPadre = _dtProductos.Copy()
             'grdDetalle.DataSource = Nothing
+
             oRemisionManual.ShowDialog()
-            oRemisionManual.TipoCobroClienteNormal = _TipoCobroClienteNormal
 
             If oRemisionManual.DialogResult = DialogResult.OK Then
                 dtCantidades.Clear()
@@ -5963,6 +5992,10 @@ Public Class frmLiquidacionPortatil
                 dataView.Sort = "IdProducto ASC"
                 Dim dataTable As DataTable = dataView.ToTable()
                 dtCantidades = dataTable
+
+                _dtProductos.Clear()
+                _dtProductos = oRemisionManual.ProductosPadre
+                ActualizarProductos()
 
                 Dim i As Integer
 
@@ -6022,6 +6055,30 @@ Public Class frmLiquidacionPortatil
         Catch ex As Exception
             Throw ex
         End Try
+    End Sub
+
+    Private Sub ActualizarProductos()
+        Dim i As Integer = 0
+
+        LimpiarProductos()
+
+        While i < _dtProductos.Rows.Count
+            If _FlagPedidoPortatil Then
+                '20150627CNSM$001-----------------
+                InicializarComponentes(CType(_dtProductos.Rows(i).Item(0), Integer),
+                                    CType(_dtProductos.Rows(i).Item(1), String),
+                                    CType(_dtProductos.Rows(i).Item(2), Decimal),
+                                    CType(_dtProductos.Rows(i).Item(3), Integer),
+                                    CType(_dtProductos.Rows(i).Item(4), Integer), "pdto" + _dtProductos.Rows(i).Item(0).ToString())
+                '20150627CNSM$001-----------------
+            Else
+                InicializarComponentes(CType(_dtProductos.Rows(i).Item(0), Integer),
+                                   CType(_dtProductos.Rows(i).Item(1), String),
+                                   CType(_dtProductos.Rows(i).Item(2), Decimal),
+                                   CType(_dtProductos.Rows(i).Item(3), Integer))
+            End If
+            i = i + 1
+        End While
     End Sub
 
     Private Sub ValidarInformacionGrid(ByVal valorABuscar As String)
