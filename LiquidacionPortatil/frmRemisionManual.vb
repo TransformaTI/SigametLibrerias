@@ -1863,7 +1863,7 @@ Public Class frmRemisionManual
 
                     Dim Descuento As Decimal
 
-
+                    grdDetalle.Item(i, 13) = cboTipoCobro.Identificador
                     If cboTipoCobro.Identificador = 18 And CBool(_DatosCliente.GetValue(3)) = True Then
                         grdDetalle.Item(i, 8) = cboTipoCobro.Text
                         grdDetalle.Item(i, 13) = 18

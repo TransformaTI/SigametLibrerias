@@ -3247,7 +3247,7 @@ Public Class frmLiquidacionPortatil
                     drow(11) = _DetalleGrid.Rows(i).Item(6)
                     drow(15) = _DetalleGrid.Rows(i).Item(6)
                 End If
-                If cboTipoCobro.Identificador <> 15 Then
+                If CInt(_DetalleGrid.Rows(i).Item("Tipocobro")) <> 15 Then
                     Dim Descuento As Decimal = 0
                     Descuento = (CType(drow(4), Integer) * CType(_DetalleGrid.Rows(i).Item(5), Decimal))
                     If cbxAplicaDescuento.Checked Then
@@ -3289,6 +3289,14 @@ Public Class frmLiquidacionPortatil
                 If CInt(_DetalleGrid.Rows(i).Item("Tipocobro")) = 18 Then
                     drow(12) = _DetalleGrid.Rows(i).Item("Cliente")
                 End If
+
+                If _DetalleGrid.Rows(i).Item("Cliente") Is DBNull.Value And CStr(_DetalleGrid.Rows(i).Item("Cliente")) = "" Then
+                    drow(12) = _ClienteVentasPublico
+                Else
+                    drow(12) = _DetalleGrid.Rows(i).Item("Cliente")
+                End If
+
+
                 drow(19) = cbxAplicaDescuento.Checked
                 drow(20) = _DetalleGrid.Rows(i).Item(0)
                 drow(21) = _DetalleGrid.Rows(i).Item(1)
@@ -4196,7 +4204,7 @@ Public Class frmLiquidacionPortatil
                                     "", 1, 8,
                                     CType(_drLiquidacion(0).Item(25), Short),
                                     0, 0,
-                                    _Usuario, 0,
+                                    _Usuario, CType(_drLiquidacion(0).Item(25), Short),
                                     TipoCobroTemp,
                                     _AnoAtt,
                                     _Folio, "PENDIENTE",
