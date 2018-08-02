@@ -1250,7 +1250,8 @@ Public Class frmRemisionManual
                                 Descuento = 0
                             End Try
                         Else
-                            drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal) 'Total
+                            drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal) 'Importe
+                            drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(dtProducto.Rows(i).Item(2), Decimal) 'Saldo
                         End If
                         drow(9) = CType(dtProducto.Rows(i).Item(1), String) 'ProductoDesc
                         drow(4) = CType(dtProducto.Rows(i).Item(5), Integer) 'Valor
