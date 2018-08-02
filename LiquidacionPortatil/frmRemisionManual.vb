@@ -1794,14 +1794,7 @@ Public Class frmRemisionManual
     End Sub
 
     Private Sub Btn_Modificar_Click(sender As Object, e As EventArgs) Handles Btn_Modificar.Click
-        'If grdDetalle.VisibleRowCount <= 0 Then
-        '    If _DetalleGrid.Rows.Count > 0 Then
-        '        grdDetalle.DataSource = _DetalleGrid
-
-        '    End If
-        'Else
         CargaGridModificado()
-        'End If
 
     End Sub
 
@@ -1873,6 +1866,8 @@ Public Class frmRemisionManual
 
                     If cboTipoCobro.Identificador = 18 And CBool(_DatosCliente.GetValue(3)) = True Then
                         grdDetalle.Item(i, 8) = cboTipoCobro.Text
+                        grdDetalle.Item(i, 13) = 18
+
                         If cbxAplicaDescuento.Checked Then
                             grdDetalle.Item(i, 8) = cboTipoCobro.Text
                         End If
@@ -1907,6 +1902,7 @@ Public Class frmRemisionManual
                             End If
                         End If
                     End If
+
                     _DetalleGrid = CType(grdDetalle.DataSource, DataTable)
                 Else
                     'Aqui empieza modificacion de cuando es sin movil gas

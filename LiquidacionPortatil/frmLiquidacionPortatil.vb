@@ -3221,7 +3221,7 @@ Public Class frmLiquidacionPortatil
                 Dim drow As DataRow
                 drow = dtLiquidacionTotal.NewRow
                 drow(0) = cboZEconomica.Identificador
-                drow(1) = cboTipoCobro.Text
+                drow(1) = _DetalleGrid.Rows(i).Item("FormaPago")
                 drow(2) = _DetalleGrid.Rows(i).Item(11)
                 drow(3) = _DetalleGrid.Rows(i).Item(9)
                 drow(4) = _DetalleGrid.Rows(i).Item(10)
@@ -3242,7 +3242,11 @@ Public Class frmLiquidacionPortatil
                 drow(9) = _DetalleGrid.Rows(i).Item(4) ' 'CType(oProducto.dtTable.Rows(i).Item(6), Integer)
 
                 drow(10) = _DetalleGrid.Rows(i).Item("Tipocobro") 'cboTipoCobro.Identificador
-
+                If CInt(_DetalleGrid.Rows(i).Item("Tipocobro")) = 18 Then
+                    drow(8) = _DetalleGrid.Rows(i).Item(6)
+                    drow(11) = _DetalleGrid.Rows(i).Item(6)
+                    drow(15) = _DetalleGrid.Rows(i).Item(6)
+                End If
                 If cboTipoCobro.Identificador <> 15 Then
                     Dim Descuento As Decimal = 0
                     Descuento = (CType(drow(4), Integer) * CType(_DetalleGrid.Rows(i).Item(5), Decimal))
@@ -3282,12 +3286,16 @@ Public Class frmLiquidacionPortatil
                     drow(13) = _TipoCobroClienteVentasPublico
                     drow(14) = 0
                 End If
-
+                If CInt(_DetalleGrid.Rows(i).Item("Tipocobro")) = 18 Then
+                    drow(12) = _DetalleGrid.Rows(i).Item("Cliente")
+                End If
                 drow(19) = cbxAplicaDescuento.Checked
                 drow(20) = _DetalleGrid.Rows(i).Item(0)
                 drow(21) = _DetalleGrid.Rows(i).Item(1)
                 ' If Not VerificaRegistroGrid(drow) Then
                 If CDec(_DetalleGrid.Rows(i).Item(7)) = 0 Then
+                    dtLiquidacionTotal.Rows.Add(drow)
+                Else
                     dtLiquidacionTotal.Rows.Add(drow)
                 End If
                 'End If
@@ -4228,7 +4236,13 @@ Public Class frmLiquidacionPortatil
                             ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
                                 oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, MovimientoAlmacenSalidaObsequio, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction)
                                 _TotalContado = _TotalContado + Total
+                            ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
+                                oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, MovimientoAlmacenSalidaObsequio, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction)
+                                _TotalContado = _TotalContado + Total
                             Else ' CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 3 Then
+                                If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 18 Then
+
+                                End If
                                 oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, MovimientoAlmacenSalidaObsequio, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction)
                                 _TotalContado = _TotalContado + Total
 
@@ -5967,9 +5981,8 @@ Public Class frmLiquidacionPortatil
                 dtRemisionesManuales = oRemisionManual.Remisiones
                 If dtRemisionesManuales.Rows.Count > 0 Then
                     '_DetalleGrid.Rows.Clear()
-                    If dtRemisionesManuales.Columns.Count <> 13 Then
+                    If dtRemisionesManuales.Columns.Count <> 14 Then
                         For Each item As DataRow In dtRemisionesManuales.Rows
-
                             '               Dim dr() As DataRow = oProductoRemManuales.Select("producto=" + item("producto").ToString())
 
                             row = _DetalleGrid.NewRow()
@@ -6836,13 +6849,13 @@ Public Class frmLiquidacionPortatil
     Public Sub cargarRemisiones()
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
         Dim TotalKilos As New Decimal
-        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
-        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
+        _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+        ' _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
         grdDetalle.DataSource = _DetalleGrid
 
         If _DetalleGrid.Rows.Count > 0 Then
             TotalKilos = Convert.ToDecimal(_DetalleGrid.Compute("SUM(Kilos)", String.Empty))
-            lblTotalKilos.Text = CType(_Kilos, Decimal).ToString("N1")
+            lblTotalKilos.Text = TotalKilos.ToString
         End If
     End Sub
 
