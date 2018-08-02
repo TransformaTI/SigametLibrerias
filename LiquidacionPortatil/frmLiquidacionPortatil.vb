@@ -6663,11 +6663,16 @@ Public Class frmLiquidacionPortatil
                     Else
                         Credito = Credito + CDec(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"))
                     End If
-                    If _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") Is DBNull.Value Or CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro")) <> "" Then
+                    If Not _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row)) Is Nothing Then
+                        _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
                     Else
 
-                        _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
                     End If
+                    'If _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") Is DBNull.Value Or CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro")) <> "" Then
+                    'Else
+
+                    '    _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
+                    'End If
                 Next
                 ActualizarTotalizadorFormasDePago(_listaCobros)
                 MessageBox.Show("¡Cobro de remisiones concluida!")
