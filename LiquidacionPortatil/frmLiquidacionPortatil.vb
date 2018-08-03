@@ -6721,23 +6721,15 @@ Public Class frmLiquidacionPortatil
                         Credito = Credito + CDec(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"))
                     End If
                     If Not _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row)) Is Nothing Then
-                        If _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") Is DBNull.Value Then
+                        If Not _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") Is DBNull.Value And _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro").ToString() = "" Then
                             _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
                         End If
                     Else
-
                     End If
-                    'If _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") Is DBNull.Value Or CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro")) <> "" Then
-                    'Else
-
-                    '    _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
-                    'End If
                 Next
                 ActualizarTotalizadorFormasDePago(_listaCobros)
-                MessageBox.Show("¡Cobro de remisiones concluida!")
-
+                MessageBox.Show("Cobro de remisiones concluída.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
-
             Validacion()
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -6922,11 +6914,11 @@ Public Class frmLiquidacionPortatil
                 Dim totalcobro As Decimal = CDec(lblTotalCobro.Text)
                 Dim totalPagos As Decimal = CDec(lblTransferElect.Text) + CDec(lblTarjDebCred.Text) + CDec(lblAplicAnticipo.Text) + CDec(lblCheque.Text) + CDec(lblEfectivo.Text) + CDec(lblVales.Text)
                 If totalcobro = 0 Then
-                    MessageBox.Show("No se ha hecho la liquidación de ruta portail, Se necesita el total a cobrar")
+                    MessageBox.Show("No se ha hecho la liquidación de ruta portátil, se necesita el total a cobrar.")
                 ElseIf totalcobro > 0 And totalcobro <> totalPagos Then
-                    MessageBox.Show("El pago total debe de ser igual al cobro total")
+                    MessageBox.Show("El pago total debe de ser igual al cobro total.")
                 ElseIf totalPagos > totalcobro Then
-                    MessageBox.Show("El pago total es mayor a el total de cobro, debe de ser igual al cobro total")
+                    MessageBox.Show("El pago total es mayor al total del cobro, debe de ser igual al cobro total.")
 
                 End If
             End If
@@ -7028,7 +7020,7 @@ Public Class frmLiquidacionPortatil
 
     Public Sub CargaTablaLiquidacion()
         If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
-            MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidación," + Chr(13) + "Favor de ajustar la fecha y hora conforme a la operación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidación," + Chr(13) + "favor de ajustar la fecha y hora conforme a la operación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
 
         End If
