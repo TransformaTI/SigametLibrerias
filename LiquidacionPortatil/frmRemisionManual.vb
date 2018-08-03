@@ -712,7 +712,7 @@ Public Class frmRemisionManual
         '
         Me.lbltckExistencia.AutoSize = True
         Me.lbltckExistencia.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbltckExistencia.Location = New System.Drawing.Point(242, 8)
+        Me.lbltckExistencia.Location = New System.Drawing.Point(239, 8)
         Me.lbltckExistencia.Name = "lbltckExistencia"
         Me.lbltckExistencia.Size = New System.Drawing.Size(65, 13)
         Me.lbltckExistencia.TabIndex = 7
@@ -1099,7 +1099,7 @@ Public Class frmRemisionManual
         If NumProductos = 0 Then
             lblProducto1.Text = Descripcion
             lblExistencia1.Text = CType(Existencia, String)
-            txtCantidad1.Text = ""
+            'txtCantidad1.Text = ""
             txtListaCantidad.Add(txtCantidad1)
             lblListaExistencia.Add(lblExistencia1)
         Else
