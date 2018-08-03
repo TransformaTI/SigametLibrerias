@@ -7128,7 +7128,7 @@ Public Class frmLiquidacionPortatil
                 Ventatotal = Ventatotal + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
                 totalcobro = totalcobro + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
                 cantidad = CType(_DetalleGrid.Rows(i).Item("Cantidad"), Decimal)
-                Kilos = Kilos + (Kilostotal * cantidad)
+                Kilos = Kilos + Kilostotal
                 i = i + 1
             End While
         End If
