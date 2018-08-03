@@ -1325,21 +1325,25 @@ Public Class frmRemisionManual
                         ' Se agreg validacion de descuento
                         Dim Descuento As Decimal
                         If cbxAplicaDescuento.Checked Then
-                            Try
-                                Descuento = CDec(_DatosCliente.GetValue(7))
-                                Dim descuentoGrupal As Decimal
-                                descuentoGrupal = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * Descuento
-                                drow(7) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
-                                drow(6) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
-
+                                Try
+                                    Descuento = CDec(_DatosCliente.GetValue(7))
+                                    Dim descuentoGrupal As Decimal
+                                    descuentoGrupal = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * Descuento
+                                    drow(7) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'SALDO
+                                    drow(6) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
                                 Catch ex As Exception
                                     Descuento = 0
                                 End Try
                             Else
                                 drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal) 'Importe
-                                drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal) 'Saldo
+                                If cboTipoCobro.Text.Trim() <> "Crédito Portátil" Then
+                                    drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal) 'Saldo
+                                Else
+                                    drow(7) = 0 ' Si s e trata de un crédito portátil el saldo debe ser igual a cero
+                                End If
+
                             End If
-                            drow(9) = CType(_dtProductos.Rows(i).Item(1), String) 'ProductoDesc
+                                drow(9) = CType(_dtProductos.Rows(i).Item(1), String) 'ProductoDesc
                             If CType(_dtProductos.Rows(i).Item(0), Integer) <> 9 Then
                                 drow(4) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(5), Decimal) 'Kilos en la remisión
                             Else
