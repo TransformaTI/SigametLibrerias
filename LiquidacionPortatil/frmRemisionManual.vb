@@ -1410,14 +1410,8 @@ Public Class frmRemisionManual
                     grdDetalle.DataSource = dtLiquidacionTotal
 
                         _Kilos = _Kilos + (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(5), Integer))
-                        'If dtLiquidacionTotal.Columns.Count <> 13 Then
-                        '    _TotalLiquidarPedido = _TotalLiquidarPedido + CType(drow(9), Decimal)
-                        'Else
-                        '    _TotalLiquidarPedido = _TotalLiquidarPedido + CType(drow(7), Decimal)
-                        'End If
-
                         lblTotalKilos.Text = CType(_Kilos, Decimal).ToString("N2")
-                    lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
+                        lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
 
                     CType(lblListaExistencia.Item(i), System.Windows.Forms.Label).Text = CType(CType(CType(lblListaExistencia.Item(i), System.Windows.Forms.Label).Text, Integer) - ValorText, String)
 
@@ -1746,6 +1740,13 @@ Public Class frmRemisionManual
 
             grdDetalle.DataSource = Nothing
             grdDetalle.DataSource = _DetalleGrid
+
+            If _DetalleGrid.Rows.Count > 0 Then
+                For Each DR As DataRow In _DetalleGrid.Rows
+                    _Kilos = _Kilos + CType(DR(4), Integer)
+                Next
+            End If
+            lblTotalKilos.Text = CType(_Kilos, Decimal).ToString("N2")
         End If
     End Sub
 
