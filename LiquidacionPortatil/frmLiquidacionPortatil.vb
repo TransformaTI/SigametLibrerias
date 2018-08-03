@@ -5998,10 +5998,8 @@ Public Class frmLiquidacionPortatil
         End If
         Try
             dtRemisiones = oLiquidacionPedido.ConsultaPedidoPortatilCapturaManual(cboZEconomica.Identificador, _AnoAtt, _Folio, Cliente, cboTipoCobro.Identificador)
-            'Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente)
             Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente, _dtProductos.Copy, _cargarProductosPadre)
             _cargarProductosPadre = True
-            'Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente, _dtProductos)
             oRemisionManual.RutamovilGas = _BoletinEnLineaCamion
             oRemisionManual.ClienteVentasPublico = _ClienteVentasPublico
             oRemisionManual.ClienteNormal = _ClienteNormal
