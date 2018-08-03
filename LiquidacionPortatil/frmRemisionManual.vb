@@ -1341,7 +1341,7 @@ Public Class frmRemisionManual
                             End If
                             drow(9) = CType(_dtProductos.Rows(i).Item(1), String) 'ProductoDesc
                             If CType(_dtProductos.Rows(i).Item(0), Integer) <> 9 Then
-                                drow(4) = CType(_dtProductos.Rows(i).Item(2), Integer) 'Valor
+                                drow(4) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal) 'Kilos en la remisión
                             Else
                                 Dim kilosGranel As Integer
                                 kilosGranel = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer)
@@ -1507,6 +1507,7 @@ Public Class frmRemisionManual
             If _RutaMovil = False Then
                 If ValidaRemision() Then
                     If VerificaDatos() Then
+                        CargarProductosVarios()
                         CargaGrid()
 
                     Else
