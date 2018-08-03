@@ -1271,7 +1271,7 @@ Public Class frmRemisionManual
                                     Throw New Exception("La cantidad de kilos de gas a granel no debe superar los 255 kilos, por favor corrija.")
                                 End If
                             Else
-                                drow(5) = CType(_dtProductos.Rows(i).Item(5), Integer) 'Valor
+                                drow(5) = CType(_dtProductos.Rows(i).Item(5), Integer) * CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) 'Cálculo de la cantidad de kilos vendidos de un producto dado
                             End If
 
                             drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) 'Cantidad
@@ -1341,7 +1341,7 @@ Public Class frmRemisionManual
                             End If
                             drow(9) = CType(_dtProductos.Rows(i).Item(1), String) 'ProductoDesc
                             If CType(_dtProductos.Rows(i).Item(0), Integer) <> 9 Then
-                                drow(4) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal) 'Kilos en la remisión
+                                drow(4) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(5), Decimal) 'Kilos en la remisión
                             Else
                                 Dim kilosGranel As Integer
                                 kilosGranel = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer)
