@@ -249,7 +249,7 @@ Public Class frmLiquidacionPortatil
     Friend WithEvents lblmovilgas As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents lblResto As Label
-    Friend WithEvents Label11 As Label
+    Friend WithEvents lblTipoRuta As Label
 
     'Indica si la ruta se encuentra en venta especial
     Private _RutaEspecial As Boolean = False
@@ -398,7 +398,7 @@ Public Class frmLiquidacionPortatil
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lblResto = New System.Windows.Forms.Label()
-        Me.Label11 = New System.Windows.Forms.Label()
+        Me.lblTipoRuta = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
@@ -770,11 +770,11 @@ Public Class frmLiquidacionPortatil
         'lblmovilgas
         '
         Me.lblmovilgas.AutoSize = True
-        Me.lblmovilgas.Location = New System.Drawing.Point(146, 171)
+        Me.lblmovilgas.Location = New System.Drawing.Point(145, 211)
         Me.lblmovilgas.Name = "lblmovilgas"
-        Me.lblmovilgas.Size = New System.Drawing.Size(51, 13)
+        Me.lblmovilgas.Size = New System.Drawing.Size(71, 13)
         Me.lblmovilgas.TabIndex = 68
-        Me.lblmovilgas.Text = "Label11"
+        Me.lblmovilgas.Text = "lblTipoRuta"
         '
         'cbxAplicaDescuento
         '
@@ -906,7 +906,7 @@ Public Class frmLiquidacionPortatil
         Me.btnAgregar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnAgregar.ImageIndex = 2
         Me.btnAgregar.ImageList = Me.ImageList1
-        Me.btnAgregar.Location = New System.Drawing.Point(31, 165)
+        Me.btnAgregar.Location = New System.Drawing.Point(31, 205)
         Me.btnAgregar.Name = "btnAgregar"
         Me.btnAgregar.Size = New System.Drawing.Size(82, 24)
         Me.btnAgregar.TabIndex = 40
@@ -927,7 +927,7 @@ Public Class frmLiquidacionPortatil
         Me.pnlProducto.Controls.Add(Me.lbltckProducto)
         Me.pnlProducto.Location = New System.Drawing.Point(31, 19)
         Me.pnlProducto.Name = "pnlProducto"
-        Me.pnlProducto.Size = New System.Drawing.Size(432, 142)
+        Me.pnlProducto.Size = New System.Drawing.Size(432, 170)
         Me.pnlProducto.TabIndex = 36
         '
         'lblExistencia1
@@ -1174,7 +1174,7 @@ Public Class frmLiquidacionPortatil
         '
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.lblResto)
-        Me.GroupBox1.Controls.Add(Me.Label11)
+        Me.GroupBox1.Controls.Add(Me.lblTipoRuta)
         Me.GroupBox1.Controls.Add(Me.Label16)
         Me.GroupBox1.Controls.Add(Me.Label15)
         Me.GroupBox1.Controls.Add(Me.Label14)
@@ -1242,16 +1242,16 @@ Public Class frmLiquidacionPortatil
         '
         'Label11
         '
-        Me.Label11.BackColor = System.Drawing.Color.Black
-        Me.Label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label11.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.ForeColor = System.Drawing.Color.DodgerBlue
-        Me.Label11.Location = New System.Drawing.Point(6, 98)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(176, 21)
-        Me.Label11.TabIndex = 127
-        Me.Label11.Text = "Resto:"
-        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblTipoRuta.BackColor = System.Drawing.Color.Black
+        Me.lblTipoRuta.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblTipoRuta.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTipoRuta.ForeColor = System.Drawing.Color.DodgerBlue
+        Me.lblTipoRuta.Location = New System.Drawing.Point(6, 98)
+        Me.lblTipoRuta.Name = "Label11"
+        Me.lblTipoRuta.Size = New System.Drawing.Size(176, 21)
+        Me.lblTipoRuta.TabIndex = 127
+        Me.lblTipoRuta.Text = "Resto:"
+        Me.lblTipoRuta.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Label16
         '

@@ -401,7 +401,7 @@ Public Class frmRemisionManual
         Me.grdDetalle.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.grdDetalle.HeaderFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.grdDetalle.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.grdDetalle.Location = New System.Drawing.Point(33, 395)
+        Me.grdDetalle.Location = New System.Drawing.Point(20, 409)
         Me.grdDetalle.Name = "grdDetalle"
         Me.grdDetalle.ReadOnly = True
         Me.grdDetalle.Size = New System.Drawing.Size(567, 184)
@@ -536,7 +536,7 @@ Public Class frmRemisionManual
         Me.btnBorrar.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnBorrar.Image = CType(resources.GetObject("btnBorrar.Image"), System.Drawing.Image)
         Me.btnBorrar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnBorrar.Location = New System.Drawing.Point(330, 365)
+        Me.btnBorrar.Location = New System.Drawing.Point(316, 379)
         Me.btnBorrar.Name = "btnBorrar"
         Me.btnBorrar.Size = New System.Drawing.Size(80, 24)
         Me.btnBorrar.TabIndex = 12
@@ -552,7 +552,7 @@ Public Class frmRemisionManual
         Me.btnAgregar.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAgregar.Image = CType(resources.GetObject("btnAgregar.Image"), System.Drawing.Image)
         Me.btnAgregar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAgregar.Location = New System.Drawing.Point(213, 365)
+        Me.btnAgregar.Location = New System.Drawing.Point(213, 379)
         Me.btnAgregar.Name = "btnAgregar"
         Me.btnAgregar.Size = New System.Drawing.Size(80, 24)
         Me.btnAgregar.TabIndex = 11
@@ -567,7 +567,7 @@ Public Class frmRemisionManual
         Me.btnAceptar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnAceptar.ImageIndex = 0
         Me.btnAceptar.ImageList = Me.ImageList1
-        Me.btnAceptar.Location = New System.Drawing.Point(643, 21)
+        Me.btnAceptar.Location = New System.Drawing.Point(634, 24)
         Me.btnAceptar.Name = "btnAceptar"
         Me.btnAceptar.Size = New System.Drawing.Size(75, 23)
         Me.btnAceptar.TabIndex = 13
@@ -588,7 +588,7 @@ Public Class frmRemisionManual
         Me.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnCancelar.ImageIndex = 1
         Me.btnCancelar.ImageList = Me.ImageList1
-        Me.btnCancelar.Location = New System.Drawing.Point(643, 53)
+        Me.btnCancelar.Location = New System.Drawing.Point(634, 53)
         Me.btnCancelar.Name = "btnCancelar"
         Me.btnCancelar.Size = New System.Drawing.Size(75, 23)
         Me.btnCancelar.TabIndex = 14
@@ -634,7 +634,7 @@ Public Class frmRemisionManual
         Me.Btn_Modificar.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Modificar.Image = CType(resources.GetObject("Btn_Modificar.Image"), System.Drawing.Image)
         Me.Btn_Modificar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Btn_Modificar.Location = New System.Drawing.Point(431, 164)
+        Me.Btn_Modificar.Location = New System.Drawing.Point(426, 164)
         Me.Btn_Modificar.Name = "Btn_Modificar"
         Me.Btn_Modificar.Size = New System.Drawing.Size(96, 27)
         Me.Btn_Modificar.TabIndex = 9
@@ -673,9 +673,9 @@ Public Class frmRemisionManual
         Me.pnlProducto.Controls.Add(Me.lbltckExistencia)
         Me.pnlProducto.Controls.Add(Me.Label8)
         Me.pnlProducto.Controls.Add(Me.lbltckProducto)
-        Me.pnlProducto.Location = New System.Drawing.Point(90, 217)
+        Me.pnlProducto.Location = New System.Drawing.Point(90, 197)
         Me.pnlProducto.Name = "pnlProducto"
-        Me.pnlProducto.Size = New System.Drawing.Size(432, 142)
+        Me.pnlProducto.Size = New System.Drawing.Size(432, 176)
         Me.pnlProducto.TabIndex = 10
         '
         'lblExistencia1
@@ -868,9 +868,9 @@ Public Class frmRemisionManual
         '
         'Btn_Buscar
         '
-        Me.Btn_Buscar.Location = New System.Drawing.Point(431, 79)
+        Me.Btn_Buscar.Location = New System.Drawing.Point(426, 79)
         Me.Btn_Buscar.Name = "Btn_Buscar"
-        Me.Btn_Buscar.Size = New System.Drawing.Size(75, 23)
+        Me.Btn_Buscar.Size = New System.Drawing.Size(96, 23)
         Me.Btn_Buscar.TabIndex = 5
         Me.Btn_Buscar.Text = "Buscar"
         Me.Btn_Buscar.UseVisualStyleBackColor = True
@@ -1219,16 +1219,20 @@ Public Class frmRemisionManual
                 Dim i As Integer
                 While i < txtListaCantidad.Count
 
-                    If CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text = "" Then
+                    If CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text.Trim() = "" Then
                         ValorText = 0
+                    ElseIf CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text.Trim() = "0" Then
+                        Throw New Exception("La cantidad debe ser diferente de cero.")
+                    ElseIf CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text.Contains("-") Then
+                        Throw New Exception("La cantidad debe ser positiva")
                     Else
                         ValorText = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer)
                     End If
 
                     If ValorText <> 0 Then
 
-                        'Asignacion de valores a un renglon que se validara y despues
-                        'se anexara a la tabla dtLiquidacionTotal
+                        'Asignacion de valores a un renglon que se validaá y después
+                        'se anexará a la tabla dtLiquidacionTotal
 
                         Dim drow As DataRow
                         drow = dtLiquidacionTotal.NewRow
@@ -1258,7 +1262,14 @@ Public Class frmRemisionManual
                             drow(4) = CType(_dtProductos.Rows(i).Item(1), String) 'ProductoDesc
 
                             If CType(_dtProductos.Rows(i).Item(0), Integer) = 9 Then
-                                drow(5) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) 'Cantidad
+
+                                Dim kilosGranel As Integer
+                                kilosGranel = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer)
+                                If kilosGranel <= 255 Then
+                                    drow(5) = kilosGranel 'Cantidad de kilos granel
+                                Else
+                                    Throw New Exception("La cantidad de kilos de gas a granel no debe superar los 255 kilos, por favor corrija.")
+                                End If
                             Else
                                 drow(5) = CType(_dtProductos.Rows(i).Item(5), Integer) 'Valor
                             End If
@@ -1330,12 +1341,19 @@ Public Class frmRemisionManual
                             End If
                             drow(9) = CType(_dtProductos.Rows(i).Item(1), String) 'ProductoDesc
                             If CType(_dtProductos.Rows(i).Item(0), Integer) <> 9 Then
-                                drow(4) = CType(_dtProductos.Rows(i).Item(5), Integer) 'Valor
+                                drow(4) = CType(_dtProductos.Rows(i).Item(2), Integer) 'Valor
                             Else
-                                drow(4) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) 'Cantidad
+                                Dim kilosGranel As Integer
+                                kilosGranel = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer)
+                                If kilosGranel <= 255 Then
+                                    drow(4) = kilosGranel 'Kilos de venta granel
+                                Else
+                                    Throw New Exception("La cantidad de kilos de gas a granel no debe superar los 255 kilos, por favor corrija.")
+                                End If
+
                             End If
 
-                            If CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) < 255 Then
+                                If CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) < 255 Then
                                 drow(10) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) 'Cantidad
                             Else
                                 drow(10) = 0
@@ -1424,6 +1442,8 @@ Public Class frmRemisionManual
         Catch ex As Exception
             If ex.Message.Contains("Por favor seleccione una zona económica.") Then
                 MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            ElseIf ex.Message.Contains("La cantidad de kilos de gas a granel no debe superar los 255 kilos, por favor corrija.") Then
+                MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Else
                 MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
@@ -1493,6 +1513,12 @@ Public Class frmRemisionManual
                         Dim Mensajes As PortatilClasses.Mensaje
                         Mensajes = New PortatilClasses.Mensaje(135)
                         MessageBox.Show(Mensajes.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    End If
+                Else
+                    If txtSerie.Text.Trim() = "" Then
+                        txtSerie.Select()
+                    ElseIf txtRemision.Text.Trim() = "" Then
+                        txtRemision.Select()
                     End If
                 End If
             Else
@@ -1630,7 +1656,7 @@ Public Class frmRemisionManual
 
         Else
             oMensaje = New PortatilClasses.Mensaje(137)
-            MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show(oMensaje.Mensaje.ToLower(), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
 
         Cursor = Cursors.Default
