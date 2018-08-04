@@ -6476,7 +6476,7 @@ Public Class frmLiquidacionPortatil
             If Cobro.TipoCobro = 6 Or Cobro.TipoCobro = 19 Then
                 TotalTarjeta = TotalTarjeta + Cobro.Total
             End If
-            If Cobro.TipoCobro = 30 Then
+            If Cobro.TipoCobro = 21 Then
                 TotalAnticipo = TotalAnticipo + Cobro.Total
             End If
             If Cobro.TipoCobro = 3 Then
@@ -6655,7 +6655,7 @@ Public Class frmLiquidacionPortatil
             ActualizarTotalizadorFormasDePago(_listaCobros)
             If frmSeleTipoCobro.CobroRemisiones.Count > 0 Then
                 '_ListaCobroRemisiones.Add(frmSeleTipoCobro.CobroRemisiones(0))
-
+                ActualizarTotalizadorFormasDePago(_listaCobros)
                 For Each cobroRemision As SigaMetClasses.CobroRemisiones In frmSeleTipoCobro.CobroRemisiones
                     _ListaCobroRemisiones.Add(cobroRemision)
                 Next
