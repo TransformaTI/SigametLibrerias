@@ -1358,9 +1358,16 @@ Public Class frmRemisionManual
                                     Descuento = 0
                                 End Try
                             Else
-                                drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal) 'Importe
+
                                 If cboTipoCobro.Text.Trim() <> "Crédito Portátil" Then
-                                    drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal) 'Saldo
+                                    If _dtProductos.TableName = "ProductoIteracion" Then
+                                        drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) 'Importe
+                                        drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) 'Saldo
+                                    Else
+                                        drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) 'Importe
+                                        drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) 'Saldo
+                                        'drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal) 'Saldo
+                                    End If
                                 Else
                                     drow(7) = 0 ' Si s e trata de un crédito portátil el saldo debe ser igual a cero
                                 End If
@@ -1441,7 +1448,12 @@ Public Class frmRemisionManual
                         grdDetalle.DataSource = Nothing
                         grdDetalle.DataSource = dtLiquidacionTotal
 
-                        _Kilos = _Kilos + (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(5), Integer))
+                        If _dtProductos.TableName <> "ProductosIteracion" Then
+                            _Kilos = _Kilos + (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item("Valor"), Integer))
+                        Else
+                            _Kilos = _Kilos + (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item("Valor"), Integer))
+                        End If
+
                         lblTotalKilos.Text = CType(_Kilos, Decimal).ToString("N2")
                         lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
 
