@@ -6722,6 +6722,9 @@ Public Class frmLiquidacionPortatil
                         If _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") Is DBNull.Value Then
                             _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
                         End If
+                        If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro")) = "" Then
+                            _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
+                        End If
                     Else
                     End If
                 Next
