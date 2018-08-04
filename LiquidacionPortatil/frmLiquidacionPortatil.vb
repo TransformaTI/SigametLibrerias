@@ -6670,7 +6670,7 @@ Public Class frmLiquidacionPortatil
 
         Dim PagoEfectivoDefault As Boolean
         Dim Pago As Integer
-        Dim result As Integer = MessageBox.Show("¿Desea enviar las remisiones a Pago en Efectivo?", "Pago en Efectivo", MessageBoxButtons.YesNo)
+        Dim result As Integer = MessageBox.Show("¿Desea registrar pago en efectivo para las remisiones pendientes?", "Pago en Efectivo", MessageBoxButtons.YesNo)
         Try
 
             If (result = DialogResult.No) Then
@@ -6719,7 +6719,7 @@ Public Class frmLiquidacionPortatil
                         Credito = Credito + CDec(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"))
                     End If
                     If Not _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row)) Is Nothing Then
-                        If Not _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") Is DBNull.Value And _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro").ToString() = "" Then
+                        If _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") Is DBNull.Value Then
                             _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
                         End If
                     Else
