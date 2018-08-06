@@ -5973,7 +5973,7 @@ Public Class frmLiquidacionPortatil
     'Evento click en el boton Agregar que anexa la lista de productos a liquidar en el grid
     Private Sub btnAgregar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAgregar.Click
         InsertaRemisiones()
-        validarForfasPago()
+        validarFormasPago()
         Totalizador()
 
     End Sub
@@ -5998,7 +5998,7 @@ Public Class frmLiquidacionPortatil
         End If
         Try
             dtRemisiones = oLiquidacionPedido.ConsultaPedidoPortatilCapturaManual(cboZEconomica.Identificador, _AnoAtt, _Folio, Cliente, cboTipoCobro.Identificador)
-            Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente, _dtProductos.Copy, _cargarProductosPadre)
+            Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente, _BoletinEnLineaCamion, _dtProductos.Copy, _cargarProductosPadre)
             _cargarProductosPadre = True
             oRemisionManual.RutamovilGas = _BoletinEnLineaCamion
             oRemisionManual.ClienteVentasPublico = _ClienteVentasPublico
@@ -6712,15 +6712,23 @@ Public Class frmLiquidacionPortatil
                 _listaCobros.Add(cobro)
 
                 For Each row As DataRow In _DetalleGrid.Rows
-                    If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim <> "Crédito Portátil" Then
+                    If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim <> "CONTADO" Then
                         _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo") = 0
-
                     Else
                         Credito = Credito + CDec(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"))
                     End If
+
                     If Not _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row)) Is Nothing Then
-                        If _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") Is DBNull.Value Then
-                            _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
+                        If Not _BoletinEnLineaCamion Then
+                            'SIN MOVILGAS
+                            If _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") Is DBNull.Value Then
+                                _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
+                            End If
+                        Else
+                            'CON MOVILGAS
+                            If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro")).Trim = "" Then
+                                _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
+                            End If
                         End If
                     Else
                     End If
@@ -6772,7 +6780,7 @@ Public Class frmLiquidacionPortatil
         ocultar()
         Movilgas()
         cargarRemisiones()
-        validarForfasPago()
+        validarFormasPago()
         ActualizarTotalizadorFormasDePago(_listaCobros)
 
 
@@ -7143,7 +7151,7 @@ Public Class frmLiquidacionPortatil
 
     End Sub
 
-    Public Sub validarForfasPago()
+    Public Sub validarFormasPago()
         If grdDetalle.VisibleRowCount > 0 Then
             btnCapturarTarjeta.Enabled = True
             btnCapturarCheque.Enabled = True
