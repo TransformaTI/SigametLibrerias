@@ -6067,9 +6067,17 @@ Public Class frmLiquidacionPortatil
                             row("producto") = item("producto")
                             row("zonaeconomica") = cboZEconomica.Text
                             row("FormaPago") = item("FormaPago")
-
+                            If item("FormaPago").ToString.Trim = "Obsequio" Then
+                                row("Saldo") = 0
+                            End If
 
                             _DetalleGrid.Rows.Add(row)
+                        Next
+                    Else
+                        For Each item As DataRow In _DetalleGrid.Rows
+                            If item("FormaPago").ToString.Trim = "Obsequio" Then
+                                item("Saldo") = 0
+                            End If
                         Next
                     End If
 
@@ -6940,7 +6948,7 @@ Public Class frmLiquidacionPortatil
         Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
         Dim TotalKilos As New Decimal
         _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
-        ' _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
+        '_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
         grdDetalle.DataSource = _DetalleGrid
 
         If _DetalleGrid.Rows.Count > 0 Then
