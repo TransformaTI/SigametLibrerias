@@ -2100,6 +2100,9 @@ Public Class frmRemisionManual
 
     Private Sub grdDetalle_CurrentCellChanged(sender As Object, e As EventArgs) Handles grdDetalle.CurrentCellChanged
         Try
+            Dim nombreTabla As String
+            nombreTabla = CType(grdDetalle.DataSource, DataTable).TableName
+
             If grdDetalle.VisibleRowCount > 0 Then
                 i = grdDetalle.CurrentRowIndex
                 If _RutaMovil = True Then
@@ -2107,20 +2110,17 @@ Public Class frmRemisionManual
                     cboTipoCobro.Text = CType(grdDetalle.Item(i, 8), String)
 
                 Else
-                    If grdDetalle.VisibleColumnCount = 10 Then
+                    If nombreTabla = "Remision" Then
+                        txtSerie.Text = grdDetalle.Item(i, 0).ToString
+                        txtRemision.Text = grdDetalle.Item(i, 1).ToString
+                        TxtCliente.Text = grdDetalle.Item(i, 2).ToString
+                        cboTipoCobro.Text = grdDetalle.Item(i, 8).ToString
+                    Else
                         TxtCliente.Text = grdDetalle.Item(i, 10).ToString
                         lblNombreCliente.Text = grdDetalle.Item(i, 11).ToString
                         cboTipoCobro.Text = grdDetalle.Item(i, 12).ToString
                         txtRemision.Text = grdDetalle.Item(i, 0).ToString
                         txtSerie.Text = grdDetalle.Item(i, 1).ToString
-
-                    Else
-                        TxtCliente.Text = grdDetalle.Item(i, 2).ToString
-                        cboTipoCobro.Text = grdDetalle.Item(i, 8).ToString
-                        txtRemision.Text = grdDetalle.Item(i, 0).ToString
-                        txtSerie.Text = grdDetalle.Item(i, 1).ToString
-
-
                     End If
                 End If
             End If
@@ -2288,9 +2288,9 @@ Public Class frmRemisionManual
                                     grdDetalle.Item(i, 8) = cboTipoCobro.Text.ToUpper
                                     grdDetalle.Item(i, 13) = cboTipoCobro.Identificador
                                 Else
-                                    grdDetalle.Item(i, 6) = 0 'Importe = 0
-                                    grdDetalle.Item(i, 7) = 0 'Saldo = 0
-                                    grdDetalle.Item(i, 8) = cboTipoCobro.Text.ToUpper
+                                    grdDetalle.Item(i, 7) = 0 'Importe = 0
+                                    grdDetalle.Item(i, 9) = 0 'Saldo = 0
+                                    grdDetalle.Item(i, 12) = cboTipoCobro.Text.ToUpper
                                 End If
 
                             End If
