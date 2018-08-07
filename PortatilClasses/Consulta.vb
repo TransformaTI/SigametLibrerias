@@ -135,6 +135,8 @@ Public MustInherit Class Consulta
         Private _Resguardo As Boolean
         Private _ResguardoPorTanque As Boolean
 
+
+
         Property IdCliente() As Integer
             Get
                 Return _IdCliente
@@ -252,6 +254,11 @@ Public MustInherit Class Consulta
             End Set
         End Property
 
+
+
+
+
+
         Protected Sub RealizarConsulta(ByVal Procedimiento As String)
             Dim cnSigamet As SqlConnection
             Dim cmdComando As SqlCommand
@@ -299,7 +306,7 @@ Public MustInherit Class Consulta
             End Try
         End Sub
 
-        Protected Sub RealizarConsulta(ByVal Procedimiento As String, ByVal URL As String)
+        Protected Sub RealizarConsulta(ByVal Procedimiento As String, ByVal URL As String, Modulo As Byte, CadenaConexion As String, IdEmpresa As Integer)
             Dim cnSigamet As SqlConnection
             Dim cmdComando As SqlCommand
             Dim drAlmacen As SqlDataReader
@@ -341,10 +348,10 @@ Public MustInherit Class Consulta
                 cnSigamet.Close()
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
                 objSolicitudGateway.IDCliente = Me.IdCliente
-                objSolicitudGateway.IDEmpresa = Me.IdCorporativo
-                objSolicitudGateway.Fuente = RTGMCore.Fuente.CRM
+                objSolicitudGateway.IDEmpresa = IdEmpresa 'Me.IdCorporativo
+                ' objSolicitudGateway.Fuente = RTGMCore.Fuente.CRM
 
-                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
+                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(Modulo, Globals.GetInstance._CadenaConexion)
                 objGateway.URLServicio = URL
 
                 Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
@@ -651,9 +658,9 @@ Public MustInherit Class Consulta
             End Set
         End Property
 
-        Public Sub New(ByVal Conf As Integer, ByVal MovimientoAlmacen As Integer, ByVal Almacen As Integer, _
-        ByVal FechaMovimiento As DateTime, ByVal Kilo As Decimal, ByVal Litro As Decimal, ByVal TipoMov As Integer, _
-        ByVal FechaVenta As Date, ByVal Documento As Integer, ByVal ClaseMovimiento As Integer, _
+        Public Sub New(ByVal Conf As Integer, ByVal MovimientoAlmacen As Integer, ByVal Almacen As Integer,
+        ByVal FechaMovimiento As DateTime, ByVal Kilo As Decimal, ByVal Litro As Decimal, ByVal TipoMov As Integer,
+        ByVal FechaVenta As Date, ByVal Documento As Integer, ByVal ClaseMovimiento As Integer,
         ByVal Corporativo As Integer, Optional ByVal Usuario As String = "", Optional ByVal Celula As Integer = 0)
             Configuracion = Conf
             MAlmacen = MovimientoAlmacen
@@ -903,14 +910,14 @@ Public MustInherit Class Consulta
         End Property
 
         'Constructor para inicializar los valores de la clase
-        Public Sub New(ByVal intConfiguracion As Short, _
-                   ByVal intAlmacenGas As Integer, _
-                   ByVal intMovimientoAlmacen As Integer, _
-                   ByVal intProducto As Integer, _
-                   ByVal intCantidad As Integer, _
-                   ByVal srtZonaEconomica As Short, _
-                   ByVal srtSecuencia As Short, _
-                   ByVal decKilo As Decimal, _
+        Public Sub New(ByVal intConfiguracion As Short,
+                   ByVal intAlmacenGas As Integer,
+                   ByVal intMovimientoAlmacen As Integer,
+                   ByVal intProducto As Integer,
+                   ByVal intCantidad As Integer,
+                   ByVal srtZonaEconomica As Short,
+                   ByVal srtSecuencia As Short,
+                   ByVal decKilo As Decimal,
                    ByVal decLitro As Decimal)
             Configuracion = intConfiguracion
             AlmacenGas = intAlmacenGas
@@ -1144,12 +1151,12 @@ Public MustInherit Class Consulta
             Configuracion = Conf
         End Sub
 
-        Public Sub CargaDatos(ByVal AñoAtt As Integer, ByVal Ruta As Integer, ByVal FAsignacion As DateTime, ByVal Folio As Integer, _
-                              ByVal Celula As Integer, ByVal TipoAsignacion As Integer, ByVal Autotanque As Integer, _
-                              ByVal TipoAsignacionAutotanque As Integer, ByVal Tripulacion As Integer, _
-                              ByVal MovimientoAlmacen As Integer, ByVal AlmacenGas As Integer, ByVal Carga As Boolean, _
-                              Optional ByVal KmInicial As Integer = 0, Optional ByVal KmFinal As Integer = 0, Optional ByVal Km As Integer = 0, _
-                              Optional ByVal Ticket As Integer = 0, Optional ByVal Comentario As String = "", _
+        Public Sub CargaDatos(ByVal AñoAtt As Integer, ByVal Ruta As Integer, ByVal FAsignacion As DateTime, ByVal Folio As Integer,
+                              ByVal Celula As Integer, ByVal TipoAsignacion As Integer, ByVal Autotanque As Integer,
+                              ByVal TipoAsignacionAutotanque As Integer, ByVal Tripulacion As Integer,
+                              ByVal MovimientoAlmacen As Integer, ByVal AlmacenGas As Integer, ByVal Carga As Boolean,
+                              Optional ByVal KmInicial As Integer = 0, Optional ByVal KmFinal As Integer = 0, Optional ByVal Km As Integer = 0,
+                              Optional ByVal Ticket As Integer = 0, Optional ByVal Comentario As String = "",
                               Optional ByVal TotalizadorInicial As Decimal = 0, Optional ByVal TotalizadorFinal As Decimal = 0)
             Dim cnSigamet As SqlConnection
             Dim cmdComando As SqlCommand
@@ -1215,9 +1222,9 @@ Public MustInherit Class Consulta
             End Try
         End Sub
 
-        Public Sub ConsultarAutotanqueTurno(ByVal ShtAutotanque As Short, _
-                                            ByVal IntAlmacenGas As Integer, _
-                                            ByVal IntFolioAtt As Integer, _
+        Public Sub ConsultarAutotanqueTurno(ByVal ShtAutotanque As Short,
+                                            ByVal IntAlmacenGas As Integer,
+                                            ByVal IntFolioAtt As Integer,
                                             ByVal ShtAnoAtt As Short)
             Dim cnSigamet As SqlConnection
             Dim cmdComando As SqlCommand
@@ -1271,7 +1278,7 @@ Public MustInherit Class Consulta
             Dim cmdTrip As New SqlCommand("spAsignaTripulacionMovilGas", cnSigamet)
             cmdTrip.CommandType = CommandType.StoredProcedure
             cmdTrip.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio
-            cmdTrip.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = AñoAtt            
+            cmdTrip.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = AñoAtt
 
             Try
                 If cnSigamet.State = ConnectionState.Closed Then
@@ -1307,8 +1314,8 @@ Public MustInherit Class Consulta
             RealizarConsulta("spPTLConsultaCliente")
         End Sub
 
-        Public Sub CargaDatos(ByVal URLServicio As String)
-            RealizarConsulta("spPTLConsultaCliente", URLServicio)
+        Public Sub CargaDatos(ByVal URLServicio As String, Modulo As Byte, CadenaConexion As String, IdEmpresa As Integer)
+            RealizarConsulta("spPTLConsultaCliente", URLServicio, Modulo, CadenaConexion, IdEmpresa)
         End Sub
     End Class
 #End Region
@@ -1595,11 +1602,11 @@ Public MustInherit Class Consulta
             End Try
         End Sub
 
-        Public Sub Registrar(ByVal Celula As Integer, ByVal AnoPed As Integer, ByVal Pedido As Integer, _
-                             ByVal FPedido As Date, ByVal Importe As Decimal, ByVal Impuesto As Decimal, _
-                             ByVal Total As Decimal, ByVal Cliente As Integer, ByVal Saldo As Decimal, _
-                             ByVal Ruta As Integer, ByVal AnoAtt As Integer, ByVal Folio As Integer, _
-                             ByVal Factura As Integer, ByVal MovimientoAlmacen As Integer, ByVal AlmacenGas As Integer, _
+        Public Sub Registrar(ByVal Celula As Integer, ByVal AnoPed As Integer, ByVal Pedido As Integer,
+                             ByVal FPedido As Date, ByVal Importe As Decimal, ByVal Impuesto As Decimal,
+                             ByVal Total As Decimal, ByVal Cliente As Integer, ByVal Saldo As Decimal,
+                             ByVal Ruta As Integer, ByVal AnoAtt As Integer, ByVal Folio As Integer,
+                             ByVal Factura As Integer, ByVal MovimientoAlmacen As Integer, ByVal AlmacenGas As Integer,
                              ByVal TotalComisionPedido As Decimal, ByVal Precio As Decimal)
 
             Dim cmdComando As SqlCommand
@@ -1657,14 +1664,14 @@ Public MustInherit Class Consulta
             Configuracion = Conf
         End Sub
 
-        Public Sub Registrar(ByVal Embarque As Integer, ByVal NumeroEmbarque As String, ByVal Litros100 As Decimal, _
-        ByVal LitrosPemex As Decimal, ByVal KilosPemex As Decimal, ByVal Porcentaje As Integer, ByVal FEmbarque As DateTime, _
-        ByVal FRecepcion As DateTime, ByVal Iva As Decimal, ByVal Importe As Decimal, ByVal FolioBascula As String, _
-        ByVal NombreChofer As String, ByVal CorporativoFacturar As Integer, ByVal PesoTaraLleno As Integer, _
-        ByVal PesoTaraVacio As Integer, ByVal Transportadora As Integer, ByVal Producto As Integer, _
-        ByVal OrigenDestino As Integer, ByVal MovimientoAlmacen As Integer, ByVal PG As String, ByVal Placas As String, _
-        ByVal HInicioDescarga As DateTime, ByVal HFinDescarga As DateTime, ByVal AlmacenGas As Integer, _
-        ByVal Celula As Integer, ByVal TotalizadorInicial As Decimal, ByVal TotalizadorFinal As Decimal, ByVal Garza As String, _
+        Public Sub Registrar(ByVal Embarque As Integer, ByVal NumeroEmbarque As String, ByVal Litros100 As Decimal,
+        ByVal LitrosPemex As Decimal, ByVal KilosPemex As Decimal, ByVal Porcentaje As Integer, ByVal FEmbarque As DateTime,
+        ByVal FRecepcion As DateTime, ByVal Iva As Decimal, ByVal Importe As Decimal, ByVal FolioBascula As String,
+        ByVal NombreChofer As String, ByVal CorporativoFacturar As Integer, ByVal PesoTaraLleno As Integer,
+        ByVal PesoTaraVacio As Integer, ByVal Transportadora As Integer, ByVal Producto As Integer,
+        ByVal OrigenDestino As Integer, ByVal MovimientoAlmacen As Integer, ByVal PG As String, ByVal Placas As String,
+        ByVal HInicioDescarga As DateTime, ByVal HFinDescarga As DateTime, ByVal AlmacenGas As Integer,
+        ByVal Celula As Integer, ByVal TotalizadorInicial As Decimal, ByVal TotalizadorFinal As Decimal, ByVal Garza As String,
         Optional ByVal Usuario As String = Nothing, Optional IdProveedorGas As Integer = 0)
             Dim cmdComando As SqlCommand
             Try
@@ -1805,7 +1812,7 @@ Public MustInherit Class Consulta
             End Get
         End Property
 
-        Public Sub Registrar(ByVal Configuracion As Integer, ByVal AlmacenGas As Integer, ByVal Documento As Integer, _
+        Public Sub Registrar(ByVal Configuracion As Integer, ByVal AlmacenGas As Integer, ByVal Documento As Integer,
         ByVal TipoMovimientoAlmacen As Integer, ByVal Corporativo As Integer)
 
             Dim cnSigamet As SqlConnection
@@ -1851,7 +1858,7 @@ Public MustInherit Class Consulta
             End Get
         End Property
 
-        Public Sub Registrar(ByVal Configuracion As Integer, ByVal MovimientoAlmacenGas As Integer, _
+        Public Sub Registrar(ByVal Configuracion As Integer, ByVal MovimientoAlmacenGas As Integer,
         ByVal AlmacenGas As Integer, ByVal MotivoCancelacion As Integer, Optional ByVal Usuario As String = "")
 
             Dim cnSigamet As SqlConnection
@@ -1900,10 +1907,10 @@ Public MustInherit Class Consulta
             End Get
         End Property
 
-        Public Sub Registrar(ByVal Configuracion As Integer, ByVal ControlFolios As Integer, _
-        ByVal TipoFolio As Integer, ByVal Cantidad As Integer, ByVal Serie As String, ByVal FolioInicial As Integer, _
-        ByVal FolioFinal As Integer, ByVal Empleado As Integer, ByVal FAsignacion As Date, _
-        ByVal TipoFolioMovimiento As Integer, ByVal Area As Short, ByVal Motivo As String, _
+        Public Sub Registrar(ByVal Configuracion As Integer, ByVal ControlFolios As Integer,
+        ByVal TipoFolio As Integer, ByVal Cantidad As Integer, ByVal Serie As String, ByVal FolioInicial As Integer,
+        ByVal FolioFinal As Integer, ByVal Empleado As Integer, ByVal FAsignacion As Date,
+        ByVal TipoFolioMovimiento As Integer, ByVal Area As Short, ByVal Motivo As String,
         ByVal Producto As Integer, Optional ByVal Usuario As String = "")
 
             Dim cnSigamet As SqlConnection
@@ -1947,9 +1954,9 @@ Public MustInherit Class Consulta
             End Try
         End Sub
 
-        Public Sub Consultar(ByVal Configuracion As Integer, ByVal ControlFolios As Integer, _
-        ByVal TipoFolio As Integer, ByVal Cantidad As Integer, ByVal Serie As String, ByVal FolioInicial As Integer, _
-        ByVal FolioFinal As Integer, ByVal Empleado As Integer, ByVal FAsignacion As Date, _
+        Public Sub Consultar(ByVal Configuracion As Integer, ByVal ControlFolios As Integer,
+        ByVal TipoFolio As Integer, ByVal Cantidad As Integer, ByVal Serie As String, ByVal FolioInicial As Integer,
+        ByVal FolioFinal As Integer, ByVal Empleado As Integer, ByVal FAsignacion As Date,
         ByVal TipoFolioMovimiento As Integer, ByVal Producto As Integer, Optional ByVal Usuario As String = "")
 
             Dim cnSigamet As SqlConnection
@@ -2005,9 +2012,9 @@ Public MustInherit Class Consulta
             End Get
         End Property
 
-        Public Sub Registrar(ByVal Configuracion As Integer, ByVal FolioCancelado As Integer, _
-        ByVal Serie As String, ByVal FCancelacion As Date, ByVal Empleado As Integer, ByVal TipoFolio As Integer, _
-        ByVal FolioInicial As String, ByVal FolioFinal As String, ByVal MotivoCancelacion As Integer, _
+        Public Sub Registrar(ByVal Configuracion As Integer, ByVal FolioCancelado As Integer,
+        ByVal Serie As String, ByVal FCancelacion As Date, ByVal Empleado As Integer, ByVal TipoFolio As Integer,
+        ByVal FolioInicial As String, ByVal FolioFinal As String, ByVal MotivoCancelacion As Integer,
         ByVal Producto As Integer, Optional ByVal Usuario As String = "")
 
             Dim cnSigamet As SqlConnection
@@ -2045,9 +2052,9 @@ Public MustInherit Class Consulta
             End Try
         End Sub
 
-        Public Sub Consultar(ByVal Configuracion As Integer, ByVal FolioCancelado As Integer, _
-        ByVal Serie As String, ByVal FCancelacion As Date, ByVal Empleado As Integer, ByVal TipoFolio As Integer, _
-        ByVal FolioInicial As String, ByVal FolioFinal As String, ByVal MotivoCancelacion As Integer, _
+        Public Sub Consultar(ByVal Configuracion As Integer, ByVal FolioCancelado As Integer,
+        ByVal Serie As String, ByVal FCancelacion As Date, ByVal Empleado As Integer, ByVal TipoFolio As Integer,
+        ByVal FolioInicial As String, ByVal FolioFinal As String, ByVal MotivoCancelacion As Integer,
         ByVal Producto As Integer, Optional ByVal Usuario As String = "")
 
             Dim cnSigamet As SqlConnection
@@ -2096,7 +2103,7 @@ Public MustInherit Class Consulta
             Configuracion = Conf
         End Sub
 
-        Public Sub Registrar(ByVal Embarque As Integer, ByVal Importe As Decimal, ByVal Iva As Decimal, _
+        Public Sub Registrar(ByVal Embarque As Integer, ByVal Importe As Decimal, ByVal Iva As Decimal,
         ByVal Flete As Decimal, ByVal ZonaEconomica As Integer, ByVal Producto As Integer, ByVal Factura As String)
             Dim cmdComando As SqlCommand
 
@@ -2241,10 +2248,10 @@ Public MustInherit Class Consulta
             Configuracion = Conf
         End Sub
 
-        Public Sub Registrar(ByVal Empresa As Integer, ByVal FFactura As DateTime, ByVal Importe As Decimal, _
-        ByVal Impuesto As Decimal, ByVal Total As Decimal, ByVal ImporteLetra As String, _
-        ByVal TipoDocumento As Integer, ByVal Folio As Integer, ByVal Serie As String, ByVal Cliente As Integer, _
-        ByVal Corporativo As Integer, ByVal Descuento As Decimal, ByVal Observaciones As String, _
+        Public Sub Registrar(ByVal Empresa As Integer, ByVal FFactura As DateTime, ByVal Importe As Decimal,
+        ByVal Impuesto As Decimal, ByVal Total As Decimal, ByVal ImporteLetra As String,
+        ByVal TipoDocumento As Integer, ByVal Folio As Integer, ByVal Serie As String, ByVal Cliente As Integer,
+        ByVal Corporativo As Integer, ByVal Descuento As Decimal, ByVal Observaciones As String,
         Optional ByVal Usuario As String = "")
             Dim cnSigamet As SqlConnection
             Dim cmdComando As SqlCommand
@@ -2291,8 +2298,8 @@ Public MustInherit Class Consulta
             Configuracion = Conf
         End Sub
 
-        Public Sub Registrar(ByVal Factura As Integer, ByVal Serie As String, ByVal Remision As Integer, _
-        ByVal Producto As Integer, ByVal FRemision As DateTime, ByVal Cantidad As Integer, ByVal Kilos As Decimal, _
+        Public Sub Registrar(ByVal Factura As Integer, ByVal Serie As String, ByVal Remision As Integer,
+        ByVal Producto As Integer, ByVal FRemision As DateTime, ByVal Cantidad As Integer, ByVal Kilos As Decimal,
         ByVal ZonaEconomica As Integer, ByVal Secuencia As Integer, ByVal Importe As Decimal)
             Dim cnSigamet As SqlConnection
             Dim cmdComando As SqlCommand
@@ -2337,7 +2344,7 @@ Public MustInherit Class Consulta
             Configuracion = Conf
         End Sub
 
-        Public Sub Registrar(ByVal Factura As Integer, ByVal Celula As Short, ByVal AnoPed As Short, _
+        Public Sub Registrar(ByVal Factura As Integer, ByVal Celula As Short, ByVal AnoPed As Short,
         ByVal Pedido As Integer)
             Dim cnSigamet As SqlConnection
             Dim cmdComando As SqlCommand
@@ -2455,7 +2462,7 @@ Public MustInherit Class Consulta
             End Get
         End Property
 
-        Public Sub CargarDatos(ByVal AlmacenGas As Integer, ByVal PG As String, ByVal NumeroEmbarque As String, _
+        Public Sub CargarDatos(ByVal AlmacenGas As Integer, ByVal PG As String, ByVal NumeroEmbarque As String,
         ByVal Embarque As Integer)
             Dim cnSigamet As SqlConnection
             Dim cmdComando As SqlCommand
@@ -2577,10 +2584,10 @@ Public MustInherit Class Consulta
             End Set
         End Property
 
-        Public Sub New(ByVal intConfiguracion As Integer, _
-                       ByVal intEmbarque As Integer, _
-                       ByVal intAlmacenGas As Integer, _
-                       ByVal strPG As String, _
+        Public Sub New(ByVal intConfiguracion As Integer,
+                       ByVal intEmbarque As Integer,
+                       ByVal intAlmacenGas As Integer,
+                       ByVal strPG As String,
                        ByVal strNumeroEmbarque As String)
             _Configuracion = intConfiguracion
             _Embarque = intEmbarque
@@ -2860,10 +2867,10 @@ Public MustInherit Class Consulta
             Configuracion = Conf
         End Sub
 
-        Public Sub Registrar(ByVal Ducto As Integer, ByVal HInicioCarga As DateTime, ByVal HFinCarga As DateTime, _
-        ByVal KilosPemex As Decimal, ByVal LitrosPemex As Decimal, ByVal Factura As String, ByVal FFactura As DateTime, _
-        ByVal Importe As Decimal, ByVal Iva As Decimal, ByVal Corporativo As Short, ByVal Producto As Short, _
-        ByVal AlmacenGas As Integer, ByVal MovimientoAlmacen As Integer, ByVal Barriles As Decimal, _
+        Public Sub Registrar(ByVal Ducto As Integer, ByVal HInicioCarga As DateTime, ByVal HFinCarga As DateTime,
+        ByVal KilosPemex As Decimal, ByVal LitrosPemex As Decimal, ByVal Factura As String, ByVal FFactura As DateTime,
+        ByVal Importe As Decimal, ByVal Iva As Decimal, ByVal Corporativo As Short, ByVal Producto As Short,
+        ByVal AlmacenGas As Integer, ByVal MovimientoAlmacen As Integer, ByVal Barriles As Decimal,
         ByVal Densidad As Decimal, ByVal DensidadPLC As Decimal, Optional ByVal Usuario As String = Nothing)
             Dim cmdComando As SqlCommand
             Try
@@ -2953,9 +2960,9 @@ Public MustInherit Class Consulta
             Configuracion = Conf
         End Sub
 
-        Public Sub Registrar(ByVal MedicionPCFlujo As Integer, ByVal Ducto As Integer, ByVal FMedicion As DateTime, _
-        ByVal VolTotal As Decimal, ByVal MasaTotal As Decimal, ByVal DensidadMedida As Decimal, _
-        ByVal PresionMedida As Decimal, ByVal TemperaturaMedida As Decimal, ByVal TasaVolumen As Decimal, _
+        Public Sub Registrar(ByVal MedicionPCFlujo As Integer, ByVal Ducto As Integer, ByVal FMedicion As DateTime,
+        ByVal VolTotal As Decimal, ByVal MasaTotal As Decimal, ByVal DensidadMedida As Decimal,
+        ByVal PresionMedida As Decimal, ByVal TemperaturaMedida As Decimal, ByVal TasaVolumen As Decimal,
         ByVal TasaMasa As Decimal, Optional ByVal Usuario As String = Nothing)
             Dim cmdComando As SqlCommand
             Try
@@ -3032,7 +3039,7 @@ Public MustInherit Class Consulta
             Configuracion = Conf
         End Sub
 
-        Public Sub Registrar(ByVal Corporativo As Short, ByVal FInventario As DateTime, _
+        Public Sub Registrar(ByVal Corporativo As Short, ByVal FInventario As DateTime,
         ByVal InventarioFisico As Integer, ByVal Usuario As String, ByVal Sucursal As Short)
             Dim cmdComando As SqlCommand
 
@@ -3162,7 +3169,7 @@ Public MustInherit Class Consulta
             Configuracion = Conf
         End Sub
 
-        Public Sub Registrar(ByVal Sucursal As Short, ByVal Mes As Short, ByVal Ano As Short, _
+        Public Sub Registrar(ByVal Sucursal As Short, ByVal Mes As Short, ByVal Ano As Short,
         ByVal Usuario As String)
             Dim cmdComando As SqlCommand
 
@@ -3190,7 +3197,7 @@ Public MustInherit Class Consulta
             End Try
         End Sub
 
-        Public Sub Actualizar(ByVal Sucursal As Short, ByVal Mes As Short, ByVal Ano As Short, _
+        Public Sub Actualizar(ByVal Sucursal As Short, ByVal Mes As Short, ByVal Ano As Short,
         ByVal Usuario As String)
             Dim cmdComando As SqlCommand
 
@@ -3225,6 +3232,8 @@ Public MustInherit Class Consulta
         Private _Kilometraje As Integer
         Private _Ruta As Integer
         Private _Celula As Integer
+        Private Cliente As Integer
+
 
         Public ReadOnly Property Kilometraje() As Integer
             Get
@@ -3243,6 +3252,7 @@ Public MustInherit Class Consulta
                 Return _Celula
             End Get
         End Property
+
 
         Sub New(ByVal Conf As Integer)
             Configuracion = Conf
@@ -3277,10 +3287,12 @@ Public MustInherit Class Consulta
             End Try
         End Sub
 
-        Public Sub CargarDatos(ByVal Camion As Integer, ByVal URL As String)
+        Public Sub CargarDatos(ByVal Camion As Integer, ByVal URL As String, Modulo As Byte, CadenaConexion As String, IdEmpresa As Integer)
             Dim cnSigamet As SqlConnection
             Dim cmdComando As SqlCommand
             Dim drAlmacen As SqlDataReader
+
+
             Try
                 cnSigamet = New SqlConnection(Globals.GetInstance._CadenaConexion)
                 cmdComando = New SqlCommand("spPTLConsultaCamion", cnSigamet)
@@ -3295,21 +3307,21 @@ Public MustInherit Class Consulta
                     Descripcion = CType(drAlmacen(1), String) & " " & CType(drAlmacen(2), String)
                     _Ruta = CType(drAlmacen(4), Integer)
                     _Celula = CType(drAlmacen(5), Integer)
+                    Cliente = CType(drAlmacen(1).ToString(), Integer)
+
                     If Not IsDBNull(drAlmacen(3)) Then
                         _Kilometraje = CType(drAlmacen(3), Integer)
                     End If
                 End If
                 cnSigamet.Close()
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
-                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway()
+                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(Modulo, Globals.GetInstance._CadenaConexion)
                 Dim objDescripcion As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega()
-                objSolicitudGateway.Fuente = 0
-                objSolicitudGateway.IDCliente = 502602197
-                objSolicitudGateway.IDEmpresa = 0
-                objSolicitudGateway.Portatil = False
-                objSolicitudGateway.IDAutotanque = 52
 
                 objGateway.URLServicio = URL
+                objSolicitudGateway.IDCliente = Cliente
+                objSolicitudGateway.IDEmpresa = IdEmpresa
+
                 objDescripcion = objGateway.buscarDireccionEntrega(objSolicitudGateway)
                 Descripcion = CType(objDescripcion.IDDireccionEntrega, String) & "  " & objDescripcion.Nombre
 
