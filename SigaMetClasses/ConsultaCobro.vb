@@ -856,7 +856,7 @@ Public Class ConsultaCobro
                     Dim oSolicitud As RTGMGateway.SolicitudGateway
                     Dim oDireccionEntrega As RTGMCore.DireccionEntrega
                     oSolicitud = New RTGMGateway.SolicitudGateway
-                    objGateway = New RTGMGateway.RTGMGateway
+                    objGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
                     objGateway.URLServicio = _URLGateway
                     oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
 

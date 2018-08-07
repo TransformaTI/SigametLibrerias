@@ -712,7 +712,7 @@ Public Class ConsultaFactura
                 If dtFacturaPedido.Rows.Count > 0 Then
                     Dim drow As DataRow
                     Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
-                    Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
+                    Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
 
                     objGateway.URLServicio = _URLGateway
                     objSolicitudGateway.Fuente = RTGMCore.Fuente.CRM

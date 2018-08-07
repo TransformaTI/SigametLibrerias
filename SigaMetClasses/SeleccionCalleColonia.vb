@@ -737,7 +737,7 @@ Public Class SeleccionCalleColonia
 
     Public Function ConsultarDatosClienteCRM(ByVal Cliente As Integer) As RTGMCore.DireccionEntrega
 
-        Dim oGateway = New RTGMGateway.RTGMGateway
+        Dim oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
         Dim oSolicitud As RTGMGateway.SolicitudGateway
         Dim oDireccionEntrega As RTGMCore.DireccionEntrega
 

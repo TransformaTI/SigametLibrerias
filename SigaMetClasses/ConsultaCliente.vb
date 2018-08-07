@@ -2096,7 +2096,7 @@ Public Class frmConsultaCliente
             If (Cliente > 0 And URLGateway.Trim > "") Then
                 Cursor = Cursors.WaitCursor
 
-                oGateway = New RTGMGateway.RTGMGateway
+                oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
                 oSolicitud = New RTGMGateway.SolicitudGateway
 
                 oGateway.URLServicio = URLGateway
@@ -2559,7 +2559,7 @@ Public Class frmConsultaCliente
             If (Cliente > 0 And Not String.IsNullOrEmpty(URLGateway)) Then
                 Cursor = Cursors.WaitCursor
 
-                oGateway = New RTGMGateway.RTGMGateway()
+                oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
                 oSolicitud = New RTGMGateway.SolicitudGateway()
 
                 oGateway.URLServicio = URLGateway

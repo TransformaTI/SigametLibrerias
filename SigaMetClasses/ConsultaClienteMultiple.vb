@@ -735,7 +735,7 @@ Public Class frmConsultaClienteMultiple
                     End If
                 Next
             Else
-                oGateway = New RTGMGateway.RTGMGateway()
+                oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
                 oSolicitud = New RTGMGateway.SolicitudGateway()
                 oGateway.URLServicio = _URLGateway
                 oSolicitud.Fuente = RTGMCore.Fuente.CRM

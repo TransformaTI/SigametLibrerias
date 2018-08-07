@@ -11009,7 +11009,7 @@ Namespace ValidacionCapturaMovimientoCaja
         Public Function EfectuarValidacion(ByVal LlaveValidacion As Integer, ByVal URLGateway As String) As Boolean
             Dim valorRetorno As Boolean = True
 
-            Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway()
+            Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
             Dim objSolicitudGateway As RTGMGateway.SolicitudGateway = New RTGMGateway.SolicitudGateway()
             Dim oDireccionEntrega As RTGMCore.DireccionEntrega
 
