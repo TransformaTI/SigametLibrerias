@@ -21,7 +21,7 @@ Public Class frmRemisionManual
     Private dtCantidades As New DataTable
     Private _DetalleGrid As DataTable
 
-    'Vairables generales
+    'Variables generales
     Dim _dtProductos As DataTable
     Dim _dtProductosPadre As DataTable = New DataTable
     Dim _cargarProductosPadre As Boolean
@@ -1201,6 +1201,28 @@ Public Class frmRemisionManual
             i = i + 1
         End While
         oLiquidacion = Nothing
+
+        i = 0
+        While i < _dtProductos.Rows.Count
+            If CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text = "" Then
+                'ValorText = 0
+            Else
+                'ValorText = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer)
+                If _dtProductos.TableName = "ProductosIteracion" Then
+                    Dim existencias As Integer
+                    existencias = CType(_dtProductos.Rows(i)(3), Integer)
+                    _dtProductos.Rows(i)(3) = existencias - CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer)
+                End If
+            End If
+
+            'If ValorText > CType(CType(lblListaExistencia.Item(i), System.Windows.Forms.Label).Text, Integer) Then
+            '    Flag = False
+            '    Me.ActiveControl = CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero)
+            'End If
+            i = i + 1
+        End While
+
+
     End Sub
 
     Private Sub CargarProductosVarios_Padre()
@@ -2154,6 +2176,10 @@ Public Class frmRemisionManual
 
     Public Sub CargaGridModificado()
         Try
+            If grdDetalle.DataSource Is Nothing Then
+                Throw New Exception("No hay elementos para modificar.")
+            End If
+
             Dim nombreTabla As String = ""
             nombreTabla = CType(grdDetalle.DataSource, DataTable).TableName
 
@@ -2239,8 +2265,13 @@ Public Class frmRemisionManual
                                     grdDetalle.Item(i, 11) = lblNombreCliente.Text
                                 End If
                             Else
-                                grdDetalle.Item(i, 10) = _ClienteVentasPublico
-                                grdDetalle.Item(i, 11) = "VENTA AL PUBLICO GENERAL"
+                                If nombreTabla = "Remision" Then
+                                    grdDetalle.Item(i, 10) = _ClienteVentasPublico
+                                    grdDetalle.Item(i, 11) = "VENTA AL PUBLICO GENERAL"
+                                Else
+                                    grdDetalle.Item(i, 10) = _ClienteVentasPublico
+                                    grdDetalle.Item(i, 11) = "VENTA AL PUBLICO GENERAL"
+                                End If
                             End If
                             Dim Descuento As Decimal
                             If cboTipoCobro.Identificador = 18 And CBool(_DatosCliente.GetValue(3)) = True Then
