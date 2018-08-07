@@ -85,21 +85,30 @@ Public Class frmCancelarPago
                         'CobroEliminado.Pago = CobroRemision.Pago And
                         'Remisiones.BeginInit()
                         Remision("Saldo") = Convert.ToDecimal(Remision("Saldo")) + CobroRemision.MontoAbonado
-                        CobroRemisiones.Remove(CobroRemision)
+                        'CobroRemisiones.Remove(CobroRemision)
                         saldoDevuelto = True
-                        Exit For
+                        'Exit For
                         'Remisiones.EndInit()
                         'oCobroRemi.Remove(CobroRemision)
                         '_ListaCobroRemisiones.Remove(CobroRemision)
                     End If
                 End If
             Next CobroRemision
-            If saldoDevuelto Then
-                Exit For
-            End If
+            'If saldoDevuelto Then
+            '    Exit For
+            'End If
 
         Next Remision
-
+        Dim NumeroCobroremisiones As Integer = CobroRemisiones.Count
+        For index As Integer = 0 To NumeroCobroremisiones
+            For Each CobroRemision As SigaMetClasses.CobroRemisiones In CobroRemisiones
+                If CobroRemision.Pago = Pago Then
+                    CobroRemisiones.Remove(CobroRemision)
+                    Exit For
+                End If
+            Next CobroRemision
+            NumeroCobroremisiones = NumeroCobroremisiones + 1
+        Next
 
     End Sub
 End Class
