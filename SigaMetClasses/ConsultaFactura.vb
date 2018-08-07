@@ -26,14 +26,14 @@ Public Class ConsultaFactura
 
     End Sub
 
-    Public Sub New(_URLGateway As String)
+    Public Sub New(URLGateway As String)
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
         'Add any initialization after the InitializeComponent() call
-
+        _URLGateway = URLGateway
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -579,7 +579,7 @@ Public Class ConsultaFactura
                     MessageBox.Show("Debes introducir el folio.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
             Catch ex As Exception
-                MsgBox("Error no se encuentra el parámetro _URLGateway " & vbCrLf & ex.Message)
+                MessageBox.Show("Error" & vbCrLf & ex.Message, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End Try
         End If
     End Sub
@@ -671,7 +671,6 @@ Public Class ConsultaFactura
 
         Try
 
-
             Dim command As New SqlCommand
             command.CommandText = "spCYCConsultaFacturaPorFolioSerie"
             command.CommandType = CommandType.StoredProcedure
@@ -716,6 +715,9 @@ Public Class ConsultaFactura
                     Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
 
                     objGateway.URLServicio = _URLGateway
+                    objSolicitudGateway.Fuente = RTGMCore.Fuente.CRM
+                    objSolicitudGateway.IDEmpresa = 1
+
                     For Each drow In dtFacturaPedido.Rows
                         If Not IsDBNull(drow("PedidoReferencia")) Then
                             Dim oItem As New ListViewItem(Trim(CType(drow("PedidoReferencia"), String)), 0)
