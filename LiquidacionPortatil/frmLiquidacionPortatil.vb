@@ -4194,7 +4194,14 @@ Public Class frmLiquidacionPortatil
                                 oMovimientoAproductoZonaObsequio.RegistrarModificarEliminar(connection, transaction)
                             End If
 
-                            Total = CType(dtLiquidacionTotal.Rows(i).Item(15), Decimal)
+                            If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) <> 15 And CType(dtLiquidacionTotal.Rows(i).Item(15), Decimal) = 0 Then
+                                Total = CType(dtLiquidacionTotal.Rows(i).Item(5), Decimal)
+                                If Total = 0 Then
+                                    Throw New Exception("Error en el proceso, sólo los obsequios pueden tener un total igual a cero, remisión: " & CType(dtLiquidacionTotal.Rows(i).Item(0), String) & " " & CType(dtLiquidacionTotal.Rows(i).Item(1), String))
+                                End If
+                            ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
+                                Total = 0
+                            End If
                             Importe = Total / ((CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal) / 100) + 1)
                             Impuesto = Total - Importe
 
