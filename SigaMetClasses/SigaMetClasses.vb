@@ -7018,6 +7018,11 @@ End Class
 #Region "CobroDetalladoDatos"
 Public Class CobroDetalladoDatos
 #Region "Propiedades"
+
+    Private _producto As Integer
+    Private _Serie As String
+    Private _Remision As Integer
+
     Private _AñoCobro As Int16
     Private _Cobro As Integer
     Private _Importe As Decimal
@@ -7060,6 +7065,33 @@ Public Class CobroDetalladoDatos
     Private _Pago As Integer
     Private _DscTipoCobro As String
 
+    Public Property Serie() As String
+        Get
+            Return _Serie
+        End Get
+        Set(ByVal value As String)
+            _Serie = value
+        End Set
+    End Property
+
+    Public Property Remision() As Integer
+        Get
+            Return _Remision
+        End Get
+        Set(ByVal value As Integer)
+            _Remision = value
+        End Set
+    End Property
+
+    Public Property Producto() As String
+        Get
+            Return _producto
+        End Get
+        Set(ByVal value As String)
+            _producto = value
+        End Set
+    End Property
+
     Public Property DscTipoCobro() As String
         Get
             Return _DscTipoCobro
@@ -7068,6 +7100,7 @@ Public Class CobroDetalladoDatos
             _DscTipoCobro = value
         End Set
     End Property
+
 
     Public Property Pago() As Integer
         Get
@@ -7440,6 +7473,7 @@ Public Class CobroRemisiones
 
     Private _Serie As String
     Private _Remision As String
+    Private _Idproducto As Integer
     Private _Pago As Integer
     Private _MontoAbonado As Decimal
 
@@ -7449,6 +7483,15 @@ Public Class CobroRemisiones
         End Get
         Set(ByVal value As Integer)
             _Pago = value
+        End Set
+    End Property
+
+    Public Property Producto() As Integer
+        Get
+            Return _Idproducto
+        End Get
+        Set(ByVal value As Integer)
+            _Idproducto = value
         End Set
     End Property
 
@@ -7751,6 +7794,8 @@ Public Structure sTipoMovimientoCaja
 
 #End Region
 End Structure
+
+
 
 Public Structure sCobro
     Private _Consecutivo As Integer

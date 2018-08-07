@@ -6,8 +6,6 @@ Public Class frmCancelarPago
 
     Private _ListaCobroRemisiones As List(Of SigaMetClasses.CobroRemisiones)
     Private oCobroRemi As List(Of SigaMetClasses.CobroRemisiones)
-
-
     Private _Remisiones As DataTable
 
     Public Property Remisiones As DataTable
@@ -28,7 +26,6 @@ Public Class frmCancelarPago
             ' oCobroRemi = _ListaCobroRemisiones
         End Set
     End Property
-
     Public Property Cobros() As List(Of SigaMetClasses.CobroDetalladoDatos)
         Get
             Return _Cobros
@@ -59,12 +56,13 @@ Public Class frmCancelarPago
             If grid.Columns(e.ColumnIndex).Name = "btnEliminar" Then
                 If MessageBox.Show("Está a punto de eliminar un cobro de forma irreversible ¿desea continuar o cancelar?", Me.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) = DialogResult.OK Then
                     Try
+                        Dim pago As Integer = CInt(dgvCobros.CurrentRow.Cells("Pago").Value)
                         dgvCobros.DataSource = Nothing
 
                         Dim oCobroEliminado As SigaMetClasses.CobroDetalladoDatos = _Cobros(e.RowIndex)
 
                         If Not CobroRemisiones Is Nothing Then
-                            ActualizaSaldoRemisiones(oCobroEliminado, Remisiones, CobroRemisiones)
+                            ActualizaSaldoRemisiones(oCobroEliminado, Remisiones, CobroRemisiones, pago)
                         End If
 
                         _Cobros.RemoveAt(e.RowIndex)
@@ -78,27 +76,28 @@ Public Class frmCancelarPago
 
     End Sub
 
-    Private Sub ActualizaSaldoRemisiones(CobroEliminado As SigaMetClasses.CobroDetalladoDatos, Remisiones As DataTable, oCobroRemisiones As List(Of SigaMetClasses.CobroRemisiones))
+    Private Sub ActualizaSaldoRemisiones(CobroEliminado As SigaMetClasses.CobroDetalladoDatos, Remisiones As DataTable, oCobroRemisiones As List(Of SigaMetClasses.CobroRemisiones), Pago As Integer)
         Dim saldoDevuelto As Boolean = False
-
         For Each Remision As DataRow In Remisiones.Rows
             For Each CobroRemision As SigaMetClasses.CobroRemisiones In CobroRemisiones
-                If (CobroRemision.Remision.Trim() = Remision("Remision").ToString().Trim() And CobroRemision.Serie = Remision("Serie").ToString().Trim()) Then
-                    'CobroEliminado.Pago = CobroRemision.Pago And
-                    'Remisiones.BeginInit()
-
-                    Remision("Saldo") = Convert.ToDecimal(Remision("Saldo")) + CobroRemision.MontoAbonado
-                    CobroRemisiones.Remove(CobroRemision)
-                    saldoDevuelto = True
-                    Exit For
-                    'Remisiones.EndInit()
-                    'oCobroRemi.Remove(CobroRemision)
-                    '_ListaCobroRemisiones.Remove(CobroRemision)
+                If CobroRemision.Pago = Pago Then
+                    If (CobroRemision.Remision.Trim() = Remision("Remision").ToString().Trim() And CobroRemision.Serie = Remision("Serie").ToString().Trim()) And CobroRemision.Producto = CInt(Remision("Producto")) Then
+                        'CobroEliminado.Pago = CobroRemision.Pago And
+                        'Remisiones.BeginInit()
+                        Remision("Saldo") = Convert.ToDecimal(Remision("Saldo")) + CobroRemision.MontoAbonado
+                        CobroRemisiones.Remove(CobroRemision)
+                        saldoDevuelto = True
+                        Exit For
+                        'Remisiones.EndInit()
+                        'oCobroRemi.Remove(CobroRemision)
+                        '_ListaCobroRemisiones.Remove(CobroRemision)
+                    End If
                 End If
             Next CobroRemision
             If saldoDevuelto Then
                 Exit For
             End If
+
         Next Remision
 
 
