@@ -13,6 +13,8 @@ Public Class ConsultaFactura
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Private Titulo As String = "Consulta de facturas"
     Private _URLGateway As String
+    Private _Modulo As Byte
+    Private _Corporativo As Short
 
 #Region " Windows Form Designer generated code "
 
@@ -88,6 +90,25 @@ Public Class ConsultaFactura
     Friend WithEvents colFactura As System.Windows.Forms.ColumnHeader
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents btnConsultaEmpresa As System.Windows.Forms.Button
+
+    Public Property Modulo As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(value As Byte)
+            _Modulo = value
+        End Set
+    End Property
+
+    Public Property Corporativo As Short
+        Get
+            Return _Corporativo
+        End Get
+        Set(value As Short)
+            _Corporativo = value
+        End Set
+    End Property
+
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ConsultaFactura))
@@ -712,11 +733,10 @@ Public Class ConsultaFactura
                 If dtFacturaPedido.Rows.Count > 0 Then
                     Dim drow As DataRow
                     Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
-                    Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+                    Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
 
                     objGateway.URLServicio = _URLGateway
-                    objSolicitudGateway.Fuente = RTGMCore.Fuente.CRM
-                    objSolicitudGateway.IDEmpresa = 1
+                    objSolicitudGateway.IDEmpresa = _Corporativo
 
                     For Each drow In dtFacturaPedido.Rows
                         If Not IsDBNull(drow("PedidoReferencia")) Then
@@ -725,7 +745,7 @@ Public Class ConsultaFactura
                             oItem.SubItems.Add(CType(drow("Cliente"), String))
                             objSolicitudGateway.IDCliente = (CType(drow("Cliente"), Integer))
                             Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
-                            oItem.SubItems.Add(Trim(objRtgCore.Nombre))
+                            oItem.SubItems.Add(objRtgCore.Nombre)
                             'oItem.SubItems.Add(Trim(CType(drow("Nombre"), String)))  se reemplazo por la respuesta del WS'
                             oItem.SubItems.Add(CType(drow("Total"), Decimal).ToString("N"))
                             lvwFacturaPedido.Items.Add(oItem)

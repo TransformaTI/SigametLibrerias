@@ -18,6 +18,8 @@ Public Class frmConsultaCliente
     Private _LinkQueja As Boolean           '20070622#CFSL001 Anexe este dato para no ver la etiqueta que llama las quejas
     Private _URLGateway As String
     Private _URLParada As String
+    Private _Modulo As Byte
+    Private _Corporativo As Short
 
     Private _Fecha As String
     Private _Litro As Decimal
@@ -2139,6 +2141,7 @@ Public Class frmConsultaCliente
                 oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
                 oSolicitud.IDEmpresa = 1
                 oSolicitud.IDCliente = Cliente
+                oSolicitud.IDEmpresa = _Corporativo
 
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
@@ -2614,7 +2617,7 @@ Public Class frmConsultaCliente
                         String.Empty, FormatoTelefono(oDireccionEntrega.Telefono1.Trim()))
                     lblTelAlterno1.Text = If(IsNothing(oDireccionEntrega.Telefono2),
                         String.Empty, FormatoTelefono(oDireccionEntrega.Telefono2.Trim()))
-                    lblTelAlterno2.Text = If(IsNothing(oDireccionEntrega.Telefono3), 
+                    lblTelAlterno2.Text = If(IsNothing(oDireccionEntrega.Telefono3),
                         String.Empty, FormatoTelefono(oDireccionEntrega.Telefono3.Trim()))
 
 
