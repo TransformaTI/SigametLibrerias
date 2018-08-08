@@ -830,7 +830,6 @@ Public Class LiquidacionTransaccionada
                                     ByVal FolioAtt As Integer,
                                     ByVal AñoAtt As Short,
                                     ByVal SaldoAFavor As Boolean,
-                                    ByVal NumeroCuentaDestino As String,
                                     ByVal Connection As SqlConnection,
                                     ByVal Transaction As SqlTransaction)
 
@@ -839,6 +838,121 @@ Public Class LiquidacionTransaccionada
 
             Try
                 cmd = New SqlCommand("spPTLLiquidacionCobro", Connection)
+                cmd.Transaction = Transaction
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
+                cmd.Parameters.Add("@AnoCobro", SqlDbType.SmallInt).Value = AnoCobro
+                cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
+                cmd.Parameters.Add("@Importe", SqlDbType.Decimal).Value = Decimal.Round(Importe, 3)
+                cmd.Parameters.Add("@Impuesto", SqlDbType.Decimal).Value = Decimal.Round(Impuesto, 3)
+                cmd.Parameters.Add("@Total", SqlDbType.Decimal).Value = Decimal.Round(Total, 3)
+                If Referencia = "" Then
+                    cmd.Parameters.Add("@Referencia", SqlDbType.VarChar).Value = System.DBNull.Value
+                Else
+                    cmd.Parameters.Add("@Referencia", SqlDbType.VarChar).Value = Referencia
+                End If
+
+                If Banco = 0 Then
+                    cmd.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = System.DBNull.Value
+                Else
+                    cmd.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = Banco
+                End If
+                cmd.Parameters.Add("@FAlta", SqlDbType.DateTime).Value = FAlta
+                cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = Status
+                cmd.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = TipoCobro
+
+                If NumeroCheque = "" Then
+                    cmd.Parameters.Add("@NumeroCheque", SqlDbType.VarChar).Value = System.DBNull.Value
+                Else
+                    cmd.Parameters.Add("@NumeroCheque", SqlDbType.VarChar).Value = NumeroCheque
+                End If
+                If Banco = 0 Then
+                    cmd.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = System.DBNull.Value
+                Else
+                    cmd.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = FCheque
+                End If
+
+                If NumeroCuenta = "" Then
+                    cmd.Parameters.Add("@NumeroCuenta", SqlDbType.VarChar).Value = System.DBNull.Value
+                Else
+                    cmd.Parameters.Add("@NumeroCuenta", SqlDbType.VarChar).Value = NumeroCuenta
+                End If
+
+                If Observaciones = "" Then
+                    cmd.Parameters.Add("@Observaciones", SqlDbType.VarChar).Value = Observaciones
+                Else
+                    cmd.Parameters.Add("@Observaciones", SqlDbType.VarChar).Value = Observaciones
+                End If
+
+                If Cliente = 0 Then
+                    cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = System.DBNull.Value
+                Else
+                    cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+                End If
+
+
+                cmd.Parameters.Add("@Saldo", SqlDbType.Decimal).Value = Decimal.Round(Saldo, 3)
+                cmd.Parameters.Add("@Usuario", SqlDbType.VarChar).Value = Usuario
+                cmd.Parameters.Add("@FActualizacion", SqlDbType.DateTime).Value = FActualizacion
+
+                If Folio = 0 Then
+                    cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = System.DBNull.Value
+                Else
+                    cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio
+                End If
+
+                cmd.Parameters.Add("@FolioAtt", SqlDbType.Int).Value = FolioAtt
+                cmd.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = AñoAtt
+
+                If Banco = 0 Then
+                    cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Bit).Value = System.DBNull.Value
+                Else
+                    cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Bit).Value = SaldoAFavor
+                End If
+                dr = cmd.ExecuteReader()
+                dr.Read()
+                _AnoCobro = CType(dr(0), Short)
+                _Cobro = CType(dr(1), Integer)
+
+                _FolioTablaCobro = FolioAtt
+
+                cmd.Dispose()
+                dr.Close()
+            Catch ex As Exception
+                Throw ex
+            End Try
+
+        End Sub
+
+        Public Sub LiquidacionCobroVale(ByVal Importe As Decimal,
+                                    ByVal Impuesto As Decimal,
+                                    ByVal Total As Decimal,
+                                    ByVal Referencia As String,
+                                    ByVal Banco As Short,
+                                    ByVal FAlta As DateTime,
+                                    ByVal Status As String,
+                                    ByVal TipoCobro As Short,
+                                    ByVal NumeroCheque As String,
+                                    ByVal FCheque As DateTime,
+                                    ByVal NumeroCuenta As String,
+                                    ByVal Observaciones As String,
+                                    ByVal Cliente As Integer,
+                                    ByVal Saldo As Decimal,
+                                    ByVal Usuario As String,
+                                    ByVal FActualizacion As DateTime,
+                                    ByVal Folio As Integer,
+                                    ByVal FolioAtt As Integer,
+                                    ByVal AñoAtt As Short,
+                                    ByVal SaldoAFavor As Boolean,
+                                    ByVal NumeroCuentaDestino As String,
+                                    ByVal Connection As SqlConnection,
+                                    ByVal Transaction As SqlTransaction)
+
+            Dim dr As SqlDataReader
+            Dim cmd As SqlCommand
+
+            Try
+                cmd = New SqlCommand("spPTLLiquidacionCobrovale", Connection)
                 cmd.Transaction = Transaction
                 cmd.CommandType = CommandType.StoredProcedure
                 cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
@@ -931,6 +1045,7 @@ Public Class LiquidacionTransaccionada
             End Try
 
         End Sub
+
 
         'Método de la clase Liquidacion que permite registrar la liquidación portátil y
         'la registra en la tabla Pedido y CobroPedido
