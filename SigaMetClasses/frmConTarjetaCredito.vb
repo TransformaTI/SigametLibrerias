@@ -22,7 +22,6 @@ Public Class frmConTarjetaCredito
     Private _Usuario As String
     Public _URLGateway As String
     Private _Modulo As Byte
-    Private _Corporativo As Short
 
     Private _NumTDCOculto As String
     Private _NumOculto As Boolean = False
@@ -65,7 +64,6 @@ Public Class frmConTarjetaCredito
             oSolicitud = New RTGMGateway.SolicitudGateway
             oGateway.URLServicio = URLGateway
             oSolicitud.IDCliente = Cliente
-            oSolicitud.IDEmpresa = _Corporativo
             oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
             ConsultaClienteGateway(oDireccionEntrega)
@@ -156,15 +154,6 @@ Public Class frmConTarjetaCredito
         End Get
         Set(value As Byte)
             _Modulo = value
-        End Set
-    End Property
-
-    Public Property Corporativo As Short
-        Get
-            Return _Corporativo
-        End Get
-        Set(value As Short)
-            _Corporativo = value
         End Set
     End Property
 

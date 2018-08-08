@@ -10,7 +10,6 @@ Public Class ConsultaCobro
     Private _PermiteModificarCobro As Boolean
     Private _URLGateway As String
     Private _Modulo As Byte
-    Private _Corporativo As Short
 
     Property URLGateway As String
         Get
@@ -27,15 +26,6 @@ Public Class ConsultaCobro
         End Get
         Set(value As Byte)
             _Modulo = value
-        End Set
-    End Property
-
-    Public Property Corporativo As Short
-        Get
-            Return _Corporativo
-        End Get
-        Set(value As Short)
-            _Corporativo = value
         End Set
     End Property
 
@@ -880,7 +870,6 @@ Public Class ConsultaCobro
                     oSolicitud = New RTGMGateway.SolicitudGateway
                     objGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
                     objGateway.URLServicio = _URLGateway
-                    oSolicitud.IDEmpresa = _Corporativo
                     oSolicitud.IDCliente = Integer.Parse(dtCobroPedido.Rows(0).Item("Cliente").ToString())
 
                     oDireccionEntrega = objGateway.buscarDireccionEntrega(oSolicitud)

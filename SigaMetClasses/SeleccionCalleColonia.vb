@@ -40,7 +40,6 @@ Public Class SeleccionCalleColonia
     Private _ColoniaNombreOriginal As String
     Public _URLGateway As String
     Private _Modulo As Byte
-    Private _Corporativo As Short
 
     Dim dtCalle As DataTable
 
@@ -196,15 +195,6 @@ Public Class SeleccionCalleColonia
         End Get
         Set(value As Byte)
             _Modulo = value
-        End Set
-    End Property
-
-    Public Property Corporativo As Short
-        Get
-            Return _Corporativo
-        End Get
-        Set(value As Short)
-            _Corporativo = value
         End Set
     End Property
 
@@ -762,7 +752,6 @@ Public Class SeleccionCalleColonia
         Dim oDireccionEntrega As RTGMCore.DireccionEntrega
 
         oSolicitud.IDCliente = Cliente
-        oSolicitud.IDEmpresa = _Corporativo
         oGateway.URLServicio = _URLGateway
         oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 

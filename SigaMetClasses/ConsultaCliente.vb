@@ -19,7 +19,6 @@ Public Class frmConsultaCliente
     Private _URLGateway As String
     Private _URLParada As String
     Private _Modulo As Byte
-    Private _Corporativo As Short
 
     Private _Fecha As String
     Private _Litro As Decimal
@@ -66,15 +65,6 @@ Public Class frmConsultaCliente
         End Get
         Set(value As Byte)
             _Modulo = value
-        End Set
-    End Property
-
-    Public Property Corporativo As Short
-        Get
-            Return _Corporativo
-        End Get
-        Set(value As Short)
-            _Corporativo = value
         End Set
     End Property
 
@@ -2119,9 +2109,7 @@ Public Class frmConsultaCliente
                 oSolicitud = New RTGMGateway.SolicitudGateway
 
                 oGateway.URLServicio = URLGateway
-                'oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
                 oSolicitud.IDCliente = Cliente
-                oSolicitud.IDEmpresa = _Corporativo
 
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
@@ -2579,12 +2567,11 @@ Public Class frmConsultaCliente
             If (Cliente > 0 And Not String.IsNullOrEmpty(URLGateway)) Then
                 Cursor = Cursors.WaitCursor
 
-                oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+                oGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
                 oSolicitud = New RTGMGateway.SolicitudGateway()
 
                 oGateway.URLServicio = URLGateway
                 oSolicitud.IDCliente = Cliente
-                oSolicitud.IDEmpresa = 1
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
                 If Not IsNothing(oDireccionEntrega) Then
