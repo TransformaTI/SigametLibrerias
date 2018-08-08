@@ -858,7 +858,7 @@ Public Class ConsultaCobro
                     oSolicitud = New RTGMGateway.SolicitudGateway
                     objGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
                     objGateway.URLServicio = _URLGateway
-                    oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
+                    'oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
 
                     oSolicitud.IDCliente = Integer.Parse(dtCobroPedido.Rows(0).Item("Cliente").ToString())
 

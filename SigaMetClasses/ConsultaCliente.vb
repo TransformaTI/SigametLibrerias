@@ -1871,12 +1871,13 @@ Public Class frmConsultaCliente
         '*****
     End Sub
 
-    Public Sub New(ByVal Cliente As Integer, ByVal URLGateway As String, Optional ByVal CadenaCon As String = "")
+    Public Sub New(ByVal Cliente As Integer, ByVal URLGateway As String, Optional ByVal CadenaCon As String = "", Optional ByVal Usuario As String = "")
 
         MyBase.New()
         _Cliente = Cliente
         _URLGateway = URLGateway
         _CadenaConeccion = CadenaCon
+        _Usuario = Usuario
 
 
         InitializeComponent()
@@ -2110,7 +2111,7 @@ Public Class frmConsultaCliente
                 oSolicitud = New RTGMGateway.SolicitudGateway
 
                 oGateway.URLServicio = URLGateway
-                oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
+                'oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
                 oSolicitud.IDCliente = Cliente
 
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
@@ -2575,7 +2576,7 @@ Public Class frmConsultaCliente
                 oGateway.URLServicio = URLGateway
                 'oSolicitud.Fuente = RTGMCore.Fuente.CRM
                 oSolicitud.IDCliente = Cliente
-                oSolicitud.IDEmpresa = SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Corporativo
+                'oSolicitud.IDEmpresa = SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Corporativo
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
                 If Not IsNothing(oDireccionEntrega) Then

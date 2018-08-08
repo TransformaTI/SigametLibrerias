@@ -62,7 +62,7 @@ Public Class frmConTarjetaCredito
             oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
             oSolicitud = New RTGMGateway.SolicitudGateway
             oGateway.URLServicio = URLGateway
-            oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
+            'oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
             oSolicitud.IDCliente = Cliente
             oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
             ConsultaClienteGateway(oDireccionEntrega)

@@ -715,8 +715,8 @@ Public Class ConsultaFactura
                     Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
 
                     objGateway.URLServicio = _URLGateway
-                    objSolicitudGateway.Fuente = RTGMCore.Fuente.CRM
-                    objSolicitudGateway.IDEmpresa = 1
+                    'objSolicitudGateway.Fuente = RTGMCore.Fuente.CRM
+                    'objSolicitudGateway.IDEmpresa = 1
 
                     For Each drow In dtFacturaPedido.Rows
                         If Not IsDBNull(drow("PedidoReferencia")) Then
