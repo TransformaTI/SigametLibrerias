@@ -912,7 +912,7 @@ Public Class LiquidacionTransaccionada
                 End If
 
                 If NumeroCuentaDestino = "" Then
-                    cmd.Parameters.Add("@NumeroCuenta", SqlDbType.VarChar).Value = System.DBNull.Value
+                    cmd.Parameters.Add("@numerocuentadestino", SqlDbType.VarChar).Value = System.DBNull.Value
                 Else
                     cmd.Parameters.Add("@numerocuentadestino", SqlDbType.VarChar).Value = NumeroCuentaDestino
                 End If

@@ -5745,15 +5745,15 @@ Public Class frmLiquidacionPortatil
                     End If
                 Else
                     Dim ReferenciaTem, NumerocuentadestinoTem As String
-                    If CStr(dtPedidoCobro.DefaultView.Item(k).Item(19)) <> "" Then
-                        ReferenciaTem = CStr(dtPedidoCobro.DefaultView.Item(k).Item(19))
-                    Else
+                    If dtPedidoCobro.DefaultView.Item(k).Item(19) Is DBNull.Value Then
                         ReferenciaTem = ""
-                    End If
-                    If CStr(dtPedidoCobro.DefaultView.Item(k).Item(20)) <> "" Then
-                        NumerocuentadestinoTem = CStr(dtPedidoCobro.DefaultView.Item(k).Item(20))
                     Else
+                        ReferenciaTem = CStr(dtPedidoCobro.DefaultView.Item(k).Item(19))
+                    End If
+                    If dtPedidoCobro.DefaultView.Item(k).Item(20) Is DBNull.Value Then
                         NumerocuentadestinoTem = ""
+                    Else
+                        NumerocuentadestinoTem = CStr(dtPedidoCobro.DefaultView.Item(k).Item(20))
                     End If
 
                     If CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short) <> 15 Then
