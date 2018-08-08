@@ -7,6 +7,7 @@ Public Class ConsultaATT
     Private _AñoAtt As Short
     Private _Folio As Integer
     Private dtCobroPedido As DataTable
+    Private _CadenaConexion As String
     'Multiempresa portátil
 
     Private _GLOBAL_CorporativoUsuario As Short
@@ -29,25 +30,15 @@ Public Class ConsultaATT
         End Set
     End Property
 
-    Private _Password As String
-    Public Property Password() As String
-        Get
-            Return _Password
-        End Get
-        Set(ByVal value As String)
-            _Password = value
-        End Set
-    End Property
-
-    Public Sub New(ByVal AñoAtt As Short, ByVal Folio As Integer, _
+    Public Sub New(ByVal AñoAtt As Short, ByVal Folio As Integer,
         Optional ByVal ConnectionString As String = Nothing)
 
         MyBase.New()
         InitializeComponent()
         _AñoAtt = AñoAtt
         _Folio = Folio
-
-        CargaDatos(_AñoAtt, _Folio, ConnectionString + " Password = " + _Password + ";")
+        _CadenaConexion = ConnectionString
+        CargaDatos(_AñoAtt, _Folio, ConnectionString)
 
     End Sub
 
@@ -994,8 +985,9 @@ Public Class ConsultaATT
         Cursor = Cursors.WaitCursor
         Dim iCliente As Integer = CType(grdPedido.Item(grdPedido.CurrentRowIndex, 4), Integer)
         Dim oConsultaCliente As New frmConsultaCliente(iCliente, lURLGateway)
-        oConsultaCliente.Password = Me.Password
         oConsultaCliente.GLOBAL_CORPORATIVO = Me.GLOBAL_CorporativoUsuario
+        oConsultaCliente.CadenaConexion = _CadenaConexion
+        oConsultaCliente.Modulo = CType(GLOBAL_Modulo, Byte)
         oConsultaCliente.ShowDialog()
         Cursor = Cursors.Default
     End Sub

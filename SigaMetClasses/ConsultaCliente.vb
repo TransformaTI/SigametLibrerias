@@ -18,7 +18,6 @@ Public Class frmConsultaCliente
     Private _LinkQueja As Boolean           '20070622#CFSL001 Anexe este dato para no ver la etiqueta que llama las quejas
     Private _URLGateway As String
     Private _URLParada As String
-    Private _Modulo As Byte
 
     Private _Fecha As String
     Private _Litro As Decimal
@@ -34,6 +33,7 @@ Public Class frmConsultaCliente
 
     'Para consulta de clientes relacionados por cliente padre
     Private _ClientePadreCyC As Integer
+
 
     Public ReadOnly Property PedidoReferenciaSeleccionado() As String
         Get
@@ -79,6 +79,25 @@ Public Class frmConsultaCliente
         End Set
     End Property
 
+    Private _CadenaConexion As String
+    Public Property CadenaConexion() As String
+        Get
+            Return _CadenaConexion
+        End Get
+        Set(ByVal value As String)
+            _CadenaConexion = value
+        End Set
+    End Property
+
+    Private _Modulo As Byte
+    Public Property Modulo() As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(ByVal value As Byte)
+            _Modulo = value
+        End Set
+    End Property
 
 #Region " Windows Form Designer generated code "
 
@@ -2134,7 +2153,7 @@ Public Class frmConsultaCliente
             If (Cliente > 0 And URLGateway.Trim > "") Then
                 Cursor = Cursors.WaitCursor
 
-                oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString + " PASSWORD =" + _Password + ";")
+                oGateway = New RTGMGateway.RTGMGateway(3, _CadenaConexion)
                 oSolicitud = New RTGMGateway.SolicitudGateway
 
                 oGateway.URLServicio = URLGateway
@@ -2582,7 +2601,7 @@ Public Class frmConsultaCliente
             If (Cliente > 0 And Not String.IsNullOrEmpty(URLGateway)) Then
                 Cursor = Cursors.WaitCursor
 
-                oGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+                oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
                 oSolicitud = New RTGMGateway.SolicitudGateway()
                 oGateway.GuardarLog = True
                 oGateway.URLServicio = URLGateway
