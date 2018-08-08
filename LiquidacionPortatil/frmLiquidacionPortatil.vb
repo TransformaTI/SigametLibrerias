@@ -5644,9 +5644,6 @@ Public Class frmLiquidacionPortatil
                 If cobro.TipoCobro = 16 Then
                     Referencia = cobro.Referencia
                     Numerocuentadestino = cobro.NumeroCuentaDestino
-                Else
-                    Referencia = ""
-                    Numerocuentadestino = ""
                 End If
             Next
             dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1  and TipoCobro = 16"
