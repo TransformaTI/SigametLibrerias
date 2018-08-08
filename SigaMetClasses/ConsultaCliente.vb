@@ -58,7 +58,25 @@ Public Class frmConsultaCliente
         End Get
     End Property
 
+    Private _Password As String
+    Public Property Password() As String
+        Get
+            Return _Password
+        End Get
+        Set(ByVal value As String)
+            _Password = value
+        End Set
+    End Property
 
+    Private _GLOBAL_CORPORATIVO As Short
+    Public Property GLOBAL_CORPORATIVO() As Short
+        Get
+            Return _GLOBAL_CORPORATIVO
+        End Get
+        Set(ByVal value As Short)
+            _GLOBAL_CORPORATIVO = value
+        End Set
+    End Property
 
 #Region " Windows Form Designer generated code "
 
@@ -1814,10 +1832,8 @@ Public Class frmConsultaCliente
         _SoloCreditos = SoloDocumentosACredito
         _SoloSurtidos = SoloDocumentosSurtidos
         _SeleccionPedidoReferencia = PermiteSeleccionarDocumento
+
         _URLGateway = URLGateway
-
-
-
 
         _CambioEmpleadoNomina = PermiteCambioEmpleadoNomina
         _CambioClientePadre = PermiteCambioCtePadre
@@ -1825,8 +1841,8 @@ Public Class frmConsultaCliente
         If (String.IsNullOrEmpty(_URLGateway)) Then
             Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
         Else
-            'Me.ConsultaCliente(_Cliente, _URLGateway)
-            Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
+            Me.ConsultaCliente(_Cliente, _URLGateway)
+            'Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
         End If
 
         If Not IsNothing(dtDocumento) Then
@@ -1871,12 +1887,7 @@ Public Class frmConsultaCliente
 
         InitializeComponent()
 
-        If (String.IsNullOrEmpty(_URLGateway)) Then
-            Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
-        Else
-            Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
-            'Me.ConsultaCliente(_Cliente, _URLGateway)
-        End If
+
 
     End Sub
 
@@ -2081,6 +2092,31 @@ Public Class frmConsultaCliente
         End Try
     End Sub
 
+    Private Function recuperarCadenaCRM(ByVal objComponenteRespuesta As Object) As String
+        Dim strRecuperada As String = ""
+        Try
+            strRecuperada = CType(IIf(Not IsNothing(objComponenteRespuesta), objComponenteRespuesta, 0), String)
+        Catch nrex As NullReferenceException
+            strRecuperada = ""
+        Catch ex As Exception
+            Throw ex
+        End Try
+        Return strRecuperada
+    End Function
+
+    Private Function recuperarEnteroCRM(ByVal objComponenteRespuesta As Object) As Integer
+        Dim intRecuperada As Integer = 0
+        Try
+            intRecuperada = CType(IIf(Not IsNothing(objComponenteRespuesta), objComponenteRespuesta, 0), Integer)
+        Catch nrex As NullReferenceException
+            intRecuperada = 0
+        Catch ex As Exception
+            Throw ex
+        End Try
+        Return intRecuperada
+    End Function
+
+
     Private Sub ConsultaCliente(ByVal Cliente As Integer,
                                 ByVal URLGateway As String)
         Dim dificultadGestion As String
@@ -2096,48 +2132,49 @@ Public Class frmConsultaCliente
             If (Cliente > 0 And URLGateway.Trim > "") Then
                 Cursor = Cursors.WaitCursor
 
-                oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+                oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString + " PASSWORD =" + _Password + ";")
                 oSolicitud = New RTGMGateway.SolicitudGateway
 
                 oGateway.URLServicio = URLGateway
                 oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
+                oSolicitud.IDEmpresa = 1
                 oSolicitud.IDCliente = Cliente
 
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
+                If oDireccionEntrega.Message.Contains("ERROR EN DYNAMICS CRM") And oDireccionEntrega.Message.Contains("La consulta no produjo resultados con los parametros indicados") Then
+                    Throw New Exception(oDireccionEntrega.Message)
+                End If
+
                 If Not IsNothing(oDireccionEntrega) Then
+                    Dim direccionEntrega As Integer = recuperarEnteroCRM(oDireccionEntrega.IDDireccionEntrega)
+                    Dim nombreEmpleado As String = recuperarCadenaCRM(oDireccionEntrega.Nombre.Trim())
+                    Dim direccionCompleta As String = recuperarCadenaCRM(oDireccionEntrega.DireccionCompleta.Trim)
+                    Dim tipoClienteDescripcion As String = recuperarCadenaCRM(oDireccionEntrega.TipoCliente.Descripcion.Trim)
+                    Dim telefono1 As String = recuperarCadenaCRM(oDireccionEntrega.Telefono1.Trim)
+                    Dim telefono2 As String = recuperarCadenaCRM(oDireccionEntrega.Telefono2.Trim)
+                    Dim telefono3 As String = recuperarCadenaCRM(oDireccionEntrega.Telefono3.Trim)
+                    Dim celula As String = recuperarCadenaCRM(oDireccionEntrega.ZonaSuministro.Descripcion.ToString.Trim)
+                    Dim ruta As String = CType(IIf(Not IsNothing(oDireccionEntrega.Ruta.Descripcion.Trim), oDireccionEntrega.Ruta.Descripcion.Trim, ""), String)
+                    Dim status As String = recuperarCadenaCRM(oDireccionEntrega.Status.Trim)
+                    Dim fAlta As String = recuperarCadenaCRM(oDireccionEntrega.FAlta.ToString.Trim)
+                    Dim observaciones As String = recuperarCadenaCRM(oDireccionEntrega.Observaciones.Trim)
 
-                    lblCliente.Text = oDireccionEntrega.IDDireccionEntrega & " " & oDireccionEntrega.Nombre.Trim
-
-                    lblDireccion.Text = oDireccionEntrega.DireccionCompleta.Trim
-
-                    If Not IsNothing(oDireccionEntrega.TipoCliente) Then
-                        lblTipoCliente.Text = oDireccionEntrega.TipoCliente.Descripcion.Trim
-                    End If
-
-                    'Teléfonos
-                    lblTelCasa.Text = FormatoTelefono(oDireccionEntrega.Telefono1.Trim)
-                    lblTelAlterno1.Text = FormatoTelefono(oDireccionEntrega.Telefono2.Trim)
-                    lblTelAlterno2.Text = FormatoTelefono(oDireccionEntrega.Telefono3.Trim)
-
-                    If Not IsNothing(oDireccionEntrega.ZonaSuministro) Then
-                        lblCelula.Text = oDireccionEntrega.ZonaSuministro.Descripcion.ToString
-                    End If
-
-                    If Not IsNothing(oDireccionEntrega.Ruta) Then
-                        lblRuta.Text = oDireccionEntrega.Ruta.Descripcion.Trim
-                    End If
-
-                    lblStatus.Text = oDireccionEntrega.Status.Trim
-
-                    lblFAlta.Text = oDireccionEntrega.FAlta.ToString
-
-                    lblObservaciones.Text = oDireccionEntrega.Observaciones.Trim
+                    lblCliente.Text = direccionEntrega & " " & nombreEmpleado
+                    lblDireccion.Text = direccionCompleta
+                    lblTipoCliente.Text = tipoClienteDescripcion
+                    lblTelCasa.Text = FormatoTelefono(telefono1)
+                    lblTelAlterno1.Text = FormatoTelefono(telefono2)
+                    lblTelAlterno2.Text = FormatoTelefono(telefono3)
+                    lblCelula.Text = celula
+                    lblRuta.Text = ruta
+                    lblStatus.Text = status
+                    lblFAlta.Text = fAlta
+                    lblObservaciones.Text = observaciones
 
                     If Not IsNothing(oDireccionEntrega.ProgramacionSuministro) Then
-                        lblProgramaCliente.Text = oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion.Trim
+                        lblProgramaCliente.Text = recuperarCadenaCRM(oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion.Trim)
                         lblProgramaCliente.ForeColor = lblProgramacion.ForeColor
-
                         If (oDireccionEntrega.ProgramacionSuministro.ProgramacionActiva) Then
                             lblProgramacion.Text = "ACTIVA"
                         Else
@@ -2149,9 +2186,9 @@ Public Class frmConsultaCliente
                     End If
 
                     If Not IsNothing(oDireccionEntrega.DatosFiscales) Then
-                        lblEmpresa.Text = oDireccionEntrega.DatosFiscales.IDDatosFiscales.ToString
-                        lblRazonSocial.Text = oDireccionEntrega.DatosFiscales.RazonSocial.Trim
-                        If (oDireccionEntrega.DatosFiscales.IDDatosFiscales = 0) Then
+                        lblEmpresa.Text = recuperarCadenaCRM(oDireccionEntrega.DatosFiscales.IDDatosFiscales.ToString)
+                        lblRazonSocial.Text = recuperarCadenaCRM(oDireccionEntrega.DatosFiscales.RazonSocial.Trim)
+                        If (recuperarEnteroCRM(oDireccionEntrega.DatosFiscales.IDDatosFiscales) = 0) Then
                             btnConsultaEmpresa.Visible = False
                         End If
                     Else
@@ -2162,57 +2199,40 @@ Public Class frmConsultaCliente
 
                     '   Condiciones crédito
                     If Not IsNothing(oDireccionEntrega.CondicionesCredito) Then
-
-                        lblTipoCredito.Text = oDireccionEntrega.CondicionesCredito.ClasificacionCredito.Trim
-
-                        lblMaxImporteCredito.Text = CDec(oDireccionEntrega.CondicionesCredito.LimiteCredito).ToString("C")
-
-                        lblDiasCredito.Text = oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString
-
-                        lblSaldo.Text = CDec(oDireccionEntrega.CondicionesCredito.Saldo).ToString("C")
-
-                        lblDiaRevision.Text = oDireccionEntrega.CondicionesCredito.DiasRevision.Trim
-
-                        lblDiaPago.Text = oDireccionEntrega.CondicionesCredito.DiasPago.Trim
-
-                        lblCartera.Text = oDireccionEntrega.CondicionesCredito.CarteraDescripcion.Trim
-
-                        If Not IsNothing(oDireccionEntrega.CondicionesCredito.ResponsableGestion) Then
-                            lblResponsable.Text = oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto
+                        lblTipoCredito.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ClasificacionCredito.Trim)
+                        lblMaxImporteCredito.Text = CDec(recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.LimiteCredito)).ToString("C")
+                        lblDiasCredito.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString)
+                        lblSaldo.Text = CDec(recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.Saldo)).ToString("C")
+                        lblDiaRevision.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.DiasRevision.Trim)
+                        lblDiaPago.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.DiasPago.Trim)
+                        lblCartera.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.CarteraDescripcion.Trim)
+                        If (oDireccionEntrega.CondicionesCredito.ResponsableGestion IsNot Nothing) Then
+                            lblResponsable.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto)
                         End If
-
-                        If Not IsNothing(oDireccionEntrega.CondicionesCredito.EmpleadoNomina) Then
-                            lblEmpleadoNomina.Text = oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto
+                        If (oDireccionEntrega.CondicionesCredito.EmpleadoNomina IsNot Nothing) Then
+                            lblEmpleadoNomina.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto)
                         End If
-
                         'Muestra el ejecutivo de cyc asignado
-                        If Not IsNothing(oDireccionEntrega.CondicionesCredito.SupervisorGestion) Then
-                            lblEjeCyC.Text = oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto
-                        End If
-
-                        If Not IsNothing(oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC) Then
-                            lblHorarioAtencion.Text = oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC.ToString
-                        End If
-
-                        lblHorarioAtencion.Text = oDireccionEntrega.CondicionesCredito.ObservacionesCyC.ToString
-
-                        lblCobroDefault.Text = oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion.Trim
+                        lblEjeCyC.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto)
+                        lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC.ToString)
+                        lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ObservacionesCyC.ToString)
+                        lblCobroDefault.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion.Trim)
 
                         'Consulta y despliegue de la dificultad de gestión asignada al cliente
                         dificultadGestion = oDireccionEntrega.CondicionesCredito.DificultadGestion
                         colorGestion = oDireccionEntrega.CondicionesCredito.ColorGestion
                         If Not (String.IsNullOrEmpty(dificultadGestion)) Then
-                            lblDGestion.Text = dificultadGestion.Trim
+                            lblDGestion.Text = recuperarCadenaCRM(dificultadGestion.Trim)
                             lblDGestion.BackColor = System.Drawing.Color.FromName(colorGestion)
                         Else
                             lblDGestion.Text = String.Empty
                             lblDGestion.BackColor = grpDatosCredito.BackColor
                         End If
 
-                        dificultadCobro = oDireccionEntrega.CondicionesCredito.DificultadCobro
-                        colorCobro = oDireccionEntrega.CondicionesCredito.ColorCobro
+                        dificultadCobro = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.DificultadCobro)
+                        colorCobro = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ColorCobro)
                         If Not (String.IsNullOrEmpty(dificultadCobro)) Then
-                            lblDCobro.Text = dificultadCobro.Trim
+                            lblDCobro.Text = recuperarCadenaCRM(dificultadCobro.Trim)
                             lblDCobro.BackColor = System.Drawing.Color.FromName(colorCobro)
                         Else
                             lblDCobro.Text = String.Empty
@@ -2221,10 +2241,7 @@ Public Class frmConsultaCliente
                     End If
 
                     'agregado el 01/03/2004
-                    If Not IsNothing(oDireccionEntrega.TipoFacturacion) Then
-                        lblTipoFacturacion.Text = oDireccionEntrega.TipoFacturacion.Descripcion.Trim
-                    End If
-
+                    lblTipoFacturacion.Text = recuperarCadenaCRM(oDireccionEntrega.TipoFacturacion.Descripcion.Trim)
                     '       FALTA
                     'If Not IsDBNull(dr("TipoNotaCreditoDescripcion")) Then lblTipoNotaCredito.Text = CType(dr("TipoNotaCreditoDescripcion"), String)
                     'lblTipoNotaCredito.Text = oDireccionEntrega.
@@ -2244,13 +2261,13 @@ Public Class frmConsultaCliente
                     lblClientePadre.Text = "NO ASIGNADO"
 
                     'Muestra el dígito verificador asignado al cliente
-                    lblDigitoVerificador.Text = oDireccionEntrega.DigitoVerificador.ToString
+                    lblDigitoVerificador.Text = recuperarCadenaCRM(oDireccionEntrega.DigitoVerificador.ToString)
 
                     'Consulta de quejas activas
                     If (oDireccionEntrega.QuejaActiva.Trim > "" And _LinkQueja) Then
                         lnkQueja.Enabled = True
                         lnkQueja.Visible = True
-                        lnkQueja.Text = oDireccionEntrega.QuejaActiva.Trim
+                        lnkQueja.Text = recuperarCadenaCRM(oDireccionEntrega.QuejaActiva.Trim)
                     End If
                     '*****
 
@@ -2275,7 +2292,7 @@ Public Class frmConsultaCliente
                         If oDireccionEntrega.TarjetasCredito.Count > 0 Then
                             OcultarTarjetaCredito()
                             grdTarjetaCredito.DataSource = oDireccionEntrega.TarjetasCredito
-                            grdTarjetaCredito.CaptionText = "Tarjetas de crédito (" & oDireccionEntrega.TarjetasCredito.Count.ToString & ")"
+                            grdTarjetaCredito.CaptionText = "Tarjetas de crédito (" & recuperarCadenaCRM(oDireccionEntrega.TarjetasCredito.Count.ToString) & ")"
                         Else
                             grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
                         End If
@@ -2302,8 +2319,7 @@ Public Class frmConsultaCliente
                 End If
             End If
         Catch ex As Exception
-            MessageBox.Show("Ha ocurrido un error:" & Chr(13) & ex.Message, Me.Text,
-                            MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Ha ocurrido un error:" & Chr(13) & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
             Cursor = Cursors.Default
         End Try
@@ -2495,6 +2511,13 @@ Public Class frmConsultaCliente
     Private Sub frmConsultaCliente_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         DeshabilitaBotonQuejas()
         DeshabilitaBotonModificar()
+
+        If (String.IsNullOrEmpty(_URLGateway)) Then
+            Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+        Else
+            Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
+            'Me.ConsultaCliente(_Cliente, _URLGateway)
+        End If
     End Sub
 #End Region
 
@@ -2559,13 +2582,12 @@ Public Class frmConsultaCliente
             If (Cliente > 0 And Not String.IsNullOrEmpty(URLGateway)) Then
                 Cursor = Cursors.WaitCursor
 
-                oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+                oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString + " PASSWORD =" + _Password + ";")
                 oSolicitud = New RTGMGateway.SolicitudGateway()
-
+                oGateway.GuardarLog = True
                 oGateway.URLServicio = URLGateway
-                oSolicitud.Fuente = RTGMCore.Fuente.CRM
                 oSolicitud.IDCliente = Cliente
-                oSolicitud.IDEmpresa = 1
+                oSolicitud.IDEmpresa = _GLOBAL_CORPORATIVO
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
                 If Not IsNothing(oDireccionEntrega) Then

@@ -4194,14 +4194,19 @@ Public Class frmLiquidacionPortatil
                                 oMovimientoAproductoZonaObsequio.RegistrarModificarEliminar(connection, transaction)
                             End If
 
-                            If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) <> 15 And CType(dtLiquidacionTotal.Rows(i).Item(15), Decimal) = 0 Then
-                                Total = CType(dtLiquidacionTotal.Rows(i).Item(5), Decimal)
+                            If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) <> 15 Then
+                                If _RutaMovil Then
+                                    Total = CType(dtLiquidacionTotal.Rows(i).Item(5), Decimal)
+                                Else
+                                    Total = CType(dtLiquidacionTotal.Rows(i).Item(15), Decimal)
+                                End If
                                 If Total = 0 Then
                                     Throw New Exception("Error en el proceso, sólo los obsequios pueden tener un total igual a cero, remisión: " & CType(dtLiquidacionTotal.Rows(i).Item(0), String) & " " & CType(dtLiquidacionTotal.Rows(i).Item(1), String))
                                 End If
                             ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
                                 Total = 0
                             End If
+
                             Importe = Total / ((CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal) / 100) + 1)
                             Impuesto = Total - Importe
 
@@ -4343,8 +4348,18 @@ Public Class frmLiquidacionPortatil
 
                         'YA FUNCIONA
                         'GRABA EL MOVIMIENTO CAJA
+
+                        If _TotalNetoCaja = 0 Then
+                            For Each dr As DataRow In dtLiquidacionTotal.Rows
+                                If CType(dr("TipoCobro"), String) <> "18" Then
+                                    _TotalNetoCaja = _TotalNetoCaja + CType(dr("Subtotal"), Decimal)
+                                End If
+                            Next
+                        End If
+
                         Dim oMovimientoCaja As New LiquidacionTransaccionada.cMovimientoCaja()
                         oMovimientoCaja.AltaMovimientoCaja(_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, 0, _TotalNetoCaja, _Empleado, _Usuario, 2, "EMITIDO", CType(_drLiquidacion(0).Item(25), Short), _ClienteVentasPublico, Now, "", 0, dtpFLiquidacion.Value.Date, "", _AnoAtt, _Folio, connection, transaction)
+
 
                         'GRABA EL MOVIMIENTO CAJA COBRO
                         Dim k As Integer = 0
