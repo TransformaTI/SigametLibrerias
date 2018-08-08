@@ -39,6 +39,7 @@ Public Class SeleccionCalleColonia
     Private _CalleNombreOriginal As String
     Private _ColoniaNombreOriginal As String
     Public _URLGateway As String
+    Private _Modulo As Byte
 
     Dim dtCalle As DataTable
 
@@ -186,6 +187,15 @@ Public Class SeleccionCalleColonia
         Get
             Return _EdicionDatos
         End Get
+    End Property
+
+    Public Property Modulo As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(value As Byte)
+            _Modulo = value
+        End Set
     End Property
 
 #End Region
@@ -737,7 +747,7 @@ Public Class SeleccionCalleColonia
 
     Public Function ConsultarDatosClienteCRM(ByVal Cliente As Integer) As RTGMCore.DireccionEntrega
 
-        Dim oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+        Dim oGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
         Dim oSolicitud As RTGMGateway.SolicitudGateway
         Dim oDireccionEntrega As RTGMCore.DireccionEntrega
 
@@ -937,8 +947,8 @@ Public Class SeleccionCalleColonia
 
     End Function
 
-    Public Function AltaColonia(ByVal Nombre As String, _
-                                ByVal CP As String, _
+    Public Function AltaColonia(ByVal Nombre As String,
+                                ByVal CP As String,
                                 ByVal Municipio As Integer) As Integer
         Dim oColonia As New SigaMetClasses.cColonia()
         Dim _NuevaColonia As Integer
@@ -1012,8 +1022,8 @@ Public Class SeleccionCalleColonia
     End Sub
 
     Private Sub txtCalle_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtCalle.Validated
-        If (txtCalle.Text.Trim <> _CalleNombreOriginal) Or _
-                    (txtCalle.Text.Trim = _CalleNombreOriginal) Or _
+        If (txtCalle.Text.Trim <> _CalleNombreOriginal) Or
+                    (txtCalle.Text.Trim = _CalleNombreOriginal) Or
                     _EdicionDatos = True Then '10AGO2004
             _EdicionDatos = True
             If txtCalle.Text.Trim <> "" Then
@@ -1143,7 +1153,7 @@ Public Class SeleccionCalleColonia
 
     End Function
 
-    Private Sub ValidaNombreEntreCalle(ByVal CalleNombre As String, _
+    Private Sub ValidaNombreEntreCalle(ByVal CalleNombre As String,
                                        ByVal Origen As Object)
 
         Dim cmd As New SqlCommand("SELECT TOP 1 Calle FROM Calle WHERE Rtrim(Ltrim(Nombre)) = @CalleNombre ORDER by Calle", cnServidor)
@@ -1321,7 +1331,7 @@ Public Class SeleccionCalleColonia
     End Sub
 
     Private Sub CargaDatosComboMunicipio()
-        Dim strQuery As String = _
+        Dim strQuery As String =
         "SELECT Municipio, NombreCompuesto FROM vwMunicipio"
         Dim da As New SqlDataAdapter(strQuery, cnServidor)
         Dim dt As New DataTable("Municipio")
@@ -1410,17 +1420,17 @@ Public Class SeleccionCalleColonia
     'End Sub
 
     Private Sub SeleccionCalleColonia_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Validated
-        If _CalleNombreOriginal <> txtCalle.Text Or _
-                    _ColoniaNombreOriginal <> cboColonia.Text Or _
-                    _NumExteriorOriginal <> txtNumExterior.Text Or _
-                     _NumInteriorOriginal <> txtNumInterior.Text Or _
-                    _CalleOriginal <> _Calle Or _
-                    _ColoniaOriginal <> _Colonia Or _
-                    _EntreCalle1Original <> _EntreCalle1 Or _
-                    _EntreCalle2Original <> _EntreCalle2 Or _
+        If _CalleNombreOriginal <> txtCalle.Text Or
+                    _ColoniaNombreOriginal <> cboColonia.Text Or
+                    _NumExteriorOriginal <> txtNumExterior.Text Or
+                     _NumInteriorOriginal <> txtNumInterior.Text Or
+                    _CalleOriginal <> _Calle Or
+                    _ColoniaOriginal <> _Colonia Or
+                    _EntreCalle1Original <> _EntreCalle1 Or
+                    _EntreCalle2Original <> _EntreCalle2 Or
                             (txtEntreCalle1.Text.Trim <> "" _
                                 And _EntreCalle1 = 0 _
-                                And _ExisteEntreCalle1 = False) Or _
+                                And _ExisteEntreCalle1 = False) Or
                             (txtEntreCalle2.Text.Trim <> "" _
                                 And _EntreCalle2 = 0 _
                                 And _ExisteEntreCalle2 = False) Then
@@ -1588,11 +1598,11 @@ Public Class SeleccionCalleColonia
 
     End Sub
     Public Sub CargaDatosClientePortatil(ByVal Cliente As Integer)
-        Dim strQuery As String = _
-        "SELECT Cliente, Calle, CalleNombre, NumeroExterior as NumExterior, NumeroInterior as NumInterior, " & _
-            "EntreCalle1, Isnull(EntreCalle1Nombre,'') as EntreCalle1Nombre, " & _
-            "EntreCalle2, Isnull(EntreCalle2Nombre,'') as EntreCalle2Nombre, " & _
-            "Colonia, ColoniaNombre, CP, Municipio " & _
+        Dim strQuery As String =
+        "SELECT Cliente, Calle, CalleNombre, NumeroExterior as NumExterior, NumeroInterior as NumInterior, " &
+            "EntreCalle1, Isnull(EntreCalle1Nombre,'') as EntreCalle1Nombre, " &
+            "EntreCalle2, Isnull(EntreCalle2Nombre,'') as EntreCalle2Nombre, " &
+            "Colonia, ColoniaNombre, CP, Municipio " &
             "FROM vwDatosClientePortatil WHERE Cliente = @Cliente"
         Dim cmd As New SqlCommand(strQuery)
 

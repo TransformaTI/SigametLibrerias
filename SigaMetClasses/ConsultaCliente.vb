@@ -19,7 +19,6 @@ Public Class frmConsultaCliente
     Private _URLGateway As String
     Private _URLParada As String
     Private _Modulo As Byte
-    Private _Corporativo As Short
 
     Private _Fecha As String
     Private _Litro As Decimal
@@ -79,6 +78,7 @@ Public Class frmConsultaCliente
             _GLOBAL_CORPORATIVO = value
         End Set
     End Property
+
 
 #Region " Windows Form Designer generated code "
 
@@ -2138,10 +2138,7 @@ Public Class frmConsultaCliente
                 oSolicitud = New RTGMGateway.SolicitudGateway
 
                 oGateway.URLServicio = URLGateway
-                oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
-                oSolicitud.IDEmpresa = 1
                 oSolicitud.IDCliente = Cliente
-                oSolicitud.IDEmpresa = _Corporativo
 
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
@@ -2585,12 +2582,11 @@ Public Class frmConsultaCliente
             If (Cliente > 0 And Not String.IsNullOrEmpty(URLGateway)) Then
                 Cursor = Cursors.WaitCursor
 
-                oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString + " PASSWORD =" + _Password + ";")
+                oGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
                 oSolicitud = New RTGMGateway.SolicitudGateway()
                 oGateway.GuardarLog = True
                 oGateway.URLServicio = URLGateway
                 oSolicitud.IDCliente = Cliente
-                oSolicitud.IDEmpresa = _GLOBAL_CORPORATIVO
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
                 If Not IsNothing(oDireccionEntrega) Then

@@ -15,7 +15,6 @@ Public Class frmConsultaClienteMultiple
     Private _LinkQueja As Boolean
     Private _URLGateway As String
     Private _Modulo As Byte
-    Private _Corporativo As Short
     Private _ImporteAbono As Decimal
     'Importe de los abonos originales
     Private _ImporteAbonoOriginal As Decimal
@@ -89,15 +88,6 @@ Public Class frmConsultaClienteMultiple
         End Get
         Set(value As Byte)
             _Modulo = value
-        End Set
-    End Property
-
-    Public Property Corporativo As Short
-        Get
-            Return _Corporativo
-        End Get
-        Set(value As Short)
-            _Corporativo = value
         End Set
     End Property
 
@@ -755,7 +745,6 @@ Public Class frmConsultaClienteMultiple
                 oSolicitud = New RTGMGateway.SolicitudGateway()
                 oGateway.URLServicio = _URLGateway
                 oSolicitud.IDCliente = Cliente
-                oSolicitud.IDEmpresa = _Corporativo
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
                 If Not IsNothing(oDireccionEntrega) Then

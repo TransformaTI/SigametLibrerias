@@ -14,7 +14,6 @@ Public Class ConsultaFactura
     Private Titulo As String = "Consulta de facturas"
     Private _URLGateway As String
     Private _Modulo As Byte
-    Private _Corporativo As Short
 
 #Region " Windows Form Designer generated code "
 
@@ -97,15 +96,6 @@ Public Class ConsultaFactura
         End Get
         Set(value As Byte)
             _Modulo = value
-        End Set
-    End Property
-
-    Public Property Corporativo As Short
-        Get
-            Return _Corporativo
-        End Get
-        Set(value As Short)
-            _Corporativo = value
         End Set
     End Property
 
@@ -736,7 +726,6 @@ Public Class ConsultaFactura
                     Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
 
                     objGateway.URLServicio = _URLGateway
-                    objSolicitudGateway.IDEmpresa = _Corporativo
 
                     For Each drow In dtFacturaPedido.Rows
                         If Not IsDBNull(drow("PedidoReferencia")) Then
