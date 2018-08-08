@@ -18,6 +18,8 @@ Public Class frmConsultaCliente
     Private _LinkQueja As Boolean           '20070622#CFSL001 Anexe este dato para no ver la etiqueta que llama las quejas
     Private _URLGateway As String
     Private _URLParada As String
+    Private _Modulo As Byte
+    Private _Corporativo As Short
 
     Private _Fecha As String
     Private _Litro As Decimal
@@ -58,6 +60,23 @@ Public Class frmConsultaCliente
         End Get
     End Property
 
+    Public Property Modulo As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(value As Byte)
+            _Modulo = value
+        End Set
+    End Property
+
+    Public Property Corporativo As Short
+        Get
+            Return _Corporativo
+        End Get
+        Set(value As Short)
+            _Corporativo = value
+        End Set
+    End Property
 
 
 #Region " Windows Form Designer generated code "
@@ -2096,12 +2115,13 @@ Public Class frmConsultaCliente
             If (Cliente > 0 And URLGateway.Trim > "") Then
                 Cursor = Cursors.WaitCursor
 
-                oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+                oGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
                 oSolicitud = New RTGMGateway.SolicitudGateway
 
                 oGateway.URLServicio = URLGateway
-                oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
+                'oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
                 oSolicitud.IDCliente = Cliente
+                oSolicitud.IDEmpresa = _Corporativo
 
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
@@ -2563,7 +2583,6 @@ Public Class frmConsultaCliente
                 oSolicitud = New RTGMGateway.SolicitudGateway()
 
                 oGateway.URLServicio = URLGateway
-                oSolicitud.Fuente = RTGMCore.Fuente.CRM
                 oSolicitud.IDCliente = Cliente
                 oSolicitud.IDEmpresa = 1
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
@@ -2592,7 +2611,7 @@ Public Class frmConsultaCliente
                         String.Empty, FormatoTelefono(oDireccionEntrega.Telefono1.Trim()))
                     lblTelAlterno1.Text = If(IsNothing(oDireccionEntrega.Telefono2),
                         String.Empty, FormatoTelefono(oDireccionEntrega.Telefono2.Trim()))
-                    lblTelAlterno2.Text = If(IsNothing(oDireccionEntrega.Telefono3), 
+                    lblTelAlterno2.Text = If(IsNothing(oDireccionEntrega.Telefono3),
                         String.Empty, FormatoTelefono(oDireccionEntrega.Telefono3.Trim()))
 
 

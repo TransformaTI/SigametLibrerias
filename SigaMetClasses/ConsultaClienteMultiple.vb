@@ -14,6 +14,8 @@ Public Class frmConsultaClienteMultiple
     Private _TotalLitros, _TotalLitrosCartera As Decimal 'Modificado 10/09/2004
     Private _LinkQueja As Boolean
     Private _URLGateway As String
+    Private _Modulo As Byte
+    Private _Corporativo As Short
     Private _ImporteAbono As Decimal
     'Importe de los abonos originales
     Private _ImporteAbonoOriginal As Decimal
@@ -79,6 +81,24 @@ Public Class frmConsultaClienteMultiple
 
             Return _documentosSeleccionados
         End Get
+    End Property
+
+    Public Property Modulo As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(value As Byte)
+            _Modulo = value
+        End Set
+    End Property
+
+    Public Property Corporativo As Short
+        Get
+            Return _Corporativo
+        End Get
+        Set(value As Short)
+            _Corporativo = value
+        End Set
     End Property
 
 #Region " Windows Form Designer generated code "
@@ -708,17 +728,13 @@ Public Class frmConsultaClienteMultiple
         Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
     End Sub
 
-    Private Sub ConsultaCliente(ByVal Cliente As Integer, _
-                                ByVal SoloPedidosCredito As Boolean, _
+    Private Sub ConsultaCliente(ByVal Cliente As Integer,
+                                ByVal SoloPedidosCredito As Boolean,
                                 ByVal SoloPedidosSurtidos As Boolean)
 
-
         Dim dsDatosCliente As System.Data.DataSet
-
         Dim dtCliente As DataTable
         Dim dr As DataRow
-
-
         Dim oGateway As RTGMGateway.RTGMGateway
         Dim oSolicitud As RTGMGateway.SolicitudGateway
         Dim oDireccionEntrega As RTGMCore.DireccionEntrega
@@ -735,19 +751,29 @@ Public Class frmConsultaClienteMultiple
                     End If
                 Next
             Else
-                oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+                oGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
                 oSolicitud = New RTGMGateway.SolicitudGateway()
                 oGateway.URLServicio = _URLGateway
-                oSolicitud.Fuente = RTGMCore.Fuente.CRM
                 oSolicitud.IDCliente = Cliente
+                oSolicitud.IDEmpresa = _Corporativo
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
                 If Not IsNothing(oDireccionEntrega) Then
-                    lblCliente.Text = oDireccionEntrega.IDDireccionEntrega & " " & oDireccionEntrega.Nombre.Trim()
-                    lblDireccion.Text = oDireccionEntrega.DireccionCompleta.Trim()
+                    If Not IsNothing(oDireccionEntrega.Nombre) Then
+                        lblCliente.Text = oDireccionEntrega.IDDireccionEntrega & " " & oDireccionEntrega.Nombre.Trim()
+                    Else
+                        lblCliente.Text = oDireccionEntrega.IDDireccionEntrega.ToString()
+                    End If
+
+                    If Not IsNothing(oDireccionEntrega.DireccionCompleta) Then
+                        lblDireccion.Text = oDireccionEntrega.DireccionCompleta.Trim()
+                    Else
+                        lblDireccion.Text = ""
+                    End If
                 End If
             End If
 
-                consultarPedidos(Cliente, SoloPedidosCredito, SoloPedidosSurtidos)
+            consultarPedidos(Cliente, SoloPedidosCredito, SoloPedidosSurtidos)
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Consulta de cliente", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
@@ -756,15 +782,15 @@ Public Class frmConsultaClienteMultiple
         End Try
     End Sub
 
-    Private Sub consultarPedidos(ByVal Cliente As Integer, _
-                                ByVal SoloPedidosCredito As Boolean, _
+    Private Sub consultarPedidos(ByVal Cliente As Integer,
+                                ByVal SoloPedidosCredito As Boolean,
                                 ByVal SoloPedidosSurtidos As Boolean)
         Dim dsDatosPedido As System.Data.DataSet
 
 
         Try
-            dsDatosPedido = oCliente.ConsultaDatosPedidos(Cliente, Not chkPeriodo.Checked, _
-              dtpFecha1.Value, dtpFecha2.Value, _
+            dsDatosPedido = oCliente.ConsultaDatosPedidos(Cliente, Not chkPeriodo.Checked,
+              dtpFecha1.Value, dtpFecha2.Value,
               SoloPedidosCredito, SoloPedidosSurtidos)
 
             dtDocumento = dsDatosPedido.Tables("Pedido")

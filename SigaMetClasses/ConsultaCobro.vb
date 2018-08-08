@@ -9,12 +9,33 @@ Public Class ConsultaCobro
     Private _Cobro As Integer
     Private _PermiteModificarCobro As Boolean
     Private _URLGateway As String
+    Private _Modulo As Byte
+    Private _Corporativo As Short
+
     Property URLGateway As String
         Get
             Return _URLGateway
         End Get
         Set(value As String)
             _URLGateway = value
+        End Set
+    End Property
+
+    Public Property Modulo As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(value As Byte)
+            _Modulo = value
+        End Set
+    End Property
+
+    Public Property Corporativo As Short
+        Get
+            Return _Corporativo
+        End Get
+        Set(value As Short)
+            _Corporativo = value
         End Set
     End Property
 
@@ -851,21 +872,23 @@ Public Class ConsultaCobro
                     btnModificarCobro.Enabled = _PermiteModificarCobro
                     btnModificarCobro.Visible = _PermiteModificarCobro
                 End If
+
                 If _URLGateway <> "" Then
                     Dim objGateway As RTGMGateway.RTGMGateway
                     Dim oSolicitud As RTGMGateway.SolicitudGateway
                     Dim oDireccionEntrega As RTGMCore.DireccionEntrega
                     oSolicitud = New RTGMGateway.SolicitudGateway
-                    objGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+                    objGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
                     objGateway.URLServicio = _URLGateway
-                    oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
-
+                    oSolicitud.IDEmpresa = _Corporativo
                     oSolicitud.IDCliente = Integer.Parse(dtCobroPedido.Rows(0).Item("Cliente").ToString())
 
-                    If Not IsDBNull(dtCobroPedido.Rows(0).Item("Cliente")) Then
-                        lblClienteNombre.Text = CType(oSolicitud.IDCliente, String) & " " & CType(oSolicitud.Nombre, String)
-                    End If
                     oDireccionEntrega = objGateway.buscarDireccionEntrega(oSolicitud)
+
+                    If Not IsDBNull(dtCobroPedido.Rows(0).Item("Cliente")) Then
+                        'lblClienteNombre.Text = CType(oSolicitud.IDCliente, String) & " " & CType(oSolicitud.Nombre, String)
+                        lblClienteNombre.Text = oDireccionEntrega.IDDireccionEntrega.ToString() & " " & oDireccionEntrega.Nombre
+                    End If
 
                     Dim objPedidoGateway As RTGMGateway.RTGMPedidoGateway
                     objPedidoGateway = New RTGMGateway.RTGMPedidoGateway
