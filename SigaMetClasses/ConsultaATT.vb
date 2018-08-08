@@ -47,7 +47,7 @@ Public Class ConsultaATT
         _AñoAtt = AñoAtt
         _Folio = Folio
 
-        CargaDatos(_AñoAtt, _Folio, ConnectionString)
+        CargaDatos(_AñoAtt, _Folio, ConnectionString + " Password = " + _Password + ";")
 
     End Sub
 
