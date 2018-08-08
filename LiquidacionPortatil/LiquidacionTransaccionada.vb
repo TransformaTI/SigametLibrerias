@@ -810,27 +810,28 @@ Public Class LiquidacionTransaccionada
 
         'Método de la clase que realiza la liquidacion y la regista en
         'la tabla Cobro
-        Public Sub LiquidacionCobro(ByVal Importe As Decimal, _
-                                    ByVal Impuesto As Decimal, _
-                                    ByVal Total As Decimal, _
-                                    ByVal Referencia As String, _
-                                    ByVal Banco As Short, _
-                                    ByVal FAlta As DateTime, _
-                                    ByVal Status As String, _
-                                    ByVal TipoCobro As Short, _
-                                    ByVal NumeroCheque As String, _
-                                    ByVal FCheque As DateTime, _
-                                    ByVal NumeroCuenta As String, _
-                                    ByVal Observaciones As String, _
-                                    ByVal Cliente As Integer, _
-                                    ByVal Saldo As Decimal, _
-                                    ByVal Usuario As String, _
-                                    ByVal FActualizacion As DateTime, _
-                                    ByVal Folio As Integer, _
-                                    ByVal FolioAtt As Integer, _
-                                    ByVal AñoAtt As Short, _
-                                    ByVal SaldoAFavor As Boolean, _
-                                    ByVal Connection As SqlConnection, _
+        Public Sub LiquidacionCobro(ByVal Importe As Decimal,
+                                    ByVal Impuesto As Decimal,
+                                    ByVal Total As Decimal,
+                                    ByVal Referencia As String,
+                                    ByVal Banco As Short,
+                                    ByVal FAlta As DateTime,
+                                    ByVal Status As String,
+                                    ByVal TipoCobro As Short,
+                                    ByVal NumeroCheque As String,
+                                    ByVal FCheque As DateTime,
+                                    ByVal NumeroCuenta As String,
+                                    ByVal Observaciones As String,
+                                    ByVal Cliente As Integer,
+                                    ByVal Saldo As Decimal,
+                                    ByVal Usuario As String,
+                                    ByVal FActualizacion As DateTime,
+                                    ByVal Folio As Integer,
+                                    ByVal FolioAtt As Integer,
+                                    ByVal AñoAtt As Short,
+                                    ByVal SaldoAFavor As Boolean,
+                                    ByVal NumeroCuentaDestino As String,
+                                    ByVal Connection As SqlConnection,
                                     ByVal Transaction As SqlTransaction)
 
             Dim dr As SqlDataReader
@@ -908,6 +909,12 @@ Public Class LiquidacionTransaccionada
                     cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Bit).Value = System.DBNull.Value
                 Else
                     cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Bit).Value = SaldoAFavor
+                End If
+
+                If NumeroCuentaDestino = "" Then
+                    cmd.Parameters.Add("@NumeroCuenta", SqlDbType.VarChar).Value = System.DBNull.Value
+                Else
+                    cmd.Parameters.Add("@numerocuentadestino", SqlDbType.VarChar).Value = NumeroCuentaDestino
                 End If
 
                 dr = cmd.ExecuteReader()
