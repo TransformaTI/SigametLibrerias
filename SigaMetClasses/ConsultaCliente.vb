@@ -58,6 +58,15 @@ Public Class frmConsultaCliente
             Return _Importe
         End Get
     End Property
+    Private _CadenaConeccion As String
+    Public Property CadenaConeccion() As String
+        Get
+            Return _CadenaConeccion
+        End Get
+        Set(ByVal value As String)
+            _CadenaConeccion = value
+        End Set
+    End Property
 
     Private _Password As String
     Public Property Password() As String
@@ -1843,8 +1852,8 @@ Public Class frmConsultaCliente
           Optional ByVal PermiteCambioCtePadre As Boolean = False,
           Optional ByVal DSCatalogos As DataSet = Nothing,
           Optional ByVal LinkQueja As Boolean = True,
-          Optional ByVal URLGateway As String = ""
-                    )
+          Optional ByVal URLGateway As String = "",
+          Optional ByVal CadenaCon As String = "")
 
         MyBase.New()
         InitializeComponent()
@@ -1899,11 +1908,13 @@ Public Class frmConsultaCliente
         '*****
     End Sub
 
-    Public Sub New(ByVal Cliente As Integer, ByVal URLGateway As String)
+    Public Sub New(ByVal Cliente As Integer, ByVal URLGateway As String, Optional ByVal CadenaCon As String = "", Optional ByVal Usuario As String = "")
 
         MyBase.New()
         _Cliente = Cliente
         _URLGateway = URLGateway
+        _CadenaConeccion = CadenaCon
+        _Usuario = Usuario
 
 
         InitializeComponent()

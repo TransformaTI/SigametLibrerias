@@ -911,7 +911,7 @@ Public Class ConsultaCheques
         If (_URLGateway <> String.Empty) Then
             Dim ConsultaCliente As New frmConsultaCliente(_Cliente)
         Else
-            Dim ConsultaCliente As New frmConsultaCliente(_Cliente, _URLGateway)
+            Dim ConsultaCliente As New frmConsultaCliente(_Cliente, _URLGateway, "")
         End If
 
         Select Case e.Button.Tag.ToString()
