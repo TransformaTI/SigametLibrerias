@@ -21,6 +21,8 @@ Public Class frmConTarjetaCredito
 
     Private _Usuario As String
     Public _URLGateway As String
+    Private _Modulo As Byte
+    Private _Corporativo As Short
 
     Private _NumTDCOculto As String
     Private _NumOculto As Boolean = False
@@ -59,12 +61,13 @@ Public Class frmConTarjetaCredito
             ConsultaCliente(_Cliente)
         Else
             _URLGateway = URLGateway
-            oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+            oGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
             oSolicitud = New RTGMGateway.SolicitudGateway
             oGateway.URLServicio = URLGateway
-            oSolicitud.Fuente = RTGMCore.Fuente.Sigamet
             oSolicitud.IDCliente = Cliente
+            oSolicitud.IDEmpresa = _Corporativo
             oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
             ConsultaClienteGateway(oDireccionEntrega)
         End If
 
@@ -146,6 +149,25 @@ Public Class frmConTarjetaCredito
     Friend WithEvents txtCliente As SigaMetClasses.Controles.txtNumeroEntero
     Friend WithEvents colRecurrente As System.Windows.Forms.DataGridBoolColumn
     Friend WithEvents colNumTarjetaCredito As System.Windows.Forms.DataGridTextBoxColumn
+
+    Public Property Modulo As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(value As Byte)
+            _Modulo = value
+        End Set
+    End Property
+
+    Public Property Corporativo As Short
+        Get
+            Return _Corporativo
+        End Get
+        Set(value As Short)
+            _Corporativo = value
+        End Set
+    End Property
+
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmConTarjetaCredito))
         Me.grdTarjetaCredito = New System.Windows.Forms.DataGrid()

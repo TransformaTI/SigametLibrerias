@@ -10873,8 +10873,9 @@ Namespace ValidacionCapturaMovimientoCaja
         Private _valorValidacion As String
         Private _procedimientoValidacion As String
         Private _parametroValidacion As String
-
         Private _descripcionValorValidacion As String
+        Private _Modulo As Byte
+        Private _Corporativo As Short
 
         Public Property TipoMovimientoCaja() As Byte
             Get
@@ -10954,6 +10955,24 @@ Namespace ValidacionCapturaMovimientoCaja
             End Set
         End Property
 
+        Public Property Modulo As Byte
+            Get
+                Return _Modulo
+            End Get
+            Set(value As Byte)
+                _Modulo = value
+            End Set
+        End Property
+
+        Public Property Corporativo As Short
+            Get
+                Return _Corporativo
+            End Get
+            Set(value As Short)
+                _Corporativo = value
+            End Set
+        End Property
+
         Public Sub New(ByVal TipoMovimientoCaja As Byte, ByVal Descripcion As String, ByVal Clave As String,
             ByVal ValidacionCaptura As Boolean, ByVal Requerido As Boolean, ByVal ValorParaValidacion As String,
             ByVal ProcedimientoValidacion As String, ByVal Parametro As String)
@@ -11009,16 +11028,15 @@ Namespace ValidacionCapturaMovimientoCaja
         Public Function EfectuarValidacion(ByVal LlaveValidacion As Integer, ByVal URLGateway As String) As Boolean
             Dim valorRetorno As Boolean = True
 
-            Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+            Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
             Dim objSolicitudGateway As RTGMGateway.SolicitudGateway = New RTGMGateway.SolicitudGateway()
             Dim oDireccionEntrega As RTGMCore.DireccionEntrega
-
-
 
             Try
                 If Not String.IsNullOrEmpty(URLGateway) Then
 
                     objSolicitudGateway.IDCliente = LlaveValidacion
+                    objSolicitudGateway.IDEmpresa = _Corporativo
                     objGateway.URLServicio = URLGateway
                     oDireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
                     _descripcionValorValidacion = oDireccionEntrega.Nombre
@@ -11032,8 +11050,6 @@ Namespace ValidacionCapturaMovimientoCaja
             End Try
             Return valorRetorno
         End Function
-
-
     End Class
 
     Public Class ValidacionCapturaMovCaja
