@@ -57,6 +57,15 @@ Public Class frmConsultaCliente
             Return _Importe
         End Get
     End Property
+    Private _CadenaConeccion As String
+    Public Property CadenaConeccion() As String
+        Get
+            Return _CadenaConeccion
+        End Get
+        Set(ByVal value As String)
+            _CadenaConeccion = value
+        End Set
+    End Property
 
 
 
@@ -1804,8 +1813,8 @@ Public Class frmConsultaCliente
           Optional ByVal PermiteCambioCtePadre As Boolean = False,
           Optional ByVal DSCatalogos As DataSet = Nothing,
           Optional ByVal LinkQueja As Boolean = True,
-          Optional ByVal URLGateway As String = ""
-                    )
+          Optional ByVal URLGateway As String = "",
+          Optional ByVal CadenaCon As String = "")
 
         MyBase.New()
         InitializeComponent()
@@ -1862,11 +1871,12 @@ Public Class frmConsultaCliente
         '*****
     End Sub
 
-    Public Sub New(ByVal Cliente As Integer, ByVal URLGateway As String)
+    Public Sub New(ByVal Cliente As Integer, ByVal URLGateway As String, Optional ByVal CadenaCon As String = "")
 
         MyBase.New()
         _Cliente = Cliente
         _URLGateway = URLGateway
+        _CadenaConeccion = CadenaCon
 
 
         InitializeComponent()
@@ -2559,13 +2569,13 @@ Public Class frmConsultaCliente
             If (Cliente > 0 And Not String.IsNullOrEmpty(URLGateway)) Then
                 Cursor = Cursors.WaitCursor
 
-                oGateway = New RTGMGateway.RTGMGateway(3, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+                oGateway = New RTGMGateway.RTGMGateway(CByte(SigaMetClasses.GLOBAL_Modulo), _CadenaConeccion)
                 oSolicitud = New RTGMGateway.SolicitudGateway()
 
                 oGateway.URLServicio = URLGateway
-                oSolicitud.Fuente = RTGMCore.Fuente.CRM
+                'oSolicitud.Fuente = RTGMCore.Fuente.CRM
                 oSolicitud.IDCliente = Cliente
-                oSolicitud.IDEmpresa = 1
+                oSolicitud.IDEmpresa = SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Corporativo
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
                 If Not IsNothing(oDireccionEntrega) Then
@@ -2592,7 +2602,7 @@ Public Class frmConsultaCliente
                         String.Empty, FormatoTelefono(oDireccionEntrega.Telefono1.Trim()))
                     lblTelAlterno1.Text = If(IsNothing(oDireccionEntrega.Telefono2),
                         String.Empty, FormatoTelefono(oDireccionEntrega.Telefono2.Trim()))
-                    lblTelAlterno2.Text = If(IsNothing(oDireccionEntrega.Telefono3), 
+                    lblTelAlterno2.Text = If(IsNothing(oDireccionEntrega.Telefono3),
                         String.Empty, FormatoTelefono(oDireccionEntrega.Telefono3.Trim()))
 
 
