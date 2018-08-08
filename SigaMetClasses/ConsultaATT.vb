@@ -994,7 +994,7 @@ Public Class ConsultaATT
         lParametro.Dispose()
         Cursor = Cursors.WaitCursor
         Dim iCliente As Integer = CType(grdPedido.Item(grdPedido.CurrentRowIndex, 4), Integer)
-        Dim oConsultaCliente As New frmConsultaCliente(iCliente, lURLGateway)
+        Dim oConsultaCliente As New frmConsultaCliente(iCliente, lURLGateway, _CadenaConexion)
         oConsultaCliente.GLOBAL_CORPORATIVO = Me.GLOBAL_CorporativoUsuario
         oConsultaCliente.CadenaConexion = _CadenaConexion
         oConsultaCliente.Modulo = CType(_Modulo, Byte)
