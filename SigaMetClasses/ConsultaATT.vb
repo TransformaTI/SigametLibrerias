@@ -30,6 +30,16 @@ Public Class ConsultaATT
         End Set
     End Property
 
+    Private _Modulo As Byte
+    Public Property Modulo() As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(ByVal value As Byte)
+            _Modulo = value
+        End Set
+    End Property
+
     Public Sub New(ByVal AñoAtt As Short, ByVal Folio As Integer,
         Optional ByVal ConnectionString As String = Nothing)
 
@@ -987,7 +997,7 @@ Public Class ConsultaATT
         Dim oConsultaCliente As New frmConsultaCliente(iCliente, lURLGateway)
         oConsultaCliente.GLOBAL_CORPORATIVO = Me.GLOBAL_CorporativoUsuario
         oConsultaCliente.CadenaConexion = _CadenaConexion
-        oConsultaCliente.Modulo = CType(GLOBAL_Modulo, Byte)
+        oConsultaCliente.Modulo = CType(_Modulo, Byte)
         oConsultaCliente.ShowDialog()
         Cursor = Cursors.Default
     End Sub
