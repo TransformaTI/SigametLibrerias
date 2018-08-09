@@ -11038,13 +11038,18 @@ Namespace ValidacionCapturaMovimientoCaja
                     objSolicitudGateway.IDCliente = LlaveValidacion
                     objGateway.URLServicio = URLGateway
                     oDireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
-                    _descripcionValorValidacion = oDireccionEntrega.Nombre
+
+                    If Not IsNothing(oDireccionEntrega) And IsNothing(oDireccionEntrega.Message) Then
+                        _descripcionValorValidacion = oDireccionEntrega.Nombre.Trim
+                    ElseIf oDireccionEntrega.Message.Contains("ERROR") Then
+                        Throw New Exception(oDireccionEntrega.Message)
+                    End If
                 Else
                     valorRetorno = False
                 End If
             Catch ex As Exception
+                MessageBox.Show(ex.Message, "SIGAMET", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 valorRetorno = False
-                Throw ex
             End Try
             Return valorRetorno
         End Function
