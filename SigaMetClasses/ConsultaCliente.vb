@@ -1899,15 +1899,14 @@ Public Class frmConsultaCliente
         '*****
     End Sub
 
-    Public Sub New(ByVal Cliente As Integer, ByVal URLGateway As String, Optional ByVal CadenaCon As String = "", Optional ByVal Usuario As String = "")
+    Public Sub New(ByVal Cliente As Integer, ByVal URLGateway As String, Optional ByVal CadenaCon As String = "", Optional ByVal Usuario As String = "", Optional ByVal Modulo As Byte = 0)
 
         MyBase.New()
         _Cliente = Cliente
         _URLGateway = URLGateway
-        _CadenaConexion = CadenaCon
         _Usuario = Usuario
-
-
+        _CadenaConexion = CadenaCon
+        _Modulo = Modulo
         InitializeComponent()
 
 
@@ -2573,11 +2572,13 @@ Public Class frmConsultaCliente
     Private Sub DeshabilitaBotonModificar()
         Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
         Try
-            _URLParada = CStr(oConfig.Parametros("URLParada")).Trim
+            If (oConfig.Parametros.Count > 0) Then
+                _URLParada = CStr(oConfig.Parametros("URLParada")).Trim
 
-            If (Not String.IsNullOrEmpty(_URLParada)) Then
-                btnModificar.Enabled = False
-                lnkModificarDatosCredito.Enabled = False
+                If (Not String.IsNullOrEmpty(_URLParada)) Then
+                    btnModificar.Enabled = False
+                    lnkModificarDatosCredito.Enabled = False
+                End If
             End If
         Catch ex As Exception
             If _URLParada = "" Then

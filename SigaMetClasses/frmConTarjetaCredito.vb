@@ -39,13 +39,15 @@ Public Class frmConTarjetaCredito
         _Usuario = Usuario
     End Sub
 
-    Public Sub New(ByVal Cliente As Integer, Optional ByVal Usuario As String = Nothing, Optional ByVal URLGateway As String = Nothing)
+    Public Sub New(ByVal Cliente As Integer, Optional ByVal Usuario As String = Nothing, Optional ByVal URLGateway As String = Nothing, Optional ByVal Modulo As Byte = 0, Optional ByVal CadCon As String = "")
         MyBase.New()
         InitializeComponent()
 
         _Cliente = Cliente
         _Usuario = Usuario
         _URLGateway = URLGateway
+        _Modulo = Modulo
+        _CadenaConexion = CadCon
     End Sub
 
     Private Sub ConsultaClienteGateway(ByVal oDireccionEntrega As RTGMCore.DireccionEntrega)
