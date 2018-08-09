@@ -10963,6 +10963,17 @@ Namespace ValidacionCapturaMovimientoCaja
             End Set
         End Property
 
+        Private _CadenaConexion As String
+        Public Property CadenaConexion() As String
+            Get
+                Return _CadenaConexion
+            End Get
+            Set(ByVal value As String)
+                _CadenaConexion = value
+            End Set
+        End Property
+
+
         Public Sub New(ByVal TipoMovimientoCaja As Byte, ByVal Descripcion As String, ByVal Clave As String,
             ByVal ValidacionCaptura As Boolean, ByVal Requerido As Boolean, ByVal ValorParaValidacion As String,
             ByVal ProcedimientoValidacion As String, ByVal Parametro As String)
@@ -11018,7 +11029,7 @@ Namespace ValidacionCapturaMovimientoCaja
         Public Function EfectuarValidacion(ByVal LlaveValidacion As Integer, ByVal URLGateway As String) As Boolean
             Dim valorRetorno As Boolean = True
 
-            Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+            Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
             Dim objSolicitudGateway As RTGMGateway.SolicitudGateway = New RTGMGateway.SolicitudGateway()
             Dim oDireccionEntrega As RTGMCore.DireccionEntrega
 
