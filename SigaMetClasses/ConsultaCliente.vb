@@ -2530,15 +2530,19 @@ Public Class frmConsultaCliente
     End Sub
 
     Private Sub frmConsultaCliente_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        DeshabilitaBotonQuejas()
-        DeshabilitaBotonModificar()
+        Try
+            DeshabilitaBotonQuejas()
+            If (String.IsNullOrEmpty(_URLGateway)) Then
+                Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+            Else
+                Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
+                'Me.ConsultaCliente(_Cliente, _URLGateway)
+            End If
+            DeshabilitaBotonModificar()
+        Catch EX As Exception
+            MessageBox.Show(EX.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
-        If (String.IsNullOrEmpty(_URLGateway)) Then
-            Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
-        Else
-            Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
-            'Me.ConsultaCliente(_Cliente, _URLGateway)
-        End If
     End Sub
 #End Region
 
@@ -2576,7 +2580,9 @@ Public Class frmConsultaCliente
                 lnkModificarDatosCredito.Enabled = False
             End If
         Catch ex As Exception
-
+            If _URLParada = "" Then
+                Throw New Exception("No hay valor para URLParada, error de configuración")
+            End If
         End Try
     End Sub
 
