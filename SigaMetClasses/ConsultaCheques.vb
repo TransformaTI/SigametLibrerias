@@ -876,7 +876,7 @@ Public Class ConsultaCheques
             LimpiaVariables()
             dtCheque = oCheque.Consulta(dtpFCheque.Value.Date, CType(ComboBanco.SelectedValue, Short))
 
-            If 1 = 1 Then
+            If Not IsNothing(_URLGateway) Then
                 grdCheque.DataSource = consultarDatosClienteCRM(dtCheque)
             Else
                 grdCheque.DataSource = dtCheque
@@ -931,6 +931,7 @@ Public Class ConsultaCheques
             End If
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            dtChuequesModificados.Clear()
         Finally
             Cursor = Cursors.Default
         End Try
