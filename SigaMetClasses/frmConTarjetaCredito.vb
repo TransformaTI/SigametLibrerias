@@ -45,30 +45,7 @@ Public Class frmConTarjetaCredito
 
         _Cliente = Cliente
         _Usuario = Usuario
-
-        Dim oGateway As RTGMGateway.RTGMGateway
-        Dim oSolicitud As RTGMGateway.SolicitudGateway
-        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
-
-        If (String.IsNullOrEmpty(URLGateway)) Then
-            'Se alerta sobre el parámetro incorrecto, pero se conserva lo anterior en la pantalla .. sin UrlGateway
-            'MessageBox.Show("El parámetro URLGateway tiene un valor incorrecto")
-            Me.txtCliente.Text = _Cliente.ToString
-            Me.txtCliente.Enabled = False
-            Me.btnBuscar.Visible = False
-            Me.btnAgregar.Enabled = True
-            ConsultaCliente(_Cliente)
-        Else
-            _URLGateway = URLGateway
-            oGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
-            oSolicitud = New RTGMGateway.SolicitudGateway
-            oGateway.URLServicio = URLGateway
-            oSolicitud.IDCliente = Cliente
-            oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
-
-            ConsultaClienteGateway(oDireccionEntrega)
-        End If
-
+        _URLGateway = URLGateway
     End Sub
 
     Private Sub ConsultaClienteGateway(ByVal oDireccionEntrega As RTGMCore.DireccionEntrega)
@@ -154,6 +131,16 @@ Public Class frmConTarjetaCredito
         End Get
         Set(value As Byte)
             _Modulo = value
+        End Set
+    End Property
+
+    Private _CadenaConexion As String
+    Public Property CadenaConexion() As String
+        Get
+            Return _CadenaConexion
+        End Get
+        Set(ByVal value As String)
+            _CadenaConexion = value
         End Set
     End Property
 
@@ -647,12 +634,30 @@ Public Class frmConTarjetaCredito
         If txtCliente.Text <> "" And IsNumeric(txtCliente.Text) Then
             _Cliente = CType(txtCliente.Text, Integer)
             LimpiaCajas()
-            ConsultaCliente(_Cliente)
-            If lblNombre.Text = "" Then
-                btnAgregar.Enabled = False
-                MessageBox.Show("No se encontró el cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+            If (String.IsNullOrEmpty(_URLGateway)) Then
+                ConsultaCliente(_Cliente)
+                If lblNombre.Text = "" Then
+                    btnAgregar.Enabled = False
+                    MessageBox.Show("No se encontró el cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+                    btnAgregar.Enabled = True
+                End If
             Else
-                btnAgregar.Enabled = True
+                Dim oGateway As RTGMGateway.RTGMGateway
+                Dim oSolicitud As RTGMGateway.SolicitudGateway
+                Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+                oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+                oSolicitud = New RTGMGateway.SolicitudGateway
+                oGateway.URLServicio = _URLGateway
+                oSolicitud.IDCliente = _Cliente
+                oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+                If IsNothing(oDireccionEntrega.Message) Then
+                    ConsultaClienteGateway(oDireccionEntrega)
+                Else
+                    MessageBox.Show(oDireccionEntrega.Message, "SIGAMET", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
+
             End If
         End If
     End Sub
