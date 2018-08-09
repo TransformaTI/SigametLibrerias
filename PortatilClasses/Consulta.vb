@@ -299,7 +299,7 @@ Public MustInherit Class Consulta
             End Try
         End Sub
 
-        Protected Sub RealizarConsulta(ByVal Procedimiento As String, ByVal URL As String)
+        Protected Sub RealizarConsulta(ByVal Procedimiento As String, ByVal URL As String, Optional ByVal Modulo As Byte = 0)
             Dim cnSigamet As SqlConnection
             Dim cmdComando As SqlCommand
             Dim drAlmacen As SqlDataReader
@@ -341,10 +341,10 @@ Public MustInherit Class Consulta
                 cnSigamet.Close()
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
                 objSolicitudGateway.IDCliente = Me.IdCliente
-                objSolicitudGateway.IDEmpresa = Me.IdCorporativo
-                objSolicitudGateway.Fuente = RTGMCore.Fuente.CRM
+                'objSolicitudGateway.IDEmpresa = Me.IdCorporativo
+                'objSolicitudGateway.Fuente = RTGMCore.Fuente.CRM
 
-                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
+                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(Modulo, Globals.GetInstance._CadenaConexion)
                 objGateway.URLServicio = URL
 
                 Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
@@ -1307,8 +1307,8 @@ Public MustInherit Class Consulta
             RealizarConsulta("spPTLConsultaCliente")
         End Sub
 
-        Public Sub CargaDatos(ByVal URLServicio As String)
-            RealizarConsulta("spPTLConsultaCliente", URLServicio)
+        Public Sub CargaDatos(ByVal URLServicio As String, Optional ByVal Modulo As Byte = 0)
+            RealizarConsulta("spPTLConsultaCliente", URLServicio, Modulo)
         End Sub
     End Class
 #End Region
@@ -3277,7 +3277,7 @@ Public MustInherit Class Consulta
             End Try
         End Sub
 
-        Public Sub CargarDatos(ByVal Camion As Integer, ByVal URL As String)
+        Public Sub CargarDatos(ByVal Camion As Integer, ByVal URL As String, Optional ByVal Modulo As Byte = 0)
             Dim cnSigamet As SqlConnection
             Dim cmdComando As SqlCommand
             Dim drAlmacen As SqlDataReader
@@ -3301,11 +3301,11 @@ Public MustInherit Class Consulta
                 End If
                 cnSigamet.Close()
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
-                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway()
+                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(Modulo, Globals.GetInstance._CadenaConexion.ToString())
                 Dim objDescripcion As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega()
-                objSolicitudGateway.Fuente = 0
+                'objSolicitudGateway.Fuente = 0
                 objSolicitudGateway.IDCliente = 502602197
-                objSolicitudGateway.IDEmpresa = 0
+                'objSolicitudGateway.IDEmpresa = 0
                 objSolicitudGateway.Portatil = False
                 objSolicitudGateway.IDAutotanque = 52
 
