@@ -3480,6 +3480,26 @@ Public Class cCliente
             _ExisteNC = Value
         End Set
     End Property
+
+    Private _Modulo As Byte
+    Public Property Modulo() As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(ByVal value As Byte)
+            _Modulo = value
+        End Set
+    End Property
+
+    Private _CadenaConexion As String
+    Public Property CadenaConexion() As String
+        Get
+            Return _CadenaConexion
+        End Get
+        Set(ByVal value As String)
+            _CadenaConexion = value
+        End Set
+    End Property
 #End Region
 
     Public Sub New()
@@ -3603,6 +3623,68 @@ Public Class cCliente
             cmd = Nothing
         End Try
     End Sub
+
+    Public Sub Consulta(ByVal intCliente As Integer, ByVal URLGateway As String)
+        Dim cmd As New SqlCommand("spCCClienteConsulta2", DataLayer.Conexion)
+        With cmd
+            .CommandType = CommandType.StoredProcedure
+            .Parameters.Add("@Cliente", SqlDbType.Int).Value = intCliente
+        End With
+
+        Try
+            AbreConexion()
+            Dim lSolicitud As RTGMGateway.SolicitudGateway = New RTGMGateway.SolicitudGateway()
+            Dim lRemoteGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+            lRemoteGateway.URLServicio = URLGateway
+
+            Dim dr As SqlDataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+            While dr.Read
+                _Cliente = CType(dr("Cliente"), Integer)
+                If Not IsDBNull(dr("ClientePadre")) Then
+                    _ClientePadre = CType(dr("ClientePadre"), Integer)
+                Else
+                    _ClientePadre = 0
+                End If
+
+                _Celula = CType(dr("Celula"), Byte)
+                _Ruta = CType(dr("Ruta"), Short)
+                _Nombre = CType(dr("Nombre"), String)
+                _Cartera = CType(dr("Cartera"), Byte)
+                _CarteraDescripcion = CType(dr("CarteraDescripcion"), String)
+                _Programacion = CType(dr("Programacion"), Boolean)
+                _ObservacionesProgramacion = CType(dr("ObservacionesProgramacion"), String)
+                _ProgramaClienteTexto = CType(dr("ProgramaClienteTexto"), String).Trim
+                _RamoCliente = CType(dr("RamoCliente"), Byte)
+                _RamoClienteDescripcion = CType(dr("RamoClienteDescripcion"), String).Trim
+                _AplicaClientePadre = CType(dr("AplicaClientePadre"), Boolean)
+                _Hijos = CType(dr("Hijos"), Integer)
+                _TipoFactura = CType(dr("TipoFactura"), Byte)
+                _Agrupa = CType(dr("Agrupa"), Boolean)
+                _saldo = CType(dr("Saldo"), Decimal)
+                _maxImporteCredito = CType(dr("MaxImporteCredito"), Decimal)
+                _falta = CType(dr("FAlta"), Date)
+            End While
+            If dr.HasRows Then
+                lSolicitud.IDCliente = Cliente
+                Dim lDireccionEntrega As RTGMCore.DireccionEntrega = lRemoteGateway.buscarDireccionEntrega(lSolicitud)
+
+                If Not IsNothing(lDireccionEntrega) And IsNothing(lDireccionEntrega.Message) Then
+                    _Nombre = lDireccionEntrega.Nombre
+                ElseIf lDireccionEntrega.Message.Contains("ERROR") Then
+                    _Nombre = ""
+                    Throw New Exception(lDireccionEntrega.Message)
+                End If
+            End If
+            dr.Close()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "SIGAMET", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            CierraConexion()
+            cmd = Nothing
+        End Try
+    End Sub
+
+
 
     'Función que regresa un DataSet con los datos generales del cliente y con los datos de los pedidos
     Public Function ConsultaDatos(ByVal intCliente As Integer,
