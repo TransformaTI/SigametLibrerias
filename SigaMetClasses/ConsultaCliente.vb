@@ -1908,14 +1908,15 @@ Public Class frmConsultaCliente
         '*****
     End Sub
 
-    Public Sub New(ByVal Cliente As Integer, ByVal URLGateway As String, Optional ByVal CadenaCon As String = "", Optional ByVal Usuario As String = "")
+    Public Sub New(ByVal Cliente As Integer, ByVal URLGateway As String, Optional ByVal CadenaCon As String = "", Optional ByVal Usuario As String = "", Optional ByVal Modulo As Byte = 0)
 
         MyBase.New()
         _Cliente = Cliente
         _URLGateway = URLGateway
         _CadenaConeccion = CadenaCon
         _Usuario = Usuario
-
+        _CadenaConexion = CadenaCon
+        _Modulo = Modulo
 
         InitializeComponent()
 

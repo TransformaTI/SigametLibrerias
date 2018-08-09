@@ -26,6 +26,16 @@ Public Class frmConTarjetaCredito
     Private _NumTDCOculto As String
     Private _NumOculto As Boolean = False
 
+    Private _CadenaConexion As String
+    Public Property CadenaConexion() As String
+        Get
+            Return _CadenaConexion
+        End Get
+        Set(ByVal value As String)
+            _CadenaConexion = value
+        End Set
+    End Property
+
 #Region " Windows Form Designer generated code "
 
 
@@ -39,12 +49,14 @@ Public Class frmConTarjetaCredito
         _Usuario = Usuario
     End Sub
 
-    Public Sub New(ByVal Cliente As Integer, Optional ByVal Usuario As String = Nothing, Optional ByVal URLGateway As String = Nothing)
+    Public Sub New(ByVal Cliente As Integer, Optional ByVal Usuario As String = Nothing, Optional ByVal URLGateway As String = Nothing, Optional ByVal Modulo As Byte = 0, Optional ByVal CadCon As String = "")
         MyBase.New()
         InitializeComponent()
 
         _Cliente = Cliente
         _Usuario = Usuario
+        _Modulo = Modulo
+        _CadenaConexion = CadCon
 
         Dim oGateway As RTGMGateway.RTGMGateway
         Dim oSolicitud As RTGMGateway.SolicitudGateway
@@ -60,7 +72,7 @@ Public Class frmConTarjetaCredito
             ConsultaCliente(_Cliente)
         Else
             _URLGateway = URLGateway
-            oGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+            oGateway = New RTGMGateway.RTGMGateway(_Modulo, CadCon)
             oSolicitud = New RTGMGateway.SolicitudGateway
             oGateway.URLServicio = URLGateway
             oSolicitud.IDCliente = Cliente
