@@ -24,12 +24,7 @@ Public Class ConsultaCheques
     Private _Usuario As String
     Private _Titulo As String = "Consulta de Cheques"
     Private _ComboCargado As Boolean
-
     Private dtCheque As DataTable
-
-    'Carga de parámetros con nombres duplicados 3/4/2008 JAGD
-    Private _Corporativo As Short
-    Private _Sucursal As Short
 #End Region
 
 #Region "Eventos"
@@ -43,9 +38,51 @@ Public Class ConsultaCheques
             tbAgregar.Enabled = Value
         End Set
     End Property
+
+    Private _CadenaConexion As String
+    Public Property CadenaConexion() As String
+        Get
+            Return _CadenaConexion
+        End Get
+        Set(ByVal value As String)
+            _CadenaConexion = value
+        End Set
+    End Property
+
+    Private _URLGateway As String
+    Public Property URLGateway() As String
+        Get
+            Return _URLGateway
+        End Get
+        Set(ByVal value As String)
+            _URLGateway = value
+        End Set
+    End Property
+
+    Private _Corporativo As Byte
+    Public Property Corporativo() As Byte
+        Get
+            Return _Corporativo
+        End Get
+        Set(ByVal value As Byte)
+            _Corporativo = value
+        End Set
+    End Property
+
+    Private _Sucursal As Byte
+    Public Property Sucursal() As Byte
+        Get
+            Return _Sucursal
+        End Get
+        Set(ByVal value As Byte)
+            _Sucursal = value
+        End Set
+    End Property
+
+
 #End Region
 
-    
+
     Public Sub New(ByVal Modulo As Short, _
                    ByVal Usuario As String)
 
@@ -76,8 +113,8 @@ Public Class ConsultaCheques
         _Modulo = Modulo
         _Usuario = Usuario
 
-        _Corporativo = Corporativo
-        _Sucursal = Sucursal
+        _Corporativo = CType(Corporativo, Byte)
+        _Sucursal = CType(Sucursal, Byte)
 
         Dim oConfig As New SigaMetClasses.cConfig(4, _Corporativo, _Sucursal)
         GLOBAL_MaxRegistrosConsulta = CType(oConfig.Parametros("MaxRegistrosConsulta"), Short)
@@ -839,7 +876,12 @@ Public Class ConsultaCheques
             LimpiaVariables()
             dtCheque = oCheque.Consulta(dtpFCheque.Value.Date, CType(ComboBanco.SelectedValue, Short))
 
-            grdCheque.DataSource = dtCheque
+            If 1 = 1 Then
+                grdCheque.DataSource = consultarDatosClienteCRM(dtCheque)
+            Else
+                grdCheque.DataSource = dtCheque
+            End If
+
             If dtCheque.Rows.Count <= 0 Then
                 tbFiltrar.Enabled = False
             Else
@@ -859,6 +901,43 @@ Public Class ConsultaCheques
             Cursor = Cursors.Default
         End Try
     End Sub
+
+    Private Function consultarDatosClienteCRM(ByVal dtCheques As DataTable) As DataTable
+        Dim dtChuequesModificados As New DataTable()
+        Try
+            dtChuequesModificados = dtCheques
+            If dtChuequesModificados.Rows.Count() > 0 Then
+                For Each dr As DataRow In dtChuequesModificados.Rows
+                    Cursor = Cursors.WaitCursor
+                    Dim oGateway As RTGMGateway.RTGMGateway
+                    Dim oSolicitud As RTGMGateway.SolicitudGateway
+                    Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+
+                    oGateway = New RTGMGateway.RTGMGateway(CType(_Modulo, Byte), _CadenaConexion)
+                    oSolicitud = New RTGMGateway.SolicitudGateway()
+                    oGateway.GuardarLog = True
+                    oGateway.URLServicio = _URLGateway
+                    oSolicitud.IDCliente = CType(dr("Cliente"), Int32)
+                    oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+                    If Not IsNothing(oDireccionEntrega) And IsNothing(oDireccionEntrega.Message) Then
+                        dr("ClienteNombre") = oDireccionEntrega.Nombre
+                    Else
+                        If Not IsNothing(oDireccionEntrega.Message) And oDireccionEntrega.Message.Contains("ERROR") Then
+                            Throw New Exception(oDireccionEntrega.Message)
+                        End If
+                    End If
+                Next
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+        End Try
+
+        Return dtChuequesModificados
+    End Function
+
 
     Private Sub Devolver(ByVal DevolucionMultiple As Boolean)
         Dim _DevFechaAnt As Boolean = oSeguridad.TieneAcceso("CHEQUES_DEVOLUCION_FECHAANT")

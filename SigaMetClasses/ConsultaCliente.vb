@@ -58,15 +58,6 @@ Public Class frmConsultaCliente
             Return _Importe
         End Get
     End Property
-    Private _CadenaConeccion As String
-    Public Property CadenaConeccion() As String
-        Get
-            Return _CadenaConeccion
-        End Get
-        Set(ByVal value As String)
-            _CadenaConeccion = value
-        End Set
-    End Property
 
     Private _Password As String
     Public Property Password() As String
@@ -1864,7 +1855,7 @@ Public Class frmConsultaCliente
         _SeleccionPedidoReferencia = PermiteSeleccionarDocumento
 
         _URLGateway = URLGateway
-
+        _CadenaConexion = CadenaCon
         _CambioEmpleadoNomina = PermiteCambioEmpleadoNomina
         _CambioClientePadre = PermiteCambioCtePadre
 
@@ -1913,7 +1904,7 @@ Public Class frmConsultaCliente
         MyBase.New()
         _Cliente = Cliente
         _URLGateway = URLGateway
-        _CadenaConeccion = CadenaCon
+        _CadenaConexion = CadenaCon
         _Usuario = Usuario
 
 
