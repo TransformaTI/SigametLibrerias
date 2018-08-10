@@ -1067,13 +1067,10 @@ Public Class ConsultaMovimientos
             Dim dr As DataRow
             Dim I As Integer
             For Each dr In dtCobroPedido.Rows
-                objsolicitudpedido.IDEmpresa = 0
-                objsolicitudpedido.FuenteDatos = RTGMCore.Fuente.Sigamet
                 objsolicitudpedido.TipoConsultaPedido = RTGMCore.TipoConsultaPedido.RegistroPedido
                 objsolicitudpedido.Portatil = False
                 objsolicitudpedido.IDUsuario = Nothing
                 objsolicitudpedido.IDDireccionEntrega = Nothing
-                objsolicitudpedido.IDSucursal = Nothing
                 objsolicitudpedido.FechaCompromisoInicio = DateTime.Now.Date
                 objsolicitudpedido.FechaCompromisoFin = Nothing
                 objsolicitudpedido.FechaSuministroInicio = Nothing

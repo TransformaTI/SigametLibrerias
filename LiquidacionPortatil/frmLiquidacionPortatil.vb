@@ -2417,6 +2417,16 @@ Public Class frmLiquidacionPortatil
             dcColumna.DataType = System.Type.GetType("System.Boolean")
             dcColumna.ColumnName = "PagoCheque"
             dtPedidoCobro.Columns.Add(dcColumna)
+            'Columna 019
+            dcColumna = New DataColumn()
+            dcColumna.DataType = System.Type.GetType("System.Int32")
+            dcColumna.ColumnName = "AñoMovimiento"
+            dtPedidoCobro.Columns.Add(dcColumna)
+            'Columna 020
+            dcColumna = New DataColumn()
+            dcColumna.DataType = System.Type.GetType("System.Int32")
+            dcColumna.ColumnName = "FolioMovimiento"
+            dtPedidoCobro.Columns.Add(dcColumna)
         End If
     End Sub
 
@@ -5512,6 +5522,14 @@ Public Class frmLiquidacionPortatil
                 drPedidoCobro(7) = dtLiquidacionTotal.Rows(i).Item(16)
                 drPedidoCobro(8) = dtLiquidacionTotal.Rows(i).Item(17)
                 drPedidoCobro(18) = False
+                If CType(dtLiquidacionTotal.Rows(i).Item(10), Integer) = 21 Then
+                    For Each CobroDetalle As SigaMetClasses.CobroDetalladoDatos In _listaCobros
+                        If CobroDetalle.TipoCobro = 21 And CType(dtLiquidacionTotal.Rows(i).Item(20), String) = CobroDetalle.Serie And CType(dtLiquidacionTotal.Rows(i).Item(21), Integer) = CobroDetalle.Remision Then
+                            drPedidoCobro(19) = CobroDetalle.AñoMovimiento
+                            drPedidoCobro(20) = CobroDetalle.FolioMovimiento
+                        End If
+                    Next
+                End If
                 dtPedidoCobro.Rows.Add(drPedidoCobro)
                 i = i + 1
             End While
@@ -5637,6 +5655,8 @@ Public Class frmLiquidacionPortatil
                 drPedidoCobro(4) = SigaMetClasses.Enumeradores.enumTipoCobro.AplicacionAnticipo
                 drPedidoCobro(5) = 0
                 drPedidoCobro(18) = False
+                drPedidoCobro(19) = dtPedidoCobro.DefaultView.Item(k).Item(19)
+                drPedidoCobro(20) = dtPedidoCobro.DefaultView.Item(k).Item(20)
                 While j < dtPedidoCobro.DefaultView.Count
                     drPedidoCobro(5) = CType(drPedidoCobro(5), Decimal) + CType(dtPedidoCobro.DefaultView.Item(j).Item(5), Decimal)
                     j = j + 1
@@ -5743,7 +5763,7 @@ Public Class frmLiquidacionPortatil
                             Dim oMvtoConciliarCobro As New SigaMetClasses.cMovimientoAConciliarCobro()
                             'Dim dt As New DataTable()
                             'dt = oMvtoConciliarCobro.ConsultarSaldoAnticipo(Cliente, Status, Folio, Anio)
-                            oMvtoConciliarCobro.altaMovimientoConciliarCobro(2, 2018, oLiquidacionCobro.AnoCobro, oLiquidacionCobro.Cobro, Total, "EMITIDO")
+                            oMvtoConciliarCobro.altaMovimientoConciliarCobro(CType(dtPedidoCobro.DefaultView.Item(k).Item(20), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(19), Integer), oLiquidacionCobro.AnoCobro, oLiquidacionCobro.Cobro, Total, "EMITIDO")
                         End If
                     End If
                 End If
