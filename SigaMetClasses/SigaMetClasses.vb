@@ -4709,6 +4709,37 @@ Public Class cMovimientoAConciliarCobro
         End Try
 
     End Function
+
+    Public Sub altaMovimientoConciliarCobro(ByRef FolioMovimiento As Integer, ByRef AñoMovimiento As Integer, ByRef AñoCobro As Int16, ByRef Cobro As Integer, ByRef Monto As Decimal, ByRef Status As String)
+        Dim cmd As New SqlCommand()
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "spLIQ2InsertaMovimientoAConciliarCobro"
+
+        cmd.Parameters.Add("@FolioMovimiento", SqlDbType.Int).Value = FolioMovimiento
+        cmd.Parameters.Add("@AñoMovimiento", SqlDbType.Int).Value = AñoMovimiento
+        cmd.Parameters.Add("@AñoCobro", SqlDbType.SmallInt).Value = AñoCobro
+        cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
+        cmd.Parameters.Add("@Monto", SqlDbType.Money).Value = Monto
+        cmd.Parameters.Add("@Status", SqlDbType.VarChar, 20).Value = Status
+
+        cmd.Connection = DataLayer.Conexion
+        Dim da As New SqlDataAdapter(cmd)
+
+        Try
+            If cmd.Connection.State = ConnectionState.Closed Then
+                cmd.Connection.Open()
+            End If
+            cmd.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw New Exception("Error en el registro del anticipo, detalles: " & ex.Message)
+        Finally
+            da.Dispose()
+            da = Nothing
+            If cmd.Connection.State = ConnectionState.Open Then
+                cmd.Connection.Close()
+            End If
+        End Try
+    End Sub
 #End Region
 #End Region
 End Class

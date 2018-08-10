@@ -4462,6 +4462,12 @@ Public Class frmLiquidacionPortatil
                             While k < dtPedidoCobro.DefaultView.Count
                                 Dim oMovimientoCajaCobro As New LiquidacionTransaccionada.cMovimientoCaja()
                                 oMovimientoCajaCobro.AltaMovimientoCajaCobro(_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, oMovimientoCaja.Folio, _AnoCobroTemp, _CobroTemp, connection, transaction)
+
+                                Dim oMvtoConciliarCobro As New SigaMetClasses.cMovimientoAConciliarCobro()
+                                'Dim dt As New DataTable()
+                                'dt = oMvtoConciliarCobro.ConsultarSaldoAnticipo(Cliente, Status, Folio, Anio)
+                                oMvtoConciliarCobro.altaMovimientoConciliarCobro(2, 2018, 2018, 184379, 7504, "EMITIDO")
+
                                 k = k + 1
                             End While
 
@@ -6511,12 +6517,13 @@ Public Class frmLiquidacionPortatil
             If Cobro.TipoCobro = 6 Or Cobro.TipoCobro = 19 Then
                 TotalTarjeta = TotalTarjeta + Cobro.Total
             End If
-            If Cobro.TipoCobro = 30 Then
+            If Cobro.TipoCobro = 21 Then
                 TotalAnticipo = TotalAnticipo + Cobro.Total
             End If
             If Cobro.TipoCobro = 3 Then
                 TotalCheques = TotalCheques + Cobro.Total
             End If
+
             TotalLiquidado = TotalLiquidado + Cobro.Total
         Next
         If grdDetalle.VisibleRowCount > 0 Then
