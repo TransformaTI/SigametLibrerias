@@ -1306,7 +1306,7 @@ Public Class frmRemisionManual
     End Sub
 
     'Verifica que el numero de productos que se va a liquidar no exceda la cantidad
-    'en la existencia de la ruta que va a liquidar, si la cantidad es valida
+    'en la existencia de la ruta que va a liquidar, si la cantidad es válida
     'se devuelve un valor verdadero
     Private Function VerificaDatos() As Boolean
         Dim ValorText As Integer
@@ -1416,7 +1416,12 @@ Public Class frmRemisionManual
                                     Descuento = 0
                                 End Try
                             Else
-                                drow(9) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal) 'Total
+                                If cboTipoCobro.Text.Trim = "Obsequio" Then
+                                    drow(9) = CType(0, Decimal)
+                                Else
+                                    drow(9) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal) 'Total
+                                End If
+
                             End If
                             drow(4) = CType(_dtProductos.Rows(i).Item(1), String) 'ProductoDesc
 
@@ -1424,11 +1429,11 @@ Public Class frmRemisionManual
 
                                 Dim kilosGranel As Integer
                                 kilosGranel = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer)
-                                If kilosGranel <= 255 Then
-                                    drow(5) = kilosGranel 'Cantidad de kilos granel
-                                Else
-                                    Throw New Exception("La cantidad de kilos de gas a granel no debe superar los 255 kilos, por favor corrija.")
-                                End If
+                                'If kilosGranel <= 255 Then
+                                drow(5) = kilosGranel 'Cantidad de kilos granel
+                                'Else
+                                'Throw New Exception("La cantidad de kilos de gas a granel no debe superar los 255 kilos, por favor corrija.")
+                                'End If
                             Else
                                 drow(5) = CType(_dtProductos.Rows(i).Item(5), Integer) * CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) 'Cálculo de la cantidad de kilos vendidos de un producto dado
                             End If
@@ -1438,7 +1443,12 @@ Public Class frmRemisionManual
 
 
                             drow(7) = ((CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal))) / ((CType((_dtProductos.Rows(i).Item(4)), Decimal) / 100) + 1) 'SubTotal
-                            drow(8) = CType(_dtProductos.Rows(i).Item(4), Decimal) 'Iva
+                            If cboTipoCobro.Text.Trim = "Obsequio" Then
+                                drow(8) = CType(0, Decimal)
+                            Else
+                                drow(8) = CType(_dtProductos.Rows(i).Item(4), Decimal) 'Iva
+                            End If
+
                             drow("Descuento") = 0
                             Try
                                 If TxtCliente.Text <> "" Then
@@ -1475,7 +1485,7 @@ Public Class frmRemisionManual
                                 _TotalLiquidarPedido = _TotalLiquidarPedido + CType(drow(9), Decimal)
                             Finally
                             End Try
-                        Else
+                        Else 'Tabla Remision
                             drow(1) = CType(txtRemision.Text, Integer) 'Remision
                             drow(0) = txtSerie.Text 'Serie 
                             'drow(2) = dtpFRemision.Value 'FRemision
@@ -1495,26 +1505,29 @@ Public Class frmRemisionManual
                                 End Try
                             Else
 
-                                If cboTipoCobro.Text.Trim() <> "Crédito Portátil" Then
+                                If cboTipoCobro.Text.Trim() = "Crédito Portátil" Then
+                                    drow(7) = 0 ' Si se trata de un crédito portátil el saldo debe ser igual a cero
+                                ElseIf cboTipoCobro.Text.Trim() = "Obsequio" Then
+                                    drow(6) = CType(0, Decimal)
+                                    drow(7) = CType(0, Decimal)
+                                    drow("TipoCobro") = CType(cboTipoCobro.SelectedValue, Integer)
+                                Else
                                     If _dtProductos.TableName = "ProductoIteracion" Then
                                         drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) 'Importe
                                         drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) 'Saldo
                                     Else
                                         drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) 'Importe
                                         drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) 'Saldo
-                                        'drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal) 'Saldo
                                     End If
-                                Else
-                                    drow(7) = 0 ' Si s e trata de un crédito portátil el saldo debe ser igual a cero
                                 End If
 
                             End If
                             drow(9) = CType(_dtProductos.Rows(i).Item(1), String) 'ProductoDesc
                             If CType(_dtProductos.Rows(i).Item(0), Integer) <> 9 Then
                                 If _dtProductos.TableName = "ProductoIteracion" Then
-                                    drow(4) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(5), Decimal) 'Kilos en la remisión
+                                    drow(4) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(5), Integer) 'Kilos en la remisión
                                 Else
-                                    drow(4) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal) 'Kilos en la remisión
+                                    drow(4) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Integer) 'Kilos en la remisión
                                 End If
 
                             Else
@@ -1676,10 +1689,10 @@ Public Class frmRemisionManual
             End If
 
             If _RutaMovil = False Then
-                If ValidaRemision() Then
-                    If VerificaDatos() Then
-                        CargarProductosVarios()
-                        CargaGrid()
+                If ValidaRemision() Then 'Que haya serie, remisión y que no se duplique
+                    If VerificaDatos() Then 'Se verifica que la cantidad indicada por el usuario sea menos que la disponible en le inventario del almacén
+                        CargarProductosVarios() 'Carga de los productos disponibles en el almacén
+                        CargaGrid() 'Cargar la tabla dtLiquidacionTotal y conectarla al grid grdDetalle
                     Else
                         Dim Mensajes As PortatilClasses.Mensaje
                         Mensajes = New PortatilClasses.Mensaje(135)
@@ -1693,7 +1706,7 @@ Public Class frmRemisionManual
                     End If
                 End If
             Else
-                MessageBox.Show("El proceso viene de MovilGas no se puede agregar remisiones", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("El proceso viene de MovilGas no se pueden agregar remisiones", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         Catch ex As Exception
             If (ex.Message.Contains("Por favor elija un tipo de cobro.")) Then
