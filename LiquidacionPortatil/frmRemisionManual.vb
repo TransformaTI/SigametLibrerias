@@ -2278,8 +2278,8 @@ Public Class frmRemisionManual
                                 End If
                             Else
                                 If nombreTabla = "Remision" Then
-                                    grdDetalle.Item(i, 10) = _ClienteVentasPublico
-                                    grdDetalle.Item(i, 11) = "VENTA AL PUBLICO GENERAL"
+                                    grdDetalle.Item(i, 2) = _ClienteVentasPublico
+                                    grdDetalle.Item(i, 3) = "VENTA AL PUBLICO GENERAL"
                                 Else
                                     grdDetalle.Item(i, 10) = _ClienteVentasPublico
                                     grdDetalle.Item(i, 11) = "VENTA AL PUBLICO GENERAL"
