@@ -7452,6 +7452,27 @@ Public Class CobroDetalladoDatos
             _Pedidos = value
         End Set
     End Property
+
+    Private _AñoMovimiento As Integer
+    Public Property AñoMovimiento() As Integer
+        Get
+            Return _AñoMovimiento
+        End Get
+        Set(ByVal value As Integer)
+            _AñoMovimiento = value
+        End Set
+    End Property
+
+    Private _FolioMovimiento As Integer
+    Public Property FolioMovimiento() As Integer
+        Get
+            Return _FolioMovimiento
+        End Get
+        Set(ByVal value As Integer)
+            _FolioMovimiento = value
+        End Set
+    End Property
+
 #End Region
 
     Public Sub New()
