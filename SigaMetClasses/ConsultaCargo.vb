@@ -1745,16 +1745,13 @@ Public Class ConsultaCargo
 			'Referencia = Convert.ToInt32(PedidoReferencia)
 
 			If (Not String.IsNullOrEmpty(PedidoReferencia)) Then
-				objGateway = New RTGMGateway.RTGMPedidoGateway
-				objGateway.URLServicio = URLGateway
+                objGateway = New RTGMGateway.RTGMPedidoGateway(1, "")
+                objGateway.URLServicio = URLGateway
 
-				objSolicitud = New RTGMGateway.SolicitudPedidoGateway With {
-					.IDEmpresa = _Empresa,
-					.FuenteDatos = RTGMCore.Fuente.Sigamet,
-					.PedidoReferencia = PedidoReferencia
-				}
+                objSolicitud = New RTGMGateway.SolicitudPedidoGateway
+                objSolicitud.PedidoReferencia = PedidoReferencia
 
-				lstPedidos = objGateway.buscarPedidos(objSolicitud)
+                lstPedidos = objGateway.buscarPedidos(objSolicitud)
 
 				If lstPedidos.Count > 0 Then
 					lblPedido.Text = lstPedidos(0).PedidoReferencia.Trim

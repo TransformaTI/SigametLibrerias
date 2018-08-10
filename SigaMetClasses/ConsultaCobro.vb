@@ -880,7 +880,7 @@ Public Class ConsultaCobro
                     End If
 
                     Dim objPedidoGateway As RTGMGateway.RTGMPedidoGateway
-                    objPedidoGateway = New RTGMGateway.RTGMPedidoGateway
+                    objPedidoGateway = New RTGMGateway.RTGMPedidoGateway(1, "")
                     Dim objSolicitudPedido As RTGMGateway.SolicitudPedidoGateway
                     objSolicitudPedido = New RTGMGateway.SolicitudPedidoGateway
                     Dim objPedidoList As List(Of RTGMCore.Pedido)

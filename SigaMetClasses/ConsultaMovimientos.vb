@@ -1059,7 +1059,7 @@ Public Class ConsultaMovimientos
             da.Fill(dtCobroPedido)
             dtCobroPedido.TableName = "CobroPedido"
 
-            Dim objpedidogateway As RTGMPedidoGateway = New RTGMPedidoGateway()
+            Dim objpedidogateway As RTGMPedidoGateway = New RTGMPedidoGateway(1, "")
             objpedidogateway.URLServicio = URLGateway
 
             Dim objsolicitudpedido As SolicitudPedidoGateway = New SolicitudPedidoGateway()

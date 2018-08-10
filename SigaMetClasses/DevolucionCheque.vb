@@ -415,19 +415,14 @@ Public Class DevolucionCheque
 
 
 						Dim ListaRespuesta As List(Of RTGMCore.Pedido)
-						Dim objGateway As New RTGMGateway.RTGMActualizarPedido()
-						objGateway.URLServicio = url
+                        Dim objGateway As New RTGMGateway.RTGMActualizarPedido(1, "")
+                        objGateway.URLServicio = url
 
 						Dim SolicitudActualizarPedido As New RTGMGateway.SolicitudActualizarPedido()
 
+                        SolicitudActualizarPedido.Pedidos = listaPedidos
 
-						SolicitudActualizarPedido.Fuente = RTGMCore.Fuente.CRM
-
-						SolicitudActualizarPedido.IDEmpresa = GLOBAL_Empresa
-
-						SolicitudActualizarPedido.Pedidos = listaPedidos
-
-						SolicitudActualizarPedido.Portatil = False
+                        SolicitudActualizarPedido.Portatil = False
 
 						SolicitudActualizarPedido.TipoActualizacion = RTGMCore.TipoActualizacion.Saldo
 
