@@ -514,6 +514,7 @@ Public Class frmRemisionManual
         '
         'txtRemision
         '
+        Me.txtRemision.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtRemision.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRemision.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.txtRemision.Location = New System.Drawing.Point(316, 53)
@@ -521,7 +522,7 @@ Public Class frmRemisionManual
         Me.txtRemision.Name = "txtRemision"
         Me.txtRemision.Size = New System.Drawing.Size(94, 20)
         Me.txtRemision.TabIndex = 3
-        Me.txtRemision.Text = "TxtNumeroEntero1"
+        Me.txtRemision.Text = "TXTNUMEROENTERO1"
         Me.tltLiquidacion.SetToolTip(Me.txtRemision, "Introduzca la cantidad de productos a liquidar")
         '
         'grdDetalle
@@ -882,12 +883,13 @@ Public Class frmRemisionManual
         '
         'txtSerie
         '
+        Me.txtSerie.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtSerie.Location = New System.Drawing.Point(125, 52)
         Me.txtSerie.MaxLength = 10
         Me.txtSerie.Name = "txtSerie"
         Me.txtSerie.Size = New System.Drawing.Size(94, 21)
         Me.txtSerie.TabIndex = 2
-        Me.txtSerie.Text = "TxtString1"
+        Me.txtSerie.Text = "TXTSTRING1"
         '
         'Label2
         '
@@ -1533,12 +1535,7 @@ Public Class frmRemisionManual
                             Else
                                 Dim kilosGranel As Integer
                                 kilosGranel = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer)
-                                If kilosGranel <= 255 Then
-                                    drow(4) = kilosGranel 'Kilos de venta granel
-                                Else
-                                    Throw New Exception("La cantidad de kilos de gas a granel no debe superar los 255 kilos, por favor corrija.")
-                                End If
-
+                                drow(4) = kilosGranel 'Kilos de venta granel
                             End If
 
                             If CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) < 255 Then
@@ -1714,7 +1711,9 @@ Public Class frmRemisionManual
             Else
                 MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
-
+        Finally
+            cboTipoCobro.SelectedIndex = 0
+            txtSerie.Select()
         End Try
 
     End Sub
