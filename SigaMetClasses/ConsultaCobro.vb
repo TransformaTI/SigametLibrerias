@@ -10,6 +10,7 @@ Public Class ConsultaCobro
     Private _PermiteModificarCobro As Boolean
     Private _URLGateway As String
     Private _Modulo As Byte
+    Private _CadenaConexion As String
 
     Property URLGateway As String
         Get
@@ -31,8 +32,10 @@ Public Class ConsultaCobro
 
     Public Sub New(ByVal AnoCobro As Short,
                    ByVal Cobro As Integer,
-          Optional ByVal PermiteModificarCobro As Boolean = False,
-          Optional ByVal pURLGateway As String = "")
+                    Optional ByVal PermiteModificarCobro As Boolean = False,
+                    Optional ByVal pURLGateway As String = "",
+                   Optional ByVal _Modulo As Byte = 0,
+                   Optional ByVal _CadenaConexion As String = "")
 
         MyBase.New()
         InitializeComponent()
@@ -40,6 +43,8 @@ Public Class ConsultaCobro
         _Cobro = Cobro
         _PermiteModificarCobro = PermiteModificarCobro
         _URLGateway = pURLGateway
+        _Modulo = Modulo
+        _CadenaConexion = CadenaConexion
 
         'CargaDatos(_AnoCobro, _Cobro)
         CargaDatos(_AnoCobro, _Cobro, _URLGateway)
@@ -879,8 +884,7 @@ Public Class ConsultaCobro
                         lblClienteNombre.Text = oDireccionEntrega.IDDireccionEntrega.ToString() & " " & oDireccionEntrega.Nombre
                     End If
 
-                    Dim objPedidoGateway As RTGMGateway.RTGMPedidoGateway
-                    objPedidoGateway = New RTGMGateway.RTGMPedidoGateway()
+                    Dim objPedidoGateway As New RTGMGateway.RTGMPedidoGateway(_Modulo, _CadenaConexion)
                     Dim objSolicitudPedido As RTGMGateway.SolicitudPedidoGateway
                     objSolicitudPedido = New RTGMGateway.SolicitudPedidoGateway
                     Dim objPedidoList As List(Of RTGMCore.Pedido)
