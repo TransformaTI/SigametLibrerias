@@ -9,17 +9,19 @@ Public Class ConsultaCargo
     Inherits System.Windows.Forms.Form
     Private _PedidoReferencia As String
 	Private _URLGateway As String
-	Private _Empresa As Short
-	Private Titulo As String = "Consulta de documentos"
+    Private _Empresa As Short
+    Private _Modulo As Byte
+    Private _CadenaConexion As String
+    Private Titulo As String = "Consulta de documentos"
     Public Event MovimientoSeleccionado(ByVal Clave As String)
 
     'Para obtener la serie del folio del vale de crédito JAGD 24/02/2006
     Dim folioDocumento As DocumentosBSR.SerieDocumento
 
     Dim dtTipoBusqueda As DataTable
-	Dim dtParametrosBusqueda As DataTable
+    Dim dtParametrosBusqueda As DataTable
 
-	Public ReadOnly Property PedidoReferencia() As String
+    Public ReadOnly Property PedidoReferencia() As String
         Get
             Return _PedidoReferencia
         End Get
@@ -1440,24 +1442,26 @@ Public Class ConsultaCargo
         MyBase.New()
         InitializeComponent()
 
-		ConsultaCatalogoFiltros()
+        ConsultaCatalogoFiltros()
 
-	End Sub
+    End Sub
 
-	Public Sub New(ByVal strURLGateway As String, ByVal Empresa As Short)
-		MyBase.New()
-		InitializeComponent()
-		_URLGateway = strURLGateway
+    Public Sub New(ByVal strURLGateway As String, ByVal Empresa As Short)
+        MyBase.New()
+        InitializeComponent()
+        _URLGateway = strURLGateway
 
-		ConsultaCatalogoFiltros()
+        ConsultaCatalogoFiltros()
 
-		_Empresa = Empresa
+        _Empresa = Empresa
 
-	End Sub
+    End Sub
 
-	Public Sub New(ByVal strPedidoReferencia As String,
-          Optional ByVal VentanaDefault As enumConsultaCargo = enumConsultaCargo.DatosPedido,
-          Optional ByVal strURLGateway As String = "")
+    Public Sub New(ByVal strPedidoReferencia As String,
+            Optional ByVal VentanaDefault As enumConsultaCargo = enumConsultaCargo.DatosPedido,
+            Optional ByVal strURLGateway As String = "",
+            Optional ByVal Modulo As Byte = 0,
+            Optional ByVal CadenaConexion As String = "")
 
         MyBase.New()
         InitializeComponent()
@@ -1469,6 +1473,8 @@ Public Class ConsultaCargo
         lblPedidoReferencia.BorderStyle = BorderStyle.None
         btnBuscar.Visible = False
         _URLGateway = strURLGateway
+        _Modulo = Modulo
+        _CadenaConexion = CadenaConexion
 
         cboTipoBusqueda.Enabled = False
         ConsultaCatalogoFiltros()
@@ -1483,14 +1489,14 @@ Public Class ConsultaCargo
             Me.tabDatos.SelectedTab = Me.tpHistoricoAbono
         End If
 
-		If VentanaDefault = enumConsultaCargo.HistoricoGestiones Then
-			Me.tabDatos.SelectedTab = Me.tpHistoricoGestion
-		End If
+        If VentanaDefault = enumConsultaCargo.HistoricoGestiones Then
+            Me.tabDatos.SelectedTab = Me.tpHistoricoGestion
+        End If
 
 
 
 
-	End Sub
+    End Sub
 
     Private Sub ConsultaCatalogoFiltros()
         Dim da As New SqlDataAdapter("spCyCCatalogoConsultaDocumentos", DataLayer.Conexion)
@@ -1738,14 +1744,14 @@ Public Class ConsultaCargo
         Dim objGateway As RTGMGateway.RTGMPedidoGateway
         Dim objSolicitud As RTGMGateway.SolicitudPedidoGateway
         Dim lstPedidos As New Generic.List(Of RTGMCore.Pedido)
-		'Dim Referencia As Integer
+        'Dim Referencia As Integer
 
-		Try
+        Try
             LimpiaCajas()
-			'Referencia = Convert.ToInt32(PedidoReferencia)
+            'Referencia = Convert.ToInt32(PedidoReferencia)
 
-			If (Not String.IsNullOrEmpty(PedidoReferencia)) Then
-                objGateway = New RTGMGateway.RTGMPedidoGateway()
+            If (Not String.IsNullOrEmpty(PedidoReferencia)) Then
+                objGateway = New RTGMGateway.RTGMPedidoGateway(_Modulo, _CadenaConexion)
                 objGateway.URLServicio = URLGateway
 
                 objSolicitud = New RTGMGateway.SolicitudPedidoGateway
