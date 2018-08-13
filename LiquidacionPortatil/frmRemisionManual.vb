@@ -1925,8 +1925,8 @@ Public Class frmRemisionManual
             If _DetalleGrid.Rows.Count > 0 Then
                 For Each DR As DataRow In _DetalleGrid.Rows
                     _Kilos = _Kilos + CType(DR(4), Integer)
-                    _TotalLiquidarPedido = _TotalLiquidarPedido + CType(DR(6), Integer)
-                Next
+					_TotalLiquidarPedido = _TotalLiquidarPedido + CType(DR(6), Decimal)
+				Next
             End If
             lblTotalKilos.Text = CType(_Kilos, Decimal).ToString("N2")
             lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
