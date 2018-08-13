@@ -34,8 +34,8 @@ Public Class ConsultaCobro
                    ByVal Cobro As Integer,
                     Optional ByVal PermiteModificarCobro As Boolean = False,
                     Optional ByVal pURLGateway As String = "",
-                   Optional ByVal _Modulo As Byte = 0,
-                   Optional ByVal _CadenaConexion As String = "")
+                   Optional ByVal Modulo As Byte = 0,
+                   Optional ByVal CadenaConexion As String = "")
 
         MyBase.New()
         InitializeComponent()
