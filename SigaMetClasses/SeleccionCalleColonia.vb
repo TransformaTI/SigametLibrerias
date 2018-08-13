@@ -40,6 +40,7 @@ Public Class SeleccionCalleColonia
     Private _ColoniaNombreOriginal As String
     Public _URLGateway As String
     Private _Modulo As Byte
+    Private _CadenaConexion As String
 
     Dim dtCalle As DataTable
 
@@ -195,6 +196,15 @@ Public Class SeleccionCalleColonia
         End Get
         Set(value As Byte)
             _Modulo = value
+        End Set
+    End Property
+
+    Public Property CadenaConexion As String
+        Get
+            Return _CadenaConexion
+        End Get
+        Set(value As String)
+            _CadenaConexion = value
         End Set
     End Property
 
@@ -682,11 +692,8 @@ Public Class SeleccionCalleColonia
 
 
         If (_URLGateway Is String.Empty Or _URLGateway Is Nothing) Then
-
             Dim dr As SqlDataReader
-
             Try
-
                 CargaDatos()
                 cmd.Connection = cnServidor
                 AbreConexion()
@@ -746,17 +753,14 @@ Public Class SeleccionCalleColonia
     End Sub
 
     Public Function ConsultarDatosClienteCRM(ByVal Cliente As Integer) As RTGMCore.DireccionEntrega
-
-        Dim oGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+        Dim oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
         Dim oSolicitud As RTGMGateway.SolicitudGateway
         Dim oDireccionEntrega As RTGMCore.DireccionEntrega
 
         oSolicitud.IDCliente = Cliente
         oGateway.URLServicio = _URLGateway
         oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
-
         Return oDireccionEntrega
-
     End Function
 
     Public Sub CargaDatosCliente(ByVal Cliente As Integer)
