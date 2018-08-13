@@ -1707,7 +1707,7 @@ Public Class frmConsultaCliente
         Me.lnkQueja.AlternatingColor2 = System.Drawing.Color.Red
         Me.lnkQueja.AutoSize = True
         Me.lnkQueja.Enabled = False
-        Me.lnkQueja.LinkColor = System.Drawing.Color.Red
+        Me.lnkQueja.LinkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.lnkQueja.Location = New System.Drawing.Point(600, 163)
         Me.lnkQueja.Name = "lnkQueja"
         Me.lnkQueja.Size = New System.Drawing.Size(69, 13)
@@ -1844,7 +1844,8 @@ Public Class frmConsultaCliente
           Optional ByVal DSCatalogos As DataSet = Nothing,
           Optional ByVal LinkQueja As Boolean = True,
           Optional ByVal URLGateway As String = "",
-          Optional ByVal CadenaCon As String = "")
+          Optional ByVal CadenaCon As String = "",
+          Optional ByVal Modulo As Byte = 0)
 
         MyBase.New()
         InitializeComponent()
@@ -1858,6 +1859,8 @@ Public Class frmConsultaCliente
         _CadenaConexion = CadenaCon
         _CambioEmpleadoNomina = PermiteCambioEmpleadoNomina
         _CambioClientePadre = PermiteCambioCtePadre
+        _Modulo = Modulo
+
 
         If (String.IsNullOrEmpty(_URLGateway)) Then
             Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
@@ -2162,8 +2165,11 @@ Public Class frmConsultaCliente
 
                 oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
-                If oDireccionEntrega.Message.Contains("ERROR EN DYNAMICS CRM") And oDireccionEntrega.Message.Contains("La consulta no produjo resultados con los parametros indicados") Then
-                    Throw New Exception(oDireccionEntrega.Message)
+                If Not IsNothing(oDireccionEntrega.Message) Then
+
+                    If oDireccionEntrega.Message.Contains("ERROR EN DYNAMICS CRM") And oDireccionEntrega.Message.Contains("La consulta no produjo resultados con los parametros indicados") Then
+                        Throw New Exception(oDireccionEntrega.Message)
+                    End If
                 End If
 
                 If Not IsNothing(oDireccionEntrega) Then

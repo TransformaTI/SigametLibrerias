@@ -26,6 +26,8 @@ Public Class BusquedaCliente
     Private _Columna As Integer
     Private _Celula As Byte
     Private _Remoto As Boolean
+    Private _CadenaConexion As String
+    Private _Modulo As Byte = 0
 
     Private _PermiteCambioEmpleadoNomina As Boolean
     Private _PermiteCambioClientePadre As Boolean
@@ -59,7 +61,9 @@ Public Class BusquedaCliente
                    Optional ByVal PermiteCambioClientePadre As Boolean = False,
                    Optional ByVal DSCatalogos As DataSet = Nothing,
                    Optional ByVal PriodidadPortatil As Boolean = False,
-                   Optional ByVal URLGateway As String = "")
+                   Optional ByVal URLGateway As String = "",
+                   Optional ByVal CadCon As String = "",
+                   Optional ByVal Modulo As Byte = 0)
 
         MyBase.New()
 
@@ -75,6 +79,9 @@ Public Class BusquedaCliente
         _Usuario = Usuario
         _Celula = Celula
         _Remoto = Remoto
+        _CadenaConexion = CadCon
+        _Modulo = Modulo
+
 
         _PermiteCambioEmpleadoNomina = PermiteCambioEmpleadoNomina
         _PermiteCambioClientePadre = PermiteCambioClientePadre
@@ -166,12 +173,10 @@ Public Class BusquedaCliente
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.txtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.lblListaCliente = New System.Windows.Forms.Label()
         Me.btnLimpiar = New System.Windows.Forms.Button()
         Me.txtTelefono = New System.Windows.Forms.TextBox()
-        Me.txtNumExterior = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.btnConsultaCliente = New System.Windows.Forms.Button()
         Me.txtNumInterior = New System.Windows.Forms.TextBox()
@@ -179,6 +184,8 @@ Public Class BusquedaCliente
         Me.chkPortatil = New System.Windows.Forms.CheckBox()
         Me.chkReferencia = New System.Windows.Forms.CheckBox()
         Me.btnTelefono = New System.Windows.Forms.Button()
+        Me.txtNumExterior = New SigaMetClasses.Controles.txtNumeroEntero()
+        Me.txtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.SuspendLayout()
         '
         'btnBuscar
@@ -356,13 +363,6 @@ Public Class BusquedaCliente
         Me.Label5.Text = "&6 Nombre:"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'txtCliente
-        '
-        Me.txtCliente.Location = New System.Drawing.Point(96, 40)
-        Me.txtCliente.Name = "txtCliente"
-        Me.txtCliente.Size = New System.Drawing.Size(128, 21)
-        Me.txtCliente.TabIndex = 3
-        '
         'Label6
         '
         Me.Label6.AutoSize = True
@@ -407,13 +407,6 @@ Public Class BusquedaCliente
         Me.txtTelefono.Name = "txtTelefono"
         Me.txtTelefono.Size = New System.Drawing.Size(128, 21)
         Me.txtTelefono.TabIndex = 1
-        '
-        'txtNumExterior
-        '
-        Me.txtNumExterior.Location = New System.Drawing.Point(96, 160)
-        Me.txtNumExterior.Name = "txtNumExterior"
-        Me.txtNumExterior.Size = New System.Drawing.Size(128, 21)
-        Me.txtNumExterior.TabIndex = 13
         '
         'Label7
         '
@@ -484,6 +477,20 @@ Public Class BusquedaCliente
         Me.btnTelefono.TabIndex = 24
         Me.btnTelefono.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnTelefono.UseVisualStyleBackColor = False
+        '
+        'txtNumExterior
+        '
+        Me.txtNumExterior.Location = New System.Drawing.Point(96, 160)
+        Me.txtNumExterior.Name = "txtNumExterior"
+        Me.txtNumExterior.Size = New System.Drawing.Size(128, 21)
+        Me.txtNumExterior.TabIndex = 13
+        '
+        'txtCliente
+        '
+        Me.txtCliente.Location = New System.Drawing.Point(96, 40)
+        Me.txtCliente.Name = "txtCliente"
+        Me.txtCliente.Size = New System.Drawing.Size(128, 21)
+        Me.txtCliente.TabIndex = 3
         '
         'BusquedaCliente
         '
@@ -978,7 +985,7 @@ Public Class BusquedaCliente
                             PermiteModificarDatosCredito:=_PermiteModificarDatosCredito,
                             PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina,
                             PermiteCambioCtePadre:=_PermiteCambioClientePadre,
-                            DSCatalogos:=_dsCatalogos)
+                            DSCatalogos:=_dsCatalogos, CadenaCon:=_CadenaConexion, Modulo:=_Modulo)
             Else
                 oConsulta = New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario,
                             PermiteModificarDatosCliente:=_PermiteModificarDatosCliente,
@@ -986,7 +993,7 @@ Public Class BusquedaCliente
                             PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina,
                             PermiteCambioCtePadre:=_PermiteCambioClientePadre,
                             DSCatalogos:=_dsCatalogos,
-                            URLGateway:=_URLGateway)
+                            URLGateway:=_URLGateway, CadenaCon:=_CadenaConexion, Modulo:=_Modulo)
             End If
             oConsulta.ShowDialog()
             Cursor = Cursors.Default
@@ -1015,11 +1022,11 @@ Public Class BusquedaCliente
             Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
 
 
-            Conexion = "Database=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("BDAsterisk"), String) & _
-            ";Data Source=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ServidorAsterisk"), String) & _
-            ";Port=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PuertoAsterisk"), String) & _
-            ";User Id=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("UsuarioAsterisk"), String) & _
-            ";Password=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PasswordAsterisk"), String) & _
+            Conexion = "Database=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("BDAsterisk"), String) &
+            ";Data Source=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ServidorAsterisk"), String) &
+            ";Port=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PuertoAsterisk"), String) &
+            ";User Id=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("UsuarioAsterisk"), String) &
+            ";Password=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PasswordAsterisk"), String) &
             ";Connect Timeout=30;"
 
             Dim oActualiza As New Asterisk.Asterisk
@@ -1114,11 +1121,11 @@ Public Class BusquedaCliente
 
 
 
-                Conexion = "Database=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("BDAsterisk"), String) & _
-                            ";Data Source=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ServidorAsterisk"), String) & _
-                            ";Port=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PuertoAsterisk"), String) & _
-                            ";User Id=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("UsuarioAsterisk"), String) & _
-                            ";Password=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PasswordAsterisk"), String) & _
+                Conexion = "Database=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("BDAsterisk"), String) &
+                            ";Data Source=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ServidorAsterisk"), String) &
+                            ";Port=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PuertoAsterisk"), String) &
+                            ";User Id=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("UsuarioAsterisk"), String) &
+                            ";Password=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PasswordAsterisk"), String) &
                             ";Connect Timeout=30;"
 
                 Dim oConsulta As New Asterisk.Asterisk
@@ -1141,8 +1148,8 @@ Public Class BusquedaCliente
         End Try
 
     End Sub
-   
-  
+
+
     Private Sub btnTelefono_Click(sender As Object, e As EventArgs) Handles btnTelefono.Click
         ConsultarDatosTelefono()
     End Sub
@@ -1179,4 +1186,7 @@ Public Class BusquedaCliente
 
     End Sub
 
+    Private Sub BusquedaCliente_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class
