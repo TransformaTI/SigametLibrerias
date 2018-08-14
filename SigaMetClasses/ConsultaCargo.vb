@@ -1769,7 +1769,6 @@ Public Class ConsultaCargo
                 ' Agregar parámetros adicionales si la fuente es Sigamet
                 If objGateway.Fuente = RTGMCore.Fuente.Sigamet Then
                     objSolicitud.FechaCompromisoInicio = DateTime.Now
-                    objSolicitud.EstatusBoletin = "BOLETIN"
                     objSolicitud.IDZona = _Celula
                 End If
 
