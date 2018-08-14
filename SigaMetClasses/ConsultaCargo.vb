@@ -8,7 +8,8 @@ Imports Microsoft.VisualBasic.ControlChars
 Public Class ConsultaCargo
     Inherits System.Windows.Forms.Form
     Private _PedidoReferencia As String
-	Private _URLGateway As String
+    Private _Celula As Byte
+    Private _URLGateway As String
     Private _Empresa As Short
     Private _Modulo As Byte
     Private _CadenaConexion As String
@@ -1458,10 +1459,11 @@ Public Class ConsultaCargo
     End Sub
 
     Public Sub New(ByVal strPedidoReferencia As String,
-            Optional ByVal VentanaDefault As enumConsultaCargo = enumConsultaCargo.DatosPedido,
-            Optional ByVal strURLGateway As String = "",
-            Optional ByVal Modulo As Byte = 0,
-            Optional ByVal CadenaConexion As String = "")
+                Optional ByVal VentanaDefault As enumConsultaCargo = enumConsultaCargo.DatosPedido,
+                Optional ByVal strURLGateway As String = "",
+                Optional ByVal Modulo As Byte = 0,
+                Optional ByVal CadenaConexion As String = "",
+                Optional ByVal Celula As Byte = 0)
 
         MyBase.New()
         InitializeComponent()
@@ -1475,6 +1477,7 @@ Public Class ConsultaCargo
         _URLGateway = strURLGateway
         _Modulo = Modulo
         _CadenaConexion = CadenaConexion
+        _Celula = Celula
 
         cboTipoBusqueda.Enabled = False
         ConsultaCatalogoFiltros()
@@ -1767,7 +1770,7 @@ Public Class ConsultaCargo
                 If objGateway.Fuente = RTGMCore.Fuente.Sigamet Then
                     objSolicitud.FechaCompromisoInicio = DateTime.Now
                     objSolicitud.EstatusBoletin = "BOLETIN"
-                    'objSolicitud.IDZona = ??
+                    objSolicitud.IDZona = _Celula
                 End If
 
                 lstPedidos = objGateway.buscarPedidos(objSolicitud)
