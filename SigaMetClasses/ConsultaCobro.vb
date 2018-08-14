@@ -873,7 +873,8 @@ Public Class ConsultaCobro
                     Dim oSolicitud As RTGMGateway.SolicitudGateway
                     Dim oDireccionEntrega As RTGMCore.DireccionEntrega
                     oSolicitud = New RTGMGateway.SolicitudGateway
-                    objGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+                    objGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+
                     objGateway.URLServicio = _URLGateway
                     oSolicitud.IDCliente = Integer.Parse(dtCobroPedido.Rows(0).Item("Cliente").ToString())
 
@@ -881,20 +882,26 @@ Public Class ConsultaCobro
 
                     If Not IsDBNull(dtCobroPedido.Rows(0).Item("Cliente")) Then
                         'lblClienteNombre.Text = CType(oSolicitud.IDCliente, String) & " " & CType(oSolicitud.Nombre, String)
-                        lblClienteNombre.Text = oDireccionEntrega.IDDireccionEntrega.ToString() & " " & oDireccionEntrega.Nombre
+                        lblClienteNombre.Text = oDireccionEntrega.IDDireccionEntrega.ToString() & " " & If(oDireccionEntrega.Nombre, "").Trim
                     End If
 
                     Dim objPedidoGateway As New RTGMGateway.RTGMPedidoGateway(_Modulo, _CadenaConexion)
-                    Dim objSolicitudPedido As RTGMGateway.SolicitudPedidoGateway
-                    objSolicitudPedido = New RTGMGateway.SolicitudPedidoGateway
-                    Dim objPedidoList As List(Of RTGMCore.Pedido)
+                    Dim objSolicitud As New RTGMGateway.SolicitudPedidoGateway
+                    Dim objPedidoList As New List(Of RTGMCore.Pedido)
+
+                    objPedidoGateway.URLServicio = _URLGateway
+                    objSolicitud.TipoConsultaPedido = RTGMCore.TipoConsultaPedido.Boletin
+
                     For Each row As DataRow In dtCobroPedido.Rows
-                        objSolicitudPedido.PedidoReferencia = row.Item("PedidoReferencia").ToString()
-                        objPedidoList = objPedidoGateway.buscarPedidos(objSolicitudPedido)
+                        objSolicitud.PedidoReferencia = row.Item("PedidoReferencia").ToString()
+                        objPedidoList = objPedidoGateway.buscarPedidos(objSolicitud)
+
                         If objPedidoList.Count > 0 Then
-                            row.Item("PedidoReferencia") = objPedidoList(0).PedidoReferencia
+                            row.Item("PedidoReferencia") = If(objPedidoList(0).PedidoReferencia, "").Trim
                             'row.Item("IDDireccionEntrega") = objPedidoList(0).IDDireccionEntrega
-                            row.Item("Total") = objPedidoList(0).DetallePedido(0).Total
+                            If Not IsNothing(objPedidoList(0).DetallePedido(0)) Then
+                                row.Item("Total") = objPedidoList(0).DetallePedido(0).Total
+                            End If
                         End If
                     Next
                 End If
