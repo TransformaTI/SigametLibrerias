@@ -1479,7 +1479,12 @@ Public Class ConsultaCargo
         cboTipoBusqueda.Enabled = False
         ConsultaCatalogoFiltros()
 
-        ConsultaDocumento(strPedidoReferencia)
+        If String.IsNullOrEmpty(_URLGateway) Then
+            ConsultaDocumento(strPedidoReferencia)
+        Else
+            ConsultaDocumento(strPedidoReferencia, _URLGateway)
+        End If
+
         'Mejorar
         If VentanaDefault = enumConsultaCargo.DatosCheque Then
             Me.tabDatos.SelectedTab = Me.tpCheque
@@ -1755,29 +1760,37 @@ Public Class ConsultaCargo
                 objGateway.URLServicio = URLGateway
 
                 objSolicitud = New RTGMGateway.SolicitudPedidoGateway
+                objSolicitud.TipoConsultaPedido = RTGMCore.TipoConsultaPedido.Boletin
                 objSolicitud.PedidoReferencia = PedidoReferencia
+
+                ' Agregar parámetros adicionales si la fuente es Sigamet
+                If objGateway.Fuente = RTGMCore.Fuente.Sigamet Then
+                    objSolicitud.FechaCompromisoInicio = DateTime.Now
+                    objSolicitud.EstatusBoletin = "BOLETIN"
+                    'objSolicitud.IDZona = ??
+                End If
 
                 lstPedidos = objGateway.buscarPedidos(objSolicitud)
 
 				If lstPedidos.Count > 0 Then
-					lblPedido.Text = lstPedidos(0).PedidoReferencia.Trim
+                    lblPedido.Text = If(lstPedidos(0).PedidoReferencia, "").Trim
 
-					lblAnoPed.Text = lstPedidos(0).AnioPed.ToString
+                    lblAnoPed.Text = lstPedidos(0).AnioPed.ToString
 
-					lblTipoDocumento.Text = lstPedidos(0).TipoCargo.Trim
+                    lblTipoDocumento.Text = If(lstPedidos(0).TipoCargo, "").Trim
 
-					lblStatusPedido.Text = lstPedidos(0).EstatusPedido.Trim
+                    lblStatusPedido.Text = If(lstPedidos(0).EstatusPedido, "").Trim
 
-					lblStatusCobranza.Text = lstPedidos(0).EstatusPedido.Trim
+                    lblStatusCobranza.Text = If(lstPedidos(0).EstatusPedido, "").Trim
 
-					If Not IsNothing(lstPedidos(0).DireccionEntrega) Then
-						lblCliente.Text = lstPedidos(0).DireccionEntrega.IDDireccionEntrega & " " &
-							lstPedidos(0).DireccionEntrega.Nombre.Trim
-					End If
+                    If Not IsNothing(lstPedidos(0).DireccionEntrega) Then
+                        lblCliente.Text = lstPedidos(0).DireccionEntrega.IDDireccionEntrega & " " &
+                            If(lstPedidos(0).DireccionEntrega.Nombre, "").Trim
+                    End If
 
 					If Not IsNothing(lstPedidos(0).RutaSuministro) Then
-						lblRutaSuministro.Text = lstPedidos(0).RutaSuministro.Descripcion
-					End If
+                        lblRutaSuministro.Text = If(lstPedidos(0).RutaSuministro.Descripcion, "").Trim
+                    End If
 
 					lblFCargo.Text = lstPedidos(0).FCargo.ToString
 
@@ -1785,13 +1798,10 @@ Public Class ConsultaCargo
 						lblImporte.Text = CDec(lstPedidos(0).Importe).ToString("C")
 					End If
 
-					If Not IsNothing(lstPedidos(0).Saldo) Then
-						lblSaldo.Text = CDec(lstPedidos(0).Saldo).ToString("C")
-
-
-					End If
-
-				Else
+                    If Not IsNothing(lstPedidos(0).Saldo) Then
+                        lblSaldo.Text = CDec(lstPedidos(0).Saldo).ToString("C")
+                    End If
+                Else
 					MessageBox.Show("No se encontró la referencia.", Me.Titulo,
 									MessageBoxButtons.OK, MessageBoxIcon.Information)
 				End If
