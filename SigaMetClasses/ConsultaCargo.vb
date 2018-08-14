@@ -1766,15 +1766,9 @@ Public Class ConsultaCargo
                 objSolicitud.TipoConsultaPedido = RTGMCore.TipoConsultaPedido.Boletin
                 objSolicitud.PedidoReferencia = PedidoReferencia
 
-                ' Agregar parámetros adicionales si la fuente es Sigamet
-                If objGateway.Fuente = RTGMCore.Fuente.Sigamet Then
-                    objSolicitud.FechaCompromisoInicio = DateTime.Now
-                    objSolicitud.IDZona = _Celula
-                End If
-
                 lstPedidos = objGateway.buscarPedidos(objSolicitud)
 
-				If lstPedidos.Count > 0 Then
+                If lstPedidos.Count > 0 Then
                     lblPedido.Text = If(lstPedidos(0).PedidoReferencia, "").Trim
 
                     lblAnoPed.Text = lstPedidos(0).AnioPed.ToString
