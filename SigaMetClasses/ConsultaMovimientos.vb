@@ -1350,33 +1350,39 @@ Public Class ConsultaMovimientos
     Private Sub ConsultarCobro()
         If _AnoCobro <> 0 And _CobroCons <> 0 Then
             Cursor = Cursors.WaitCursor
+            Dim oConsultaCobro As ConsultaCobro
             Dim _PermiteModificarCobro As Boolean
             If _Empleado = _ModuloEmpleado Then
                 _PermiteModificarCobro = oSeguridad.TieneAcceso("MOVIMIENTOS_COBROMODIFICA_OWN")
             Else
                 _PermiteModificarCobro = oSeguridad.TieneAcceso("MOVIMIENTOS_COBROMODIFICA_FULL")
             End If
-            Dim strURLGateway As String = ""
-            Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
-            Try
-                strURLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
-                Dim re As Regex = New Regex(
-                            "^(https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|]",
-                            RegexOptions.IgnoreCase)
-                Dim m As Match = re.Match(strURLGateway)
-                If m.Captures.Count = 0 Then
-                    MessageBox.Show("El valor configurado al parámetro URLGateway no es correcto.")
-                End If
-            Catch ex As Exception
-                strURLGateway = ""
-            End Try
 
-            Dim oConsultaCobro As New ConsultaCobro(_AnoCobro,
+            'Dim strURLGateway As String = ""
+            'Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+            'Try
+            '    strURLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+            '    Dim re As Regex = New Regex(
+            '                "^(https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|]",
+            '                RegexOptions.IgnoreCase)
+            '    Dim m As Match = re.Match(strURLGateway)
+            '    If m.Captures.Count = 0 Then
+            '        MessageBox.Show("El valor configurado al parámetro URLGateway no es correcto.")
+            '    End If
+            'Catch ex As Exception
+            '    strURLGateway = ""
+            'End Try
+
+            If String.IsNullOrEmpty(_URLGateway) Then
+                oConsultaCobro = New ConsultaCobro(_AnoCobro, _CobroCons, _PermiteModificarCobro, _URLGateway)
+            Else
+                oConsultaCobro = New ConsultaCobro(_AnoCobro,
                                                     _CobroCons,
                                                     _PermiteModificarCobro,
-                                                    strURLGateway,
-                                                    Modulo:=Convert.ToByte(GLOBAL_Modulo),
+                                                    _URLGateway,
+                                                    Modulo:=4,
                                                     CadenaConexion:=_CadenaConexion)
+            End If
 
             If oConsultaCobro.ShowDialog() = DialogResult.OK Then
                 If _URLGateway = "" Then
