@@ -23,6 +23,7 @@ Public Class ConsultaMovimientos
     Private _Clave, _Documento, _Status, strMensaje, strTitulo As String
     Private _Empleado As Integer
     Private _URLGateway As String
+    Private _CadenaConexion As String
 #End Region
 
 #Region "Propiedades"
@@ -873,7 +874,8 @@ Public Class ConsultaMovimientos
     Public Sub New(ByVal Modulo As Short,
                    ByVal ModuloUsuario As String,
                    ByVal ModuloEmpleado As Integer,
-                   ByVal URLGateway As String)
+                   ByVal URLGateway As String,
+                   Optional ByVal CadenaConexion As String = "")
 
         MyBase.New()
         InitializeComponent()
@@ -881,6 +883,7 @@ Public Class ConsultaMovimientos
         _ModuloUsuario = ModuloUsuario
         _ModuloEmpleado = ModuloEmpleado
         _URLGateway = URLGateway
+        _CadenaConexion = CadenaConexion
     End Sub
 
     Public Sub CargaDatos()
@@ -1368,7 +1371,12 @@ Public Class ConsultaMovimientos
                 strURLGateway = ""
             End Try
 
-            Dim oConsultaCobro As New ConsultaCobro(_AnoCobro, _CobroCons, _PermiteModificarCobro, strURLGateway)
+            Dim oConsultaCobro As New ConsultaCobro(_AnoCobro,
+                                                    _CobroCons,
+                                                    _PermiteModificarCobro,
+                                                    strURLGateway,
+                                                    Modulo:=Convert.ToByte(GLOBAL_Modulo),
+                                                    CadenaConexion:=_CadenaConexion)
 
             If oConsultaCobro.ShowDialog() = DialogResult.OK Then
                 If _URLGateway = "" Then
