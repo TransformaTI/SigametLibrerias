@@ -16,13 +16,14 @@ Public Class ConsultaMovimientos
     Private _Folio As Integer
     Private _AnoCobro As Short
     Private _CobroCons As Integer
-    Private _Modulo As Short
+    Private _Modulo As Byte
     Private _ModuloUsuario As String
     Private _ModuloEmpleado As Integer
     Private n As Integer
     Private _Clave, _Documento, _Status, strMensaje, strTitulo As String
     Private _Empleado As Integer
     Private _URLGateway As String
+    Private _CadenaConexion As String
 #End Region
 
 #Region "Propiedades"
@@ -61,22 +62,26 @@ Public Class ConsultaMovimientos
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New()
+    Public Sub New(Optional ByVal Modulo As Byte = 0, Optional Cadcon As String = "")
         MyBase.New()
         'This call is required by the Windows Form Designer.
         InitializeComponent()
+        _Modulo = Modulo
+        _CadenaConexion = Cadcon
 
         'Add any initialization after the InitializeComponent() call
 
     End Sub
 
-    Public Sub New(URLGateway As String)
+    Public Sub New(URLGateway As String, Optional ByVal Modulo As Byte = 0, Optional Cadcon As String = "")
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
         'Add any initialization after the InitializeComponent() call
         _URLGateway = URLGateway
+        _Modulo = Modulo
+        _CadenaConexion = Cadcon
     End Sub
 
 
@@ -861,26 +866,28 @@ Public Class ConsultaMovimientos
 
     Public Sub New(ByVal Modulo As Short,
                    ByVal ModuloUsuario As String,
-                   ByVal ModuloEmpleado As Integer)
+                   ByVal ModuloEmpleado As Integer, Optional CadCon As String = "")
 
         MyBase.New()
         InitializeComponent()
-        _Modulo = Modulo
+        _Modulo = CByte(Modulo)
         _ModuloUsuario = ModuloUsuario
         _ModuloEmpleado = ModuloEmpleado
+        _CadenaConexion = CadCon
     End Sub
 
     Public Sub New(ByVal Modulo As Short,
                    ByVal ModuloUsuario As String,
                    ByVal ModuloEmpleado As Integer,
-                   ByVal URLGateway As String)
+                   ByVal URLGateway As String, Optional CadCon As String = "")
 
         MyBase.New()
         InitializeComponent()
-        _Modulo = Modulo
+        _Modulo = CByte(Modulo)
         _ModuloUsuario = ModuloUsuario
         _ModuloEmpleado = ModuloEmpleado
         _URLGateway = URLGateway
+        _CadenaConexion = CadCon
     End Sub
 
     Public Sub CargaDatos()
@@ -991,6 +998,8 @@ Public Class ConsultaMovimientos
         _AnoCobro = 0
         _CobroCons = 0
 
+
+
         lblObservaciones.Text = String.Empty
 
         dtMovimientoCaja.Clear()
@@ -1059,7 +1068,7 @@ Public Class ConsultaMovimientos
             da.Fill(dtCobroPedido)
             dtCobroPedido.TableName = "CobroPedido"
 
-            Dim objpedidogateway As RTGMPedidoGateway = New RTGMPedidoGateway(1, "")
+            Dim objpedidogateway As RTGMPedidoGateway = New RTGMPedidoGateway(_Modulo, _CadenaConexion)
             objpedidogateway.URLServicio = URLGateway
 
             Dim objsolicitudpedido As SolicitudPedidoGateway = New SolicitudPedidoGateway()
