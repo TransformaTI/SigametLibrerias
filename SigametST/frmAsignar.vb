@@ -349,8 +349,8 @@ Public Class frmAsignar
 
         SigametST.cnnSigamet.Close()
         dtpFAsignacion.Value = Now.Date
-        'llenacombo()
-        'llenaFolioAutotanque()
+        llenacombo()
+        llenaFolioAutotanque()
         lblcelula.Text = CType(_Celula, String)
         lblPedidoReferencia.Text = CType(_Pedido, String)
     End Sub
