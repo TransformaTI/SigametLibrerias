@@ -214,9 +214,9 @@ namespace LiquidacionSTN
                     while (reader.Read())
                     {                                
                         Programacion dato = new Programacion();
-                        dato.Pedido = reader["Pedido"].ToString();
-                        dato.AnioPedido = reader["AnioPedido"].ToString();
-                        dato.CelulaPedido = reader["CelulaPedido"].ToString();
+                        //dato.Pedido = reader["Pedido"].ToString();
+                        //dato.AnioPedido = reader["AnioPedido"].ToString();
+                        //dato.CelulaPedido = reader["CelulaPedido"].ToString();
                         dato.Cliente = (reader["Cliente"] != DBNull.Value)?Int64.Parse(reader["Cliente"].ToString()):0;
                         dato.Nombre  = reader["Nombre"].ToString();
                         dato.StatusCliente = reader["StatusCliente"].ToString();
