@@ -84,6 +84,7 @@ Public Class Precio
                 precio = detalle.Precio
                 porcentaje = detalle.PorcentajeIVA
                 'dResultado = Litros * (precio * (1 + (porcentaje / 100)))
+
                 dResultado = Litros * precio
             Catch ex As Exception
                 Throw New Exception("Error al consultar la zona económica indicada")
