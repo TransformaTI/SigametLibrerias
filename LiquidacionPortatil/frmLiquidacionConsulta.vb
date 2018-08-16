@@ -85,297 +85,297 @@ Public Class frmLiquidacionConsulta
     Friend WithEvents btnValidar As System.Windows.Forms.Button
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLiquidacionConsulta))
-        Me.btnCerrar = New System.Windows.Forms.Button()
-        Me.btnAceptar = New System.Windows.Forms.Button()
-        Me.chkTodas = New System.Windows.Forms.CheckBox()
-        Me.btnBuscar = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.dtpFecha = New System.Windows.Forms.DateTimePicker()
-        Me.grdPreLiq = New System.Windows.Forms.DataGrid()
-        Me.DataGridTableStyle1 = New System.Windows.Forms.DataGridTableStyle()
-        Me.colCorporativo = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.colCelula = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.colAlmacenGas = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.colRuta = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.colCamion = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.colOrden = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.colAnoAtt = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.colFolio = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.colFCarga = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.colFVenta = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.colFAlta = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.btnIngresos = New System.Windows.Forms.Button()
-        Me.btnValidar = New System.Windows.Forms.Button()
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.cmbCelula = New System.Windows.Forms.ComboBox()
-        CType(Me.grdPreLiq, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
-        '
-        'btnCerrar
-        '
-        Me.btnCerrar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnCerrar.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCerrar.Image = CType(resources.GetObject("btnCerrar.Image"), System.Drawing.Image)
-        Me.btnCerrar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnCerrar.Location = New System.Drawing.Point(584, 8)
-        Me.btnCerrar.Name = "btnCerrar"
-        Me.btnCerrar.Size = New System.Drawing.Size(75, 23)
-        Me.btnCerrar.TabIndex = 4
-        Me.btnCerrar.Text = "&Cerrar"
-        Me.btnCerrar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'btnAceptar
-        '
-        Me.btnAceptar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnAceptar.Enabled = False
-        Me.btnAceptar.Image = CType(resources.GetObject("btnAceptar.Image"), System.Drawing.Image)
-        Me.btnAceptar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAceptar.Location = New System.Drawing.Point(496, 8)
-        Me.btnAceptar.Name = "btnAceptar"
-        Me.btnAceptar.Size = New System.Drawing.Size(75, 23)
-        Me.btnAceptar.TabIndex = 3
-        Me.btnAceptar.Text = "&Aceptar"
-        Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'chkTodas
-        '
-        Me.chkTodas.Location = New System.Drawing.Point(18, 42)
-        Me.chkTodas.Name = "chkTodas"
-        Me.chkTodas.Size = New System.Drawing.Size(336, 21)
-        Me.chkTodas.TabIndex = 14
-        Me.chkTodas.Text = "Consultar todas las liquidaciones pendientes"
-        '
-        'btnBuscar
-        '
-        Me.btnBuscar.BackColor = System.Drawing.SystemColors.Control
-        Me.btnBuscar.Image = CType(resources.GetObject("btnBuscar.Image"), System.Drawing.Image)
-        Me.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnBuscar.Location = New System.Drawing.Point(402, 7)
-        Me.btnBuscar.Name = "btnBuscar"
-        Me.btnBuscar.Size = New System.Drawing.Size(75, 23)
-        Me.btnBuscar.TabIndex = 13
-        Me.btnBuscar.Text = "&Buscar"
-        Me.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnBuscar.UseVisualStyleBackColor = False
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(16, 12)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(48, 13)
-        Me.Label1.TabIndex = 12
-        Me.Label1.Text = "Del día:"
-        '
-        'dtpFecha
-        '
-        Me.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpFecha.Location = New System.Drawing.Point(80, 9)
-        Me.dtpFecha.MinDate = New Date(2000, 1, 1, 0, 0, 0, 0)
-        Me.dtpFecha.Name = "dtpFecha"
-        Me.dtpFecha.Size = New System.Drawing.Size(111, 21)
-        Me.dtpFecha.TabIndex = 11
-        Me.dtpFecha.Value = New Date(2011, 1, 20, 0, 0, 0, 0)
-        '
-        'grdPreLiq
-        '
-        Me.grdPreLiq.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.grdPreLiq.BackgroundColor = System.Drawing.Color.Gainsboro
-        Me.grdPreLiq.CaptionText = "Liquidaciones a realizar"
-        Me.grdPreLiq.DataMember = ""
-        Me.grdPreLiq.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.grdPreLiq.Location = New System.Drawing.Point(8, 68)
-        Me.grdPreLiq.Name = "grdPreLiq"
-        Me.grdPreLiq.ReadOnly = True
-        Me.grdPreLiq.Size = New System.Drawing.Size(648, 368)
-        Me.grdPreLiq.TabIndex = 10
-        Me.grdPreLiq.TableStyles.AddRange(New System.Windows.Forms.DataGridTableStyle() {Me.DataGridTableStyle1})
-        '
-        'DataGridTableStyle1
-        '
-        Me.DataGridTableStyle1.DataGrid = Me.grdPreLiq
-        Me.DataGridTableStyle1.GridColumnStyles.AddRange(New System.Windows.Forms.DataGridColumnStyle() {Me.colCorporativo, Me.colCelula, Me.colAlmacenGas, Me.colRuta, Me.colCamion, Me.colOrden, Me.colAnoAtt, Me.colFolio, Me.colFCarga, Me.colFVenta, Me.colFAlta})
-        Me.DataGridTableStyle1.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        '
-        'colCorporativo
-        '
-        Me.colCorporativo.Format = ""
-        Me.colCorporativo.FormatInfo = Nothing
-        Me.colCorporativo.HeaderText = "Corporativo"
-        Me.colCorporativo.MappingName = "NombreCorporativo"
-        Me.colCorporativo.Width = 125
-        '
-        'colCelula
-        '
-        Me.colCelula.Format = ""
-        Me.colCelula.FormatInfo = Nothing
-        Me.colCelula.HeaderText = "Célula"
-        Me.colCelula.MappingName = "DescripcionCelula"
-        Me.colCelula.Width = 125
-        '
-        'colAlmacenGas
-        '
-        Me.colAlmacenGas.Format = ""
-        Me.colAlmacenGas.FormatInfo = Nothing
-        Me.colAlmacenGas.HeaderText = "Almacén de gas"
-        Me.colAlmacenGas.MappingName = "DescripcionAlmacenGas"
-        Me.colAlmacenGas.Width = 150
-        '
-        'colRuta
-        '
-        Me.colRuta.Format = ""
-        Me.colRuta.FormatInfo = Nothing
-        Me.colRuta.HeaderText = "Ruta"
-        Me.colRuta.MappingName = "DescripcionRuta"
-        Me.colRuta.Width = 60
-        '
-        'colCamion
-        '
-        Me.colCamion.Format = ""
-        Me.colCamion.FormatInfo = Nothing
-        Me.colCamion.HeaderText = "Camión"
-        Me.colCamion.MappingName = "Autotanque"
-        Me.colCamion.Width = 45
-        '
-        'colOrden
-        '
-        Me.colOrden.Format = ""
-        Me.colOrden.FormatInfo = Nothing
-        Me.colOrden.HeaderText = "Orden"
-        Me.colOrden.MappingName = "Orden"
-        Me.colOrden.Width = 75
-        '
-        'colAnoAtt
-        '
-        Me.colAnoAtt.Format = ""
-        Me.colAnoAtt.FormatInfo = Nothing
-        Me.colAnoAtt.HeaderText = "Año carga"
-        Me.colAnoAtt.MappingName = "AñoAtt"
-        Me.colAnoAtt.Width = 65
-        '
-        'colFolio
-        '
-        Me.colFolio.Format = ""
-        Me.colFolio.FormatInfo = Nothing
-        Me.colFolio.HeaderText = "Folio"
-        Me.colFolio.MappingName = "Folio"
-        Me.colFolio.Width = 55
-        '
-        'colFCarga
-        '
-        Me.colFCarga.Format = ""
-        Me.colFCarga.FormatInfo = Nothing
-        Me.colFCarga.HeaderText = "Fecha de carga"
-        Me.colFCarga.MappingName = "FMovimiento"
-        Me.colFCarga.Width = 120
-        '
-        'colFVenta
-        '
-        Me.colFVenta.Format = ""
-        Me.colFVenta.FormatInfo = Nothing
-        Me.colFVenta.HeaderText = "Fecha de Venta"
-        Me.colFVenta.MappingName = "FInicioRuta"
-        Me.colFVenta.Width = 105
-        '
-        'colFAlta
-        '
-        Me.colFAlta.Format = ""
-        Me.colFAlta.FormatInfo = Nothing
-        Me.colFAlta.HeaderText = "Fecha de alta"
-        Me.colFAlta.MappingName = "FAlta"
-        Me.colFAlta.Width = 120
-        '
-        'btnIngresos
-        '
-        Me.btnIngresos.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnIngresos.Font = New System.Drawing.Font("Tahoma", 7.25!)
-        Me.btnIngresos.Image = CType(resources.GetObject("btnIngresos.Image"), System.Drawing.Image)
-        Me.btnIngresos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnIngresos.Location = New System.Drawing.Point(584, 40)
-        Me.btnIngresos.Name = "btnIngresos"
-        Me.btnIngresos.Size = New System.Drawing.Size(75, 23)
-        Me.btnIngresos.TabIndex = 15
-        Me.btnIngresos.TabStop = False
-        Me.btnIngresos.Text = "NI Captura"
-        Me.btnIngresos.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'btnValidar
-        '
-        Me.btnValidar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnValidar.Font = New System.Drawing.Font("Tahoma", 7.25!)
-        Me.btnValidar.Image = CType(resources.GetObject("btnValidar.Image"), System.Drawing.Image)
-        Me.btnValidar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnValidar.Location = New System.Drawing.Point(496, 40)
-        Me.btnValidar.Name = "btnValidar"
-        Me.btnValidar.Size = New System.Drawing.Size(75, 23)
-        Me.btnValidar.TabIndex = 16
-        Me.btnValidar.TabStop = False
-        Me.btnValidar.Text = "NI Valida"
-        Me.btnValidar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'ToolTip1
-        '
-        Me.ToolTip1.AutoPopDelay = 5000
-        Me.ToolTip1.InitialDelay = 100
-        Me.ToolTip1.ReshowDelay = 100
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(204, 12)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(47, 13)
-        Me.Label2.TabIndex = 17
-        Me.Label2.Text = "Celula: "
-        '
-        'cmbCelula
-        '
-        Me.cmbCelula.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbCelula.FormattingEnabled = True
-        Me.cmbCelula.Location = New System.Drawing.Point(257, 7)
-        Me.cmbCelula.Name = "cmbCelula"
-        Me.cmbCelula.Size = New System.Drawing.Size(121, 21)
-        Me.cmbCelula.TabIndex = 18
-        '
-        'frmLiquidacionConsulta
-        '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
-        Me.CancelButton = Me.btnCerrar
-        Me.ClientSize = New System.Drawing.Size(664, 445)
-        Me.Controls.Add(Me.cmbCelula)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.btnValidar)
-        Me.Controls.Add(Me.btnIngresos)
-        Me.Controls.Add(Me.chkTodas)
-        Me.Controls.Add(Me.btnBuscar)
-        Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.dtpFecha)
-        Me.Controls.Add(Me.grdPreLiq)
-        Me.Controls.Add(Me.btnCerrar)
-        Me.Controls.Add(Me.btnAceptar)
-        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Name = "frmLiquidacionConsulta"
-        Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Consulta de liquidaciones pendientes - Portátil"
-        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
-        CType(Me.grdPreLiq, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+		Me.components = New System.ComponentModel.Container()
+		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLiquidacionConsulta))
+		Me.btnCerrar = New System.Windows.Forms.Button()
+		Me.btnAceptar = New System.Windows.Forms.Button()
+		Me.chkTodas = New System.Windows.Forms.CheckBox()
+		Me.btnBuscar = New System.Windows.Forms.Button()
+		Me.Label1 = New System.Windows.Forms.Label()
+		Me.dtpFecha = New System.Windows.Forms.DateTimePicker()
+		Me.grdPreLiq = New System.Windows.Forms.DataGrid()
+		Me.DataGridTableStyle1 = New System.Windows.Forms.DataGridTableStyle()
+		Me.colCorporativo = New System.Windows.Forms.DataGridTextBoxColumn()
+		Me.colCelula = New System.Windows.Forms.DataGridTextBoxColumn()
+		Me.colAlmacenGas = New System.Windows.Forms.DataGridTextBoxColumn()
+		Me.colRuta = New System.Windows.Forms.DataGridTextBoxColumn()
+		Me.colCamion = New System.Windows.Forms.DataGridTextBoxColumn()
+		Me.colOrden = New System.Windows.Forms.DataGridTextBoxColumn()
+		Me.colAnoAtt = New System.Windows.Forms.DataGridTextBoxColumn()
+		Me.colFolio = New System.Windows.Forms.DataGridTextBoxColumn()
+		Me.colFCarga = New System.Windows.Forms.DataGridTextBoxColumn()
+		Me.colFVenta = New System.Windows.Forms.DataGridTextBoxColumn()
+		Me.colFAlta = New System.Windows.Forms.DataGridTextBoxColumn()
+		Me.btnIngresos = New System.Windows.Forms.Button()
+		Me.btnValidar = New System.Windows.Forms.Button()
+		Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+		Me.Label2 = New System.Windows.Forms.Label()
+		Me.cmbCelula = New System.Windows.Forms.ComboBox()
+		CType(Me.grdPreLiq, System.ComponentModel.ISupportInitialize).BeginInit()
+		Me.SuspendLayout()
+		'
+		'btnCerrar
+		'
+		Me.btnCerrar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.btnCerrar.DialogResult = System.Windows.Forms.DialogResult.Cancel
+		Me.btnCerrar.Image = CType(resources.GetObject("btnCerrar.Image"), System.Drawing.Image)
+		Me.btnCerrar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+		Me.btnCerrar.Location = New System.Drawing.Point(584, 8)
+		Me.btnCerrar.Name = "btnCerrar"
+		Me.btnCerrar.Size = New System.Drawing.Size(75, 23)
+		Me.btnCerrar.TabIndex = 4
+		Me.btnCerrar.Text = "&Cerrar"
+		Me.btnCerrar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+		'
+		'btnAceptar
+		'
+		Me.btnAceptar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.btnAceptar.Enabled = False
+		Me.btnAceptar.Image = CType(resources.GetObject("btnAceptar.Image"), System.Drawing.Image)
+		Me.btnAceptar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+		Me.btnAceptar.Location = New System.Drawing.Point(496, 8)
+		Me.btnAceptar.Name = "btnAceptar"
+		Me.btnAceptar.Size = New System.Drawing.Size(75, 23)
+		Me.btnAceptar.TabIndex = 3
+		Me.btnAceptar.Text = "&Aceptar"
+		Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+		'
+		'chkTodas
+		'
+		Me.chkTodas.Location = New System.Drawing.Point(18, 42)
+		Me.chkTodas.Name = "chkTodas"
+		Me.chkTodas.Size = New System.Drawing.Size(336, 21)
+		Me.chkTodas.TabIndex = 14
+		Me.chkTodas.Text = "Consultar todas las liquidaciones pendientes"
+		'
+		'btnBuscar
+		'
+		Me.btnBuscar.BackColor = System.Drawing.SystemColors.Control
+		Me.btnBuscar.Image = CType(resources.GetObject("btnBuscar.Image"), System.Drawing.Image)
+		Me.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+		Me.btnBuscar.Location = New System.Drawing.Point(402, 7)
+		Me.btnBuscar.Name = "btnBuscar"
+		Me.btnBuscar.Size = New System.Drawing.Size(75, 23)
+		Me.btnBuscar.TabIndex = 13
+		Me.btnBuscar.Text = "&Buscar"
+		Me.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+		Me.btnBuscar.UseVisualStyleBackColor = False
+		'
+		'Label1
+		'
+		Me.Label1.AutoSize = True
+		Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.Label1.Location = New System.Drawing.Point(16, 12)
+		Me.Label1.Name = "Label1"
+		Me.Label1.Size = New System.Drawing.Size(48, 13)
+		Me.Label1.TabIndex = 12
+		Me.Label1.Text = "Del día:"
+		'
+		'dtpFecha
+		'
+		Me.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+		Me.dtpFecha.Location = New System.Drawing.Point(80, 9)
+		Me.dtpFecha.MinDate = New Date(2000, 1, 1, 0, 0, 0, 0)
+		Me.dtpFecha.Name = "dtpFecha"
+		Me.dtpFecha.Size = New System.Drawing.Size(111, 21)
+		Me.dtpFecha.TabIndex = 11
+		Me.dtpFecha.Value = New Date(2011, 1, 20, 0, 0, 0, 0)
+		'
+		'grdPreLiq
+		'
+		Me.grdPreLiq.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+			Or System.Windows.Forms.AnchorStyles.Left) _
+			Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.grdPreLiq.BackgroundColor = System.Drawing.Color.Gainsboro
+		Me.grdPreLiq.CaptionText = "Liquidaciones a realizar"
+		Me.grdPreLiq.DataMember = ""
+		Me.grdPreLiq.HeaderForeColor = System.Drawing.SystemColors.ControlText
+		Me.grdPreLiq.Location = New System.Drawing.Point(19, 65)
+		Me.grdPreLiq.Name = "grdPreLiq"
+		Me.grdPreLiq.ReadOnly = True
+		Me.grdPreLiq.Size = New System.Drawing.Size(648, 368)
+		Me.grdPreLiq.TabIndex = 10
+		Me.grdPreLiq.TableStyles.AddRange(New System.Windows.Forms.DataGridTableStyle() {Me.DataGridTableStyle1})
+		'
+		'DataGridTableStyle1
+		'
+		Me.DataGridTableStyle1.DataGrid = Me.grdPreLiq
+		Me.DataGridTableStyle1.GridColumnStyles.AddRange(New System.Windows.Forms.DataGridColumnStyle() {Me.colCorporativo, Me.colCelula, Me.colAlmacenGas, Me.colRuta, Me.colCamion, Me.colOrden, Me.colAnoAtt, Me.colFolio, Me.colFCarga, Me.colFVenta, Me.colFAlta})
+		Me.DataGridTableStyle1.HeaderForeColor = System.Drawing.SystemColors.ControlText
+		'
+		'colCorporativo
+		'
+		Me.colCorporativo.Format = ""
+		Me.colCorporativo.FormatInfo = Nothing
+		Me.colCorporativo.HeaderText = "Corporativo"
+		Me.colCorporativo.MappingName = "NombreCorporativo"
+		Me.colCorporativo.Width = 125
+		'
+		'colCelula
+		'
+		Me.colCelula.Format = ""
+		Me.colCelula.FormatInfo = Nothing
+		Me.colCelula.HeaderText = "Célula"
+		Me.colCelula.MappingName = "DescripcionCelula"
+		Me.colCelula.Width = 125
+		'
+		'colAlmacenGas
+		'
+		Me.colAlmacenGas.Format = ""
+		Me.colAlmacenGas.FormatInfo = Nothing
+		Me.colAlmacenGas.HeaderText = "Almacén de gas"
+		Me.colAlmacenGas.MappingName = "DescripcionAlmacenGas"
+		Me.colAlmacenGas.Width = 150
+		'
+		'colRuta
+		'
+		Me.colRuta.Format = ""
+		Me.colRuta.FormatInfo = Nothing
+		Me.colRuta.HeaderText = "Ruta"
+		Me.colRuta.MappingName = "DescripcionRuta"
+		Me.colRuta.Width = 60
+		'
+		'colCamion
+		'
+		Me.colCamion.Format = ""
+		Me.colCamion.FormatInfo = Nothing
+		Me.colCamion.HeaderText = "Camión"
+		Me.colCamion.MappingName = "Autotanque"
+		Me.colCamion.Width = 45
+		'
+		'colOrden
+		'
+		Me.colOrden.Format = ""
+		Me.colOrden.FormatInfo = Nothing
+		Me.colOrden.HeaderText = "Orden"
+		Me.colOrden.MappingName = "Orden"
+		Me.colOrden.Width = 75
+		'
+		'colAnoAtt
+		'
+		Me.colAnoAtt.Format = ""
+		Me.colAnoAtt.FormatInfo = Nothing
+		Me.colAnoAtt.HeaderText = "Año carga"
+		Me.colAnoAtt.MappingName = "AñoAtt"
+		Me.colAnoAtt.Width = 65
+		'
+		'colFolio
+		'
+		Me.colFolio.Format = ""
+		Me.colFolio.FormatInfo = Nothing
+		Me.colFolio.HeaderText = "Folio"
+		Me.colFolio.MappingName = "Folio"
+		Me.colFolio.Width = 55
+		'
+		'colFCarga
+		'
+		Me.colFCarga.Format = ""
+		Me.colFCarga.FormatInfo = Nothing
+		Me.colFCarga.HeaderText = "Fecha de carga"
+		Me.colFCarga.MappingName = "FMovimiento"
+		Me.colFCarga.Width = 120
+		'
+		'colFVenta
+		'
+		Me.colFVenta.Format = ""
+		Me.colFVenta.FormatInfo = Nothing
+		Me.colFVenta.HeaderText = "Fecha de Venta"
+		Me.colFVenta.MappingName = "FInicioRuta"
+		Me.colFVenta.Width = 105
+		'
+		'colFAlta
+		'
+		Me.colFAlta.Format = ""
+		Me.colFAlta.FormatInfo = Nothing
+		Me.colFAlta.HeaderText = "Fecha de alta"
+		Me.colFAlta.MappingName = "FAlta"
+		Me.colFAlta.Width = 120
+		'
+		'btnIngresos
+		'
+		Me.btnIngresos.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.btnIngresos.Font = New System.Drawing.Font("Tahoma", 7.25!)
+		Me.btnIngresos.Image = CType(resources.GetObject("btnIngresos.Image"), System.Drawing.Image)
+		Me.btnIngresos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+		Me.btnIngresos.Location = New System.Drawing.Point(584, 40)
+		Me.btnIngresos.Name = "btnIngresos"
+		Me.btnIngresos.Size = New System.Drawing.Size(75, 23)
+		Me.btnIngresos.TabIndex = 15
+		Me.btnIngresos.TabStop = False
+		Me.btnIngresos.Text = "NI Captura"
+		Me.btnIngresos.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+		'
+		'btnValidar
+		'
+		Me.btnValidar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.btnValidar.Font = New System.Drawing.Font("Tahoma", 7.25!)
+		Me.btnValidar.Image = CType(resources.GetObject("btnValidar.Image"), System.Drawing.Image)
+		Me.btnValidar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+		Me.btnValidar.Location = New System.Drawing.Point(496, 40)
+		Me.btnValidar.Name = "btnValidar"
+		Me.btnValidar.Size = New System.Drawing.Size(75, 23)
+		Me.btnValidar.TabIndex = 16
+		Me.btnValidar.TabStop = False
+		Me.btnValidar.Text = "NI Valida"
+		Me.btnValidar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+		'
+		'ToolTip1
+		'
+		Me.ToolTip1.AutoPopDelay = 5000
+		Me.ToolTip1.InitialDelay = 100
+		Me.ToolTip1.ReshowDelay = 100
+		'
+		'Label2
+		'
+		Me.Label2.AutoSize = True
+		Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.Label2.Location = New System.Drawing.Point(204, 12)
+		Me.Label2.Name = "Label2"
+		Me.Label2.Size = New System.Drawing.Size(47, 13)
+		Me.Label2.TabIndex = 17
+		Me.Label2.Text = "Celula: "
+		'
+		'cmbCelula
+		'
+		Me.cmbCelula.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.cmbCelula.FormattingEnabled = True
+		Me.cmbCelula.Location = New System.Drawing.Point(257, 7)
+		Me.cmbCelula.Name = "cmbCelula"
+		Me.cmbCelula.Size = New System.Drawing.Size(121, 21)
+		Me.cmbCelula.TabIndex = 18
+		'
+		'frmLiquidacionConsulta
+		'
+		Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
+		Me.CancelButton = Me.btnCerrar
+		Me.ClientSize = New System.Drawing.Size(664, 445)
+		Me.Controls.Add(Me.cmbCelula)
+		Me.Controls.Add(Me.Label2)
+		Me.Controls.Add(Me.btnValidar)
+		Me.Controls.Add(Me.btnIngresos)
+		Me.Controls.Add(Me.chkTodas)
+		Me.Controls.Add(Me.btnBuscar)
+		Me.Controls.Add(Me.Label1)
+		Me.Controls.Add(Me.dtpFecha)
+		Me.Controls.Add(Me.grdPreLiq)
+		Me.Controls.Add(Me.btnCerrar)
+		Me.Controls.Add(Me.btnAceptar)
+		Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.Name = "frmLiquidacionConsulta"
+		Me.ShowInTaskbar = False
+		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+		Me.Text = "Consulta de liquidaciones pendientes - Portátil"
+		Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
+		CType(Me.grdPreLiq, System.ComponentModel.ISupportInitialize).EndInit()
+		Me.ResumeLayout(False)
+		Me.PerformLayout()
 
-    End Sub
+	End Sub
 
 #End Region
 
 
-    Public Sub New(ByVal Usuario As String, ByVal Empleado As Integer, ByVal CajaUsuario As Byte, ByVal FactorDensidad As Decimal, ByVal Servidor As String, ByVal DBase As String, ByVal Password As String, ByVal CorporativoUsuario As Short, ByVal SucursalUsuario As Short)
+	Public Sub New(ByVal Usuario As String, ByVal Empleado As Integer, ByVal CajaUsuario As Byte, ByVal FactorDensidad As Decimal, ByVal Servidor As String, ByVal DBase As String, ByVal Password As String, ByVal CorporativoUsuario As Short, ByVal SucursalUsuario As Short)
         MyBase.New()
         InitializeComponent()
         _Usuario = Usuario
