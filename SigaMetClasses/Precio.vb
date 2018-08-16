@@ -83,7 +83,8 @@ Public Class Precio
                 detalle = (From Y In lista Where Y.ZonaEconomica = _ZonaEconomica).First
                 precio = detalle.Precio
                 porcentaje = detalle.PorcentajeIVA
-                dResultado = Litros * (precio * (1 + (porcentaje / 100)))
+                'dResultado = Litros * (precio * (1 + (porcentaje / 100)))
+                dResultado = Litros * precio
             Catch ex As Exception
                 Throw New Exception("Error al consultar la zona económica indicada")
             End Try
@@ -110,7 +111,8 @@ Public Class Precio
                 detalle = (From Y In lista Where Y.ZonaEconomica = _ZonaEconomica).First
                 precio = detalle.Precio
                 porcentaje = detalle.PorcentajeIVA
-                dResultado = Importe / (precio * (1 + (porcentaje / 100)))
+                'dResultado = Importe / (precio * (1 + (porcentaje / 100)))
+                dResultado = Importe / precio
             Catch ex As Exception
                 Throw New Exception("Error al consultar la zona económica indicada")
             End Try
