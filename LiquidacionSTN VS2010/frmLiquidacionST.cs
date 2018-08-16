@@ -194,9 +194,21 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.Label lblTotalALiquidar;
 		private System.ComponentModel.IContainer components;
 
+        // Variables para la conexión al servicio web de GM
+        private string _URLGateway;
+        private byte _Modulo;
+        private string _CadenaConexion;
 
-
-        public frmLiquidacionST(string Usuario, string clave, string RutaReportes, short Corporativo, short Sucursal,string UsuarioReporte,string UsuarioReportePassword)
+        public frmLiquidacionST(string Usuario, 
+                                string clave, 
+                                string RutaReportes, 
+                                short Corporativo, 
+                                short Sucursal,
+                                string UsuarioReporte,
+                                string UsuarioReportePassword,
+                                string URLGateway = "",
+                                byte ParModulo = 0,
+                                string CadenaConexion = "")
 		{
 			_Usuario += Usuario;
 			_Clave += clave;            
@@ -206,18 +218,15 @@ namespace LiquidacionSTN
 
             Modulo.GLOBAL_UsuarioReporte = UsuarioReporte;
             Modulo.GLOBAL_PasswordReporte = UsuarioReportePassword;
-			//conn = Conexion;
+            //conn = Conexion;
+            _URLGateway = URLGateway;
+            _CadenaConexion = CadenaConexion;
+            _Modulo = ParModulo;
 
-
-			
 			//
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
-
-
-
-			
 
 			//
 			// TODO: Add any constructor code after InitializeComponent call
@@ -2838,67 +2847,68 @@ namespace LiquidacionSTN
 
                                 Transaccion.Commit();
 
-                                try
+                                if (!string.IsNullOrEmpty(_URLGateway))
                                 {
-                                    Decimal iva = ObtenerIVA()/100;
-                                    int empresa=0;
-                                    RTGMGateway.RTGMActualizarPedido objGateway = new RTGMGateway.RTGMActualizarPedido();
-                                    objGateway.URLServicio = @"http://192.168.1.30:88/GasMetropolitanoRuntimeService.svc";
-
-                                    List<RTGMCore.Pedido> lstPedido = new List<RTGMCore.Pedido>();
-
-                                    foreach (System.Data.DataRow dr in Query)
+                                    try
                                     {
-                                        RTGMGateway.RTGMGateway cliente = new RTGMGateway.RTGMGateway();
-                                        cliente.URLServicio = @"http://192.168.1.30:88/GasMetropolitanoRuntimeService.svc";
+                                        Decimal iva = ObtenerIVA() / 100;
+                                        int empresa = 0;
+                                        RTGMGateway.RTGMActualizarPedido objGateway = new RTGMGateway.RTGMActualizarPedido(_Modulo, _CadenaConexion);
+                                        objGateway.URLServicio = _URLGateway;
 
-                                        RTGMGateway.SolicitudGateway objSolicitud = new RTGMGateway.SolicitudGateway();
-                                        objSolicitud.IDCliente = Convert.ToInt32(dr["Cliente"]);
-                                        
-                                        RTGMCore.DireccionEntrega objDireccion = new RTGMCore.DireccionEntrega();
-                                        objDireccion = cliente.buscarDireccionEntrega(objSolicitud);
-                                                               
-                                        empresa = objDireccion.IDEmpresa;
-                                        //MessageBox.Show("dr[\"Cliente\"]: " + Convert.ToString(dr["Cliente"]) + "; objDireccion.IDDireccionEntrega: " + Convert.ToString(objDireccion.IDDireccionEntrega));
-                                        RTGMCore.PedidoCRMDatos pedido = new RTGMCore.PedidoCRMDatos();
-                                        pedido.IDPedido = Convert.ToInt32(dr["Pedido"]);
-                                        pedido.IDDireccionEntrega = objDireccion.IDDireccionEntrega;// Convert.ToInt32(dr["Cliente"]);
-                                        pedido.FSuministro = Convert.ToDateTime(dr["FAtencion"]);
-                                        pedido.Importe = (Convert.ToDecimal(dr["Total"]) / (1+iva));   // preguntar con Juan
-                                        pedido.Impuesto = iva;
-                                        pedido.Total = Convert.ToDecimal(dr["Total"]);
-                                        pedido.AnioAtt = Convert.ToInt32(dr["AñoATT"]);
-                                        pedido.IDAutotanque = objDireccion.IDAutotanque;// Convert.ToInt32(dr["Autotanque"]);
-                                        pedido.IDFolioAtt = Convert.ToInt32(dr["Folio"]);
+                                        List<RTGMCore.Pedido> lstPedido = new List<RTGMCore.Pedido>();
 
-                                        RTGMCore.RutaCRMDatos ruta = new RTGMCore.RutaCRMDatos();
-                                        ruta.IDRuta = objDireccion.Ruta.IDRuta;// Convert.ToInt32(dr["RutaCliente"]);
+                                        foreach (System.Data.DataRow dr in Query)
+                                        {
+                                            RTGMGateway.RTGMGateway cliente = new RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion);
+                                            cliente.URLServicio = _URLGateway;
 
-                                        pedido.RutaSuministro = objDireccion.Ruta;// ruta;
-                                        pedido.IDFormaPago = Convert.ToInt32(dr["TipoCobro"]);
+                                            RTGMGateway.SolicitudGateway objSolicitud = new RTGMGateway.SolicitudGateway();
+                                            objSolicitud.IDCliente = Convert.ToInt32(dr["Cliente"]);
 
-                                        lstPedido.Add(pedido);
+                                            RTGMCore.DireccionEntrega objDireccion = new RTGMCore.DireccionEntrega();
+                                            objDireccion = cliente.buscarDireccionEntrega(objSolicitud);
+
+                                            empresa = objDireccion.IDEmpresa;
+                                            //MessageBox.Show("dr[\"Cliente\"]: " + Convert.ToString(dr["Cliente"]) + "; objDireccion.IDDireccionEntrega: " + Convert.ToString(objDireccion.IDDireccionEntrega));
+                                            RTGMCore.PedidoCRMDatos pedido = new RTGMCore.PedidoCRMDatos();
+                                            pedido.IDPedido = Convert.ToInt32(dr["Pedido"]);
+                                            pedido.IDDireccionEntrega = objDireccion.IDDireccionEntrega;// Convert.ToInt32(dr["Cliente"]);
+                                            pedido.FSuministro = Convert.ToDateTime(dr["FAtencion"]);
+                                            pedido.Importe = (Convert.ToDecimal(dr["Total"]) / (1 + iva));   // preguntar con Juan
+                                            pedido.Impuesto = iva;
+                                            pedido.Total = Convert.ToDecimal(dr["Total"]);
+                                            pedido.AnioAtt = Convert.ToInt32(dr["AñoATT"]);
+                                            pedido.IDAutotanque = objDireccion.IDAutotanque;// Convert.ToInt32(dr["Autotanque"]);
+                                            pedido.IDFolioAtt = Convert.ToInt32(dr["Folio"]);
+
+                                            RTGMCore.RutaCRMDatos ruta = new RTGMCore.RutaCRMDatos();
+                                            ruta.IDRuta = objDireccion.Ruta.IDRuta;// Convert.ToInt32(dr["RutaCliente"]);
+
+                                            pedido.RutaSuministro = objDireccion.Ruta;// ruta;
+                                            pedido.IDFormaPago = Convert.ToInt32(dr["TipoCobro"]);
+
+                                            lstPedido.Add(pedido);
+                                        }
+                                        RTGMGateway.SolicitudActualizarPedido Solicitud = new RTGMGateway.SolicitudActualizarPedido();
+                                        Solicitud.Pedidos = lstPedido;
+                                        Solicitud.Portatil = false;
+                                        Solicitud.TipoActualizacion = RTGMCore.TipoActualizacion.Liquidacion;
+                                        Solicitud.Usuario = _Usuario;
+                                        List<RTGMCore.Pedido> ListaRespuesta = objGateway.ActualizarPedido(Solicitud);
+
+                                        //MessageBox.Show("ListaRespuesta.Count: " + Convert.ToString(ListaRespuesta.Count));
+
+                                        //rtgm
                                     }
-                                    RTGMGateway.SolicitudActualizarPedido Solicitud = new RTGMGateway.SolicitudActualizarPedido();
-                                    Solicitud.Fuente = RTGMCore.Fuente.CRM;
-                                    Solicitud.IDEmpresa = empresa;
-                                    Solicitud.Pedidos = lstPedido;
-                                    Solicitud.Portatil = false;
-                                    Solicitud.TipoActualizacion = RTGMCore.TipoActualizacion.Liquidacion;
-                                    Solicitud.Usuario = _Usuario;
-                                    List<RTGMCore.Pedido> ListaRespuesta = objGateway.ActualizarPedido(Solicitud);
-
-                                    //MessageBox.Show("ListaRespuesta.Count: " + Convert.ToString(ListaRespuesta.Count));
-
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
                                     //rtgm
                                 }
-                                catch (Exception ex)
-                                {
-                                    MessageBox.Show(ex.Message);
-                                }
-                                //rtgm
-                                
-                                Conexion.Close ();
+
+                                Conexion.Close();
 //						   Conexion.Dispose ();
 						   this.Close ();
 																				
