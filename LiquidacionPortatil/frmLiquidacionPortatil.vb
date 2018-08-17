@@ -69,12 +69,12 @@ Public Class frmLiquidacionPortatil
         End Set
     End Property
 
-    Private _listaDebitoAnticipos As New List(Of ModuloCaja.DebitoAnticipo)
-    Public Property DebitoAnticipo() As List(Of ModuloCaja.DebitoAnticipo)
+    Private _listaDebitoAnticipos As New List(Of FormasPago.DebitoAnticipo)
+    Public Property DebitoAnticipo() As List(Of FormasPago.DebitoAnticipo)
         Get
             Return _listaDebitoAnticipos
         End Get
-        Set(ByVal value As List(Of ModuloCaja.DebitoAnticipo))
+        Set(ByVal value As List(Of FormasPago.DebitoAnticipo))
             _listaDebitoAnticipos = value
         End Set
     End Property
@@ -6473,7 +6473,7 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnCapturarCheque_Click(sender As Object, e As EventArgs) Handles btnCapturarCheque.Click
-        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 3, _Folio)
+        Dim frmSeleTipoCobro As New FormasPago.frmSelTipoCobroPortatil(0, True, 3, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
 
         frmSeleTipoCobro.MostrarDacion = False
@@ -6495,7 +6495,7 @@ Public Class frmLiquidacionPortatil
             If _listaDebitoAnticipos.Count = 0 Then
                 _listaDebitoAnticipos = frmSeleTipoCobro.DebitoAnticipos
             Else
-                For Each Debito As ModuloCaja.DebitoAnticipo In frmSeleTipoCobro.DebitoAnticipos
+                For Each Debito As FormasPago.DebitoAnticipo In frmSeleTipoCobro.DebitoAnticipos
                     _listaDebitoAnticipos.Add(Debito)
                 Next
             End If
@@ -6596,7 +6596,7 @@ Public Class frmLiquidacionPortatil
 
 
     Private Sub btnCapturarTarjeta_Click(sender As Object, e As EventArgs) Handles btnCapturarTarjeta.Click
-        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 2, _Folio)
+        Dim frmSeleTipoCobro As New FormasPago.frmSelTipoCobroPortatil(0, True, 2, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
 
         frmSeleTipoCobro.MostrarDacion = False
@@ -6630,7 +6630,7 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnTransferencia_Click(sender As Object, e As EventArgs) Handles btnTransferencia.Click
-        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 6, _Folio)
+        Dim frmSeleTipoCobro As New FormasPago.frmSelTipoCobroPortatil(0, True, 6, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
 
         frmSeleTipoCobro.MostrarDacion = False
@@ -6664,7 +6664,7 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnCapturarVale_Click(sender As Object, e As EventArgs) Handles btnCapturarVale.Click
-        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 1, _Folio)
+        Dim frmSeleTipoCobro As New FormasPago.frmSelTipoCobroPortatil(0, True, 1, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
 
         frmSeleTipoCobro.MostrarDacion = False
@@ -6697,7 +6697,7 @@ Public Class frmLiquidacionPortatil
     End Sub
 
     Private Sub btnAplicacionAnticipo_Click(sender As Object, e As EventArgs) Handles btnAplicacionAnticipo.Click
-        Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 4, _Folio)
+        Dim frmSeleTipoCobro As New FormasPago.frmSelTipoCobroPortatil(0, True, 4, _Folio)
         Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
 
         frmSeleTipoCobro.MostrarDacion = False
@@ -6739,7 +6739,7 @@ Public Class frmLiquidacionPortatil
 
             If (result = DialogResult.No) Then
                 PagoEfectivoDefault = False
-                Dim frmSeleTipoCobro As New ModuloCaja.frmSelTipoCobro(0, True, 0, _Folio)
+                Dim frmSeleTipoCobro As New FormasPago.frmSelTipoCobroPortatil(0, True, 0, _Folio)
                 Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
 
                 frmSeleTipoCobro.MostrarDacion = False

@@ -25,7 +25,7 @@
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <OldToolsVersion>0.0</OldToolsVersion>
     <UpgradeBackupLocation />
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -110,15 +110,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="FormasPago, Version=1.0.6802.31788, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Caja\FormasPago\FormasPago\FormasPago\bin\Debug\FormasPago.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic">
       <Name>Microsoft.VisualBasic</Name>
     </Reference>
     <Reference Include="MobileGas, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\MobileGas.dll</HintPath>
-    </Reference>
-    <Reference Include="ModuloCaja">
-      <HintPath>D:\ModuloCaja.exe</HintPath>
     </Reference>
     <Reference Include="PortatilClasses, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -128,7 +129,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\ReporteDinamicoOaxaca.dll</HintPath>
     </Reference>
-    <Reference Include="SigaMetClasses">
+    <Reference Include="SigaMetClasses, Version=2.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\SigaMetClasses\bin\SigaMetClasses.dll</HintPath>
     </Reference>
     <Reference Include="SigametSeguridad, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
