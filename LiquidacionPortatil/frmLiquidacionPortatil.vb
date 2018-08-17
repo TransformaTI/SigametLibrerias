@@ -35,7 +35,7 @@ Imports CrystalDecisions.Shared
 Imports System.Data.SqlClient
 Imports System.Collections.Generic
 Imports System.Text
-Imports ModuloCaja
+Imports FormasPago
 
 
 
@@ -4217,8 +4217,13 @@ Public Class frmLiquidacionPortatil
                                 Total = 0
                             End If
 
-                            Importe = Total / ((CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal) / 100) + 1)
-                            Impuesto = Total - Importe
+                            'Importe = Total / ((CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal) / 100) + 1)
+                            'Impuesto = Total - Importe
+
+
+                            Impuesto = CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal)
+                            Importe = Total - Impuesto
+
 
                             Dim ProductoTemp, CantidadTemp, ValorTemp As Integer
                             Dim SaldoTemp As Decimal
@@ -5418,14 +5423,14 @@ Public Class frmLiquidacionPortatil
 
                 'If Importe > 0 And Impuesto > 0 And Total > 0 Then
                 If CType(dtPedidoCobro.DefaultView.Item(k).Item(18), Boolean) Then
-                        If CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal) > 0 Then
-                            oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, True, Connection, Transaction)
-                        Else
-                            oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
-                        End If
+                    If CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal) > 0 Then
+                        oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, True, Connection, Transaction)
                     Else
-                        oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
+                        oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
                     End If
+                Else
+                    oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
+                End If
                 'End If
 
 
@@ -5496,7 +5501,7 @@ Public Class frmLiquidacionPortatil
                     If Not dtPedidoCobro.DefaultView.Item(k).Item(7) Is System.DBNull.Value Then
                         'If Importe > 0 And Impuesto > 0 And Total > 0 Then
                         Dim oLiquidacionCobroPedido As New LiquidacionTransaccionada.cLiquidacion(1, CType(_drLiquidacion(0).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(7), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(8), Integer))
-                            oLiquidacionCobroPedido.LiquidacionPedidoyCobroPedido(0, Now, 0, 0, Importe, Impuesto, Total, "", 0, Now, 0, "", 0, 0, 0, CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer), "", 0, 0, 0, 0, "", 0, Now, Now, 0, 0, 0, 0, 0, 0, 0, 0, Connection, Transaction)
+                        oLiquidacionCobroPedido.LiquidacionPedidoyCobroPedido(0, Now, 0, 0, Importe, Impuesto, Total, "", 0, Now, 0, "", 0, 0, 0, CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer), "", 0, 0, 0, 0, "", 0, Now, Now, 0, 0, 0, 0, 0, 0, 0, 0, Connection, Transaction)
                         'End If
                     End If
                 End If
