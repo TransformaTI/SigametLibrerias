@@ -51,6 +51,7 @@ Public Class frmConsultaClienteMultiple
 
     'Arreglo con todos los cobros del movimiento
     Private _listaCobros As System.Windows.Forms.ListBox
+    Private _CadenaConexion As String
 
     Public ReadOnly Property PedidoReferenciaSeleccionado() As String
         Get
@@ -674,7 +675,8 @@ Public Class frmConsultaClienteMultiple
           Optional ByVal SoloDocumentosSurtidos As Boolean = True,
           Optional ByVal PermiteSeleccionarDocumento As Boolean = False,
           Optional ByVal DSCatalogos As DataSet = Nothing,
-                    Optional ByVal URLGateway As String = "")
+                    Optional ByVal URLGateway As String = "",
+                   Optional ByVal CadCon As String = "", Optional ByVal Modulo As Byte = 0)
 
         MyBase.New()
         InitializeComponent()
@@ -685,7 +687,8 @@ Public Class frmConsultaClienteMultiple
         _SoloCreditos = SoloDocumentosACredito
         _SoloSurtidos = SoloDocumentosSurtidos
         _SeleccionPedidoReferencia = PermiteSeleccionarDocumento
-
+        _CadenaConexion = CadCon
+        _Modulo = Modulo
         aListaPedidos = PedidosAbonados
 
         _calculoAutomatico = CalculoAutomatico
@@ -703,6 +706,8 @@ Public Class frmConsultaClienteMultiple
         _listaCobros = AbonosMovimiento
 
         lblImporteAbono.Text = String.Empty
+        _CadenaConexion = CadCon
+
         If _ImporteAbono > 0 Then
             lblImporteAbono.Text = "Importe del abono: " & Me._ImporteAbono.ToString("C")
         Else
@@ -741,7 +746,7 @@ Public Class frmConsultaClienteMultiple
                     End If
                 Next
             Else
-                oGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+                oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
                 oSolicitud = New RTGMGateway.SolicitudGateway()
                 oGateway.URLServicio = _URLGateway
                 oSolicitud.IDCliente = Cliente
