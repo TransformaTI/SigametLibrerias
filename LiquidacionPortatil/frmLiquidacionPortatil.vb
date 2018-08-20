@@ -57,10 +57,11 @@ Public Class frmLiquidacionPortatil
     Private _ListaCobroRemisiones As New List(Of SigaMetClasses.CobroRemisiones)
     Private _RutaMovil As Boolean
     Private _addRemisiones As Boolean
-    Dim Credito As Decimal
-    Private _cargarProductosPadre As Boolean = False
+	Dim Credito As Decimal
+	Private _dtListaProductos As DataTable
+	Private _cargarProductosPadre As Boolean = False
 
-    Public Property Cobros() As List(Of SigaMetClasses.CobroDetalladoDatos)
+	Public Property Cobros() As List(Of SigaMetClasses.CobroDetalladoDatos)
         Get
             Return _listaCobros
         End Get
@@ -6868,17 +6869,20 @@ Public Class frmLiquidacionPortatil
     End Sub
 
 
-    Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
-        ocultar()
-        Movilgas()
-        cargarRemisiones()
-        validarFormasPago()
-        ActualizarTotalizadorFormasDePago(_listaCobros)
+	Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+		ocultar()
+		Movilgas()
+		cargarRemisiones()
+		validarFormasPago()
+		ActualizarTotalizadorFormasDePago(_listaCobros)
 
 
-    End Sub
+	End Sub
 
-    Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
+
+
+
+	Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
         If grdDetalle.VisibleRowCount > 0 Then
             Dim validar As Boolean
             validar = Validacion()
@@ -7192,46 +7196,80 @@ Public Class frmLiquidacionPortatil
 
     End Sub
 
-    Private Sub btnCrearRemision_Click(sender As Object, e As EventArgs)
+	Private Sub btnCrearRemision_Click(sender As Object, e As EventArgs)
 
-    End Sub
+	End Sub
+	Private Sub ObtenProductos()
 
-    Public Sub Totalizador()
-        Dim i As Integer
-        Dim TotalDescuento As Decimal = 0
-        Dim TotalCREDITO As Decimal = 0
-        Dim Kilostotal As Decimal = 0
-        Dim Ventatotal As Decimal = 0
-        Dim totalcobro As Decimal = 0
-        Dim cantidad As Decimal = 0
-        Dim Kilos As Decimal = 0
-        If _DetalleGrid.Rows.Count <> 0 Then
-            While i < _DetalleGrid.Rows.Count  'txtLista.Count
+		Dim oLiquidacion As New PortatilClasses.cLiquidacion()
 
-                TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(5), Decimal)
-                If Convert.ToString(_DetalleGrid.Rows(i).Item(8)) <> "" Then
-                    If CType(_DetalleGrid.Rows(i).Item(8), String).Trim = "Crédito Portátil" Then
-                        TotalCREDITO = TotalCREDITO + CType(_DetalleGrid.Rows(i).Item("Saldo"), Decimal)
-                    End If
-                End If
-                Kilostotal = CType(_DetalleGrid.Rows(i).Item(4), Decimal)
-                Ventatotal = Ventatotal + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
-                totalcobro = totalcobro + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
-                cantidad = CType(_DetalleGrid.Rows(i).Item("Cantidad"), Decimal)
-                Kilos = Kilos + Kilostotal
-                i = i + 1
-            End While
-        End If
-        lblTotalCobro.Text = totalcobro.ToString("N2")
-        _Totalcobro = totalcobro
-        'lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
-        lblTotal.Text = TotalDescuento.ToString("N2")
-        lblVentaTotal.Text = Ventatotal.ToString("N2")
-        lblCredito.Text = TotalCREDITO.ToString("N2")
-        lblTotalKilos.Text = Kilos.ToString("N1")
-    End Sub
+		_dtListaProductos = New DataTable
+		oLiquidacion.ConsultaPedido(1, _Folio, _AnoAtt)
+		_dtListaProductos = oLiquidacion.dtTable
+		_dtListaProductos.TableName = "ProductosInicial"
 
-    Private Sub txtAplicaDescuento_Click(sender As Object, e As EventArgs)
+
+	End Sub
+
+	Private Function obtenerRegistroProducto(ByVal _Clave As Integer) As Integer
+
+		For i As Integer = 0 To _dtProductos.Rows.Count
+			If CType(_dtListaProductos.Rows(i).Item(0), Integer) = _Clave Then
+				Return i
+			End If
+		Next
+		Return 0
+
+	End Function
+
+	Public Sub Totalizador()
+
+		Dim i As Integer
+		Dim TotalDescuento As Decimal = 0
+		Dim TotalCREDITO As Decimal = 0
+		Dim Kilostotal As Decimal = 0
+		Dim Ventatotal As Decimal = 0
+		Dim totalcobro As Decimal = 0
+		Dim cantidad As Decimal = 0
+		Dim Kilos As Decimal = 0
+		Dim fila As Integer = 0
+
+
+		ObtenProductos()
+		If _DetalleGrid.Rows.Count <> 0 Then
+			While i < _DetalleGrid.Rows.Count  'txtLista.Count
+
+				TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(5), Decimal)
+				If Convert.ToString(_DetalleGrid.Rows(i).Item(8)) <> "" Then
+					If CType(_DetalleGrid.Rows(i).Item(8), String).Trim = "Crédito Portátil" Then
+						TotalCREDITO = TotalCREDITO + CType(_DetalleGrid.Rows(i).Item("Saldo"), Decimal)
+					End If
+				End If
+				Kilostotal = CType(_DetalleGrid.Rows(i).Item(4), Decimal)
+				Ventatotal = Ventatotal + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
+				totalcobro = totalcobro + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
+				cantidad = CType(_DetalleGrid.Rows(i).Item("Cantidad"), Decimal)
+				Kilos = Kilos + Kilostotal
+
+				If CType(_DetalleGrid.Rows(i).Item(8), String).ToUpper.Trim = "OBSEQUIO" Then
+					fila = obtenerRegistroProducto(CType(grdDetalle.Item(i, 11), Integer))
+
+					TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) 'Total
+				End If
+
+				i = i + 1
+			End While
+		End If
+		lblTotalCobro.Text = totalcobro.ToString("N2")
+		_Totalcobro = totalcobro
+		'lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
+		lblTotal.Text = TotalDescuento.ToString("N2")
+		lblVentaTotal.Text = Ventatotal.ToString("N2")
+		lblCredito.Text = TotalCREDITO.ToString("N2")
+		lblTotalKilos.Text = Kilos.ToString("N1")
+	End Sub
+
+	Private Sub txtAplicaDescuento_Click(sender As Object, e As EventArgs)
 
     End Sub
 
