@@ -5119,7 +5119,7 @@ Public Class Cobro
             End If
             If TipoCobro <> Enumeradores.enumTipoCobro.EfectivoVales Then
                 .Parameters.Add(New SqlParameter("@NumeroCheque", SqlDbType.Char, 20)).Value = strNumeroCheque
-                .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = IIf(dtmFCheque = Date.MinValue, SqlString.Null, Date.Now)
+                .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = IIf(dtmFCheque = Date.MinValue, Date.Now, Date.Now)
 
             End If
             .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = intCliente
