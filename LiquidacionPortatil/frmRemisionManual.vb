@@ -1631,9 +1631,17 @@ Public Class frmRemisionManual
 	Private Sub Totaliza()
 
 		_TotalLiquidarPedido = 0
-		For i As Integer = 0 To dtLiquidacionTotal.Rows.Count-1
-			_TotalLiquidarPedido = _TotalLiquidarPedido + CType(grdDetalle.Item(i, 9), Decimal)
-		Next
+
+		If _RutaMovil = True Then
+			For i As Integer = 0 To dtLiquidacionTotal.Rows.Count - 1
+				_TotalLiquidarPedido = _TotalLiquidarPedido + CType(grdDetalle.Item(i, 7), Decimal)
+			Next
+		Else
+			For i As Integer = 0 To dtLiquidacionTotal.Rows.Count - 1
+				_TotalLiquidarPedido = _TotalLiquidarPedido + CType(grdDetalle.Item(i, 9), Decimal)
+			Next
+		End If
+
 
 		lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
 
@@ -2271,13 +2279,21 @@ Public Class frmRemisionManual
 							End If
 						End If
 					End If
-
+					fila = obtenerRegistroProducto(CType(grdDetalle.Item(i, 11), Integer))
 					If cboTipoCobro.Identificador = 15 Then
 						'Control de OBSEQUIO
 						grdDetalle.Item(i, 6) = 0 'Importe = 0
 						grdDetalle.Item(i, 7) = 0 'Saldo = 0
 						grdDetalle.Item(i, 8) = cboTipoCobro.Text
 					End If
+
+					If cboTipoCobro.Text.Trim = "Efectivo" Then
+						grdDetalle.Item(i, 6) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtProductos.Rows(fila).Item(2), Decimal) 'Total
+						grdDetalle.Item(i, 7) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtProductos.Rows(fila).Item(2), Decimal) 'Total
+						grdDetalle.Item(i, 8) = cboTipoCobro.Text
+					End If
+
+
 
 					_DetalleGrid = CType(grdDetalle.DataSource, DataTable)
 				Else
@@ -2356,7 +2372,6 @@ Public Class frmRemisionManual
 												grdDetalle.Item(i, 8) = CType(0, Decimal)
 												grdDetalle.Item(i, 9) = CType(0, Decimal)
 											End If
-
 
 										End If
 									End If
@@ -2440,18 +2455,19 @@ Public Class frmRemisionManual
 								MessageBox.Show("Se requiere remision y serie", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
 							End If
 						End If
-						Totaliza()
+
 					Catch ex As Exception
 						MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
 					End Try
 
 				End If
 			End If
-
+			Totaliza()
 		Catch ex As Exception
 			MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
+		End Try
+
+	End Sub
 
     Public Sub ValidarDescuento()
 
