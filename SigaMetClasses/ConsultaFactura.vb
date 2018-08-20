@@ -14,6 +14,7 @@ Public Class ConsultaFactura
     Private Titulo As String = "Consulta de facturas"
     Private _URLGateway As String
     Private _Modulo As Byte
+    Private _CadenaConexion As String
 
 #Region " Windows Form Designer generated code "
 
@@ -27,7 +28,7 @@ Public Class ConsultaFactura
 
     End Sub
 
-    Public Sub New(URLGateway As String)
+    Public Sub New(URLGateway As String, Optional ByVal Modulo As Byte = 0, Optional ByVal CadCon As String = "")
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
@@ -35,6 +36,8 @@ Public Class ConsultaFactura
 
         'Add any initialization after the InitializeComponent() call
         _URLGateway = URLGateway
+        _Modulo = Modulo
+        _CadenaConexion = CadCon
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -723,7 +726,7 @@ Public Class ConsultaFactura
                 If dtFacturaPedido.Rows.Count > 0 Then
                     Dim drow As DataRow
                     Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
-                    Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(_Modulo, SigaMetClasses.DataLayer.Conexion.ConnectionString)
+                    Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
 
                     objGateway.URLServicio = _URLGateway
 
