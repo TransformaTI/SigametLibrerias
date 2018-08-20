@@ -172,12 +172,10 @@ Public Class frmLiquidacionPortatil
     Private _MaxHoraLiquidar As String = "00:00"
 
     Private VersionMovilGas As Integer = 0
-	Private MGConexionMySQL As String = Nothing
+    Private MGConexionMySQL As String = Nothing
 
-
-
-	'LUSATE Parámetro que indica si se liquida con precios vigentes o no vigentes.
-	Private _LiqPrecioVigente As Boolean = True
+    'LUSATE Parámetro que indica si se liquida con precios vigentes o no vigentes.
+    Private _LiqPrecioVigente As Boolean = True
 
     'LUSATE Variable que indica si el camión tiene BoletinEnLinea
     Private _BoletinEnLineaCamion As Boolean = False
@@ -2692,8 +2690,8 @@ Public Class frmLiquidacionPortatil
                         oRunitaMg.ActualizaEstatusPedidosMG(CType(dtpFLiquidacion.Value, Date), Camion, _Ruta, UsrMovil)
                     End If
                 Catch ex As Exception
-
-				Finally
+                    MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Finally
                     Cursor = Cursors.Default
                 End Try
             Else
@@ -2928,12 +2926,11 @@ Public Class frmLiquidacionPortatil
 
         Dim oConfigCC As New SigaMetClasses.cConfig(1, _CorporativoUsuario, _SucursalUsuario)
         VersionMovilGas = CType(oConfigCC.Parametros("VersionMovilGas"), Integer)
-		If VersionMovilGas = 1 Then
-			MGConexionMySQL = CType(oConfig.Parametros("MGConnectionString"), String).Trim
-		End If
+        If VersionMovilGas = 1 Then
+            MGConexionMySQL = CType(oConfig.Parametros("MGConnectionString"), String).Trim
+        End If
 
-
-		Dim PagoCheque As Boolean
+        Dim PagoCheque As Boolean
         PagoCheque = CType(CType(CType(oConfig.Parametros("LiqCheque"), String).Trim, Decimal), Boolean)
         'gpbCheque.Visible = PagoCheque
 
@@ -4109,24 +4106,11 @@ Public Class frmLiquidacionPortatil
             banderaTransaccion = False
 
             Try
-				'---INICIO
-				'Se instancia el objeto que controla la transacción
-				Dim ClienteTemp As Integer
+                '---INICIO
+                'Se instancia el objeto que controla la transacción
+                Dim ClienteTemp As Integer
 
-
-
-
-				Dim ValorIva As Decimal
-
-				Try
-					Dim oConfigCC As New SigaMetClasses.cConfig(3, _CorporativoUsuario, _SucursalUsuario)
-					ValorIva = CType(oConfigCC.Parametros("IVA"), Decimal) / 100
-				Catch ex As Exception
-					MessageBox.Show("No se ha configurado el IVA", ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
-				End Try
-
-
-				If SesionIniciada = False Then
+                If SesionIniciada = False Then
                     IniciarSesion(FechaOperacion)
                 End If
                 'Si se inicio la sesion correctamente se realiza se procede a realizar la liquidacion
@@ -4233,17 +4217,15 @@ Public Class frmLiquidacionPortatil
                                 Total = 0
                             End If
 
-							'Importe = Total / ((CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal) / 100) + 1)
-							'Impuesto = Total - Importe
-
-							Importe = Total / (1 + ValorIva)
-							Impuesto = Total - Importe
-
-							'Impuesto = CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal)
+                            'Importe = Total / ((CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal) / 100) + 1)
+                            'Impuesto = Total - Importe
 
 
+                            Impuesto = CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal)
+                            Importe = Total - Impuesto
 
-							Dim ProductoTemp, CantidadTemp, ValorTemp As Integer
+
+                            Dim ProductoTemp, CantidadTemp, ValorTemp As Integer
                             Dim SaldoTemp As Decimal
                             Dim TipoCobroTemp, ZonaEconomicaTemp As Short
 
@@ -6397,11 +6379,10 @@ Public Class frmLiquidacionPortatil
 
 
     Private Sub dtpFCarga_ValueChanged(sender As Object, e As EventArgs) Handles dtpFLiquidacion.ValueChanged, dtpFCarga.ValueChanged
-		If dtpFCarga.Focused Or dtpFLiquidacion.Focused Then
-			_Modifcaciondtp = True
-		End If
-
-	End Sub
+        If dtpFCarga.Focused Or dtpFLiquidacion.Focused Then
+            _Modifcaciondtp = True
+        End If
+    End Sub
 
     '20150627CNSM$005-----------------
     Private Sub btnDetalle_Click(sender As Object, e As EventArgs) Handles btnDetalle.Click
@@ -6436,19 +6417,15 @@ Public Class frmLiquidacionPortatil
             dtpFCarga.Enabled = True
         End If
 
-		If _Modifcaciondtp Then
+        If _Modifcaciondtp Then
 
-			LimpiarComponentes()
-			CargarProductosVarios()
+            LimpiarComponentes()
+            CargarProductosVarios()
 
-			_Modifcaciondtp = False
-		End If
+            _Modifcaciondtp = False
+        End If
 
-		If (Not _DetalleGrid Is Nothing) Then
-			Totalizador()
-		End If
-
-	End Sub
+    End Sub
 
     Private Sub dtpFCarga_DropDown(sender As Object, e As EventArgs) Handles dtpFCarga.DropDown
         _FCargaActual = dtpFCarga.Value
@@ -7245,13 +7222,13 @@ Public Class frmLiquidacionPortatil
 
     Public Sub validarFormasPago()
         If grdDetalle.VisibleRowCount > 0 Then
-			'btnCapturarTarjeta.Enabled = True
-			'btnCapturarCheque.Enabled = True
-			'btnTransferencia.Enabled = True
-			'btnCapturarVale.Enabled = True
-			btnPagoEfectivo.Enabled = True
-			'btnAplicacionAnticipo.Enabled = True
-		End If
+            btnCapturarTarjeta.Enabled = True
+            btnCapturarCheque.Enabled = True
+            btnTransferencia.Enabled = True
+            btnCapturarVale.Enabled = True
+            btnPagoEfectivo.Enabled = True
+            btnAplicacionAnticipo.Enabled = True
+        End If
     End Sub
 
     Public Sub ocultar()
