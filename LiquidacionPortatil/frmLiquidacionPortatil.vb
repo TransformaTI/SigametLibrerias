@@ -4114,9 +4114,6 @@ Public Class frmLiquidacionPortatil
 				'Se instancia el objeto que controla la transacción
 				Dim ClienteTemp As Integer
 
-
-
-
 				Dim ValorIva As Decimal
 
 				Try
@@ -6543,8 +6540,27 @@ Public Class frmLiquidacionPortatil
         End If
     End Sub
 
+	Private Function calculaDescuentos() As Decimal
+		Dim TotalDescuento As Decimal = 0
+		Dim i As Integer = 0
+		Dim fila As Integer
 
-    Private Sub ActualizarTotalizadorFormasDePago(Cobros As List(Of SigaMetClasses.CobroDetalladoDatos))
+		ObtenProductos()
+		If _DetalleGrid.Rows.Count <> 0 Then
+			While i < _DetalleGrid.Rows.Count  'txtLista.Count
+				If CType(_DetalleGrid.Rows(i).Item(8), String).ToUpper.Trim = "OBSEQUIO" Then
+					fila = obtenerRegistroProducto(CType(grdDetalle.Item(i, 11), Integer))
+
+					TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) 'Total
+				End If
+
+				i = i + 1
+			End While
+		End If
+		Return TotalDescuento
+	End Function
+
+	Private Sub ActualizarTotalizadorFormasDePago(Cobros As List(Of SigaMetClasses.CobroDetalladoDatos))
         Dim TotalEfectivo As Decimal
         Dim TotalVales As Decimal
         Dim TotalTransferencia As Decimal
@@ -6553,35 +6569,38 @@ Public Class frmLiquidacionPortatil
         Dim TotalCheques As Decimal
         Dim TotalLiquidado As Decimal
         Dim Acumulado As Decimal
-        Dim VentaTotal As Decimal
+		Dim VentaTotal As Decimal
+		Dim DescuentoTotal As Decimal
 
-        For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
-            If Cobro.TipoCobro = 5 Then
-                TotalEfectivo = TotalEfectivo + Cobro.Total - Credito
-            End If
-            If Cobro.TipoCobro = 16 Then
-                TotalVales = TotalVales + Cobro.Total
-            End If
-            If Cobro.TipoCobro = 10 Then
-                TotalTransferencia = TotalTransferencia + Cobro.Total
-            End If
-            If Cobro.TipoCobro = 6 Or Cobro.TipoCobro = 19 Then
-                TotalTarjeta = TotalTarjeta + Cobro.Total
-            End If
-            If Cobro.TipoCobro = 21 Then
-                TotalAnticipo = TotalAnticipo + Cobro.Total
-            End If
-            If Cobro.TipoCobro = 3 Then
-                TotalCheques = TotalCheques + Cobro.Total
-            End If
+		For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
+			If Cobro.TipoCobro = 5 Then
+				TotalEfectivo = TotalEfectivo + Cobro.Total - Credito
+			End If
+			If Cobro.TipoCobro = 16 Then
+				TotalVales = TotalVales + Cobro.Total
+			End If
+			If Cobro.TipoCobro = 10 Then
+				TotalTransferencia = TotalTransferencia + Cobro.Total
+			End If
+			If Cobro.TipoCobro = 6 Or Cobro.TipoCobro = 19 Then
+				TotalTarjeta = TotalTarjeta + Cobro.Total
+			End If
+			If Cobro.TipoCobro = 21 Then
+				TotalAnticipo = TotalAnticipo + Cobro.Total
+			End If
+			If Cobro.TipoCobro = 3 Then
+				TotalCheques = TotalCheques + Cobro.Total
+			End If
 
-            TotalLiquidado = TotalLiquidado + Cobro.Total
-        Next
-        If grdDetalle.VisibleRowCount > 0 Then
-            VentaTotal = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable))
+			TotalLiquidado = TotalLiquidado + Cobro.Total
+		Next
 
-            lblTotalCobro.Text = VentaTotal.ToString("N2")
-            lblEfectivo.Text = TotalEfectivo.ToString("N2")
+		DescuentoTotal = calculaDescuentos()
+		If grdDetalle.VisibleRowCount > 0 Then
+			VentaTotal = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable)) + DescuentoTotal
+
+			lblTotalCobro.Text = (VentaTotal - DescuentoTotal).ToString("N2")
+			lblEfectivo.Text = TotalEfectivo.ToString("N2")
             lblVales.Text = TotalVales.ToString("N2")
             lblTransferElect.Text = TotalTransferencia.ToString("N2")
             lblTarjDebCred.Text = TotalTarjeta.ToString("N2")
@@ -6590,19 +6609,22 @@ Public Class frmLiquidacionPortatil
             lblVentaTotal.Text = VentaTotal.ToString("N2")
             lblCredito.Text = calcularCredito(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
 
-            Acumulado = TotalEfectivo + TotalVales +
-                        TotalTransferencia + TotalTarjeta +
-                        TotalAnticipo + TotalCheques +
-                        calcularCredito(TryCast(grdDetalle.DataSource, DataTable))
-            lblResto.Text = (VentaTotal - Acumulado).ToString("N2")
 
-        End If
+
+			Acumulado = TotalEfectivo + TotalVales +
+						TotalTransferencia + TotalTarjeta +
+						TotalAnticipo + TotalCheques +
+						calcularCredito(TryCast(grdDetalle.DataSource, DataTable)) + DescuentoTotal
+			lblResto.Text = (VentaTotal - Acumulado).ToString("N2")
+
+		End If
     End Sub
 
     Private Function calcularVentaTotal(dt As DataTable) As Decimal
-        Dim VentaTotal As Decimal = 0
+		Dim VentaTotal As Decimal = 0
+		Dim DescuentoTotal As Decimal = 0
 
-        If Not dt Is Nothing Then
+		If Not dt Is Nothing Then
             For Each dr As DataRow In dt.Rows
                 VentaTotal = VentaTotal + Convert.ToDecimal(dr("importe").ToString())
             Next
@@ -7264,9 +7286,10 @@ Public Class frmLiquidacionPortatil
 		_Totalcobro = totalcobro
 		'lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
 		lblTotal.Text = TotalDescuento.ToString("N2")
-		lblVentaTotal.Text = Ventatotal.ToString("N2")
+		lblVentaTotal.Text = (Ventatotal + TotalDescuento).ToString("N2")
 		lblCredito.Text = TotalCREDITO.ToString("N2")
 		lblTotalKilos.Text = Kilos.ToString("N1")
+		lblResto.Text = Ventatotal.ToString("N2")
 	End Sub
 
 	Private Sub txtAplicaDescuento_Click(sender As Object, e As EventArgs)

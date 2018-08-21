@@ -21,9 +21,10 @@ Public Class frmRemisionManual
     Private dtCantidades As New DataTable
     Private _DetalleGrid As DataTable
 
-    'Variables generales
-    Dim _dtProductos As DataTable
-    Dim _dtProductosPadre As DataTable = New DataTable
+	'Variables generales
+	Dim _dtProductos As DataTable
+	Dim _dtListaProductos As DataTable
+	Dim _dtProductosPadre As DataTable = New DataTable
     Dim _cargarProductosPadre As Boolean
     Dim i As Integer
     'Variables donde se almacena los totales de efectivo
@@ -217,72 +218,73 @@ Public Class frmRemisionManual
             End If
         End If
 
-        If _Configuracion <> 0 Then
-            Dim i As Integer = 0
-            While i < dtLiquidacionTotal.Rows.Count
-                Dim ProductoTemp As Integer = CType(dtLiquidacionTotal.Rows(i).Item(3), Integer)
-                Dim CantidadTemp As Integer = CType(dtLiquidacionTotal.Rows(i).Item(6), Integer)
-                Dim encontrado As Boolean = False
-                For Each p As DataRow In Me.dtCantidades.Rows
-                    If Convert.ToInt32(p("IdProducto")) = ProductoTemp Then
-                        p.BeginEdit()
-                        p("Cantidad") = Convert.ToInt32(p("Cantidad")) + CantidadTemp
-                        p.EndEdit()
-                        encontrado = True
-                        Exit For
-                    End If
-                Next
-                If Not encontrado Then
-                    Dim p As DataRow
+		If _Configuracion <> 0 Then
+			Dim i As Integer = 0
+			While i < dtLiquidacionTotal.Rows.Count
+				Dim ProductoTemp As Integer = CType(dtLiquidacionTotal.Rows(i).Item(3), Integer)
+				Dim CantidadTemp As Integer = CType(dtLiquidacionTotal.Rows(i).Item(6), Integer)
+				Dim encontrado As Boolean = False
+				For Each p As DataRow In Me.dtCantidades.Rows
+					If Convert.ToInt32(p("IdProducto")) = ProductoTemp Then
+						p.BeginEdit()
+						p("Cantidad") = Convert.ToInt32(p("Cantidad")) + CantidadTemp
+						p.EndEdit()
+						encontrado = True
+						Exit For
+					End If
+				Next
+				If Not encontrado Then
+					Dim p As DataRow
 
-                    p = Me.dtCantidades.NewRow()
-                    p("IdProducto") = ProductoTemp
-                    p("Cantidad") = CantidadTemp
+					p = Me.dtCantidades.NewRow()
+					p("IdProducto") = ProductoTemp
+					p("Cantidad") = CantidadTemp
 
-                    Me.dtCantidades.Rows.Add(p)
-                End If
-                i = i + 1
-            End While
+					Me.dtCantidades.Rows.Add(p)
+				End If
+				i = i + 1
+			End While
 
-            If Me.dtCantidades.Rows.Count > 0 Then
-                Dim dataView As New DataView(Me.dtCantidades)
-                dataView.Sort = "IdProducto ASC"
-                Dim dataTable As DataTable = dataView.ToTable()
+			If Me.dtCantidades.Rows.Count > 0 Then
+				Dim dataView As New DataView(Me.dtCantidades)
+				dataView.Sort = "IdProducto ASC"
+				Dim dataTable As DataTable = dataView.ToTable()
 
-                Me.dtCantidades = dataTable
-                Dim ind As Integer
-                For Each p As DataRow In Me.dtCantidades.Rows
-                    While ind < _dtProductos.Rows.Count
-                        If CType(_dtProductos.Rows(ind).Item(0), Integer) = Convert.ToInt32(p("IdProducto")) Then
-                            CType(lblListaExistencia.Item(ind), System.Windows.Forms.Label).Text = CType(CType(CType(lblListaExistencia.Item(ind), System.Windows.Forms.Label).Text, Integer) - CType(p("Cantidad").ToString(), Integer), String)
-                            Exit While
-                        End If
-                        ind = ind + 1
-                    End While
-                Next
-            End If
+				Me.dtCantidades = dataTable
+				Dim ind As Integer
+				For Each p As DataRow In Me.dtCantidades.Rows
+					While ind < _dtProductos.Rows.Count
+						If CType(_dtProductos.Rows(ind).Item(0), Integer) = Convert.ToInt32(p("IdProducto")) Then
+							CType(lblListaExistencia.Item(ind), System.Windows.Forms.Label).Text = CType(CType(CType(lblListaExistencia.Item(ind), System.Windows.Forms.Label).Text, Integer) - CType(p("Cantidad").ToString(), Integer), String)
+							Exit While
+						End If
+						ind = ind + 1
+					End While
+				Next
+			End If
 
-            If _DiccionarioPrecios.Count = 0 Then
-                Dim dtPrecios As New DataTable
-                Dim oLiquidacion As New PortatilClasses.cLiquidacion()
-                oLiquidacion.ConsultaPedido(_Configuracion, _FolioAtt, _AñoAtt)
-                dtPrecios = oLiquidacion.dtTable
+			If _DiccionarioPrecios.Count = 0 Then
+				Dim dtPrecios As New DataTable
+				Dim oLiquidacion As New PortatilClasses.cLiquidacion()
+				oLiquidacion.ConsultaPedido(_Configuracion, _FolioAtt, _AñoAtt)
+				dtPrecios = oLiquidacion.dtTable
 
-                For Each dr As DataRow In dtPrecios.Rows
-                    _DiccionarioPrecios.Add(CType(dr(0), Integer), CType(dr(2), Decimal))
-                Next
+				For Each dr As DataRow In dtPrecios.Rows
+					_DiccionarioPrecios.Add(CType(dr(0), Integer), CType(dr(2), Decimal))
+				Next
 
-            End If
+			End If
 
 
-            'If Me.dtLiquidacionTotal.Rows.Count > 0 Then
-            '    dtLiquidacionTotal.Clear()
-            '    grdDetalle.DataSource = dtLiquidacionTotal
-            'End If
+			'If Me.dtLiquidacionTotal.Rows.Count > 0 Then
+			'    dtLiquidacionTotal.Clear()
+			'    grdDetalle.DataSource = dtLiquidacionTotal
+			'End If
 
-        End If
+		End If
+		ObtenProductos()
 
-    End Sub
+	End Sub
 
     Public Sub New(ByVal FolioAtt As Integer,
                    ByVal AñoAtt As Short,
@@ -330,74 +332,75 @@ Public Class frmRemisionManual
             End If
         End If
 
-        If _Configuracion <> 0 Then
-            Dim i As Integer = 0
-            While i < dtLiquidacionTotal.Rows.Count
-                Dim ProductoTemp As Integer = CType(dtLiquidacionTotal.Rows(i).Item(3), Integer)
-                Dim CantidadTemp As Integer = CType(dtLiquidacionTotal.Rows(i).Item(6), Integer)
-                Dim encontrado As Boolean = False
-                For Each p As DataRow In Me.dtCantidades.Rows
-                    If Convert.ToInt32(p("IdProducto")) = ProductoTemp Then
-                        p.BeginEdit()
-                        p("Cantidad") = Convert.ToInt32(p("Cantidad")) + CantidadTemp
-                        p.EndEdit()
-                        encontrado = True
-                        Exit For
-                    End If
-                Next
-                If Not encontrado Then
-                    Dim p As DataRow
+		If _Configuracion <> 0 Then
+			Dim i As Integer = 0
+			While i < dtLiquidacionTotal.Rows.Count
+				Dim ProductoTemp As Integer = CType(dtLiquidacionTotal.Rows(i).Item(3), Integer)
+				Dim CantidadTemp As Integer = CType(dtLiquidacionTotal.Rows(i).Item(6), Integer)
+				Dim encontrado As Boolean = False
+				For Each p As DataRow In Me.dtCantidades.Rows
+					If Convert.ToInt32(p("IdProducto")) = ProductoTemp Then
+						p.BeginEdit()
+						p("Cantidad") = Convert.ToInt32(p("Cantidad")) + CantidadTemp
+						p.EndEdit()
+						encontrado = True
+						Exit For
+					End If
+				Next
+				If Not encontrado Then
+					Dim p As DataRow
 
-                    p = Me.dtCantidades.NewRow()
-                    p("IdProducto") = ProductoTemp
-                    p("Cantidad") = CantidadTemp
+					p = Me.dtCantidades.NewRow()
+					p("IdProducto") = ProductoTemp
+					p("Cantidad") = CantidadTemp
 
-                    Me.dtCantidades.Rows.Add(p)
-                End If
-                i = i + 1
-            End While
+					Me.dtCantidades.Rows.Add(p)
+				End If
+				i = i + 1
+			End While
 
-            If Me.dtCantidades.Rows.Count > 0 Then
-                Dim dataView As New DataView(Me.dtCantidades)
-                dataView.Sort = "IdProducto ASC"
-                Dim dataTable As DataTable = dataView.ToTable()
+			If Me.dtCantidades.Rows.Count > 0 Then
+				Dim dataView As New DataView(Me.dtCantidades)
+				dataView.Sort = "IdProducto ASC"
+				Dim dataTable As DataTable = dataView.ToTable()
 
-                Me.dtCantidades = dataTable
-                Dim ind As Integer
-                For Each p As DataRow In Me.dtCantidades.Rows
-                    While ind < _dtProductos.Rows.Count
-                        If CType(_dtProductos.Rows(ind).Item(0), Integer) = Convert.ToInt32(p("IdProducto")) Then
-                            CType(lblListaExistencia.Item(ind), System.Windows.Forms.Label).Text = CType(CType(CType(lblListaExistencia.Item(ind), System.Windows.Forms.Label).Text, Integer) - CType(p("Cantidad").ToString(), Integer), String)
-                            Exit While
-                        End If
-                        ind = ind + 1
-                    End While
-                Next
-            End If
+				Me.dtCantidades = dataTable
+				Dim ind As Integer
+				For Each p As DataRow In Me.dtCantidades.Rows
+					While ind < _dtProductos.Rows.Count
+						If CType(_dtProductos.Rows(ind).Item(0), Integer) = Convert.ToInt32(p("IdProducto")) Then
+							CType(lblListaExistencia.Item(ind), System.Windows.Forms.Label).Text = CType(CType(CType(lblListaExistencia.Item(ind), System.Windows.Forms.Label).Text, Integer) - CType(p("Cantidad").ToString(), Integer), String)
+							Exit While
+						End If
+						ind = ind + 1
+					End While
+				Next
+			End If
 
-            If _DiccionarioPrecios.Count = 0 Then
-                Dim dtPrecios As New DataTable
-                Dim oLiquidacion As New PortatilClasses.cLiquidacion()
-                oLiquidacion.ConsultaPedido(_Configuracion, _FolioAtt, _AñoAtt)
-                dtPrecios = oLiquidacion.dtTable
+			If _DiccionarioPrecios.Count = 0 Then
+				Dim dtPrecios As New DataTable
+				Dim oLiquidacion As New PortatilClasses.cLiquidacion()
+				oLiquidacion.ConsultaPedido(_Configuracion, _FolioAtt, _AñoAtt)
+				dtPrecios = oLiquidacion.dtTable
 
-                For Each dr As DataRow In dtPrecios.Rows
-                    _DiccionarioPrecios.Add(CType(dr(0), Integer), CType(dr(2), Decimal))
-                Next
+				For Each dr As DataRow In dtPrecios.Rows
+					_DiccionarioPrecios.Add(CType(dr(0), Integer), CType(dr(2), Decimal))
+				Next
 
-            End If
+			End If
 
 
-            If _BoletinEnLineaCamion Then
-                txtSerie.Enabled = False
-                txtRemision.Enabled = False
-            Else
-                txtSerie.Enabled = True
-                txtRemision.Enabled = True
-            End If
-        End If
+			If _BoletinEnLineaCamion Then
+				txtSerie.Enabled = False
+				txtRemision.Enabled = False
+			Else
+				txtSerie.Enabled = True
+				txtRemision.Enabled = True
+			End If
+		End If
+		ObtenProductos()
 
-    End Sub
+	End Sub
 
     'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
@@ -2203,13 +2206,25 @@ Public Class frmRemisionManual
 	Private Function obtenerRegistroProducto(ByVal _Clave As Integer) As Integer
 
 		For i As Integer = 0 To _dtProductos.Rows.Count
-			If CType(_dtProductos.Rows(i).Item(0), Integer) = _Clave Then
+			If CType(_dtListaProductos.Rows(i).Item(0), Integer) = _Clave Then
 				Return i
 			End If
 		Next
 		Return 0
 
 	End Function
+
+	Private Sub ObtenProductos()
+
+		Dim oLiquidacion As New PortatilClasses.cLiquidacion()
+
+		_dtListaProductos = New DataTable
+		oLiquidacion.ConsultaPedido(_Configuracion, _FolioAtt, _AñoAtt)
+		_dtListaProductos = oLiquidacion.dtTable
+		_dtListaProductos.TableName = "ProductosInicial"
+
+
+	End Sub
 
 	Public Sub CargaGridModificado()
 		Try
@@ -2288,9 +2303,9 @@ Public Class frmRemisionManual
 					End If
 
 					If cboTipoCobro.Text.Trim = "Efectivo" Then
-						grdDetalle.Item(i, 6) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtProductos.Rows(fila).Item(2), Decimal) 'Total
-						grdDetalle.Item(i, 7) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtProductos.Rows(fila).Item(2), Decimal) 'Total
-						grdDetalle.Item(i, 8) = cboTipoCobro.Text
+						grdDetalle.Item(i, 6) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) 'Total
+						grdDetalle.Item(i, 7) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) 'Total
+						grdDetalle.Item(i, 8) = "CONTADO"
 					End If
 
 
@@ -2362,9 +2377,9 @@ Public Class frmRemisionManual
 
 
 											If cboTipoCobro.Text.Trim = "Efectivo" Then
-												grdDetalle.Item(i, 7) = ((CType(grdDetalle.Item(i, 6), Decimal) * CType(_dtProductos.Rows(fila).Item(2), Decimal))) / ((CType((_dtProductos.Rows(fila).Item(4)), Decimal) / 100) + 1)
+												grdDetalle.Item(i, 7) = ((CType(grdDetalle.Item(i, 6), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal))) / ((CType((_dtListaProductos.Rows(fila).Item(4)), Decimal) / 100) + 1)
 												grdDetalle.Item(i, 8) = CType(_dtProductos.Rows(i).Item(4), Decimal) 'Iva
-												grdDetalle.Item(i, 9) = CType(grdDetalle.Item(i, 6), Decimal) * CType(_dtProductos.Rows(fila).Item(2), Decimal) 'Total
+												grdDetalle.Item(i, 9) = CType(grdDetalle.Item(i, 6), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) 'Total
 											End If
 
 											If cboTipoCobro.Text.Trim = "Obsequio" Then
