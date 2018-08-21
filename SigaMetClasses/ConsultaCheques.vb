@@ -876,7 +876,7 @@ Public Class ConsultaCheques
             LimpiaVariables()
             dtCheque = oCheque.Consulta(dtpFCheque.Value.Date, CType(ComboBanco.SelectedValue, Short))
 
-            If Not IsNothing(_URLGateway) Then
+            If _URLGateway <> "" Then
                 grdCheque.DataSource = consultarDatosClienteCRM(dtCheque)
             Else
                 grdCheque.DataSource = dtCheque
@@ -904,6 +904,7 @@ Public Class ConsultaCheques
 
     Private Function consultarDatosClienteCRM(ByVal dtCheques As DataTable) As DataTable
         Dim dtChuequesModificados As New DataTable()
+        Dim Mensaje As String = "Los siguientes clientes no fueron encontrados en CRM." + vbCrLf
         Try
             dtChuequesModificados = dtCheques
             If dtChuequesModificados.Rows.Count() > 0 Then
@@ -924,7 +925,8 @@ Public Class ConsultaCheques
                         dr("ClienteNombre") = oDireccionEntrega.Nombre
                     Else
                         If Not IsNothing(oDireccionEntrega.Message) And oDireccionEntrega.Message.Contains("ERROR") Then
-                            Throw New Exception(oDireccionEntrega.Message)
+                            'Throw New Exception(oDireccionEntrega.Message)
+                            Mensaje = Mensaje & CType(dr("Cliente"), String) + vbCrLf
                         End If
                     End If
                 Next
@@ -935,7 +937,12 @@ Public Class ConsultaCheques
         Finally
             Cursor = Cursors.Default
         End Try
-
+        If Mensaje <> "" Then
+            If Mensaje.Length > 500 Then
+                Mensaje = Mensaje.Substring(0, 500) & "..."
+            End If
+            MessageBox.Show(Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
         Return dtChuequesModificados
     End Function
 
