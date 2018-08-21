@@ -876,7 +876,7 @@ Public Class ConsultaCheques
             LimpiaVariables()
             dtCheque = oCheque.Consulta(dtpFCheque.Value.Date, CType(ComboBanco.SelectedValue, Short))
 
-            If Not IsNothing(_URLGateway) Then
+            If _URLGateway <> "" Then
                 grdCheque.DataSource = consultarDatosClienteCRM(dtCheque)
             Else
                 grdCheque.DataSource = dtCheque
