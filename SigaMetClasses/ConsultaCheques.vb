@@ -905,6 +905,7 @@ Public Class ConsultaCheques
     Private Function consultarDatosClienteCRM(ByVal dtCheques As DataTable) As DataTable
         Dim dtChuequesModificados As New DataTable()
         Dim Mensaje As String = "Los siguientes clientes no fueron encontrados en CRM." + vbCrLf
+        Dim CtesNoEncontrados As String = ""
         Try
             dtChuequesModificados = dtCheques
             If dtChuequesModificados.Rows.Count() > 0 Then
@@ -926,7 +927,12 @@ Public Class ConsultaCheques
                     Else
                         If Not IsNothing(oDireccionEntrega.Message) And oDireccionEntrega.Message.Contains("ERROR") Then
                             'Throw New Exception(oDireccionEntrega.Message)
-                            Mensaje = Mensaje & CType(dr("Cliente"), String) + vbCrLf
+                            'Mensaje = Mensaje & CType(dr("Cliente"), String) + vbCrLf
+                            If CtesNoEncontrados = String.Empty Then
+                                CtesNoEncontrados = CType(dr("Cliente"), String)
+                            Else
+                                CtesNoEncontrados = CtesNoEncontrados & "," & CStr(dr("Cliente"))
+                            End If
                         End If
                     End If
                 Next
@@ -937,7 +943,9 @@ Public Class ConsultaCheques
         Finally
             Cursor = Cursors.Default
         End Try
-        If Mensaje <> "" Then
+        If CtesNoEncontrados <> "" Then
+
+            Mensaje = Mensaje + " " + CtesNoEncontrados
             If Mensaje.Length > 500 Then
                 Mensaje = Mensaje.Substring(0, 500) & "..."
             End If
