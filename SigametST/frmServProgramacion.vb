@@ -13,12 +13,8 @@ Public Class frmServProgramacion
     Private _Estatus As String
     Private Fcomp As Date
     Private _Folio As Integer
-    Friend WithEvents btnConsultar As System.Windows.Forms.ToolBarButton
-
-
-
     Private _UsaLiquidacion As Boolean
-
+    Private _URLGateway As String
 
     Private Sub Llenacelula()
         ''Dim LlenaCelula As New SqlDataAdapter("select celula,descripcion from celula where comercial = 1", cnnSigamet)
@@ -77,8 +73,6 @@ Public Class frmServProgramacion
             While drProgST.Read
                 Dim oProgST As ListViewItem = New ListViewItem(CType(drProgST("PedidoReferencia"), String), 12)
 
-
-
                 If Not IsDBNull(drProgST("Status")) Then
                     If CType(drProgST("Status"), String).Trim = "ATENDIDO" Then oProgST.ImageIndex = 13
                     If CType(drProgST("Status"), String).Trim = "CANCELADO" Then oProgST.ImageIndex = 14
@@ -86,12 +80,9 @@ Public Class frmServProgramacion
                     If CType(drProgST("Franquicia"), Integer) = 1 Then oProgST.ImageIndex = 17
                     If CType(drProgST("Llamada"), Integer) = 1 Then oProgST.ImageIndex = 19
                     If CType(drProgST("Status"), String).Trim = "PENDIENTE" Then oProgST.ImageIndex = 20
-
-
                 Else
                     oProgST.ImageIndex = 12
                 End If
-
 
                 oProgST.SubItems.Add(CType(drProgST("Cliente"), String))
                 oProgST.SubItems.Add(RTrim(CType(drProgST("Rutadescripcion"), String)))
@@ -107,7 +98,6 @@ Public Class frmServProgramacion
                 lvwProgramaciones.Items.Add(oProgST)
                 oProgST.EnsureVisible()
             End While
-
         Catch e As Exception
             MessageBox.Show(e.Message)
         Finally
@@ -116,8 +106,6 @@ Public Class frmServProgramacion
         End Try
         'Permite agregar un control CheckBoxes a cada uno de los elemento de la lista
         'lvwProgramaciones.CheckBoxes = True
-
-
     End Sub
 
     Private Sub llenaEquipo()
@@ -368,7 +356,12 @@ Public Class frmServProgramacion
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(ByVal Usuario As String, ByVal Clave As String, ByVal CadenaConexion As String, ByVal Corporativo As Short, ByVal Sucursal As Short)
+    Public Sub New(ByVal Usuario As String, 
+                   ByVal Clave As String, 
+                   ByVal CadenaConexion As String, 
+                   ByVal Corporativo As Short, 
+                   ByVal Sucursal As Short,
+                   Optional ByVal URLGateway As String = "")
         MyBase.New()
         SigametSeguridad.Seguridad.Conexion = cnnSigamet
 
@@ -377,6 +370,7 @@ Public Class frmServProgramacion
         GLOBAL_CadenaConexion = CadenaConexion
         GLOBAL_Corporativo = Corporativo
         GLOBAL_Sucursal = Sucursal
+        _URLGateway = _URLGateway
 
         'oConfig2 = New SigaMetClasses.cConfig(11, GLOBAL_Corporativo, GLOBAL_Sucursal)
 
@@ -726,6 +720,7 @@ Public Class frmServProgramacion
     Friend WithEvents DGTBCFCompromisoActual As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents DGTBCObservacionesReprogramacion As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents btnTodasFranquicias As System.Windows.Forms.ToolBarButton
+    Friend WithEvents btnConsultar As System.Windows.Forms.ToolBarButton
     Friend WithEvents btnObservacion As System.Windows.Forms.ToolBarButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
