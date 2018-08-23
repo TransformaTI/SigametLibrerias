@@ -1,5 +1,6 @@
 Imports System.Collections.Generic
 Imports System.Data.SqlClient
+Imports System.Linq
 Imports RTGMGateway
 
 Public Class frmServProgramacion
@@ -18,6 +19,7 @@ Public Class frmServProgramacion
     Private _Folio As Integer
     Private _UsaLiquidacion As Boolean
     Private _URLGateway As String
+    Private _PedidosCRM As List(Of RTGMCore.Pedido)
 
     Private Sub Llenacelula()
         ''Dim LlenaCelula As New SqlDataAdapter("select celula,descripcion from celula where comercial = 1", cnnSigamet)
@@ -129,6 +131,7 @@ Public Class frmServProgramacion
 
             Dim obGatewayPedido As New RTGMPedidoGateway(GLOBAL_Modulo, GLOBAL_CadenaConexion)
             obGatewayPedido.URLServicio = _URLGateway
+            _PedidosCRM = New List(Of RTGMCore.Pedido)
 
             Dim obSolicitud As New SolicitudPedidoGateway With {
                 .TipoConsultaPedido = RTGMCore.TipoConsultaPedido.ServiciosTecnicos,
@@ -138,15 +141,15 @@ Public Class frmServProgramacion
                 .IDZona = Celula
             }
 
-            Dim Pedidos As List(Of RTGMCore.Pedido) = obGatewayPedido.buscarPedidos(obSolicitud)
+            _PedidosCRM = obGatewayPedido.buscarPedidos(obSolicitud)
 
-            If Not IsNothing(Pedidos) AndAlso Pedidos.Count > 0 Then
+            If Not IsNothing(_PedidosCRM) AndAlso _PedidosCRM.Count > 0 Then
                 Dim pedido As New RTGMCore.Pedido
 
-                For Each pedido In Pedidos
+                For Each pedido In _PedidosCRM
                     Dim oItem As ListViewItem
 
-                    oItem = New ListViewItem(If(pedido.PedidoReferencia, "").Trim) '0
+                    oItem = New ListViewItem(Convert.ToString(pedido.IDPedido)) '0
 
                     'oItem.SubItems.Add(CType(drProgST("Cliente"), String)) '1
                     'oItem.SubItems.Add(RTrim(CType(drProgST("Rutadescripcion"), String))) '2
@@ -177,9 +180,8 @@ Public Class frmServProgramacion
                     lvwProgramaciones.Items.Add(oItem)
                 Next
             End If
-
         Catch ex As Exception
-
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -272,36 +274,91 @@ Public Class frmServProgramacion
 
     Private Sub CargaDatosCliente()
 
+        If Not String.IsNullOrEmpty(_URLGateway) Then
+            CargaDatosCliente_CRM()
+        Else
+            Try
+                Dim da As New SqlDataAdapter("select Cliente,Celula,Ruta,Nombre,isnull(RazonSocial,'Sin empresa') as RazonSocial,Callenombre,isnull(NumInterior,'') as NumInterior,isnull(NumExterior,'') as NumExterior,isnull(ColoniaNombre,'')as ColoniaNombre,isnull(cp,'') as cp,Status,MunicipioNombre,isnull(TelCasa,'')as TelCasa,clasificacionclientedescripcion from vwdatoscliente Where Cliente = " & Client, cnnSigamet)
+                Dim dt As New DataTable("Cliente")
+                da.Fill(dt)
+                'if apara la comparacion de que no haya dos mismos registros
+                If dt.Rows.Count >= 1 Then
+                    lblCliente.Text = CType(dt.Rows(0).Item("Cliente"), String)
+                    'se pone el nombre del objeto a llenar.text = conexion con cliente(dt)
+                    'rows(0).item(nombre del campo de la tabla)
+                    lblCelula.Text = CType(dt.Rows(0).Item("Celula"), String)
+                    lblRuta.Text = CType(dt.Rows(0).Item("Ruta"), String)
+                    lblCelula.Text = CType(dt.Rows(0).Item("Celula"), String)
+                    lblRuta.Text = CType(dt.Rows(0).Item("Ruta"), String)
+                    lblNombre.Text = CType(dt.Rows(0).Item("Nombre"), String)
+                    lblEmpresa.Text = CType(dt.Rows(0).Item("RazonSocial"), String)
+                    lblCalle.Text = CType(dt.Rows(0).Item("CalleNombre"), String)
+                    lblNumeroInterior.Text = CType(dt.Rows(0).Item("NumInterior"), String)
+                    lblNumeroExterior.Text = CType(dt.Rows(0).Item("numexterior"), String)
+                    lblColonia.Text = CType(dt.Rows(0).Item("colonianombre"), String)
+                    lblCP.Text = CType(dt.Rows(0).Item("cp"), String)
+                    lblStatusCliente.Text = CType(dt.Rows(0).Item("status"), String)
+                    lblMunicipio.Text = CType(dt.Rows(0).Item("municipionombre"), String)
+                    lblTelefono.Text = CType(dt.Rows(0).Item("telcasa"), String)
+                    lblClasificacionCliente.Text = CType(dt.Rows(0).Item("clasificacionclientedescripcion"), String)
+                End If
+            Catch e As Exception
+                MessageBox.Show(e.Message)
+            Finally
+                cnnSigamet.Close()
+                'cnnSigamet.Dispose()
+            End Try
+        End If
+    End Sub
+
+    Private Sub CargaDatosCliente_CRM()
+        Dim idPedido As Integer = 0
+        Integer.TryParse(_Pedido, idPedido)
+
         Try
-            Dim da As New SqlDataAdapter("select Cliente,Celula,Ruta,Nombre,isnull(RazonSocial,'Sin empresa') as RazonSocial,Callenombre,isnull(NumInterior,'') as NumInterior,isnull(NumExterior,'') as NumExterior,isnull(ColoniaNombre,'')as ColoniaNombre,isnull(cp,'') as cp,Status,MunicipioNombre,isnull(TelCasa,'')as TelCasa,clasificacionclientedescripcion from vwdatoscliente Where Cliente = " & Client, cnnSigamet)
-            Dim dt As New DataTable("Cliente")
-            da.Fill(dt)
-            'if apara la comparacion de que no haya dos mismos registros
-            If dt.Rows.Count >= 1 Then
-                lblCliente.Text = CType(dt.Rows(0).Item("Cliente"), String)
-                'se pone el nombre del objeto a llenar.text = conexion con cliente(dt)
-                'rows(0).item(nombre del campo de la tabla)
-                lblCelula.Text = CType(dt.Rows(0).Item("Celula"), String)
-                lblRuta.Text = CType(dt.Rows(0).Item("Ruta"), String)
-                lblCelula.Text = CType(dt.Rows(0).Item("Celula"), String)
-                lblRuta.Text = CType(dt.Rows(0).Item("Ruta"), String)
-                lblNombre.Text = CType(dt.Rows(0).Item("Nombre"), String)
-                lblEmpresa.Text = CType(dt.Rows(0).Item("RazonSocial"), String)
-                lblCalle.Text = CType(dt.Rows(0).Item("CalleNombre"), String)
-                lblNumeroInterior.Text = CType(dt.Rows(0).Item("NumInterior"), String)
-                lblNumeroExterior.Text = CType(dt.Rows(0).Item("numexterior"), String)
-                lblColonia.Text = CType(dt.Rows(0).Item("colonianombre"), String)
-                lblCP.Text = CType(dt.Rows(0).Item("cp"), String)
-                lblStatusCliente.Text = CType(dt.Rows(0).Item("status"), String)
-                lblMunicipio.Text = CType(dt.Rows(0).Item("municipionombre"), String)
-                lblTelefono.Text = CType(dt.Rows(0).Item("telcasa"), String)
-                lblClasificacionCliente.Text = CType(dt.Rows(0).Item("clasificacionclientedescripcion"), String)
+            If idPedido > 0 AndAlso _PedidosCRM.Count > 0 Then
+                Dim obPedido As RTGMCore.Pedido = _PedidosCRM.First(Function(x) If(x.IDPedido, 0) = idPedido)
+
+                lblCliente.Text = obPedido.IDDireccionEntrega.ToString
+                lblCelula.Text = obPedido.IDZona.ToString
+                If Not IsNothing(obPedido.RutaSuministro) Then
+                    lblRuta.Text = obPedido.RutaSuministro.IDRuta.ToString
+                Else
+                    lblRuta.Text = ""
+                End If
+                If Not IsNothing(obPedido.DireccionEntrega) Then
+                    lblNombre.Text = obPedido.DireccionEntrega.Nombre
+                    lblCalle.Text = obPedido.DireccionEntrega.CalleNombre
+                    lblNumeroInterior.Text = obPedido.DireccionEntrega.NumInterior
+                    lblNumeroExterior.Text = obPedido.DireccionEntrega.NumExterior
+                    lblColonia.Text = obPedido.DireccionEntrega.ColoniaNombre
+                    lblCP.Text = obPedido.DireccionEntrega.CP
+                    lblMunicipio.Text = obPedido.DireccionEntrega.MunicipioNombre
+                    lblTelefono.Text = obPedido.DireccionEntrega.Telefono1
+                    lblStatusCliente.Text = obPedido.DireccionEntrega.Status
+
+                    If Not IsNothing(obPedido.DireccionEntrega.DatosFiscales) Then
+                        lblEmpresa.Text = obPedido.DireccionEntrega.DatosFiscales.RazonSocial
+                    Else
+                        lblEmpresa.Text = lblNombre.Text
+                    End If
+                Else
+                    lblNombre.Text = ""
+                    lblEmpresa.Text = ""
+                    lblCalle.Text = ""
+                    lblNumeroInterior.Text = ""
+                    lblNumeroExterior.Text = ""
+                    lblColonia.Text = ""
+                    lblCP.Text = ""
+                    lblMunicipio.Text = ""
+                    lblTelefono.Text = ""
+                    lblStatusCliente.Text = ""
+                End If
+
+                lblClasificacionCliente.Text = ""
             End If
-        Catch e As Exception
-            MessageBox.Show(e.Message)
-        Finally
-            cnnSigamet.Close()
-            'cnnSigamet.Dispose()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
