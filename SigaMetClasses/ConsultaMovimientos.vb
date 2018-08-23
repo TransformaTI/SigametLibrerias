@@ -1109,18 +1109,28 @@ Public Class ConsultaMovimientos
 
                 lstPedidos = objpedidogateway.buscarPedidos(objsolicitudpedido)
 
+
                 If lstPedidos.Count > 0 Then
                     dr("PedidoReferencia") = lstPedidos(0).PedidoReferencia()
-                    dr("PedidoFSuministro") = lstPedidos(0).FSuministro()
+                    If lstPedidos(0).FSuministro() IsNot Nothing Then
+                        dr("PedidoFSuministro") = lstPedidos(0).FSuministro().ToString()
+                    End If
                     dr("TipoPedidoDescripcion") = lstPedidos(0).TipoPedido.Trim()
                     If lstPedidos(0).RutaSuministro IsNot Nothing Then
-                        dr("RutaCelula") = lstPedidos(0).RutaSuministro.Descripcion
+                        'dr("RutaCelula") = lstPedidos(0).RutaSuministro.Descripcion 
+                        'dr("RutaCelula") = lstPedidos(0).RutaSuministro.NumeroRuta
                     End If
                     dr("Celula") = lstPedidos(0).IDZona.ToString() 'lo mismo de arriba
                     If lstPedidos(0).DireccionEntrega IsNot Nothing Then
                         dr("ClienteNombre") = lstPedidos(0).DireccionEntrega.Nombre
                     End If
-                    dr("PedidoImporte") = lstPedidos(0).Importe.ToString()
+
+                    If (lstPedidos(0).Importe IsNot Nothing) Then
+                        If (lstPedidos(0).Importe.ToString() <> "") Then
+                            dr("PedidoImporte") = CDec(lstPedidos(0).Importe.ToString())
+                        End If
+                    End If
+
                     dr("PedidoStatus") = lstPedidos(0).EstatusPedido.ToString()
                 End If
             Next

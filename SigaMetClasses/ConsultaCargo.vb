@@ -1447,13 +1447,15 @@ Public Class ConsultaCargo
 
     End Sub
 
-    Public Sub New(ByVal strURLGateway As String, ByVal Empresa As Short)
+    Public Sub New(ByVal strURLGateway As String, ByVal Empresa As Short, Optional ByVal Modulo As Byte = 0,
+                Optional ByVal CadenaConexion As String = "")
         MyBase.New()
         InitializeComponent()
         _URLGateway = strURLGateway
 
         ConsultaCatalogoFiltros()
-
+        _CadenaConexion = CadenaConexion
+        _Modulo = Modulo
         _Empresa = Empresa
 
     End Sub
