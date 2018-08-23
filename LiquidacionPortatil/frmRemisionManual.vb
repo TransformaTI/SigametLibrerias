@@ -2313,44 +2313,49 @@ Public Class frmRemisionManual
 					_DetalleGrid = CType(grdDetalle.DataSource, DataTable)
 				Else
 					'Aqui empieza modificacion de cuando es sin movil gas
-					fila = obtenerRegistroProducto(CType(grdDetalle.Item(i, 3), Integer))
-					Try
-						If txtRemision.Text <> "" Or txtSerie.Text <> "" Then
-							If nombreTabla = "Remision" Then
-								grdDetalle.Item(i, 0) = txtSerie.Text
-								grdDetalle.Item(i, 1) = txtRemision.Text
-							Else
-								grdDetalle.Item(i, 0) = txtRemision.Text
-								grdDetalle.Item(i, 1) = txtSerie.Text
-							End If
+					If nombreTabla = "Remision" Then
+						fila = obtenerRegistroProducto(CType(grdDetalle.Item(i, 11), Integer))
+					Else
+						fila = obtenerRegistroProducto(CType(grdDetalle.Item(i, 3), Integer))
+					End If
 
-							If TxtCliente.Text <> "" And lblNombreCliente.Text <> "" Then
+					Try
+							If txtRemision.Text <> "" Or txtSerie.Text <> "" Then
 								If nombreTabla = "Remision" Then
-									grdDetalle.Item(i, 2) = TxtCliente.Text
-									grdDetalle.Item(i, 3) = lblNombreCliente.Text
+									grdDetalle.Item(i, 0) = txtSerie.Text
+									grdDetalle.Item(i, 1) = txtRemision.Text
 								Else
-									grdDetalle.Item(i, 10) = TxtCliente.Text
-									grdDetalle.Item(i, 11) = lblNombreCliente.Text
+									grdDetalle.Item(i, 0) = txtRemision.Text
+									grdDetalle.Item(i, 1) = txtSerie.Text
 								End If
-							Else
-								If nombreTabla = "Remision" Then
-									grdDetalle.Item(i, 2) = _ClienteVentasPublico
-									grdDetalle.Item(i, 3) = "VENTA AL PUBLICO GENERAL"
+
+								If TxtCliente.Text <> "" And lblNombreCliente.Text <> "" Then
+									If nombreTabla = "Remision" Then
+										grdDetalle.Item(i, 2) = TxtCliente.Text
+										grdDetalle.Item(i, 3) = lblNombreCliente.Text
+									Else
+										grdDetalle.Item(i, 10) = TxtCliente.Text
+										grdDetalle.Item(i, 11) = lblNombreCliente.Text
+									End If
 								Else
-									grdDetalle.Item(i, 10) = _ClienteVentasPublico
-									grdDetalle.Item(i, 11) = "VENTA AL PUBLICO GENERAL"
+									If nombreTabla = "Remision" Then
+										grdDetalle.Item(i, 2) = _ClienteVentasPublico
+										grdDetalle.Item(i, 3) = "VENTA AL PUBLICO GENERAL"
+									Else
+										grdDetalle.Item(i, 10) = _ClienteVentasPublico
+										grdDetalle.Item(i, 11) = "VENTA AL PUBLICO GENERAL"
+									End If
 								End If
-							End If
-							Dim Descuento As Decimal
-							If cboTipoCobro.Identificador = 18 And CBool(_DatosCliente.GetValue(3)) = True Then
-								grdDetalle.Item(i, 12) = cboTipoCobro.Text
-								If cbxAplicaDescuento.Checked Then
+								Dim Descuento As Decimal
+								If cboTipoCobro.Identificador = 18 And CBool(_DatosCliente.GetValue(3)) = True Then
 									grdDetalle.Item(i, 12) = cboTipoCobro.Text
-								End If
-							Else
-								If cboTipoCobro.Identificador = 18 Then
-									grdDetalle.Item(i, 12) = "Efectivo"
+									If cbxAplicaDescuento.Checked Then
+										grdDetalle.Item(i, 12) = cboTipoCobro.Text
+									End If
 								Else
+									If cboTipoCobro.Identificador = 18 Then
+										grdDetalle.Item(i, 12) = "Efectivo"
+									Else
 									If cboTipoCobro.Identificador = 17 And CBool(_DatosCliente.GetValue(4)) = True Then
 										grdDetalle.Item(i, 12) = cboTipoCobro.Text
 										If cbxAplicaDescuento.Checked Then
@@ -2376,107 +2381,125 @@ Public Class frmRemisionManual
 											End If
 
 
-											If cboTipoCobro.Text.Trim = "Efectivo" Then
-												grdDetalle.Item(i, 7) = ((CType(grdDetalle.Item(i, 6), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal))) / ((CType((_dtListaProductos.Rows(fila).Item(4)), Decimal) / 100) + 1)
-												grdDetalle.Item(i, 8) = CType(_dtProductos.Rows(i).Item(4), Decimal) 'Iva
-												grdDetalle.Item(i, 9) = CType(grdDetalle.Item(i, 6), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) 'Total
-											End If
-
-											If cboTipoCobro.Text.Trim = "Obsequio" Then
-												grdDetalle.Item(i, 7) = CType(0, Decimal)
-												grdDetalle.Item(i, 8) = CType(0, Decimal)
-												grdDetalle.Item(i, 9) = CType(0, Decimal)
-											End If
-
-										End If
-									End If
-								End If
-							End If
-
-							If cboTipoCobro.Identificador = 15 Then
-								'Control de OBSEQUIO
-								If nombreTabla = "Remision" Then
-									grdDetalle.Item(i, 6) = 0 'Importe = 0
-									grdDetalle.Item(i, 7) = 0 'Saldo = 0
-									grdDetalle.Item(i, 8) = cboTipoCobro.Text
-									grdDetalle.Item(i, 13) = cboTipoCobro.Identificador
-								Else
-									grdDetalle.Item(i, 7) = 0 'Importe = 0
-									grdDetalle.Item(i, 9) = 0 'Saldo = 0
-									grdDetalle.Item(i, 12) = cboTipoCobro.Text
-								End If
-
-							End If
-
-							_DetalleGrid = CType(grdDetalle.DataSource, DataTable)
-						Else
-							If txtRemision.Text <> "" Or txtSerie.Text <> "" Then
-								txtRemision.Text = grdDetalle.Item(i, 1).ToString
-								txtSerie.Text = grdDetalle.Item(i, 0).ToString
-								If TxtCliente.Text <> "" And lblNombreCliente.Text <> "" Then
-									grdDetalle.Item(i, 2) = TxtCliente.Text
-									grdDetalle.Item(i, 3) = lblNombreCliente.Text
-								Else
-									grdDetalle.Item(i, 2) = _ClienteVentasPublico
-									grdDetalle.Item(i, 3) = "VENTA AL PUBLICO GENERAL"
-								End If
-								Dim Descuento As Decimal
-								If cboTipoCobro.Identificador = 18 And CBool(_DatosCliente.GetValue(3)) = True Then
-									grdDetalle.Item(i, 8) = cboTipoCobro.Text
-									If cbxAplicaDescuento.Checked Then
-										grdDetalle.Item(i, 8) = cboTipoCobro.Text
-									End If
-								Else
-									If cboTipoCobro.Identificador = 18 Then
-										grdDetalle.Item(i, 8) = "Efectivo"
-									Else
-										If cboTipoCobro.Identificador = 17 And CBool(_DatosCliente.GetValue(4)) = True Then
-											grdDetalle.Item(i, 8) = cboTipoCobro.Text
-											If cbxAplicaDescuento.Checked Then
-												Try
-													Descuento = CDec(_DatosCliente.GetValue(7))
-													grdDetalle.Item(i, 5) = Descuento
-													Dim descuentoGrupal As Decimal
-													descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
-													grdDetalle.Item(i, 7) = CType(grdDetalle.Item(i, 6), Decimal) - descuentoGrupal  'Total
-												Catch ex As Exception
-													Descuento = 0
-												End Try
-											Else
-												grdDetalle.Item(i, 8) = "Efectivo"
-											End If
-										Else
-											If cboTipoCobro.Identificador = 17 Then
-												grdDetalle.Item(i, 8) = "Efectivo"
-											Else
-												grdDetalle.Item(i, 8) = cboTipoCobro.Text
-												If cbxAplicaDescuento.Checked Then
+											If nombreTabla = "Remision" Then
+												If cboTipoCobro.Identificador = 15 Then
+													'Control de OBSEQUIO
+													grdDetalle.Item(i, 6) = 0 'Importe = 0
+													grdDetalle.Item(i, 7) = 0 'Saldo = 0
 													grdDetalle.Item(i, 8) = cboTipoCobro.Text
 												End If
+
+												If cboTipoCobro.Text.Trim = "Efectivo" Then
+													grdDetalle.Item(i, 6) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) 'Total
+													grdDetalle.Item(i, 7) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) 'Total
+													grdDetalle.Item(i, 8) = "CONTADO"
+												End If
+											Else
+												If cboTipoCobro.Text.Trim = "Efectivo" Then
+													grdDetalle.Item(i, 7) = ((CType(grdDetalle.Item(i, 6), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal))) / ((CType((_dtListaProductos.Rows(fila).Item(4)), Decimal) / 100) + 1)
+													grdDetalle.Item(i, 8) = CType(_dtProductos.Rows(i).Item(4), Decimal) 'Iva
+													grdDetalle.Item(i, 9) = CType(grdDetalle.Item(i, 6), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) 'Total
+												End If
+
+												If cboTipoCobro.Text.Trim = "Obsequio" Then
+													grdDetalle.Item(i, 7) = CType(0, Decimal)
+													grdDetalle.Item(i, 8) = CType(0, Decimal)
+													grdDetalle.Item(i, 9) = CType(0, Decimal)
+												End If
 											End If
+
+
+
+
 										End If
 									End If
+								End If
 								End If
 
 								If cboTipoCobro.Identificador = 15 Then
 									'Control de OBSEQUIO
-									grdDetalle.Item(i, 6) = 0 'Importe = 0
-									grdDetalle.Item(i, 7) = 0 'Saldo = 0
-									grdDetalle.Item(i, 8) = cboTipoCobro.Text
+									If nombreTabla = "Remision" Then
+										grdDetalle.Item(i, 6) = 0 'Importe = 0
+										grdDetalle.Item(i, 7) = 0 'Saldo = 0
+										grdDetalle.Item(i, 8) = cboTipoCobro.Text
+										grdDetalle.Item(i, 13) = cboTipoCobro.Identificador
+									Else
+										grdDetalle.Item(i, 7) = 0 'Importe = 0
+										grdDetalle.Item(i, 9) = 0 'Saldo = 0
+										grdDetalle.Item(i, 12) = cboTipoCobro.Text
+									End If
+
 								End If
 
 								_DetalleGrid = CType(grdDetalle.DataSource, DataTable)
 							Else
-								MessageBox.Show("Se requiere remision y serie", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+								If txtRemision.Text <> "" Or txtSerie.Text <> "" Then
+									txtRemision.Text = grdDetalle.Item(i, 1).ToString
+									txtSerie.Text = grdDetalle.Item(i, 0).ToString
+									If TxtCliente.Text <> "" And lblNombreCliente.Text <> "" Then
+										grdDetalle.Item(i, 2) = TxtCliente.Text
+										grdDetalle.Item(i, 3) = lblNombreCliente.Text
+									Else
+										grdDetalle.Item(i, 2) = _ClienteVentasPublico
+										grdDetalle.Item(i, 3) = "VENTA AL PUBLICO GENERAL"
+									End If
+									Dim Descuento As Decimal
+									If cboTipoCobro.Identificador = 18 And CBool(_DatosCliente.GetValue(3)) = True Then
+										grdDetalle.Item(i, 8) = cboTipoCobro.Text
+										If cbxAplicaDescuento.Checked Then
+											grdDetalle.Item(i, 8) = cboTipoCobro.Text
+										End If
+									Else
+										If cboTipoCobro.Identificador = 18 Then
+											grdDetalle.Item(i, 8) = "Efectivo"
+										Else
+											If cboTipoCobro.Identificador = 17 And CBool(_DatosCliente.GetValue(4)) = True Then
+												grdDetalle.Item(i, 8) = cboTipoCobro.Text
+												If cbxAplicaDescuento.Checked Then
+													Try
+														Descuento = CDec(_DatosCliente.GetValue(7))
+														grdDetalle.Item(i, 5) = Descuento
+														Dim descuentoGrupal As Decimal
+														descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
+														grdDetalle.Item(i, 7) = CType(grdDetalle.Item(i, 6), Decimal) - descuentoGrupal  'Total
+													Catch ex As Exception
+														Descuento = 0
+													End Try
+												Else
+													grdDetalle.Item(i, 8) = "Efectivo"
+												End If
+											Else
+												If cboTipoCobro.Identificador = 17 Then
+													grdDetalle.Item(i, 8) = "Efectivo"
+												Else
+													grdDetalle.Item(i, 8) = cboTipoCobro.Text
+													If cbxAplicaDescuento.Checked Then
+														grdDetalle.Item(i, 8) = cboTipoCobro.Text
+													End If
+												End If
+											End If
+										End If
+									End If
+
+									If cboTipoCobro.Identificador = 15 Then
+										'Control de OBSEQUIO
+										grdDetalle.Item(i, 6) = 0 'Importe = 0
+										grdDetalle.Item(i, 7) = 0 'Saldo = 0
+										grdDetalle.Item(i, 8) = cboTipoCobro.Text
+									End If
+
+									_DetalleGrid = CType(grdDetalle.DataSource, DataTable)
+								Else
+									MessageBox.Show("Se requiere remision y serie", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+								End If
 							End If
-						End If
 
-					Catch ex As Exception
-						MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-					End Try
+						Catch ex As Exception
+							MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+						End Try
 
+					End If
 				End If
-			End If
 			Totaliza()
 		Catch ex As Exception
 			MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
