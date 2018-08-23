@@ -2382,8 +2382,13 @@ Public Class frmConsultaCliente
 
     Private Sub btnConsultaEmpresa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultaEmpresa.Click
         Cursor = Cursors.WaitCursor
-        Dim oConsultaEmpresa As New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer))
-        oConsultaEmpresa.ShowDialog()
+        Try
+            Dim oConsultaEmpresa As New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer))
+            oConsultaEmpresa.ShowDialog()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
         Cursor = Cursors.Default
     End Sub
 
