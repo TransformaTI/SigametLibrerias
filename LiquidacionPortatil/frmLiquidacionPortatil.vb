@@ -1002,7 +1002,6 @@ Public Class frmLiquidacionPortatil
 		Me.cboZEconomica.Size = New System.Drawing.Size(285, 21)
 		Me.cboZEconomica.TabIndex = 3
 		Me.tltLiquidacion.SetToolTip(Me.cboZEconomica, "Seleccione la zona económica donde se relaizó la venta")
-		Me.cboZEconomica.Visible = False
 		'
 		'lblZonaEconomica
 		'
@@ -1242,14 +1241,14 @@ Public Class frmLiquidacionPortatil
 		Me.lblResto.Text = "0.00"
 		Me.lblResto.TextAlign = System.Drawing.ContentAlignment.MiddleRight
 		'
-		'Label11
+		'lblTipoRuta
 		'
 		Me.lblTipoRuta.BackColor = System.Drawing.Color.Black
 		Me.lblTipoRuta.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 		Me.lblTipoRuta.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
 		Me.lblTipoRuta.ForeColor = System.Drawing.Color.DodgerBlue
 		Me.lblTipoRuta.Location = New System.Drawing.Point(6, 98)
-		Me.lblTipoRuta.Name = "Label11"
+		Me.lblTipoRuta.Name = "lblTipoRuta"
 		Me.lblTipoRuta.Size = New System.Drawing.Size(176, 21)
 		Me.lblTipoRuta.TabIndex = 127
 		Me.lblTipoRuta.Text = "Resto:"
@@ -6854,11 +6853,16 @@ Public Class frmLiquidacionPortatil
 				_listaCobros.AddRange(TodoPagoEfectivo(Pago))
 
 				For Each row As DataRow In _DetalleGrid.Rows
-					If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim <> "CONTADO" Then
+					If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim = "CONTADO" Or CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim.ToUpper = "EFECTIVO" Then
 						_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo") = 0
 					Else
-						Credito = Credito + CDec(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"))
+						If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim = "Crédito Portátil" Then
+							Credito = Credito + CDec(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"))
+						End If
+
+
 					End If
+
 
 					If Not _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row)) Is Nothing Then
 						If Not _BoletinEnLineaCamion Then
