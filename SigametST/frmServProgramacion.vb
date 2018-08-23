@@ -174,6 +174,7 @@ Public Class frmServProgramacion
                     oItem.SubItems.Add(If(pedido.FormaPago, "")) '9
                     oItem.SubItems.Add("") '10
 
+                    lvwProgramaciones.Items.Add(oItem)
                 Next
             End If
 
@@ -372,9 +373,9 @@ Public Class frmServProgramacion
             lblTot.Text = CType(dt.Rows(0).Item("totalpresupuesto"), String)
             txtObservacionesPres.Text = CType(dt.Rows(0).Item("observacionespresupuestoviene"), String)
             lblAutoPedido.Text = CType(dt.Rows(0).Item("pedidoauto"), String)
-            lblUsuario.Text = CType(dt.Rows(0).Item("NombreUsuario"), String)
-            lblFormaPago.Text = CType(dt.Rows(0).Item("tipopedido"), String)
-            lblTipoServicio.Text = CType(dt.Rows(0).Item("tiposervicio"), String)
+            lblUsuario.Text = CType(If(dt.Rows(0).Item("NombreUsuario") Is DBNull.Value, "", dt.Rows(0).Item("NombreUsuario")), String)
+            lblFormaPago.Text = CType(If(dt.Rows(0).Item("tipopedido") Is DBNull.Value, "", dt.Rows(0).Item("tipopedido")), String)
+            lblTipoServicio.Text = CType(If(dt.Rows(0).Item("tiposervicio") Is DBNull.Value, "", dt.Rows(0).Item("tiposervicio")), String)
             txtTrabSolc.Text = CType(dt.Rows(0).Item("trabajosolicitado"), String)
 
         Catch e As Exception
@@ -444,7 +445,7 @@ Public Class frmServProgramacion
         GLOBAL_CadenaConexion = CadenaConexion
         GLOBAL_Corporativo = Corporativo
         GLOBAL_Sucursal = Sucursal
-        _URLGateway = _URLGateway
+        _URLGateway = URLGateway
 
         'oConfig2 = New SigaMetClasses.cConfig(11, GLOBAL_Corporativo, GLOBAL_Sucursal)
 
