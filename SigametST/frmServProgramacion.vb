@@ -380,7 +380,11 @@ Public Class frmServProgramacion
             cnnSigamet.Open()
             Dim drST As SqlDataReader = da.ExecuteReader
             While drST.Read
-                lblContrato.Text = CType(drST("cliente"), String)
+                If String.IsNullOrEmpty(_URLGateway) Then
+                    lblContrato.Text = CType(drST("cliente"), String)
+                Else
+                    lblContrato.Text = lblCliente.Text
+                End If
                 lblStatus.Text = CType(drST("StatusServicioTecnico"), String)
                 txtTrabajoRealizado.Text = CType(drST("ObservacionesServicioRealizado"), String)
                 txtObserv.Text = CType(drST("ObservacionesServicioTecnico"), String)
