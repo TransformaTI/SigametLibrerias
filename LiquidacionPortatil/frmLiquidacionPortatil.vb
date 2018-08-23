@@ -7098,6 +7098,7 @@ Public Class frmLiquidacionPortatil
 		grdDetalle.DataSource = _DetalleGrid
 
 		If _DetalleGrid.Rows.Count > 0 Then
+			cboZEconomica.SelectedIndex = cboZEconomica.FindString(_DetalleGrid.Rows(0).Item("zonaeconomica").ToString())
 			TotalKilos = Convert.ToDecimal(_DetalleGrid.Compute("SUM(Kilos)", String.Empty))
 			lblTotalKilos.Text = TotalKilos.ToString
 		End If
