@@ -83,19 +83,20 @@ Public Class frmCancelarPago
 
         For Each Remision As DataRow In Remisiones.Rows
             For Each CobroRemision As SigaMetClasses.CobroRemisiones In CobroRemisiones
-                If (CobroRemision.Remision.Trim() = Remision("Remision").ToString().Trim() And CobroRemision.Serie = Remision("Serie").ToString().Trim()) Then
-                    'CobroEliminado.Pago = CobroRemision.Pago And
-                    'Remisiones.BeginInit()
+				If (CobroRemision.Remision.Trim() = Remision("Remision").ToString().Trim() And CobroRemision.Serie = Remision("Serie").ToString().Trim() And CType(CobroEliminado.Remision, String) = CobroRemision.Remision.Trim() And CobroEliminado.Serie = CobroRemision.Serie) Then
 
-                    Remision("Saldo") = Convert.ToDecimal(Remision("Saldo")) + CobroRemision.MontoAbonado
-                    CobroRemisiones.Remove(CobroRemision)
-                    saldoDevuelto = True
-                    Exit For
-                    'Remisiones.EndInit()
-                    'oCobroRemi.Remove(CobroRemision)
-                    '_ListaCobroRemisiones.Remove(CobroRemision)
-                End If
-            Next CobroRemision
+					'CobroEliminado.Pago = CobroRemision.Pago And
+					'Remisiones.BeginInit()
+
+					Remision("Saldo") = Convert.ToDecimal(Remision("Saldo")) + CobroRemision.MontoAbonado
+					CobroRemisiones.Remove(CobroRemision)
+					saldoDevuelto = True
+					Exit For
+					'Remisiones.EndInit()
+					'oCobroRemi.Remove(CobroRemision)
+					'_ListaCobroRemisiones.Remove(CobroRemision)
+				End If
+			Next CobroRemision
             If saldoDevuelto Then
                 Exit For
             End If
