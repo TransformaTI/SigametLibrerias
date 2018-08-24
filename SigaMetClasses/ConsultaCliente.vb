@@ -2162,7 +2162,15 @@ Public Class frmConsultaCliente
 		Dim colorCobro As String
 		Dim oGateway As RTGMGateway.RTGMGateway
 		Dim oSolicitud As RTGMGateway.SolicitudGateway
-		Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        Dim tipoClienteDescripcion As String
+        Dim celula As String
+        Dim ruta As String
+        Dim status As String
+        Dim fAlta As String
+        Dim observaciones As String
+
+
 
         Try
             If (Cliente > 0 And URLGateway.Trim > "") Then

@@ -67,6 +67,7 @@
     <DebugType>full</DebugType>
     <WarningsAsErrors>
     </WarningsAsErrors>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\</OutputPath>
@@ -92,9 +93,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\AsignacionMultiple.dll</HintPath>
     </Reference>
-    <Reference Include="Contactos, Version=1.0.0.0, Culture=neutral">
+    <Reference Include="Contactos, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Contactos.dll</HintPath>
+      <HintPath>..\Contactos\bin\Debug\Contactos.dll</HintPath>
     </Reference>
     <Reference Include="ContactosDL, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
@@ -151,9 +152,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\RegularValidations.dll</HintPath>
     </Reference>
-    <Reference Include="RTGMGateway, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RTGMGateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
+    <Reference Include="RTGMGateway">
+      <HintPath>..\..\Gateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
     </Reference>
     <Reference Include="SeguimientoCliente, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
