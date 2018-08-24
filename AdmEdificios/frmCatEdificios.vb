@@ -8,11 +8,15 @@ Imports GeneracionAsignacion
 'Imports UIEDFAsignacion
 Imports SGDAC
 Imports EDFUIImportacion
+Imports System.Collections.Generic
 
 Public Class frmCatEdificios
     Inherits System.Windows.Forms.Form
 
 #Region " Windows Form Designer generated code "
+
+    Private _URLGateway As String
+    Private _DireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
 
     Public Sub New()
         MyBase.New()
@@ -1272,13 +1276,14 @@ Public Class frmCatEdificios
 #End Region
 
 #Region "Constructores"
-    Public Sub New(ByVal celula As Byte, ByVal conexión As SqlConnection, ByVal usuario As String, _
-        ByVal Corporativo As Short, ByVal Sucursal As Short)
+    Public Sub New(ByVal celula As Byte, ByVal conexión As SqlConnection, ByVal usuario As String,
+        ByVal Corporativo As Short, ByVal Sucursal As Short, Optional ByVal URLGateway As String = "")
         MyBase.New()
         InitializeComponent()
         _celula = celula
         _usuario = usuario
         connection = conexión
+        _URLGateway = URLGateway
 
         'Carga de parámetros duplicados 07/04/2008
         _corporativo = Corporativo
@@ -1333,24 +1338,34 @@ Public Class frmCatEdificios
 
     Private Sub llenaTablaLecturas(Optional ByVal celula As Short = Nothing)
         dtEdificios.Rows.Clear()
-        Dim cmdSelect As New SqlCommand()
-        cmdSelect.CommandText = "spCCCatalogoEdificiosAdministrados"
-        cmdSelect.CommandType = CommandType.StoredProcedure
-        cmdSelect.Connection = connection
-        If celula <> Nothing Then
-            cmdSelect.Parameters.Add("@Celula", SqlDbType.Int).Value = celula
-        End If
-        Dim da As New SqlDataAdapter(cmdSelect)
-        Try
-            connection.Open()
-            da.Fill(dtEdificios)
-        Catch ex As Exception
-            Windows.Forms.MessageBox.Show(ex.Message)
-        Finally
-            If connection.State = ConnectionState.Open Then
-                connection.Close()
+
+        If Not String.IsNullOrEmpty(_URLGateway) Then
+            llenaTablaLecturas_CRM()
+        Else
+
+            Dim cmdSelect As New SqlCommand()
+            cmdSelect.CommandText = "spCCCatalogoEdificiosAdministrados"
+            cmdSelect.CommandType = CommandType.StoredProcedure
+            cmdSelect.Connection = connection
+            If celula <> Nothing Then
+                cmdSelect.Parameters.Add("@Celula", SqlDbType.Int).Value = celula
             End If
-        End Try
+            Dim da As New SqlDataAdapter(cmdSelect)
+            Try
+                connection.Open()
+                da.Fill(dtEdificios)
+            Catch ex As Exception
+                Windows.Forms.MessageBox.Show(ex.Message)
+            Finally
+                If connection.State = ConnectionState.Open Then
+                    connection.Close()
+                End If
+            End Try
+        End If
+    End Sub
+
+    Private Sub llenaTablaLecturas_CRM()
+        Throw New NotImplementedException()
     End Sub
 
     Private Sub llenaListView()
