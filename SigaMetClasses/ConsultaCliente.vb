@@ -2515,7 +2515,7 @@ Public Class frmConsultaCliente
 
     Private Sub btnContactos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnContactos.Click
         If _Cliente <> 0 Then
-            Dim frmListaContactos As CRMContactos.ListaContactos = New CRMContactos.ListaContactos(SigaMetClasses.DataLayer.Conexion, _Cliente)
+            Dim frmListaContactos As CRMContactos.ListaContactos = New CRMContactos.ListaContactos(SigaMetClasses.DataLayer.Conexion, _Cliente, CadenaConexion, _URLGateway)
             frmListaContactos.WindowState = FormWindowState.Normal
             frmListaContactos.StartPosition = FormStartPosition.CenterParent
             frmListaContactos.Width = Me.Width - 100
