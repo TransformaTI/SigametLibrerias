@@ -27,6 +27,7 @@ Public Class frmConsultaCliente
     Private _CambioClientePadre As Boolean
 
     Private _dsCatalogos As DataSet
+    Private _SaldoSigamet As Integer
 
     'Para consulta de observaciones en los datos de crédito
     Private _observacionesCyC As String = String.Empty
@@ -51,6 +52,14 @@ Public Class frmConsultaCliente
         Get
             Return _Litro
         End Get
+    End Property
+    Public Property SaldoSigamet() As Integer
+        Get
+            Return _SaldoSigamet
+        End Get
+        Set(value As Integer)
+            _SaldoSigamet = value
+        End Set
     End Property
 
     Public ReadOnly Property PedidoImporteSeleccionado() As Decimal
@@ -1943,6 +1952,8 @@ Public Class frmConsultaCliente
                 lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("Nombre"), String)
                 If dr("DireccionCompleta") IsNot DBNull.Value Then
                     lblDireccion.Text = CType(dr("DireccionCompleta"), String)
+                    Dim aString As String = Replace(lblDireccion.Text, "0", " ")
+                    lblDireccion.Text = aString
                     lblTipoCliente.Text = CType(dr("TipoClienteDescripcion"), String)
                 End If
                 'Teléfonos
@@ -1985,6 +1996,7 @@ Public Class frmConsultaCliente
                 If Not IsDBNull(dr("MaxImporteCredito")) Then lblMaxImporteCredito.Text = CType(dr("MaxImporteCredito"), Decimal).ToString("C")
                 If Not IsDBNull(dr("DiasCredito")) Then lblDiasCredito.Text = CType(dr("DiasCredito"), Short).ToString
                 If Not IsDBNull(dr("Saldo")) Then lblSaldo.Text = CType(dr("Saldo"), Decimal).ToString("C")
+                If Not IsDBNull(dr("Saldo")) Then _SaldoSigamet = (CType(dr("Saldo"), Integer))
                 'If Not IsDBNull(dr("DiaRevisionNombre")) Then lblDiaRevision.Text = CType(dr("DiaRevisionNombre"), String)
                 'If Not IsDBNull(dr("DiaPagoNombre")) Then lblDiaPago.Text = CType(dr("DiaPagoNombre"), String)
                 If Not IsDBNull(dr("CarteraDescripcion")) Then lblCartera.Text = CType(dr("CarteraDescripcion"), String)
@@ -2147,16 +2159,10 @@ Public Class frmConsultaCliente
         Dim dificultadGestion As String
         Dim colorGestion As String
         Dim dificultadCobro As String
-        Dim colorCobro As String
-        Dim oGateway As RTGMGateway.RTGMGateway
-        Dim oSolicitud As RTGMGateway.SolicitudGateway
-        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
-        Dim tipoClienteDescripcion As String = ""
-        Dim celula As String = ""
-        Dim ruta As String = ""
-        Dim status As String = ""
-        Dim fAlta As String = ""
-        Dim observaciones As String = ""
+		Dim colorCobro As String
+		Dim oGateway As RTGMGateway.RTGMGateway
+		Dim oSolicitud As RTGMGateway.SolicitudGateway
+		Dim oDireccionEntrega As RTGMCore.DireccionEntrega
 
         Try
             If (Cliente > 0 And URLGateway.Trim > "") Then
@@ -2380,12 +2386,12 @@ Public Class frmConsultaCliente
                             grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
                         End If
 
-                        lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
-                        lblSaldoTotal.Text = _TotalSaldo.ToString("C")
-                        lblLitrosCartera.Text = _TotalLitrosCartera.ToString
-                        lblLitrosConsulta.Text = _TotalLitros.ToString
-                    End If
-                End If
+				lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
+				lblSaldoTotal.Text = _TotalSaldo.ToString("C")
+				lblLitrosCartera.Text = _TotalLitrosCartera.ToString
+				lblLitrosConsulta.Text = _TotalLitros.ToString
+			End If
+			End If
         Catch ex As Exception
             MessageBox.Show("Ha ocurrido un error:" & Chr(13) & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
@@ -2420,8 +2426,13 @@ Public Class frmConsultaCliente
 
     Private Sub btnConsultaEmpresa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultaEmpresa.Click
         Cursor = Cursors.WaitCursor
-        Dim oConsultaEmpresa As New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer))
-        oConsultaEmpresa.ShowDialog()
+        Try
+            Dim oConsultaEmpresa As New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer))
+            oConsultaEmpresa.ShowDialog()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
         Cursor = Cursors.Default
     End Sub
 
@@ -2536,7 +2547,7 @@ Public Class frmConsultaCliente
 
     Private Sub btnContactos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnContactos.Click
         If _Cliente <> 0 Then
-            Dim frmListaContactos As CRMContactos.ListaContactos = New CRMContactos.ListaContactos(SigaMetClasses.DataLayer.Conexion, _Cliente)
+            Dim frmListaContactos As CRMContactos.ListaContactos = New CRMContactos.ListaContactos(SigaMetClasses.DataLayer.Conexion, _Cliente, CadenaConexion, _URLGateway)
             frmListaContactos.WindowState = FormWindowState.Normal
             frmListaContactos.StartPosition = FormStartPosition.CenterParent
             frmListaContactos.Width = Me.Width - 100
@@ -2680,6 +2691,8 @@ Public Class frmConsultaCliente
                     End If
 
                     lblDireccion.Text = oDireccionEntrega.DireccionCompleta.Trim()
+                    Dim ReemplazarCero As String = Replace(lblDireccion.Text, "0", " ")
+                    lblDireccion.Text = ReemplazarCero
                     If Not IsNothing(oDireccionEntrega.TipoCliente) Then
                         lblTipoCliente.Text = oDireccionEntrega.TipoCliente.Descripcion
                     End If
@@ -2744,8 +2757,8 @@ Public Class frmConsultaCliente
 
                         lblMaxImporteCredito.Text = CDec(oDireccionEntrega.CondicionesCredito.LimiteCredito).ToString("C")
                         lblDiasCredito.Text = oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString()
-                        lblSaldo.Text = CDec(oDireccionEntrega.CondicionesCredito.Saldo).ToString("C")
-
+                        'lblSaldo.Text = CDec(oDireccionEntrega.CondicionesCredito.Saldo).ToString("C")
+                        lblSaldo.Text = SaldoSigamet.ToString("C")
                         lblDiaRevision.Text = If(IsNothing(oDireccionEntrega.CondicionesCredito.DiasRevision),
                             String.Empty, oDireccionEntrega.CondicionesCredito.DiasRevision.Trim())
 

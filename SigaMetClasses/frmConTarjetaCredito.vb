@@ -53,8 +53,8 @@ Public Class frmConTarjetaCredito
     Private Sub ConsultaClienteGateway(ByVal oDireccionEntrega As RTGMCore.DireccionEntrega)
         Cursor = Cursors.WaitCursor
 
-        txtCliente.Text = CType(oDireccionEntrega.Nombre, String)
-        lblNombre.Text = CType(oDireccionEntrega.IDDireccionEntrega, String)
+        txtCliente.Text = CType(oDireccionEntrega.IDDireccionEntrega, String)
+        lblNombre.Text = CType(oDireccionEntrega.Nombre, String)
         lblCelula.Text = CType(oDireccionEntrega.ZonaSuministro.Descripcion, String)
         lblRuta.Text = CType(oDireccionEntrega.Ruta.Descripcion, String)
         lblTipoCredito.Text = CType(oDireccionEntrega.CondicionesCredito.ClasificacionCredito, String)
