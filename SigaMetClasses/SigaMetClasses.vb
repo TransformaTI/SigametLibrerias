@@ -5103,7 +5103,8 @@ Public Class Cobro
                             Optional ByVal strNumeroCuentaDestino As String = Nothing,
                             Optional ByVal shrBancoOrigen As Short = Nothing,
                             Optional ByVal SaldoAFavor As Boolean = False,
-                            Optional ByVal Posfechado As Boolean = False) As Integer
+                            Optional ByVal Posfechado As Boolean = False,
+                            Optional ByVal referencia As String = "") As Integer
 
         Dim cmd As New SqlCommand("spChequeTarjetaAltaModifica")
         With cmd
@@ -5144,6 +5145,9 @@ Public Class Cobro
                 'se dejó de usar este parámetro jagd 23/08/05
                 '.Parameters.Add(New SqlParameter("@StatusSaldoAFavor", SqlDbType.Char, 12)).Value = "PENDIENTE" 
             End If
+
+            .Parameters.Add(New SqlParameter("@referencia", SqlDbType.VarChar)).Value = referencia
+
         End With
 
         Try
@@ -5771,13 +5775,14 @@ Public Class TransaccionMovimientoCaja
                         Enumeradores.enumTipoCobro.NotaIngreso,
                         Enumeradores.enumTipoCobro.Transferencia,
                         Enumeradores.enumTipoCobro.AplicacionAnticipo
+
                         FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Cobro.FechaCheque, Cobro.Cliente, Cobro.Banco,
                             Cobro.Observaciones, Cobro.TipoCobro, Usuario, Cobro.Saldo, Cobro.NoCuentaDestino, Cobro.BancoOrigen, Cobro.SaldoAFavor,
-                            Cobro.Posfechado)
+                            Cobro.Posfechado, Cobro.Referencia)
 
                     Case Enumeradores.enumTipoCobro.TarjetaCredito
                         FolioCobro = objCobro.ChequeTarjetaAlta("", Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
-                            Enumeradores.enumTipoCobro.TarjetaCredito, Usuario, Cobro.Saldo)
+                            Enumeradores.enumTipoCobro.TarjetaCredito, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia)
 
                         'CONTROL DE SALDOS 01-04-2005
                     Case Enumeradores.enumTipoCobro.SaldoAFavor
