@@ -34,6 +34,8 @@ Public Class frmConsultaCliente
     'Para consulta de clientes relacionados por cliente padre
     Private _ClientePadreCyC As Integer
 
+    ' Información del cliente consultada a través del servicio web GM
+    Private _oDireccionEntrega As RTGMCore.DireccionEntrega
 
     Public ReadOnly Property PedidoReferenciaSeleccionado() As String
         Get
@@ -2382,9 +2384,24 @@ Public Class frmConsultaCliente
 
     Private Sub btnConsultaEmpresa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultaEmpresa.Click
         Cursor = Cursors.WaitCursor
-        Dim oConsultaEmpresa As New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer))
-        oConsultaEmpresa.ShowDialog()
-        Cursor = Cursors.Default
+        Dim oConsultaEmpresa As SigaMetClasses.ConsultaEmpresa = Nothing
+
+        Try
+            If Not (String.IsNullOrEmpty(_URLGateway) OrElse IsNothing(_oDireccionEntrega)) Then
+                If Not IsNothing(_oDireccionEntrega.DatosFiscales) Then
+                    oConsultaEmpresa = New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer),
+                                                                          DireccionEntrega:=_oDireccionEntrega)
+                End If
+            Else
+                oConsultaEmpresa = New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer))
+            End If
+
+            oConsultaEmpresa.ShowDialog()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+        End Try
     End Sub
 
     Private Sub ModificaDatosCredito()
@@ -2613,7 +2630,7 @@ Public Class frmConsultaCliente
 
         Dim oGateway As RTGMGateway.RTGMGateway
         Dim oSolicitud As RTGMGateway.SolicitudGateway
-        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        'Dim oDireccionEntrega As RTGMCore.DireccionEntrega
 
 
         Try
@@ -2625,57 +2642,58 @@ Public Class frmConsultaCliente
                 oGateway.GuardarLog = True
                 oGateway.URLServicio = URLGateway
                 oSolicitud.IDCliente = Cliente
-                oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+                _oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                _oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
-                If Not IsNothing(oDireccionEntrega) Then
+                If Not IsNothing(_oDireccionEntrega) Then
 
                     ' Verificar errores de DynamicsCRM
-                    If oDireccionEntrega.Message IsNot Nothing AndAlso
-                    oDireccionEntrega.Message.Contains("ERROR EN DYNAMICS CRM") Then
-                        Throw New Exception(oDireccionEntrega.Message)
+                    If _oDireccionEntrega.Message IsNot Nothing AndAlso
+                    _oDireccionEntrega.Message.Contains("ERROR EN DYNAMICS CRM") Then
+                        Throw New Exception(_oDireccionEntrega.Message)
                     End If
 
-                    If oDireccionEntrega.Nombre IsNot Nothing Then
-                        lblCliente.Text = oDireccionEntrega.IDDireccionEntrega & " " & oDireccionEntrega.Nombre.Trim()
+                    If _oDireccionEntrega.Nombre IsNot Nothing Then
+                        lblCliente.Text = _oDireccionEntrega.IDDireccionEntrega & " " & _oDireccionEntrega.Nombre.Trim()
                     Else
-                        lblCliente.Text = oDireccionEntrega.IDDireccionEntrega.ToString()
+                        lblCliente.Text = _oDireccionEntrega.IDDireccionEntrega.ToString()
                     End If
 
-                    lblDireccion.Text = oDireccionEntrega.DireccionCompleta.Trim()
-                    If Not IsNothing(oDireccionEntrega.TipoCliente) Then
-                        lblTipoCliente.Text = oDireccionEntrega.TipoCliente.Descripcion
+                    lblDireccion.Text = _oDireccionEntrega.DireccionCompleta.Trim()
+                    If Not IsNothing(_oDireccionEntrega.TipoCliente) Then
+                        lblTipoCliente.Text = _oDireccionEntrega.TipoCliente.Descripcion
                     End If
 
                     'Teléfonos
-                    lblTelCasa.Text = If(IsNothing(oDireccionEntrega.Telefono1),
-                        String.Empty, FormatoTelefono(oDireccionEntrega.Telefono1.Trim()))
-                    lblTelAlterno1.Text = If(IsNothing(oDireccionEntrega.Telefono2),
-                        String.Empty, FormatoTelefono(oDireccionEntrega.Telefono2.Trim()))
-                    lblTelAlterno2.Text = If(IsNothing(oDireccionEntrega.Telefono3),
-                        String.Empty, FormatoTelefono(oDireccionEntrega.Telefono3.Trim()))
+                    lblTelCasa.Text = If(IsNothing(_oDireccionEntrega.Telefono1),
+                        String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono1.Trim()))
+                    lblTelAlterno1.Text = If(IsNothing(_oDireccionEntrega.Telefono2),
+                        String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono2.Trim()))
+                    lblTelAlterno2.Text = If(IsNothing(_oDireccionEntrega.Telefono3),
+                        String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono3.Trim()))
 
 
-                    If Not IsNothing(oDireccionEntrega.ZonaSuministro) Then
-                        lblCelula.Text = oDireccionEntrega.ZonaSuministro.Descripcion.ToString()
+                    If Not IsNothing(_oDireccionEntrega.ZonaSuministro) Then
+                        lblCelula.Text = _oDireccionEntrega.ZonaSuministro.Descripcion.ToString()
                     End If
-                    If Not IsNothing(oDireccionEntrega.Ruta) Then
-                        lblRuta.Text = oDireccionEntrega.Ruta.Descripcion.Trim()
+                    If Not IsNothing(_oDireccionEntrega.Ruta) Then
+                        lblRuta.Text = _oDireccionEntrega.Ruta.Descripcion.Trim()
                     End If
-                    lblStatus.Text = IIf(IsNothing(oDireccionEntrega.Status), String.Empty, oDireccionEntrega.Status).ToString()
+                    lblStatus.Text = IIf(IsNothing(_oDireccionEntrega.Status), String.Empty, _oDireccionEntrega.Status).ToString()
 
-                    If Not IsNothing(oDireccionEntrega.FAlta) Then
-                        lblFAlta.Text = oDireccionEntrega.FAlta.ToString()
+                    If Not IsNothing(_oDireccionEntrega.FAlta) Then
+                        lblFAlta.Text = _oDireccionEntrega.FAlta.ToString()
                     End If
 
-                    lblObservaciones.Text = If(IsNothing(oDireccionEntrega.Observaciones), String.Empty, oDireccionEntrega.Observaciones.Trim())
+                    lblObservaciones.Text = If(IsNothing(_oDireccionEntrega.Observaciones), String.Empty, _oDireccionEntrega.Observaciones.Trim())
 
-                    If Not IsNothing(oDireccionEntrega.ProgramacionSuministro) Then
-                        If Not IsNothing(oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion) Then
-                            lblProgramaCliente.Text = oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion.Trim
+                    If Not IsNothing(_oDireccionEntrega.ProgramacionSuministro) Then
+                        If Not IsNothing(_oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion) Then
+                            lblProgramaCliente.Text = _oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion.Trim
                         End If
                         lblProgramaCliente.ForeColor = lblProgramacion.ForeColor
 
-                        If (oDireccionEntrega.ProgramacionSuministro.ProgramacionActiva) Then
+                        If (_oDireccionEntrega.ProgramacionSuministro.ProgramacionActiva) Then
                             lblProgramacion.Text = "ACTIVA"
                         Else
                             lblProgramacion.Text = "INACTIVA"
@@ -2686,10 +2704,10 @@ Public Class frmConsultaCliente
                     End If
 
 
-                    If Not IsNothing(oDireccionEntrega.DatosFiscales) Then
-                        lblEmpresa.Text = oDireccionEntrega.DatosFiscales.IDDatosFiscales.ToString
-                        lblRazonSocial.Text = oDireccionEntrega.DatosFiscales.RazonSocial.Trim
-                        If (oDireccionEntrega.DatosFiscales.IDDatosFiscales = 0) Then
+                    If Not IsNothing(_oDireccionEntrega.DatosFiscales) Then
+                        lblEmpresa.Text = _oDireccionEntrega.DatosFiscales.IDDatosFiscales.ToString
+                        lblRazonSocial.Text = _oDireccionEntrega.DatosFiscales.RazonSocial.Trim
+                        If (_oDireccionEntrega.DatosFiscales.IDDatosFiscales = 0) Then
                             btnConsultaEmpresa.Visible = False
                         End If
                     Else
@@ -2699,52 +2717,52 @@ Public Class frmConsultaCliente
                     End If
 
                     'Condiciones crédito
-                    If Not IsNothing(oDireccionEntrega.CondicionesCredito) Then
+                    If Not IsNothing(_oDireccionEntrega.CondicionesCredito) Then
 
-                        lblTipoCredito.Text = If(IsNothing(oDireccionEntrega.CondicionesCredito.ClasificacionCredito),
-                            String.Empty, oDireccionEntrega.CondicionesCredito.ClasificacionCredito.Trim())
+                        lblTipoCredito.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ClasificacionCredito),
+                            String.Empty, _oDireccionEntrega.CondicionesCredito.ClasificacionCredito.Trim())
 
-                        lblMaxImporteCredito.Text = CDec(oDireccionEntrega.CondicionesCredito.LimiteCredito).ToString("C")
-                        lblDiasCredito.Text = oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString()
-                        lblSaldo.Text = CDec(oDireccionEntrega.CondicionesCredito.Saldo).ToString("C")
+                        lblMaxImporteCredito.Text = CDec(_oDireccionEntrega.CondicionesCredito.LimiteCredito).ToString("C")
+                        lblDiasCredito.Text = _oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString()
+                        lblSaldo.Text = CDec(_oDireccionEntrega.CondicionesCredito.Saldo).ToString("C")
 
-                        lblDiaRevision.Text = If(IsNothing(oDireccionEntrega.CondicionesCredito.DiasRevision),
-                            String.Empty, oDireccionEntrega.CondicionesCredito.DiasRevision.Trim())
+                        lblDiaRevision.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DiasRevision),
+                            String.Empty, _oDireccionEntrega.CondicionesCredito.DiasRevision.Trim())
 
-                        lblDiaPago.Text = If(IsNothing(oDireccionEntrega.CondicionesCredito.DiasPago),
-                            String.Empty, oDireccionEntrega.CondicionesCredito.DiasPago.Trim())
+                        lblDiaPago.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DiasPago),
+                            String.Empty, _oDireccionEntrega.CondicionesCredito.DiasPago.Trim())
 
-                        lblCartera.Text = If(IsNothing(oDireccionEntrega.CondicionesCredito.CarteraDescripcion),
-                            String.Empty, oDireccionEntrega.CondicionesCredito.CarteraDescripcion.Trim())
+                        lblCartera.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.CarteraDescripcion),
+                            String.Empty, _oDireccionEntrega.CondicionesCredito.CarteraDescripcion.Trim())
 
-                        If Not IsNothing(oDireccionEntrega.CondicionesCredito.ResponsableGestion) Then
-                            lblResponsable.Text = If(IsNothing(oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto),
-                                String.Empty, oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto)
+                        If Not IsNothing(_oDireccionEntrega.CondicionesCredito.ResponsableGestion) Then
+                            lblResponsable.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto),
+                                String.Empty, _oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto)
                         End If
-                        If Not IsNothing(oDireccionEntrega.CondicionesCredito.EmpleadoNomina) Then
-                            lblEmpleadoNomina.Text = If(IsNothing(oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto),
-                                String.Empty, oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto)
+                        If Not IsNothing(_oDireccionEntrega.CondicionesCredito.EmpleadoNomina) Then
+                            lblEmpleadoNomina.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto),
+                                String.Empty, _oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto)
                         End If
 
                         'Muestra el ejecutivo de cyc asignado
-                        If Not IsNothing(oDireccionEntrega.CondicionesCredito.SupervisorGestion) Then
-                            lblEjeCyC.Text = If(IsNothing(oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto),
-                                String.Empty, oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto)
+                        If Not IsNothing(_oDireccionEntrega.CondicionesCredito.SupervisorGestion) Then
+                            lblEjeCyC.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto),
+                                String.Empty, _oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto)
                         End If
-                        lblHorarioAtencion.Text = If(IsNothing(oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC), String.Empty, oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC.ToString())
+                        lblHorarioAtencion.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC), String.Empty, _oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC.ToString())
 
-                        lblHorarioAtencion.Text = If(IsNothing(oDireccionEntrega.CondicionesCredito.ObservacionesCyC),
-                            String.Empty, oDireccionEntrega.CondicionesCredito.ObservacionesCyC.Trim())
+                        lblHorarioAtencion.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ObservacionesCyC),
+                            String.Empty, _oDireccionEntrega.CondicionesCredito.ObservacionesCyC.Trim())
 
-                        lblCobroDefault.Text = If(IsNothing(oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion),
-                            String.Empty, oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion.Trim())
+                        lblCobroDefault.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion),
+                            String.Empty, _oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion.Trim())
 
                         'Consulta y despliegue de la dificultad de gestión asignada al cliente
-                        dificultadGestion = If(IsNothing(oDireccionEntrega.CondicionesCredito.DificultadGestion),
-                            String.Empty, oDireccionEntrega.CondicionesCredito.DificultadGestion)
+                        dificultadGestion = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DificultadGestion),
+                            String.Empty, _oDireccionEntrega.CondicionesCredito.DificultadGestion)
 
-                        colorGestion = If(IsNothing(oDireccionEntrega.CondicionesCredito.ColorGestion),
-                            String.Empty, oDireccionEntrega.CondicionesCredito.ColorGestion)
+                        colorGestion = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ColorGestion),
+                            String.Empty, _oDireccionEntrega.CondicionesCredito.ColorGestion)
 
                         If Not (String.IsNullOrEmpty(dificultadGestion)) Then
                             lblDGestion.Text = dificultadGestion.Trim()
@@ -2754,11 +2772,11 @@ Public Class frmConsultaCliente
                             lblDGestion.BackColor = grpDatosCredito.BackColor
                         End If
 
-                        'dificultadCobro = oDireccionEntrega.CondicionesCredito.DificultadCobro
-                        dificultadCobro = If(IsNothing(oDireccionEntrega.CondicionesCredito.DificultadCobro),
-                            String.Empty, oDireccionEntrega.CondicionesCredito.DificultadCobro)
+                        'dificultadCobro = _oDireccionEntrega.CondicionesCredito.DificultadCobro
+                        dificultadCobro = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DificultadCobro),
+                            String.Empty, _oDireccionEntrega.CondicionesCredito.DificultadCobro)
 
-                        colorCobro = oDireccionEntrega.CondicionesCredito.ColorCobro
+                        colorCobro = _oDireccionEntrega.CondicionesCredito.ColorCobro
                         If Not (String.IsNullOrEmpty(dificultadCobro)) Then
                             lblDCobro.Text = dificultadCobro.Trim
                             If Not IsNothing(colorCobro) Then
@@ -2770,11 +2788,11 @@ Public Class frmConsultaCliente
                         End If
                     End If
 
-                    lblTipoFacturacion.Text = If(IsNothing(oDireccionEntrega.TipoFacturacion.Descripcion), String.Empty, oDireccionEntrega.TipoFacturacion.Descripcion.Trim())
+                    lblTipoFacturacion.Text = If(IsNothing(_oDireccionEntrega.TipoFacturacion.Descripcion), String.Empty, _oDireccionEntrega.TipoFacturacion.Descripcion.Trim())
 
                     '       FALTA
                     'If Not IsDBNull(dr("TipoNotaCreditoDescripcion")) Then lblTipoNotaCredito.Text = CType(dr("TipoNotaCreditoDescripcion"), String)
-                    'lblTipoNotaCredito.Text = oDireccionEntrega.
+                    'lblTipoNotaCredito.Text = _oDireccionEntrega.
 
                     '       FALTA
                     'TODO: Muestra el cliente padre de cyc
@@ -2791,19 +2809,19 @@ Public Class frmConsultaCliente
                     lblClientePadre.Text = "NO ASIGNADO"
 
                     'Muestra el dígito verificador asignado al cliente
-                    lblDigitoVerificador.Text = oDireccionEntrega.DigitoVerificador.ToString
+                    lblDigitoVerificador.Text = _oDireccionEntrega.DigitoVerificador.ToString
 
                     'Consulta de quejas activas
-                    If (oDireccionEntrega.QuejaActiva IsNot Nothing AndAlso oDireccionEntrega.QuejaActiva.Trim > "" AndAlso _LinkQueja) Then
+                    If (_oDireccionEntrega.QuejaActiva IsNot Nothing AndAlso _oDireccionEntrega.QuejaActiva.Trim > "" AndAlso _LinkQueja) Then
                         lnkQueja.Enabled = True
                         lnkQueja.Visible = True
-                        lnkQueja.Text = oDireccionEntrega.QuejaActiva.Trim
+                        lnkQueja.Text = _oDireccionEntrega.QuejaActiva.Trim
                     End If
                     '*****
 
                     '   No se encontró información relacionada con Pedidos
                     '
-                    'dtDocumento = oDireccionEntrega.Tables("Pedido")
+                    'dtDocumento = _oDireccionEntrega.Tables("Pedido")
                     'grdDocumento.DataSource = dtDocumento
                     'For Each dr In dtDocumento.Rows
                     '    If Not IsDBNull(dr("Saldo")) Then
@@ -2818,11 +2836,11 @@ Public Class frmConsultaCliente
                     'grdDocumento.CaptionText = "Documentos relacionados (" & dtDocumento.Rows.Count.ToString & ")"
 
                     '   Tarjeta de crédito
-                    If Not IsNothing(oDireccionEntrega.TarjetasCredito) Then
-                        If oDireccionEntrega.TarjetasCredito.Count > 0 Then
+                    If Not IsNothing(_oDireccionEntrega.TarjetasCredito) Then
+                        If _oDireccionEntrega.TarjetasCredito.Count > 0 Then
                             OcultarTarjetaCredito()
-                            grdTarjetaCredito.DataSource = oDireccionEntrega.TarjetasCredito
-                            grdTarjetaCredito.CaptionText = "Tarjetas de crédito (" & oDireccionEntrega.TarjetasCredito.Count.ToString & ")"
+                            grdTarjetaCredito.DataSource = _oDireccionEntrega.TarjetasCredito
+                            grdTarjetaCredito.CaptionText = "Tarjetas de crédito (" & _oDireccionEntrega.TarjetasCredito.Count.ToString & ")"
                         Else
                             grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
                         End If
@@ -2831,9 +2849,9 @@ Public Class frmConsultaCliente
                     End If
 
                     '   Descuento
-                    If Not IsNothing(oDireccionEntrega.Descuentos) Then
-                        If oDireccionEntrega.Descuentos.Count > 0 Then
-                            grdClienteDescuento.DataSource = oDireccionEntrega.Descuentos
+                    If Not IsNothing(_oDireccionEntrega.Descuentos) Then
+                        If _oDireccionEntrega.Descuentos.Count > 0 Then
+                            grdClienteDescuento.DataSource = _oDireccionEntrega.Descuentos
                             grdClienteDescuento.CaptionText = "Histórico de descuentos del cliente"
                         Else
                             grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
