@@ -660,10 +660,52 @@ Public Class ConsultaEmpresa
     End Sub
 
     Private Sub CargarEmpresaCRM(_Empresa As Integer, _obDireccionEntrega As RTGMCore.DireccionEntrega)
-        Try
+        Cursor = Cursors.WaitCursor
 
+        Try
+            If IsNothing(_obDireccionEntrega) Then
+                Exit Sub
+            End If
+
+            If Not IsNothing(_obDireccionEntrega.DatosFiscales) Then
+                lblRazonSocial.Text = _obDireccionEntrega.DatosFiscales.RazonSocial
+                lblRFC.Text = _obDireccionEntrega.DatosFiscales.RFC
+                lblCURP.Text = _obDireccionEntrega.DatosFiscales.CURP
+                lblCalle.Text = _obDireccionEntrega.DatosFiscales.Calle
+                lblColonia.Text = _obDireccionEntrega.DatosFiscales.Colonia
+                lblEstado.Text = _obDireccionEntrega.DatosFiscales.Estado
+                lblMunicipio.Text = _obDireccionEntrega.DatosFiscales.Municipio
+                lblCodigoPostal.Text = _obDireccionEntrega.DatosFiscales.CP
+                lblTelefono1.Text = _obDireccionEntrega.DatosFiscales.Telefono1
+                lblTelefono2.Text = _obDireccionEntrega.DatosFiscales.Telefono2
+                lblContacto.Text = _obDireccionEntrega.DatosFiscales.Contacto
+            Else
+                lblRazonSocial.Text = ""
+                lblRFC.Text = ""
+                lblCURP.Text = ""
+                lblCalle.Text = ""
+                lblColonia.Text = ""
+                lblEstado.Text = ""
+                lblMunicipio.Text = ""
+                lblCodigoPostal.Text = ""
+                lblTelefono1.Text = ""
+                lblTelefono2.Text = ""
+                lblContacto.Text = ""
+            End If
+            lblFax.Text = ""
+            lblFAlta.Text = ""
+            lblClaveBancaria.Text = ""
+
+            lblTituloLista.Text = ""
+            lvwCliente.Items.Clear()
+            lnkModifica.Visible = _PermiteModificar
+            lnkModifica.Enabled = False
+            txtEmpresa.Focus()
+            txtEmpresa.SelectAll()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, Me., MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, Me.Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
         End Try
     End Sub
 
