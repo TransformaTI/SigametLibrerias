@@ -6,6 +6,7 @@ Public Class ConsultaEmpresa
     Private _Empresa As Integer
     Private _PermiteModificar As Boolean
     Private Titulo As String = "Consulta de empresas"
+    Private _obDireccionEntrega As RTGMCore.DireccionEntrega
 
 #Region " Windows Form Designer generated code "
 
@@ -572,25 +573,30 @@ Public Class ConsultaEmpresa
 
 #End Region
 
-    Public Sub New(ByVal Empresa As Integer, _
-          Optional ByVal PermiteModificar As Boolean = False)
+    Public Sub New(ByVal Empresa As Integer,
+                   Optional ByVal PermiteModificar As Boolean = False,
+                   Optional ByVal DireccionEntrega As RTGMCore.DireccionEntrega = Nothing)
         MyBase.New()
         InitializeComponent()
         _Empresa = Empresa
-        ConsultaEmpresa(_Empresa)
+        _PermiteModificar = PermiteModificar
+        _obDireccionEntrega = DireccionEntrega
+
+        If Not IsNothing(_obDireccionEntrega) Then
+            CargarEmpresaCRM(_Empresa, _obDireccionEntrega)
+        Else
+            ConsultaEmpresa(_Empresa)
+        End If
         txtEmpresa.Text = _Empresa.ToString
         txtEmpresa.Enabled = False
         btnBuscar.Visible = False
 
-        _PermiteModificar = PermiteModificar
-
         lnkModifica.Visible = _PermiteModificar
-
     End Sub
 
     Private Sub ConsultaEmpresa(ByVal Empresa As Integer)
         Cursor = Cursors.WaitCursor
-        Dim strQuery As String = _
+        Dim strQuery As String =
         "SELECT * FROM vwCYCEmpresa WHERE Empresa = " & Empresa.ToString
         Dim da As New SqlDataAdapter(strQuery, DataLayer.Conexion)
         Dim dt As New DataTable("Empresa")
@@ -653,6 +659,13 @@ Public Class ConsultaEmpresa
 
     End Sub
 
+    Private Sub CargarEmpresaCRM(_Empresa As Integer, _obDireccionEntrega As RTGMCore.DireccionEntrega)
+        Try
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me., MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
 
     Private Sub btnCerrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCerrar.Click
         Me.Close()
