@@ -27,6 +27,7 @@ Public Class frmConsultaCliente
     Private _CambioClientePadre As Boolean
 
     Private _dsCatalogos As DataSet
+    Private _SaldoSigamet As Integer
 
     'Para consulta de observaciones en los datos de crédito
     Private _observacionesCyC As String = String.Empty
@@ -51,6 +52,14 @@ Public Class frmConsultaCliente
         Get
             Return _Litro
         End Get
+    End Property
+    Public Property SaldoSigamet() As Integer
+        Get
+            Return _SaldoSigamet
+        End Get
+        Set(value As Integer)
+            _SaldoSigamet = value
+        End Set
     End Property
 
     Public ReadOnly Property PedidoImporteSeleccionado() As Decimal
@@ -1987,6 +1996,7 @@ Public Class frmConsultaCliente
                 If Not IsDBNull(dr("MaxImporteCredito")) Then lblMaxImporteCredito.Text = CType(dr("MaxImporteCredito"), Decimal).ToString("C")
                 If Not IsDBNull(dr("DiasCredito")) Then lblDiasCredito.Text = CType(dr("DiasCredito"), Short).ToString
                 If Not IsDBNull(dr("Saldo")) Then lblSaldo.Text = CType(dr("Saldo"), Decimal).ToString("C")
+                If Not IsDBNull(dr("Saldo")) Then _SaldoSigamet = (CType(dr("Saldo"), Integer))
                 'If Not IsDBNull(dr("DiaRevisionNombre")) Then lblDiaRevision.Text = CType(dr("DiaRevisionNombre"), String)
                 'If Not IsDBNull(dr("DiaPagoNombre")) Then lblDiaPago.Text = CType(dr("DiaPagoNombre"), String)
                 If Not IsDBNull(dr("CarteraDescripcion")) Then lblCartera.Text = CType(dr("CarteraDescripcion"), String)
@@ -2715,8 +2725,8 @@ Public Class frmConsultaCliente
 
                         lblMaxImporteCredito.Text = CDec(oDireccionEntrega.CondicionesCredito.LimiteCredito).ToString("C")
                         lblDiasCredito.Text = oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString()
-                        lblSaldo.Text = CDec(oDireccionEntrega.CondicionesCredito.Saldo).ToString("C")
-
+                        'lblSaldo.Text = CDec(oDireccionEntrega.CondicionesCredito.Saldo).ToString("C")
+                        lblSaldo.Text = SaldoSigamet.ToString("C")
                         lblDiaRevision.Text = If(IsNothing(oDireccionEntrega.CondicionesCredito.DiasRevision),
                             String.Empty, oDireccionEntrega.CondicionesCredito.DiasRevision.Trim())
 
