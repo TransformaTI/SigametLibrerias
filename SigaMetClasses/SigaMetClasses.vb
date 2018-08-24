@@ -7191,9 +7191,10 @@ Public Class CobroDetalladoDatos
     Private _CobroOrigen As Integer
     Private _TPV As Boolean
     Private _Pago As Integer
-    Private _DscTipoCobro As String
+	Private _DscTipoCobro As String
+	Private _producto As String
 
-    Public Property DscTipoCobro() As String
+	Public Property DscTipoCobro() As String
         Get
             Return _DscTipoCobro
         End Get
@@ -7512,13 +7513,22 @@ Public Class CobroDetalladoDatos
             _Remision = value
         End Set
     End Property
+
+	Public Property Producto As String
+		Get
+			Return _producto
+		End Get
+		Set(value As String)
+			_producto = value
+		End Set
+	End Property
 #End Region
 
-    Public Sub New()
-        MyBase.New()
-    End Sub
+	Public Sub New()
+		MyBase.New()
+	End Sub
 
-    Function insertaCobro(AñoCobro As Short,
+	Function insertaCobro(AñoCobro As Short,
                             Cobro As Integer,
                             Importe As Decimal,
                             Impuesto As Decimal,

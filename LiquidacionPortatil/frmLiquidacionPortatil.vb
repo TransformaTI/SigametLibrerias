@@ -5538,11 +5538,10 @@ Public Class frmLiquidacionPortatil
 			While i < dtLiquidacionTotal.Rows.Count
 
 
-
-
 				Dim queryCobros = From cobro As SigaMetClasses.CobroDetalladoDatos In _listaCobros
 								  Where cobro.Remision = CType(dtLiquidacionTotal.Rows(i).Item(21), Integer)
 								  Where cobro.Serie = CType(dtLiquidacionTotal.Rows(i).Item(20), String)
+								  Where cobro.Producto = CType(dtLiquidacionTotal.Rows(i).Item(2), String)
 								  Select cobro
 
 				For Each cobroTemp As SigaMetClasses.CobroDetalladoDatos In queryCobros
@@ -7142,6 +7141,7 @@ Public Class frmLiquidacionPortatil
 				.AñoCobroOrigen = CShort("0")
 				.CobroOrigen = 0
 				.TPV = False
+
 			End With
 		Else
 			Throw New Exception("El monto de un cobro no puede ser cero")
@@ -7203,6 +7203,7 @@ Public Class frmLiquidacionPortatil
 						.TPV = False
 						.Serie = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Serie"), String)
 						.Remision = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Remision"), Integer)
+						.Producto = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Producto"), String)
 					End With
 
 					insertacobroRemision = New SigaMetClasses.CobroRemisiones()
