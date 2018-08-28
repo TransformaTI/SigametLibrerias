@@ -2711,11 +2711,11 @@ Public Class frmConsultaCliente
                         lblCliente.Text = _oDireccionEntrega.IDDireccionEntrega.ToString()
                     End If
 
-                    lblDireccion.Text = oDireccionEntrega.DireccionCompleta.Trim()
+                    lblDireccion.Text = _oDireccionEntrega.DireccionCompleta.Trim()
                     Dim ReemplazarCero As String = Replace(lblDireccion.Text, "0", " ")
                     lblDireccion.Text = ReemplazarCero
-                    If Not IsNothing(oDireccionEntrega.TipoCliente) Then
-                        lblTipoCliente.Text = oDireccionEntrega.TipoCliente.Descripcion
+                    If Not IsNothing(_oDireccionEntrega.TipoCliente) Then
+                        lblTipoCliente.Text = _oDireccionEntrega.TipoCliente.Descripcion
                     End If
 
                     'Teléfonos
@@ -2776,12 +2776,12 @@ Public Class frmConsultaCliente
                         lblTipoCredito.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ClasificacionCredito),
                             String.Empty, _oDireccionEntrega.CondicionesCredito.ClasificacionCredito.Trim())
 
-                        lblMaxImporteCredito.Text = CDec(oDireccionEntrega.CondicionesCredito.LimiteCredito).ToString("C")
-                        lblDiasCredito.Text = oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString()
+                        lblMaxImporteCredito.Text = CDec(_oDireccionEntrega.CondicionesCredito.LimiteCredito).ToString("C")
+                        lblDiasCredito.Text = _oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString()
                         'lblSaldo.Text = CDec(oDireccionEntrega.CondicionesCredito.Saldo).ToString("C")
                         lblSaldo.Text = SaldoSigamet.ToString("C")
-                        lblDiaRevision.Text = If(IsNothing(oDireccionEntrega.CondicionesCredito.DiasRevision),
-                            String.Empty, oDireccionEntrega.CondicionesCredito.DiasRevision.Trim())
+                        lblDiaRevision.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DiasRevision),
+                            String.Empty, _oDireccionEntrega.CondicionesCredito.DiasRevision.Trim())
 
                         lblDiaPago.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DiasPago),
                             String.Empty, _oDireccionEntrega.CondicionesCredito.DiasPago.Trim())
