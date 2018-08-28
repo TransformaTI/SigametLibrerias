@@ -2287,7 +2287,7 @@ Public Class frmConsultaCliente
                         End If
 
                         lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC.ToString)
-                        lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ObservacionesCyC.ToString)
+                        lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ObservacionesCyC)
                         lblCobroDefault.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion)
 
                         'Consulta y despliegue de la dificultad de gestión asignada al cliente
@@ -2322,7 +2322,7 @@ Public Class frmConsultaCliente
 
                     'agregado el 01/03/2004
                     If Not IsNothing(oDireccionEntrega.TipoFacturacion) Then
-                        lblTipoFacturacion.Text = recuperarCadenaCRM(oDireccionEntrega.TipoFacturacion.Descripcion.Trim)
+                        lblTipoFacturacion.Text = recuperarCadenaCRM(oDireccionEntrega.TipoFacturacion.Descripcion)
                     End If
                     '       FALTA
                     'If Not IsDBNull(dr("TipoNotaCreditoDescripcion")) Then lblTipoNotaCredito.Text = CType(dr("TipoNotaCreditoDescripcion"), String)
