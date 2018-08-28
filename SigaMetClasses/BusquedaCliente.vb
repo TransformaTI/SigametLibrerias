@@ -713,35 +713,59 @@ Public Class BusquedaCliente
         Dim TelefonoDigNormal As String
         TelefonoDigNormal = txtTelefono.Text.Trim()
 
-        If (_origenASTERISK And TelefonoDigNormal <> "") Then
+        If String.IsNullOrEmpty(_URLGateway) Then
+            If (_origenASTERISK And TelefonoDigNormal <> "") Then
 
-            btnConsultaCliente.Enabled = False
-            Dim Telefono As String
-
-            If TelefonoDigNormal.Length = 10 Then
-                Telefono = TelefonoDigNormal.Substring(3, 7)
-            Else
-                Telefono = TelefonoDigNormal
-            End If
-
-            If Not ConsultaParametro(Telefono) And Telefono <> "" Then
+                btnConsultaCliente.Enabled = False
+                Dim Telefono As String
 
                 If TelefonoDigNormal.Length = 10 Then
-                    ConsultaParametro(TelefonoDigNormal)
+                    Telefono = TelefonoDigNormal.Substring(3, 7)
+                Else
+                    Telefono = TelefonoDigNormal
                 End If
 
+                If Not ConsultaParametro(Telefono) And Telefono <> "" Then
+
+                    If TelefonoDigNormal.Length = 10 Then
+                        ConsultaParametro(TelefonoDigNormal)
+                    End If
+                End If
+
+            ElseIf _origenASTERISK = False Then
+                ConsultaParametro(TelefonoDigNormal)
             End If
 
+        Else
+            If (_origenASTERISK And TelefonoDigNormal <> "") Then
 
-        ElseIf _origenASTERISK = False Then
-            ConsultaParametro(TelefonoDigNormal)
+                btnConsultaCliente.Enabled = False
+                Dim Telefono As String
+
+                If TelefonoDigNormal.Length = 10 Then
+                    Telefono = TelefonoDigNormal.Substring(3, 7)
+                Else
+                    Telefono = TelefonoDigNormal
+                End If
+
+                'If Not ConsultaParametro(Telefono) And Telefono <> "" Then
+
+                '    If TelefonoDigNormal.Length = 10 Then
+                '        ConsultaParametro(TelefonoDigNormal)
+                '    End If
+                'End If
+
+                ConsultaCRM(Telefono)
+
+            ElseIf _origenASTERISK = False Then
+                ConsultaCRM(TelefonoDigNormal)
+            End If
         End If
-
 
     End Sub
 
-    Private Sub ConsultaCRM(ByVal Telefono As String)
-        'Dim Telefono As String
+    Private Sub ConsultaCRM(ByVal parTelefono As String)
+        Dim Telefono As String
         Dim Cliente As Integer?
         Dim Celula As Integer?
         Dim Calle As String = Nothing
@@ -751,19 +775,11 @@ Public Class BusquedaCliente
         Dim NumExterior As Integer?
         Dim NumInterior As String = Nothing
         Dim obDireccion As RTGMCore.DireccionEntrega
-
         btnConsultaCliente.Enabled = False
         Dim _PuedeConsultar As Boolean = False
 
-
-        'Dim cmd As New SqlCommand("spCCClienteConsulta")
-        'Dim dr As SqlDataReader
-        'cmd.CommandType = CommandType.StoredProcedure
-        'cmd.CommandTimeout = 60
-
         If txtTelefono.Text.Trim <> "" Then
-            'cmd.Parameters.Add("@Telefono", SqlDbType.VarChar, 15).Value = Telefono
-
+            Telefono = parTelefono
             _PuedeConsultar = True
         End If
 
@@ -776,34 +792,30 @@ Public Class BusquedaCliente
                 Exit Sub
             End Try
             Cliente = _ClienteBusqueda
+            _PuedeConsultar = True
         End If
 
         If txtCalle.Text.Trim <> "" Then
-            'cmd.Parameters.Add("@CalleNombre", SqlDbType.VarChar, 60).Value = txtCalle.Text.Trim
             Calle = txtCalle.Text.Trim
             _PuedeConsultar = True
         End If
 
         If txtColonia.Text.Trim <> "" Then
-            'cmd.Parameters.Add("@ColoniaNombre", SqlDbType.VarChar, 80).Value = txtColonia.Text.Trim
             Colonia = txtColonia.Text.Trim
             _PuedeConsultar = True
         End If
 
         If txtMunicipio.Text.Trim <> "" Then
-            'cmd.Parameters.Add("@MunicipioNombre", SqlDbType.VarChar, 40).Value = txtMunicipio.Text.Trim
             Municipio = txtMunicipio.Text.Trim
             _PuedeConsultar = True
         End If
 
         If txtNombre.Text.Trim <> "" Then
-            'cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 80).Value = txtNombre.Text.Trim
             Nombre = txtNombre.Text.Trim
             _PuedeConsultar = True
         End If
 
         If txtNumExterior.Text.Trim <> "" Then
-            'cmd.Parameters.Add("@NumExterior", SqlDbType.Int).Value = CType(txtNumExterior.Text, Integer)
             Dim _NumBusqueda As Integer
             Try
                 _NumBusqueda = CType(txtNumExterior.Text, Integer)
@@ -817,24 +829,16 @@ Public Class BusquedaCliente
         End If
 
         If txtNumInterior.Text.Trim <> "" Then
-            'cmd.Parameters.Add("@NumInterior", SqlDbType.VarChar, 50).Value = txtNumInterior.Text.Trim
             NumInterior = txtNumInterior.Text.Trim
             _PuedeConsultar = True
         End If
 
         If _Remoto Then
             If Not IsNothing(_Celula) Then
-                'cmd.Parameters.Add("@Celula", SqlDbType.TinyInt).Value = _Celula
                 Celula = _Celula
                 _PuedeConsultar = True
             End If
         End If
-
-        'Clientes portatil
-        'cmd.Parameters.Add("@Portatil", SqlDbType.Bit).Value = chkPortatil.Checked
-
-        'Exact search enabled
-        'cmd.Parameters.Add("@ExactSearch", SqlDbType.Bit).Value = chkExactSearch.Checked
 
         If _PuedeConsultar Then
             Cursor = Cursors.WaitCursor
@@ -849,11 +853,7 @@ Public Class BusquedaCliente
             Me.Refresh()
 
             Try
-                'AbreConexion()
-                'cmd.Connection = DataLayer.Conexion
                 lvwCliente.Items.Clear()
-
-                'dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
 
                 Dim obGateway As New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
                 obGateway.URLServicio = _URLGateway
@@ -879,47 +879,22 @@ Public Class BusquedaCliente
 
                 Dim oItem As ListViewItem
 
-                'If dr.Read() Then
-
-
-                'Do While dr.Read
                 For Each obDireccion In _DireccionesEntrega
-                    'oItem = New ListViewItem(CType(dr("Cliente"), String), 0)
                     oItem = New ListViewItem(Convert.ToString(obDireccion.IDDireccionEntrega), 0) '0
-                    'oItem.SubItems.Add(CType(dr("Nombre"), String).Trim)
                     oItem.SubItems.Add(If(obDireccion.Nombre, "").Trim) '1
-                    'oItem.SubItems.Add(CType(dr("Celula"), String).Trim)
                     If Not IsNothing(obDireccion.ZonaSuministro) Then
                         oItem.SubItems.Add(Convert.ToString(obDireccion.ZonaSuministro.IDZona).Trim) '2
                     Else
                         oItem.SubItems.Add("") '2
                     End If
-                    'oItem.SubItems.Add(CType(dr("CalleNombre"), String).Trim)
                     oItem.SubItems.Add(If(obDireccion.CalleNombre, "").Trim) '3
-
-                    'If Not IsDBNull(dr("NumExterior")) Then
-                    '    oItem.SubItems.Add(CType(dr("NumExterior"), String).Trim)
-                    'Else
-                    '    oItem.SubItems.Add("")
-                    'End If
                     oItem.SubItems.Add(If(obDireccion.NumExterior, "").Trim) '4
-
-                    'oItem.SubItems.Add(CType(dr("NumInterior"), String).Trim)
                     oItem.SubItems.Add(If(obDireccion.NumInterior, "").Trim) '5
-                    'oItem.SubItems.Add(CType(dr("ColoniaNombre"), String).Trim)
                     oItem.SubItems.Add(If(obDireccion.ColoniaNombre, "").Trim) '6
-                    'oItem.SubItems.Add(CType(dr("MunicipioNombre"), String).Trim)
                     oItem.SubItems.Add(If(obDireccion.MunicipioNombre, "").Trim) '7
 
-                    'oItem.ForeColor = System.Drawing.Color.FromName(CType(dr("ForeColor"), String).Trim)
-
                     lvwCliente.Items.Add(oItem)
-
-                    'Resultado = True
                 Next
-
-                lblListaCliente.Text = "Lista de clientes encontrados (" & lvwCliente.Items.Count.ToString & " en total)"
-                lblListaCliente.ForeColor = System.Drawing.Color.White
 
                 If lvwCliente.Items.Count = 1 Then
                     If _AutoSeleccionarRegistroUnico Then
@@ -928,8 +903,6 @@ Public Class BusquedaCliente
                         Me.Close()
                     End If
                 End If
-
-
             Catch ex As Exception
                 MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 lblListaCliente.Text = "Error en la búsqueda"
@@ -937,21 +910,20 @@ Public Class BusquedaCliente
 
                 FlawBusquedaLlamada = False
             Finally
-                'CierraConexion()
-                'cmd.Dispose()
                 oSplash.Close()
                 oSplash.Dispose()
 
-                '20150705CNSM$002-----------------
                 If FlawBusquedaLlamada Then
                     ActualizarDatosTelefono()
                 End If
+
+                lblListaCliente.Text = "Lista de clientes encontrados (" & lvwCliente.Items.Count.ToString & " en total)"
+                lblListaCliente.ForeColor = System.Drawing.Color.White
 
                 Cursor = Cursors.Default
             End Try
         End If
 
-        'Return Resultado
     End Sub
 
     Private Function ConsultaParametro(ByVal Telefono As String) As Boolean
