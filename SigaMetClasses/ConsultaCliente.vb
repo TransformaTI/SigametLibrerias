@@ -255,6 +255,13 @@ Public Class frmConsultaCliente
     Friend WithEvents lblDGestion As System.Windows.Forms.Label
     Friend WithEvents lblDCobro As System.Windows.Forms.Label
     Friend WithEvents colRemision As System.Windows.Forms.DataGridTextBoxColumn
+    Private PermiteCapturarNotas As Boolean
+    Private SoloDocumentosACredito As Boolean
+    Private SoloDocumentosSurtidos As Boolean
+    Private PermiteSeleccionarDocumento As Boolean
+    Private PermiteModificarDatosCredito As Boolean
+    Private PermiteModificarDatosCliente As Boolean
+
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmConsultaCliente))
@@ -2161,9 +2168,9 @@ Public Class frmConsultaCliente
         Dim dificultadGestion As String
         Dim colorGestion As String
         Dim dificultadCobro As String
-		Dim colorCobro As String
-		Dim oGateway As RTGMGateway.RTGMGateway
-		Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim colorCobro As String
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
         Dim oDireccionEntrega As RTGMCore.DireccionEntrega
         Dim tipoClienteDescripcion As String
         Dim celula As String
@@ -2347,61 +2354,61 @@ Public Class frmConsultaCliente
 
                     'Consulta de quejas activas
                     If Not IsNothing(oDireccionEntrega.QuejaActiva) Then
-                            If (oDireccionEntrega.QuejaActiva.Trim > "" And _LinkQueja) Then
-                                lnkQueja.Enabled = True
-                                lnkQueja.Visible = True
-                                lnkQueja.Text = recuperarCadenaCRM(oDireccionEntrega.QuejaActiva.Trim)
-                            End If
+                        If (oDireccionEntrega.QuejaActiva.Trim > "" And _LinkQueja) Then
+                            lnkQueja.Enabled = True
+                            lnkQueja.Visible = True
+                            lnkQueja.Text = recuperarCadenaCRM(oDireccionEntrega.QuejaActiva.Trim)
                         End If
-                        '*****
+                    End If
+                    '*****
 
-                        '   No se encontró información relacionada con Pedidos
-                        '
-                        'dtDocumento = oDireccionEntrega.Tables("Pedido")
-                        'grdDocumento.DataSource = dtDocumento
-                        'For Each dr In dtDocumento.Rows
-                        '    If Not IsDBNull(dr("Saldo")) Then
-                        '        If Not IsDBNull(dr("CyC")) Then
-                        '            _TotalSaldoCartera += CType(dr("Saldo"), Decimal)
-                        '            _TotalLitrosCartera += CType(dr("Litros"), Decimal)
-                        '        End If
-                        '        _TotalSaldo += CType(dr("Saldo"), Decimal)
-                        '        _TotalLitros += CType(dr("Litros"), Decimal)
-                        '    End If
-                        'Next
-                        'grdDocumento.CaptionText = "Documentos relacionados (" & dtDocumento.Rows.Count.ToString & ")"
+                    '   No se encontró información relacionada con Pedidos
+                    '
+                    'dtDocumento = oDireccionEntrega.Tables("Pedido")
+                    'grdDocumento.DataSource = dtDocumento
+                    'For Each dr In dtDocumento.Rows
+                    '    If Not IsDBNull(dr("Saldo")) Then
+                    '        If Not IsDBNull(dr("CyC")) Then
+                    '            _TotalSaldoCartera += CType(dr("Saldo"), Decimal)
+                    '            _TotalLitrosCartera += CType(dr("Litros"), Decimal)
+                    '        End If
+                    '        _TotalSaldo += CType(dr("Saldo"), Decimal)
+                    '        _TotalLitros += CType(dr("Litros"), Decimal)
+                    '    End If
+                    'Next
+                    'grdDocumento.CaptionText = "Documentos relacionados (" & dtDocumento.Rows.Count.ToString & ")"
 
-                        '   Tarjeta de crédito
-                        If Not IsNothing(oDireccionEntrega.TarjetasCredito) Then
-                            If oDireccionEntrega.TarjetasCredito.Count > 0 Then
-                                OcultarTarjetaCredito()
-                                grdTarjetaCredito.DataSource = oDireccionEntrega.TarjetasCredito
-                                grdTarjetaCredito.CaptionText = "Tarjetas de crédito (" & recuperarCadenaCRM(oDireccionEntrega.TarjetasCredito.Count.ToString) & ")"
-                            Else
-                                grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
-                            End If
+                    '   Tarjeta de crédito
+                    If Not IsNothing(oDireccionEntrega.TarjetasCredito) Then
+                        If oDireccionEntrega.TarjetasCredito.Count > 0 Then
+                            OcultarTarjetaCredito()
+                            grdTarjetaCredito.DataSource = oDireccionEntrega.TarjetasCredito
+                            grdTarjetaCredito.CaptionText = "Tarjetas de crédito (" & recuperarCadenaCRM(oDireccionEntrega.TarjetasCredito.Count.ToString) & ")"
                         Else
                             grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
                         End If
+                    Else
+                        grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
+                    End If
 
-                        '   Descuento
-                        If Not IsNothing(oDireccionEntrega.Descuentos) Then
-                            If oDireccionEntrega.Descuentos.Count > 0 Then
-                                grdClienteDescuento.DataSource = oDireccionEntrega.Descuentos
-                                grdClienteDescuento.CaptionText = "Histórico de descuentos del cliente"
-                            Else
-                                grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
-                            End If
+                    '   Descuento
+                    If Not IsNothing(oDireccionEntrega.Descuentos) Then
+                        If oDireccionEntrega.Descuentos.Count > 0 Then
+                            grdClienteDescuento.DataSource = oDireccionEntrega.Descuentos
+                            grdClienteDescuento.CaptionText = "Histórico de descuentos del cliente"
                         Else
                             grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
                         End If
+                    Else
+                        grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
+                    End If
 
-				lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
-				lblSaldoTotal.Text = _TotalSaldo.ToString("C")
-				lblLitrosCartera.Text = _TotalLitrosCartera.ToString
-				lblLitrosConsulta.Text = _TotalLitros.ToString
-			End If
-			End If
+                    lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
+                    lblSaldoTotal.Text = _TotalSaldo.ToString("C")
+                    lblLitrosCartera.Text = _TotalLitrosCartera.ToString
+                    lblLitrosConsulta.Text = _TotalLitros.ToString
+                End If
+            End If
         Catch ex As Exception
             MessageBox.Show("Ha ocurrido un error:" & Chr(13) & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
