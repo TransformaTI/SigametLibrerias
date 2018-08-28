@@ -5781,7 +5781,7 @@ Public Class TransaccionMovimientoCaja
                             Cobro.Posfechado, Cobro.Referencia)
 
                     Case Enumeradores.enumTipoCobro.TarjetaCredito
-                        FolioCobro = objCobro.ChequeTarjetaAlta("", Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
+                        FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
                             Enumeradores.enumTipoCobro.TarjetaCredito, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia)
 
                         'CONTROL DE SALDOS 01-04-2005
