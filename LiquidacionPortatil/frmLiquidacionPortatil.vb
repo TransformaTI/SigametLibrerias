@@ -4308,16 +4308,16 @@ Public Class frmLiquidacionPortatil
 								_TotalContado = _TotalContado + Total
 
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
-								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, MovimientoAlmacenSalidaObsequio, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction)
+								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction)
 								_TotalContado = _TotalContado + Total
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
-								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, MovimientoAlmacenSalidaObsequio, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction)
+								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction)
 								_TotalContado = _TotalContado + Total
 							Else ' CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 3 Then
 								If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 18 Then
 
 								End If
-								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, MovimientoAlmacenSalidaObsequio, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction)
+								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
 								_TotalContado = _TotalContado + Total
 
 
@@ -6932,12 +6932,39 @@ Public Class frmLiquidacionPortatil
 	End Sub
 
 
+	Private Function validarExistencias() As Boolean
+		Dim ValorText As Integer
+		Dim i As Integer
+		Dim Flag As Boolean = True
 
+		While i < lblLista.Count And Flag = True
+			If CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text = "" Then
+				ValorText = 0
+			Else
+				ValorText = CType(CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer)
+			End If
+
+			If ValorText > CType(CType(lblLista.Item(i), System.Windows.Forms.Label).Text, Integer) Then
+				Flag = False
+				Me.ActiveControl = CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero)
+			End If
+			i = i + 1
+		End While
+		Return Flag
+	End Function
 
 	Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
+
+
+		If Not validarExistencias() Then
+			MessageBox.Show("No hay suficientes existencias para liquidar ", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+			Return
+		End If
+
 		If grdDetalle.VisibleRowCount > 0 Then
 			Dim validar As Boolean
 			validar = Validacion()
+
 			If validar = True Then
 				Try
 					If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
