@@ -2757,6 +2757,7 @@ Public Class frmConsultaCliente
 
                     lblObservaciones.Text = If(IsNothing(_oDireccionEntrega.Observaciones), String.Empty, _oDireccionEntrega.Observaciones.Trim())
 
+
                     If Not IsNothing(_oDireccionEntrega.ProgramacionSuministro) Then
                         If Not IsNothing(_oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion) Then
                             lblProgramaCliente.Text = _oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion.Trim
