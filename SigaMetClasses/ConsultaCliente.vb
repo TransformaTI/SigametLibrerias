@@ -2292,9 +2292,16 @@ Public Class frmConsultaCliente
                         Else
                             lblEjeCyC.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto)
                         End If
-
-                        lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC.ToString)
-                        lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ObservacionesCyC.ToString)
+                        If oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC IsNot Nothing Then
+                            lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC.ToString)
+                        Else
+                            lblHorarioAtencion.Text = ""
+                        End If
+                        If oDireccionEntrega.CondicionesCredito.ObservacionesCyC IsNot Nothing Then
+                            lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ObservacionesCyC.ToString)
+                        Else
+                            lblHorarioAtencion.Text = ""
+                        End If
                         lblCobroDefault.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion)
 
                         'Consulta y despliegue de la dificultad de gestión asignada al cliente
@@ -2329,7 +2336,9 @@ Public Class frmConsultaCliente
 
                     'agregado el 01/03/2004
                     If Not IsNothing(oDireccionEntrega.TipoFacturacion) Then
-                        lblTipoFacturacion.Text = recuperarCadenaCRM(oDireccionEntrega.TipoFacturacion.Descripcion.Trim)
+                        If Not IsNothing(oDireccionEntrega.TipoFacturacion.Descripcion) Then
+                            lblTipoFacturacion.Text = recuperarCadenaCRM(oDireccionEntrega.TipoFacturacion.Descripcion.Trim)
+                        End If
                     End If
                     '       FALTA
                     'If Not IsDBNull(dr("TipoNotaCreditoDescripcion")) Then lblTipoNotaCredito.Text = CType(dr("TipoNotaCreditoDescripcion"), String)
