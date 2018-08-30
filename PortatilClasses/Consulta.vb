@@ -133,9 +133,10 @@ Public MustInherit Class Consulta
         Private _Inicial As String
         Private _TipoCobro As Integer
         Private _Resguardo As Boolean
-        Private _ResguardoPorTanque As Boolean
+		Private _ResguardoPorTanque As Boolean
+		Private _TipoCliente As Integer
 
-        Property IdCliente() As Integer
+		Property IdCliente() As Integer
             Get
                 Return _IdCliente
             End Get
@@ -252,54 +253,64 @@ Public MustInherit Class Consulta
             End Set
         End Property
 
-        Protected Sub RealizarConsulta(ByVal Procedimiento As String)
-            Dim cnSigamet As SqlConnection
-            Dim cmdComando As SqlCommand
-            Dim drAlmacen As SqlDataReader
+		Public Property TipoCliente As Integer
+			Get
+				Return _TipoCliente
+			End Get
+			Set(value As Integer)
+				_TipoCliente = value
+			End Set
+		End Property
 
-            Try
-                cnSigamet = New SqlConnection(Globals.GetInstance._CadenaConexion)
-                cmdComando = New SqlCommand(Procedimiento, cnSigamet)
-                cmdComando.Parameters.Add("@Configuracion", SqlDbType.SmallInt).Value = Configuracion
-                cmdComando.Parameters.Add("@Cliente", SqlDbType.Int).Value = IdCliente
-                cmdComando.CommandType = CommandType.StoredProcedure
-                cnSigamet.Open()
-                drAlmacen = cmdComando.ExecuteReader(CommandBehavior.CloseConnection)
-                Resguardo = False
-                Do While drAlmacen.Read()
-                    Cliente = CType(drAlmacen(1), String)
-                    IdRuta = CType(drAlmacen(2), Integer)
-                    Ruta = CType(drAlmacen(3), String)
-                    IdCorporativo = CType(drAlmacen(4), Integer)
-                    Corporativo = CType(drAlmacen(5), String)
-                    Inicial = CType(drAlmacen(6), String)
-                    IdZonaEconomica = CType(drAlmacen(7), Integer)
-                    ZonaEconomica = CType(drAlmacen(8), String)
-                    If Not IsDBNull(drAlmacen(10)) Then
-                        TipoCobro = CType(drAlmacen(10), Integer)
-                    End If
-                    Celula = CType(drAlmacen(9), Integer)
-                    If drAlmacen.FieldCount > 11 Then
-                        If Not IsDBNull(drAlmacen(11)) Then
-                            Resguardo = CType(drAlmacen(11), Boolean)
-                        End If
-                    End If
-                    If drAlmacen.FieldCount > 12 Then
-                        If Not IsDBNull(drAlmacen(12)) Then
-                            ResguardoPorTanque = CType(drAlmacen(12), Boolean)
-                        End If
-                    End If
+		Protected Sub RealizarConsulta(ByVal Procedimiento As String)
+			Dim cnSigamet As SqlConnection
+			Dim cmdComando As SqlCommand
+			Dim drAlmacen As SqlDataReader
 
-                Loop
-                cnSigamet.Close()
+			Try
+				cnSigamet = New SqlConnection(Globals.GetInstance._CadenaConexion)
+				cmdComando = New SqlCommand(Procedimiento, cnSigamet)
+				cmdComando.Parameters.Add("@Configuracion", SqlDbType.SmallInt).Value = Configuracion
+				cmdComando.Parameters.Add("@Cliente", SqlDbType.Int).Value = IdCliente
+				cmdComando.CommandType = CommandType.StoredProcedure
+				cnSigamet.Open()
+				drAlmacen = cmdComando.ExecuteReader(CommandBehavior.CloseConnection)
+				Resguardo = False
+				Do While drAlmacen.Read()
+					Cliente = CType(drAlmacen(1), String)
+					IdRuta = CType(drAlmacen(2), Integer)
+					Ruta = CType(drAlmacen(3), String)
+					IdCorporativo = CType(drAlmacen(4), Integer)
+					Corporativo = CType(drAlmacen(5), String)
+					Inicial = CType(drAlmacen(6), String)
+					IdZonaEconomica = CType(drAlmacen(7), Integer)
+					ZonaEconomica = CType(drAlmacen(8), String)
 
-            Catch exc As Exception
-                EventLog.WriteEntry("Clase Consulta" & exc.Source, exc.Message, EventLogEntryType.Error)
-                MessageBox.Show(exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-        End Sub
+					If Not IsDBNull(drAlmacen(10)) Then
+						TipoCobro = CType(drAlmacen(10), Integer)
+					End If
+					Celula = CType(drAlmacen(9), Integer)
+					If drAlmacen.FieldCount > 11 Then
+						If Not IsDBNull(drAlmacen(11)) Then
+							Resguardo = CType(drAlmacen(11), Boolean)
+						End If
+					End If
+					If drAlmacen.FieldCount > 12 Then
+						If Not IsDBNull(drAlmacen(12)) Then
+							ResguardoPorTanque = CType(drAlmacen(12), Boolean)
+						End If
+					End If
 
-        Protected Sub RealizarConsulta(ByVal Procedimiento As String, ByVal URL As String)
+				Loop
+				cnSigamet.Close()
+
+			Catch exc As Exception
+				EventLog.WriteEntry("Clase Consulta" & exc.Source, exc.Message, EventLogEntryType.Error)
+				MessageBox.Show(exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			End Try
+		End Sub
+
+		Protected Sub RealizarConsulta(ByVal Procedimiento As String, ByVal URL As String)
             Dim cnSigamet As SqlConnection
             Dim cmdComando As SqlCommand
             Dim drAlmacen As SqlDataReader
@@ -340,12 +351,10 @@ Public MustInherit Class Consulta
                 Loop
                 cnSigamet.Close()
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
-                objSolicitudGateway.IDCliente = Me.IdCliente
-                objSolicitudGateway.IDEmpresa = Me.IdCorporativo
-                objSolicitudGateway.Fuente = RTGMCore.Fuente.CRM
+				objSolicitudGateway.IDCliente = Me.IdCliente
 
-                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
-                objGateway.URLServicio = URL
+				Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(Globals.GetInstance._Modulo, Globals.GetInstance._CadenaConexion)
+				objGateway.URLServicio = URL
 
                 Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
 
@@ -1297,13 +1306,19 @@ Public MustInherit Class Consulta
 
         Inherits ConsultaBase3
 
-        Public Sub New(ByVal Conf As Integer, ByVal IdCliente As Integer, ByVal IdCorporativo As Integer)
-            Me.Configuracion = Conf
-            Me.IdCliente = IdCliente
-            Me.IdCorporativo = IdCorporativo
-        End Sub
+		Public Sub New(ByVal Conf As Integer, ByVal IdCliente As Integer, ByVal IdCorporativo As Integer)
+			Me.Configuracion = Conf
+			Me.IdCliente = IdCliente
+			Me.IdCorporativo = IdCorporativo
+		End Sub
 
-        Public Sub CargaDatos()
+		Public Sub New(ByVal Conf As Integer, ByVal IdCliente As Integer)
+			Me.Configuracion = Conf
+			Me.IdCliente = IdCliente
+			'Me.IdCorporativo = IdCorporativo
+		End Sub
+
+		Public Sub CargaDatos()
             RealizarConsulta("spPTLConsultaCliente")
         End Sub
 
@@ -3301,13 +3316,12 @@ Public MustInherit Class Consulta
                 End If
                 cnSigamet.Close()
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
-                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway()
-                Dim objDescripcion As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega()
-                objSolicitudGateway.Fuente = 0
-                objSolicitudGateway.IDCliente = 502602197
-                objSolicitudGateway.IDEmpresa = 0
-                objSolicitudGateway.Portatil = False
-                objSolicitudGateway.IDAutotanque = 52
+				Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(Globals.GetInstance._Modulo, Globals.GetInstance._CadenaConexion)
+				Dim objDescripcion As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega()
+
+				objSolicitudGateway.IDCliente = 502602197
+				objSolicitudGateway.Portatil = False
+				objSolicitudGateway.IDAutotanque = 52
 
                 objGateway.URLServicio = URL
                 objDescripcion = objGateway.buscarDireccionEntrega(objSolicitudGateway)
