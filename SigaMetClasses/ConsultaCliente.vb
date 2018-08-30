@@ -2681,7 +2681,6 @@ Public Class frmConsultaCliente
             End If
         End Try
     End Sub
-
     Private Sub ConsultaCliente(ByVal Cliente As Integer,
                                 ByVal SoloPedidosCredito As Boolean,
                                 ByVal SoloPedidosSurtidos As Boolean,
@@ -2756,6 +2755,7 @@ Public Class frmConsultaCliente
                     End If
 
                     lblObservaciones.Text = If(IsNothing(_oDireccionEntrega.Observaciones), String.Empty, _oDireccionEntrega.Observaciones.Trim())
+
 
                     If Not IsNothing(_oDireccionEntrega.ProgramacionSuministro) Then
                         If Not IsNothing(_oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion) Then
