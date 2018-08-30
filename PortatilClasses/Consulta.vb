@@ -134,6 +134,29 @@ Public MustInherit Class Consulta
         Private _TipoCobro As Integer
         Private _Resguardo As Boolean
         Private _ResguardoPorTanque As Boolean
+        Private _CadenaConexion As String
+        Private _Modulo As Short
+
+
+        Property Modulo() As Short
+            Get
+                Return _Modulo
+            End Get
+            Set(value As Short)
+                _Modulo = value
+            End Set
+        End Property
+
+        Property cadenaConexion() As String
+            Get
+                Return _CadenaConexion
+            End Get
+            Set(value As String)
+                _CadenaConexion = value
+            End Set
+        End Property
+
+
 
         Property IdCliente() As Integer
             Get
@@ -341,10 +364,10 @@ Public MustInherit Class Consulta
                 cnSigamet.Close()
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
                 objSolicitudGateway.IDCliente = Me.IdCliente
-                objSolicitudGateway.IDEmpresa = Me.IdCorporativo
-                objSolicitudGateway.Fuente = RTGMCore.Fuente.CRM
+                ' objSolicitudGateway.IDEmpresa = Me.IdCorporativo
+                'objSolicitudGateway.Fuente = RTGMCore.Fuente.CRM
 
-                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway
+                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(CByte(_Modulo), _CadenaConexion)
                 objGateway.URLServicio = URL
 
                 Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
@@ -3225,6 +3248,27 @@ Public MustInherit Class Consulta
         Private _Kilometraje As Integer
         Private _Ruta As Integer
         Private _Celula As Integer
+        Private _CadenaConexion As String
+        Private _Modulo As Short
+
+
+        Property Modulo() As Short
+            Get
+                Return _Modulo
+            End Get
+            Set(value As Short)
+                _Modulo = value
+            End Set
+        End Property
+
+        Property cadenaConexion() As String
+            Get
+                Return _CadenaConexion
+            End Get
+            Set(value As String)
+                _CadenaConexion = value
+            End Set
+        End Property
 
         Public ReadOnly Property Kilometraje() As Integer
             Get
@@ -3301,11 +3345,9 @@ Public MustInherit Class Consulta
                 End If
                 cnSigamet.Close()
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
-                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway()
+                Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(CByte(_Modulo), _CadenaConexion)
                 Dim objDescripcion As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega()
-                objSolicitudGateway.Fuente = 0
-                objSolicitudGateway.IDCliente = 502602197
-                objSolicitudGateway.IDEmpresa = 0
+                objSolicitudGateway.IDCliente = Camion
                 objSolicitudGateway.Portatil = False
                 objSolicitudGateway.IDAutotanque = 52
 
