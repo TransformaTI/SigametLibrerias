@@ -1880,12 +1880,12 @@ Public Class frmConsultaCliente
         _Modulo = Modulo
 
 
-        If (String.IsNullOrEmpty(_URLGateway)) Then
-            Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
-        Else
-            Me.ConsultaCliente(_Cliente, _URLGateway)
-            'Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
-        End If
+        'If (String.IsNullOrEmpty(_URLGateway)) Then
+        '    Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+        'Else
+        '    Me.ConsultaCliente(_Cliente, _URLGateway)
+        '    'Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
+        'End If
 
         If Not IsNothing(dtDocumento) Then
             If dtDocumento.Rows.Count > 0 Then grdDocumento.Select(0)
@@ -2085,7 +2085,6 @@ Public Class frmConsultaCliente
             Next
             dtDocumento = dsDatos.Tables("Pedido")
             grdDocumento.DataSource = dtDocumento
-
             For Each dr In dtDocumento.Rows
                 If Not IsDBNull(dr("Saldo")) Then
                     If Not IsDBNull(dr("CyC")) Then
