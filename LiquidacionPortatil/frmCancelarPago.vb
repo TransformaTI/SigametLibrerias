@@ -88,7 +88,8 @@ Public Class frmCancelarPago
 					'CobroEliminado.Pago = CobroRemision.Pago And
 					'Remisiones.BeginInit()
 
-					Remision("Saldo") = Convert.ToDecimal(Remision("Saldo")) + CobroRemision.MontoAbonado
+					Remision("Saldo") = Convert.ToDecimal(Remision("Saldo")) + CobroEliminado.Total
+
 					CobroRemisiones.Remove(CobroRemision)
 					saldoDevuelto = True
 					Exit For
