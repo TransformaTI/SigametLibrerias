@@ -4308,10 +4308,10 @@ Public Class frmLiquidacionPortatil
 								_TotalContado = _TotalContado + Total
 
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
-								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction)
+								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
 								_TotalContado = _TotalContado + Total
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
-								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction)
+								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
 								_TotalContado = _TotalContado + Total
 							Else ' CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 3 Then
 								If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 18 Then
@@ -6177,6 +6177,9 @@ Public Class frmLiquidacionPortatil
 							If item("FormaPago").ToString.Trim.ToUpper = "OBSEQUIO" Then
 								row("TipoCobro") = 15
 							End If
+							If item("FormaPago").ToString.Trim = "Crédito Portátil" Then
+								row("TipoCobro") = 18
+							End If
 
 							_DetalleGrid.Rows.Add(row)
 						Next
@@ -6599,7 +6602,7 @@ Public Class frmLiquidacionPortatil
 
 		For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
 			If Cobro.TipoCobro = 5 Then
-				TotalEfectivo = TotalEfectivo + Cobro.Total - Credito
+				TotalEfectivo = TotalEfectivo + Cobro.Total '- Credito
 			End If
 			If Cobro.TipoCobro = 16 Then
 				TotalVales = TotalVales + Cobro.Total
@@ -7095,6 +7098,7 @@ Public Class frmLiquidacionPortatil
 				Dim totalcobro As Decimal = CDec(lblTotalCobro.Text)
 				Dim totalPagos As Decimal = CDec(lblTransferElect.Text) + CDec(lblTarjDebCred.Text) + CDec(lblAplicAnticipo.Text) + CDec(lblCheque.Text) + CDec(lblEfectivo.Text) + CDec(lblVales.Text)
 				If totalcobro = 0 Then
+
 					MessageBox.Show("No se ha hecho la liquidación de ruta portátil, se necesita el total a cobrar.")
 				ElseIf totalcobro > 0 And totalcobro <> totalPagos Then
 					MessageBox.Show("El pago total debe de ser igual al cobro total.")
@@ -7186,14 +7190,17 @@ Public Class frmLiquidacionPortatil
 		Dim TotalRemisiones As Decimal = Convert.ToDecimal(_DetalleGrid.Compute("SUM(saldo)", String.Empty))
 		Dim insertacobroRemision As New SigaMetClasses.CobroRemisiones
 		Dim Saldo As Decimal
+		Dim formapago As String
 		If TotalRemisiones > 0 Then
 
 
 			For Each row As DataRow In _DetalleGrid.Rows
 				Saldo = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"), Decimal)
-				If Saldo > 0 Then
+				formapago = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago"), String).Trim
+				If Saldo > 0 And formapago <> "Crédito Portátil" Then
 					insertaCobro = New SigaMetClasses.CobroDetalladoDatos()
 					PagoNum = PagoNum + 1
+
 					With insertaCobro
 						.Pago = PagoNum
 						.SaldoAFavor = False
@@ -7256,13 +7263,19 @@ Public Class frmLiquidacionPortatil
 		Dim totalPagos As Decimal = CDec(lblTransferElect.Text) + CDec(lblTarjDebCred.Text) + CDec(lblAplicAnticipo.Text) + CDec(lblCheque.Text) + CDec(lblEfectivo.Text) + CDec(lblVales.Text) + CDec(lblCredito.Text)
 		Dim totalCobro As Decimal = CDec(lblTotalCobro.Text)
 		Dim Validado As Boolean
+		Dim totalDescuentos As Decimal = CDec(lblTotal.Text)
+		Dim totalVenta As Decimal = CDec(lblVentaTotal.Text)
+
 		If totalCobro = totalPagos And totalCobro > 0 Then
 			Validado = True
 		ElseIf totalPagos > totalCobro Then
 			Validado = True
 			lblCambio.Text = (totalPagos - totalCobro).ToString("N2")
+		ElseIf totalventa = totalDescuentos Then
+			Validado = True
 		ElseIf totalPagos <= totalCobro Then
 			lblCambio.Text = (0).ToString("N2")
+
 		Else
 			Validado = False
 		End If
@@ -7421,7 +7434,7 @@ Public Class frmLiquidacionPortatil
 		lblVentaTotal.Text = (Ventatotal + TotalDescuento).ToString("N2")
 		lblCredito.Text = TotalCREDITO.ToString("N2")
 		lblTotalKilos.Text = Kilos.ToString("N1")
-		lblResto.Text = Ventatotal.ToString("N2")
+		lblResto.Text = (Ventatotal - TotalCREDITO).ToString("N2")
 	End Sub
 
 	Private Sub txtAplicaDescuento_Click(sender As Object, e As EventArgs)

@@ -27,18 +27,29 @@ Public Class Globals
 
     'Información de la conexión
     Public _Servidor As String
-    Public _Database As String
+	Public _Database As String
+	Public _Modulo As Byte
 
-    'Conexión
-    Public cnSigamet As New SqlClient.SqlConnection()
+	'Conexión
+	Public cnSigamet As New SqlClient.SqlConnection()
 #End Region
 
-    Public Sub ConfiguraModulo(ByVal Usuario As String, ByVal Password As String, ByVal ConString As String, ByVal Corporativo As Short, ByVal Sucursal As Short)
-        _Usuario = Usuario
-        _Password = Password
-        _Corporativo = Corporativo
-        _Sucursal = Sucursal
-        _CadenaConexion = ConString
-    End Sub
+	Public Sub ConfiguraModulo(ByVal Usuario As String, ByVal Password As String, ByVal ConString As String, ByVal Corporativo As Short, ByVal Sucursal As Short, ByVal Modulo As Byte)
+		_Usuario = Usuario
+		_Password = Password
+		_Corporativo = Corporativo
+		_Sucursal = Sucursal
+		_CadenaConexion = ConString
+		_Modulo = Modulo
+	End Sub
+
+	Public Sub ConfiguraModulo(ByVal Usuario As String, ByVal Password As String, ByVal ConString As String, ByVal Corporativo As Short, ByVal Sucursal As Short)
+		_Usuario = Usuario
+		_Password = Password
+		_Corporativo = Corporativo
+		_Sucursal = Sucursal
+		_CadenaConexion = ConString
+		_Modulo = 3
+	End Sub
 
 End Class
