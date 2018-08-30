@@ -1887,6 +1887,7 @@ Public Class frmConsultaCliente
         '    'Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
         'End If
 
+
         If Not IsNothing(dtDocumento) Then
             If dtDocumento.Rows.Count > 0 Then grdDocumento.Select(0)
         End If
