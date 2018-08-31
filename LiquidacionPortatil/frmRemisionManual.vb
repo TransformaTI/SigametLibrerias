@@ -1176,27 +1176,7 @@ Public Class frmRemisionManual
 	'Realiza una consulta en la tabla de productos y existencias para determinar los 
 	'productos que serán vizualizados para procesar
 
-	Private Function permiteCreditoPortatil() As Boolean
-		Dim idCliente As Integer
 
-		If TxtCliente.Text = "" Then
-			Return False
-		Else
-			idCliente = CType(TxtCliente.Text, Integer)
-		End If
-
-		Dim oCliente As New PortatilClasses.Consulta.cCliente(0, idCliente)
-		oCliente.CargaDatos()
-		If oCliente.Cliente = "" Then
-			Return False
-		Else
-			If oCliente.TipoCliente = 5 Then
-				Return True
-			Else
-				Return False
-			End If
-		End If
-	End Function
 
 	Private Sub CargarProductosVarios()
 
@@ -2166,12 +2146,13 @@ Public Class frmRemisionManual
 			cbxAplicaDescuento.Enabled = CType(_DatosCliente.GetValue(4), Boolean)
 		Else
 			While i < oTiposCobros.drReader.FieldCount
-				_DatosCliente.SetValue("", i)
+				_DatosCliente.SetValue("0", i)
 				i = i + 1
 			End While
-			_DatosCliente.SetValue("0", 3)
-
+			cbxAplicaDescuento.Checked = False
+			cbxAplicaDescuento.Enabled = False
 		End If
+
 
 		oTiposCobros.CerrarConexion()
         If Cliente = _ClienteVentasPublico Then
