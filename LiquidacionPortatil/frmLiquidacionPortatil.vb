@@ -4329,19 +4329,19 @@ Public Class frmLiquidacionPortatil
 							''Condicion que permite saber si se una ruta tiene asociada pedido portatil
 
 							''20151022CNSM$007-----------------
-							'If _FlagPedidoPortatil _
-							'    And oLiquidacionPedido.AnoPedido <> Nothing _
-							'    And oLiquidacionPedido.Pedido <> Nothing _
-							'    And _ClienteVtaPublico <> ClienteTemp Then
 
-							'    'Insercion en la tabla pedido detalle remision
-							'    oLiquidacionPedido.PedidoDetalleRemision(ProductoTemp, _Ruta, _MovimientoAlmacen, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime), _
-							'                                             _AlmacenGas, ZonaEconomicaTemp, oLiquidacionPedido.AnoPedido, _
-							'                                             oLiquidacionPedido.Pedido, CType(lblCamion.Text, Integer),
-							'                                             0, 0, Nothing, 0, "", 0, connection, transaction)
-							'    '20151022CNSM$007-----------------
+							If Not _BoletinEnLineaCamion Then
 
-							'End If
+								'Insercion en la tabla pedido detalle remision
+
+								oLiquidacionPedido.PedidoDetalleRemision(4, ProductoTemp, _Ruta, _MovimientoAlmacen, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime),
+																		 _AlmacenGas, ZonaEconomicaTemp, _AnoAtt, oLiquidacionPedido.Pedido, CType(lblCamion.Text, Integer),
+																		 _Folio, _AnoAtt, CType(dtpFLiquidacion.Value, DateTime), CType(dtLiquidacionTotal.Rows(i).Item(21), Integer),
+																		 CType(dtLiquidacionTotal.Rows(i).Item(20), String), CType(dtLiquidacionTotal.Rows(i).Item(4), Integer),
+																		 connection, transaction)
+								'20151022CNSM$007-----------------
+
+							End If
 							''20150627CNSM$004-----------------
 
 							i = i + 1
