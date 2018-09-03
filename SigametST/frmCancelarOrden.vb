@@ -399,10 +399,11 @@ Public Class frmCancelarOrden
         Dim daObservaciones As New SqlDataAdapter("Select isnull(ObservacionesServicioRealizado,'')as ObservacionesServicioRealizado,StatusServicioTecnico From ServicioTecnico Where AñoPed = " & _AñoPed & " And Celula = " & _Celula & "And Pedido = " & _Pedido, cnnSigamet)
         Dim dtObservaciones As New DataTable("Observaciones")
         daObservaciones.Fill(dtObservaciones)
-        txtServicioRealizado.Text = CType(dtObservaciones.Rows(0).Item("ObservacionesServicioRealizado"), String)
-        StatusServicioTecnico = RTrim(CType(dtObservaciones.Rows(0).Item("StatusServicioTecnico"), String))
+        If Not IsNothing(dtObservaciones) AndAlso dtObservaciones.Rows.Count > 0 Then
+            txtServicioRealizado.Text = CType(dtObservaciones.Rows(0).Item("ObservacionesServicioRealizado"), String)
+            StatusServicioTecnico = RTrim(CType(dtObservaciones.Rows(0).Item("StatusServicioTecnico"), String))
+        End If
         'dbcboStatusServicio.SelectedItem = CType(dtObservaciones.Rows(0).Item("statusserviciotecnico"), Date)
-
 
     End Sub
 
