@@ -1020,86 +1020,166 @@ Public Class LiquidacionTransaccionada
         End Sub
 
 
-        '20150627CNSM$001-----------------
+		'20150627CNSM$001-----------------
 
-        Public Sub PedidoDetalleRemision(ByVal Producto As Integer, ByVal Ruta As Integer,
-                                          ByVal MovimientoAlmacen As Integer, ByVal FCarga As DateTime, _
-                                          ByVal FSuministroMG As DateTime, ByVal AlmacenGas As Integer, _
-                                          ByVal ZonaEconomica As Integer, _
-                                          ByVal AnoPed As Integer, ByVal Pedido As Integer, _
-                                          ByVal Autotanque As Integer, ByVal FolioAtt As Integer, _
-                                          ByVal AñoAtt As Short, ByVal FRemision As DateTime, _
-                                          ByVal Remision As Integer, ByVal Serie As String, ByVal Cantidad As Integer, _
-                                          ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction)
+		Public Sub PedidoDetalleRemision( ByVal Producto As Integer, ByVal Ruta As Integer,
+										  ByVal MovimientoAlmacen As Integer, ByVal FCarga As DateTime,
+										  ByVal FSuministroMG As DateTime, ByVal AlmacenGas As Integer,
+										  ByVal ZonaEconomica As Integer,
+										  ByVal AnoPed As Integer, ByVal Pedido As Integer,
+										  ByVal Autotanque As Integer, ByVal FolioAtt As Integer,
+										  ByVal AñoAtt As Short, ByVal FRemision As DateTime,
+										  ByVal Remision As Integer, ByVal Serie As String, ByVal Cantidad As Integer,
+										  ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction)
 
-            Dim cmd As SqlCommand
-            Dim dr As SqlDataReader
-            Try
-                cmd = New SqlCommand("spPTLPedidoDetalleRemision", Connection)
-                cmd.Transaction = Transaction
-                cmd.CommandType = CommandType.StoredProcedure
-                cmd.Parameters.Add("@Configuracion", SqlDbType.SmallInt).Value = Configuracion
-                cmd.Parameters.Add("@Producto", SqlDbType.TinyInt).Value = Producto
+			Dim cmd As SqlCommand
+			Dim dr As SqlDataReader
+			Try
+				cmd = New SqlCommand("spPTLPedidoDetalleRemision", Connection)
+				cmd.Transaction = Transaction
+				cmd.CommandType = CommandType.StoredProcedure
+				cmd.Parameters.Add("@Configuracion", SqlDbType.SmallInt).Value = Configuracion
+				cmd.Parameters.Add("@Producto", SqlDbType.TinyInt).Value = Producto
 
-                If Ruta <> 0 Then
-                    cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = Ruta
-                End If
-                If MovimientoAlmacen <> 0 Then
-                    cmd.Parameters.Add("@MovimientoAlmacen", SqlDbType.Int).Value = MovimientoAlmacen
-                End If
-                If FCarga <> Nothing Then
-                    cmd.Parameters.Add("@FCarga", SqlDbType.DateTime).Value = FCarga
-                End If
-                If FSuministroMG <> Nothing Then
-                    cmd.Parameters.Add("@FSuministroMG", SqlDbType.DateTime).Value = FSuministroMG
-                End If
-                If AlmacenGas <> 0 Then
-                    cmd.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = AlmacenGas
-                End If
-                If ZonaEconomica <> 0 Then
-                    cmd.Parameters.Add("@ZonaEconomica", SqlDbType.Int).Value = ZonaEconomica
-                End If
-                If AnoPed <> 0 Then
-                    cmd.Parameters.Add("@AnoPed", SqlDbType.SmallInt).Value = AnoPed
-                End If
-                If Pedido <> 0 Then
-                    cmd.Parameters.Add("@Pedido", SqlDbType.Int).Value = Pedido
-                End If
+				If Ruta <> 0 Then
+					cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = Ruta
+				End If
+				If MovimientoAlmacen <> 0 Then
+					cmd.Parameters.Add("@MovimientoAlmacen", SqlDbType.Int).Value = MovimientoAlmacen
+				End If
+				If FCarga <> Nothing Then
+					cmd.Parameters.Add("@FCarga", SqlDbType.DateTime).Value = FCarga
+				End If
+				If FSuministroMG <> Nothing Then
+					cmd.Parameters.Add("@FSuministroMG", SqlDbType.DateTime).Value = FSuministroMG
+				End If
+				If AlmacenGas <> 0 Then
+					cmd.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = AlmacenGas
+				End If
+				If ZonaEconomica <> 0 Then
+					cmd.Parameters.Add("@ZonaEconomica", SqlDbType.Int).Value = ZonaEconomica
+				End If
+				If AnoPed <> 0 Then
+					cmd.Parameters.Add("@AnoPed", SqlDbType.SmallInt).Value = AnoPed
+				End If
+				If Pedido <> 0 Then
+					cmd.Parameters.Add("@Pedido", SqlDbType.Int).Value = Pedido
+				End If
 
-                cmd.Parameters.Add("@Celula", SqlDbType.Int).Value = _Celula
+				cmd.Parameters.Add("@Celula", SqlDbType.Int).Value = _Celula
 
-                If Autotanque <> 0 Then
-                    cmd.Parameters.Add("@Autotanque", SqlDbType.SmallInt).Value = Autotanque
-                End If
-                If FolioAtt <> 0 Then
-                    cmd.Parameters.Add("@FolioAtt", SqlDbType.Int).Value = FolioAtt
-                End If
-                If AñoAtt <> 0 Then
-                    cmd.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = AñoAtt
-                End If
-                If FRemision <> Nothing Then
-                    cmd.Parameters.Add("@FRemision", SqlDbType.DateTime).Value = FRemision
-                End If
-                If Remision <> 0 Then
-                    cmd.Parameters.Add("@Remision", SqlDbType.Int).Value = Remision
-                End If
-                If Serie <> "" Then
-                    cmd.Parameters.Add("@Serie", SqlDbType.VarChar).Value = Serie
-                End If
-                If Cantidad <> Nothing Then
-                    cmd.Parameters.Add("@Cantidad", SqlDbType.Int).Value = Cantidad
-                End If
+				If Autotanque <> 0 Then
+					cmd.Parameters.Add("@Autotanque", SqlDbType.SmallInt).Value = Autotanque
+				End If
+				If FolioAtt <> 0 Then
+					cmd.Parameters.Add("@FolioAtt", SqlDbType.Int).Value = FolioAtt
+				End If
+				If AñoAtt <> 0 Then
+					cmd.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = AñoAtt
+				End If
+				If FRemision <> Nothing Then
+					cmd.Parameters.Add("@FRemision", SqlDbType.DateTime).Value = FRemision
+				End If
+				If Remision <> 0 Then
+					cmd.Parameters.Add("@Remision", SqlDbType.Int).Value = Remision
+				End If
+				If Serie <> "" Then
+					cmd.Parameters.Add("@Serie", SqlDbType.VarChar).Value = Serie
+				End If
+				If Cantidad <> Nothing Then
+					cmd.Parameters.Add("@Cantidad", SqlDbType.Int).Value = Cantidad
+				End If
 
-                dr = cmd.ExecuteReader()
-                cmd.Dispose()
-                dr.Close()
-            Catch ex As Exception
-                MessageBox.Show(ex.Message, "Liquidación portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-        End Sub
+				dr = cmd.ExecuteReader()
+				cmd.Dispose()
+				dr.Close()
+			Catch ex As Exception
+				MessageBox.Show(ex.Message, "Liquidación portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			End Try
+		End Sub
 
 
-        Public Sub PedidoDetalleRemisionTRN(ByVal AñoAtt As Short, ByVal Folio As Integer, ByVal FCarga As DateTime, ByVal FLiquidacion As DateTime, ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction)
+		Public Sub PedidoDetalleRemision(ByVal Configuracion As Integer,
+										  ByVal Producto As Integer, ByVal Ruta As Integer,
+										  ByVal MovimientoAlmacen As Integer, ByVal FCarga As DateTime,
+										  ByVal FSuministroMG As DateTime, ByVal AlmacenGas As Integer,
+										  ByVal ZonaEconomica As Integer,
+										  ByVal AnoPed As Integer, ByVal Pedido As Integer,
+										  ByVal Autotanque As Integer, ByVal FolioAtt As Integer,
+										  ByVal AñoAtt As Short, ByVal FRemision As DateTime,
+										  ByVal Remision As Integer, ByVal Serie As String, ByVal Cantidad As Integer,
+										  ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction)
+
+			Dim cmd As SqlCommand
+			Dim dr As SqlDataReader
+			Try
+				cmd = New SqlCommand("spPTLPedidoDetalleRemision", Connection)
+				cmd.Transaction = Transaction
+				cmd.CommandType = CommandType.StoredProcedure
+				cmd.Parameters.Add("@Configuracion", SqlDbType.SmallInt).Value = Configuracion
+				cmd.Parameters.Add("@Producto", SqlDbType.TinyInt).Value = Producto
+
+				If Ruta <> 0 Then
+					cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = Ruta
+				End If
+				If MovimientoAlmacen <> 0 Then
+					cmd.Parameters.Add("@MovimientoAlmacen", SqlDbType.Int).Value = MovimientoAlmacen
+				End If
+				If FCarga <> Nothing Then
+					cmd.Parameters.Add("@FCarga", SqlDbType.DateTime).Value = FCarga
+				End If
+				If FSuministroMG <> Nothing Then
+					cmd.Parameters.Add("@FSuministroMG", SqlDbType.DateTime).Value = FSuministroMG
+				End If
+				If AlmacenGas <> 0 Then
+					cmd.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = AlmacenGas
+				End If
+				If ZonaEconomica <> 0 Then
+					cmd.Parameters.Add("@ZonaEconomica", SqlDbType.Int).Value = ZonaEconomica
+				End If
+				If AnoPed <> 0 Then
+					cmd.Parameters.Add("@AnoPed", SqlDbType.SmallInt).Value = AnoPed
+				End If
+				If Pedido <> 0 Then
+					cmd.Parameters.Add("@Pedido", SqlDbType.Int).Value = Pedido
+				End If
+
+				cmd.Parameters.Add("@Celula", SqlDbType.Int).Value = _Celula
+
+				If Autotanque <> 0 Then
+					cmd.Parameters.Add("@Autotanque", SqlDbType.SmallInt).Value = Autotanque
+				End If
+				If FolioAtt <> 0 Then
+					cmd.Parameters.Add("@FolioAtt", SqlDbType.Int).Value = FolioAtt
+				End If
+				If AñoAtt <> 0 Then
+					cmd.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = AñoAtt
+				End If
+				If FRemision <> Nothing Then
+					cmd.Parameters.Add("@FRemision", SqlDbType.DateTime).Value = FRemision
+				End If
+				If Remision <> 0 Then
+					cmd.Parameters.Add("@Remision", SqlDbType.Int).Value = Remision
+				End If
+				If Serie <> "" Then
+					cmd.Parameters.Add("@Serie", SqlDbType.VarChar).Value = Serie
+				End If
+				If Cantidad <> Nothing Then
+					cmd.Parameters.Add("@Cantidad", SqlDbType.Int).Value = Cantidad
+				End If
+
+				dr = cmd.ExecuteReader()
+				cmd.Dispose()
+				dr.Close()
+			Catch ex As Exception
+				MessageBox.Show(ex.Message, "Liquidación portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			End Try
+		End Sub
+
+
+
+
+		Public Sub PedidoDetalleRemisionTRN(ByVal AñoAtt As Short, ByVal Folio As Integer, ByVal FCarga As DateTime, ByVal FLiquidacion As DateTime, ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction)
 
             Dim cmd As SqlCommand
             Try

@@ -22,6 +22,7 @@ Public Class frmRemisionManual
     Private _DetalleGrid As DataTable
 
 	'Variables generales
+	Dim _ZonaEconomica As String
 	Dim _dtProductos As DataTable
 	Dim _dtListaProductos As DataTable
 	Dim _dtProductosPadre As DataTable = New DataTable
@@ -162,61 +163,70 @@ Public Class frmRemisionManual
         End Set
     End Property
 
-    'Public WriteOnly Property CargarProductosPadre As Boolean
-    '    Get
-    '        Return _cargarProductosPadre
-    '    End Get
-    '    Set(value As Boolean)
-    '        _cargarProductosPadre = value
-    '    End Set
-    'End Property
+	Public Property ZonaEconomica As String
+		Get
+			Return _ZonaEconomica
+		End Get
+		Set(value As String)
+			_ZonaEconomica = value
+		End Set
+	End Property
+
+	'Public WriteOnly Property CargarProductosPadre As Boolean
+	'    Get
+	'        Return _cargarProductosPadre
+	'    End Get
+	'    Set(value As Boolean)
+	'        _cargarProductosPadre = value
+	'    End Set
+	'End Property
 
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(ByVal FolioAtt As Integer,
-                   ByVal AñoAtt As Short,
-                   ByVal Configuracion As Short,
-                   ByVal DtCantidades As DataTable,
-                   ByVal DtRemisiones As DataTable,
-                   ByVal Cliente As Integer,
-                   Optional ByVal ProductosPadre As DataTable = Nothing,
-                   Optional CargarProductosPadre As Boolean = False)
-        ',ByVal DtProductos As DataTable)
-        MyBase.New()
+	Public Sub New(ByVal FolioAtt As Integer,
+				   ByVal AñoAtt As Short,
+				   ByVal Configuracion As Short,
+				   ByVal DtCantidades As DataTable,
+				   ByVal DtRemisiones As DataTable,
+				   ByVal Cliente As Integer,
+				   Optional ByVal ProductosPadre As DataTable = Nothing,
+				   Optional CargarProductosPadre As Boolean = False)
+		',ByVal DtProductos As DataTable)
+		MyBase.New()
 
-        'This call is required by the Windows Form Designer.
-        InitializeComponent()
-        _FolioAtt = FolioAtt
-        _AñoAtt = AñoAtt
-        _Configuracion = Configuracion
-        _Cliente = Cliente
-        If ProductosPadre.Rows.Count > 0 Then
-            _dtProductosPadre = ProductosPadre
-            'Me.dtLiquidacionTotal = _dtProductosPadre
-        End If
+		'This call is required by the Windows Form Designer.
+		InitializeComponent()
+		_FolioAtt = FolioAtt
+		_AñoAtt = AñoAtt
+		_Configuracion = Configuracion
+		_Cliente = Cliente
+		If ProductosPadre.Rows.Count > 0 Then
+			_dtProductosPadre = ProductosPadre
+			'Me.dtLiquidacionTotal = _dtProductosPadre
+		End If
 
-        Me.dtCantidades.Columns.Add("IdProducto", GetType(Integer))
-        Me.dtCantidades.Columns.Add("Cantidad", GetType(Integer))
+		Me.dtCantidades.Columns.Add("IdProducto", GetType(Integer))
+		Me.dtCantidades.Columns.Add("Cantidad", GetType(Integer))
 
-        'Inicializa tablas
-        InicializaTablaLiquidacion()
+		'Inicializa tablas
+		InicializaTablaLiquidacion()
 
-        'Add any initialization after the InitializeComponent() call
-        LimpiarComponentes()
+		'Add any initialization after the InitializeComponent() call
+		LimpiarComponentes()
 
-        If CargarProductosPadre Then
-            CargarProductosVarios_Padre()
-        Else
-            CargarProductosVarios()
-        End If
+		If CargarProductosPadre Then
+			CargarProductosVarios_Padre()
+		Else
+			CargarProductosVarios()
+		End If
 
-        Dim _DetalleGrid As New DataTable
-        If DtRemisiones.Rows.Count > 0 Then
-            If DtRemisiones.Rows.Count > 0 Then
-                Me.dtLiquidacionTotal = DtRemisiones
-            End If
-        End If
+		Dim _DetalleGrid As New DataTable
+		If DtRemisiones.Rows.Count > 0 Then
+			If DtRemisiones.Rows.Count > 0 Then
+				Me.dtLiquidacionTotal = DtRemisiones
+			End If
+		End If
 
 		If _Configuracion <> 0 Then
 			Dim i As Integer = 0
@@ -286,7 +296,7 @@ Public Class frmRemisionManual
 
 	End Sub
 
-    Public Sub New(ByVal FolioAtt As Integer,
+	Public Sub New(ByVal FolioAtt As Integer,
                    ByVal AñoAtt As Short,
                    ByVal Configuracion As Short,
                    ByVal DtCantidades As DataTable,
@@ -1627,6 +1637,9 @@ Public Class frmRemisionManual
 				lblNombreCliente.Text = ""
 				Me.ActiveControl = txtRemision
 
+				_ZonaEconomica = cboZEconomica.Text
+
+
 			End If
 		Catch ex As Exception
 			If ex.Message.Contains("Por favor seleccione una zona económica.") Then
@@ -1642,67 +1655,76 @@ Public Class frmRemisionManual
 	Private Sub Totaliza()
 
 		_TotalLiquidarPedido = 0
+		_Kilos = 0
 
 		'If _RutaMovil = True Then
 		If CType(grdDetalle.DataSource, DataTable).TableName = "Remision" Then
 			For i As Integer = 0 To dtLiquidacionTotal.Rows.Count - 1
 				_TotalLiquidarPedido = _TotalLiquidarPedido + CType(grdDetalle.Item(i, 7), Decimal)
+				_Kilos = _Kilos + CType(grdDetalle.Item(i, 4), Integer)
+
 			Next
 		Else
 			For i As Integer = 0 To dtLiquidacionTotal.Rows.Count - 1
 				_TotalLiquidarPedido = _TotalLiquidarPedido + CType(grdDetalle.Item(i, 9), Decimal)
+				_Kilos = _Kilos + CType(grdDetalle.Item(i, 5), Integer)
 			Next
 		End If
 
 
+		lblTotalKilos.Text = CType(_Kilos, Decimal).ToString("N2")
 		lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
 
 	End Sub
 
 	Private Sub BorrarGridPedido()
-        If grdDetalle.VisibleRowCount > 0 Then
-            Dim ValorText As Integer = Nothing
-            Dim ExistenciaProducto As Integer = Nothing
-            Dim lblExistenciaProducto As New System.Windows.Forms.Label()
-            Dim i As Integer = 0
-            Dim producto, KILOS, cantidad As Integer
-            Dim total As Decimal
+		If grdDetalle.VisibleRowCount > 0 Then
+			Dim ValorText As Integer = Nothing
+			Dim ExistenciaProducto As Integer = Nothing
+			Dim lblExistenciaProducto As New System.Windows.Forms.Label()
+			Dim i As Integer = 0
+			Dim producto, KILOS, cantidad As Integer
+			Dim total As Decimal
+			Dim nombreTabla As String
+			nombreTabla = CType(grdDetalle.DataSource, DataTable).TableName
 
-            If dtLiquidacionTotal.Columns.Count = 13 Then
-                producto = CInt(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(11))
-                KILOS = (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(4), Integer))
-                cantidad = (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(10), Integer))
-                total = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(7), Decimal)
-            Else
-                producto = CInt(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(3))
-                KILOS = (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(5), Integer))
-                cantidad = (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(6), Integer))
-                total = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(9), Decimal)
-            End If
-            While i < _dtProductos.Rows.Count And producto <> CType(_dtProductos.Rows(i).Item(0), Integer)
-                i = i + 1
-            End While
 
-            If producto = CType(_dtProductos.Rows(i).Item(0), Integer) Then
-                lblExistenciaProducto = CType(lblListaExistencia.Item(i), System.Windows.Forms.Label)
-                lblExistenciaProducto.Text = CType(CType(lblExistenciaProducto.Text, Integer) + CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(6), Integer), String)
+			If nombreTabla = "Remision" Then
+				producto = CInt(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(11))
+				KILOS = (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(4), Integer))
+				cantidad = (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(10), Integer))
+				total = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(7), Decimal)
+			Else
+				producto = CInt(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(3))
+				KILOS = (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(5), Integer))
+				cantidad = (CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(6), Integer))
+				total = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(9), Decimal)
+			End If
+			While i < _dtProductos.Rows.Count And producto <> CType(_dtProductos.Rows(i).Item(0), Integer)
+				i = i + 1
+			End While
 
-                _Kilos = _Kilos - cantidad * KILOS
-                _TotalLiquidarPedido = _TotalLiquidarPedido - total
+			If producto = CType(_dtProductos.Rows(i).Item(0), Integer) Then
+				lblExistenciaProducto = CType(lblListaExistencia.Item(i), System.Windows.Forms.Label)
+				lblExistenciaProducto.Text = CType(CType(lblExistenciaProducto.Text, Integer) + cantidad, String)
 
-                Dim Indice As Integer = grdDetalle.CurrentRowIndex
+				'_Kilos = _Kilos - cantidad * KILOS
+				'_TotalLiquidarPedido = _TotalLiquidarPedido - total
 
-                dtLiquidacionTotal.Rows(Indice).Delete()
-                dtLiquidacionTotal.AcceptChanges()
-                grdDetalle.DataSource = Nothing
-                grdDetalle.DataSource = dtLiquidacionTotal
+				Dim Indice As Integer = grdDetalle.CurrentRowIndex
 
-                lblTotalKilos.Text = CType(_Kilos, Decimal).ToString("N2")
-                lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
+				dtLiquidacionTotal.Rows(Indice).Delete()
+				dtLiquidacionTotal.AcceptChanges()
+				grdDetalle.DataSource = Nothing
+				grdDetalle.DataSource = dtLiquidacionTotal
 
-            End If
-        End If
-    End Sub
+				'lblTotalKilos.Text = CType(_Kilos, Decimal).ToString("N2")
+				'lblTotal.Text = CType(_TotalLiquidarPedido, Decimal).ToString("N2")
+
+			End If
+		End If
+		Totaliza()
+	End Sub
 
     Private Sub btnAgregar_Click(sender As Object, e As EventArgs) Handles btnAgregar.Click
         'Validamos los datos capturados pertenecientes a la remision
@@ -1741,13 +1763,16 @@ Public Class frmRemisionManual
             cboTipoCobro.SelectedIndex = 0
             txtSerie.Select()
         End Try
-
-    End Sub
+		Totaliza()
+	End Sub
 
     Private Sub btnBorrar_Click(sender As Object, e As EventArgs) Handles btnBorrar.Click
         Try
-            Cursor = Cursors.WaitCursor
-            If dtLiquidacionTotal.Rows.Count > 0 Then
+			Cursor = Cursors.WaitCursor
+			Dim nombreTabla As String
+			nombreTabla = CType(grdDetalle.DataSource, DataTable).TableName
+
+			If dtLiquidacionTotal.Rows.Count > 0 Then
                 If _Configuracion = 1 Then
                     Dim oLiquidacionPedido As Liquidacion.cLiquidacion
                     If _Configuracion = 0 Then
@@ -1757,13 +1782,14 @@ Public Class frmRemisionManual
                         Dim Serie As String
                         Dim Remision, Poroductotempo As Integer
 
-                        If dtLiquidacionTotal.Columns.Count = 13 Then
-                            fecha = dtpFRemision.Value
-                            Serie = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(0), String)
-                            Remision = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(1), Integer)
-                        Else
-                            fecha = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(2), DateTime)
-                            Serie = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(1), String)
+						'If dtLiquidacionTotal.Columns.Count = 13 Then
+						If nombreTabla = "Remision" Then
+							fecha = dtpFRemision.Value
+							Serie = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(0), String)
+							Remision = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(1), Integer)
+						Else
+							fecha = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(2), DateTime)
+							Serie = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(1), String)
                             Remision = CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(0), Integer)
 
                         End If
@@ -1772,13 +1798,19 @@ Public Class frmRemisionManual
                                                         Remision,
                                                         Serie, 0, _Cliente)
                         Dim ind As Integer = 0
-                        Dim CantidadTemporal As Integer
-                        If dtLiquidacionTotal.Columns.Count = 13 Then
-                            Poroductotempo = CType(dtLiquidacionTotal.Rows(ind).Item(11), Integer)
-                            CantidadTemporal = CType(dtLiquidacionTotal.Rows(ind).Item(10), Integer)
-                        Else
-                            Poroductotempo = CType(dtLiquidacionTotal.Rows(ind).Item(3), Integer)
-                            CantidadTemporal = CType(dtLiquidacionTotal.Rows(ind).Item(6), Integer)
+						Dim CantidadTemporal As Integer
+
+
+
+
+
+						'If dtLiquidacionTotal.Columns.Count = 13 Then
+						If nombreTabla = "Remision" Then
+							Poroductotempo = CType(dtLiquidacionTotal.Rows(ind).Item(11), Integer)
+							CantidadTemporal = CType(dtLiquidacionTotal.Rows(ind).Item(10), Integer)
+						Else
+							Poroductotempo = CType(dtLiquidacionTotal.Rows(ind).Item(3), Integer) ' remision
+							CantidadTemporal = CType(dtLiquidacionTotal.Rows(ind).Item(6), Integer)
                         End If
                         While ind < dtLiquidacionTotal.Rows.Count
                             Dim ProductoTemp As Integer = Poroductotempo
@@ -2166,8 +2198,8 @@ Public Class frmRemisionManual
 
     Private Sub Btn_Modificar_Click(sender As Object, e As EventArgs) Handles Btn_Modificar.Click
         CargaGridModificado()
-
-    End Sub
+		_ZonaEconomica = cboZEconomica.Text
+	End Sub
 
     Private Sub grdDetalle_CurrentCellChanged(sender As Object, e As EventArgs) Handles grdDetalle.CurrentCellChanged
         Try
