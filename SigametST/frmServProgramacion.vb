@@ -273,6 +273,7 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub CargaDatosCliente()
+        LimpiarCamposCliente()
 
         If Not String.IsNullOrEmpty(_URLGateway) Then
             CargaDatosCliente_CRM()
@@ -323,8 +324,6 @@ Public Class frmServProgramacion
                 lblCelula.Text = obPedido.IDZona.ToString
                 If Not IsNothing(obPedido.RutaSuministro) Then
                     lblRuta.Text = obPedido.RutaSuministro.IDRuta.ToString
-                Else
-                    lblRuta.Text = ""
                 End If
                 If Not IsNothing(obPedido.DireccionEntrega) Then
                     lblNombre.Text = obPedido.DireccionEntrega.Nombre
@@ -339,27 +338,32 @@ Public Class frmServProgramacion
 
                     If Not IsNothing(obPedido.DireccionEntrega.DatosFiscales) Then
                         lblEmpresa.Text = obPedido.DireccionEntrega.DatosFiscales.RazonSocial
-                    Else
-                        lblEmpresa.Text = lblNombre.Text
                     End If
-                Else
-                    lblNombre.Text = ""
-                    lblEmpresa.Text = ""
-                    lblCalle.Text = ""
-                    lblNumeroInterior.Text = ""
-                    lblNumeroExterior.Text = ""
-                    lblColonia.Text = ""
-                    lblCP.Text = ""
-                    lblMunicipio.Text = ""
-                    lblTelefono.Text = ""
-                    lblStatusCliente.Text = ""
                 End If
 
-                lblClasificacionCliente.Text = ""
             End If
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub LimpiarCamposCliente()
+        lblCliente.Text = ""
+        lblCelula.Text = ""
+        lblRuta.Text = ""
+        lblCelula.Text = ""
+        lblRuta.Text = ""
+        lblNombre.Text = ""
+        lblEmpresa.Text = ""
+        lblCalle.Text = ""
+        lblNumeroInterior.Text = ""
+        lblNumeroExterior.Text = ""
+        lblColonia.Text = ""
+        lblCP.Text = ""
+        lblStatusCliente.Text = ""
+        lblMunicipio.Text = ""
+        lblTelefono.Text = ""
+        lblClasificacionCliente.Text = ""
     End Sub
 
     Private Sub LlenaObservaciones()
@@ -374,6 +378,7 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub LlenaServiciosTecnicos()
+        LimpiarCamposServiciosTecnicos()
 
         If Not String.IsNullOrEmpty(_URLGateway) Then
             LlenaServiciosTecnicos_CRM()
@@ -414,7 +419,6 @@ Public Class frmServProgramacion
         Dim idPedido As Integer = 0
         Dim obPedido As RTGMCore.Pedido = Nothing
 
-        LimpiarCamposServiciosTecnicos()
         Integer.TryParse(_Pedido, idPedido)
 
         Try
