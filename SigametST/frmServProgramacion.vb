@@ -411,9 +411,33 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub LlenaServiciosTecnicos_CRM()
+        Dim idPedido As Integer = 0
+        Dim obPedido As RTGMCore.Pedido = Nothing
+
         LimpiarCamposServiciosTecnicos()
+        Integer.TryParse(_Pedido, idPedido)
 
+        Try
+            If idPedido > 0 AndAlso _PedidosCRM.Count > 0 Then
+                obPedido = _PedidosCRM.First(Function(x) If(x.IDPedido, 0) = idPedido)
 
+                lblContrato.Text = obPedido.IDDireccionEntrega.ToString
+                lblStatus.Text = obPedido.EstatusPedido
+                txtTrabajoRealizado.Text = obPedido.ObservacionesServiciosTecnicos
+                txtObserv.Text = obPedido.Observaciones
+                lblUnidad.Text = obPedido.IDAutotanque.ToString
+                'lblTecnico.Text = ""
+                'lblAyudante.Text = ""
+                lblFAtencion.Text = obPedido.FSuministro.ToString
+                lblHorario.Text = obPedido.FCompromiso.ToString
+                lblAñoPed.Text = obPedido.AnioPed.ToString
+                lblPedidoReferencia.Text = obPedido.IDPedido.ToString
+                lblFolio.Text = obPedido.IDPedido.ToString
+                lblUsuarioCambio.Text = ""
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub LimpiarCamposServiciosTecnicos()
