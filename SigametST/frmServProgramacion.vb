@@ -374,36 +374,62 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub LlenaServiciosTecnicos()
-        Dim da As New SqlCommand("select PedidoReferencia,UsuarioCambio,Cliente,FAtencion,Pedido,AñoPed,Autotanque,chofer,ayudante,ObservacionesServicioRealizado,ObservacionesServicioTecnico,StatusServicioTecnico,isnull(fcompromisoinciial,'') as FCompromisoinciial " _
-                                      & "from vwSTPestanaServicioTecnico Where pedido = '" & Pedido & "' And celula =  '" & Celula & "' and añoped = ' " & AñoPed & " ' ", cnnSigamet)
-        Try
-            cnnSigamet.Open()
-            Dim drST As SqlDataReader = da.ExecuteReader
-            While drST.Read
-                If String.IsNullOrEmpty(_URLGateway) Then
-                    lblContrato.Text = CType(drST("cliente"), String)
-                Else
-                    lblContrato.Text = lblCliente.Text
-                End If
-                lblStatus.Text = CType(drST("StatusServicioTecnico"), String)
-                txtTrabajoRealizado.Text = CType(drST("ObservacionesServicioRealizado"), String)
-                txtObserv.Text = CType(drST("ObservacionesServicioTecnico"), String)
-                lblUnidad.Text = CType(drST("autotanque"), String)
-                lblTecnico.Text = CType(drST("chofer"), String)
-                lblAyudante.Text = CType(drST("ayudante"), String)
-                lblFAtencion.Text = CType(drST("fatencion"), String)
-                lblHorario.Text = CType(drST("fcompromisoinciial"), String)
-                lblAñoPed.Text = CType(drST("añoped"), String)
-                lblPedidoReferencia.Text = CType(drST("Pedido"), String)
-                lblFolio.Text = CType(drST("pedido"), String)
-                lblUsuarioCambio.Text = CType(drST("UsuarioCambio"), String)
 
-            End While
-            cnnSigamet.Close()
-        Catch e As Exception
-            MessageBox.Show(e.Message)
+        If Not String.IsNullOrEmpty(_URLGateway) Then
+            LlenaServiciosTecnicos_CRM()
+        Else
+            Dim da As New SqlCommand("select PedidoReferencia,UsuarioCambio,Cliente,FAtencion,Pedido,AñoPed,Autotanque,chofer,ayudante,ObservacionesServicioRealizado,ObservacionesServicioTecnico,StatusServicioTecnico,isnull(fcompromisoinciial,'') as FCompromisoinciial " _
+                                          & "from vwSTPestanaServicioTecnico Where pedido = '" & Pedido & "' And celula =  '" & Celula & "' and añoped = ' " & AñoPed & " ' ", cnnSigamet)
+            Try
+                cnnSigamet.Open()
+                Dim drST As SqlDataReader = da.ExecuteReader
+                While drST.Read
+                    If String.IsNullOrEmpty(_URLGateway) Then
+                        lblContrato.Text = CType(drST("cliente"), String)
+                    Else
+                        lblContrato.Text = lblCliente.Text
+                    End If
+                    lblStatus.Text = CType(drST("StatusServicioTecnico"), String)
+                    txtTrabajoRealizado.Text = CType(drST("ObservacionesServicioRealizado"), String)
+                    txtObserv.Text = CType(drST("ObservacionesServicioTecnico"), String)
+                    lblUnidad.Text = CType(drST("autotanque"), String)
+                    lblTecnico.Text = CType(drST("chofer"), String)
+                    lblAyudante.Text = CType(drST("ayudante"), String)
+                    lblFAtencion.Text = CType(drST("fatencion"), String)
+                    lblHorario.Text = CType(drST("fcompromisoinciial"), String)
+                    lblAñoPed.Text = CType(drST("añoped"), String)
+                    lblPedidoReferencia.Text = CType(drST("Pedido"), String)
+                    lblFolio.Text = CType(drST("pedido"), String)
+                    lblUsuarioCambio.Text = CType(drST("UsuarioCambio"), String)
 
-        End Try
+                End While
+                cnnSigamet.Close()
+            Catch e As Exception
+                MessageBox.Show(e.Message)
+            End Try
+        End If
+    End Sub
+
+    Private Sub LlenaServiciosTecnicos_CRM()
+        LimpiarCamposServiciosTecnicos()
+
+
+    End Sub
+
+    Private Sub LimpiarCamposServiciosTecnicos()
+        lblContrato.Text = ""
+        lblStatus.Text = ""
+        txtTrabajoRealizado.Text = ""
+        txtObserv.Text = ""
+        lblUnidad.Text = ""
+        lblTecnico.Text = ""
+        lblAyudante.Text = ""
+        lblFAtencion.Text = ""
+        lblHorario.Text = ""
+        lblAñoPed.Text = ""
+        lblPedidoReferencia.Text = ""
+        lblFolio.Text = ""
+        lblUsuarioCambio.Text = ""
     End Sub
 
     Private Sub LlenaPestañaPresupuesto()
