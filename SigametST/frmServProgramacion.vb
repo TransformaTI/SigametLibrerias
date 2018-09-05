@@ -243,6 +243,8 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub LlenaPedido()
+        RestablecerLlavePedido()
+
         If Not String.IsNullOrEmpty(_URLGateway) Then
             LlenaPedido_CRM()
         Else
@@ -279,6 +281,12 @@ Public Class frmServProgramacion
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub RestablecerLlavePedido()
+        Pedido = 0
+        Celula = 0
+        AñoPed = 0
     End Sub
 
     'Permite dar color a la listView
