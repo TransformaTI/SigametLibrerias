@@ -242,20 +242,44 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub LlenaPedido()
-        Dim Llena As New SqlCommand("select pedido,celula,AñoPed from Pedido where pedidoreferencia = '" & _Pedido & "' ", cnnSigamet)
+        If Not String.IsNullOrEmpty(_URLGateway) Then
+            LlenaPedido_CRM()
+        Else
+            Dim Llena As New SqlCommand("select pedido,celula,AñoPed from Pedido where pedidoreferencia = '" & _Pedido & "' ", cnnSigamet)
+            Try
+                cnnSigamet.Open()
+                Dim drLlena As SqlDataReader = Llena.ExecuteReader
+                While drLlena.Read
+                    Pedido = CType(drLlena("pedido"), Integer)
+                    Celula = CType(drLlena("celula"), Integer)
+                    AñoPed = CType(drLlena("añoped"), Integer)
+                End While
+                cnnSigamet.Close()
+            Catch e As Exception
+                MessageBox.Show(e.Message)
+            End Try
+        End If
+    End Sub
+
+    Private Sub LlenaPedido_CRM()
+        Dim IdPedido As Integer = 0
+        Dim obPedido As RTGMCore.Pedido = Nothing
+
+        Integer.TryParse(_Pedido, IdPedido)
+
         Try
-            cnnSigamet.Open()
-            Dim drLlena As SqlDataReader = Llena.ExecuteReader
-            While drLlena.Read
-                Pedido = CType(drLlena("pedido"), Integer)
-                Celula = CType(drLlena("celula"), Integer)
-                AñoPed = CType(drLlena("añoped"), Integer)
-            End While
-            cnnSigamet.Close()
-        Catch e As Exception
-            MessageBox.Show(e.Message)
+            If IdPedido > 0 And _PedidosCRM.Count > 0 Then
+                obPedido = _PedidosCRM.First(Function(x) If(x.IDPedido, 0) = IdPedido)
+
+                Pedido = If(obPedido.IDPedido, 0)
+                Celula = If(obPedido.IDZona, 0)
+                AñoPed = If(obPedido.AnioPed, 0)
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
     'Permite dar color a la listView
     Private Sub paintalternatingbackcolor(ByVal lv As ListView, ByVal color1 As Color, ByVal color2 As Color)
         Dim item As ListViewItem
