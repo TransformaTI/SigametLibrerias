@@ -365,11 +365,12 @@ Public Class frmCancelarOrden
         Dim dtCancelarOrden As New DataTable("CancelarOrden")
 
         daCancelarOrden.Fill(dtCancelarOrden)
-        txtCamioneta.Text = CType(dtCancelarOrden.Rows(0).Item("Autotanque"), String)
-        txtTecnico.Text = CType(dtCancelarOrden.Rows(0).Item("Chofer"), String)
-        txtAyudante.Text = CType(dtCancelarOrden.Rows(0).Item("Ayudante"), String)
-        lblContratoCerrar.Text = CType(dtCancelarOrden.Rows(0).Item("cliente"), String)
-
+        If dtCancelarOrden.Rows.Count > 0 Then
+            txtCamioneta.Text = CType(dtCancelarOrden.Rows(0).Item("Autotanque"), String)
+            txtTecnico.Text = CType(dtCancelarOrden.Rows(0).Item("Chofer"), String)
+            txtAyudante.Text = CType(dtCancelarOrden.Rows(0).Item("Ayudante"), String)
+            lblContratoCerrar.Text = CType(dtCancelarOrden.Rows(0).Item("cliente"), String)
+        End If
     End Sub
 
     Private Sub LlenaCombo()
