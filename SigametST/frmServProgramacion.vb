@@ -510,6 +510,8 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub OrdenAutomatica()
+        LimpiarCamposOrdenAutomatica()
+
         If Not String.IsNullOrEmpty(_URLGateway) Then
             OrdenAutomatica_CRM()
         Else
@@ -559,7 +561,22 @@ Public Class frmServProgramacion
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
 
+    Private Sub LimpiarCamposOrdenAutomatica()
+        lblPedido.Text = ""
+        lblTrabajoRealizado.Text = ""
+        lblFolioPresupuesto.Text = ""
+        lblStatusPresupuesto.Text = ""
+        lblSubT.Text = ""
+        lblDesc.Text = ""
+        lblTot.Text = ""
+        txtObservacionesPres.Text = ""
+        lblAutoPedido.Text = ""
+        lblUsuario.Text = ""
+        lblFormaPago.Text = ""
+        lblTipoServicio.Text = ""
+        txtTrabSolc.Text = ""
     End Sub
 
     Private Sub LlenaPagare()
