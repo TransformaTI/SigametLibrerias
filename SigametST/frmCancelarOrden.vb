@@ -6,17 +6,23 @@ Public Class frmCancelarOrden
     Public _Celula As Integer
     Public _AñoPed As Integer
     Public _Usuario As String
+    Private _Cliente As String
     Public StatusServicioTecnico As String
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(ByVal Pedido As Integer, ByVal Celula As Integer, ByVal AñoPed As Integer, ByVal Usuario As String)
+    Public Sub New(ByVal Pedido As Integer,
+                   ByVal Celula As Integer,
+                   ByVal AñoPed As Integer,
+                   ByVal Usuario As String,
+                   Optional ByVal Cliente As String = "")
         MyBase.New()
 
         _Pedido = Pedido
         _Celula = Celula
         _AñoPed = AñoPed
         _Usuario = Usuario
+        _Cliente = Cliente
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -363,6 +369,10 @@ Public Class frmCancelarOrden
 
         Dim daCancelarOrden As New SqlDataAdapter("Select Cliente,Autotanque,Chofer,Ayudante,StatusServicioTecnico,Celula From vwSTAutotanqueServicioTecnico Where AñoPed = " & _AñoPed & "And Pedido = " & _Pedido & "And Celula = " & _Celula, cnnSigamet)
         Dim dtCancelarOrden As New DataTable("CancelarOrden")
+
+        If _Cliente > "" Then
+            lblContratoCerrar.Text = _Cliente
+        End If
 
         daCancelarOrden.Fill(dtCancelarOrden)
         If dtCancelarOrden.Rows.Count > 0 Then
