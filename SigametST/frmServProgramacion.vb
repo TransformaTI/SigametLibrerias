@@ -3745,7 +3745,15 @@ Public Class frmServProgramacion
 
                     If _Estatus = "ACTIVO" Or _Estatus = "PENDIENTE" Then
                         Cursor = Cursors.WaitCursor
-                        Dim CancelarOrden As New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario)
+                        'Dim CancelarOrden As New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario)
+
+                        Dim CancelarOrden As frmCancelarOrden
+                        If Not String.IsNullOrEmpty(_URLGateway) Then
+                            CancelarOrden = New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario, Cliente:=Client)
+                        Else
+                            CancelarOrden = New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario)
+                        End If
+
                         CancelarOrden.ShowDialog()
                         Cursor = Cursors.Default
                         LlenaLista()
