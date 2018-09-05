@@ -729,18 +729,28 @@ Public Class ConsultaFactura
                     Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
 
                     objGateway.URLServicio = _URLGateway
-
+                    Dim oConfig As New SigaMetClasses.cConfig(_Modulo, 1, 1)
+                    Dim FuenteCRM As String = CStr(oConfig.Parametros("FuenteCRM")).Trim
                     For Each drow In dtFacturaPedido.Rows
                         If Not IsDBNull(drow("PedidoReferencia")) Then
-                            Dim oItem As New ListViewItem(Trim(CType(drow("PedidoReferencia"), String)), 0)
-                            oItem.SubItems.Add(CType(drow("Factura"), String))
-                            oItem.SubItems.Add(CType(drow("Cliente"), String))
-                            objSolicitudGateway.IDCliente = (CType(drow("Cliente"), Integer))
-                            Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
-                            oItem.SubItems.Add(objRtgCore.Nombre)
-                            'oItem.SubItems.Add(Trim(CType(drow("Nombre"), String)))  se reemplazo por la respuesta del WS'
-                            oItem.SubItems.Add(CType(drow("Total"), Decimal).ToString("N"))
-                            lvwFacturaPedido.Items.Add(oItem)
+                            Dim ParametroCrm As String
+                            If FuenteCRM = "CRM" Then
+                                ParametroCrm = "idCRM"
+                            Else
+                                ParametroCrm = "PedidoReferencia"
+                            End If
+                            If drow(ParametroCrm) Is DBNull.Value Then
+                            Else
+                                Dim oItem As New ListViewItem(Trim(CType(drow(ParametroCrm), String)), 0)
+                                oItem.SubItems.Add(CType(drow("Factura"), String))
+                                oItem.SubItems.Add(CType(drow("Cliente"), String))
+                                objSolicitudGateway.IDCliente = (CType(drow("Cliente"), Integer))
+                                Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
+                                oItem.SubItems.Add(objRtgCore.Nombre)
+                                'oItem.SubItems.Add(Trim(CType(drow("Nombre"), String)))  se reemplazo por la respuesta del WS'
+                                oItem.SubItems.Add(CType(drow("Total"), Decimal).ToString("N"))
+                                lvwFacturaPedido.Items.Add(oItem)
+                            End If
                         End If
                     Next
                 End If
