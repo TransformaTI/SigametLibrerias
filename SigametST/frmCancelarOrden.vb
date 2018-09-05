@@ -7,6 +7,7 @@ Public Class frmCancelarOrden
     Public _AñoPed As Integer
     Public _Usuario As String
     Private _Cliente As String
+    Private _Autotanque As String
     Public StatusServicioTecnico As String
 
 #Region " Windows Form Designer generated code "
@@ -15,7 +16,8 @@ Public Class frmCancelarOrden
                    ByVal Celula As Integer,
                    ByVal AñoPed As Integer,
                    ByVal Usuario As String,
-                   Optional ByVal Cliente As String = "")
+                   Optional ByVal Cliente As String = "",
+                   Optional ByVal Autotanque As String = "")
         MyBase.New()
 
         _Pedido = Pedido
@@ -23,6 +25,7 @@ Public Class frmCancelarOrden
         _AñoPed = AñoPed
         _Usuario = Usuario
         _Cliente = Cliente
+        _Autotanque = Autotanque
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -372,6 +375,10 @@ Public Class frmCancelarOrden
 
         If _Cliente > "" Then
             lblContratoCerrar.Text = _Cliente
+        End If
+
+        If _Autotanque > "" Then
+            txtCamioneta.Text = _Autotanque
         End If
 
         daCancelarOrden.Fill(dtCancelarOrden)

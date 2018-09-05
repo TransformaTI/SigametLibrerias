@@ -10,6 +10,7 @@ Public Class frmServProgramacion
     Public _Clave As String
     Private DatosCargados As Boolean = False
     Private _Pedido As String
+    Private _Autotanque As String
     Private Pedido As Integer
     Private Celula As Integer
     Private AñoPed As Integer
@@ -3749,7 +3750,7 @@ Public Class frmServProgramacion
 
                         Dim CancelarOrden As frmCancelarOrden
                         If Not String.IsNullOrEmpty(_URLGateway) Then
-                            CancelarOrden = New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario, Cliente:=Client)
+                            CancelarOrden = New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario, Cliente:=Client, Autotanque:=_Autotanque)
                         Else
                             CancelarOrden = New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario)
                         End If
@@ -4349,6 +4350,7 @@ Public Class frmServProgramacion
         _Estatus = lvwProgramaciones.FocusedItem.SubItems(6).Text.Trim
         Fcomp = CType(lvwProgramaciones.FocusedItem.SubItems(4).Text.Trim, Date)
         _Pedido = lvwProgramaciones.FocusedItem.SubItems(0).Text.Trim
+        _Autotanque = lvwProgramaciones.FocusedItem.SubItems(2).Text.Trim
         LlenaPedido()
         CargaDatosCliente()
         LlenaObservaciones()
