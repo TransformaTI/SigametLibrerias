@@ -489,12 +489,15 @@ Public Class frmServProgramacion
         Dim daPresupuesto As New SqlDataAdapter(strQuery, cnnSigamet)
         Dim dtPresupuesto As New DataTable("Presupuesto")
         daPresupuesto.Fill(dtPresupuesto)
-        lblNPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("FolioPresupuesto"), String)
-        lblStatusPre.Text = CType(dtPresupuesto.Rows(0).Item("statuspresupuesto"), String)
-        lblTotal.Text = CType(dtPresupuesto.Rows(0).Item("total"), String)
-        txtObservacionesPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("ObservacionesPresupuesto"), String)
-        lblSubTotal.Text = CType(dtPresupuesto.Rows(0).Item("subtotal"), String)
-        lblDescuento.Text = CType(dtPresupuesto.Rows(0).Item("descuento"), String)
+
+        If Not IsNothing(dtPresupuesto) AndAlso dtPresupuesto.Rows.Count > 0 Then
+            lblNPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("FolioPresupuesto"), String)
+            lblStatusPre.Text = CType(dtPresupuesto.Rows(0).Item("statuspresupuesto"), String)
+            lblTotal.Text = CType(dtPresupuesto.Rows(0).Item("total"), String)
+            txtObservacionesPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("ObservacionesPresupuesto"), String)
+            lblSubTotal.Text = CType(dtPresupuesto.Rows(0).Item("subtotal"), String)
+            lblDescuento.Text = CType(dtPresupuesto.Rows(0).Item("descuento"), String)
+        End If
     End Sub
 
     Private Sub OrdenAutomatica()
@@ -502,21 +505,22 @@ Public Class frmServProgramacion
             Dim da As New SqlDataAdapter("select PedidoPrimero,TrabajoSolicitadoPrimero,TrabajoRealizadoPrimero,FolioPresupuestoViene,StatusPresupuestoViene,SubTotalPresupuesto,DescuentoPresupuesto,TotalPresupuesto,ObservacionesPresupuestoViene, PedidoAuto, NombreUsuario, TipoPedido, TipoServicio, TrabajoSolicitado from vwSTLlenaPedidoPresupuesto where pedidoauto = " & Pedido & "And celulaauto = " & Celula & "And añopedauto = " & AñoPed, cnnSigamet)
             Dim dt As New DataTable("Orden")
             da.Fill(dt)
-            lblPedido.Text = CType(dt.Rows(0).Item("pedidoprimero"), String)
-            txtTrabajoSolicitado.Text = CType(dt.Rows(0).Item("trabajosolicitadoprimero"), String)
-            lblTrabajoRealizado.Text = CType(dt.Rows(0).Item("trabajorealizadoprimero"), String)
-            lblFolioPresupuesto.Text = CType(dt.Rows(0).Item("Foliopresupuestoviene"), String)
-            lblStatusPresupuesto.Text = CType(dt.Rows(0).Item("statuspresupuestoviene"), String)
-            lblSubT.Text = CType(dt.Rows(0).Item("subtotalpresupuesto"), String)
-            lblDesc.Text = CType(dt.Rows(0).Item("descuentopresupuesto"), String)
-            lblTot.Text = CType(dt.Rows(0).Item("totalpresupuesto"), String)
-            txtObservacionesPres.Text = CType(dt.Rows(0).Item("observacionespresupuestoviene"), String)
-            lblAutoPedido.Text = CType(dt.Rows(0).Item("pedidoauto"), String)
-            lblUsuario.Text = CType(If(dt.Rows(0).Item("NombreUsuario") Is DBNull.Value, "", dt.Rows(0).Item("NombreUsuario")), String)
-            lblFormaPago.Text = CType(If(dt.Rows(0).Item("tipopedido") Is DBNull.Value, "", dt.Rows(0).Item("tipopedido")), String)
-            lblTipoServicio.Text = CType(If(dt.Rows(0).Item("tiposervicio") Is DBNull.Value, "", dt.Rows(0).Item("tiposervicio")), String)
-            txtTrabSolc.Text = CType(dt.Rows(0).Item("trabajosolicitado"), String)
-
+            If dt.Rows.Count > 0 Then
+                lblPedido.Text = CType(dt.Rows(0).Item("pedidoprimero"), String)
+                txtTrabajoSolicitado.Text = CType(dt.Rows(0).Item("trabajosolicitadoprimero"), String)
+                lblTrabajoRealizado.Text = CType(dt.Rows(0).Item("trabajorealizadoprimero"), String)
+                lblFolioPresupuesto.Text = CType(dt.Rows(0).Item("Foliopresupuestoviene"), String)
+                lblStatusPresupuesto.Text = CType(dt.Rows(0).Item("statuspresupuestoviene"), String)
+                lblSubT.Text = CType(dt.Rows(0).Item("subtotalpresupuesto"), String)
+                lblDesc.Text = CType(dt.Rows(0).Item("descuentopresupuesto"), String)
+                lblTot.Text = CType(dt.Rows(0).Item("totalpresupuesto"), String)
+                txtObservacionesPres.Text = CType(dt.Rows(0).Item("observacionespresupuestoviene"), String)
+                lblAutoPedido.Text = CType(dt.Rows(0).Item("pedidoauto"), String)
+                lblUsuario.Text = CType(If(dt.Rows(0).Item("NombreUsuario") Is DBNull.Value, "", dt.Rows(0).Item("NombreUsuario")), String)
+                lblFormaPago.Text = CType(If(dt.Rows(0).Item("tipopedido") Is DBNull.Value, "", dt.Rows(0).Item("tipopedido")), String)
+                lblTipoServicio.Text = CType(If(dt.Rows(0).Item("tiposervicio") Is DBNull.Value, "", dt.Rows(0).Item("tiposervicio")), String)
+                txtTrabSolc.Text = CType(dt.Rows(0).Item("trabajosolicitado"), String)
+            End If
         Catch e As Exception
             MessageBox.Show(e.Message)
         Finally
