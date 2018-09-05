@@ -779,7 +779,7 @@ Public Class ConsultaFactura
     Private Sub mnuConsultaDocumento_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuConsultaDocumento.Click
         If Trim(lvwFacturaPedido.FocusedItem.Text) <> "" Then
             Cursor = Cursors.WaitCursor
-            Dim oConsultaDoc As New SigaMetClasses.ConsultaCargo(lvwFacturaPedido.FocusedItem.Text,, _URLGateway)
+            Dim oConsultaDoc As New SigaMetClasses.ConsultaCargo(lvwFacturaPedido.FocusedItem.Text,, _URLGateway, Modulo, _CadenaConexion)
             oConsultaDoc.ShowDialog()
             Cursor = Cursors.Default
         End If
