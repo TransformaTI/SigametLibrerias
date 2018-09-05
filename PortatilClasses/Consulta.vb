@@ -3332,6 +3332,7 @@ Public MustInherit Class Consulta
             Dim cnSigamet As SqlConnection
             Dim cmdComando As SqlCommand
             Dim drAlmacen As SqlDataReader
+            Dim cliente As Integer
             Try
                 cnSigamet = New SqlConnection(Globals.GetInstance._CadenaConexion)
                 cmdComando = New SqlCommand("spPTLConsultaCamion", cnSigamet)
@@ -3346,6 +3347,7 @@ Public MustInherit Class Consulta
                     Descripcion = CType(drAlmacen(1), String) & " " & CType(drAlmacen(2), String)
                     _Ruta = CType(drAlmacen(4), Integer)
                     _Celula = CType(drAlmacen(5), Integer)
+                    cliente = CInt(drAlmacen(1))
                     If Not IsDBNull(drAlmacen(3)) Then
                         _Kilometraje = CType(drAlmacen(3), Integer)
                     End If
@@ -3354,9 +3356,9 @@ Public MustInherit Class Consulta
                 Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
                 Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(CByte(_Modulo), _CadenaConexion)
                 Dim objDescripcion As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega()
-                objSolicitudGateway.IDCliente = Camion
-                objSolicitudGateway.Portatil = False
-                objSolicitudGateway.IDAutotanque = 52
+                objSolicitudGateway.IDCliente = cliente
+                'objSolicitudGateway.Portatil = False
+                'objSolicitudGateway.IDAutotanque = 52
 
                 objGateway.URLServicio = URL
                 objDescripcion = objGateway.buscarDireccionEntrega(objSolicitudGateway)
