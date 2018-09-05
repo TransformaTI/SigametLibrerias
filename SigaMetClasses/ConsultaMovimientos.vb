@@ -1105,6 +1105,7 @@ Public Class ConsultaMovimientos
                 objsolicitudpedido.TipoServicio = Nothing
                 objsolicitudpedido.AñoPed = Nothing
                 objsolicitudpedido.IDPedido = Nothing
+                objsolicitudpedido.IDDireccionEntrega = CType(dr("PedidoCliente"), Integer)
                 objsolicitudpedido.PedidoReferencia = Trim(CType(dr("PedidoReferencia"), String))
 
                 lstPedidos = objpedidogateway.buscarPedidos(objsolicitudpedido)
