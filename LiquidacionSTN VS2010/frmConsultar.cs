@@ -34,10 +34,22 @@ namespace LiquidacionSTN
         Boolean banderaFolioLiquidacion= false;
         Boolean banderaTecnico = false;
 
-        public frmConsultar(string Usuario,bool CelulasUsuario)
+        // Variables para consultas al RTGMGateway
+        private string urlGateway;
+        private byte modulo;
+        private string cadenaConexion;
+
+        public frmConsultar(string Usuario,
+                            bool CelulasUsuario, 
+                            string URLGateway = "", 
+                            byte Modulo = 0, 
+                            string CadenaConexion = "")
         {
             this.usuario = Usuario;
             this.celulasUsuario = CelulasUsuario;
+            this.urlGateway = URLGateway;
+            this.modulo = Modulo;
+            this.cadenaConexion = CadenaConexion;
             InitializeComponent();
 
 
@@ -835,6 +847,8 @@ namespace LiquidacionSTN
             string serie = txtSerie.Text;
             string folioCarpeta = txtFolioCarpet.Text;
 
+            //ConsultarPedidosCRM(fInicio, fFin, pedidoReferencia, cliente, celula);
+
             listaDatos = Metodos.ConsultarDatos(fInicio, fFin, status, cliente, nombre, celula, ruta, giro, ramo, pedidoReferencia, serie, folioCarpeta);
 
             dataGridViewDatos.AutoGenerateColumns = false;
@@ -843,6 +857,18 @@ namespace LiquidacionSTN
             
             Cursor = Cursors.Default;
         }
+
+        //private void ConsultarPedidosCRM(DateTime parFInicio, DateTime parFFin, string parPedido, int? parCliente, int? parCelula)
+        //{
+        //    int? idPedido = null;
+        //    int iPedido = 0;
+        //    parCliente = (parCliente == 0 ? null : parCliente);
+        //    parCelula = (parCelula == 0 ? null : parCelula);
+
+        //    int.TryParse(parPedido, out iPedido);
+
+        //    RTGMGateway.RTGMGateway obGateway = new RTGMGateway.RTGMGateway()
+        //}
 
         private void cmbGiro_KeyDown(object sender, KeyEventArgs e)
         {
