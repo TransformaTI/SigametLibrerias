@@ -2947,7 +2947,6 @@ Public Class frmLiquidacionPortatil
 		oParametro = New SigaMetClasses.cConfig(14, _CorporativoUsuario, _SucursalUsuario)
 		_ClienteVentasPublico = CType(CType(oParametro.Parametros("ClienteVentasPublico"), String).Trim, Integer)
 
-
 		_RutaReportes = CType(oConfig.Parametros("RutaReportesW7"), String).Trim
 		'_RutaReportes = "C:\Proyectos\NET\Pruebas\Probador\Probador"
 
@@ -6491,6 +6490,7 @@ Public Class frmLiquidacionPortatil
 			LimpiarComponentes()
 			CargarProductosVarios()
 			_Modifcaciondtp = False
+			cargarRemisiones()
 		End If
 
 		If (Not _DetalleGrid Is Nothing) Then
@@ -6948,13 +6948,16 @@ Public Class frmLiquidacionPortatil
 
 
 	Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
-		ocultar()
-		Movilgas()
-		cargarRemisiones()
-		validarFormasPago()
-		ActualizarTotalizadorFormasDePago(_listaCobros)
-
-
+		Try
+			ocultar()
+			Movilgas()
+			cargarRemisiones()
+			validarFormasPago()
+			ActualizarTotalizadorFormasDePago(_listaCobros)
+		Catch ex As Exception
+			MessageBox.Show("Error al cargar " & ex.Message)
+			Me.Close()
+		End Try
 	End Sub
 
 
@@ -7142,9 +7145,13 @@ Public Class frmLiquidacionPortatil
 	End Sub
 
 	Public Sub cargarRemisiones()
-		Dim cargarRemisiones As New SigaMetClasses.LiquidacionPortatil
 		Dim TotalKilos As New Decimal
-		_DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+		'Dim cargarRemisiones1 As New SigaMetClasses.LiquidacionPortatil
+		'_DetalleGrid = cargarRemisiones1.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+
+		Dim cargarRemisiones As New PortatilClasses.cLiquidacion
+		_DetalleGrid = cargarRemisiones.ConsultaRemisionesPortatil(_AlmacenGas, cboZEconomica.Identificador, _Ruta, _MovimientoAlmacen, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime), CType(lblCamion.Text, Integer))
+
 		' _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
 		grdDetalle.DataSource = _DetalleGrid
 
@@ -7519,9 +7526,6 @@ Public Class frmLiquidacionPortatil
 		End If
 	End Sub
 
-	Private Sub capEfectivo_Load(sender As Object, e As EventArgs) Handles capEfectivo.Load
-
-	End Sub
 
 	Private Sub RealizarPedidoRemision()
 		Cursor = Cursors.WaitCursor

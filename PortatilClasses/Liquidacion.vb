@@ -393,56 +393,104 @@ Public Class cLiquidacion
         GLOBAL_Conexion.Close()
     End Sub
 
-    '20150627CNSM$002-----------------
+	'20150627CNSM$002-----------------
 
-    'Método de la clase para realizar una consulta de los productos que puede liquidar
-    'la unidad de venta
-    Public Sub ConsultaProducto(ByVal Configuracion As Short, ByVal AlmacenGas As Integer, _
-                                ByVal ZonaEconomica As Integer, Optional ByVal Ruta As Integer = 0, _
-                                Optional MovimientoAlmacen As Integer = 0,
-                                Optional FCarga As DateTime = Nothing,
-                                Optional FSuministroMG As DateTime = Nothing,
-                                Optional Autotanque As Integer = 0)
-        Dim da As SqlDataAdapter
-        cmd = New SqlCommand("spPTLConsultaExistenciaProducto", GLOBAL_Conexion)
-        cmd.CommandType = CommandType.StoredProcedure
-        cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
-        cmd.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = AlmacenGas
-        cmd.Parameters.Add("@ZonaEconomica", SqlDbType.Int).Value = ZonaEconomica
-        '20150627CNSM$002-----------------
-        If Ruta <> 0 Then
-            cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = Ruta
-        End If
+	'Método de la clase para realizar una consulta de los productos que puede liquidar
+	'la unidad de venta
+	Public Sub ConsultaProducto(ByVal Configuracion As Short, ByVal AlmacenGas As Integer,
+								ByVal ZonaEconomica As Integer, Optional ByVal Ruta As Integer = 0,
+								Optional MovimientoAlmacen As Integer = 0,
+								Optional FCarga As DateTime = Nothing,
+								Optional FSuministroMG As DateTime = Nothing,
+								Optional Autotanque As Integer = 0)
+		Dim da As SqlDataAdapter
+		cmd = New SqlCommand("spPTLConsultaExistenciaProducto", GLOBAL_Conexion)
+		cmd.CommandType = CommandType.StoredProcedure
+		cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
+		cmd.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = AlmacenGas
+		cmd.Parameters.Add("@ZonaEconomica", SqlDbType.Int).Value = ZonaEconomica
+		'20150627CNSM$002-----------------
+		If Ruta <> 0 Then
+			cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = Ruta
+		End If
 
-        If MovimientoAlmacen <> 0 Then
-            cmd.Parameters.Add("@MovimientoAlmacen", SqlDbType.Int).Value = MovimientoAlmacen
-        End If
+		If MovimientoAlmacen <> 0 Then
+			cmd.Parameters.Add("@MovimientoAlmacen", SqlDbType.Int).Value = MovimientoAlmacen
+		End If
 
-        If FCarga <> Nothing Then
-            cmd.Parameters.Add("@FCarga", SqlDbType.DateTime).Value = FCarga
-        End If
+		If FCarga <> Nothing Then
+			cmd.Parameters.Add("@FCarga", SqlDbType.DateTime).Value = FCarga
+		End If
 
-        If FSuministroMG <> Nothing Then
-            cmd.Parameters.Add("@FSuministroMG", SqlDbType.DateTime).Value = FSuministroMG
-        End If
+		If FSuministroMG <> Nothing Then
+			cmd.Parameters.Add("@FSuministroMG", SqlDbType.DateTime).Value = FSuministroMG
+		End If
 
-        If Autotanque <> 0 Then
-            cmd.Parameters.Add("@Autotanque", SqlDbType.SmallInt).Value = Autotanque
-        End If
-        '20150627CNSM$002-----------------
-        da = New SqlDataAdapter(cmd)
-        dtTable = New DataTable()
-        Try
-            da.Fill(dtTable)
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, "Liquidación Portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-        GLOBAL_Conexion.Close()
-    End Sub
+		If Autotanque <> 0 Then
+			cmd.Parameters.Add("@Autotanque", SqlDbType.SmallInt).Value = Autotanque
+		End If
+		'20150627CNSM$002-----------------
+		da = New SqlDataAdapter(cmd)
+		dtTable = New DataTable()
+		Try
+			da.Fill(dtTable)
+		Catch ex As Exception
+			MessageBox.Show(ex.Message, "Liquidación Portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
+		End Try
+		GLOBAL_Conexion.Close()
+	End Sub
 
-    'MEtodo de la clase que ejecuta una liquidacion portatil y la registra en la tabla
-    'AutotanqueTurno
-    Public Sub LiquidacionAutotanqueTurno(ByVal LitrosVendidos As Decimal, _
+
+	Public Function ConsultaRemisionesPortatil(ByVal AlmacenGas As Integer,
+								ByVal ZonaEconomica As Integer, Optional ByVal Ruta As Integer = 0,
+								Optional MovimientoAlmacen As Integer = 0,
+								Optional FCarga As DateTime = Nothing,
+								Optional FSuministroMG As DateTime = Nothing,
+								Optional Autotanque As Integer = 0) As DataTable
+		Dim da As SqlDataAdapter
+		cmd = New SqlCommand("spPTLMuestraRemisionesPortatilALiquidar", GLOBAL_Conexion)
+		cmd.CommandType = CommandType.StoredProcedure
+		cmd.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = AlmacenGas
+		cmd.Parameters.Add("@ZonaEconomica", SqlDbType.Int).Value = ZonaEconomica
+		'20150627CNSM$002-----------------
+		If Ruta <> 0 Then
+			cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = Ruta
+		End If
+
+		If MovimientoAlmacen <> 0 Then
+			cmd.Parameters.Add("@MovimientoAlmacen", SqlDbType.Int).Value = MovimientoAlmacen
+		End If
+
+		If FCarga <> Nothing Then
+			cmd.Parameters.Add("@FCarga", SqlDbType.DateTime).Value = FCarga
+		End If
+
+		If FSuministroMG <> Nothing Then
+			cmd.Parameters.Add("@FSuministroMG", SqlDbType.DateTime).Value = FSuministroMG
+		End If
+
+		If Autotanque <> 0 Then
+			cmd.Parameters.Add("@Autotanque", SqlDbType.SmallInt).Value = Autotanque
+		End If
+		'20150627CNSM$002-----------------
+		da = New SqlDataAdapter(cmd)
+		dtTable = New DataTable()
+		Try
+			da.Fill(dtTable)
+			Return dtTable
+		Catch ex As Exception
+			MessageBox.Show(ex.Message, "Liquidación Portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
+		Finally
+			da.Dispose()
+			da = Nothing
+		End Try
+		GLOBAL_Conexion.Close()
+
+	End Function
+
+	'MEtodo de la clase que ejecuta una liquidacion portatil y la registra en la tabla
+	'AutotanqueTurno
+	Public Sub LiquidacionAutotanqueTurno(ByVal LitrosVendidos As Decimal, _
                                   ByVal FTerminoRuta As DateTime, _
                                   ByVal LitrosLiquidados As Decimal, _
                                   ByVal ImporteCredito As Decimal, _
