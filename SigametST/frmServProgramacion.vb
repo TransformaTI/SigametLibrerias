@@ -10,6 +10,7 @@ Public Class frmServProgramacion
     Public _Clave As String
     Private DatosCargados As Boolean = False
     Private _Pedido As String
+    Private _Autotanque As String
     Private Pedido As Integer
     Private Celula As Integer
     Private AñoPed As Integer
@@ -242,20 +243,52 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub LlenaPedido()
-        Dim Llena As New SqlCommand("select pedido,celula,AñoPed from Pedido where pedidoreferencia = '" & _Pedido & "' ", cnnSigamet)
+        RestablecerLlavePedido()
+
+        If Not String.IsNullOrEmpty(_URLGateway) Then
+            LlenaPedido_CRM()
+        Else
+            Dim Llena As New SqlCommand("select pedido,celula,AñoPed from Pedido where pedidoreferencia = '" & _Pedido & "' ", cnnSigamet)
+            Try
+                cnnSigamet.Open()
+                Dim drLlena As SqlDataReader = Llena.ExecuteReader
+                While drLlena.Read
+                    Pedido = CType(drLlena("pedido"), Integer)
+                    Celula = CType(drLlena("celula"), Integer)
+                    AñoPed = CType(drLlena("añoped"), Integer)
+                End While
+                cnnSigamet.Close()
+            Catch e As Exception
+                MessageBox.Show(e.Message)
+            End Try
+        End If
+    End Sub
+
+    Private Sub LlenaPedido_CRM()
+        Dim IdPedido As Integer = 0
+        Dim obPedido As RTGMCore.Pedido = Nothing
+
+        Integer.TryParse(_Pedido, IdPedido)
+
         Try
-            cnnSigamet.Open()
-            Dim drLlena As SqlDataReader = Llena.ExecuteReader
-            While drLlena.Read
-                Pedido = CType(drLlena("pedido"), Integer)
-                Celula = CType(drLlena("celula"), Integer)
-                AñoPed = CType(drLlena("añoped"), Integer)
-            End While
-            cnnSigamet.Close()
-        Catch e As Exception
-            MessageBox.Show(e.Message)
+            If IdPedido > 0 And _PedidosCRM.Count > 0 Then
+                obPedido = _PedidosCRM.First(Function(x) If(x.IDPedido, 0) = IdPedido)
+
+                Pedido = If(obPedido.IDPedido, 0)
+                Celula = If(obPedido.IDZona, 0)
+                AñoPed = If(obPedido.AnioPed, 0)
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    Private Sub RestablecerLlavePedido()
+        Pedido = 0
+        Celula = 0
+        AñoPed = 0
+    End Sub
+
     'Permite dar color a la listView
     Private Sub paintalternatingbackcolor(ByVal lv As ListView, ByVal color1 As Color, ByVal color2 As Color)
         Dim item As ListViewItem
@@ -465,41 +498,85 @@ Public Class frmServProgramacion
         Dim daPresupuesto As New SqlDataAdapter(strQuery, cnnSigamet)
         Dim dtPresupuesto As New DataTable("Presupuesto")
         daPresupuesto.Fill(dtPresupuesto)
-        lblNPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("FolioPresupuesto"), String)
-        lblStatusPre.Text = CType(dtPresupuesto.Rows(0).Item("statuspresupuesto"), String)
-        lblTotal.Text = CType(dtPresupuesto.Rows(0).Item("total"), String)
-        txtObservacionesPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("ObservacionesPresupuesto"), String)
-        lblSubTotal.Text = CType(dtPresupuesto.Rows(0).Item("subtotal"), String)
-        lblDescuento.Text = CType(dtPresupuesto.Rows(0).Item("descuento"), String)
+
+        If Not IsNothing(dtPresupuesto) AndAlso dtPresupuesto.Rows.Count > 0 Then
+            lblNPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("FolioPresupuesto"), String)
+            lblStatusPre.Text = CType(dtPresupuesto.Rows(0).Item("statuspresupuesto"), String)
+            lblTotal.Text = CType(dtPresupuesto.Rows(0).Item("total"), String)
+            txtObservacionesPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("ObservacionesPresupuesto"), String)
+            lblSubTotal.Text = CType(dtPresupuesto.Rows(0).Item("subtotal"), String)
+            lblDescuento.Text = CType(dtPresupuesto.Rows(0).Item("descuento"), String)
+        End If
     End Sub
 
     Private Sub OrdenAutomatica()
+        LimpiarCamposOrdenAutomatica()
+
+        If Not String.IsNullOrEmpty(_URLGateway) Then
+            OrdenAutomatica_CRM()
+        Else
+            Try
+                Dim da As New SqlDataAdapter("select PedidoPrimero,TrabajoSolicitadoPrimero,TrabajoRealizadoPrimero,FolioPresupuestoViene,StatusPresupuestoViene,SubTotalPresupuesto,DescuentoPresupuesto,TotalPresupuesto,ObservacionesPresupuestoViene, PedidoAuto, NombreUsuario, TipoPedido, TipoServicio, TrabajoSolicitado from vwSTLlenaPedidoPresupuesto where pedidoauto = " & Pedido & "And celulaauto = " & Celula & "And añopedauto = " & AñoPed, cnnSigamet)
+                Dim dt As New DataTable("Orden")
+                da.Fill(dt)
+                If dt.Rows.Count > 0 Then
+                    lblPedido.Text = CType(dt.Rows(0).Item("pedidoprimero"), String)
+                    txtTrabajoSolicitado.Text = CType(dt.Rows(0).Item("trabajosolicitadoprimero"), String)
+                    lblTrabajoRealizado.Text = CType(dt.Rows(0).Item("trabajorealizadoprimero"), String)
+                    lblFolioPresupuesto.Text = CType(dt.Rows(0).Item("Foliopresupuestoviene"), String)
+                    lblStatusPresupuesto.Text = CType(dt.Rows(0).Item("statuspresupuestoviene"), String)
+                    lblSubT.Text = CType(dt.Rows(0).Item("subtotalpresupuesto"), String)
+                    lblDesc.Text = CType(dt.Rows(0).Item("descuentopresupuesto"), String)
+                    lblTot.Text = CType(dt.Rows(0).Item("totalpresupuesto"), String)
+                    txtObservacionesPres.Text = CType(dt.Rows(0).Item("observacionespresupuestoviene"), String)
+                    lblAutoPedido.Text = CType(dt.Rows(0).Item("pedidoauto"), String)
+                    lblUsuario.Text = CType(If(dt.Rows(0).Item("NombreUsuario") Is DBNull.Value, "", dt.Rows(0).Item("NombreUsuario")), String)
+                    lblFormaPago.Text = CType(If(dt.Rows(0).Item("tipopedido") Is DBNull.Value, "", dt.Rows(0).Item("tipopedido")), String)
+                    lblTipoServicio.Text = CType(If(dt.Rows(0).Item("tiposervicio") Is DBNull.Value, "", dt.Rows(0).Item("tiposervicio")), String)
+                    txtTrabSolc.Text = CType(dt.Rows(0).Item("trabajosolicitado"), String)
+                End If
+            Catch e As Exception
+                MessageBox.Show(e.Message)
+            Finally
+                cnnSigamet.Close()
+                'cnnSigamet.Dispose()
+            End Try
+        End If
+    End Sub
+
+    Private Sub OrdenAutomatica_CRM()
+        Dim idPedido As Integer = 0
+        Dim obPedido As RTGMCore.Pedido = Nothing
+
+        Integer.TryParse(_Pedido, idPedido)
+
         Try
-            Dim da As New SqlDataAdapter("select PedidoPrimero,TrabajoSolicitadoPrimero,TrabajoRealizadoPrimero,FolioPresupuestoViene,StatusPresupuestoViene,SubTotalPresupuesto,DescuentoPresupuesto,TotalPresupuesto,ObservacionesPresupuestoViene, PedidoAuto, NombreUsuario, TipoPedido, TipoServicio, TrabajoSolicitado from vwSTLlenaPedidoPresupuesto where pedidoauto = " & Pedido & "And celulaauto = " & Celula & "And añopedauto = " & AñoPed, cnnSigamet)
-            Dim dt As New DataTable("Orden")
-            da.Fill(dt)
-            lblPedido.Text = CType(dt.Rows(0).Item("pedidoprimero"), String)
-            txtTrabajoSolicitado.Text = CType(dt.Rows(0).Item("trabajosolicitadoprimero"), String)
-            lblTrabajoRealizado.Text = CType(dt.Rows(0).Item("trabajorealizadoprimero"), String)
-            lblFolioPresupuesto.Text = CType(dt.Rows(0).Item("Foliopresupuestoviene"), String)
-            lblStatusPresupuesto.Text = CType(dt.Rows(0).Item("statuspresupuestoviene"), String)
-            lblSubT.Text = CType(dt.Rows(0).Item("subtotalpresupuesto"), String)
-            lblDesc.Text = CType(dt.Rows(0).Item("descuentopresupuesto"), String)
-            lblTot.Text = CType(dt.Rows(0).Item("totalpresupuesto"), String)
-            txtObservacionesPres.Text = CType(dt.Rows(0).Item("observacionespresupuestoviene"), String)
-            lblAutoPedido.Text = CType(dt.Rows(0).Item("pedidoauto"), String)
-            lblUsuario.Text = CType(If(dt.Rows(0).Item("NombreUsuario") Is DBNull.Value, "", dt.Rows(0).Item("NombreUsuario")), String)
-            lblFormaPago.Text = CType(If(dt.Rows(0).Item("tipopedido") Is DBNull.Value, "", dt.Rows(0).Item("tipopedido")), String)
-            lblTipoServicio.Text = CType(If(dt.Rows(0).Item("tiposervicio") Is DBNull.Value, "", dt.Rows(0).Item("tiposervicio")), String)
-            txtTrabSolc.Text = CType(dt.Rows(0).Item("trabajosolicitado"), String)
+            If idPedido > 0 AndAlso _PedidosCRM.Count > 0 Then
+                obPedido = _PedidosCRM.First(Function(x) If(x.IDPedido, 0) = idPedido)
 
-        Catch e As Exception
-            MessageBox.Show(e.Message)
-        Finally
-            cnnSigamet.Close()
-            'cnnSigamet.Dispose()
+                lblAutoPedido.Text = obPedido.IDPedido.ToString
+                lblFormaPago.Text = obPedido.FormaPago
+                lblTipoServicio.Text = obPedido.TipoServicio
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
 
+    Private Sub LimpiarCamposOrdenAutomatica()
+        lblPedido.Text = ""
+        lblTrabajoRealizado.Text = ""
+        lblFolioPresupuesto.Text = ""
+        lblStatusPresupuesto.Text = ""
+        lblSubT.Text = ""
+        lblDesc.Text = ""
+        lblTot.Text = ""
+        txtObservacionesPres.Text = ""
+        lblAutoPedido.Text = ""
+        lblUsuario.Text = ""
+        lblFormaPago.Text = ""
+        lblTipoServicio.Text = ""
+        txtTrabSolc.Text = ""
     End Sub
 
     Private Sub LlenaPagare()
@@ -3676,7 +3753,13 @@ Public Class frmServProgramacion
                 Cursor = Cursors.Default
 
             Case "Consultar"
-                Dim frmConsulta As New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario)
+                Dim frmConsulta As LiquidacionSTN.frmConsultar
+
+                If Not String.IsNullOrEmpty(_URLGateway) Then
+                    frmConsulta = New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario, _URLGateway, GLOBAL_Modulo, GLOBAL_CadenaConexion)
+                Else
+                    frmConsulta = New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario)
+                End If
                 frmConsulta.ShowDialog()
 
             Case "Liquidar"
@@ -3717,7 +3800,15 @@ Public Class frmServProgramacion
 
                     If _Estatus = "ACTIVO" Or _Estatus = "PENDIENTE" Then
                         Cursor = Cursors.WaitCursor
-                        Dim CancelarOrden As New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario)
+                        'Dim CancelarOrden As New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario)
+
+                        Dim CancelarOrden As frmCancelarOrden
+                        If Not String.IsNullOrEmpty(_URLGateway) Then
+                            CancelarOrden = New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario, Cliente:=Client, Autotanque:=_Autotanque)
+                        Else
+                            CancelarOrden = New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario)
+                        End If
+
                         CancelarOrden.ShowDialog()
                         Cursor = Cursors.Default
                         LlenaLista()
@@ -4313,6 +4404,7 @@ Public Class frmServProgramacion
         _Estatus = lvwProgramaciones.FocusedItem.SubItems(6).Text.Trim
         Fcomp = CType(lvwProgramaciones.FocusedItem.SubItems(4).Text.Trim, Date)
         _Pedido = lvwProgramaciones.FocusedItem.SubItems(0).Text.Trim
+        _Autotanque = lvwProgramaciones.FocusedItem.SubItems(2).Text.Trim
         LlenaPedido()
         CargaDatosCliente()
         LlenaObservaciones()
