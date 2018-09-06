@@ -840,36 +840,46 @@ namespace LiquidacionSTN
         {
             Cursor = Cursors.WaitCursor;
 
-            DateTime fInicio = new DateTime(dateTimePickerInicio.Value.Year, dateTimePickerInicio.Value.Month, dateTimePickerInicio.Value.Day, 0, 0, 0);
-            DateTime fFin = new DateTime(dateTimePickerFin.Value.Year, dateTimePickerFin.Value.Month, dateTimePickerFin.Value.Day, 23, 59, 59);
-            string status = (cmbEstatus.SelectedIndex == -1) ? "" : (((string)cmbEstatus.SelectedItem) == "ATENDIDO") ? "SURTIDO" : (string)cmbEstatus.SelectedItem;
-            int cliente = (txtNoCliente.Text.Length > 0) ? int.Parse(txtNoCliente.Text) : 0;
-            string nombre = txtNombre.Text;
-            int celula = (cmbCelula.SelectedIndex == -1) ? 0 : ((Celula)cmbCelula.SelectedItem).IdCelula;
-            int ruta = (cmbRuta.SelectedIndex == -1) ? 0 : ((Ruta)cmbRuta.SelectedItem).IdRuta;
-            int giro = (cmbGiro.SelectedIndex == -1) ? 0 : ((Giro)cmbGiro.SelectedItem).IdGiro;
-            int ramo = (cmbRamo.SelectedIndex == -1) ? 0 : ((Ramo)cmbRamo.SelectedItem).IdRamo;
-            string pedidoReferencia = txtPedidoReferencia.Text;
-            string serie = txtSerie.Text;
-            string folioCarpeta = txtFolioCarpet.Text;
-
-            if (!String.IsNullOrEmpty(urlGateway))
+            try
             {
-                ConsultarPedidosCRM(fInicio, fFin, pedidoReferencia, cliente, celula);
-                CargarGrid(pedidosCRM);
-            }
-            else
-            {
-                listaDatos = Metodos.ConsultarDatos(fInicio, fFin, status, cliente, nombre, celula, ruta, giro, ramo, pedidoReferencia, serie, folioCarpeta);
+                DateTime fInicio = new DateTime(dateTimePickerInicio.Value.Year, dateTimePickerInicio.Value.Month, dateTimePickerInicio.Value.Day, 0, 0, 0);
+                DateTime fFin = new DateTime(dateTimePickerFin.Value.Year, dateTimePickerFin.Value.Month, dateTimePickerFin.Value.Day, 23, 59, 59);
+                string status = (cmbEstatus.SelectedIndex == -1) ? "" : (((string)cmbEstatus.SelectedItem) == "ATENDIDO") ? "SURTIDO" : (string)cmbEstatus.SelectedItem;
+                int cliente = (txtNoCliente.Text.Length > 0) ? int.Parse(txtNoCliente.Text) : 0;
+                string nombre = txtNombre.Text;
+                int celula = (cmbCelula.SelectedIndex == -1) ? 0 : ((Celula)cmbCelula.SelectedItem).IdCelula;
+                int ruta = (cmbRuta.SelectedIndex == -1) ? 0 : ((Ruta)cmbRuta.SelectedItem).IdRuta;
+                int giro = (cmbGiro.SelectedIndex == -1) ? 0 : ((Giro)cmbGiro.SelectedItem).IdGiro;
+                int ramo = (cmbRamo.SelectedIndex == -1) ? 0 : ((Ramo)cmbRamo.SelectedItem).IdRamo;
+                string pedidoReferencia = txtPedidoReferencia.Text;
+                string serie = txtSerie.Text;
+                string folioCarpeta = txtFolioCarpet.Text;
 
-                dataGridViewDatos.AutoGenerateColumns = false;
-                dataGridViewDatos.DataSource = listaDatos;
-                lblNumeroRegistros.Text = listaDatos.Count.ToString();
+                if (!String.IsNullOrEmpty(urlGateway))
+                {
+                    ConsultarPedidosCRM(fInicio, fFin, pedidoReferencia, cliente, celula, status);
+                    CargarGrid(pedidosCRM);
+                }
+                else
+                {
+                    listaDatos = Metodos.ConsultarDatos(fInicio, fFin, status, cliente, nombre, celula, ruta, giro, ramo, pedidoReferencia, serie, folioCarpeta);
+
+                    dataGridViewDatos.AutoGenerateColumns = false;
+                    dataGridViewDatos.DataSource = listaDatos;
+                    lblNumeroRegistros.Text = listaDatos.Count.ToString();
+                }
             }
-            Cursor = Cursors.Default;
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error en la busqueda:" + Environment.NewLine + ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
-        private void ConsultarPedidosCRM(DateTime parFInicio, DateTime parFFin, string parPedido, int? parCliente, int? parCelula)
+        private void ConsultarPedidosCRM(DateTime parFInicio, DateTime parFFin, string parPedido, int? parCliente, int? parCelula, string estatus)
         {
             int? idPedido = null;
             int iPedido = 0;
@@ -887,6 +897,7 @@ namespace LiquidacionSTN
                 TipoConsultaPedido = RTGMCore.TipoConsultaPedido.ServiciosTecnicos,
                 FechaCompromisoInicio = parFInicio,
                 FechaCompromisoFin = parFFin,
+                EstatusPedidoDescripcion = estatus,
                 IDZona = parCelula
             };
 
