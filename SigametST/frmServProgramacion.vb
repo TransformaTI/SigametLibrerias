@@ -3753,7 +3753,13 @@ Public Class frmServProgramacion
                 Cursor = Cursors.Default
 
             Case "Consultar"
-                Dim frmConsulta As New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario)
+                Dim frmConsulta As LiquidacionSTN.frmConsultar
+
+                If Not String.IsNullOrEmpty(_URLGateway) Then
+                    frmConsulta = New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario, _URLGateway, GLOBAL_Modulo, GLOBAL_CadenaConexion)
+                Else
+                    frmConsulta = New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario)
+                End If
                 frmConsulta.ShowDialog()
 
             Case "Liquidar"
