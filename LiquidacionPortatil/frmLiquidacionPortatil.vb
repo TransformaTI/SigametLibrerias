@@ -60,6 +60,8 @@ Public Class frmLiquidacionPortatil
 	Private _dtListaProductos As DataTable
 	Private _cargarProductosPadre As Boolean = False
 
+	Private _soloObsequios As Boolean = False
+
 	Public Property Cobros() As List(Of SigaMetClasses.CobroDetalladoDatos)
 		Get
 			Return _listaCobros
@@ -184,6 +186,7 @@ Public Class frmLiquidacionPortatil
 	Private _Totalcobro As Decimal
 
 	Dim MovimientoAlmacenS As New LiquidacionTransaccionada.cMovimientoAlmacen(0, 0, 0, DateTime.Now, 0, 0, 0, DateTime.Now, 0, 0, 0, "", 0)
+	Dim MovimientoAlmacenO As LiquidacionTransaccionada.cMovimientoAlmacen
 	Private banderaTransaccion As Boolean = False
 
 	Private _obligaInsercionRemision As Boolean
@@ -2943,7 +2946,10 @@ Public Class frmLiquidacionPortatil
 
 		oParametro = New SigaMetClasses.cConfig(14, _CorporativoUsuario, _SucursalUsuario)
 		_ClienteVentasPublico = CType(CType(oParametro.Parametros("ClienteVentasPublico"), String).Trim, Integer)
+
+
 		_RutaReportes = CType(oConfig.Parametros("RutaReportesW7"), String).Trim
+		'_RutaReportes = "C:\Proyectos\NET\Pruebas\Probador\Probador"
 
 		'20151022CNSM$007-----------------
 		oParametro = New SigaMetClasses.cConfig(3, _CorporativoUsuario, _SucursalUsuario)
@@ -4589,7 +4595,8 @@ Public Class frmLiquidacionPortatil
 
 
 						MovimientoAlmacenS = oMovimientoAlmacenS
-
+						MovimientoAlmacenO = oMovimientoAlmacenSObsequio
+						
 					End If
 					transaction.Commit()
 					banderaTransaccion = True
@@ -4626,12 +4633,21 @@ Public Class frmLiquidacionPortatil
 
 	Private Sub ImpresionLiquidacion(ByVal MovimientoAlmacenS As LiquidacionTransaccionada.cMovimientoAlmacen)
 		Dim oConfig As New SigaMetClasses.cConfig(16, _CorporativoUsuario, _SucursalUsuario)
+		Dim identificador As Integer
+
+		If (_soloObsequios) Then
+			identificador = MovimientoAlmacenO.Identificador
+		Else
+			identificador = MovimientoAlmacenS.Identificador
+		End If
+
+
 		If CType(oConfig.Parametros("ImprimirLiquidacion"), String).Trim = "1" Then
 
 			If _FormaImprimir = "1" Then
-				ImprimirReporte(0, MovimientoAlmacenS.Identificador)
+				ImprimirReporte(0, identificador)
 			Else
-				MostrarEnPantalla(0, MovimientoAlmacenS.Identificador)
+				MostrarEnPantalla(0, identificador)
 			End If
 
 		End If
@@ -6474,7 +6490,6 @@ Public Class frmLiquidacionPortatil
 
 			LimpiarComponentes()
 			CargarProductosVarios()
-
 			_Modifcaciondtp = False
 		End If
 
@@ -6965,8 +6980,6 @@ Public Class frmLiquidacionPortatil
 	End Function
 
 	Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
-
-
 		If Not validarExistencias() Then
 			MessageBox.Show("No hay suficientes existencias para liquidar ", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
 			Return
@@ -7273,6 +7286,23 @@ Public Class frmLiquidacionPortatil
 		Dim Validado As Boolean
 		Dim totalDescuentos As Decimal = CDec(lblTotal.Text)
 		Dim totalVenta As Decimal = CDec(lblVentaTotal.Text)
+
+
+		Dim i As Integer = 0
+
+		_soloObsequios = True
+
+		While i < _DetalleGrid.Rows.Count And _soloObsequios 'txtLista.Count
+			If CType(_DetalleGrid.Rows(i).Item(8), String).ToUpper.Trim <> "OBSEQUIO" Then
+				_soloObsequios = False
+			End If
+			i = i + 1
+		End While
+
+		If totalDescuentos = totalVenta Then
+
+		End If
+
 
 		If totalCobro = totalPagos And totalCobro > 0 Then
 			Validado = True
