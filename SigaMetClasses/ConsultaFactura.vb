@@ -92,6 +92,24 @@ Public Class ConsultaFactura
     Friend WithEvents colFactura As System.Windows.Forms.ColumnHeader
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents btnConsultaEmpresa As System.Windows.Forms.Button
+    Private _Sucursal As Short
+    Private _corporativo As Short
+    Public Property sucursal As Short
+        Get
+            Return _Sucursal
+        End Get
+        Set(value As Short)
+            _Sucursal = value
+        End Set
+    End Property
+    Public Property Corporativo As Short
+        Get
+            Return _corporativo
+        End Get
+        Set(value As Short)
+            _corporativo = value
+        End Set
+    End Property
 
     Public Property Modulo As Byte
         Get
@@ -729,7 +747,7 @@ Public Class ConsultaFactura
                     Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
 
                     objGateway.URLServicio = _URLGateway
-                    Dim oConfig As New SigaMetClasses.cConfig(_Modulo, 1, 1)
+                    Dim oConfig As New SigaMetClasses.cConfig(_Modulo, _corporativo, _Sucursal)
                     Dim FuenteCRM As String = CStr(oConfig.Parametros("FuenteCRM")).Trim
                     For Each drow In dtFacturaPedido.Rows
                         If Not IsDBNull(drow("PedidoReferencia")) Then
@@ -815,5 +833,8 @@ Public Class ConsultaFactura
     Private Sub txtSerie_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtSerie.TextChanged
         txtSerie.Text = txtSerie.Text.ToUpper()
         txtSerie.SelectionStart = txtSerie.Text.Length
+    End Sub
+
+    Private Sub ConsultaFactura_Load(sender As Object, e As EventArgs) Handles MyBase.Load
     End Sub
 End Class
