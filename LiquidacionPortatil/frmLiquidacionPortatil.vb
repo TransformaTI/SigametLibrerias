@@ -2949,6 +2949,7 @@ Public Class frmLiquidacionPortatil
 
 
 		_RutaReportes = CType(oConfig.Parametros("RutaReportesW7"), String).Trim
+		'_RutaReportes = "C:\Proyectos\NET\Pruebas\Probador\Probador"
 
 		'20151022CNSM$007-----------------
 		oParametro = New SigaMetClasses.cConfig(3, _CorporativoUsuario, _SucursalUsuario)
@@ -6489,7 +6490,6 @@ Public Class frmLiquidacionPortatil
 
 			LimpiarComponentes()
 			CargarProductosVarios()
-
 			_Modifcaciondtp = False
 		End If
 
@@ -7287,8 +7287,20 @@ Public Class frmLiquidacionPortatil
 		Dim totalDescuentos As Decimal = CDec(lblTotal.Text)
 		Dim totalVenta As Decimal = CDec(lblVentaTotal.Text)
 
+
+		Dim i As Integer = 0
+
+		_soloObsequios = True
+
+		While i < _DetalleGrid.Rows.Count And _soloObsequios 'txtLista.Count
+			If CType(_DetalleGrid.Rows(i).Item(8), String).ToUpper.Trim <> "OBSEQUIO" Then
+				_soloObsequios = False
+			End If
+			i = i + 1
+		End While
+
 		If totalDescuentos = totalVenta Then
-			_soloObsequios = True
+
 		End If
 
 
