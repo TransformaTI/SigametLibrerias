@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using RTGMGateway;
 
 namespace LiquidacionSTN
 {
@@ -38,6 +39,7 @@ namespace LiquidacionSTN
         private string urlGateway;
         private byte modulo;
         private string cadenaConexion;
+        private List<RTGMCore.Pedido> pedidosCRM;
 
         public frmConsultar(string Usuario,
                             bool CelulasUsuario, 
@@ -83,6 +85,10 @@ namespace LiquidacionSTN
             if (cmbRuta.Items.Count > 0)
                 cmbRuta.SelectedIndex = -1;
             
+            if (!String.IsNullOrEmpty(urlGateway))
+            {
+                AsignarColumnasGridViewCRM();
+            }
         }
 
         public static class Metodos
@@ -847,28 +853,64 @@ namespace LiquidacionSTN
             string serie = txtSerie.Text;
             string folioCarpeta = txtFolioCarpet.Text;
 
-            //ConsultarPedidosCRM(fInicio, fFin, pedidoReferencia, cliente, celula);
+            if (!String.IsNullOrEmpty(urlGateway))
+            {
+                ConsultarPedidosCRM(fInicio, fFin, pedidoReferencia, cliente, celula);
+                CargarGrid(pedidosCRM);
+            }
+            else
+            {
+                listaDatos = Metodos.ConsultarDatos(fInicio, fFin, status, cliente, nombre, celula, ruta, giro, ramo, pedidoReferencia, serie, folioCarpeta);
 
-            listaDatos = Metodos.ConsultarDatos(fInicio, fFin, status, cliente, nombre, celula, ruta, giro, ramo, pedidoReferencia, serie, folioCarpeta);
-
-            dataGridViewDatos.AutoGenerateColumns = false;
-            dataGridViewDatos.DataSource = listaDatos;
-            lblNumeroRegistros.Text = listaDatos.Count.ToString();
-            
+                dataGridViewDatos.AutoGenerateColumns = false;
+                dataGridViewDatos.DataSource = listaDatos;
+                lblNumeroRegistros.Text = listaDatos.Count.ToString();
+            }
             Cursor = Cursors.Default;
         }
 
-        //private void ConsultarPedidosCRM(DateTime parFInicio, DateTime parFFin, string parPedido, int? parCliente, int? parCelula)
-        //{
-        //    int? idPedido = null;
-        //    int iPedido = 0;
-        //    parCliente = (parCliente == 0 ? null : parCliente);
-        //    parCelula = (parCelula == 0 ? null : parCelula);
+        private void ConsultarPedidosCRM(DateTime parFInicio, DateTime parFFin, string parPedido, int? parCliente, int? parCelula)
+        {
+            int? idPedido = null;
+            int iPedido = 0;
+            parCliente = (parCliente == 0 ? null : parCliente);
+            parCelula = (parCelula == 0 ? null : parCelula);
 
-        //    int.TryParse(parPedido, out iPedido);
+            int.TryParse(parPedido, out iPedido);
 
-        //    RTGMGateway.RTGMGateway obGateway = new RTGMGateway.RTGMGateway()
-        //}
+            RTGMGateway.RTGMPedidoGateway obGateway = new RTGMGateway.RTGMPedidoGateway(modulo, cadenaConexion);
+            obGateway.URLServicio = urlGateway;
+            pedidosCRM = new List<RTGMCore.Pedido>();
+
+            RTGMGateway.SolicitudPedidoGateway obSolicitud = new SolicitudPedidoGateway
+            {
+                TipoConsultaPedido = RTGMCore.TipoConsultaPedido.ServiciosTecnicos,
+                FechaCompromisoInicio = parFInicio,
+                FechaCompromisoFin = parFFin,
+                IDZona = parCelula
+            };
+
+            pedidosCRM = obGateway.buscarPedidos(obSolicitud);
+        }
+
+        private void CargarGrid<T>(List<T> datos)
+        {
+            dataGridViewDatos.AutoGenerateColumns = false;
+            dataGridViewDatos.DataSource = null;
+            dataGridViewDatos.DataSource = datos;
+            dataGridViewDatos.Refresh();
+            lblNumeroRegistros.Text = datos.Count.ToString();
+        }
+
+        private void AsignarColumnasGridViewCRM()
+        {
+            this.PedidoReferencia.DataPropertyName = "IDPedido";
+            this.Cliente.DataPropertyName = "IDDireccionEntrega";
+            this.CelulaCliente.DataPropertyName = "IDZona";
+            this.CelulaClienteDescripcion.DataPropertyName = "IDZona";
+            this.FechaCompromiso.DataPropertyName = "FCompromiso";
+            this.StatusServicio.DataPropertyName = "EstatusPedido";
+        }
 
         private void cmbGiro_KeyDown(object sender, KeyEventArgs e)
         {
