@@ -164,8 +164,8 @@ Public Class frmServProgramacion
                     'oItem.SubItems.Add(CType(drProgST("Tecnico"), String)) '10
 
                     oItem.SubItems.Add(Convert.ToString(pedido.IDDireccionEntrega)) '1
-                    If Not IsNothing(pedido.RutaSuministro) Then
-                        oItem.SubItems.Add(If(pedido.RutaSuministro.Descripcion, "").Trim) '2
+                    If Not IsNothing(pedido.RutaOrigen) Then
+                        oItem.SubItems.Add(If(pedido.RutaOrigen.Descripcion, "").Trim) '2
                     Else
                         oItem.SubItems.Add("") '2
                     End If
@@ -355,8 +355,8 @@ Public Class frmServProgramacion
 
                 lblCliente.Text = obPedido.IDDireccionEntrega.ToString
                 lblCelula.Text = obPedido.IDZona.ToString
-                If Not IsNothing(obPedido.RutaSuministro) Then
-                    lblRuta.Text = obPedido.RutaSuministro.IDRuta.ToString
+                If Not IsNothing(obPedido.RutaOrigen) Then
+                    lblRuta.Text = obPedido.RutaOrigen.IDRuta.ToString
                 End If
                 If Not IsNothing(obPedido.DireccionEntrega) Then
                     lblNombre.Text = obPedido.DireccionEntrega.Nombre
