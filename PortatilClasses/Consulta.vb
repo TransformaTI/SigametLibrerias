@@ -376,7 +376,10 @@ Public MustInherit Class Consulta
                 If objRtgCore.Nombre IsNot Nothing Then
                     Me.Cliente = objRtgCore.Nombre
                 End If
-
+                If objRtgCore.Ruta IsNot Nothing Then
+                    Me.Ruta = objRtgCore.Ruta.Descripcion
+                End If
+                Corporativo = CType(objRtgCore.IDEmpresa, String)
             Catch exc As Exception
                 'EventLog.WriteEntry("Clase Consulta" & exc.Source, exc.Message, EventLogEntryType.Error)
                 MessageBox.Show(exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
