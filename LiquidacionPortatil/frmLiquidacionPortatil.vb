@@ -4124,7 +4124,8 @@ Public Class frmLiquidacionPortatil
 					Dim oConfigCC As New SigaMetClasses.cConfig(3, _CorporativoUsuario, _SucursalUsuario)
 					ValorIva = CType(oConfigCC.Parametros("IVA"), Decimal) / 100
 				Catch ex As Exception
-					MessageBox.Show("No se ha configurado el IVA", ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+					Throw New Exception("No se ha configurado el IVA")
+
 				End Try
 
 
@@ -6472,9 +6473,15 @@ Public Class frmLiquidacionPortatil
 			'Inicializa metodos que cargan e inicializan la forma
 			LimpiarComponentes()
 			CargarProductosVarios()
+			If (_RutaMovil) Then
+				cargarRemisiones()
+				validarFormasPago()
+				Totalizador()
+			End If
+
 
 			_Modifcaciondtp = False
-		End If
+			End If
 
 	End Sub
 
@@ -6490,7 +6497,12 @@ Public Class frmLiquidacionPortatil
 			LimpiarComponentes()
 			CargarProductosVarios()
 			_Modifcaciondtp = False
-			cargarRemisiones()
+			If (_RutaMovil) Then
+				cargarRemisiones()
+				validarFormasPago()
+				Totalizador()
+			End If
+
 		End If
 
 		If (Not _DetalleGrid Is Nothing) Then
@@ -7495,21 +7507,21 @@ Public Class frmLiquidacionPortatil
 	End Sub
 
 	Public Sub validarFormasPago()
-		If grdDetalle.VisibleRowCount > 0 Then
-			btnCapturarTarjeta.Enabled = True
-			btnCapturarCheque.Enabled = True
-			'btnTransferencia.Enabled = True
-			btnCapturarVale.Enabled = True
-			btnPagoEfectivo.Enabled = True
-			'btnAplicacionAnticipo.Enabled = True
-		End If
+		'	If grdDetalle.VisibleRowCount > 0 Then
+		btnCapturarTarjeta.Enabled = grdDetalle.VisibleRowCount > 0
+		btnCapturarCheque.Enabled = grdDetalle.VisibleRowCount > 0
+		'btnTransferencia.Enabled = grdDetalle.VisibleRowCount > 0
+		btnCapturarVale.Enabled = grdDetalle.VisibleRowCount > 0
+		btnPagoEfectivo.Enabled = grdDetalle.VisibleRowCount > 0
+		'btnAplicacionAnticipo.Enabled = grdDetalle.VisibleRowCount > 0
+		'	End If
 	End Sub
 
 	Public Sub ocultar()
 		TxtCliente.Visible = False
 		lblNombreCliente.Visible = False
 		lblCliente.Visible = False
-		cboZEconomica.Visible = False
+		'cboZEconomica.Visible = False
 		cboTipoCobro.Visible = False
 		lblZonaEconomica.Visible = False
 		lblTipoCobro.Visible = False

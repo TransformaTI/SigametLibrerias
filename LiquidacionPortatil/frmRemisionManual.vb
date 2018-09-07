@@ -1658,18 +1658,25 @@ Public Class frmRemisionManual
 		_Kilos = 0
 
 		'If _RutaMovil = True Then
-		If CType(grdDetalle.DataSource, DataTable).TableName = "Remision" Then
-			For i As Integer = 0 To dtLiquidacionTotal.Rows.Count - 1
-				_TotalLiquidarPedido = _TotalLiquidarPedido + CType(grdDetalle.Item(i, 7), Decimal)
-				_Kilos = _Kilos + CType(grdDetalle.Item(i, 4), Integer)
+		Dim nombreTabla As String = ""
+		nombreTabla = CType(grdDetalle.DataSource, DataTable).TableName
 
-			Next
-		Else
-			For i As Integer = 0 To dtLiquidacionTotal.Rows.Count - 1
-				_TotalLiquidarPedido = _TotalLiquidarPedido + CType(grdDetalle.Item(i, 9), Decimal)
-				_Kilos = _Kilos + CType(grdDetalle.Item(i, 5), Integer)
-			Next
+		If (Not grdDetalle.DataSource Is Nothing) Then
+			If nombreTabla = "Remision" Then
+				For i As Integer = 0 To dtLiquidacionTotal.Rows.Count - 1
+					_TotalLiquidarPedido = _TotalLiquidarPedido + CType(grdDetalle.Item(i, 7), Decimal)
+					_Kilos = _Kilos + CType(grdDetalle.Item(i, 4), Integer)
+
+				Next
+			Else
+				For i As Integer = 0 To dtLiquidacionTotal.Rows.Count - 1
+					_TotalLiquidarPedido = _TotalLiquidarPedido + CType(grdDetalle.Item(i, 9), Decimal)
+					_Kilos = _Kilos + CType(grdDetalle.Item(i, 5), Integer)
+				Next
+			End If
 		End If
+
+
 
 
 		lblTotalKilos.Text = CType(_Kilos, Decimal).ToString("N2")
@@ -2314,8 +2321,6 @@ Public Class frmRemisionManual
 
 
 					Dim Descuento As Decimal
-
-
 
 					grdDetalle.Item(i, 13) = cboTipoCobro.Identificador
 					If cboTipoCobro.Identificador = 18 And CBool(_DatosCliente.GetValue(3)) = True Then

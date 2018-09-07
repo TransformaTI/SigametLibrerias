@@ -474,7 +474,8 @@ Public Class cLiquidacion
 		End If
 		'20150627CNSM$002-----------------
 		da = New SqlDataAdapter(cmd)
-		dtTable = New DataTable()
+		dtTable = New DataTable("Remision")
+
 		Try
 			da.Fill(dtTable)
 			Return dtTable
