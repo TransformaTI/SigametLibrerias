@@ -1658,10 +1658,12 @@ Public Class frmRemisionManual
 		_Kilos = 0
 
 		'If _RutaMovil = True Then
-		Dim nombreTabla As String = ""
-		nombreTabla = CType(grdDetalle.DataSource, DataTable).TableName
+
 
 		If (Not grdDetalle.DataSource Is Nothing) Then
+			Dim nombreTabla As String = ""
+			nombreTabla = CType(grdDetalle.DataSource, DataTable).TableName
+
 			If nombreTabla = "Remision" Then
 				For i As Integer = 0 To dtLiquidacionTotal.Rows.Count - 1
 					_TotalLiquidarPedido = _TotalLiquidarPedido + CType(grdDetalle.Item(i, 7), Decimal)
