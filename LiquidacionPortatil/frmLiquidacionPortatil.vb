@@ -7572,7 +7572,7 @@ Public Class frmLiquidacionPortatil
 		TxtCliente.Visible = False
 		lblNombreCliente.Visible = False
 		lblCliente.Visible = False
-		'cboZEconomica.Visible = False
+		cboZEconomica.Visible = False
 		cboTipoCobro.Visible = False
 		lblZonaEconomica.Visible = False
 		lblTipoCobro.Visible = False
