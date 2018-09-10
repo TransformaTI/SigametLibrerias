@@ -542,12 +542,10 @@ C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.pdb
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.xml
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\RTGMGateway.dll
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\log4net.dll
-C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\nunit.framework.dll
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\stdole.dll
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\RTGMGateway.pdb
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\RTGMGateway.dll.config
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\log4net.xml
-C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\nunit.framework.xml
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AcercaDe.resources
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AltaGrupoComercial.resources
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.BuscaCliente.resources
@@ -620,4 +618,6 @@ C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasse
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.dll
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\Contactos.dll
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\Contactos.pdb
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojAssemblyReference.cache

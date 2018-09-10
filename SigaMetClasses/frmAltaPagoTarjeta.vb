@@ -290,26 +290,29 @@ Public Class frmAltaPagoTarjeta
         End Try
     End Sub
 
-	Private Sub txtLitros_Leave(sender As Object, e As EventArgs) Handles txtLitros.Leave
-		If (Not txtLitros.Text.Equals("")) Then
-			Dim litros As Integer = txtLitros.Text
-			Dim precio As New Precio
-			precio.ZonaEconomica = _zonaEconomica
+    Private Sub txtLitros_Leave(sender As Object, e As EventArgs) Handles txtLitros.Leave
 
-			Try
-				txtImporte.Text = FormatNumber(precio.calcularImporte(litros), 2)
-			Catch ex As Exception
-				txtLitros.Clear()
-				MessageBox.Show(ex.Message, "ERROR!")
-			End Try
-		Else
-			txtImporte.Clear()
+        If ChkCalculo.Checked = True Then
+            If (Not txtLitros.Text.Equals("")) Then
+                Dim litros As Integer = txtLitros.Text
+                Dim precio As New Precio
+                precio.ZonaEconomica = _zonaEconomica
 
-		End If
+                Try
+                    txtImporte.Text = FormatNumber(precio.calcularImporte(litros), 2)
+                Catch ex As Exception
+                    txtLitros.Clear()
+                    MessageBox.Show(ex.Message, "ERROR!")
+                End Try
+            Else
+                txtImporte.Clear()
 
-	End Sub
+            End If
+        End If
 
-	Private Function AltaPagoTarjeta() As Boolean
+    End Sub
+
+    Private Function AltaPagoTarjeta() As Boolean
 		Dim Resultado As Boolean = True
 		Dim InsertPagoTarjeta As New AltaPagoTarjeta()
 		Dim Cliente, Folio, Afiliacion, Cobro As Integer
@@ -408,22 +411,25 @@ Public Class frmAltaPagoTarjeta
 
 
 
-	Private Sub txtImporte_Leave(sender As Object, e As EventArgs) Handles txtImporte.Leave
-		If (Not txtImporte.Text.Equals("")) Then
-			Dim importe As Decimal = txtImporte.Text
-			Dim precio As New Precio
-			precio.ZonaEconomica = _zonaEconomica
-			Try
-				txtLitros.Text = FormatNumber(precio.calcularLitros(importe), 2)
-			Catch ex As Exception
-				txtImporte.Clear()
-				MessageBox.Show(ex.Message, "ERROR!")
-			End Try
-		Else
-			txtLitros.Clear()
-		End If
+    Private Sub txtImporte_Leave(sender As Object, e As EventArgs) Handles txtImporte.Leave
+        If ChkCalculo.Checked = True Then
 
-	End Sub
+            If (Not txtImporte.Text.Equals("")) Then
+                Dim importe As Decimal = txtImporte.Text
+                Dim precio As New Precio
+                precio.ZonaEconomica = _zonaEconomica
+                Try
+                    txtLitros.Text = FormatNumber(precio.calcularLitros(importe), 2)
+                Catch ex As Exception
+                    txtImporte.Clear()
+                    MessageBox.Show(ex.Message, "ERROR!")
+                End Try
+            Else
+                txtLitros.Clear()
+            End If
+        End If
+
+    End Sub
 
     Private Sub btnTarjetaConsultaDia_Click(sender As Object, e As EventArgs) Handles btnTarjetaConsultaDia.Click
         'Dim oForm As New frmConsultaCargosTarjeta()
@@ -433,6 +439,10 @@ Public Class frmAltaPagoTarjeta
     End Sub
 
     Private Sub txtLitros_TextChanged(sender As Object, e As EventArgs) Handles txtLitros.TextChanged
+
+    End Sub
+
+    Private Sub txtImporte_TextChanged(sender As Object, e As EventArgs) Handles txtImporte.TextChanged
 
     End Sub
 End Class
