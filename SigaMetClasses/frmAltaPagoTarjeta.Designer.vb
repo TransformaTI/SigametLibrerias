@@ -44,15 +44,19 @@ Partial Class frmAltaPagoTarjeta
         Me.txtcliente = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.txtImporte = New System.Windows.Forms.TextBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.ChkCalculo = New System.Windows.Forms.CheckBox()
         Me.txtLitros = New System.Windows.Forms.TextBox()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.txtImporte = New System.Windows.Forms.TextBox()
+        Me.Label20 = New System.Windows.Forms.Label()
         Me.cboMeses = New System.Windows.Forms.ComboBox()
         Me.cboTipoTarjeta = New System.Windows.Forms.ComboBox()
         Me.txtObservaciones = New System.Windows.Forms.TextBox()
         Me.txtRepiteAutorizacion = New System.Windows.Forms.TextBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.txtAutorizacion = New System.Windows.Forms.TextBox()
-        Me.Label20 = New System.Windows.Forms.Label()
         Me.Label19 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.cboAfiliacion = New System.Windows.Forms.ComboBox()
@@ -60,7 +64,6 @@ Partial Class frmAltaPagoTarjeta
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
-        Me.Label15 = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.txtRemision = New System.Windows.Forms.TextBox()
@@ -75,6 +78,7 @@ Partial Class frmAltaPagoTarjeta
         Me.gbOpciones.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'gbOpciones
@@ -274,16 +278,15 @@ Partial Class frmAltaPagoTarjeta
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.CheckBox1)
+        Me.GroupBox2.Controls.Add(Me.GroupBox3)
         Me.GroupBox2.Controls.Add(Me.cboBancos)
-        Me.GroupBox2.Controls.Add(Me.txtImporte)
-        Me.GroupBox2.Controls.Add(Me.txtLitros)
         Me.GroupBox2.Controls.Add(Me.cboMeses)
         Me.GroupBox2.Controls.Add(Me.cboTipoTarjeta)
         Me.GroupBox2.Controls.Add(Me.txtObservaciones)
         Me.GroupBox2.Controls.Add(Me.txtRepiteAutorizacion)
         Me.GroupBox2.Controls.Add(Me.Label10)
         Me.GroupBox2.Controls.Add(Me.txtAutorizacion)
-        Me.GroupBox2.Controls.Add(Me.Label20)
         Me.GroupBox2.Controls.Add(Me.Label19)
         Me.GroupBox2.Controls.Add(Me.Label12)
         Me.GroupBox2.Controls.Add(Me.cboAfiliacion)
@@ -291,39 +294,89 @@ Partial Class frmAltaPagoTarjeta
         Me.GroupBox2.Controls.Add(Me.Label11)
         Me.GroupBox2.Controls.Add(Me.Label13)
         Me.GroupBox2.Controls.Add(Me.Label14)
-        Me.GroupBox2.Controls.Add(Me.Label15)
         Me.GroupBox2.Controls.Add(Me.Label16)
         Me.GroupBox2.Controls.Add(Me.Label17)
         Me.GroupBox2.Controls.Add(Me.txtRemision)
         Me.GroupBox2.Controls.Add(Me.txtTarjeta)
         Me.GroupBox2.Location = New System.Drawing.Point(21, 262)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(444, 255)
+        Me.GroupBox2.Size = New System.Drawing.Size(444, 268)
         Me.GroupBox2.TabIndex = 15
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Cargo"
         '
-        'txtImporte
+        'CheckBox1
         '
-        Me.txtImporte.Location = New System.Drawing.Point(307, 112)
-        Me.txtImporte.MaxLength = 100
-        Me.txtImporte.Name = "txtImporte"
-        Me.txtImporte.Size = New System.Drawing.Size(108, 20)
-        Me.txtImporte.TabIndex = 15
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Location = New System.Drawing.Point(305, -29)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(81, 17)
+        Me.CheckBox1.TabIndex = 30
+        Me.CheckBox1.Text = "CheckBox1"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.ChkCalculo)
+        Me.GroupBox3.Controls.Add(Me.txtLitros)
+        Me.GroupBox3.Controls.Add(Me.Label15)
+        Me.GroupBox3.Controls.Add(Me.txtImporte)
+        Me.GroupBox3.Controls.Add(Me.Label20)
+        Me.GroupBox3.Location = New System.Drawing.Point(9, 102)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(406, 68)
+        Me.GroupBox3.TabIndex = 29
+        Me.GroupBox3.TabStop = False
+        '
+        'ChkCalculo
+        '
+        Me.ChkCalculo.AutoSize = True
+        Me.ChkCalculo.Location = New System.Drawing.Point(7, 9)
+        Me.ChkCalculo.Name = "ChkCalculo"
+        Me.ChkCalculo.Size = New System.Drawing.Size(117, 17)
+        Me.ChkCalculo.TabIndex = 27
+        Me.ChkCalculo.Text = "Calculo Automatico"
+        Me.ChkCalculo.UseVisualStyleBackColor = True
         '
         'txtLitros
         '
-        Me.txtLitros.Location = New System.Drawing.Point(90, 108)
+        Me.txtLitros.Location = New System.Drawing.Point(78, 32)
         Me.txtLitros.MaxLength = 100
         Me.txtLitros.Name = "txtLitros"
         Me.txtLitros.Size = New System.Drawing.Size(108, 20)
         Me.txtLitros.TabIndex = 14
         '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(7, 37)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(35, 13)
+        Me.Label15.TabIndex = 7
+        Me.Label15.Text = "Litros:"
+        '
+        'txtImporte
+        '
+        Me.txtImporte.Location = New System.Drawing.Point(298, 32)
+        Me.txtImporte.MaxLength = 100
+        Me.txtImporte.Name = "txtImporte"
+        Me.txtImporte.Size = New System.Drawing.Size(105, 20)
+        Me.txtImporte.TabIndex = 15
+        '
+        'Label20
+        '
+        Me.Label20.AutoSize = True
+        Me.Label20.Location = New System.Drawing.Point(251, 37)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(45, 13)
+        Me.Label20.TabIndex = 26
+        Me.Label20.Text = "Importe:"
+        '
         'cboMeses
         '
         Me.cboMeses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboMeses.FormattingEnabled = True
-        Me.cboMeses.Location = New System.Drawing.Point(307, 56)
+        Me.cboMeses.Location = New System.Drawing.Point(307, 19)
         Me.cboMeses.Name = "cboMeses"
         Me.cboMeses.Size = New System.Drawing.Size(105, 21)
         Me.cboMeses.TabIndex = 11
@@ -332,14 +385,14 @@ Partial Class frmAltaPagoTarjeta
         '
         Me.cboTipoTarjeta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboTipoTarjeta.FormattingEnabled = True
-        Me.cboTipoTarjeta.Location = New System.Drawing.Point(90, 56)
+        Me.cboTipoTarjeta.Location = New System.Drawing.Point(87, 49)
         Me.cboTipoTarjeta.Name = "cboTipoTarjeta"
         Me.cboTipoTarjeta.Size = New System.Drawing.Size(108, 21)
         Me.cboTipoTarjeta.TabIndex = 10
         '
         'txtObservaciones
         '
-        Me.txtObservaciones.Location = New System.Drawing.Point(90, 197)
+        Me.txtObservaciones.Location = New System.Drawing.Point(90, 209)
         Me.txtObservaciones.Multiline = True
         Me.txtObservaciones.Name = "txtObservaciones"
         Me.txtObservaciones.Size = New System.Drawing.Size(325, 52)
@@ -347,15 +400,15 @@ Partial Class frmAltaPagoTarjeta
         '
         'txtRepiteAutorizacion
         '
-        Me.txtRepiteAutorizacion.Location = New System.Drawing.Point(307, 162)
+        Me.txtRepiteAutorizacion.Location = New System.Drawing.Point(307, 180)
         Me.txtRepiteAutorizacion.Name = "txtRepiteAutorizacion"
-        Me.txtRepiteAutorizacion.Size = New System.Drawing.Size(108, 20)
+        Me.txtRepiteAutorizacion.Size = New System.Drawing.Size(105, 20)
         Me.txtRepiteAutorizacion.TabIndex = 18
         '
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(201, 165)
+        Me.Label10.Location = New System.Drawing.Point(201, 183)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(104, 13)
         Me.Label10.TabIndex = 28
@@ -363,25 +416,16 @@ Partial Class frmAltaPagoTarjeta
         '
         'txtAutorizacion
         '
-        Me.txtAutorizacion.Location = New System.Drawing.Point(90, 162)
+        Me.txtAutorizacion.Location = New System.Drawing.Point(85, 176)
         Me.txtAutorizacion.MaxLength = 100
         Me.txtAutorizacion.Name = "txtAutorizacion"
         Me.txtAutorizacion.Size = New System.Drawing.Size(108, 20)
         Me.txtAutorizacion.TabIndex = 17
         '
-        'Label20
-        '
-        Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(260, 111)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(45, 13)
-        Me.Label20.TabIndex = 26
-        Me.Label20.Text = "Importe:"
-        '
         'Label19
         '
         Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(260, 85)
+        Me.Label19.Location = New System.Drawing.Point(263, 55)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(41, 13)
         Me.Label19.TabIndex = 21
@@ -390,7 +434,7 @@ Partial Class frmAltaPagoTarjeta
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(260, 59)
+        Me.Label12.Location = New System.Drawing.Point(263, 29)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(41, 13)
         Me.Label12.TabIndex = 19
@@ -400,7 +444,7 @@ Partial Class frmAltaPagoTarjeta
         '
         Me.cboAfiliacion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboAfiliacion.FormattingEnabled = True
-        Me.cboAfiliacion.Location = New System.Drawing.Point(90, 31)
+        Me.cboAfiliacion.Location = New System.Drawing.Point(87, 24)
         Me.cboAfiliacion.Name = "cboAfiliacion"
         Me.cboAfiliacion.Size = New System.Drawing.Size(108, 21)
         Me.cboAfiliacion.TabIndex = 9
@@ -408,7 +452,7 @@ Partial Class frmAltaPagoTarjeta
         'Label18
         '
         Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(11, 200)
+        Me.Label18.Location = New System.Drawing.Point(11, 212)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(81, 13)
         Me.Label18.TabIndex = 16
@@ -417,7 +461,7 @@ Partial Class frmAltaPagoTarjeta
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(11, 165)
+        Me.Label11.Location = New System.Drawing.Point(11, 179)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(68, 13)
         Me.Label11.TabIndex = 13
@@ -426,7 +470,7 @@ Partial Class frmAltaPagoTarjeta
         'Label13
         '
         Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(11, 86)
+        Me.Label13.Location = New System.Drawing.Point(8, 79)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(43, 13)
         Me.Label13.TabIndex = 9
@@ -435,25 +479,16 @@ Partial Class frmAltaPagoTarjeta
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(11, 138)
+        Me.Label14.Location = New System.Drawing.Point(252, 79)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(53, 13)
         Me.Label14.TabIndex = 8
         Me.Label14.Text = "Remisión:"
         '
-        'Label15
-        '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(11, 112)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(35, 13)
-        Me.Label15.TabIndex = 7
-        Me.Label15.Text = "Litros:"
-        '
         'Label16
         '
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(11, 60)
+        Me.Label16.Location = New System.Drawing.Point(8, 53)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(78, 13)
         Me.Label16.TabIndex = 6
@@ -462,7 +497,7 @@ Partial Class frmAltaPagoTarjeta
         'Label17
         '
         Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(11, 34)
+        Me.Label17.Location = New System.Drawing.Point(8, 27)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(52, 13)
         Me.Label17.TabIndex = 5
@@ -470,15 +505,15 @@ Partial Class frmAltaPagoTarjeta
         '
         'txtRemision
         '
-        Me.txtRemision.Location = New System.Drawing.Point(90, 135)
+        Me.txtRemision.Location = New System.Drawing.Point(307, 76)
         Me.txtRemision.MaxLength = 100
         Me.txtRemision.Name = "txtRemision"
-        Me.txtRemision.Size = New System.Drawing.Size(108, 20)
+        Me.txtRemision.Size = New System.Drawing.Size(105, 20)
         Me.txtRemision.TabIndex = 16
         '
         'txtTarjeta
         '
-        Me.txtTarjeta.Location = New System.Drawing.Point(90, 83)
+        Me.txtTarjeta.Location = New System.Drawing.Point(87, 76)
         Me.txtTarjeta.MaxLength = 16
         Me.txtTarjeta.Name = "txtTarjeta"
         Me.txtTarjeta.Size = New System.Drawing.Size(108, 20)
@@ -548,7 +583,7 @@ Partial Class frmAltaPagoTarjeta
         '
         Me.cboBancos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboBancos.FormattingEnabled = True
-        Me.cboBancos.Location = New System.Drawing.Point(307, 85)
+        Me.cboBancos.Location = New System.Drawing.Point(307, 48)
         Me.cboBancos.Name = "cboBancos"
         Me.cboBancos.Size = New System.Drawing.Size(105, 21)
         Me.cboBancos.TabIndex = 13
@@ -588,6 +623,8 @@ Partial Class frmAltaPagoTarjeta
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -618,7 +655,6 @@ Partial Class frmAltaPagoTarjeta
     Friend WithEvents txtRepiteAutorizacion As Windows.Forms.TextBox
     Friend WithEvents Label10 As Windows.Forms.Label
     Friend WithEvents txtAutorizacion As Windows.Forms.TextBox
-    Friend WithEvents Label20 As Windows.Forms.Label
 
     Friend WithEvents Label19 As Windows.Forms.Label
     Friend WithEvents Label12 As Windows.Forms.Label
@@ -627,7 +663,6 @@ Partial Class frmAltaPagoTarjeta
     Friend WithEvents Label11 As Windows.Forms.Label
     Friend WithEvents Label13 As Windows.Forms.Label
     Friend WithEvents Label14 As Windows.Forms.Label
-    Friend WithEvents Label15 As Windows.Forms.Label
     Friend WithEvents Label16 As Windows.Forms.Label
     Friend WithEvents Label17 As Windows.Forms.Label
     Friend WithEvents txtRemision As Windows.Forms.TextBox
@@ -638,10 +673,15 @@ Partial Class frmAltaPagoTarjeta
 
     Friend WithEvents cboTipoTarjeta As Windows.Forms.ComboBox
     Friend WithEvents cboMeses As Windows.Forms.ComboBox
-    Friend WithEvents txtImporte As Windows.Forms.TextBox
-    Friend WithEvents txtLitros As Windows.Forms.TextBox
     Friend WithEvents cboBancos As Combos.ComboBanco
     Friend WithEvents cboRuta As Combos.ComboRuta2Filtro
     Friend WithEvents Lbl_fechaCargo As Windows.Forms.Label
     Friend WithEvents btnTarjetaConsultaDia As Windows.Forms.Button
+    Friend WithEvents CheckBox1 As Windows.Forms.CheckBox
+    Friend WithEvents GroupBox3 As Windows.Forms.GroupBox
+    Friend WithEvents ChkCalculo As Windows.Forms.CheckBox
+    Friend WithEvents txtLitros As Windows.Forms.TextBox
+    Friend WithEvents Label15 As Windows.Forms.Label
+    Friend WithEvents txtImporte As Windows.Forms.TextBox
+    Friend WithEvents Label20 As Windows.Forms.Label
 End Class
