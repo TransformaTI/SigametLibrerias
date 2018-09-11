@@ -2040,12 +2040,13 @@ Public Class frmRemisionManual
         End If
     End Sub
 
-    Private Sub btnCancelar_Click(sender As System.Object, e As System.EventArgs) Handles btnCancelar.Click
-        Me.DialogResult() = Windows.Forms.DialogResult.Cancel
-        Me.Close()
-    End Sub
+	Private Sub btnCancelar_Click(sender As System.Object, e As System.EventArgs) Handles btnCancelar.Click
+		_dtProductos.Dispose()
+		Me.DialogResult() = Windows.Forms.DialogResult.Cancel
+		Me.Close()
+	End Sub
 
-    Private Sub grdDetalle_Navigate(sender As System.Object, ne As System.Windows.Forms.NavigateEventArgs) Handles grdDetalle.Navigate
+	Private Sub grdDetalle_Navigate(sender As System.Object, ne As System.Windows.Forms.NavigateEventArgs) Handles grdDetalle.Navigate
 
     End Sub
 
