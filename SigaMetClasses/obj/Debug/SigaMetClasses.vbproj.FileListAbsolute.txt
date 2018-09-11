@@ -620,4 +620,3 @@ C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasse
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\Contactos.dll
 C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\Contactos.pdb
-C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojAssemblyReference.cache

@@ -20,7 +20,7 @@ Public Class frmAltaPagoTarjeta
         _UsuarioAlta = Usuario
         Lbl_fechaCargo.Visible = False
         ' Add any initialization after the InitializeComponent() call.
-
+        ChkCalculo.Checked = True
 
     End Sub
 
