@@ -22,6 +22,7 @@ Public Class frmAltaPagoTarjeta
         ' Add any initialization after the InitializeComponent() call.
         ChkCalculo.Checked = True
 
+
     End Sub
 
     Private Sub limpiaCliente()
