@@ -1859,6 +1859,7 @@ Public Class frmConsultaCliente
           Optional ByVal PermiteCapturarNotas As Boolean = False,
           Optional ByVal PermiteCambioEmpleadoNomina As Boolean = False,
           Optional ByVal PermiteCambioCtePadre As Boolean = False,
+          Optional ByVal MostrarBtnContactos As Boolean = True,
           Optional ByVal DSCatalogos As DataSet = Nothing,
           Optional ByVal LinkQueja As Boolean = True,
           Optional ByVal URLGateway As String = "",
@@ -1896,6 +1897,7 @@ Public Class frmConsultaCliente
         lnkModificarDatosCredito.Visible = PermiteModificarDatosCredito
         btnModificar.Visible = PermiteModificarDatosCliente
         btnListaNotas.Visible = PermiteCapturarNotas
+        btnContactos.Visible = MostrarBtnContactos
 
         'Alta de quejas, se utiliza el permiso de captura de notas para capturar quejas en este módulo
         If Not System.Configuration.ConfigurationManager.AppSettings.Item("CapturaQueja@Consulta") Is Nothing Then

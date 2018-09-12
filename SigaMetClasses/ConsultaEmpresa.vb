@@ -584,6 +584,7 @@ Public Class ConsultaEmpresa
 
         If Not IsNothing(_obDireccionEntrega) Then
             CargarEmpresaCRM(_Empresa, _obDireccionEntrega)
+            OcultarClientesRelacionados()
         Else
             ConsultaEmpresa(_Empresa)
         End If
@@ -592,6 +593,14 @@ Public Class ConsultaEmpresa
         btnBuscar.Visible = False
 
         lnkModifica.Visible = _PermiteModificar
+    End Sub
+
+    ''' <summary>
+    ''' Oculta el ListView lvwCliente cuando la consulta se realiza por medio del servicio web
+    ''' </summary>
+    Private Sub OcultarClientesRelacionados()
+        lvwCliente.Visible = False
+        lblTituloLista.Visible = False
     End Sub
 
     Private Sub ConsultaEmpresa(ByVal Empresa As Integer)
