@@ -299,6 +299,7 @@
     <Compile Include="NuevaLiquidacion.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="PedidoServiciotecnicoAlta.vb" />
     <EmbeddedResource Include="AgregarEquipo.resx">
       <DependentUpon>AgregarEquipo.vb</DependentUpon>
     </EmbeddedResource>
