@@ -808,9 +808,88 @@ Public Class LiquidacionTransaccionada
             End Try
         End Sub
 
-        'Método de la clase que realiza la liquidacion y la regista en
-        'la tabla Cobro
-        Public Sub LiquidacionCobro(ByVal Importe As Decimal, _
+		Public Sub insertaMovimientoConciliar(ByVal TipoMovimientoAConciliar As Short,
+											ByVal EmpresaContable As Integer,
+											ByVal Caja As Short,
+											ByVal FOperacion As DateTime,
+											ByVal TipoFicha As Integer,
+											ByVal Consecutivo As Integer,
+											ByVal TipoAplicacionIngreso As Short,
+											ByVal ConsecutivoTipoAplicacion As Integer,
+											ByVal Factura As Integer,
+											ByVal AñoCobro As Short,
+											ByVal Cobro As Integer,
+											ByVal Monto As Decimal,
+											ByVal StatusMovimiento As String,
+											ByVal FMovimiento As DateTime,
+											ByVal StatusConciliacion As String,
+											ByVal FConciliacion As DateTime,
+											ByVal CorporativoConciliacion As Short,
+											ByVal SucursalConciliacion As Short,
+											ByVal AñoConciliacion As Integer,
+											ByVal MesConciliacion As Short,
+											ByVal FolioConciliacion As Integer,
+											ByVal CorporativoExterno As Short,
+											ByVal SucursalExterno As Short,
+											ByVal AñoExterno As Integer,
+											ByVal FolioExterno As Integer,
+											ByVal SecuenciaExterno As Integer,
+											ByVal Cliente As Integer,
+											ByVal Connection As SqlConnection,
+											ByVal Transaction As SqlTransaction)
+
+
+			Dim cmd As SqlCommand
+
+			Try
+				cmd = New SqlCommand("spPTLInsertaMovimientoAConciliar", Connection)
+				cmd.Transaction = Transaction
+				cmd.CommandType = CommandType.StoredProcedure
+
+
+				cmd.Parameters.Add("@TipoMovimientoAConciliar", SqlDbType.SmallInt).Value = TipoMovimientoAConciliar
+				'cmd.Parameters.Add("@EmpresaContable", SqlDbType.Int).Value = EmpresaContable
+				'cmd.Parameters.Add("@Caja", SqlDbType.TinyInt).Value = Caja
+				'cmd.Parameters.Add("@FOperacion", SqlDbType.DateTime).Value = FOperacion
+				'cmd.Parameters.Add("@TipoFicha", SqlDbType.Int).Value = TipoFicha
+				'cmd.Parameters.Add("@Consecutivo", SqlDbType.Int).Value = Consecutivo
+				'cmd.Parameters.Add("@TipoAplicacionIngreso", SqlDbType.TinyInt).Value = TipoAplicacionIngreso
+				'cmd.Parameters.Add("@ConsecutivoTipoAplicacion", SqlDbType.Int).Value = ConsecutivoTipoAplicacion
+				'cmd.Parameters.Add("@Factura", SqlDbType.Int).Value = Factura
+				cmd.Parameters.Add("@AñoCobro", SqlDbType.SmallInt).Value = AñoCobro
+				cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
+				cmd.Parameters.Add("@Monto", SqlDbType.Money).Value = Monto
+				cmd.Parameters.Add("@StatusMovimiento", SqlDbType.VarChar, 20).Value = StatusMovimiento
+				cmd.Parameters.Add("@FMovimiento", SqlDbType.DateTime).Value = FMovimiento
+				cmd.Parameters.Add("@StatusConciliacion", SqlDbType.VarChar, 20).Value = StatusConciliacion
+				cmd.Parameters.Add("@FConciliacion", SqlDbType.DateTime).Value = FConciliacion
+				'cmd.Parameters.Add("@CorporativoConciliacion", SqlDbType.TinyInt).Value = CorporativoConciliacion
+				'cmd.Parameters.Add("@SucursalConciliacion", SqlDbType.TinyInt).Value = SucursalConciliacion
+				'cmd.Parameters.Add("@AñoConciliacion", SqlDbType.Int).Value = AñoConciliacion
+				'cmd.Parameters.Add("@MesConciliacion", SqlDbType.SmallInt).Value = MesConciliacion
+				'cmd.Parameters.Add("@FolioConciliacion", SqlDbType.Int).Value = FolioConciliacion
+				'cmd.Parameters.Add("@CorporativoExterno", SqlDbType.TinyInt).Value = CorporativoExterno
+				'cmd.Parameters.Add("@SucursalExterno", SqlDbType.TinyInt).Value = SucursalExterno
+				'cmd.Parameters.Add("@AñoExterno", SqlDbType.Int).Value = AñoExterno
+				'cmd.Parameters.Add("@FolioExterno", SqlDbType.Int).Value = FolioExterno
+				'cmd.Parameters.Add("@SecuenciaExterno", SqlDbType.Int).Value = SecuenciaExterno
+				'cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+
+
+
+				cmd.ExecuteNonQuery()
+
+				cmd.Dispose()
+
+			Catch ex As Exception
+				Throw ex
+			End Try
+
+		End Sub
+
+		'Método de la clase que realiza la liquidacion y la regista en
+		'la tabla Cobro
+		Public Sub LiquidacionCobro(ByVal Importe As Decimal, _
                                     ByVal Impuesto As Decimal, _
                                     ByVal Total As Decimal, _
                                     ByVal Referencia As String, _
