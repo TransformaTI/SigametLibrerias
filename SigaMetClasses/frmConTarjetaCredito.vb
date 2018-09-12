@@ -659,6 +659,12 @@ Public Class frmConTarjetaCredito
                 Else
                     MessageBox.Show(oDireccionEntrega.Message, "SIGAMET", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
+                If lblNombre.Text = "" Then
+                    btnAgregar.Enabled = False
+                    MessageBox.Show("No se encontró el cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+                    btnAgregar.Enabled = True
+                End If
 
             End If
         End If
