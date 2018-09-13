@@ -5956,8 +5956,9 @@ Public Class TransaccionMovimientoCaja
                 If URLGateway IsNot Nothing Then
                     Dim objLiquida As liquidadorEstacionarioDatos = New liquidadorEstacionarioDatos(_CadenaConexion, GLOBAL_Empresa)
                     Try
-                        Dim _añoatt As Short
-                        Dim _folioatt As Integer
+                        Dim año As New DateTime
+                        Dim _añoatt As Short = año.Year
+                        Dim _folioatt As Integer = FolioCobro
                         objLiquida.Usuario = GLOBAL_Usuario
 
                         If objLiquida.revisaConciliacion(_añoatt, _folioatt) Then
