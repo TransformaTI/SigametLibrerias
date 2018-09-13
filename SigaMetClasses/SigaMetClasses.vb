@@ -5850,6 +5850,7 @@ Public Class TransaccionMovimientoCaja
                          ByVal ListaCobro As ArrayList,
                          ByVal Usuario As String,
                          ByVal URLGateway As String,
+                         ByVal _CadenaConexion As String,
                 Optional ByVal Observaciones As String = "",
                 Optional ByRef Clave As String = "",
                 Optional ByVal TipoAjuste As Byte = 0) As Integer
@@ -5953,9 +5954,35 @@ Public Class TransaccionMovimientoCaja
                 End If
                 '*****
                 If URLGateway IsNot Nothing Then
+                    Dim objLiquida As liquidadorEstacionarioDatos = New liquidadorEstacionarioDatos(_CadenaConexion, GLOBAL_Empresa)
+                    Try
+                        Dim _añoatt As Short
+                        Dim _folioatt As Integer
+                        objLiquida.Usuario = GLOBAL_Usuario
 
-                Else
+                        If objLiquida.revisaConciliacion(_añoatt, _folioatt) Then
+                            objLiquida.IniciaTransaccion()
+                            objLiquida.iniciarLiquidacion(_añoatt, _folioatt)
 
+                            configurarGateway(URLGateway, _CadenaConexion)
+                            liquidarPedidos(objLiquida)
+                            actualizarSaldoPedidos(objLiquida, _añoatt, _folioatt)
+
+                            objLiquida.finalizarLiquidacion(_añoatt, _folioatt)
+                            objLiquida.CommitTransaccion()
+                        End If
+
+                    Catch ex As Exception
+                        Try
+                            objLiquida.RevierteTransaccion()
+                        Catch e As Exception
+
+                        End Try
+                        Throw New Exception(ex.Message)
+
+                    Finally
+                        objLiquida.CierraConexion()
+                    End Try
                 End If
 
 
@@ -5977,23 +6004,35 @@ Public Class TransaccionMovimientoCaja
         End Try
     End Function
 
-    'Private void liquidarPedidos(liquidadorEstacionarioDatos objLiquida)
-    '    {
-    '        bool respuestaExitosa = False;
+    Private Sub actualizarSaldoPedidos(objLiquida As liquidadorEstacionarioDatos, _añoatt As Short, _folioatt As Short)
 
-    '        lstPedidos = objLiquida.consultaPedidosFolio(_añoatt, _folioatt, RTGMCore.TipoActualizacion.Liquidacion);
+        Dim respuestaExitosa As Boolean = False
 
-    '        configurarSolicitud(lstPedidos, RTGMCore.TipoActualizacion.Liquidacion);
+        lstPedidos = objLiquida.consultaPedidosFolio(_añoatt, _folioatt, RTGMCore.TipoActualizacion.Saldo)
 
-    '        List<RTGMCore.Pedido> ListaRespuesta = ActualizarPedido(Solicitud);
+        configurarSolicitud(lstPedidos, RTGMCore.TipoActualizacion.Saldo, GLOBAL_Usuario)
 
-    '        If (ListaRespuesta[0] != null)
-    '        {
-    '            If (ListaRespuesta[0].Success) { respuestaExitosa = true; }
-    '        }
+        Dim ListaRespuesta As List(Of RTGMCore.Pedido) = ActualizarPedido(Solicitud)
+        If ListaRespuesta(0) IsNot DBNull.Value Then
+            If (ListaRespuesta(0).Success) Then
+                respuestaExitosa = True
+            End If
 
-    '        Utilerias.Exportar(Solicitud, ListaRespuesta, objGateway.Fuente, respuestaExitosa, EnumMetodoWS.ActualizarPedidoLiquidacion);
-    '    }
+        End If
+        RTGMGateway.Utilerias.Exportar(Solicitud, ListaRespuesta, objGateway.Fuente, respuestaExitosa, RTGMGateway.EnumMetodoWS.ActualizarPedidoSaldo)
+    End Sub
+
+    Public Sub configurarGateway(URLGateway As String, _cadenaConexion As String)
+        Try
+
+            objGateway = New RTGMGateway.RTGMActualizarPedido(GLOBAL_Modulo, _cadenaConexion)
+            objGateway.URLServicio = URLGateway
+
+        Catch ex As Exception
+            Throw New Exception("Error al configurar solicitud de consulta: " + ex.Message)
+        End Try
+
+    End Sub
 
     Public Sub liquidarPedidos(objLiquida As liquidadorEstacionarioDatos)
         Dim respuestaExitosa As Boolean = False
@@ -6002,20 +6041,19 @@ Public Class TransaccionMovimientoCaja
 
         lstPedidos = objLiquida.consultaPedidosFolio(_añoatt, _folioatt, RTGMCore.TipoActualizacion.Liquidacion)
 
-        configurarSolicitud(lstPedidos, RTGMCore.TipoActualizacion.Liquidacion)
+        configurarSolicitud(lstPedidos, RTGMCore.TipoActualizacion.Liquidacion, GLOBAL_Usuario)
 
         Dim ListaRespuesta As List(Of RTGMCore.Pedido) = ActualizarPedido(Solicitud)
 
-        '            If (ListaRespuesta[0] != null)
-        '            {
-        '                If (ListaRespuesta[0].Success) { respuestaExitosa = true; }
-        '            }
-
-        '            Utilerias.Exportar(Solicitud, ListaRespuesta, objGateway.Fuente, respuestaExitosa, EnumMetodoWS.ActualizarPedidoLiquidacion);
+        If ListaRespuesta(0) IsNot DBNull.Value Then
+            If (ListaRespuesta(0).Success) Then
+                respuestaExitosa = True
+            End If
+        End If
+        RTGMGateway.Utilerias.Exportar(Solicitud, ListaRespuesta, objGateway.Fuente, respuestaExitosa, RTGMGateway.EnumMetodoWS.ActualizarPedidoLiquidacion)
     End Sub
-    Public Sub configurarSolicitud(pedidos As List(Of RTGMCore.Pedido), tipoActualizacion As RTGMCore.TipoActualizacion)
+    Public Sub configurarSolicitud(pedidos As List(Of RTGMCore.Pedido), tipoActualizacion As RTGMCore.TipoActualizacion, _usuario As String)
         Try
-            Dim _usuario As String = ""
             Dim solicitud = New RTGMGateway.SolicitudActualizarPedido
             With solicitud
                 .pedidos = pedidos
@@ -7407,10 +7445,10 @@ Public Class CobroDetalladoDatos
     Private _CobroOrigen As Integer
     Private _TPV As Boolean
     Private _Pago As Integer
-	Private _DscTipoCobro As String
-	Private _producto As String
+    Private _DscTipoCobro As String
+    Private _producto As String
 
-	Public Property DscTipoCobro() As String
+    Public Property DscTipoCobro() As String
         Get
             Return _DscTipoCobro
         End Get
@@ -7730,21 +7768,21 @@ Public Class CobroDetalladoDatos
         End Set
     End Property
 
-	Public Property Producto As String
-		Get
-			Return _producto
-		End Get
-		Set(value As String)
-			_producto = value
-		End Set
-	End Property
+    Public Property Producto As String
+        Get
+            Return _producto
+        End Get
+        Set(value As String)
+            _producto = value
+        End Set
+    End Property
 #End Region
 
-	Public Sub New()
-		MyBase.New()
-	End Sub
+    Public Sub New()
+        MyBase.New()
+    End Sub
 
-	Function insertaCobro(AñoCobro As Short,
+    Function insertaCobro(AñoCobro As Short,
                             Cobro As Integer,
                             Importe As Decimal,
                             Impuesto As Decimal,
