@@ -3,13 +3,16 @@ Imports System.Data.SqlTypes
 
 Public Class PedidoServiciotecnicoAlta
 
-    Private _ConnString As SqlConnection
+    Private _Conexion As SqlConnection
+    Private _Transaccion As SqlTransaction
 
     Public Sub New()
 
     End Sub
-    Public Sub New(ByVal connString As SqlConnection)
-        _ConnString = connString
+    Public Sub New(ByVal conexion As SqlConnection, ByVal transaccion As SqlTransaction)
+        _Conexion = conexion
+        _Transaccion = transaccion
+
     End Sub
 
     Public Function PedidoServiciotecnico(ByVal Observaciones As String, ByVal TipoPedido As Integer, ByVal FCompromiso As DateTime,
@@ -19,12 +22,14 @@ Public Class PedidoServiciotecnicoAlta
         Dim reader As SqlDataReader
         reader = Nothing
         Dim conn As SqlConnection
+
         Try
 
-            conn = _ConnString
-            conn.Open()
+            conn = _Conexion
+            'conn.Open()
             Dim cmd As New SqlCommand()
             cmd.Connection = conn
+            cmd.Transaction = _Transaccion
             cmd.Parameters.Add("@Observaciones", SqlDbType.VarChar).Value = Observaciones
             cmd.Parameters.Add("@TipoPedido", SqlDbType.Int).Value = TipoPedido
             cmd.Parameters.Add("@FCompromiso", SqlDbType.DateTime).Value = FCompromiso
@@ -33,14 +38,19 @@ Public Class PedidoServiciotecnicoAlta
             cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
             cmd.Parameters.Add("@Celula", SqlDbType.Int).Value = Celula
             cmd.Parameters.Add("@Ruta", SqlDbType.Int).Value = Ruta
-            cmd.Parameters.Add("@Usuario", SqlDbType.Char).Value = Usuario
+
+            If String.IsNullOrEmpty(Usuario) Then
+                cmd.Parameters.Add("@Usuario", SqlDbType.Char).Value = DBNull.Value
+            Else
+                cmd.Parameters.Add("@Usuario", SqlDbType.Char).Value = Usuario
+            End If
             cmd.Parameters.Add("@TipoServicio", SqlDbType.Int).Value = TipoServicio
 
             cmd.Parameters.Add("@NumExterior", SqlDbType.Char).Value = NumExterior
             cmd.Parameters.Add("@NumInterior", SqlDbType.Char).Value = NumInterior
             cmd.Parameters.Add("@Calle", SqlDbType.Int).Value = Calle
             cmd.Parameters.Add("@Colonia", SqlDbType.Int).Value = Colonia
-            cmd.Parameters.Add("@IdCrm", SqlDbType.Int).Value = Idcrm
+            cmd.Parameters.Add("@IDPedidoCRM", SqlDbType.Int).Value = Idcrm
 
             cmd.CommandType = CommandType.StoredProcedure
             cmd.CommandText = "spSTPedidoServicioTecnicoAltaNuevo"
