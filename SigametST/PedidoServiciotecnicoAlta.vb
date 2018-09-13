@@ -9,7 +9,7 @@ Public Class PedidoServiciotecnicoAlta
     Public Sub New()
 
     End Sub
-    Public Sub New(ByVal conexion As SqlConnection, ByVal transaccion As SqlTransaction)
+    Public Sub New(ByVal conexion As SqlConnection, Optional ByVal transaccion As SqlTransaction = Nothing)
         _Conexion = conexion
         _Transaccion = transaccion
 
@@ -29,7 +29,9 @@ Public Class PedidoServiciotecnicoAlta
             'conn.Open()
             Dim cmd As New SqlCommand()
             cmd.Connection = conn
-            cmd.Transaction = _Transaccion
+            If Not IsNothing(_Transaccion) Then
+                cmd.Transaction = _Transaccion
+            End If
             cmd.Parameters.Add("@Observaciones", SqlDbType.VarChar).Value = Observaciones
             cmd.Parameters.Add("@TipoPedido", SqlDbType.Int).Value = TipoPedido
             cmd.Parameters.Add("@FCompromiso", SqlDbType.DateTime).Value = FCompromiso
