@@ -21,6 +21,7 @@ Public Class frmServProgramacion
     Private _UsaLiquidacion As Boolean
     Private _URLGateway As String
     Private _PedidosCRM As List(Of RTGMCore.Pedido)
+    Private _PedidoCRM As RTGMCore.Pedido
 
     Private Sub Llenacelula()
         ''Dim LlenaCelula As New SqlDataAdapter("select celula,descripcion from celula where comercial = 1", cnnSigamet)
@@ -266,17 +267,18 @@ Public Class frmServProgramacion
 
     Private Sub LlenaPedido_CRM()
         Dim IdPedido As Integer = 0
-        Dim obPedido As RTGMCore.Pedido = Nothing
+        'Dim obPedido As RTGMCore.Pedido = Nothing
+        _PedidoCRM = New RTGMCore.Pedido
 
         Integer.TryParse(_Pedido, IdPedido)
 
         Try
             If IdPedido > 0 And _PedidosCRM.Count > 0 Then
-                obPedido = _PedidosCRM.First(Function(x) If(x.IDPedido, 0) = IdPedido)
+                _PedidoCRM = _PedidosCRM.First(Function(x) If(x.IDPedido, 0) = IdPedido)
 
-                Pedido = If(obPedido.IDPedido, 0)
-                Celula = If(obPedido.IDZona, 0)
-                AñoPed = If(obPedido.AnioPed, 0)
+                Pedido = If(_PedidoCRM.IDPedido, 0)
+                Celula = If(_PedidoCRM.IDZona, 0)
+                AñoPed = If(_PedidoCRM.AnioPed, 0)
             End If
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
