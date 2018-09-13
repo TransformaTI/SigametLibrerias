@@ -46,13 +46,15 @@ Public Class PedidoServiciotecnicoAlta
             cmd.CommandText = "spSTPedidoServicioTecnicoAltaNuevo"
             reader = cmd.ExecuteReader()
 
-            If conn.State = ConnectionState.Open Then
-                conn.Close()
-            Else
-            End If
+            'If conn.State = ConnectionState.Open Then
+            '    conn.Close()
+            'Else
+            'End If
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message, "Pedido Servicio Alta", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'MessageBox.Show(ex.Message, "Pedido Servicio Alta", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            ' Arrojar excepción al nivel superior
+            Throw New Exception("Error dando de alta el pedido:" & vbCrLf & ex.Message)
         End Try
         Return reader
     End Function
