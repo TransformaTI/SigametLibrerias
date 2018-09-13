@@ -7,6 +7,8 @@ Imports MySql.Data.MySqlClient
 Imports System.Collections.Generic
 Imports System.Data.SqlTypes
 Imports SigaMetClasses.Enumeradores
+Imports LiquidadorEstacionario
+Imports RTGMCore
 
 
 'ENUMERADORES
@@ -5416,34 +5418,34 @@ Public Class Cobro
         End Try
     End Function
 
-	Public Function ChequeDevolucion(ByVal AñoCobro As Short,
-									 ByVal Cobro As Integer,
-									 ByVal RazonDevCheque As String,
-									 ByVal Observaciones As String,
-									 ByVal FDevolucion As DateTime,
-									 Optional ByVal AplicarComision As Boolean = False,
-									 Optional ByVal MultiDev As Boolean = False,
-									 Optional ByRef total As Decimal = 0) As String
+    Public Function ChequeDevolucion(ByVal AñoCobro As Short,
+                                     ByVal Cobro As Integer,
+                                     ByVal RazonDevCheque As String,
+                                     ByVal Observaciones As String,
+                                     ByVal FDevolucion As DateTime,
+                                     Optional ByVal AplicarComision As Boolean = False,
+                                     Optional ByVal MultiDev As Boolean = False,
+                                     Optional ByRef total As Decimal = 0) As String
 
-		Dim cmd As New SqlCommand("spCYCChequeDevolucion")
-		With cmd
-			.CommandType = CommandType.StoredProcedure
-			'.CommandTimeout = 180
-			.Parameters.Add("@AñoCobro", SqlDbType.SmallInt).Value = AñoCobro
-			.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
-			.Parameters.Add("@RazonDevCheque", SqlDbType.Char, 2).Value = RazonDevCheque
-			.Parameters.Add("@Observaciones", SqlDbType.VarChar, 250).Value = Observaciones
-			.Parameters.Add("@FDevolucion", SqlDbType.DateTime).Value = FDevolucion
-			'para generar comisiones por cheque devuelto
-			.Parameters.Add("@AplicarComision", SqlDbType.Bit).Value = AplicarComision
-			.Parameters.Add("@NuevoPedidoReferencia", SqlDbType.Char, 20).Direction = ParameterDirection.Output
-			.Parameters.Add("@Total", SqlDbType.Money).Direction = ParameterDirection.Output
+        Dim cmd As New SqlCommand("spCYCChequeDevolucion")
+        With cmd
+            .CommandType = CommandType.StoredProcedure
+            '.CommandTimeout = 180
+            .Parameters.Add("@AñoCobro", SqlDbType.SmallInt).Value = AñoCobro
+            .Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
+            .Parameters.Add("@RazonDevCheque", SqlDbType.Char, 2).Value = RazonDevCheque
+            .Parameters.Add("@Observaciones", SqlDbType.VarChar, 250).Value = Observaciones
+            .Parameters.Add("@FDevolucion", SqlDbType.DateTime).Value = FDevolucion
+            'para generar comisiones por cheque devuelto
+            .Parameters.Add("@AplicarComision", SqlDbType.Bit).Value = AplicarComision
+            .Parameters.Add("@NuevoPedidoReferencia", SqlDbType.Char, 20).Direction = ParameterDirection.Output
+            .Parameters.Add("@Total", SqlDbType.Money).Direction = ParameterDirection.Output
 
-			'Controlar la devolución multiple de un cheque, para que solo se efectue mediante programa
-			.Parameters.Add("@NuevaDevolucion", SqlDbType.Bit).Value = MultiDev
-		End With
+            'Controlar la devolución multiple de un cheque, para que solo se efectue mediante programa
+            .Parameters.Add("@NuevaDevolucion", SqlDbType.Bit).Value = MultiDev
+        End With
 
-		Try
+        Try
             cmd.Transaction = Transaccion
             cmd.Connection = DataLayer.Conexion
             cmd.ExecuteNonQuery()
@@ -5478,9 +5480,9 @@ Public Class Cobro
         Finally
 
             cmd = Nothing
-		End Try
+        End Try
 
-	End Sub
+    End Sub
 
 #End Region
 
@@ -5528,6 +5530,9 @@ End Class
 
 Public Class TransaccionMovimientoCaja
     Inherits System.ComponentModel.Component
+    Private lstPedidos As List(Of RTGMCore.Pedido)
+    Private objGateway As RTGMGateway.RTGMActualizarPedido
+    Private Solicitud As RTGMGateway.SolicitudActualizarPedido
 
     'Clave del movimiento de caja para transferir a caja de validación
 
@@ -5831,6 +5836,212 @@ Public Class TransaccionMovimientoCaja
             objMovCaja = Nothing
         End Try
     End Function
+
+    Public Function Alta(ByVal Caja As Byte,
+                         ByVal FOperacion As Date,
+                         ByVal Consecutivo As Byte,
+                         ByVal FMovimiento As Date,
+                         ByVal Total As Decimal,
+                         ByVal UsuarioCaptura As String,
+                         ByVal Empleado As Integer,
+                         ByVal TipoMovimientoCaja As Byte,
+                         ByVal Ruta As Short,
+                         ByVal Cliente As Integer,
+                         ByVal ListaCobro As ArrayList,
+                         ByVal Usuario As String,
+                         ByVal URLGateway As String,
+                Optional ByVal Observaciones As String = "",
+                Optional ByRef Clave As String = "",
+                Optional ByVal TipoAjuste As Byte = 0) As Integer
+
+        'Usuario = Es el usuario que se escribe en la tabla Cobro
+        'UsuarioCaptura - Es el usuario que captura el movimiento, no necesariamente
+        'el usuario relacionado con el abono
+
+        Dim objMovCaja As New MovimientoCaja()  'Objeto MovimientoCaja
+        Dim FolioMovCaja As Integer             'Folio del nuevo movimiento caja
+        Dim FolioCobro As Integer               'Folio del cobro
+        Dim Cobro As sCobro                     'Estructura sCobro
+        Dim CobroPedido As sPedido              'Estructura sPedido
+        Dim objCobroPedido As New CobroPedido()
+        Dim objCobro As New Cobro()
+        Dim objMovCajaCobro As New MovimientoCajaCobro()
+
+
+        AbreConexion()
+        IniciaTransaccion()
+
+        Try
+            'No generar movimiento para cobranzas solo con documentos posfechados
+            Dim _generarMov As Boolean = False
+            For Each Cobro In ListaCobro
+                If Not Cobro.Posfechado Then
+                    _generarMov = True
+                    Exit For
+                End If
+            Next
+
+            'Alta en la tabla MovimientoCaja
+            If _generarMov Then
+                FolioMovCaja = objMovCaja.Alta(Caja:=Caja,
+                                               FOperacion:=FOperacion,
+                                               Consecutivo:=Consecutivo,
+                                               FMovimiento:=FMovimiento,
+                                               Total:=Total,
+                                               UsuarioCaptura:=UsuarioCaptura,
+                                               Empleado:=Empleado,
+                                               TipoMovimientoCaja:=TipoMovimientoCaja,
+                                               Ruta:=Ruta,
+                                               Cliente:=Cliente,
+                                               NuevaClave:=Clave,
+                                               Observaciones:=Observaciones,
+                                               SaldoAFavor:=SaldoAFavor(ListaCobro),
+                                               TipoAjuste:=TipoAjuste)
+            End If
+
+            For Each Cobro In ListaCobro
+
+                Select Case Cobro.TipoCobro
+                    Case Enumeradores.enumTipoCobro.Efectivo,
+                         Enumeradores.enumTipoCobro.EfectivoVales,
+                         Enumeradores.enumTipoCobro.Vales
+                        FolioCobro = objCobro.EfectivoValesAlta(Cobro.Total, CType(Cobro.TipoCobro, Enumeradores.enumTipoCobro), Usuario, Cobro.Observaciones)
+
+                    Case Enumeradores.enumTipoCobro.Cheque,
+                        Enumeradores.enumTipoCobro.FichaDeposito,
+                        Enumeradores.enumTipoCobro.NotaCredito,
+                        Enumeradores.enumTipoCobro.NotaIngreso,
+                        Enumeradores.enumTipoCobro.Transferencia,
+                        Enumeradores.enumTipoCobro.AplicacionAnticipo
+
+                        FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Cobro.FechaCheque, Cobro.Cliente, Cobro.Banco,
+                            Cobro.Observaciones, Cobro.TipoCobro, Usuario, Cobro.Saldo, Cobro.NoCuentaDestino, Cobro.BancoOrigen, Cobro.SaldoAFavor,
+                            Cobro.Posfechado, Cobro.Referencia)
+
+                    Case Enumeradores.enumTipoCobro.TarjetaCredito
+                        FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
+                            Enumeradores.enumTipoCobro.TarjetaCredito, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia)
+
+                        'CONTROL DE SALDOS 01-04-2005
+                    Case Enumeradores.enumTipoCobro.SaldoAFavor
+                        FolioCobro = objCobro.SaldoAFavorAlta(Cobro.Total, Cobro.Cliente, Cobro.AnioCobroOrigen, Cobro.CobroOrigen,
+                            Cobro.Observaciones, Cobro.TipoCobro, Usuario)
+
+                    Case Enumeradores.enumTipoCobro.DacionEnPago 'MCC 06-07-2018
+                        FolioCobro = objCobro.DacionPago(Cobro.Total, CType(Cobro.TipoCobro, Enumeradores.enumTipoCobro), Usuario, Cobro.Observaciones)
+
+                End Select
+
+
+                If Not Cobro.ListaPedidos Is Nothing Then 'Cambio realizado el 6 de mayo del 2003
+                    For Each CobroPedido In Cobro.ListaPedidos
+                        CobroPedido.Cobro = FolioCobro
+
+                        'Para evitar que la modificación de cobranza afecte registros de movimientos de otros años:
+                        'Si el año de FOperacion es diferente del año de la structure cobro, le asignamos el
+                        'año  de FOperacion. JAGD 04/04/2005
+                        If Cobro.AnoCobro <> DatePart(DateInterval.Year, FOperacion) Then
+                            Cobro.AnoCobro = DatePart(DateInterval.Year, FOperacion)
+                        End If
+
+                        objCobroPedido.Alta(CobroPedido.Celula, Cobro.AnoCobro, CobroPedido.Cobro, CobroPedido.AnoPed, CobroPedido.Pedido, CobroPedido.ImporteAbono)
+                    Next
+                End If
+                'No guardar movimientocajacobro para cheques posfechados
+                If Not Cobro.Posfechado Then
+                    objMovCajaCobro.Alta(Caja, FOperacion, Consecutivo, FolioMovCaja, Cobro.AnoCobro, FolioCobro)
+                End If
+                '*****
+                If URLGateway IsNot Nothing Then
+
+                Else
+
+                End If
+
+
+            Next
+            Transaccion.Commit()
+            Return FolioMovCaja
+        Catch ex As Exception
+            EventLog.WriteEntry("SigametClasses " & ex.Source, ex.Message, EventLogEntryType.Error)
+            If Not Transaccion.Connection Is Nothing Then
+                If Transaccion.Connection.State = ConnectionState.Open Then
+                    Transaccion.Rollback()
+                End If
+            End If
+
+            Throw ex
+        Finally
+            CierraConexion()
+            objMovCaja = Nothing
+        End Try
+    End Function
+
+    'Private void liquidarPedidos(liquidadorEstacionarioDatos objLiquida)
+    '    {
+    '        bool respuestaExitosa = False;
+
+    '        lstPedidos = objLiquida.consultaPedidosFolio(_añoatt, _folioatt, RTGMCore.TipoActualizacion.Liquidacion);
+
+    '        configurarSolicitud(lstPedidos, RTGMCore.TipoActualizacion.Liquidacion);
+
+    '        List<RTGMCore.Pedido> ListaRespuesta = ActualizarPedido(Solicitud);
+
+    '        If (ListaRespuesta[0] != null)
+    '        {
+    '            If (ListaRespuesta[0].Success) { respuestaExitosa = true; }
+    '        }
+
+    '        Utilerias.Exportar(Solicitud, ListaRespuesta, objGateway.Fuente, respuestaExitosa, EnumMetodoWS.ActualizarPedidoLiquidacion);
+    '    }
+
+    Public Sub liquidarPedidos(objLiquida As liquidadorEstacionarioDatos)
+        Dim respuestaExitosa As Boolean = False
+        Dim _folioatt As Integer
+        Dim _añoatt As Short
+
+        lstPedidos = objLiquida.consultaPedidosFolio(_añoatt, _folioatt, RTGMCore.TipoActualizacion.Liquidacion)
+
+        configurarSolicitud(lstPedidos, RTGMCore.TipoActualizacion.Liquidacion)
+
+        Dim ListaRespuesta As List(Of RTGMCore.Pedido) = ActualizarPedido(Solicitud)
+
+        '            If (ListaRespuesta[0] != null)
+        '            {
+        '                If (ListaRespuesta[0].Success) { respuestaExitosa = true; }
+        '            }
+
+        '            Utilerias.Exportar(Solicitud, ListaRespuesta, objGateway.Fuente, respuestaExitosa, EnumMetodoWS.ActualizarPedidoLiquidacion);
+    End Sub
+    Public Sub configurarSolicitud(pedidos As List(Of RTGMCore.Pedido), tipoActualizacion As RTGMCore.TipoActualizacion)
+        Try
+            Dim _usuario As String = ""
+            Dim solicitud = New RTGMGateway.SolicitudActualizarPedido
+            With solicitud
+                .pedidos = pedidos
+                .portatil = False
+                .tipoActualizacion = tipoActualizacion
+                .usuario = _usuario
+
+            End With
+        Catch ex As Exception
+            Throw New Exception("error al configurar solicitud de actualización de pedido: " + ex.Message)
+        End Try
+    End Sub
+
+    Function ActualizarPedido(Solicitud As RTGMGateway.SolicitudActualizarPedido) As List(Of RTGMCore.Pedido)
+        Try
+
+            Return objGateway.ActualizarPedido(Solicitud)
+        Catch ex As Exception
+            Throw New Exception("Error al actualizar pedido: " + ex.Message)
+        End Try
+    End Function
+
+
+
+
+
 #End Region
 
 #Region "SaldoAFavor"
