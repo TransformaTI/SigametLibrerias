@@ -153,7 +153,7 @@
       <HintPath>bin\RegularValidations.dll</HintPath>
     </Reference>
     <Reference Include="RTGMGateway">
-      <HintPath>..\..\RTGMGateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
+      <HintPath>..\..\Gateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
     </Reference>
     <Reference Include="SeguimientoCliente, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
@@ -324,6 +324,12 @@
       <DependentUpon>frmCatCuentaBancariaCliente .vb</DependentUpon>
     </Compile>
     <Compile Include="frmCatCuentaBancariaCliente .vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConsultaCargosTarjeta.Designer.vb">
+      <DependentUpon>frmConsultaCargosTarjeta.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmConsultaCargosTarjeta.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmConsultaCargoTarjetaCliente.Designer.vb">
@@ -542,6 +548,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmCatCuentaBancariaCliente .resx">
       <DependentUpon>frmCatCuentaBancariaCliente .vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConsultaCargosTarjeta.resx">
+      <DependentUpon>frmConsultaCargosTarjeta.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmConsultaCargoTarjetaCliente.resx">
       <DependentUpon>frmConsultaCargoTarjetaCliente.vb</DependentUpon>
