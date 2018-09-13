@@ -3722,7 +3722,15 @@ Public Class frmServProgramacion
 
                 If _Estatus = "ACTIVO" Or _Estatus = "PENDIENTE" Then
                     Cursor = Cursors.WaitCursor
-                    Dim Asignar As New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario)
+                    Dim Asignar As frmAsignar
+                    'Dim Asignar As New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario)
+
+                    If Not String.IsNullOrEmpty(_URLGateway) Then
+                        Asignar = New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario, PedidoCRM:=_PedidoCRM)
+                    Else
+                        Asignar = New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario)
+                    End If
+
                     Asignar.ShowDialog()
                     Cursor = Cursors.Default
                     LlenaLista()
