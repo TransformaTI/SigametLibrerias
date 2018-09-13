@@ -20,6 +20,7 @@ Public Class frmServProgramacion
     Private _Folio As Integer
     Private _UsaLiquidacion As Boolean
     Private _URLGateway As String
+    Private _FuenteGateway As String
     Private _PedidosCRM As List(Of RTGMCore.Pedido)
     Private _PedidoCRM As RTGMCore.Pedido
 
@@ -3616,6 +3617,7 @@ Public Class frmServProgramacion
         LlenaLista()
         SumServicios()
         SumPuntos()
+        CargarVariablesGateway()
         'paintalternatingbackcolor(lvwProgramaciones, Color.CornflowerBlue, Color.White)
         lblFolio.Visible = False
         Dim w As New Check()
@@ -3725,7 +3727,7 @@ Public Class frmServProgramacion
                     Dim Asignar As frmAsignar
                     'Dim Asignar As New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario)
 
-                    If Not String.IsNullOrEmpty(_URLGateway) Then
+                    If Not String.IsNullOrEmpty(_URLGateway) AndAlso _FuenteGateway = "CRM" Then
                         Asignar = New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario, PedidoCRM:=_PedidoCRM)
                     Else
                         Asignar = New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario)
@@ -4404,6 +4406,10 @@ Public Class frmServProgramacion
 
     End Sub
 
+    Private Sub CargarVariablesGateway()
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
+        _FuenteGateway = CType(oConfig.Parametros("FuenteCRM"), String)
+    End Sub
 
     Private Sub Label23_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label23.Click
 
