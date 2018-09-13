@@ -99,7 +99,7 @@ Module Main
     Public GLOBAL_Corporativo As Short
     Public GLOBAL_Sucursal As Short
 
-
+    Public GLOBAL_Modulo As Byte = 11
 
 
 End Module

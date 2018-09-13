@@ -38,6 +38,9 @@ Public Class SeleccionCalleColonia
     Private _NumExteriorOriginal As String
     Private _CalleNombreOriginal As String
     Private _ColoniaNombreOriginal As String
+    Public _URLGateway As String
+    Private _Modulo As Byte
+    Private _CadenaConexion As String
 
     Dim dtCalle As DataTable
 
@@ -187,15 +190,35 @@ Public Class SeleccionCalleColonia
         End Get
     End Property
 
+    Public Property Modulo As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(value As Byte)
+            _Modulo = value
+        End Set
+    End Property
+
+    Public Property CadenaConexion As String
+        Get
+            Return _CadenaConexion
+        End Get
+        Set(value As String)
+            _CadenaConexion = value
+        End Set
+    End Property
+
 #End Region
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New()
+    Public Sub New(Optional ByVal URLGateway As String = Nothing)
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
+
+        _URLGateway = URLGateway
 
         'Add any initialization after the InitializeComponent() call
     End Sub
@@ -667,60 +690,78 @@ Public Class SeleccionCalleColonia
             .Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
         End With
 
-        Dim dr As SqlDataReader
 
-        Try
+        If (_URLGateway Is String.Empty Or _URLGateway Is Nothing) Then
+            Dim dr As SqlDataReader
+            Try
+                CargaDatos()
+                cmd.Connection = cnServidor
+                AbreConexion()
+                dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
 
-            CargaDatos()
+                If dr.Read() Then
+                    _CargaClienteSoloLectura = True
+                    Me.lblCalle.Text = CType(dr("CalleNombre"), String).Trim
+                    Me.lblColonia.Text = CType(dr("ColoniaNombre"), String).Trim
+                    Me.lblCP.Text = CType(dr("CP"), String).Trim
+                    Me.lblEntreCalle1.Text = CType(dr("EntreCalle1Nombre"), String).Trim
+                    Me.lblEntreCalle2.Text = CType(dr("EntreCalle2Nombre"), String).Trim
+                    Me.lblMunicipio.Text = CType(dr("MunicipioNombre"), String).Trim
+                    Me.lblNumExterior.Text = CType(dr("NumExterior"), String)
+                    Me.lblNumInterior.Text = CType(dr("NumInterior"), String).Trim
+                End If
 
-            cmd.Connection = cnServidor
-            AbreConexion()
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
 
-            dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+            Finally
+                CierraConexion()
+                cmd.Dispose()
 
-            If dr.Read() Then
+            End Try
+        Else
+            'Se agrega funcionalidad para ir a consultar al WS 
+            Dim oDireccionEntrega As New RTGMCore.DireccionEntrega
+            oDireccionEntrega = ConsultarDatosClienteCRM(Cliente)
 
-                _CargaClienteSoloLectura = True
+            Me.lblCalle.Text = oDireccionEntrega.CalleNombre
+            Me.lblColonia.Text = oDireccionEntrega.ColoniaNombre
+            Me.lblCP.Text = oDireccionEntrega.CP
+            Me.lblEntreCalle1.Text = oDireccionEntrega.EntreCalle1Nombre
+            Me.lblEntreCalle2.Text = oDireccionEntrega.EntreCalle2Nombre
+            Me.lblMunicipio.Text = oDireccionEntrega.MunicipioNombre
+            Me.lblNumExterior.Text = oDireccionEntrega.NumExterior
+            Me.lblNumInterior.Text = oDireccionEntrega.NumInterior
 
-                Me.lblCalle.Text = CType(dr("CalleNombre"), String).Trim
-                Me.lblColonia.Text = CType(dr("ColoniaNombre"), String).Trim
-                Me.lblCP.Text = CType(dr("CP"), String).Trim
-                Me.lblEntreCalle1.Text = CType(dr("EntreCalle1Nombre"), String).Trim
-                Me.lblEntreCalle2.Text = CType(dr("EntreCalle2Nombre"), String).Trim
-                Me.lblMunicipio.Text = CType(dr("MunicipioNombre"), String).Trim
-                Me.lblNumExterior.Text = CType(dr("NumExterior"), String)
-                Me.lblNumInterior.Text = CType(dr("NumInterior"), String).Trim
+        End If
 
-                Me._CP = Me.lblCP.Text
+        Me._CP = Me.lblCP.Text
+        txtCalle.Visible = False
+        cboColonia.Visible = False
+        txtCP.Visible = False
+        txtEntreCalle1.Visible = False
+        txtEntreCalle2.Visible = False
+        cboMunicipio.Visible = False
+        txtNumExterior.Visible = False
+        txtNumInterior.Visible = False
+        txtCalle.Focus()
+        'Para la seleccion de calles y colonias
+        cboCalle.Visible = False
+        cboEntreCalle1.Visible = False
+        cboEntreCalle2.Visible = False
 
-
-                txtCalle.Visible = False
-                cboColonia.Visible = False
-                txtCP.Visible = False
-                txtEntreCalle1.Visible = False
-                txtEntreCalle2.Visible = False
-                cboMunicipio.Visible = False
-                txtNumExterior.Visible = False
-                txtNumInterior.Visible = False
-                txtCalle.Focus()
-                'Para la seleccion de calles y colonias
-                cboCalle.Visible = False
-                cboEntreCalle1.Visible = False
-                cboEntreCalle2.Visible = False
-
-
-
-            End If
-
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
-
-        Finally
-            CierraConexion()
-            cmd.Dispose()
-
-        End Try
     End Sub
+
+    Public Function ConsultarDatosClienteCRM(ByVal Cliente As Integer) As RTGMCore.DireccionEntrega
+        Dim oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+
+        oSolicitud.IDCliente = Cliente
+        oGateway.URLServicio = _URLGateway
+        oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+        Return oDireccionEntrega
+    End Function
 
     Public Sub CargaDatosCliente(ByVal Cliente As Integer)
         'Dim strQuery As String = _
@@ -910,8 +951,8 @@ Public Class SeleccionCalleColonia
 
     End Function
 
-    Public Function AltaColonia(ByVal Nombre As String, _
-                                ByVal CP As String, _
+    Public Function AltaColonia(ByVal Nombre As String,
+                                ByVal CP As String,
                                 ByVal Municipio As Integer) As Integer
         Dim oColonia As New SigaMetClasses.cColonia()
         Dim _NuevaColonia As Integer
@@ -985,8 +1026,8 @@ Public Class SeleccionCalleColonia
     End Sub
 
     Private Sub txtCalle_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtCalle.Validated
-        If (txtCalle.Text.Trim <> _CalleNombreOriginal) Or _
-                    (txtCalle.Text.Trim = _CalleNombreOriginal) Or _
+        If (txtCalle.Text.Trim <> _CalleNombreOriginal) Or
+                    (txtCalle.Text.Trim = _CalleNombreOriginal) Or
                     _EdicionDatos = True Then '10AGO2004
             _EdicionDatos = True
             If txtCalle.Text.Trim <> "" Then
@@ -1116,7 +1157,7 @@ Public Class SeleccionCalleColonia
 
     End Function
 
-    Private Sub ValidaNombreEntreCalle(ByVal CalleNombre As String, _
+    Private Sub ValidaNombreEntreCalle(ByVal CalleNombre As String,
                                        ByVal Origen As Object)
 
         Dim cmd As New SqlCommand("SELECT TOP 1 Calle FROM Calle WHERE Rtrim(Ltrim(Nombre)) = @CalleNombre ORDER by Calle", cnServidor)
@@ -1294,7 +1335,7 @@ Public Class SeleccionCalleColonia
     End Sub
 
     Private Sub CargaDatosComboMunicipio()
-        Dim strQuery As String = _
+        Dim strQuery As String =
         "SELECT Municipio, NombreCompuesto FROM vwMunicipio"
         Dim da As New SqlDataAdapter(strQuery, cnServidor)
         Dim dt As New DataTable("Municipio")
@@ -1383,17 +1424,17 @@ Public Class SeleccionCalleColonia
     'End Sub
 
     Private Sub SeleccionCalleColonia_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Validated
-        If _CalleNombreOriginal <> txtCalle.Text Or _
-                    _ColoniaNombreOriginal <> cboColonia.Text Or _
-                    _NumExteriorOriginal <> txtNumExterior.Text Or _
-                     _NumInteriorOriginal <> txtNumInterior.Text Or _
-                    _CalleOriginal <> _Calle Or _
-                    _ColoniaOriginal <> _Colonia Or _
-                    _EntreCalle1Original <> _EntreCalle1 Or _
-                    _EntreCalle2Original <> _EntreCalle2 Or _
+        If _CalleNombreOriginal <> txtCalle.Text Or
+                    _ColoniaNombreOriginal <> cboColonia.Text Or
+                    _NumExteriorOriginal <> txtNumExterior.Text Or
+                     _NumInteriorOriginal <> txtNumInterior.Text Or
+                    _CalleOriginal <> _Calle Or
+                    _ColoniaOriginal <> _Colonia Or
+                    _EntreCalle1Original <> _EntreCalle1 Or
+                    _EntreCalle2Original <> _EntreCalle2 Or
                             (txtEntreCalle1.Text.Trim <> "" _
                                 And _EntreCalle1 = 0 _
-                                And _ExisteEntreCalle1 = False) Or _
+                                And _ExisteEntreCalle1 = False) Or
                             (txtEntreCalle2.Text.Trim <> "" _
                                 And _EntreCalle2 = 0 _
                                 And _ExisteEntreCalle2 = False) Then
@@ -1494,60 +1535,78 @@ Public Class SeleccionCalleColonia
             .Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
         End With
 
-        Dim dr As SqlDataReader
+        If (_URLGateway Is String.Empty Or _URLGateway Is Nothing) Then
+            Dim dr As SqlDataReader
 
-        Try
+            Try
 
-            CargaDatos()
+                CargaDatos()
 
-            cmd.Connection = cnServidor
-            AbreConexion()
+                cmd.Connection = cnServidor
+                AbreConexion()
 
-            dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+                dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
 
-            If dr.Read() Then
+                If dr.Read() Then
 
-                Me.lblCalle.Text = CType(dr("CalleNombre"), String).Trim
-                Me.lblColonia.Text = CType(dr("ColoniaNombre"), String).Trim
-                Me.lblCP.Text = CType(dr("CP"), String).Trim
-                Me.lblEntreCalle1.Text = CType(dr("EntreCalle1Nombre"), String).Trim
-                Me.lblEntreCalle2.Text = CType(dr("EntreCalle2Nombre"), String).Trim
-                Me.lblMunicipio.Text = CType(dr("MunicipioNombre"), String).Trim
-                Me.lblNumExterior.Text = CType(dr("NumeroExterior"), String)
-                Me.lblNumInterior.Text = CType(dr("NumeroInterior"), String).Trim
+                    Me.lblCalle.Text = CType(dr("CalleNombre"), String).Trim
+                    Me.lblColonia.Text = CType(dr("ColoniaNombre"), String).Trim
+                    Me.lblCP.Text = CType(dr("CP"), String).Trim
+                    Me.lblEntreCalle1.Text = CType(dr("EntreCalle1Nombre"), String).Trim
+                    Me.lblEntreCalle2.Text = CType(dr("EntreCalle2Nombre"), String).Trim
+                    Me.lblMunicipio.Text = CType(dr("MunicipioNombre"), String).Trim
+                    Me.lblNumExterior.Text = CType(dr("NumeroExterior"), String)
+                    Me.lblNumInterior.Text = CType(dr("NumeroInterior"), String).Trim
 
-                Me._CP = Me.lblCP.Text
+                End If
+
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+            Finally
+                CierraConexion()
+                cmd.Dispose()
+
+            End Try
+
+        Else
+
+            Dim oDireccionEntrega As New RTGMCore.DireccionEntrega
+            oDireccionEntrega = ConsultarDatosClienteCRM(Cliente)
+
+            Me.lblCalle.Text = oDireccionEntrega.CalleNombre
+            Me.lblColonia.Text = oDireccionEntrega.ColoniaNombre
+            Me.lblCP.Text = oDireccionEntrega.CP
+            Me.lblEntreCalle1.Text = oDireccionEntrega.EntreCalle1Nombre
+            Me.lblEntreCalle2.Text = oDireccionEntrega.EntreCalle2Nombre
+            Me.lblMunicipio.Text = oDireccionEntrega.MunicipioNombre
+            Me.lblNumExterior.Text = oDireccionEntrega.NumExterior
+            Me.lblNumInterior.Text = oDireccionEntrega.NumInterior
 
 
-                txtCalle.Visible = False
-                cboColonia.Visible = False
-                txtCP.Visible = False
-                txtEntreCalle1.Visible = False
-                txtEntreCalle2.Visible = False
-                cboMunicipio.Visible = False
-                txtNumExterior.Visible = False
-                txtNumInterior.Visible = False
+        End If
+
+        Me._CP = Me.lblCP.Text
+        txtCalle.Visible = False
+        cboColonia.Visible = False
+        txtCP.Visible = False
+        txtEntreCalle1.Visible = False
+        txtEntreCalle2.Visible = False
+        cboMunicipio.Visible = False
+        txtNumExterior.Visible = False
+        txtNumInterior.Visible = False
 
 
-                _CargaCliente = True
+        _CargaCliente = True
 
-            End If
 
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
-
-        Finally
-            CierraConexion()
-            cmd.Dispose()
-
-        End Try
     End Sub
     Public Sub CargaDatosClientePortatil(ByVal Cliente As Integer)
-        Dim strQuery As String = _
-        "SELECT Cliente, Calle, CalleNombre, NumeroExterior as NumExterior, NumeroInterior as NumInterior, " & _
-            "EntreCalle1, Isnull(EntreCalle1Nombre,'') as EntreCalle1Nombre, " & _
-            "EntreCalle2, Isnull(EntreCalle2Nombre,'') as EntreCalle2Nombre, " & _
-            "Colonia, ColoniaNombre, CP, Municipio " & _
+        Dim strQuery As String =
+        "SELECT Cliente, Calle, CalleNombre, NumeroExterior as NumExterior, NumeroInterior as NumInterior, " &
+            "EntreCalle1, Isnull(EntreCalle1Nombre,'') as EntreCalle1Nombre, " &
+            "EntreCalle2, Isnull(EntreCalle2Nombre,'') as EntreCalle2Nombre, " &
+            "Colonia, ColoniaNombre, CP, Municipio " &
             "FROM vwDatosClientePortatil WHERE Cliente = @Cliente"
         Dim cmd As New SqlCommand(strQuery)
 

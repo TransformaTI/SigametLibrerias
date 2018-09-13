@@ -62,3 +62,561 @@ D:\TFSGM\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.SeleccionCalleColonia
 D:\TFSGM\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ListViewComparador.resources
 D:\TFSGM\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.GenerateResource.Cache
 D:\TFSGM\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CoreCompileInputs.cache
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AcercaDe.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AltaGrupoComercial.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.BuscaCliente.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.BusquedaCliente.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CambioClave.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CancelaPedido.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCheque.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCobro.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCobroRelacion.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaDatosCreditoCliente.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaEmpresa.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaParametro.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Catalogo.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoCaptura.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoEmpresa.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoGrupoComercial.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.COMCorteCaja.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ComboCalle.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaATT.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCargo.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCheques.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaCliente.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaClienteMultiple.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCobro.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaEmpresa.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaFactura.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaMovimientoCaja.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaMovimientos.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaOperadorPedido.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaParametros.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaPedidoBitacora.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmGrupoComercialBusquedaPorCliente.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.DevolucionCheque.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.FiltroConsulta.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmBusquedaPorRFCyRazonSocial.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCancelacionPedido.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCapTarjetaCredito.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmClienteBitacora.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaReporte.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConTarjetaCredito.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmValidacionDireccion.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmWait.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmWarning.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.GestionCobranza.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.IndiceAgenda.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.InfoPreliq.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.InfoTripulacionTurno.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ModificaCliente.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ModificaFechaCargoCheque.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.MotivoCancelacion.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Resources.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Observaciones.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PantallaAsignacion.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Postit.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitConfiguracion.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitLista.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitUsuarioCaptura.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ReasignaCargoCliente.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Seguridad.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.SeleccionCalleColonia.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ListViewComparador.resources
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.GenerateResource.cache
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CoreCompileInputs.cache
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.dll
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
+C:\Repos\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.dll
+C:\Repos\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.pdb
+C:\Repos\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.xml
+C:\Repos\SigametLibrerias\SigaMetClasses\bin\stdole.dll
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CopyComplete
+C:\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojResolveAssemblyReference.cache
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AcercaDe.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AltaGrupoComercial.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.BuscaCliente.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.BusquedaCliente.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CambioClave.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CancelaPedido.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCheque.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCobro.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCobroRelacion.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaDatosCreditoCliente.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaEmpresa.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaParametro.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Catalogo.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoCaptura.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoEmpresa.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoGrupoComercial.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.COMCorteCaja.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ComboCalle.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaATT.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCargo.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCheques.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaCliente.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaClienteMultiple.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCobro.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaEmpresa.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaFactura.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaMovimientoCaja.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaMovimientos.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaOperadorPedido.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaParametros.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaPedidoBitacora.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmGrupoComercialBusquedaPorCliente.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.DevolucionCheque.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.FiltroConsulta.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmBusquedaPorRFCyRazonSocial.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCancelacionPedido.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCapTarjetaCredito.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmClienteBitacora.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaReporte.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConTarjetaCredito.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmValidacionDireccion.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmWait.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmWarning.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.GestionCobranza.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.IndiceAgenda.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.InfoPreliq.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.InfoTripulacionTurno.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ModificaCliente.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ModificaFechaCargoCheque.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.MotivoCancelacion.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Resources.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Observaciones.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PantallaAsignacion.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Postit.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitConfiguracion.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitLista.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitUsuarioCaptura.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ReasignaCargoCliente.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Seguridad.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.SeleccionCalleColonia.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ListViewComparador.resources
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.GenerateResource.cache
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CoreCompileInputs.cache
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.dll
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.pdb
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.xml
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.Windows.Forms.dll
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\bin\stdole.dll
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CopyComplete
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.dll
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
+C:\Users\elena\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\SigaMetClasses.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\SigaMetClasses.pdb
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\SigaMetClasses.xml
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\CrystalDecisions.Windows.Forms.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\RTGMGateway.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\log4net.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\nunit.framework.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\stdole.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\RTGMGateway.pdb
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\RTGMGateway.dll.config
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\log4net.xml
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\bin\nunit.framework.xml
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.AcercaDe.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.AltaGrupoComercial.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.BuscaCliente.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.BusquedaCliente.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.CambioClave.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.CancelaPedido.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCheque.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCobro.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCobroRelacion.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaDatosCreditoCliente.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaEmpresa.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaParametro.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.Catalogo.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoCaptura.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoEmpresa.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoGrupoComercial.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.COMCorteCaja.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ComboCalle.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaATT.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCargo.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCheques.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaCliente.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaClienteMultiple.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCobro.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaEmpresa.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaFactura.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaMovimientoCaja.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaMovimientos.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaOperadorPedido.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaParametros.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaPedidoBitacora.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmAltaEditaCuentaBancariaCliente.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmAltaPagoTarjeta.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCatCuentaBancariaCliente.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaCargoTarjetaCliente.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmGrupoComercialBusquedaPorCliente.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.DevolucionCheque.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.FiltroConsulta.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmBusquedaPorRFCyRazonSocial.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCancelacionPedido.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCapTarjetaCredito.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmClienteBitacora.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaReporte.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConTarjetaCredito.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmValidacionDireccion.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmWait.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmWarning.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.GestionCobranza.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.IndiceAgenda.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.InfoPreliq.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.InfoTripulacionTurno.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ModificaCliente.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ModificaFechaCargoCheque.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.MotivoCancelacion.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.Resources.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.Observaciones.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.PantallaAsignacion.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.Postit.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitConfiguracion.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitLista.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitUsuarioCaptura.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ReasignaCargoCliente.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.Seguridad.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.SeleccionCalleColonia.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.ListViewComparador.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.GenerateResource.cache
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CoreCompileInputs.cache
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CopyComplete
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.dll
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaIngresosSaldoAFavor.resources
+C:\Users\Iván Trujillo\Documents\Proyectos\Librerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojAssemblyReference.cache
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.pdb
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.xml
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.Windows.Forms.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\FlashControlV71.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\stdole.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\bin\ShockwaveFlashObjects.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbprojResolveAssemblyReference.cache
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AcercaDe.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AltaGrupoComercial.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.BuscaCliente.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.BusquedaCliente.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CambioClave.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CancelaPedido.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCheque.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCobro.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCobroRelacion.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaDatosCreditoCliente.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaEmpresa.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaParametro.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Catalogo.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoCaptura.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoEmpresa.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoGrupoComercial.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.COMCorteCaja.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ComboCalle.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaATT.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCargo.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCheques.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaCliente.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaClienteMultiple.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCobro.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaEmpresa.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaFactura.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaMovimientoCaja.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaMovimientos.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaOperadorPedido.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaParametros.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaPedidoBitacora.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmAltaEditaCuentaBancariaCliente.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmAltaPagoTarjeta.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCatCuentaBancariaCliente.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaCargoTarjetaCliente.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaIngresosSaldoAFavor.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmGrupoComercialBusquedaPorCliente.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.DevolucionCheque.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.FiltroConsulta.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmBusquedaPorRFCyRazonSocial.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCancelacionPedido.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCapTarjetaCredito.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmClienteBitacora.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaReporte.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConTarjetaCredito.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmValidacionDireccion.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmWait.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmWarning.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.GestionCobranza.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.IndiceAgenda.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.InfoPreliq.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.InfoTripulacionTurno.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ModificaCliente.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ModificaFechaCargoCheque.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.MotivoCancelacion.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Resources.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Observaciones.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PantallaAsignacion.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Postit.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitConfiguracion.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitLista.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitUsuarioCaptura.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ReasignaCargoCliente.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Seguridad.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.SeleccionCalleColonia.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ListViewComparador.resources
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.GenerateResource.Cache
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.dll
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
+C:\Users\Ricardo Rojas\Source\Repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.dll
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.pdb
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.xml
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.Windows.Forms.dll
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\bin\stdole.dll
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AcercaDe.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AltaGrupoComercial.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.BuscaCliente.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.BusquedaCliente.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CambioClave.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CancelaPedido.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCheque.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCobro.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCobroRelacion.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaDatosCreditoCliente.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaEmpresa.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaParametro.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Catalogo.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoCaptura.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoEmpresa.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoGrupoComercial.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.COMCorteCaja.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ComboCalle.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaATT.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCargo.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCheques.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaCliente.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaClienteMultiple.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCobro.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaEmpresa.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaFactura.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaMovimientoCaja.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaMovimientos.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaOperadorPedido.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaParametros.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaPedidoBitacora.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmAltaEditaCuentaBancariaCliente.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmAltaPagoTarjeta.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCatCuentaBancariaCliente.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaCargoTarjetaCliente.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaIngresosSaldoAFavor.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmGrupoComercialBusquedaPorCliente.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.DevolucionCheque.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.FiltroConsulta.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmBusquedaPorRFCyRazonSocial.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCancelacionPedido.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCapTarjetaCredito.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmClienteBitacora.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaReporte.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConTarjetaCredito.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmValidacionDireccion.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmWait.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmWarning.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.GestionCobranza.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.IndiceAgenda.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.InfoPreliq.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.InfoTripulacionTurno.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ModificaCliente.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ModificaFechaCargoCheque.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.MotivoCancelacion.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Resources.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Observaciones.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PantallaAsignacion.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Postit.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitConfiguracion.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitLista.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitUsuarioCaptura.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ReasignaCargoCliente.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Seguridad.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.SeleccionCalleColonia.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ListViewComparador.resources
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.GenerateResource.Cache
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.dll
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
+C:\Users\Transforma1\Source\repos\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.dll
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.pdb
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.xml
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\bin\CrystalDecisions.Windows.Forms.dll
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\bin\RTGMGateway.dll
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\bin\log4net.dll
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\bin\nunit.framework.dll
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\bin\stdole.dll
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\bin\RTGMGateway.pdb
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\bin\log4net.xml
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\bin\nunit.framework.xml
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AcercaDe.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AltaGrupoComercial.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.BuscaCliente.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.BusquedaCliente.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CambioClave.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CancelaPedido.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCheque.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCobro.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCobroRelacion.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaDatosCreditoCliente.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaEmpresa.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaParametro.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Catalogo.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoCaptura.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoEmpresa.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoGrupoComercial.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.COMCorteCaja.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ComboCalle.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaATT.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCargo.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCheques.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaCliente.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaClienteMultiple.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCobro.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaEmpresa.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaFactura.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaMovimientoCaja.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaMovimientos.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaOperadorPedido.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaParametros.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaPedidoBitacora.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmAltaEditaCuentaBancariaCliente.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmAltaPagoTarjeta.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCatCuentaBancariaCliente.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaCargoTarjetaCliente.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaIngresosSaldoAFavor.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmGrupoComercialBusquedaPorCliente.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.DevolucionCheque.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.FiltroConsulta.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmBusquedaPorRFCyRazonSocial.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCancelacionPedido.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCapTarjetaCredito.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmClienteBitacora.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaReporte.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConTarjetaCredito.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmValidacionDireccion.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmWait.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmWarning.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.GestionCobranza.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.IndiceAgenda.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.InfoPreliq.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.InfoTripulacionTurno.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ModificaCliente.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ModificaFechaCargoCheque.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.MotivoCancelacion.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Resources.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Observaciones.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PantallaAsignacion.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Postit.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitConfiguracion.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitLista.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitUsuarioCaptura.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ReasignaCargoCliente.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Seguridad.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.SeleccionCalleColonia.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ListViewComparador.resources
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.GenerateResource.Cache
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.dll
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
+C:\Proyectos\Grupo Metropolitano\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.dll
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.pdb
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\SigaMetClasses.xml
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\RTGMGateway.dll
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\log4net.dll
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\stdole.dll
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\RTGMGateway.pdb
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\RTGMGateway.dll.config
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\log4net.xml
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AcercaDe.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.AltaGrupoComercial.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.BuscaCliente.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.BusquedaCliente.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CambioClave.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CancelaPedido.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCheque.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCobro.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaCobroRelacion.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaDatosCreditoCliente.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaEmpresa.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CapturaParametro.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Catalogo.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoCaptura.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoEmpresa.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.CatalogoGrupoComercial.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.COMCorteCaja.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ComboCalle.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaATT.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCargo.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCheques.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaCliente.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaClienteMultiple.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaCobro.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaEmpresa.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaFactura.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaMovimientoCaja.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaMovimientos.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaOperadorPedido.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaParametros.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ConsultaPedidoBitacora.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmAltaEditaCuentaBancariaCliente.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmAltaPagoTarjeta.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCatCuentaBancariaCliente.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaCargoTarjetaCliente.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaIngresosSaldoAFavor.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmGrupoComercialBusquedaPorCliente.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.DevolucionCheque.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.FiltroConsulta.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmBusquedaPorRFCyRazonSocial.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCancelacionPedido.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmCapTarjetaCredito.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmClienteBitacora.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConsultaReporte.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmConTarjetaCredito.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmValidacionDireccion.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmWait.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.frmWarning.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.GestionCobranza.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.IndiceAgenda.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.InfoPreliq.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.InfoTripulacionTurno.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ModificaCliente.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ModificaFechaCargoCheque.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.MotivoCancelacion.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Resources.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Observaciones.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PantallaAsignacion.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Postit.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitConfiguracion.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitLista.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.PostitUsuarioCaptura.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ReasignaCargoCliente.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.Seguridad.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.SeleccionCalleColonia.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.ListViewComparador.resources
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.GenerateResource.cache
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CoreCompileInputs.cache
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.vbproj.CopyComplete
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.dll
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.xml
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\obj\Debug\SigaMetClasses.pdb
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\Contactos.dll
+C:\Users\Diego\Documents\SigametLibrerias\SigaMetClasses\bin\Contactos.pdb

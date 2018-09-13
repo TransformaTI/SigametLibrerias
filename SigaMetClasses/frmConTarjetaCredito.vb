@@ -20,21 +20,51 @@ Public Class frmConTarjetaCredito
     Private _Recurrente As Boolean
 
     Private _Usuario As String
+    Public _URLGateway As String
+    Private _Modulo As Byte
 
     Private _NumTDCOculto As String
     Private _NumOculto As Boolean = False
 
 #Region " Windows Form Designer generated code "
 
+
     Public Sub New(Optional ByVal Usuario As String = Nothing)
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
-        InitializeComponent()
 
+        InitializeComponent()
         'Add any initialization after the InitializeComponent() call
         _Usuario = Usuario
     End Sub
+
+    Public Sub New(ByVal Cliente As Integer, Optional ByVal Usuario As String = Nothing, Optional ByVal URLGateway As String = Nothing, Optional ByVal Modulo As Byte = 0, Optional ByVal CadCon As String = "")
+        MyBase.New()
+        InitializeComponent()
+
+        _Cliente = Cliente
+        _Usuario = Usuario
+        _URLGateway = URLGateway
+        _Modulo = Modulo
+        _CadenaConexion = CadCon
+    End Sub
+
+    Private Sub ConsultaClienteGateway(ByVal oDireccionEntrega As RTGMCore.DireccionEntrega)
+        Cursor = Cursors.WaitCursor
+
+        txtCliente.Text = CType(oDireccionEntrega.IDDireccionEntrega, String)
+        lblNombre.Text = CType(oDireccionEntrega.Nombre, String)
+        lblCelula.Text = CType(oDireccionEntrega.ZonaSuministro.Descripcion, String)
+        lblRuta.Text = CType(oDireccionEntrega.Ruta.Descripcion, String)
+        lblTipoCredito.Text = CType(oDireccionEntrega.CondicionesCredito.ClasificacionCredito, String)
+        lblEstatus.Text = CType(oDireccionEntrega.Status, String)
+        lblSaldo.Text = CType(oDireccionEntrega.CondicionesCredito.Saldo, Decimal).ToString("C")
+        OcultarTarjetaCredito()
+        btnModificar.Enabled = False
+        Cursor = Cursors.Default
+    End Sub
+
 
     'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
@@ -96,6 +126,26 @@ Public Class frmConTarjetaCredito
     Friend WithEvents txtCliente As SigaMetClasses.Controles.txtNumeroEntero
     Friend WithEvents colRecurrente As System.Windows.Forms.DataGridBoolColumn
     Friend WithEvents colNumTarjetaCredito As System.Windows.Forms.DataGridTextBoxColumn
+
+    Public Property Modulo As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(value As Byte)
+            _Modulo = value
+        End Set
+    End Property
+
+    Private _CadenaConexion As String
+    Public Property CadenaConexion() As String
+        Get
+            Return _CadenaConexion
+        End Get
+        Set(ByVal value As String)
+            _CadenaConexion = value
+        End Set
+    End Property
+
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmConTarjetaCredito))
         Me.grdTarjetaCredito = New System.Windows.Forms.DataGrid()
@@ -576,21 +626,7 @@ Public Class frmConTarjetaCredito
 
 #End Region
 
-    Public Sub New(ByVal Cliente As Integer, Optional ByVal Usuario As String = Nothing)
-        MyBase.New()
-        InitializeComponent()
 
-        _Cliente = Cliente
-
-        _Usuario = Usuario
-
-        Me.txtCliente.Text = _Cliente.ToString
-        Me.txtCliente.Enabled = False
-        Me.btnBuscar.Visible = False
-        Me.btnAgregar.Enabled = True
-        ConsultaCliente(_Cliente)
-
-    End Sub
 
     Private Sub btnCerrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCerrar.Click
         Me.Close()
@@ -600,12 +636,36 @@ Public Class frmConTarjetaCredito
         If txtCliente.Text <> "" And IsNumeric(txtCliente.Text) Then
             _Cliente = CType(txtCliente.Text, Integer)
             LimpiaCajas()
-            ConsultaCliente(_Cliente)
-            If lblNombre.Text = "" Then
-                btnAgregar.Enabled = False
-                MessageBox.Show("No se encontró el cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+
+            If (String.IsNullOrEmpty(_URLGateway)) Then
+                ConsultaCliente(_Cliente)
+                If lblNombre.Text = "" Then
+                    btnAgregar.Enabled = False
+                    MessageBox.Show("No se encontró el cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+                    btnAgregar.Enabled = True
+                End If
             Else
-                btnAgregar.Enabled = True
+                Dim oGateway As RTGMGateway.RTGMGateway
+                Dim oSolicitud As RTGMGateway.SolicitudGateway
+                Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+                oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+                oSolicitud = New RTGMGateway.SolicitudGateway
+                oGateway.URLServicio = _URLGateway
+                oSolicitud.IDCliente = _Cliente
+                oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+                If IsNothing(oDireccionEntrega.Message) Then
+                    ConsultaClienteGateway(oDireccionEntrega)
+                Else
+                    MessageBox.Show(oDireccionEntrega.Message, "SIGAMET", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
+                If lblNombre.Text = "" Then
+                    btnAgregar.Enabled = False
+                    MessageBox.Show("No se encontró el cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+                    btnAgregar.Enabled = True
+                End If
+
             End If
         End If
     End Sub
@@ -690,7 +750,8 @@ Public Class frmConTarjetaCredito
     End Sub
 
     Private Sub btnAgregar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAgregar.Click
-        Dim frmCaptura As New frmCapTarjetaCredito(_Cliente)
+        Dim frmCaptura As New frmCapTarjetaCredito(_Cliente, _URLGateway)
+
         If frmCaptura.ShowDialog() = DialogResult.OK Then
             LimpiaCajas()
             LimpiaDatos()

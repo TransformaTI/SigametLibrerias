@@ -7,15 +7,47 @@ Public Class ConsultaATT
     Private _AñoAtt As Short
     Private _Folio As Integer
     Private dtCobroPedido As DataTable
+    Private _CadenaConexion As String
+    'Multiempresa portátil
 
-    Public Sub New(ByVal AñoAtt As Short, ByVal Folio As Integer, _
+    Private _GLOBAL_CorporativoUsuario As Short
+    Public Property GLOBAL_CorporativoUsuario() As Short
+        Get
+            Return _GLOBAL_CorporativoUsuario
+        End Get
+        Set(ByVal value As Short)
+            _GLOBAL_CorporativoUsuario = value
+        End Set
+    End Property
+
+    Private _GLOBAL_SucursalUsuario As Short
+    Public Property GLOBAL_SucursalUsuario() As Short
+        Get
+            Return _GLOBAL_SucursalUsuario
+        End Get
+        Set(ByVal value As Short)
+            _GLOBAL_SucursalUsuario = value
+        End Set
+    End Property
+
+    Private _Modulo As Byte
+    Public Property Modulo() As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(ByVal value As Byte)
+            _Modulo = value
+        End Set
+    End Property
+
+    Public Sub New(ByVal AñoAtt As Short, ByVal Folio As Integer,
         Optional ByVal ConnectionString As String = Nothing)
 
         MyBase.New()
         InitializeComponent()
         _AñoAtt = AñoAtt
         _Folio = Folio
-
+        _CadenaConexion = ConnectionString
         CargaDatos(_AñoAtt, _Folio, ConnectionString)
 
     End Sub
@@ -29,7 +61,6 @@ Public Class ConsultaATT
         InitializeComponent()
 
         'Add any initialization after the InitializeComponent() call
-
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -958,9 +989,15 @@ Public Class ConsultaATT
     End Sub
 
     Private Sub btnConsultaCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultaCliente.Click
+        Dim lParametro As New SigaMetClasses.cConfig(3, _GLOBAL_CorporativoUsuario, _GLOBAL_SucursalUsuario)
+        Dim lURLGateway As String = CType(lParametro.Parametros.Item("URLGateway"), String)
+        lParametro.Dispose()
         Cursor = Cursors.WaitCursor
         Dim iCliente As Integer = CType(grdPedido.Item(grdPedido.CurrentRowIndex, 4), Integer)
-        Dim oConsultaCliente As New frmConsultaCliente(iCliente)
+        Dim oConsultaCliente As New frmConsultaCliente(iCliente, lURLGateway, _CadenaConexion)
+        oConsultaCliente.GLOBAL_CORPORATIVO = Me.GLOBAL_CorporativoUsuario
+        oConsultaCliente.CadenaConexion = _CadenaConexion
+        oConsultaCliente.Modulo = CType(_Modulo, Byte)
         oConsultaCliente.ShowDialog()
         Cursor = Cursors.Default
     End Sub

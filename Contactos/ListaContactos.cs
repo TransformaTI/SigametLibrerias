@@ -9,7 +9,6 @@ using System.Data.SqlClient;
 using ContactosDL;
 
 
-
 namespace CRMContactos
 {
 	/// <summary>
@@ -27,13 +26,36 @@ namespace CRMContactos
 		private System.Windows.Forms.ToolBarButton tbConsultar;
 		private System.Windows.Forms.ImageList imageList1;
 		private System.ComponentModel.IContainer components;
+        private string _cadenaConexion;
+        private string _urlGateway;
 
 		MainDataLayer mainDL;
 		ContactosDL.Contactos contactos;
 
 		int _contacto = 0;
+        public string CadenaConexion {
+            get
+            {
+                return this._cadenaConexion;
+            }
+            set
+            {
+                this._cadenaConexion = value ;
+            }
+       }
+        public string UrlGateway {
+            get
+            {
+                return this._urlGateway;
+            }
+            set
+            {
+                this._urlGateway = value;
+            }
+        }
 
-		public ListaContactos(SqlConnection Connection)
+
+        public ListaContactos(SqlConnection Connection)
 		{
 			//
 			// Required for Windows Form Designer support
@@ -51,7 +73,7 @@ namespace CRMContactos
 			cargaDatos();
 		}
 
-		public ListaContactos(SqlConnection Connection, int Cliente)
+		public ListaContactos(SqlConnection Connection, int Cliente, string cadenaConexion,string urlgateway)
 		{
 			//
 			// Required for Windows Form Designer support
@@ -69,7 +91,8 @@ namespace CRMContactos
 			mainDL = MainDataLayer.GetInstance();
 			mainDL.Connection = Connection;
 			mainDL.CargaCatalogos();
-
+            _urlGateway = urlgateway;
+            _cadenaConexion = cadenaConexion;
 			contactos = new ContactosDL.Contactos();
 
 			cargaDatos(Cliente);
@@ -272,7 +295,14 @@ namespace CRMContactos
 			try
 			{
 				contactos.cargaCatalogos(Cliente);
-				vwGrd1.DataSource = contactos.DSContactos.Tables["Contactos"];
+                if (_urlGateway.Trim() != "" && _urlGateway != null)
+                {                    
+                    vwGrd1.DataSource = ConsultarCRM(contactos.DSContactos.Tables["Contactos"]);
+                }
+                else
+                {
+                    vwGrd1.DataSource = contactos.DSContactos.Tables["Contactos"];
+                }           
 				vwGrd1.AutoColumnHeader();
 				vwGrd1.DataAdd();
 			}
@@ -285,6 +315,40 @@ namespace CRMContactos
 				this.Cursor = Cursors.Default;
 			}
 		}
+
+        private DataTable ConsultarCRM(DataTable dtContactos)
+        {
+            DataTable dtRespuesta = new DataTable();
+            try
+            {
+                RTGMGateway.RTGMGateway objGateway = new RTGMGateway.RTGMGateway(1, _cadenaConexion);                
+                objGateway.URLServicio = _urlGateway; 
+                dtRespuesta = dtContactos;
+                foreach (DataRow dr in dtRespuesta.Rows)
+                {
+                    RTGMGateway.SolicitudGateway objRequest = new RTGMGateway.SolicitudGateway
+                    {
+                        IDCliente = Convert.ToInt32(dr["cliente"]),
+                        Portatil = false,
+                        IDAutotanque = null,
+                        FechaConsulta = null
+                    };
+
+                    RTGMCore.DireccionEntrega objDireccionEntega = objGateway.buscarDireccionEntrega(objRequest);
+                    if (objDireccionEntega != null)
+                    {
+                        dr["Nombre"] = objDireccionEntega.NombreContacto;
+                        dr["correoelectronico"] = objDireccionEntega.Email;
+                    }
+                }
+            
+}catch  (Exception ex)
+            {
+
+            }          
+                return dtRespuesta;        
+          
+        } 
 
 		private void vwGrd1_SelectedIndexChanged(object sender, System.EventArgs e)
 		{

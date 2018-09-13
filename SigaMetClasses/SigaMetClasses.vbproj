@@ -21,7 +21,7 @@
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
     <OutputType>Library</OutputType>
-    <OptionCompare>Binary</OptionCompare>
+    <OptionCompare>Text</OptionCompare>
     <OptionExplicit>On</OptionExplicit>
     <OptionStrict>Off</OptionStrict>
     <RootNamespace>SigaMetClasses</RootNamespace>
@@ -58,7 +58,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <DebugSymbols>true</DebugSymbols>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
@@ -67,6 +67,7 @@
     <DebugType>full</DebugType>
     <WarningsAsErrors>
     </WarningsAsErrors>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\</OutputPath>
@@ -92,9 +93,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\AsignacionMultiple.dll</HintPath>
     </Reference>
-    <Reference Include="Contactos, Version=1.0.0.0, Culture=neutral">
+    <Reference Include="Contactos, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Contactos.dll</HintPath>
+      <HintPath>..\Contactos\bin\Debug\Contactos.dll</HintPath>
     </Reference>
     <Reference Include="ContactosDL, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
@@ -106,23 +107,23 @@
     </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+      <HintPath>D:\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\CrystalDecisions.ReportSource.dll</HintPath>
+      <HintPath>D:\CrystalDecisions.ReportSource.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\CrystalDecisions.Shared.dll</HintPath>
+      <HintPath>D:\CrystalDecisions.Shared.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\CrystalDecisions.Web.dll</HintPath>
+      <HintPath>D:\CrystalDecisions.Web.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\CrystalDecisions.Windows.Forms.dll</HintPath>
+      <HintPath>D:\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="DocumentosBSR, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
@@ -150,6 +151,9 @@
     <Reference Include="RegularValidations, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\RegularValidations.dll</HintPath>
+    </Reference>
+    <Reference Include="RTGMGateway">
+      <HintPath>..\..\RTGMGateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
     </Reference>
     <Reference Include="SeguimientoCliente, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
@@ -303,6 +307,37 @@
     <Compile Include="ConsultaPedidoBitacora.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="DetallePrecioGLP.vb" />
+    <Compile Include="frmAltaEditaCuentaBancariaCliente.Designer.vb">
+      <DependentUpon>frmAltaEditaCuentaBancariaCliente.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAltaEditaCuentaBancariaCliente.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAltaPagoTarjeta.Designer.vb">
+      <DependentUpon>frmAltaPagoTarjeta.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAltaPagoTarjeta.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCatCuentaBancariaCliente .Designer.vb">
+      <DependentUpon>frmCatCuentaBancariaCliente .vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmCatCuentaBancariaCliente .vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConsultaCargoTarjetaCliente.Designer.vb">
+      <DependentUpon>frmConsultaCargoTarjetaCliente.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmConsultaCargoTarjetaCliente.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConsultaIngresosSaldoAFavor.Designer.vb">
+      <DependentUpon>frmConsultaIngresosSaldoAFavor.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmConsultaIngresosSaldoAFavor.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmGrupoComercialBusquedaPorCliente.designer.vb">
       <DependentUpon>frmGrupoComercialBusquedaPorCliente.vb</DependentUpon>
     </Compile>
@@ -395,6 +430,7 @@
     <Compile Include="PostitUsuarioCaptura.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Precio.vb" />
     <Compile Include="ReasignaCargoCliente.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -404,9 +440,7 @@
     <Compile Include="SeleccionCalleColonia.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SigaMetClasses.vb">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="SigaMetClasses.vb" />
     <EmbeddedResource Include="AcercaDe.resx">
       <DependentUpon>AcercaDe.vb</DependentUpon>
     </EmbeddedResource>
@@ -499,6 +533,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConsultaPedidoBitacora.resx">
       <DependentUpon>ConsultaPedidoBitacora.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAltaEditaCuentaBancariaCliente.resx">
+      <DependentUpon>frmAltaEditaCuentaBancariaCliente.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAltaPagoTarjeta.resx">
+      <DependentUpon>frmAltaPagoTarjeta.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCatCuentaBancariaCliente .resx">
+      <DependentUpon>frmCatCuentaBancariaCliente .vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConsultaCargoTarjetaCliente.resx">
+      <DependentUpon>frmConsultaCargoTarjetaCliente.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConsultaIngresosSaldoAFavor.resx">
+      <DependentUpon>frmConsultaIngresosSaldoAFavor.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGrupoComercialBusquedaPorCliente.resx">
       <DependentUpon>frmGrupoComercialBusquedaPorCliente.vb</DependentUpon>
@@ -611,6 +660,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

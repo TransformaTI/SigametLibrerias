@@ -279,6 +279,9 @@ Public Class ConsultaProgramaCobranza
     Private _listaEjecutivos As DataTable
 
     Private _permitirTodosLosEjecutivos As Boolean = False
+    Private _URLGateway As String
+
+
 
     Public ReadOnly Property ListaDocumentos() As DataTable
         Get
@@ -306,12 +309,13 @@ Public Class ConsultaProgramaCobranza
         End Set
     End Property
 
-    Public Sub New(ByVal ListaCelulas As DataTable, _
-        ByVal ListaEmpleados As DataTable, _
-        ByVal ListaEjecutivos As DataTable, _
-        ByVal Empleado As Integer, _
-        ByVal Connection As SqlClient.SqlConnection, _
-        Optional ByVal ConsultaClientesSinDatos As Boolean = False)
+    Public Sub New(ByVal ListaCelulas As DataTable,
+        ByVal ListaEmpleados As DataTable,
+        ByVal ListaEjecutivos As DataTable,
+        ByVal Empleado As Integer,
+        ByVal Connection As SqlClient.SqlConnection,
+        Optional ByVal ConsultaClientesSinDatos As Boolean = False,
+        Optional ByVal URLGateway As String = "")
         MyBase.New()
         'This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -323,18 +327,21 @@ Public Class ConsultaProgramaCobranza
         _listaEmpleados = ListaEmpleados
         _listaEjecutivos = ListaEjecutivos
         programaCobranza = New DataAccess(_connection)
+        _URLGateway = URLGateway
 
         chkCteSinDatos.Visible = ConsultaClientesSinDatos
         AddHandler MyBase.Load, AddressOf ConsultaProgramaCobranza_Load
     End Sub
 
-    Public Sub New(ByVal ListaRutas As DataTable, _
-        ByVal Connection As SqlClient.SqlConnection, _
-        Optional ByVal ConsultaClientesSinDatos As Boolean = False)
+    Public Sub New(ByVal ListaRutas As DataTable,
+        ByVal Connection As SqlClient.SqlConnection,
+        Optional ByVal ConsultaClientesSinDatos As Boolean = False,
+        Optional ByVal URLGateway As String = "")
 
         InitializeComponent()
         _connection = Connection
         _listaCelulas = ListaRutas
+        _URLGateway = URLGateway
 
         chkCteSinDatos.Visible = ConsultaClientesSinDatos
     End Sub
@@ -373,19 +380,19 @@ Public Class ConsultaProgramaCobranza
     Private Sub btnBuscar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscar.Click
         If Not chkCteSinDatos.Checked Then
             Try
-                programaCobranza.CargaProgramaCobranza(dtpFechaCobranza.Value.Date, dtpFechaCobranza.Value.Date, _
-                    CType(cboCelula.SelectedValue, Byte), CType(cboEmpleado.SelectedValue, Integer), _
-                    chkCobrador.Checked, chkCelula.Checked, _
+                programaCobranza.CargaProgramaCobranza(dtpFechaCobranza.Value.Date, dtpFechaCobranza.Value.Date,
+                    CType(cboCelula.SelectedValue, Byte), CType(cboEmpleado.SelectedValue, Integer),
+                    chkCobrador.Checked, chkCelula.Checked,
                     chkEjecutivo.Checked, CType(cboEjecutivoCyC.SelectedValue, Integer))
             Catch ex As Exception
                 System.Windows.Forms.MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message, "Error", Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Error)
             End Try
         Else
-            programaCobranza.CargaProgramaCobranza(CType(cboCelula.SelectedValue, Byte), CType(cboEmpleado.SelectedValue, Integer), _
-                chkEjecutivo.Checked, chkCelula.Checked, _
+            programaCobranza.CargaProgramaCobranza(CType(cboCelula.SelectedValue, Byte), CType(cboEmpleado.SelectedValue, Integer),
+                chkEjecutivo.Checked, chkCelula.Checked,
                 CType(cboEjecutivoCyC.SelectedValue, Integer))
         End If
-        dgCobranza.DataSource = programaCobranza.Programacion.Tables("ProgramaCobranza")
+        dgCobranza.DataSource = programaCobranzaGateWay(programaCobranza.Programacion.Tables("ProgramaCobranza"))
         dgCobranza.AutoColumnHeader()
         dgCobranza.DataAdd()
         Dim lvi As System.Windows.Forms.ListViewItem
@@ -393,6 +400,37 @@ Public Class ConsultaProgramaCobranza
             lvi.Checked = True
         Next
     End Sub
+    Private Function programaCobranzaGateWay(ByVal ProgramaCobranza As DataTable) As DataTable
+
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        Dim delimiter As Char = "-"c
+
+        If _URLGateway <> "" Then
+            Dim drow As DataRow
+
+            oGateway = New RTGMGateway.RTGMGateway()
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            oGateway.URLServicio = _URLGateway
+            oSolicitud.Fuente = RTGMCore.Fuente.CRM
+
+            If ProgramaCobranza.Rows.Count > 0 Then
+                For Each drow In ProgramaCobranza.Rows
+                    Dim lCliente As String
+                    lCliente = (CType(drow("Cliente"), String))
+                    Dim lClienteCompleto() As String = lCliente.Split(delimiter)
+                    oSolicitud.IDCliente = (CType(lClienteCompleto(0).Trim(), Integer))
+                    oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+                    If Not IsNothing(oDireccionEntrega) Then
+                        drow("Cliente") = String.Format("{0} - {1}", oSolicitud.IDCliente, Trim(oDireccionEntrega.Nombre.Trim()))
+                    End If
+                Next
+            End If
+
+        End If
+        Return ProgramaCobranza
+    End Function
 
     Private Sub btnCancelar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancelar.Click
         Me.DialogResult = Windows.Forms.DialogResult.Cancel

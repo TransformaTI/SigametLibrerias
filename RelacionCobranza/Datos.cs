@@ -178,13 +178,19 @@ namespace RelacionCobranza
 
 		public void ConsultaPedido(string PedidoReferencia, bool ValeCredito)
 		{
-			SqlParameter[] _param = new SqlParameter[3];
+            SqlParameter[] _param = new SqlParameter[1];
+            _param[0] = new SqlParameter("@PedidoReferencia", SqlDbType.VarChar);
 
-			_param[0] = new SqlParameter("@SerieValeCredito", SqlDbType.VarChar);
-			_param[1] = new SqlParameter("@ValeCredito", SqlDbType.Int);
-			_param[2] = new SqlParameter("@PedidoReferencia", SqlDbType.VarChar);
+            //SqlParameter[] _param = new SqlParameter[3];
 
-			if (!ValeCredito)
+            //_param[0] = new SqlParameter("@SerieValeCredito", SqlDbType.VarChar);
+            //_param[1] = new SqlParameter("@ValeCredito", SqlDbType.Int);
+            //_param[2] = new SqlParameter("@PedidoReferencia", SqlDbType.VarChar);
+
+
+
+
+            if (!ValeCredito)
 			{
 				try
 				{
@@ -201,12 +207,14 @@ namespace RelacionCobranza
 				if (DocumentosBSR.SerieDocumento.Serie.Length > 0)
 				{
 					_param[0].Value = DocumentosBSR.SerieDocumento.Serie;
-				}		
-				_param[1].Value = DocumentosBSR.SerieDocumento.FolioNota;
-			}
+				}
+                //_param[1].Value = DocumentosBSR.SerieDocumento.FolioNota;
+                _param[0].Value = DocumentosBSR.SerieDocumento.FolioNota;
+            }
 			else
 			{
-				_param[2].Value = PedidoReferencia;
+                
+                _param[0].Value = PedidoReferencia;
 			}
 
 			

@@ -24,12 +24,7 @@ Public Class ConsultaCheques
     Private _Usuario As String
     Private _Titulo As String = "Consulta de Cheques"
     Private _ComboCargado As Boolean
-
     Private dtCheque As DataTable
-
-    'Carga de parámetros con nombres duplicados 3/4/2008 JAGD
-    Private _Corporativo As Short
-    Private _Sucursal As Short
 #End Region
 
 #Region "Eventos"
@@ -43,9 +38,51 @@ Public Class ConsultaCheques
             tbAgregar.Enabled = Value
         End Set
     End Property
+
+    Private _CadenaConexion As String
+    Public Property CadenaConexion() As String
+        Get
+            Return _CadenaConexion
+        End Get
+        Set(ByVal value As String)
+            _CadenaConexion = value
+        End Set
+    End Property
+
+    Private _URLGateway As String
+    Public Property URLGateway() As String
+        Get
+            Return _URLGateway
+        End Get
+        Set(ByVal value As String)
+            _URLGateway = value
+        End Set
+    End Property
+
+    Private _Corporativo As Byte
+    Public Property Corporativo() As Byte
+        Get
+            Return _Corporativo
+        End Get
+        Set(ByVal value As Byte)
+            _Corporativo = value
+        End Set
+    End Property
+
+    Private _Sucursal As Byte
+    Public Property Sucursal() As Byte
+        Get
+            Return _Sucursal
+        End Get
+        Set(ByVal value As Byte)
+            _Sucursal = value
+        End Set
+    End Property
+
+
 #End Region
 
-    
+
     Public Sub New(ByVal Modulo As Short, _
                    ByVal Usuario As String)
 
@@ -76,8 +113,8 @@ Public Class ConsultaCheques
         _Modulo = Modulo
         _Usuario = Usuario
 
-        _Corporativo = Corporativo
-        _Sucursal = Sucursal
+        _Corporativo = CType(Corporativo, Byte)
+        _Sucursal = CType(Sucursal, Byte)
 
         Dim oConfig As New SigaMetClasses.cConfig(4, _Corporativo, _Sucursal)
         GLOBAL_MaxRegistrosConsulta = CType(oConfig.Parametros("MaxRegistrosConsulta"), Short)
@@ -839,7 +876,12 @@ Public Class ConsultaCheques
             LimpiaVariables()
             dtCheque = oCheque.Consulta(dtpFCheque.Value.Date, CType(ComboBanco.SelectedValue, Short))
 
-            grdCheque.DataSource = dtCheque
+            If _URLGateway <> "" Then
+                grdCheque.DataSource = consultarDatosClienteCRM(dtCheque)
+            Else
+                grdCheque.DataSource = dtCheque
+            End If
+
             If dtCheque.Rows.Count <= 0 Then
                 tbFiltrar.Enabled = False
             Else
@@ -859,6 +901,59 @@ Public Class ConsultaCheques
             Cursor = Cursors.Default
         End Try
     End Sub
+
+    Private Function consultarDatosClienteCRM(ByVal dtCheques As DataTable) As DataTable
+        Dim dtChuequesModificados As New DataTable()
+        Dim Mensaje As String = "Los siguientes clientes no fueron encontrados en CRM." + vbCrLf
+        Dim CtesNoEncontrados As String = ""
+        Try
+            dtChuequesModificados = dtCheques
+            If dtChuequesModificados.Rows.Count() > 0 Then
+                For Each dr As DataRow In dtChuequesModificados.Rows
+                    Cursor = Cursors.WaitCursor
+                    Dim oGateway As RTGMGateway.RTGMGateway
+                    Dim oSolicitud As RTGMGateway.SolicitudGateway
+                    Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+
+                    oGateway = New RTGMGateway.RTGMGateway(CType(_Modulo, Byte), _CadenaConexion)
+                    oSolicitud = New RTGMGateway.SolicitudGateway()
+                    oGateway.GuardarLog = True
+                    oGateway.URLServicio = _URLGateway
+                    oSolicitud.IDCliente = CType(dr("Cliente"), Int32)
+                    oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+                    If Not IsNothing(oDireccionEntrega) And IsNothing(oDireccionEntrega.Message) Then
+                        dr("ClienteNombre") = oDireccionEntrega.Nombre
+                    Else
+                        If Not IsNothing(oDireccionEntrega.Message) And oDireccionEntrega.Message.Contains("ERROR") Then
+                            'Throw New Exception(oDireccionEntrega.Message)
+                            'Mensaje = Mensaje & CType(dr("Cliente"), String) + vbCrLf
+                            If CtesNoEncontrados = String.Empty Then
+                                CtesNoEncontrados = CType(dr("Cliente"), String)
+                            Else
+                                CtesNoEncontrados = CtesNoEncontrados & "," & CStr(dr("Cliente"))
+                            End If
+                        End If
+                    End If
+                Next
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            dtChuequesModificados.Clear()
+        Finally
+            Cursor = Cursors.Default
+        End Try
+        If CtesNoEncontrados <> "" Then
+
+            Mensaje = Mensaje + " " + CtesNoEncontrados
+            If Mensaje.Length > 500 Then
+                Mensaje = Mensaje.Substring(0, 500) & "..."
+            End If
+            MessageBox.Show(Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+        Return dtChuequesModificados
+    End Function
+
 
     Private Sub Devolver(ByVal DevolucionMultiple As Boolean)
         Dim _DevFechaAnt As Boolean = oSeguridad.TieneAcceso("CHEQUES_DEVOLUCION_FECHAANT")
@@ -896,6 +991,24 @@ Public Class ConsultaCheques
 #End Region
 
     Private Sub tbrEstandar_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles tbrEstandar.ButtonClick
+
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+
+        Dim _URLGateway As String = ""
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+			If Not ex.Message.Contains("Index") Then
+				MessageBox.Show("Error al consultar Parametro URLGateway: " + ex.Message)
+			End If
+		End Try
+
+        If (_URLGateway <> String.Empty) Then
+            Dim ConsultaCliente As New frmConsultaCliente(_Cliente)
+        Else
+            Dim ConsultaCliente As New frmConsultaCliente(_Cliente, _URLGateway, "")
+        End If
+
         Select Case e.Button.Tag.ToString()
             Case Is = "Agregar"
 
@@ -918,7 +1031,7 @@ Public Class ConsultaCheques
                     Exit Sub
                 Else
                     If _NumeroCheque <> "" And _Banco <> 0 And _Cliente <> 0 Then
-                        Dim frmCapturaCheque As New CapturaCheque(_Cliente, _NumeroCheque, _NumeroCuenta, _
+                        Dim frmCapturaCheque As New CapturaCheque(_Cliente, _NumeroCheque, _NumeroCuenta,
                                                                     _Banco, _FCheque, _Importe, _Observaciones, _Usuario)
                         If frmCapturaCheque.ShowDialog() = DialogResult.OK Then
                             CargaListaCheques()
@@ -959,10 +1072,10 @@ Public Class ConsultaCheques
                     Else
                         Select Case _Estatus
                             Case Is = "DEVUELTO"
-                                Dim strMensaje As String = _
-                                "Este cheque ya está devuelto." & Chr(13) & _
-                                "Al devolver este cheque otra vez se creará un cargo nuevo para el cliente: " & Trim(_ClienteNombre) & Chr(13) & _
-                                "con un importe de " & Me._Importe.ToString("C") & Chr(13) & _
+                                Dim strMensaje As String =
+                                "Este cheque ya está devuelto." & Chr(13) &
+                                "Al devolver este cheque otra vez se creará un cargo nuevo para el cliente: " & Trim(_ClienteNombre) & Chr(13) &
+                                "con un importe de " & Me._Importe.ToString("C") & Chr(13) &
                                 "¿Desea continuar?"
                                 If MessageBox.Show(strMensaje, _Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
                                     'Procesar la nueva devolución (el documento original ya se encuentra devuelto)

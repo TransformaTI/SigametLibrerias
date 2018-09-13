@@ -1,22 +1,54 @@
 Option Strict On
 Imports System.Windows.Forms, System.Data.SqlClient
+Imports System.Collections.Generic
+Imports System.Collections
 
 Public Class ConsultaCobro
     Inherits System.Windows.Forms.Form
     Private _AnoCobro As Short
     Private _Cobro As Integer
     Private _PermiteModificarCobro As Boolean
+    Private _URLGateway As String
+    Private _Modulo As Byte
+    Private _CadenaConexion As String
 
-    Public Sub New(ByVal AnoCobro As Short, _
-                   ByVal Cobro As Integer, _
-          Optional ByVal PermiteModificarCobro As Boolean = False)
+    Property URLGateway As String
+        Get
+            Return _URLGateway
+        End Get
+        Set(value As String)
+            _URLGateway = value
+        End Set
+    End Property
+
+    Public Property Modulo As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(value As Byte)
+            _Modulo = value
+        End Set
+    End Property
+
+    Public Sub New(ByVal AnoCobro As Short,
+                   ByVal Cobro As Integer,
+                    Optional ByVal PermiteModificarCobro As Boolean = False,
+                    Optional ByVal pURLGateway As String = "",
+                   Optional ByVal Modulo As Byte = 0,
+                   Optional ByVal CadenaConexion As String = "")
 
         MyBase.New()
         InitializeComponent()
         _AnoCobro = AnoCobro
         _Cobro = Cobro
         _PermiteModificarCobro = PermiteModificarCobro
-        CargaDatos(_AnoCobro, _Cobro)
+        _URLGateway = pURLGateway
+        _Modulo = Modulo
+        _CadenaConexion = CadenaConexion
+
+        'CargaDatos(_AnoCobro, _Cobro)
+        CargaDatos(_AnoCobro, _Cobro, _URLGateway)
+
     End Sub
 
 #Region " Windows Form Designer generated code "
@@ -582,7 +614,7 @@ Public Class ConsultaCobro
         Me.lblInformacion.Name = "lblInformacion"
         Me.lblInformacion.Size = New System.Drawing.Size(600, 16)
         Me.lblInformacion.TabIndex = 35
-        Me.lblInformacion.Text = "El cobro no puede ser modificado porque el movimiento que lo incluye tiene estatu" & _
+        Me.lblInformacion.Text = "El cobro no puede ser modificado porque el movimiento que lo incluye tiene estatu" &
         "s "
         '
         'PictureBox1
@@ -642,7 +674,7 @@ Public Class ConsultaCobro
         'Así estaba
         'Dim strQuery As String = _
         '"SELECT * FROM vwConsultaCobro Where AñoCobro = " & AnoCobro.ToString & " And Cobro = " & Cobro.ToString
-        Dim strQuery As String = _
+        Dim strQuery As String =
         "EXECUTE spSCConsultaVwConsultaCobro " & AnoCobro.ToString & "," & Cobro.ToString
         Dim da As New SqlDataAdapter(strQuery, DataLayer.Conexion)
 
@@ -674,10 +706,10 @@ Public Class ConsultaCobro
                     lblNumeroCtaDestino.Text = CType(dtCobro.Rows(0).Item("NumeroCuentaDestino"), String)
                 End If
 
-                strQuery = _
-                "SELECT p.PedidoReferencia, p.Cliente, p.Total, " & _
-                "cp.Total as Abono From CobroPedido cp " & _
-                "Join Pedido p on cp.Pedido = p.Pedido And cp.AñoPed = p.AñoPed And cp.Celula = p.Celula " & _
+                strQuery =
+                "SELECT p.PedidoReferencia, p.Cliente, p.Total, " &
+                "cp.Total as Abono From CobroPedido cp " &
+                "Join Pedido p on cp.Pedido = p.Pedido And cp.AñoPed = p.AñoPed And cp.Celula = p.Celula " &
                 "Where cp.AñoCobro = " & AnoCobro.ToString & " And cp.Cobro = " & Cobro.ToString
 
                 Dim dtCobroPedido As New DataTable("CobroPedido")
@@ -690,19 +722,19 @@ Public Class ConsultaCobro
                 Dim decCobroPedidoTotal As Decimal = SumaColumna(dtCobroPedido, "Abono")
                 lblCobroPedidoTotal.Text = decCobroPedidoTotal.ToString("N")
 
-                strQuery = _
-                "SELECT mc.Clave, mc.Status as MovimientoCajaStatus, mc.Total, " & _
-                "tmc.Descripcion as TipoMovimientoCajaDescripcion, " & _
-                "e.Nombre as EmpleadoNombre, " & _
-                "mc.FMovimiento " & _
-                "From MovimientoCaja mc " & _
-                "Join TipoMovimientoCaja tmc on mc.TipoMovimientoCaja = tmc.TipoMovimientoCaja " & _
-                "Join Empleado e on mc.Empleado = e.Empleado " & _
-                "Join MovimientoCajaCobro mcc on mc.Caja = mcc.Caja " & _
-                "And mc.FOperacion = mcc.FOperacion " & _
-                "And mc.Consecutivo = mcc.Consecutivo " & _
-                "And mc.Folio = mcc.Folio " & _
-                "Where mcc.AñoCobro = " & AnoCobro.ToString & _
+                strQuery =
+                "SELECT mc.Clave, mc.Status as MovimientoCajaStatus, mc.Total, " &
+                "tmc.Descripcion as TipoMovimientoCajaDescripcion, " &
+                "e.Nombre as EmpleadoNombre, " &
+                "mc.FMovimiento " &
+                "From MovimientoCaja mc " &
+                "Join TipoMovimientoCaja tmc on mc.TipoMovimientoCaja = tmc.TipoMovimientoCaja " &
+                "Join Empleado e on mc.Empleado = e.Empleado " &
+                "Join MovimientoCajaCobro mcc on mc.Caja = mcc.Caja " &
+                "And mc.FOperacion = mcc.FOperacion " &
+                "And mc.Consecutivo = mcc.Consecutivo " &
+                "And mc.Folio = mcc.Folio " &
+                "Where mcc.AñoCobro = " & AnoCobro.ToString &
                 " And Cobro = " & Cobro.ToString
 
                 Dim dtMovimientoCaja As New DataTable("MovimientoCaja")
@@ -732,6 +764,146 @@ Public Class ConsultaCobro
                 Else
                     btnModificarCobro.Enabled = _PermiteModificarCobro
                     btnModificarCobro.Visible = _PermiteModificarCobro
+                End If
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Consulta de cobro", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+        End Try
+    End Sub
+
+    Public Sub CargaDatos(ByVal AnoCobro As Short, ByVal Cobro As Integer, ByVal strURLGateway As String)
+        'Así estaba
+        'Dim strQuery As String = _
+        '"SELECT * FROM vwConsultaCobro Where AñoCobro = " & AnoCobro.ToString & " And Cobro = " & Cobro.ToString
+        Dim strQuery As String =
+        "EXECUTE spSCConsultaVwConsultaCobro " & AnoCobro.ToString & "," & Cobro.ToString
+        Dim da As New SqlDataAdapter(strQuery, DataLayer.Conexion)
+
+        Try
+            Dim dtCobro As New DataTable("Cobro")
+            da.Fill(dtCobro)
+            If dtCobro.Rows.Count = 1 Then
+                lblAnoCobro.Text = CType(dtCobro.Rows(0).Item("AñoCobro"), Short).ToString
+                lblCobro.Text = CType(dtCobro.Rows(0).Item("Cobro"), Integer).ToString
+                lblTipoCobroDescripcion.Text = CType(dtCobro.Rows(0).Item("TipoCobroDescripcion"), String)
+                If Not IsDBNull(dtCobro.Rows(0).Item("Cliente")) Then
+                    lblClienteNombre.Text = CType(dtCobro.Rows(0).Item("Cliente"), String) & " " & CType(dtCobro.Rows(0).Item("ClienteNombre"), String)
+                End If
+                lblTotal.Text = CType(dtCobro.Rows(0).Item("Total"), Decimal).ToString("N")
+                lblSaldo.Text = CType(dtCobro.Rows(0).Item("Saldo"), Decimal).ToString("N")
+                lblFAlta.Text = CType(dtCobro.Rows(0).Item("FAlta"), Date).ToString
+                lblStatus.Text = CType(dtCobro.Rows(0).Item("Status"), String)
+                If Not IsDBNull(dtCobro.Rows(0).Item("FCheque")) Then
+                    lblFCheque.Text = CType(dtCobro.Rows(0).Item("FCheque"), Date).ToShortDateString
+                End If
+                lblNumeroCheque.Text = CType(dtCobro.Rows(0).Item("NumeroCheque"), String)
+                lblNumeroCuenta.Text = CType(dtCobro.Rows(0).Item("NumeroCuenta"), String)
+                If Not IsDBNull(dtCobro.Rows(0).Item("FDevolucion")) Then
+                    lblFDevolucion.Text = CType(dtCobro.Rows(0).Item("FDevolucion"), Date).ToString
+                End If
+                'Modificación para captura de transferencias bancarias
+                '23-03-2005 Jorge A. Guerrero Domínguez
+                If Not IsDBNull(dtCobro.Rows(0).Item("NumeroCuentaDestino")) Then
+                    lblNumeroCtaDestino.Text = CType(dtCobro.Rows(0).Item("NumeroCuentaDestino"), String)
+                End If
+
+                strQuery =
+                "SELECT p.PedidoReferencia, p.Cliente, p.Total, " &
+                "cp.Total as Abono From CobroPedido cp " &
+                "Join Pedido p on cp.Pedido = p.Pedido And cp.AñoPed = p.AñoPed And cp.Celula = p.Celula " &
+                "Where cp.AñoCobro = " & AnoCobro.ToString & " And cp.Cobro = " & Cobro.ToString
+
+                Dim dtCobroPedido As New DataTable("CobroPedido")
+                da.SelectCommand.CommandText = strQuery
+                da.Fill(dtCobroPedido)
+
+                grdCobroPedido.DataSource = dtCobroPedido
+                grdCobroPedido.CaptionText &= " (" & dtCobroPedido.Rows.Count.ToString & " en total)"
+
+                Dim decCobroPedidoTotal As Decimal = SumaColumna(dtCobroPedido, "Abono")
+                lblCobroPedidoTotal.Text = decCobroPedidoTotal.ToString("N")
+
+                strQuery =
+                "SELECT mc.Clave, mc.Status as MovimientoCajaStatus, mc.Total, " &
+                "tmc.Descripcion as TipoMovimientoCajaDescripcion, " &
+                "e.Nombre as EmpleadoNombre, " &
+                "mc.FMovimiento " &
+                "From MovimientoCaja mc " &
+                "Join TipoMovimientoCaja tmc on mc.TipoMovimientoCaja = tmc.TipoMovimientoCaja " &
+                "Join Empleado e on mc.Empleado = e.Empleado " &
+                "Join MovimientoCajaCobro mcc on mc.Caja = mcc.Caja " &
+                "And mc.FOperacion = mcc.FOperacion " &
+                "And mc.Consecutivo = mcc.Consecutivo " &
+                "And mc.Folio = mcc.Folio " &
+                "Where mcc.AñoCobro = " & AnoCobro.ToString &
+                " And Cobro = " & Cobro.ToString
+
+                Dim dtMovimientoCaja As New DataTable("MovimientoCaja")
+                da.SelectCommand.CommandText = strQuery
+                da.Fill(dtMovimientoCaja)
+
+                If dtMovimientoCaja.Rows.Count > 0 Then
+                    grdMovimientoCaja.DataSource = dtMovimientoCaja
+                    grdMovimientoCaja.CaptionText &= " (" & dtMovimientoCaja.Rows.Count & " en total)"
+
+                    'Desactivo la modificación del cobro si es que el movimiento ya entró a caja
+                    If Not IsDBNull(dtMovimientoCaja.Rows(0).Item("MovimientoCajaStatus")) Then
+                        Dim strStatus As String = Trim(CType(dtMovimientoCaja.Rows(0).Item("MovimientoCajaStatus"), String))
+
+
+                        If strStatus <> "EMITIDO" Then
+                            Me.lblInformacion.Text &= strStatus
+                            PanelInformacion.Visible = True
+                            btnModificarCobro.Enabled = False
+                            btnModificarCobro.Visible = False
+                        Else
+                            btnModificarCobro.Enabled = _PermiteModificarCobro
+                            btnModificarCobro.Visible = _PermiteModificarCobro
+                        End If
+
+                    End If
+                Else
+                    btnModificarCobro.Enabled = _PermiteModificarCobro
+                    btnModificarCobro.Visible = _PermiteModificarCobro
+                End If
+
+                If _URLGateway <> "" Then
+                    Dim objGateway As RTGMGateway.RTGMGateway
+                    Dim oSolicitud As RTGMGateway.SolicitudGateway
+                    Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+                    oSolicitud = New RTGMGateway.SolicitudGateway
+                    objGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+
+                    objGateway.URLServicio = _URLGateway
+                    oSolicitud.IDCliente = Integer.Parse(dtCobroPedido.Rows(0).Item("Cliente").ToString())
+
+                    oDireccionEntrega = objGateway.buscarDireccionEntrega(oSolicitud)
+
+                    If Not IsDBNull(dtCobroPedido.Rows(0).Item("Cliente")) Then
+                        'lblClienteNombre.Text = CType(oSolicitud.IDCliente, String) & " " & CType(oSolicitud.Nombre, String)
+                        lblClienteNombre.Text = oDireccionEntrega.IDDireccionEntrega.ToString() & " " & If(oDireccionEntrega.Nombre, "").Trim
+                    End If
+
+                    Dim objPedidoGateway As New RTGMGateway.RTGMPedidoGateway(_Modulo, _CadenaConexion)
+                    Dim objSolicitud As New RTGMGateway.SolicitudPedidoGateway
+                    Dim objPedidoList As New List(Of RTGMCore.Pedido)
+
+                    objPedidoGateway.URLServicio = _URLGateway
+                    objSolicitud.TipoConsultaPedido = RTGMCore.TipoConsultaPedido.Boletin
+
+                    For Each row As DataRow In dtCobroPedido.Rows
+                        objSolicitud.PedidoReferencia = row.Item("PedidoReferencia").ToString()
+                        objPedidoList = objPedidoGateway.buscarPedidos(objSolicitud)
+
+                        If objPedidoList.Count > 0 Then
+                            row.Item("PedidoReferencia") = If(objPedidoList(0).PedidoReferencia, "").Trim
+                            'row.Item("IDDireccionEntrega") = objPedidoList(0).IDDireccionEntrega
+                            If Not IsNothing(objPedidoList(0).DetallePedido(0)) Then
+                                row.Item("Total") = objPedidoList(0).DetallePedido(0).Total
+                            End If
+                        End If
+                    Next
                 End If
             End If
         Catch ex As Exception

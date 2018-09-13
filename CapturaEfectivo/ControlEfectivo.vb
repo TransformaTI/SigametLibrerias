@@ -219,7 +219,6 @@ Public Class Efectivo
         Me.txt1000.Name = "txt1000"
         Me.txt1000.Size = New System.Drawing.Size(56, 21)
         Me.txt1000.TabIndex = 0
-        Me.txt1000.Text = ""
         '
         'txt500
         '
@@ -227,7 +226,6 @@ Public Class Efectivo
         Me.txt500.Name = "txt500"
         Me.txt500.Size = New System.Drawing.Size(56, 21)
         Me.txt500.TabIndex = 1
-        Me.txt500.Text = ""
         '
         'txt200
         '
@@ -235,7 +233,6 @@ Public Class Efectivo
         Me.txt200.Name = "txt200"
         Me.txt200.Size = New System.Drawing.Size(56, 21)
         Me.txt200.TabIndex = 2
-        Me.txt200.Text = ""
         '
         'txt100
         '
@@ -243,7 +240,6 @@ Public Class Efectivo
         Me.txt100.Name = "txt100"
         Me.txt100.Size = New System.Drawing.Size(56, 21)
         Me.txt100.TabIndex = 3
-        Me.txt100.Text = ""
         '
         'txt50
         '
@@ -251,7 +247,6 @@ Public Class Efectivo
         Me.txt50.Name = "txt50"
         Me.txt50.Size = New System.Drawing.Size(56, 21)
         Me.txt50.TabIndex = 4
-        Me.txt50.Text = ""
         '
         'txt20
         '
@@ -259,7 +254,6 @@ Public Class Efectivo
         Me.txt20.Name = "txt20"
         Me.txt20.Size = New System.Drawing.Size(56, 21)
         Me.txt20.TabIndex = 5
-        Me.txt20.Text = ""
         '
         'txt10
         '
@@ -267,7 +261,6 @@ Public Class Efectivo
         Me.txt10.Name = "txt10"
         Me.txt10.Size = New System.Drawing.Size(56, 21)
         Me.txt10.TabIndex = 6
-        Me.txt10.Text = ""
         '
         'txt5
         '
@@ -275,7 +268,6 @@ Public Class Efectivo
         Me.txt5.Name = "txt5"
         Me.txt5.Size = New System.Drawing.Size(56, 21)
         Me.txt5.TabIndex = 7
-        Me.txt5.Text = ""
         '
         'txt2
         '
@@ -283,7 +275,6 @@ Public Class Efectivo
         Me.txt2.Name = "txt2"
         Me.txt2.Size = New System.Drawing.Size(56, 21)
         Me.txt2.TabIndex = 8
-        Me.txt2.Text = ""
         '
         'txt1
         '
@@ -291,7 +282,6 @@ Public Class Efectivo
         Me.txt1.Name = "txt1"
         Me.txt1.Size = New System.Drawing.Size(56, 21)
         Me.txt1.TabIndex = 9
-        Me.txt1.Text = ""
         '
         'txt50c
         '
@@ -299,7 +289,6 @@ Public Class Efectivo
         Me.txt50c.Name = "txt50c"
         Me.txt50c.Size = New System.Drawing.Size(56, 21)
         Me.txt50c.TabIndex = 10
-        Me.txt50c.Text = ""
         '
         'txt20c
         '
@@ -307,7 +296,6 @@ Public Class Efectivo
         Me.txt20c.Name = "txt20c"
         Me.txt20c.Size = New System.Drawing.Size(56, 21)
         Me.txt20c.TabIndex = 11
-        Me.txt20c.Text = ""
         '
         'txt10c
         '
@@ -315,7 +303,6 @@ Public Class Efectivo
         Me.txt10c.Name = "txt10c"
         Me.txt10c.Size = New System.Drawing.Size(56, 21)
         Me.txt10c.TabIndex = 12
-        Me.txt10c.Text = ""
         '
         'txt5c
         '
@@ -323,7 +310,6 @@ Public Class Efectivo
         Me.txt5c.Name = "txt5c"
         Me.txt5c.Size = New System.Drawing.Size(56, 21)
         Me.txt5c.TabIndex = 13
-        Me.txt5c.Text = ""
         '
         'txtMorralla
         '
@@ -331,14 +317,13 @@ Public Class Efectivo
         Me.txtMorralla.Name = "txtMorralla"
         Me.txtMorralla.Size = New System.Drawing.Size(56, 21)
         Me.txtMorralla.TabIndex = 14
-        Me.txtMorralla.Text = ""
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(8, 11)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(10, 14)
+        Me.Label1.Size = New System.Drawing.Size(13, 13)
         Me.Label1.TabIndex = 42
         Me.Label1.Text = "$"
         '
@@ -347,7 +332,7 @@ Public Class Efectivo
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(8, 83)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(10, 14)
+        Me.Label4.Size = New System.Drawing.Size(13, 13)
         Me.Label4.TabIndex = 49
         Me.Label4.Text = "$"
         '
@@ -356,7 +341,7 @@ Public Class Efectivo
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(8, 59)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(10, 14)
+        Me.Label3.Size = New System.Drawing.Size(13, 13)
         Me.Label3.TabIndex = 48
         Me.Label3.Text = "$"
         '
@@ -365,7 +350,7 @@ Public Class Efectivo
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(8, 35)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(10, 14)
+        Me.Label2.Size = New System.Drawing.Size(13, 13)
         Me.Label2.TabIndex = 47
         Me.Label2.Text = "$"
         '
@@ -374,7 +359,7 @@ Public Class Efectivo
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(24, 35)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(43, 14)
+        Me.Label5.Size = New System.Drawing.Size(45, 13)
         Me.Label5.TabIndex = 46
         Me.Label5.Text = "500.00:"
         '
@@ -383,7 +368,7 @@ Public Class Efectivo
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(24, 59)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(43, 14)
+        Me.Label6.Size = New System.Drawing.Size(45, 13)
         Me.Label6.TabIndex = 50
         Me.Label6.Text = "200.00:"
         '
@@ -392,7 +377,7 @@ Public Class Efectivo
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(24, 83)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(43, 14)
+        Me.Label7.Size = New System.Drawing.Size(45, 13)
         Me.Label7.TabIndex = 51
         Me.Label7.Text = "100.00:"
         '
@@ -401,7 +386,7 @@ Public Class Efectivo
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(31, 107)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(36, 14)
+        Me.Label8.Size = New System.Drawing.Size(39, 13)
         Me.Label8.TabIndex = 52
         Me.Label8.Text = "50.00:"
         '
@@ -410,7 +395,7 @@ Public Class Efectivo
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(31, 131)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(36, 14)
+        Me.Label9.Size = New System.Drawing.Size(39, 13)
         Me.Label9.TabIndex = 54
         Me.Label9.Text = "20.00:"
         '
@@ -419,7 +404,7 @@ Public Class Efectivo
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(8, 107)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(10, 14)
+        Me.Label10.Size = New System.Drawing.Size(13, 13)
         Me.Label10.TabIndex = 53
         Me.Label10.Text = "$"
         '
@@ -428,7 +413,7 @@ Public Class Efectivo
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(31, 155)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(36, 14)
+        Me.Label11.Size = New System.Drawing.Size(39, 13)
         Me.Label11.TabIndex = 56
         Me.Label11.Text = "10.00:"
         '
@@ -437,7 +422,7 @@ Public Class Efectivo
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(8, 131)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(10, 14)
+        Me.Label12.Size = New System.Drawing.Size(13, 13)
         Me.Label12.TabIndex = 55
         Me.Label12.Text = "$"
         '
@@ -446,7 +431,7 @@ Public Class Efectivo
         Me.Label13.AutoSize = True
         Me.Label13.Location = New System.Drawing.Point(37, 179)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(30, 14)
+        Me.Label13.Size = New System.Drawing.Size(33, 13)
         Me.Label13.TabIndex = 58
         Me.Label13.Text = "5.00:"
         '
@@ -455,7 +440,7 @@ Public Class Efectivo
         Me.Label14.AutoSize = True
         Me.Label14.Location = New System.Drawing.Point(8, 155)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(10, 14)
+        Me.Label14.Size = New System.Drawing.Size(13, 13)
         Me.Label14.TabIndex = 57
         Me.Label14.Text = "$"
         '
@@ -464,7 +449,7 @@ Public Class Efectivo
         Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(37, 203)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(30, 14)
+        Me.Label15.Size = New System.Drawing.Size(33, 13)
         Me.Label15.TabIndex = 60
         Me.Label15.Text = "2.00:"
         '
@@ -473,7 +458,7 @@ Public Class Efectivo
         Me.Label16.AutoSize = True
         Me.Label16.Location = New System.Drawing.Point(8, 179)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(10, 14)
+        Me.Label16.Size = New System.Drawing.Size(13, 13)
         Me.Label16.TabIndex = 59
         Me.Label16.Text = "$"
         '
@@ -482,7 +467,7 @@ Public Class Efectivo
         Me.Label17.AutoSize = True
         Me.Label17.Location = New System.Drawing.Point(37, 227)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(30, 14)
+        Me.Label17.Size = New System.Drawing.Size(33, 13)
         Me.Label17.TabIndex = 62
         Me.Label17.Text = "1.00:"
         '
@@ -491,7 +476,7 @@ Public Class Efectivo
         Me.Label18.AutoSize = True
         Me.Label18.Location = New System.Drawing.Point(8, 203)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(10, 14)
+        Me.Label18.Size = New System.Drawing.Size(13, 13)
         Me.Label18.TabIndex = 61
         Me.Label18.Text = "$"
         '
@@ -500,7 +485,7 @@ Public Class Efectivo
         Me.Label19.AutoSize = True
         Me.Label19.Location = New System.Drawing.Point(37, 251)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(30, 14)
+        Me.Label19.Size = New System.Drawing.Size(33, 13)
         Me.Label19.TabIndex = 64
         Me.Label19.Text = "0.50:"
         '
@@ -509,7 +494,7 @@ Public Class Efectivo
         Me.Label20.AutoSize = True
         Me.Label20.Location = New System.Drawing.Point(8, 227)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(10, 14)
+        Me.Label20.Size = New System.Drawing.Size(13, 13)
         Me.Label20.TabIndex = 63
         Me.Label20.Text = "$"
         '
@@ -518,7 +503,7 @@ Public Class Efectivo
         Me.Label21.AutoSize = True
         Me.Label21.Location = New System.Drawing.Point(37, 275)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(30, 14)
+        Me.Label21.Size = New System.Drawing.Size(33, 13)
         Me.Label21.TabIndex = 66
         Me.Label21.Text = "0.20:"
         '
@@ -527,7 +512,7 @@ Public Class Efectivo
         Me.Label22.AutoSize = True
         Me.Label22.Location = New System.Drawing.Point(8, 251)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(10, 14)
+        Me.Label22.Size = New System.Drawing.Size(13, 13)
         Me.Label22.TabIndex = 65
         Me.Label22.Text = "$"
         '
@@ -536,7 +521,7 @@ Public Class Efectivo
         Me.Label23.AutoSize = True
         Me.Label23.Location = New System.Drawing.Point(37, 299)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(30, 14)
+        Me.Label23.Size = New System.Drawing.Size(33, 13)
         Me.Label23.TabIndex = 68
         Me.Label23.Text = "0.10:"
         '
@@ -545,7 +530,7 @@ Public Class Efectivo
         Me.Label24.AutoSize = True
         Me.Label24.Location = New System.Drawing.Point(8, 275)
         Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(10, 14)
+        Me.Label24.Size = New System.Drawing.Size(13, 13)
         Me.Label24.TabIndex = 67
         Me.Label24.Text = "$"
         '
@@ -554,7 +539,7 @@ Public Class Efectivo
         Me.Label25.AutoSize = True
         Me.Label25.Location = New System.Drawing.Point(37, 323)
         Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(30, 14)
+        Me.Label25.Size = New System.Drawing.Size(33, 13)
         Me.Label25.TabIndex = 70
         Me.Label25.Text = "0.05:"
         '
@@ -563,7 +548,7 @@ Public Class Efectivo
         Me.Label26.AutoSize = True
         Me.Label26.Location = New System.Drawing.Point(8, 299)
         Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(10, 14)
+        Me.Label26.Size = New System.Drawing.Size(13, 13)
         Me.Label26.TabIndex = 69
         Me.Label26.Text = "$"
         '
@@ -572,7 +557,7 @@ Public Class Efectivo
         Me.Label28.AutoSize = True
         Me.Label28.Location = New System.Drawing.Point(8, 323)
         Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(10, 14)
+        Me.Label28.Size = New System.Drawing.Size(13, 13)
         Me.Label28.TabIndex = 71
         Me.Label28.Text = "$"
         '
@@ -581,7 +566,7 @@ Public Class Efectivo
         Me.Label29.AutoSize = True
         Me.Label29.Location = New System.Drawing.Point(0, 381)
         Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(33, 14)
+        Me.Label29.Size = New System.Drawing.Size(35, 13)
         Me.Label29.TabIndex = 73
         Me.Label29.Text = "Total:"
         '
@@ -590,7 +575,7 @@ Public Class Efectivo
         Me.Label30.AutoSize = True
         Me.Label30.Location = New System.Drawing.Point(19, 347)
         Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(48, 14)
+        Me.Label30.Size = New System.Drawing.Size(49, 13)
         Me.Label30.TabIndex = 76
         Me.Label30.Text = "Morralla:"
         Me.Label30.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -600,7 +585,7 @@ Public Class Efectivo
         Me.Label31.AutoSize = True
         Me.Label31.Location = New System.Drawing.Point(8, 347)
         Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(10, 14)
+        Me.Label31.Size = New System.Drawing.Size(13, 13)
         Me.Label31.TabIndex = 75
         Me.Label31.Text = "$"
         '
@@ -609,17 +594,64 @@ Public Class Efectivo
         Me.Label27.AutoSize = True
         Me.Label27.Location = New System.Drawing.Point(18, 11)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(49, 14)
+        Me.Label27.Size = New System.Drawing.Size(51, 13)
         Me.Label27.TabIndex = 77
         Me.Label27.Text = "1000.00:"
         '
         'Efectivo
         '
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.Label27, Me.Label30, Me.Label31, Me.txt1000, Me.Label29, Me.Label28, Me.Label25, Me.Label26, Me.Label23, Me.Label24, Me.Label21, Me.Label22, Me.Label19, Me.Label20, Me.Label17, Me.Label18, Me.Label15, Me.Label16, Me.Label13, Me.Label14, Me.Label11, Me.Label12, Me.Label9, Me.Label10, Me.Label8, Me.Label7, Me.Label6, Me.Label4, Me.Label3, Me.Label2, Me.Label5, Me.Label1, Me.txtMorralla, Me.txt5c, Me.txt10c, Me.txt20c, Me.txt50c, Me.txt1, Me.txt2, Me.txt5, Me.txt10, Me.txt20, Me.txt50, Me.txt100, Me.txt200, Me.txt500, Me.txtTotalEfectivo})
+        Me.Controls.Add(Me.Label27)
+        Me.Controls.Add(Me.Label30)
+        Me.Controls.Add(Me.Label31)
+        Me.Controls.Add(Me.txt1000)
+        Me.Controls.Add(Me.Label29)
+        Me.Controls.Add(Me.Label28)
+        Me.Controls.Add(Me.Label25)
+        Me.Controls.Add(Me.Label26)
+        Me.Controls.Add(Me.Label23)
+        Me.Controls.Add(Me.Label24)
+        Me.Controls.Add(Me.Label21)
+        Me.Controls.Add(Me.Label22)
+        Me.Controls.Add(Me.Label19)
+        Me.Controls.Add(Me.Label20)
+        Me.Controls.Add(Me.Label17)
+        Me.Controls.Add(Me.Label18)
+        Me.Controls.Add(Me.Label15)
+        Me.Controls.Add(Me.Label16)
+        Me.Controls.Add(Me.Label13)
+        Me.Controls.Add(Me.Label14)
+        Me.Controls.Add(Me.Label11)
+        Me.Controls.Add(Me.Label12)
+        Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.txtMorralla)
+        Me.Controls.Add(Me.txt5c)
+        Me.Controls.Add(Me.txt10c)
+        Me.Controls.Add(Me.txt20c)
+        Me.Controls.Add(Me.txt50c)
+        Me.Controls.Add(Me.txt1)
+        Me.Controls.Add(Me.txt2)
+        Me.Controls.Add(Me.txt5)
+        Me.Controls.Add(Me.txt10)
+        Me.Controls.Add(Me.txt20)
+        Me.Controls.Add(Me.txt50)
+        Me.Controls.Add(Me.txt100)
+        Me.Controls.Add(Me.txt200)
+        Me.Controls.Add(Me.txt500)
+        Me.Controls.Add(Me.txtTotalEfectivo)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Name = "Efectivo"
         Me.Size = New System.Drawing.Size(136, 405)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -895,10 +927,10 @@ Public Class Efectivo
     Public Function CalculaTotalEfectivo() As Decimal
         Dim decTotal As Decimal = 0
         'todo: denominacion de 1000 15/11/2004
-        decTotal += CType((M1000 * 1000) + _
-                    (M500 * 500) + (M200 * 200) + (M100 * 100) + (M50 * 50) + _
-                    (M20 * 20) + (M10 * 10) + (M5 * 5) + (M2 * 2) + M1 + _
-                    (M50c * 0.5) + (M20c * 0.2) + (M10c * 0.1) + (M5c * 0.05) + _
+        decTotal += CType((M1000 * 1000) +
+                    (M500 * 500) + (M200 * 200) + (M100 * 100) + (M50 * 50) +
+                    (M20 * 20) + (M10 * 10) + (M5 * 5) + (M2 * 2) + M1 +
+                    (M50c * 0.5) + (M20c * 0.2) + (M10c * 0.1) + (M5c * 0.05) +
                     (Morralla), Decimal)
 
         'decTotal += CType((M500 * 500) + (M200 * 200) + (M100 * 100) + (M50 * 50) + _
@@ -1041,4 +1073,77 @@ Public Class Efectivo
         CType(sender, TextBox).SelectAll()
     End Sub
 
+    Private Sub txt1000_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt1000.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
+
+    Private Sub SoloNumeros(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
+        If Asc(e.KeyChar) <> 13 AndAlso Asc(e.KeyChar) <> 8 AndAlso Not IsNumeric(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub txt1000_TextChanged(sender As Object, e As EventArgs) Handles txt1000.TextChanged
+
+    End Sub
+
+    Private Sub txt500_TextChanged(sender As Object, e As EventArgs) Handles txt500.TextChanged
+
+    End Sub
+
+    Private Sub txt500_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt500.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
+
+    Private Sub txt200_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt200.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
+
+    Private Sub txt100_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt100.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
+
+    Private Sub txt50_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt50.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
+
+    Private Sub txt20_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt20.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
+
+    Private Sub txt10_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt10.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
+
+    Private Sub txt5_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt5.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
+
+    Private Sub txt2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt2.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
+
+    Private Sub txt1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt1.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
+
+    Private Sub txt50c_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt50c.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
+
+    Private Sub txt20c_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt20c.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
+
+    Private Sub txt10c_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt10c.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
+
+    Private Sub txt5c_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txt5c.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
+
+    Private Sub txtMorralla_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtMorralla.KeyPress
+        SoloNumeros(sender, e)
+    End Sub
 End Class

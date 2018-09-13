@@ -13,7 +13,8 @@ Public Class frmConsultaClienteMultiple
     Private _TotalSaldo, _TotalSaldoCartera As Decimal
     Private _TotalLitros, _TotalLitrosCartera As Decimal 'Modificado 10/09/2004
     Private _LinkQueja As Boolean
-
+    Private _URLGateway As String
+    Private _Modulo As Byte
     Private _ImporteAbono As Decimal
     'Importe de los abonos originales
     Private _ImporteAbonoOriginal As Decimal
@@ -50,6 +51,7 @@ Public Class frmConsultaClienteMultiple
 
     'Arreglo con todos los cobros del movimiento
     Private _listaCobros As System.Windows.Forms.ListBox
+    Private _CadenaConexion As String
 
     Public ReadOnly Property PedidoReferenciaSeleccionado() As String
         Get
@@ -79,6 +81,15 @@ Public Class frmConsultaClienteMultiple
 
             Return _documentosSeleccionados
         End Get
+    End Property
+
+    Public Property Modulo As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(value As Byte)
+            _Modulo = value
+        End Set
     End Property
 
 #Region " Windows Form Designer generated code "
@@ -144,7 +155,7 @@ Public Class frmConsultaClienteMultiple
     Friend WithEvents btnLimpiar As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmConsultaClienteMultiple))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmConsultaClienteMultiple))
         Me.lblCliente = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.btnCancelar = New System.Windows.Forms.Button()
@@ -181,12 +192,12 @@ Public Class frmConsultaClienteMultiple
         Me.chkPeriodo = New System.Windows.Forms.CheckBox()
         Me.btnConsultar = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnLimpiar = New System.Windows.Forms.Button()
         Me.chkSeleccionarTodo = New System.Windows.Forms.CheckBox()
         Me.lblImporteAbono = New System.Windows.Forms.Label()
         Me.lblEncabezado = New System.Windows.Forms.Label()
         Me.btnConsultaDocumento = New System.Windows.Forms.Button()
         Me.btnAceptar = New System.Windows.Forms.Button()
-        Me.btnLimpiar = New System.Windows.Forms.Button()
         Me.grdDatosCliente.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -197,7 +208,7 @@ Public Class frmConsultaClienteMultiple
         Me.lblCliente.BackColor = System.Drawing.Color.WhiteSmoke
         Me.lblCliente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCliente.ForeColor = System.Drawing.Color.MediumBlue
-        Me.lblCliente.Location = New System.Drawing.Point(72, 48)
+        Me.lblCliente.Location = New System.Drawing.Point(68, 16)
         Me.lblCliente.Name = "lblCliente"
         Me.lblCliente.Size = New System.Drawing.Size(696, 21)
         Me.lblCliente.TabIndex = 18
@@ -208,7 +219,7 @@ Public Class frmConsultaClienteMultiple
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(8, 20)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(42, 14)
+        Me.Label1.Size = New System.Drawing.Size(44, 13)
         Me.Label1.TabIndex = 23
         Me.Label1.Text = "Cliente:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -217,7 +228,7 @@ Public Class frmConsultaClienteMultiple
         '
         Me.btnCancelar.BackColor = System.Drawing.SystemColors.Control
         Me.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancelar.Image = CType(resources.GetObject("btnCancelar.Image"), System.Drawing.Bitmap)
+        Me.btnCancelar.Image = CType(resources.GetObject("btnCancelar.Image"), System.Drawing.Image)
         Me.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnCancelar.Location = New System.Drawing.Point(808, 40)
         Me.btnCancelar.Name = "btnCancelar"
@@ -225,6 +236,7 @@ Public Class frmConsultaClienteMultiple
         Me.btnCancelar.TabIndex = 28
         Me.btnCancelar.Text = "&Cancelar"
         Me.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnCancelar.UseVisualStyleBackColor = False
         '
         'imgLista16
         '
@@ -236,7 +248,7 @@ Public Class frmConsultaClienteMultiple
         '
         Me.lblDireccion.BackColor = System.Drawing.Color.WhiteSmoke
         Me.lblDireccion.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDireccion.Location = New System.Drawing.Point(72, 20)
+        Me.lblDireccion.Location = New System.Drawing.Point(68, 44)
         Me.lblDireccion.Name = "lblDireccion"
         Me.lblDireccion.Size = New System.Drawing.Size(696, 21)
         Me.lblDireccion.TabIndex = 30
@@ -247,14 +259,17 @@ Public Class frmConsultaClienteMultiple
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(8, 48)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(54, 14)
+        Me.Label12.Size = New System.Drawing.Size(54, 13)
         Me.Label12.TabIndex = 31
         Me.Label12.Text = "Dirección:"
         Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'grdDatosCliente
         '
-        Me.grdDatosCliente.Controls.AddRange(New System.Windows.Forms.Control() {Me.lblCliente, Me.Label1, Me.lblDireccion, Me.Label12})
+        Me.grdDatosCliente.Controls.Add(Me.lblCliente)
+        Me.grdDatosCliente.Controls.Add(Me.Label1)
+        Me.grdDatosCliente.Controls.Add(Me.lblDireccion)
+        Me.grdDatosCliente.Controls.Add(Me.Label12)
         Me.grdDatosCliente.Location = New System.Drawing.Point(4, 4)
         Me.grdDatosCliente.Name = "grdDatosCliente"
         Me.grdDatosCliente.Size = New System.Drawing.Size(776, 80)
@@ -376,7 +391,7 @@ Public Class frmConsultaClienteMultiple
         Me.lblEtiquetaLtsConsulta.ForeColor = System.Drawing.Color.Purple
         Me.lblEtiquetaLtsConsulta.Location = New System.Drawing.Point(113, 604)
         Me.lblEtiquetaLtsConsulta.Name = "lblEtiquetaLtsConsulta"
-        Me.lblEtiquetaLtsConsulta.Size = New System.Drawing.Size(137, 14)
+        Me.lblEtiquetaLtsConsulta.Size = New System.Drawing.Size(138, 13)
         Me.lblEtiquetaLtsConsulta.TabIndex = 54
         Me.lblEtiquetaLtsConsulta.Text = "Litros en esta consulta:"
         '
@@ -388,7 +403,7 @@ Public Class frmConsultaClienteMultiple
         Me.lblEtiquetaLtsCartera.ForeColor = System.Drawing.Color.RoyalBlue
         Me.lblEtiquetaLtsCartera.Location = New System.Drawing.Point(113, 580)
         Me.lblEtiquetaLtsCartera.Name = "lblEtiquetaLtsCartera"
-        Me.lblEtiquetaLtsCartera.Size = New System.Drawing.Size(170, 14)
+        Me.lblEtiquetaLtsCartera.Size = New System.Drawing.Size(171, 13)
         Me.lblEtiquetaLtsCartera.TabIndex = 53
         Me.lblEtiquetaLtsCartera.Text = "Litros vendidos en la cartera:"
         '
@@ -424,7 +439,7 @@ Public Class frmConsultaClienteMultiple
         Me.Label14.ForeColor = System.Drawing.Color.Purple
         Me.Label14.Location = New System.Drawing.Point(497, 604)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(166, 14)
+        Me.Label14.Size = New System.Drawing.Size(167, 13)
         Me.Label14.TabIndex = 50
         Me.Label14.Text = "Saldo total en esta consulta:"
         '
@@ -436,14 +451,14 @@ Public Class frmConsultaClienteMultiple
         Me.Label13.ForeColor = System.Drawing.Color.RoyalBlue
         Me.Label13.Location = New System.Drawing.Point(497, 580)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(145, 14)
+        Me.Label13.Size = New System.Drawing.Size(146, 13)
         Me.Label13.TabIndex = 49
         Me.Label13.Text = "Saldo total en la cartera:"
         '
         'lblSaldoTotalCartera
         '
-        Me.lblSaldoTotalCartera.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblSaldoTotalCartera.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblSaldoTotalCartera.BackColor = System.Drawing.Color.LightGoldenrodYellow
         Me.lblSaldoTotalCartera.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblSaldoTotalCartera.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -457,8 +472,8 @@ Public Class frmConsultaClienteMultiple
         '
         'lblSaldoTotal
         '
-        Me.lblSaldoTotal.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblSaldoTotal.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblSaldoTotal.BackColor = System.Drawing.Color.LightGoldenrodYellow
         Me.lblSaldoTotal.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblSaldoTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -472,7 +487,6 @@ Public Class frmConsultaClienteMultiple
         '
         'lwoDocumentos
         '
-        Me.lwoDocumentos.AutoSize = False
         Me.lwoDocumentos.AutoValidateColumn = False
         Me.lwoDocumentos.CheckBoxes = True
         Me.lwoDocumentos.FullRowSelect = True
@@ -481,6 +495,7 @@ Public Class frmConsultaClienteMultiple
         Me.lwoDocumentos.Name = "lwoDocumentos"
         Me.lwoDocumentos.Size = New System.Drawing.Size(888, 388)
         Me.lwoDocumentos.TabIndex = 55
+        Me.lwoDocumentos.UseCompatibleStateImageBehavior = False
         '
         'Label3
         '
@@ -489,7 +504,7 @@ Public Class frmConsultaClienteMultiple
         Me.Label3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.Location = New System.Drawing.Point(208, 20)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(13, 14)
+        Me.Label3.Size = New System.Drawing.Size(15, 13)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "al"
         '
@@ -499,6 +514,7 @@ Public Class frmConsultaClienteMultiple
         Me.dtpFecha2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpFecha2.Location = New System.Drawing.Point(224, 17)
         Me.dtpFecha2.Name = "dtpFecha2"
+        Me.dtpFecha2.Size = New System.Drawing.Size(200, 21)
         Me.dtpFecha2.TabIndex = 1
         Me.dtpFecha2.Value = New Date(2012, 2, 1, 18, 55, 16, 598)
         '
@@ -508,13 +524,19 @@ Public Class frmConsultaClienteMultiple
         Me.dtpFecha1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpFecha1.Location = New System.Drawing.Point(8, 17)
         Me.dtpFecha1.Name = "dtpFecha1"
+        Me.dtpFecha1.Size = New System.Drawing.Size(200, 21)
         Me.dtpFecha1.TabIndex = 0
         Me.dtpFecha1.Value = New Date(2012, 2, 1, 18, 55, 16, 598)
         '
         'GroupBox1
         '
         Me.GroupBox1.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.GroupBox1.Controls.AddRange(New System.Windows.Forms.Control() {Me.chkSaldo, Me.Label3, Me.dtpFecha2, Me.dtpFecha1, Me.chkPeriodo, Me.btnConsultar})
+        Me.GroupBox1.Controls.Add(Me.chkSaldo)
+        Me.GroupBox1.Controls.Add(Me.Label3)
+        Me.GroupBox1.Controls.Add(Me.dtpFecha2)
+        Me.GroupBox1.Controls.Add(Me.dtpFecha1)
+        Me.GroupBox1.Controls.Add(Me.chkPeriodo)
+        Me.GroupBox1.Controls.Add(Me.btnConsultar)
         Me.GroupBox1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(4, 92)
         Me.GroupBox1.Name = "GroupBox1"
@@ -542,7 +564,7 @@ Public Class frmConsultaClienteMultiple
         'btnConsultar
         '
         Me.btnConsultar.BackColor = System.Drawing.SystemColors.Control
-        Me.btnConsultar.Image = CType(resources.GetObject("btnConsultar.Image"), System.Drawing.Bitmap)
+        Me.btnConsultar.Image = CType(resources.GetObject("btnConsultar.Image"), System.Drawing.Image)
         Me.btnConsultar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnConsultar.Location = New System.Drawing.Point(796, 16)
         Me.btnConsultar.Name = "btnConsultar"
@@ -550,16 +572,33 @@ Public Class frmConsultaClienteMultiple
         Me.btnConsultar.TabIndex = 5
         Me.btnConsultar.Text = "C&onsultar"
         Me.btnConsultar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnConsultar.UseVisualStyleBackColor = False
         '
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.SteelBlue
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Panel1.Controls.AddRange(New System.Windows.Forms.Control() {Me.btnLimpiar, Me.chkSeleccionarTodo, Me.lblImporteAbono, Me.lblEncabezado, Me.btnConsultaDocumento})
+        Me.Panel1.Controls.Add(Me.btnLimpiar)
+        Me.Panel1.Controls.Add(Me.chkSeleccionarTodo)
+        Me.Panel1.Controls.Add(Me.lblImporteAbono)
+        Me.Panel1.Controls.Add(Me.lblEncabezado)
+        Me.Panel1.Controls.Add(Me.btnConsultaDocumento)
         Me.Panel1.Location = New System.Drawing.Point(4, 140)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(888, 44)
         Me.Panel1.TabIndex = 56
+        '
+        'btnLimpiar
+        '
+        Me.btnLimpiar.BackColor = System.Drawing.SystemColors.Control
+        Me.btnLimpiar.Image = CType(resources.GetObject("btnLimpiar.Image"), System.Drawing.Image)
+        Me.btnLimpiar.Location = New System.Drawing.Point(856, 20)
+        Me.btnLimpiar.Name = "btnLimpiar"
+        Me.btnLimpiar.Size = New System.Drawing.Size(24, 16)
+        Me.btnLimpiar.TabIndex = 60
+        Me.btnLimpiar.Tag = "Limpiar la selección"
+        Me.btnLimpiar.Text = "..."
+        Me.btnLimpiar.UseVisualStyleBackColor = False
         '
         'chkSeleccionarTodo
         '
@@ -572,7 +611,7 @@ Public Class frmConsultaClienteMultiple
         '
         'lblImporteAbono
         '
-        Me.lblImporteAbono.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblImporteAbono.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblImporteAbono.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblImporteAbono.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.lblImporteAbono.Location = New System.Drawing.Point(440, 4)
@@ -589,7 +628,7 @@ Public Class frmConsultaClienteMultiple
         Me.lblEncabezado.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.lblEncabezado.Location = New System.Drawing.Point(4, 4)
         Me.lblEncabezado.Name = "lblEncabezado"
-        Me.lblEncabezado.Size = New System.Drawing.Size(42, 14)
+        Me.lblEncabezado.Size = New System.Drawing.Size(44, 13)
         Me.lblEncabezado.TabIndex = 0
         Me.lblEncabezado.Text = "Label4"
         '
@@ -601,12 +640,13 @@ Public Class frmConsultaClienteMultiple
         Me.btnConsultaDocumento.Size = New System.Drawing.Size(24, 16)
         Me.btnConsultaDocumento.TabIndex = 58
         Me.btnConsultaDocumento.Text = "..."
+        Me.btnConsultaDocumento.UseVisualStyleBackColor = False
         '
         'btnAceptar
         '
         Me.btnAceptar.BackColor = System.Drawing.SystemColors.Control
         Me.btnAceptar.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnAceptar.Image = CType(resources.GetObject("btnAceptar.Image"), System.Drawing.Bitmap)
+        Me.btnAceptar.Image = CType(resources.GetObject("btnAceptar.Image"), System.Drawing.Image)
         Me.btnAceptar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnAceptar.Location = New System.Drawing.Point(808, 12)
         Me.btnAceptar.Name = "btnAceptar"
@@ -614,17 +654,7 @@ Public Class frmConsultaClienteMultiple
         Me.btnAceptar.TabIndex = 57
         Me.btnAceptar.Text = "&Aceptar"
         Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'btnLimpiar
-        '
-        Me.btnLimpiar.BackColor = System.Drawing.SystemColors.Control
-        Me.btnLimpiar.Image = CType(resources.GetObject("btnLimpiar.Image"), System.Drawing.Bitmap)
-        Me.btnLimpiar.Location = New System.Drawing.Point(856, 20)
-        Me.btnLimpiar.Name = "btnLimpiar"
-        Me.btnLimpiar.Size = New System.Drawing.Size(24, 16)
-        Me.btnLimpiar.TabIndex = 60
-        Me.btnLimpiar.Tag = "Limpiar la selección"
-        Me.btnLimpiar.Text = "..."
+        Me.btnAceptar.UseVisualStyleBackColor = False
         '
         'frmConsultaClienteMultiple
         '
@@ -633,7 +663,20 @@ Public Class frmConsultaClienteMultiple
         Me.CancelButton = Me.btnCancelar
         Me.ClientSize = New System.Drawing.Size(898, 627)
         Me.ControlBox = False
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.btnAceptar, Me.Panel1, Me.lwoDocumentos, Me.lblEtiquetaLtsConsulta, Me.lblEtiquetaLtsCartera, Me.lblLitrosConsulta, Me.lblLitrosCartera, Me.Label14, Me.Label13, Me.lblSaldoTotalCartera, Me.lblSaldoTotal, Me.grdDatosCliente, Me.GroupBox1, Me.btnCancelar})
+        Me.Controls.Add(Me.btnAceptar)
+        Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.lwoDocumentos)
+        Me.Controls.Add(Me.lblEtiquetaLtsConsulta)
+        Me.Controls.Add(Me.lblEtiquetaLtsCartera)
+        Me.Controls.Add(Me.lblLitrosConsulta)
+        Me.Controls.Add(Me.lblLitrosCartera)
+        Me.Controls.Add(Me.Label14)
+        Me.Controls.Add(Me.Label13)
+        Me.Controls.Add(Me.lblSaldoTotalCartera)
+        Me.Controls.Add(Me.lblSaldoTotal)
+        Me.Controls.Add(Me.grdDatosCliente)
+        Me.Controls.Add(Me.GroupBox1)
+        Me.Controls.Add(Me.btnCancelar)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
@@ -643,37 +686,45 @@ Public Class frmConsultaClienteMultiple
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Consulta de pedidos por periodo"
         Me.grdDatosCliente.ResumeLayout(False)
+        Me.grdDatosCliente.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
 #End Region
 
-    Public Sub New(ByVal Cliente As Integer, _
-                   ByVal PedidosAbonados As ArrayList, _
-                   ByVal AbonosMovimiento As System.Windows.Forms.ListBox, _
-                   ByVal ImporteAbono As Decimal, _
-                   ByVal CalculoAutomatico As Boolean, _
-                   ByVal AbonoCarteraEspecial As Boolean, _
-                   ByVal AbonoEdificiosRestringido As Boolean, _
-                   ByVal AbonoEdificiosUsuario As Boolean, _
-          Optional ByVal Usuario As String = "", _
-          Optional ByVal SoloDocumentosACredito As Boolean = False, _
-          Optional ByVal SoloDocumentosSurtidos As Boolean = True, _
-          Optional ByVal PermiteSeleccionarDocumento As Boolean = False, _
-          Optional ByVal DSCatalogos As DataSet = Nothing)
+    Public Sub New(ByVal Cliente As Integer,
+                   ByVal PedidosAbonados As ArrayList,
+                   ByVal AbonosMovimiento As System.Windows.Forms.ListBox,
+                   ByVal ImporteAbono As Decimal,
+                   ByVal CalculoAutomatico As Boolean,
+                   ByVal AbonoCarteraEspecial As Boolean,
+                   ByVal AbonoEdificiosRestringido As Boolean,
+                   ByVal AbonoEdificiosUsuario As Boolean,
+          Optional ByVal Usuario As String = "",
+          Optional ByVal SoloDocumentosACredito As Boolean = False,
+          Optional ByVal SoloDocumentosSurtidos As Boolean = True,
+          Optional ByVal PermiteSeleccionarDocumento As Boolean = False,
+          Optional ByVal DSCatalogos As DataSet = Nothing,
+                    Optional ByVal URLGateway As String = "",
+                   Optional ByVal CadCon As String = "", Optional ByVal Modulo As Byte = 0)
 
         MyBase.New()
         InitializeComponent()
 
+        _URLGateway = URLGateway
         _Cliente = Cliente
         _Usuario = Usuario
         _SoloCreditos = SoloDocumentosACredito
         _SoloSurtidos = SoloDocumentosSurtidos
         _SeleccionPedidoReferencia = PermiteSeleccionarDocumento
-
+        _CadenaConexion = CadCon
+        _Modulo = Modulo
         aListaPedidos = PedidosAbonados
 
         _calculoAutomatico = CalculoAutomatico
@@ -691,6 +742,8 @@ Public Class frmConsultaClienteMultiple
         _listaCobros = AbonosMovimiento
 
         lblImporteAbono.Text = String.Empty
+        _CadenaConexion = CadCon
+
         If _ImporteAbono > 0 Then
             lblImporteAbono.Text = "Importe del abono: " & Me._ImporteAbono.ToString("C")
         Else
@@ -706,25 +759,49 @@ Public Class frmConsultaClienteMultiple
         Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
     End Sub
 
-    Private Sub ConsultaCliente(ByVal Cliente As Integer, _
-                                ByVal SoloPedidosCredito As Boolean, _
+    Private Sub ConsultaCliente(ByVal Cliente As Integer,
+                                ByVal SoloPedidosCredito As Boolean,
                                 ByVal SoloPedidosSurtidos As Boolean)
 
-
         Dim dsDatosCliente As System.Data.DataSet
-
         Dim dtCliente As DataTable
         Dim dr As DataRow
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
 
         Try
             Cursor = Cursors.WaitCursor
-            dsDatosCliente = oCliente.ConsultaDatosCliente(Cliente)
-            dtCliente = dsDatosCliente.Tables("Cliente")
+            If String.IsNullOrEmpty(_URLGateway) Then
+                dsDatosCliente = oCliente.ConsultaDatosCliente(Cliente)
+                dtCliente = dsDatosCliente.Tables("Cliente")
+                For Each dr In dtCliente.Rows
+                    lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("Nombre"), String)
+                    If dr("DireccionCompleta") IsNot DBNull.Value Then
+                        lblDireccion.Text = CType(dr("DireccionCompleta"), String)
+                    End If
+                Next
+            Else
+                oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+                oSolicitud = New RTGMGateway.SolicitudGateway()
+                oGateway.URLServicio = _URLGateway
+                oSolicitud.IDCliente = Cliente
+                oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
-            For Each dr In dtCliente.Rows
-                lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("Nombre"), String)
-                lblDireccion.Text = CType(dr("DireccionCompleta"), String)
-            Next
+                If Not IsNothing(oDireccionEntrega) Then
+                    If Not IsNothing(oDireccionEntrega.Nombre) Then
+                        lblCliente.Text = oDireccionEntrega.IDDireccionEntrega & " " & oDireccionEntrega.Nombre.Trim()
+                    Else
+                        lblCliente.Text = oDireccionEntrega.IDDireccionEntrega.ToString()
+                    End If
+
+                    If Not IsNothing(oDireccionEntrega.DireccionCompleta) Then
+                        lblDireccion.Text = oDireccionEntrega.DireccionCompleta.Trim()
+                    Else
+                        lblDireccion.Text = ""
+                    End If
+                End If
+            End If
 
             consultarPedidos(Cliente, SoloPedidosCredito, SoloPedidosSurtidos)
         Catch ex As Exception
@@ -735,15 +812,15 @@ Public Class frmConsultaClienteMultiple
         End Try
     End Sub
 
-    Private Sub consultarPedidos(ByVal Cliente As Integer, _
-                                ByVal SoloPedidosCredito As Boolean, _
+    Private Sub consultarPedidos(ByVal Cliente As Integer,
+                                ByVal SoloPedidosCredito As Boolean,
                                 ByVal SoloPedidosSurtidos As Boolean)
         Dim dsDatosPedido As System.Data.DataSet
 
 
         Try
-            dsDatosPedido = oCliente.ConsultaDatosPedidos(Cliente, Not chkPeriodo.Checked, _
-              dtpFecha1.Value, dtpFecha2.Value, _
+            dsDatosPedido = oCliente.ConsultaDatosPedidos(Cliente, Not chkPeriodo.Checked,
+              dtpFecha1.Value, dtpFecha2.Value,
               SoloPedidosCredito, SoloPedidosSurtidos)
 
             dtDocumento = dsDatosPedido.Tables("Pedido")

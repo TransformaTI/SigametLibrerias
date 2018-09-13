@@ -1,6 +1,9 @@
 Option Strict On
+Imports System.Collections.Generic
 Imports System.Data.SqlClient, System.Windows.Forms
 Imports System.Text
+Imports Microsoft.VisualBasic.ControlChars
+Imports RTGMGateway
 
 
 'Modificó: Carlos Nirari Santiago Mendoza
@@ -25,9 +28,16 @@ Public Class BusquedaCliente
     Private _Columna As Integer
     Private _Celula As Byte
     Private _Remoto As Boolean
+    Private _CadenaConexion As String
+    Private _Modulo As Byte = 0
 
     Private _PermiteCambioEmpleadoNomina As Boolean
     Private _PermiteCambioClientePadre As Boolean
+
+    Private _URLGateway As String
+
+    Private _DireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
+
     Friend WithEvents btnTelefono As System.Windows.Forms.Button
 
     Private _dsCatalogos As DataSet
@@ -44,17 +54,20 @@ Public Class BusquedaCliente
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(Optional ByVal PermiteSeleccionar As Boolean = True, _
-                   Optional ByVal AutoSeleccionarRegistroUnico As Boolean = True, _
-                   Optional ByVal PermiteModificarDatosCliente As Boolean = False, _
-                   Optional ByVal PermiteModificarDatosCredito As Boolean = False, _
-                   Optional ByVal Usuario As String = "", _
-                   Optional ByVal Celula As Byte = Nothing, _
-                   Optional ByVal Remoto As Boolean = False, _
-                   Optional ByVal PermiteCambioEmpleadoNomina As Boolean = False, _
-                   Optional ByVal PermiteCambioClientePadre As Boolean = False, _
-                   Optional ByVal DSCatalogos As DataSet = Nothing, _
-                   Optional ByVal PriodidadPortatil As Boolean = False)
+    Public Sub New(Optional ByVal PermiteSeleccionar As Boolean = True,
+                   Optional ByVal AutoSeleccionarRegistroUnico As Boolean = True,
+                   Optional ByVal PermiteModificarDatosCliente As Boolean = False,
+                   Optional ByVal PermiteModificarDatosCredito As Boolean = False,
+                   Optional ByVal Usuario As String = "",
+                   Optional ByVal Celula As Byte = Nothing,
+                   Optional ByVal Remoto As Boolean = False,
+                   Optional ByVal PermiteCambioEmpleadoNomina As Boolean = False,
+                   Optional ByVal PermiteCambioClientePadre As Boolean = False,
+                   Optional ByVal DSCatalogos As DataSet = Nothing,
+                   Optional ByVal PriodidadPortatil As Boolean = False,
+                   Optional ByVal URLGateway As String = "",
+                   Optional ByVal CadCon As String = "",
+                   Optional ByVal Modulo As Byte = 0)
 
         MyBase.New()
 
@@ -70,9 +83,14 @@ Public Class BusquedaCliente
         _Usuario = Usuario
         _Celula = Celula
         _Remoto = Remoto
+        _CadenaConexion = CadCon
+        _Modulo = Modulo
+
 
         _PermiteCambioEmpleadoNomina = PermiteCambioEmpleadoNomina
         _PermiteCambioClientePadre = PermiteCambioClientePadre
+
+        _URLGateway = URLGateway
 
         If Not DSCatalogos Is Nothing Then
             _dsCatalogos = DSCatalogos
@@ -159,12 +177,10 @@ Public Class BusquedaCliente
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.txtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.lblListaCliente = New System.Windows.Forms.Label()
         Me.btnLimpiar = New System.Windows.Forms.Button()
         Me.txtTelefono = New System.Windows.Forms.TextBox()
-        Me.txtNumExterior = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.btnConsultaCliente = New System.Windows.Forms.Button()
         Me.txtNumInterior = New System.Windows.Forms.TextBox()
@@ -172,6 +188,8 @@ Public Class BusquedaCliente
         Me.chkPortatil = New System.Windows.Forms.CheckBox()
         Me.chkReferencia = New System.Windows.Forms.CheckBox()
         Me.btnTelefono = New System.Windows.Forms.Button()
+        Me.txtNumExterior = New SigaMetClasses.Controles.txtNumeroEntero()
+        Me.txtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
         Me.SuspendLayout()
         '
         'btnBuscar
@@ -349,13 +367,6 @@ Public Class BusquedaCliente
         Me.Label5.Text = "&6 Nombre:"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'txtCliente
-        '
-        Me.txtCliente.Location = New System.Drawing.Point(96, 40)
-        Me.txtCliente.Name = "txtCliente"
-        Me.txtCliente.Size = New System.Drawing.Size(128, 21)
-        Me.txtCliente.TabIndex = 3
-        '
         'Label6
         '
         Me.Label6.AutoSize = True
@@ -400,13 +411,6 @@ Public Class BusquedaCliente
         Me.txtTelefono.Name = "txtTelefono"
         Me.txtTelefono.Size = New System.Drawing.Size(128, 21)
         Me.txtTelefono.TabIndex = 1
-        '
-        'txtNumExterior
-        '
-        Me.txtNumExterior.Location = New System.Drawing.Point(96, 160)
-        Me.txtNumExterior.Name = "txtNumExterior"
-        Me.txtNumExterior.Size = New System.Drawing.Size(128, 21)
-        Me.txtNumExterior.TabIndex = 13
         '
         'Label7
         '
@@ -477,6 +481,20 @@ Public Class BusquedaCliente
         Me.btnTelefono.TabIndex = 24
         Me.btnTelefono.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btnTelefono.UseVisualStyleBackColor = False
+        '
+        'txtNumExterior
+        '
+        Me.txtNumExterior.Location = New System.Drawing.Point(96, 160)
+        Me.txtNumExterior.Name = "txtNumExterior"
+        Me.txtNumExterior.Size = New System.Drawing.Size(128, 21)
+        Me.txtNumExterior.TabIndex = 13
+        '
+        'txtCliente
+        '
+        Me.txtCliente.Location = New System.Drawing.Point(96, 40)
+        Me.txtCliente.Name = "txtCliente"
+        Me.txtCliente.Size = New System.Drawing.Size(128, 21)
+        Me.txtCliente.TabIndex = 3
         '
         'BusquedaCliente
         '
@@ -695,30 +713,216 @@ Public Class BusquedaCliente
         Dim TelefonoDigNormal As String
         TelefonoDigNormal = txtTelefono.Text.Trim()
 
-        If (_origenASTERISK And TelefonoDigNormal <> "") Then
+        If String.IsNullOrEmpty(_URLGateway) Then
+            If (_origenASTERISK And TelefonoDigNormal <> "") Then
 
-            btnConsultaCliente.Enabled = False
-            Dim Telefono As String
-
-            If TelefonoDigNormal.Length = 10 Then
-                Telefono = TelefonoDigNormal.Substring(3, 7)
-            Else
-                Telefono = TelefonoDigNormal
-            End If
-
-            If Not ConsultaParametro(Telefono) And Telefono <> "" Then
+                btnConsultaCliente.Enabled = False
+                Dim Telefono As String
 
                 If TelefonoDigNormal.Length = 10 Then
-                    ConsultaParametro(TelefonoDigNormal)
+                    Telefono = TelefonoDigNormal.Substring(3, 7)
+                Else
+                    Telefono = TelefonoDigNormal
                 End If
 
+                If Not ConsultaParametro(Telefono) And Telefono <> "" Then
+
+                    If TelefonoDigNormal.Length = 10 Then
+                        ConsultaParametro(TelefonoDigNormal)
+                    End If
+                End If
+
+            ElseIf _origenASTERISK = False Then
+                ConsultaParametro(TelefonoDigNormal)
             End If
 
+        Else
+            If (_origenASTERISK And TelefonoDigNormal <> "") Then
 
-        ElseIf _origenASTERISK = False Then
-            ConsultaParametro(TelefonoDigNormal)
+                btnConsultaCliente.Enabled = False
+                Dim Telefono As String
+
+                If TelefonoDigNormal.Length = 10 Then
+                    Telefono = TelefonoDigNormal.Substring(3, 7)
+                Else
+                    Telefono = TelefonoDigNormal
+                End If
+
+                'If Not ConsultaParametro(Telefono) And Telefono <> "" Then
+
+                '    If TelefonoDigNormal.Length = 10 Then
+                '        ConsultaParametro(TelefonoDigNormal)
+                '    End If
+                'End If
+
+                ConsultaCRM(Telefono)
+
+            ElseIf _origenASTERISK = False Then
+                ConsultaCRM(TelefonoDigNormal)
+            End If
         End If
 
+    End Sub
+
+    Private Sub ConsultaCRM(ByVal parTelefono As String)
+        Dim Telefono As String
+        Dim Cliente As Integer?
+        Dim Celula As Integer?
+        Dim Calle As String = Nothing
+        Dim Colonia As String = Nothing
+        Dim Municipio As String = Nothing
+        Dim Nombre As String = Nothing
+        Dim NumExterior As Integer?
+        Dim NumInterior As String = Nothing
+        Dim obDireccion As RTGMCore.DireccionEntrega
+        btnConsultaCliente.Enabled = False
+        Dim _PuedeConsultar As Boolean = False
+
+        If txtTelefono.Text.Trim <> "" Then
+            Telefono = parTelefono
+            _PuedeConsultar = True
+        End If
+
+        If txtCliente.Text.Trim <> "" Then
+            Dim _ClienteBusqueda As Integer
+            Try
+                _ClienteBusqueda = CType(txtCliente.Text, Integer)
+            Catch
+                MessageBox.Show("El número de contrato es inválido." & Chr(13) & "Por favor verifíque.", "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End Try
+            Cliente = _ClienteBusqueda
+            _PuedeConsultar = True
+        End If
+
+        If txtCalle.Text.Trim <> "" Then
+            Calle = txtCalle.Text.Trim
+            _PuedeConsultar = True
+        End If
+
+        If txtColonia.Text.Trim <> "" Then
+            Colonia = txtColonia.Text.Trim
+            _PuedeConsultar = True
+        End If
+
+        If txtMunicipio.Text.Trim <> "" Then
+            Municipio = txtMunicipio.Text.Trim
+            _PuedeConsultar = True
+        End If
+
+        If txtNombre.Text.Trim <> "" Then
+            Nombre = txtNombre.Text.Trim
+            _PuedeConsultar = True
+        End If
+
+        If txtNumExterior.Text.Trim <> "" Then
+            Dim _NumBusqueda As Integer
+            Try
+                _NumBusqueda = CType(txtNumExterior.Text, Integer)
+            Catch
+                MessageBox.Show("El número exterior es inválido." & Chr(13) & "Por favor verifíque.", "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End Try
+
+            NumExterior = _NumBusqueda
+            _PuedeConsultar = True
+        End If
+
+        If txtNumInterior.Text.Trim <> "" Then
+            NumInterior = txtNumInterior.Text.Trim
+            _PuedeConsultar = True
+        End If
+
+        If _Remoto Then
+            If Not IsNothing(_Celula) Then
+                Celula = _Celula
+                _PuedeConsultar = True
+            End If
+        End If
+
+        If _PuedeConsultar Then
+            Cursor = Cursors.WaitCursor
+
+            Dim oSplash As New SigaMetClasses.frmWait()
+            oSplash.Show()
+            oSplash.Refresh()
+
+            lblListaCliente.Text = "Buscando..."
+            lblListaCliente.ForeColor = System.Drawing.Color.Yellow
+
+            Me.Refresh()
+
+            Try
+                lvwCliente.Items.Clear()
+
+                Dim obGateway As New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+                obGateway.URLServicio = _URLGateway
+
+                _DireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+
+                Dim obSolicitud As New RTGMGateway.SolicitudGateway With {
+                    .IDCliente = Cliente,
+                    .Zona = Celula,
+                    .CalleNombre = Calle,
+                    .ColoniaNombre = Colonia,
+                    .MunicipioNombre = Municipio,
+                    .Nombre = Nombre,
+                    .NumeroExterior = NumExterior,
+                    .NumeroInterior = NumInterior
+                }
+
+                _DireccionesEntrega = obGateway.buscarDireccionesEntrega(obSolicitud)
+
+                If _DireccionesEntrega.Count = 0 Then
+                    Exit Sub
+                End If
+
+                Dim oItem As ListViewItem
+
+                For Each obDireccion In _DireccionesEntrega
+                    oItem = New ListViewItem(Convert.ToString(obDireccion.IDDireccionEntrega), 0) '0
+                    oItem.SubItems.Add(If(obDireccion.Nombre, "").Trim) '1
+                    If Not IsNothing(obDireccion.ZonaSuministro) Then
+                        oItem.SubItems.Add(Convert.ToString(obDireccion.ZonaSuministro.IDZona).Trim) '2
+                    Else
+                        oItem.SubItems.Add("") '2
+                    End If
+                    oItem.SubItems.Add(If(obDireccion.CalleNombre, "").Trim) '3
+                    oItem.SubItems.Add(If(obDireccion.NumExterior, "").Trim) '4
+                    oItem.SubItems.Add(If(obDireccion.NumInterior, "").Trim) '5
+                    oItem.SubItems.Add(If(obDireccion.ColoniaNombre, "").Trim) '6
+                    oItem.SubItems.Add(If(obDireccion.MunicipioNombre, "").Trim) '7
+
+                    lvwCliente.Items.Add(oItem)
+                Next
+
+                If lvwCliente.Items.Count = 1 Then
+                    If _AutoSeleccionarRegistroUnico Then
+                        _Cliente = CType(lvwCliente.Items(0).Text, Integer)
+                        DialogResult = DialogResult.OK
+                        Me.Close()
+                    End If
+                End If
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                lblListaCliente.Text = "Error en la búsqueda"
+                lblListaCliente.ForeColor = System.Drawing.Color.Orange
+
+                FlawBusquedaLlamada = False
+            Finally
+                oSplash.Close()
+                oSplash.Dispose()
+
+                If FlawBusquedaLlamada Then
+                    ActualizarDatosTelefono()
+                End If
+
+                lblListaCliente.Text = "Lista de clientes encontrados (" & lvwCliente.Items.Count.ToString & " en total)"
+                lblListaCliente.ForeColor = System.Drawing.Color.White
+
+                Cursor = Cursors.Default
+            End Try
+        End If
 
     End Sub
 
@@ -889,6 +1093,7 @@ Public Class BusquedaCliente
 
     Private Sub btnBuscar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscar.Click
         FlawBusquedaLlamada = False
+
         Consulta()
     End Sub
 
@@ -962,13 +1167,24 @@ Public Class BusquedaCliente
     Private Sub btnConsultaCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultaCliente.Click
         If _Cliente > 0 Then
             Cursor = Cursors.WaitCursor
+            Dim oConsulta As SigaMetClasses.frmConsultaCliente
 
-            Dim oConsulta As New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario, _
-                            PermiteModificarDatosCliente:=_PermiteModificarDatosCliente, _
-                            PermiteModificarDatosCredito:=_PermiteModificarDatosCredito, _
-                            PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina, _
-                            PermiteCambioCtePadre:=_PermiteCambioClientePadre, _
-                            DSCatalogos:=_dsCatalogos)
+            If (String.IsNullOrEmpty(_URLGateway)) Then
+                oConsulta = New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario,
+                            PermiteModificarDatosCliente:=_PermiteModificarDatosCliente,
+                            PermiteModificarDatosCredito:=_PermiteModificarDatosCredito,
+                            PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina,
+                            PermiteCambioCtePadre:=_PermiteCambioClientePadre,
+                            DSCatalogos:=_dsCatalogos, CadenaCon:=_CadenaConexion, Modulo:=_Modulo)
+            Else
+                oConsulta = New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario,
+                            PermiteModificarDatosCliente:=_PermiteModificarDatosCliente,
+                            PermiteModificarDatosCredito:=_PermiteModificarDatosCredito,
+                            PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina,
+                            PermiteCambioCtePadre:=_PermiteCambioClientePadre,
+                            DSCatalogos:=_dsCatalogos,
+                            URLGateway:=_URLGateway, CadenaCon:=_CadenaConexion, Modulo:=_Modulo)
+            End If
             oConsulta.ShowDialog()
             Cursor = Cursors.Default
         End If
@@ -996,11 +1212,11 @@ Public Class BusquedaCliente
             Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
 
 
-            Conexion = "Database=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("BDAsterisk"), String) & _
-            ";Data Source=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ServidorAsterisk"), String) & _
-            ";Port=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PuertoAsterisk"), String) & _
-            ";User Id=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("UsuarioAsterisk"), String) & _
-            ";Password=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PasswordAsterisk"), String) & _
+            Conexion = "Database=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("BDAsterisk"), String) &
+            ";Data Source=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ServidorAsterisk"), String) &
+            ";Port=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PuertoAsterisk"), String) &
+            ";User Id=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("UsuarioAsterisk"), String) &
+            ";Password=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PasswordAsterisk"), String) &
             ";Connect Timeout=30;"
 
             Dim oActualiza As New Asterisk.Asterisk
@@ -1095,11 +1311,11 @@ Public Class BusquedaCliente
 
 
 
-                Conexion = "Database=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("BDAsterisk"), String) & _
-                            ";Data Source=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ServidorAsterisk"), String) & _
-                            ";Port=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PuertoAsterisk"), String) & _
-                            ";User Id=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("UsuarioAsterisk"), String) & _
-                            ";Password=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PasswordAsterisk"), String) & _
+                Conexion = "Database=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("BDAsterisk"), String) &
+                            ";Data Source=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ServidorAsterisk"), String) &
+                            ";Port=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PuertoAsterisk"), String) &
+                            ";User Id=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("UsuarioAsterisk"), String) &
+                            ";Password=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PasswordAsterisk"), String) &
                             ";Connect Timeout=30;"
 
                 Dim oConsulta As New Asterisk.Asterisk
@@ -1122,8 +1338,8 @@ Public Class BusquedaCliente
         End Try
 
     End Sub
-   
-  
+
+
     Private Sub btnTelefono_Click(sender As Object, e As EventArgs) Handles btnTelefono.Click
         ConsultarDatosTelefono()
     End Sub
@@ -1160,4 +1376,7 @@ Public Class BusquedaCliente
 
     End Sub
 
+    Private Sub BusquedaCliente_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class

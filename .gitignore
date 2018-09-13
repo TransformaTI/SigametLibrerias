@@ -1,0 +1,20 @@
+################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/PortatilClasses/bin
+ProgramacionCobranza/.vs/ProgramacionCobranza/DesignTimeBuild/.dtbcache
+LiquidacionPortatil/obj/Debug/LiquidacionPortatil.frmCancelarPago.resources
+LiquidacionPortatil/bin/ModuloCaja.exe.config
+RelacionCobranza/bin/Debug/RTGMGateway.dll.config
+RelacionCobranza/.vs/RelacionCobranza/v15/Server/sqlite3/storage.ide-wal
+ProgramacionCobranza/bin/RTGMGateway.dll.config
+ProgramacionCobranza/.vs/ProgramacionCobranza/v15/Server/sqlite3/storage.ide-wal
+ProgramacionCobranza/.vs/ProgramacionCobranza/v15/Server/sqlite3/storage.ide-shm
+SigametST/.vs/SigametST/DesignTimeBuild/.dtbcache
+RelacionCobranza/bin/Debug/nunit.framework.xml
+RelacionCobranza/bin/Debug/log4net.xml
+RelacionCobranza/.vs/RelacionCobranza/DesignTimeBuild/.dtbcache
+ProgramacionCobranza/bin/nunit.framework.xml
+ProgramacionCobranza/bin/log4net.xml
+RelacionCobranza/.vs/RelacionCobranza/v15/Server/sqlite3/storage.ide-shm

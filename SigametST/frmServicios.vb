@@ -27,10 +27,10 @@ Public Class frmServicios
     Public TipoServicio As Integer
     Public _PuntosTipoServicio As Integer
 
-    Public Sub New(ByVal Cliente As Integer, _
-                   ByVal Fecha As Date, _
-                   ByVal Usuario As String, _
-                   ByVal Corporativo As Short, _
+    Public Sub New(ByVal Cliente As Integer,
+                   ByVal Fecha As Date,
+                   ByVal Usuario As String,
+                   ByVal Corporativo As Short,
                    ByVal Sucursal As Short)
 
 
@@ -54,10 +54,10 @@ Public Class frmServicios
         'Dim oConfig As New SigaMetClasses.cConfig(11)
         Dim oConfig As New SigaMetClasses.cConfig(11, GLOBAL_Corporativo, GLOBAL_Sucursal)
         Dim _FechaDestino As Date
-        Dim _FechaExtraordinaria As Date = _
-            SigaMetClasses.CalculaFechaCardinal(Now.Year, _
-            CType(Now.Month, SigaMetClasses.Enumeradores.enumMesAño), _
-            SigaMetClasses.Enumeradores.enumDiaSemana.Domingo, _
+        Dim _FechaExtraordinaria As Date =
+            SigaMetClasses.CalculaFechaCardinal(Now.Year,
+            CType(Now.Month, SigaMetClasses.Enumeradores.enumMesAño),
+            SigaMetClasses.Enumeradores.enumDiaSemana.Domingo,
             SigaMetClasses.Enumeradores.enumCardinalidad.Segundo)
 
         Try
@@ -74,7 +74,7 @@ Public Class frmServicios
         _FechaCorte = CType((Now.Date.ToShortDateString & " " & ST_HoraCorte), Date)
         _FechaCorteFin = CType(Now.Date.ToShortDateString & " " & ST_HoraCorteFin, Date)
 
-        Dim strQuery As String = _
+        Dim strQuery As String =
         "SELECT Año, Mes, Dia FROM Festivo WHERE Tipo = 'FESTIVO'"
         Dim da As New SqlDataAdapter(strQuery, cnnSigamet)
         Dim dt As New DataTable("Festivo")
@@ -190,8 +190,8 @@ Public Class frmServicios
     End Sub
 
     Private Sub CargaDatos(ByVal intCliente As Integer)
-        Dim da As New SqlDataAdapter("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED " & _
-                                     "select Cliente,Celula,Ruta,RamoCliente,GiroCliente,Equipo,Nombre  from vwSTClienteServicioTecnico Where Cliente = " & intCliente.ToString & _
+        Dim da As New SqlDataAdapter("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED " &
+                                     "select Cliente,Celula,Ruta,RamoCliente,GiroCliente,Equipo,Nombre  from vwSTClienteServicioTecnico Where Cliente = " & intCliente.ToString &
                                      " SET TRANSACTION ISOLATION LEVEL READ COMMITTED ", cnnSigamet)
         Dim dt As New DataTable("Cliente")
         da.Fill(dt)
@@ -289,13 +289,13 @@ Public Class frmServicios
 
     End Sub
 
-    Private Function SumaPuntos(ByVal Fecha As Date, _
+    Private Function SumaPuntos(ByVal Fecha As Date,
                                 ByVal Celula As Byte) As Integer
-        Dim strQuery As String = _
-        "SELECT TotalPuntos,0 FROM vwSTSumaPuntos " & _
-        "where producto = 4 " & _
-        "and fcompromiso >= ' " & Fecha.ToShortDateString & " 00:00:00' " & _
-        "and fcompromiso <= ' " & Fecha.ToShortDateString & " 23:59:59' " & _
+        Dim strQuery As String =
+        "SELECT TotalPuntos,0 FROM vwSTSumaPuntos " &
+        "where producto = 4 " &
+        "and fcompromiso >= ' " & Fecha.ToShortDateString & " 00:00:00' " &
+        "and fcompromiso <= ' " & Fecha.ToShortDateString & " 23:59:59' " &
         "and celula = " & Celula.ToString
 
         Dim daSumaPuntos As New SqlDataAdapter(strQuery, cnnSigamet)
@@ -371,9 +371,9 @@ Public Class frmServicios
 
 
     Private Sub LlenaTecnicos()
-        Dim da As New SqlDataAdapter("SELECT Pedido,Autotanque,chofer" & _
-                    " from vwSTPestanaServicioTecnico " & _
-                    " Where celula = " & _celula & _
+        Dim da As New SqlDataAdapter("SELECT Pedido,Autotanque,chofer" &
+                    " from vwSTPestanaServicioTecnico " &
+                    " Where celula = " & _celula &
                     " and añoped = " & _AñoPed & " And Pedido = " & _Pedido, cnnSigamet)
         Dim dt As New DataTable("ClienteServicio")
         da.Fill(dt)
@@ -1521,10 +1521,10 @@ Public Class frmServicios
         'Dim oConfig As New SigaMetClasses.cConfig(11)
         Dim oConfig As New SigaMetClasses.cConfig(11, GLOBAL_Corporativo, GLOBAL_Sucursal)
         Dim _FechaDestino As Date = Nothing
-        Dim _FechaExtraordinaria As Date = _
-            SigaMetClasses.CalculaFechaCardinal(Now.Year, _
-            CType(Now.Month, SigaMetClasses.Enumeradores.enumMesAño), _
-            SigaMetClasses.Enumeradores.enumDiaSemana.Domingo, _
+        Dim _FechaExtraordinaria As Date =
+            SigaMetClasses.CalculaFechaCardinal(Now.Year,
+            CType(Now.Month, SigaMetClasses.Enumeradores.enumMesAño),
+            SigaMetClasses.Enumeradores.enumDiaSemana.Domingo,
             SigaMetClasses.Enumeradores.enumCardinalidad.Segundo)
         'lblStatusServicioTecnico.Visible = False
         'lblPuntos.Visible = False
@@ -2089,6 +2089,10 @@ Public Class frmServicios
                             SQLComandoTransaccion.Parameters.Add("@FFinComodato", SqlDbType.DateTime).Value = Nothing
                             SQLComandoTransaccion.Parameters.Add("@Status", SqlDbType.Char).Value = ""
                             SQLComandoTransaccion.Parameters.Add("@Consumo", SqlDbType.Int).Value = 0
+                            SQLComandoTransaccion.Parameters.Add("@IdCRM", SqlDbType.Int).Value = 0
+                            SQLComandoTransaccion.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = 0
+                            SQLComandoTransaccion.Parameters.Add("@FolioAtt", SqlDbType.Int).Value = 0
+                            SQLComandoTransaccion.Parameters.Add("@Unidad", SqlDbType.Int).Value = 0
 
 
                             SQLTransaccion = ConexionTransaccion.BeginTransaction

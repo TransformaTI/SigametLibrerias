@@ -2,6 +2,8 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Collections;
+using System.Collections.Generic;
+using RTGMGateway;
 
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
@@ -325,7 +327,7 @@ namespace ResguardoCyC
 			}
 		}
 
-		public int AltaCobranza(string TipoCartera, DateTime FCobranza, ref bool ListaGeneral, ref bool ListasDerivadas)
+        public int AltaCobranza(string TipoCartera, DateTime FCobranza, ref bool ListaGeneral, ref bool ListasDerivadas)
 		{
 			int i = 0;
 			string _tipoCartera = TipoCartera.Trim();

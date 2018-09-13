@@ -1,5 +1,6 @@
 Option Strict On
 Imports System.Data.SqlClient, System.Windows.Forms
+Imports RTGMGateway
 
 Public Class ConsultaFactura
     Inherits System.Windows.Forms.Form
@@ -11,6 +12,9 @@ Public Class ConsultaFactura
     Friend WithEvents txtFolio As SigaMetClasses.Controles.txtNumeroEntero
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Private Titulo As String = "Consulta de facturas"
+    Private _URLGateway As String
+    Private _Modulo As Byte
+    Private _CadenaConexion As String
 
 #Region " Windows Form Designer generated code "
 
@@ -22,6 +26,18 @@ Public Class ConsultaFactura
 
         'Add any initialization after the InitializeComponent() call
 
+    End Sub
+
+    Public Sub New(URLGateway As String, Optional ByVal Modulo As Byte = 0, Optional ByVal CadCon As String = "")
+        MyBase.New()
+
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        'Add any initialization after the InitializeComponent() call
+        _URLGateway = URLGateway
+        _Modulo = Modulo
+        _CadenaConexion = CadCon
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -76,6 +92,34 @@ Public Class ConsultaFactura
     Friend WithEvents colFactura As System.Windows.Forms.ColumnHeader
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents btnConsultaEmpresa As System.Windows.Forms.Button
+    Private _Sucursal As Short
+    Private _corporativo As Short
+    Public Property sucursal As Short
+        Get
+            Return _Sucursal
+        End Get
+        Set(value As Short)
+            _Sucursal = value
+        End Set
+    End Property
+    Public Property Corporativo As Short
+        Get
+            Return _corporativo
+        End Get
+        Set(value As Short)
+            _corporativo = value
+        End Set
+    End Property
+
+    Public Property Modulo As Byte
+        Get
+            Return _Modulo
+        End Get
+        Set(value As Byte)
+            _Modulo = value
+        End Set
+    End Property
+
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ConsultaFactura))
@@ -549,12 +593,26 @@ Public Class ConsultaFactura
 
 
     Private Sub btnBuscar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscar.Click
-        If Trim(txtFolio.Text) <> "" Then
-            _Folio = CType(Trim(txtFolio.Text), Integer)
-            Serie = Trim(txtSerie.Text)
-            ConsultarFactura(_Folio, Serie)
+        If _URLGateway = "" Then
+            If Trim(txtFolio.Text) <> "" Then
+                _Folio = CType(Trim(txtFolio.Text), Integer)
+                Serie = Trim(txtSerie.Text)
+                ConsultarFactura(_Folio, Serie)
+            Else
+                MessageBox.Show("Debes introducir el folio.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End If
         Else
-            MessageBox.Show("Debes introducir el folio.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Try
+                If Trim(txtFolio.Text) <> "" Then
+                    _Folio = CType(Trim(txtFolio.Text), Integer)
+                    Serie = Trim(txtSerie.Text)
+                    ConsultarFactura(_Folio, Serie, _URLGateway)
+                Else
+                    MessageBox.Show("Debes introducir el folio.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Error" & vbCrLf & ex.Message, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End Try
         End If
     End Sub
 
@@ -639,6 +697,101 @@ Public Class ConsultaFactura
 
     End Sub
 
+    Private Sub ConsultarFactura(ByVal Folio As Integer, ByVal Serie As String, _URLGateway As String)
+        Cursor = Cursors.WaitCursor
+        Dim Factura As Integer
+
+        Try
+
+            Dim command As New SqlCommand
+            command.CommandText = "spCYCConsultaFacturaPorFolioSerie"
+            command.CommandType = CommandType.StoredProcedure
+            command.Connection = DataLayer.Conexion
+            command.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio
+            command.Parameters.Add("@Serie", SqlDbType.NVarChar).Value = Serie
+            Dim da As New SqlDataAdapter(command)
+            Dim dt As New DataTable()
+            da.Fill(dt)
+
+            If dt.Rows.Count = 1 Then
+                Factura = CType(dt.Rows(0).Item("Factura"), Integer)
+                'lblFactura.Text = _Factura.ToString
+                _Empresa = CType(dt.Rows(0).Item("Empresa"), Integer)
+                lblEmpresa.Text = _Empresa.ToString & " " & CType(dt.Rows(0).Item("RazonSocial"), String)
+                lblFFactura.Text = CType(dt.Rows(0).Item("FFactura"), Date).ToShortDateString
+                If Not IsDBNull(dt.Rows(0).Item("FCancelacion")) Then
+                    lblFCancelacion.Text = CType(dt.Rows(0).Item("FCancelacion"), Date).ToShortDateString
+                End If
+                lblTotal.Text = CType(dt.Rows(0).Item("Total"), Decimal).ToString("C")
+                lblStatus.Text = CType(dt.Rows(0).Item("Status"), String)
+                lblImporteLetra.Text = CType(dt.Rows(0).Item("ImporteLetra"), String)
+                lblObservaciones.Text = CType(dt.Rows(0).Item("Observaciones"), String)
+                lblTipoFactura.Text = CType(dt.Rows(0).Item("TipoFacturaDescripcion"), String)
+                lblTipoPago.Text = CType(dt.Rows(0).Item("TipoPagoDescripcion"), String)
+                lblTipoDocumento.Text = CType(dt.Rows(0).Item("TipoDocumentoDescripcion"), String)
+
+
+                Dim cmd As New SqlCommand
+                cmd.CommandText = "spCYCConsultaPedidoReferenciaPorFactura"
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Connection = DataLayer.Conexion
+                cmd.Parameters.Add("@Factura", SqlDbType.Int).Value = Factura
+                Dim daf As New SqlDataAdapter(cmd)
+                Dim dtFacturaPedido As New DataTable("FacturaPedido")
+                daf.Fill(dtFacturaPedido)
+
+                lvwFacturaPedido.Items.Clear()
+                If dtFacturaPedido.Rows.Count > 0 Then
+                    Dim drow As DataRow
+                    Dim objSolicitudGateway As SolicitudGateway = New SolicitudGateway()
+                    Dim objGateway As RTGMGateway.RTGMGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+
+                    objGateway.URLServicio = _URLGateway
+                    Dim oConfig As New SigaMetClasses.cConfig(_Modulo, _corporativo, _Sucursal)
+                    Dim FuenteCRM As String = CStr(oConfig.Parametros("FuenteCRM")).Trim
+                    For Each drow In dtFacturaPedido.Rows
+                        If Not IsDBNull(drow("PedidoReferencia")) Then
+                            Dim ParametroCrm As String
+                            If FuenteCRM = "CRM" Then
+                                ParametroCrm = "idCRM"
+                            Else
+                                ParametroCrm = "PedidoReferencia"
+                            End If
+                            If drow(ParametroCrm) Is DBNull.Value Then
+                            Else
+                                Dim oItem As New ListViewItem(Trim(CType(drow(ParametroCrm), String)), 0)
+                                oItem.SubItems.Add(CType(drow("Factura"), String))
+                                oItem.SubItems.Add(CType(drow("Cliente"), String))
+                                objSolicitudGateway.IDCliente = (CType(drow("Cliente"), Integer))
+                                Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
+                                oItem.SubItems.Add(objRtgCore.Nombre)
+                                'oItem.SubItems.Add(Trim(CType(drow("Nombre"), String)))  se reemplazo por la respuesta del WS'
+                                oItem.SubItems.Add(CType(drow("Total"), Decimal).ToString("N"))
+                                lvwFacturaPedido.Items.Add(oItem)
+                            End If
+                        End If
+                    Next
+                End If
+
+                lblTituloLista.Text = "Lista de documentos incluidos en la factura (" & lvwFacturaPedido.Items.Count.ToString & " en total)"
+            Else
+                MessageBox.Show("La factura no existe en la base de datos.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                txtFolio.Focus()
+                txtFolio.SelectAll()
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Titulo, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+            If (DataLayer.Conexion.State = System.Data.ConnectionState.Open) Then
+                DataLayer.Conexion.Close()
+            End If
+
+        End Try
+
+    End Sub
+
     Private Sub txtFolio_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Me.AcceptButton = btnBuscar
     End Sub
@@ -654,7 +807,7 @@ Public Class ConsultaFactura
     Private Sub mnuConsultaDocumento_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuConsultaDocumento.Click
         If Trim(lvwFacturaPedido.FocusedItem.Text) <> "" Then
             Cursor = Cursors.WaitCursor
-            Dim oConsultaDoc As New SigaMetClasses.ConsultaCargo(lvwFacturaPedido.FocusedItem.Text)
+            Dim oConsultaDoc As New SigaMetClasses.ConsultaCargo(lvwFacturaPedido.FocusedItem.Text,, _URLGateway, Modulo, _CadenaConexion)
             oConsultaDoc.ShowDialog()
             Cursor = Cursors.Default
         End If
@@ -680,5 +833,8 @@ Public Class ConsultaFactura
     Private Sub txtSerie_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtSerie.TextChanged
         txtSerie.Text = txtSerie.Text.ToUpper()
         txtSerie.SelectionStart = txtSerie.Text.Length
+    End Sub
+
+    Private Sub ConsultaFactura_Load(sender As Object, e As EventArgs) Handles MyBase.Load
     End Sub
 End Class

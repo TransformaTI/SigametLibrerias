@@ -1,4 +1,8 @@
+Imports System.Collections.Generic
 Imports System.Data.SqlClient
+Imports System.Linq
+Imports RTGMGateway
+
 Public Class frmServProgramacion
     Inherits System.Windows.Forms.Form
 
@@ -6,6 +10,7 @@ Public Class frmServProgramacion
     Public _Clave As String
     Private DatosCargados As Boolean = False
     Private _Pedido As String
+    Private _Autotanque As String
     Private Pedido As Integer
     Private Celula As Integer
     Private AñoPed As Integer
@@ -13,12 +18,11 @@ Public Class frmServProgramacion
     Private _Estatus As String
     Private Fcomp As Date
     Private _Folio As Integer
-    Friend WithEvents btnConsultar As System.Windows.Forms.ToolBarButton
-
-
-
     Private _UsaLiquidacion As Boolean
-
+    Private _URLGateway As String
+    Private _FuenteGateway As String
+    Private _PedidosCRM As List(Of RTGMCore.Pedido)
+    Private _PedidoCRM As RTGMCore.Pedido
 
     Private Sub Llenacelula()
         ''Dim LlenaCelula As New SqlDataAdapter("select celula,descripcion from celula where comercial = 1", cnnSigamet)
@@ -61,63 +65,127 @@ Public Class frmServProgramacion
 
     Private Sub LlenaLista()
 
-        Dim sqlcomST As New SqlCommand("Select PedidoReferencia,Cliente,Rutadescripcion,FPedido,FCompromiso,Usuario,Status,TipoServicio,Puntos,TipoCobro,Tecnico,Programacion,Franquicia,Llamada" _
+        If Not (String.IsNullOrEmpty(_URLGateway)) Then
+            LlenaLista_CRM()
+        Else
+            Dim sqlcomST As New SqlCommand("Select PedidoReferencia,Cliente,Rutadescripcion,FPedido,FCompromiso,Usuario,Status,TipoServicio,Puntos,TipoCobro,Tecnico,Programacion,Franquicia,Llamada" _
                                          & " From  vwSTLlenaProgranmacion Where tipocargo = 2 " _
                                           & "and fcompromiso >= ' " & dtpFecha.Value.ToShortDateString & " 00:00:00' " _
                                           & "and fcompromiso <= ' " & dtpFecha.Value.ToShortDateString & " 23:59:59' " _
                                           & "and celula = " & CType(cboCelula.SelectedValue, String), cnnSigamet)
+            Try
+                cnnSigamet.Open()
+                Dim drProgST As SqlDataReader = sqlcomST.ExecuteReader
+
+
+                'Borra todos los items
+                Me.lvwProgramaciones.Items.Clear()
+
+                While drProgST.Read
+                    Dim oProgST As ListViewItem = New ListViewItem(CType(drProgST("PedidoReferencia"), String), 12)
+
+                    If Not IsDBNull(drProgST("Status")) Then
+                        If CType(drProgST("Status"), String).Trim = "ATENDIDO" Then oProgST.ImageIndex = 13
+                        If CType(drProgST("Status"), String).Trim = "CANCELADO" Then oProgST.ImageIndex = 14
+                        If CType(drProgST("Programacion"), Boolean) = True Then oProgST.ImageIndex = 2
+                        If CType(drProgST("Franquicia"), Integer) = 1 Then oProgST.ImageIndex = 17
+                        If CType(drProgST("Llamada"), Integer) = 1 Then oProgST.ImageIndex = 19
+                        If CType(drProgST("Status"), String).Trim = "PENDIENTE" Then oProgST.ImageIndex = 20
+                    Else
+                        oProgST.ImageIndex = 12
+                    End If
+
+                    oProgST.SubItems.Add(CType(drProgST("Cliente"), String))
+                    oProgST.SubItems.Add(RTrim(CType(drProgST("Rutadescripcion"), String)))
+                    oProgST.SubItems.Add(CType(drProgST("FPedido"), String))
+                    oProgST.SubItems.Add(CType(drProgST("FCompromiso"), String))
+                    oProgST.SubItems.Add(CType(drProgST("Usuario"), String))
+                    oProgST.SubItems.Add(CType(drProgST("status"), String))
+                    oProgST.SubItems.Add(CType(drProgST("TipoServicio"), String))
+                    oProgST.SubItems.Add(CType(drProgST("Puntos"), String))
+                    oProgST.SubItems.Add(CType(drProgST("TipoCobro"), String))
+                    oProgST.SubItems.Add(CType(drProgST("Tecnico"), String))
+
+                    lvwProgramaciones.Items.Add(oProgST)
+                    oProgST.EnsureVisible()
+                End While
+            Catch e As Exception
+                MessageBox.Show(e.Message)
+            Finally
+                cnnSigamet.Close()
+                'cnnSigamet.Dispose()
+            End Try
+            'Permite agregar un control CheckBoxes a cada uno de los elemento de la lista
+            'lvwProgramaciones.CheckBoxes = True
+        End If
+    End Sub
+
+    Private Sub LlenaLista_CRM()
         Try
-            cnnSigamet.Open()
-            Dim drProgST As SqlDataReader = sqlcomST.ExecuteReader
+            If String.IsNullOrEmpty(_URLGateway) Then
+                Exit Sub
+            End If
 
+            lvwProgramaciones.Items.Clear()
 
-            'Borra todos los items
-            Me.lvwProgramaciones.Items.Clear()
+            Dim Fecha As Date = dtpFecha.Value
 
-            While drProgST.Read
-                Dim oProgST As ListViewItem = New ListViewItem(CType(drProgST("PedidoReferencia"), String), 12)
+            Dim Celula As Integer = Convert.ToInt32(cboCelula.SelectedValue)
 
+            Dim obGatewayPedido As New RTGMPedidoGateway(GLOBAL_Modulo, GLOBAL_CadenaConexion)
+            obGatewayPedido.URLServicio = _URLGateway
+            _PedidosCRM = New List(Of RTGMCore.Pedido)
 
+            Dim obSolicitud As New SolicitudPedidoGateway With {
+                .TipoConsultaPedido = RTGMCore.TipoConsultaPedido.ServiciosTecnicos,
+                .EstatusPedidoDescripcion = "ACTIVO",
+                .FechaCompromisoInicio = Fecha,
+                .FechaCompromisoFin = Fecha,
+                .IDZona = Celula
+            }
 
-                If Not IsDBNull(drProgST("Status")) Then
-                    If CType(drProgST("Status"), String).Trim = "ATENDIDO" Then oProgST.ImageIndex = 13
-                    If CType(drProgST("Status"), String).Trim = "CANCELADO" Then oProgST.ImageIndex = 14
-                    If CType(drProgST("Programacion"), Boolean) = True Then oProgST.ImageIndex = 2
-                    If CType(drProgST("Franquicia"), Integer) = 1 Then oProgST.ImageIndex = 17
-                    If CType(drProgST("Llamada"), Integer) = 1 Then oProgST.ImageIndex = 19
-                    If CType(drProgST("Status"), String).Trim = "PENDIENTE" Then oProgST.ImageIndex = 20
+            _PedidosCRM = obGatewayPedido.buscarPedidos(obSolicitud)
 
+            If Not IsNothing(_PedidosCRM) AndAlso _PedidosCRM.Count > 0 Then
+                Dim pedido As New RTGMCore.Pedido
 
-                Else
-                    oProgST.ImageIndex = 12
-                End If
+                For Each pedido In _PedidosCRM
+                    Dim oItem As ListViewItem
 
+                    oItem = New ListViewItem(Convert.ToString(pedido.IDPedido)) '0
 
-                oProgST.SubItems.Add(CType(drProgST("Cliente"), String))
-                oProgST.SubItems.Add(RTrim(CType(drProgST("Rutadescripcion"), String)))
-                oProgST.SubItems.Add(CType(drProgST("FPedido"), String))
-                oProgST.SubItems.Add(CType(drProgST("FCompromiso"), String))
-                oProgST.SubItems.Add(CType(drProgST("Usuario"), String))
-                oProgST.SubItems.Add(CType(drProgST("status"), String))
-                oProgST.SubItems.Add(CType(drProgST("TipoServicio"), String))
-                oProgST.SubItems.Add(CType(drProgST("Puntos"), String))
-                oProgST.SubItems.Add(CType(drProgST("TipoCobro"), String))
-                oProgST.SubItems.Add(CType(drProgST("Tecnico"), String))
+                    'oItem.SubItems.Add(CType(drProgST("Cliente"), String)) '1
+                    'oItem.SubItems.Add(RTrim(CType(drProgST("Rutadescripcion"), String))) '2
+                    'oItem.SubItems.Add(CType(drProgST("FPedido"), String)) '3
+                    'oItem.SubItems.Add(CType(drProgST("FCompromiso"), String)) '4
+                    'oItem.SubItems.Add(CType(drProgST("Usuario"), String)) '5
+                    'oItem.SubItems.Add(CType(drProgST("status"), String)) '6
+                    'oItem.SubItems.Add(CType(drProgST("TipoServicio"), String)) '7
+                    'oItem.SubItems.Add(CType(drProgST("Puntos"), String)) '8
+                    'oItem.SubItems.Add(CType(drProgST("TipoCobro"), String)) '9
+                    'oItem.SubItems.Add(CType(drProgST("Tecnico"), String)) '10
 
-                lvwProgramaciones.Items.Add(oProgST)
-                oProgST.EnsureVisible()
-            End While
+                    oItem.SubItems.Add(Convert.ToString(pedido.IDDireccionEntrega)) '1
+                    If Not IsNothing(pedido.RutaOrigen) Then
+                        oItem.SubItems.Add(If(pedido.RutaOrigen.Descripcion, "").Trim) '2
+                    Else
+                        oItem.SubItems.Add("") '2
+                    End If
+                    oItem.SubItems.Add(If(pedido.FAlta, Date.MinValue).ToShortDateString) '3
+                    oItem.SubItems.Add(If(pedido.FCompromiso, Date.MinValue).ToShortDateString) '4
+                    oItem.SubItems.Add(If(pedido.IDUsuarioAlta, "")) '5
+                    oItem.SubItems.Add(If(pedido.EstatusPedido, "")) '6
+                    oItem.SubItems.Add(If(pedido.TipoServicio, "")) '7
+                    oItem.SubItems.Add("") '8
+                    oItem.SubItems.Add(If(pedido.FormaPago, "")) '9
+                    oItem.SubItems.Add("") '10
 
-        Catch e As Exception
-            MessageBox.Show(e.Message)
-        Finally
-            cnnSigamet.Close()
-            'cnnSigamet.Dispose()
+                    lvwProgramaciones.Items.Add(oItem)
+                Next
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-        'Permite agregar un control CheckBoxes a cada uno de los elemento de la lista
-        'lvwProgramaciones.CheckBoxes = True
-
-
     End Sub
 
     Private Sub llenaEquipo()
@@ -177,20 +245,53 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub LlenaPedido()
-        Dim Llena As New SqlCommand("select pedido,celula,AñoPed from Pedido where pedidoreferencia = '" & _Pedido & "' ", cnnSigamet)
+        RestablecerLlavePedido()
+
+        If Not String.IsNullOrEmpty(_URLGateway) Then
+            LlenaPedido_CRM()
+        Else
+            Dim Llena As New SqlCommand("select pedido,celula,AñoPed from Pedido where pedidoreferencia = '" & _Pedido & "' ", cnnSigamet)
+            Try
+                cnnSigamet.Open()
+                Dim drLlena As SqlDataReader = Llena.ExecuteReader
+                While drLlena.Read
+                    Pedido = CType(drLlena("pedido"), Integer)
+                    Celula = CType(drLlena("celula"), Integer)
+                    AñoPed = CType(drLlena("añoped"), Integer)
+                End While
+                cnnSigamet.Close()
+            Catch e As Exception
+                MessageBox.Show(e.Message)
+            End Try
+        End If
+    End Sub
+
+    Private Sub LlenaPedido_CRM()
+        Dim IdPedido As Integer = 0
+        'Dim obPedido As RTGMCore.Pedido = Nothing
+        _PedidoCRM = New RTGMCore.Pedido
+
+        Integer.TryParse(_Pedido, IdPedido)
+
         Try
-            cnnSigamet.Open()
-            Dim drLlena As SqlDataReader = Llena.ExecuteReader
-            While drLlena.Read
-                Pedido = CType(drLlena("pedido"), Integer)
-                Celula = CType(drLlena("celula"), Integer)
-                AñoPed = CType(drLlena("añoped"), Integer)
-            End While
-            cnnSigamet.Close()
-        Catch e As Exception
-            MessageBox.Show(e.Message)
+            If IdPedido > 0 And _PedidosCRM.Count > 0 Then
+                _PedidoCRM = _PedidosCRM.First(Function(x) If(x.IDPedido, 0) = IdPedido)
+
+                Pedido = If(_PedidoCRM.IDPedido, 0)
+                Celula = If(_PedidoCRM.IDZona, 0)
+                AñoPed = If(_PedidoCRM.AnioPed, 0)
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    Private Sub RestablecerLlavePedido()
+        Pedido = 0
+        Celula = 0
+        AñoPed = 0
+    End Sub
+
     'Permite dar color a la listView
     Private Sub paintalternatingbackcolor(ByVal lv As ListView, ByVal color1 As Color, ByVal color2 As Color)
         Dim item As ListViewItem
@@ -208,38 +309,97 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub CargaDatosCliente()
+        LimpiarCamposCliente()
+
+        If Not String.IsNullOrEmpty(_URLGateway) Then
+            CargaDatosCliente_CRM()
+        Else
+            Try
+                Dim da As New SqlDataAdapter("select Cliente,Celula,Ruta,Nombre,isnull(RazonSocial,'Sin empresa') as RazonSocial,Callenombre,isnull(NumInterior,'') as NumInterior,isnull(NumExterior,'') as NumExterior,isnull(ColoniaNombre,'')as ColoniaNombre,isnull(cp,'') as cp,Status,MunicipioNombre,isnull(TelCasa,'')as TelCasa,clasificacionclientedescripcion from vwdatoscliente Where Cliente = " & Client, cnnSigamet)
+                Dim dt As New DataTable("Cliente")
+                da.Fill(dt)
+                'if apara la comparacion de que no haya dos mismos registros
+                If dt.Rows.Count >= 1 Then
+                    lblCliente.Text = CType(dt.Rows(0).Item("Cliente"), String)
+                    'se pone el nombre del objeto a llenar.text = conexion con cliente(dt)
+                    'rows(0).item(nombre del campo de la tabla)
+                    lblCelula.Text = CType(dt.Rows(0).Item("Celula"), String)
+                    lblRuta.Text = CType(dt.Rows(0).Item("Ruta"), String)
+                    lblCelula.Text = CType(dt.Rows(0).Item("Celula"), String)
+                    lblRuta.Text = CType(dt.Rows(0).Item("Ruta"), String)
+                    lblNombre.Text = CType(dt.Rows(0).Item("Nombre"), String)
+                    lblEmpresa.Text = CType(dt.Rows(0).Item("RazonSocial"), String)
+                    lblCalle.Text = CType(dt.Rows(0).Item("CalleNombre"), String)
+                    lblNumeroInterior.Text = CType(dt.Rows(0).Item("NumInterior"), String)
+                    lblNumeroExterior.Text = CType(dt.Rows(0).Item("numexterior"), String)
+                    lblColonia.Text = CType(dt.Rows(0).Item("colonianombre"), String)
+                    lblCP.Text = CType(dt.Rows(0).Item("cp"), String)
+                    lblStatusCliente.Text = CType(dt.Rows(0).Item("status"), String)
+                    lblMunicipio.Text = CType(dt.Rows(0).Item("municipionombre"), String)
+                    lblTelefono.Text = CType(dt.Rows(0).Item("telcasa"), String)
+                    lblClasificacionCliente.Text = CType(dt.Rows(0).Item("clasificacionclientedescripcion"), String)
+                End If
+            Catch e As Exception
+                MessageBox.Show(e.Message)
+            Finally
+                cnnSigamet.Close()
+                'cnnSigamet.Dispose()
+            End Try
+        End If
+    End Sub
+
+    Private Sub CargaDatosCliente_CRM()
+        Dim idPedido As Integer = 0
+        Integer.TryParse(_Pedido, idPedido)
 
         Try
-            Dim da As New SqlDataAdapter("select Cliente,Celula,Ruta,Nombre,isnull(RazonSocial,'Sin empresa') as RazonSocial,Callenombre,isnull(NumInterior,'') as NumInterior,isnull(NumExterior,'') as NumExterior,isnull(ColoniaNombre,'')as ColoniaNombre,isnull(cp,'') as cp,Status,MunicipioNombre,isnull(TelCasa,'')as TelCasa,clasificacionclientedescripcion from vwdatoscliente Where Cliente = " & Client, cnnSigamet)
-            Dim dt As New DataTable("Cliente")
-            da.Fill(dt)
-            'if apara la comparacion de que no haya dos mismos registros
-            If dt.Rows.Count >= 1 Then
-                lblCliente.Text = CType(dt.Rows(0).Item("Cliente"), String)
-                'se pone el nombre del objeto a llenar.text = conexion con cliente(dt)
-                'rows(0).item(nombre del campo de la tabla)
-                lblCelula.Text = CType(dt.Rows(0).Item("Celula"), String)
-                lblRuta.Text = CType(dt.Rows(0).Item("Ruta"), String)
-                lblCelula.Text = CType(dt.Rows(0).Item("Celula"), String)
-                lblRuta.Text = CType(dt.Rows(0).Item("Ruta"), String)
-                lblNombre.Text = CType(dt.Rows(0).Item("Nombre"), String)
-                lblEmpresa.Text = CType(dt.Rows(0).Item("RazonSocial"), String)
-                lblCalle.Text = CType(dt.Rows(0).Item("CalleNombre"), String)
-                lblNumeroInterior.Text = CType(dt.Rows(0).Item("NumInterior"), String)
-                lblNumeroExterior.Text = CType(dt.Rows(0).Item("numexterior"), String)
-                lblColonia.Text = CType(dt.Rows(0).Item("colonianombre"), String)
-                lblCP.Text = CType(dt.Rows(0).Item("cp"), String)
-                lblStatusCliente.Text = CType(dt.Rows(0).Item("status"), String)
-                lblMunicipio.Text = CType(dt.Rows(0).Item("municipionombre"), String)
-                lblTelefono.Text = CType(dt.Rows(0).Item("telcasa"), String)
-                lblClasificacionCliente.Text = CType(dt.Rows(0).Item("clasificacionclientedescripcion"), String)
+            If idPedido > 0 AndAlso _PedidosCRM.Count > 0 Then
+                Dim obPedido As RTGMCore.Pedido = _PedidosCRM.First(Function(x) If(x.IDPedido, 0) = idPedido)
+
+                lblCliente.Text = obPedido.IDDireccionEntrega.ToString
+                lblCelula.Text = obPedido.IDZona.ToString
+                If Not IsNothing(obPedido.RutaOrigen) Then
+                    lblRuta.Text = obPedido.RutaOrigen.IDRuta.ToString
+                End If
+                If Not IsNothing(obPedido.DireccionEntrega) Then
+                    lblNombre.Text = obPedido.DireccionEntrega.Nombre
+                    lblCalle.Text = obPedido.DireccionEntrega.CalleNombre
+                    lblNumeroInterior.Text = obPedido.DireccionEntrega.NumInterior
+                    lblNumeroExterior.Text = obPedido.DireccionEntrega.NumExterior
+                    lblColonia.Text = obPedido.DireccionEntrega.ColoniaNombre
+                    lblCP.Text = obPedido.DireccionEntrega.CP
+                    lblMunicipio.Text = obPedido.DireccionEntrega.MunicipioNombre
+                    lblTelefono.Text = obPedido.DireccionEntrega.Telefono1
+                    lblStatusCliente.Text = obPedido.DireccionEntrega.Status
+
+                    If Not IsNothing(obPedido.DireccionEntrega.DatosFiscales) Then
+                        lblEmpresa.Text = obPedido.DireccionEntrega.DatosFiscales.RazonSocial
+                    End If
+                End If
+
             End If
-        Catch e As Exception
-            MessageBox.Show(e.Message)
-        Finally
-            cnnSigamet.Close()
-            'cnnSigamet.Dispose()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub LimpiarCamposCliente()
+        lblCliente.Text = ""
+        lblCelula.Text = ""
+        lblRuta.Text = ""
+        lblCelula.Text = ""
+        lblRuta.Text = ""
+        lblNombre.Text = ""
+        lblEmpresa.Text = ""
+        lblCalle.Text = ""
+        lblNumeroInterior.Text = ""
+        lblNumeroExterior.Text = ""
+        lblColonia.Text = ""
+        lblCP.Text = ""
+        lblStatusCliente.Text = ""
+        lblMunicipio.Text = ""
+        lblTelefono.Text = ""
+        lblClasificacionCliente.Text = ""
     End Sub
 
     Private Sub LlenaObservaciones()
@@ -254,32 +414,86 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub LlenaServiciosTecnicos()
-        Dim da As New SqlCommand("select PedidoReferencia,UsuarioCambio,Cliente,FAtencion,Pedido,AñoPed,Autotanque,chofer,ayudante,ObservacionesServicioRealizado,ObservacionesServicioTecnico,StatusServicioTecnico,isnull(fcompromisoinciial,'') as FCompromisoinciial " _
-                                      & "from vwSTPestanaServicioTecnico Where pedido = '" & Pedido & "' And celula =  '" & Celula & "' and añoped = ' " & AñoPed & " ' ", cnnSigamet)
+        LimpiarCamposServiciosTecnicos()
+
+        If Not String.IsNullOrEmpty(_URLGateway) Then
+            LlenaServiciosTecnicos_CRM()
+        Else
+            Dim da As New SqlCommand("select PedidoReferencia,UsuarioCambio,Cliente,FAtencion,Pedido,AñoPed,Autotanque,chofer,ayudante,ObservacionesServicioRealizado,ObservacionesServicioTecnico,StatusServicioTecnico,isnull(fcompromisoinciial,'') as FCompromisoinciial " _
+                                          & "from vwSTPestanaServicioTecnico Where pedido = '" & Pedido & "' And celula =  '" & Celula & "' and añoped = ' " & AñoPed & " ' ", cnnSigamet)
+            Try
+                cnnSigamet.Open()
+                Dim drST As SqlDataReader = da.ExecuteReader
+                While drST.Read
+                    If String.IsNullOrEmpty(_URLGateway) Then
+                        lblContrato.Text = CType(drST("cliente"), String)
+                    Else
+                        lblContrato.Text = lblCliente.Text
+                    End If
+                    lblStatus.Text = CType(drST("StatusServicioTecnico"), String)
+                    txtTrabajoRealizado.Text = CType(drST("ObservacionesServicioRealizado"), String)
+                    txtObserv.Text = CType(drST("ObservacionesServicioTecnico"), String)
+                    lblUnidad.Text = CType(drST("autotanque"), String)
+                    lblTecnico.Text = CType(drST("chofer"), String)
+                    lblAyudante.Text = CType(drST("ayudante"), String)
+                    lblFAtencion.Text = CType(drST("fatencion"), String)
+                    lblHorario.Text = CType(drST("fcompromisoinciial"), String)
+                    lblAñoPed.Text = CType(drST("añoped"), String)
+                    lblPedidoReferencia.Text = CType(drST("Pedido"), String)
+                    lblFolio.Text = CType(drST("pedido"), String)
+                    lblUsuarioCambio.Text = CType(drST("UsuarioCambio"), String)
+
+                End While
+                cnnSigamet.Close()
+            Catch e As Exception
+                MessageBox.Show(e.Message)
+            End Try
+        End If
+    End Sub
+
+    Private Sub LlenaServiciosTecnicos_CRM()
+        Dim idPedido As Integer = 0
+        Dim obPedido As RTGMCore.Pedido = Nothing
+
+        Integer.TryParse(_Pedido, idPedido)
+
         Try
-            cnnSigamet.Open()
-            Dim drST As SqlDataReader = da.ExecuteReader
-            While drST.Read
-                lblContrato.Text = CType(drST("cliente"), String)
-                lblStatus.Text = CType(drST("StatusServicioTecnico"), String)
-                txtTrabajoRealizado.Text = CType(drST("ObservacionesServicioRealizado"), String)
-                txtObserv.Text = CType(drST("ObservacionesServicioTecnico"), String)
-                lblUnidad.Text = CType(drST("autotanque"), String)
-                lblTecnico.Text = CType(drST("chofer"), String)
-                lblAyudante.Text = CType(drST("ayudante"), String)
-                lblFAtencion.Text = CType(drST("fatencion"), String)
-                lblHorario.Text = CType(drST("fcompromisoinciial"), String)
-                lblAñoPed.Text = CType(drST("añoped"), String)
-                lblPedidoReferencia.Text = CType(drST("Pedido"), String)
-                lblFolio.Text = CType(drST("pedido"), String)
-                lblUsuarioCambio.Text = CType(drST("UsuarioCambio"), String)
+            If idPedido > 0 AndAlso _PedidosCRM.Count > 0 Then
+                obPedido = _PedidosCRM.First(Function(x) If(x.IDPedido, 0) = idPedido)
 
-            End While
-            cnnSigamet.Close()
-        Catch e As Exception
-            MessageBox.Show(e.Message)
-
+                lblContrato.Text = obPedido.IDDireccionEntrega.ToString
+                lblStatus.Text = obPedido.EstatusPedido
+                txtTrabajoRealizado.Text = obPedido.ObservacionesServiciosTecnicos
+                txtObserv.Text = obPedido.Observaciones
+                lblUnidad.Text = obPedido.IDAutotanque.ToString
+                'lblTecnico.Text = ""
+                'lblAyudante.Text = ""
+                lblFAtencion.Text = obPedido.FSuministro.ToString
+                lblHorario.Text = obPedido.FCompromiso.ToString
+                lblAñoPed.Text = obPedido.AnioPed.ToString
+                lblPedidoReferencia.Text = obPedido.IDPedido.ToString
+                lblFolio.Text = obPedido.IDPedido.ToString
+                lblUsuarioCambio.Text = ""
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub LimpiarCamposServiciosTecnicos()
+        lblContrato.Text = ""
+        lblStatus.Text = ""
+        txtTrabajoRealizado.Text = ""
+        txtObserv.Text = ""
+        lblUnidad.Text = ""
+        lblTecnico.Text = ""
+        lblAyudante.Text = ""
+        lblFAtencion.Text = ""
+        lblHorario.Text = ""
+        lblAñoPed.Text = ""
+        lblPedidoReferencia.Text = ""
+        lblFolio.Text = ""
+        lblUsuarioCambio.Text = ""
     End Sub
 
     Private Sub LlenaPestañaPresupuesto()
@@ -287,41 +501,85 @@ Public Class frmServProgramacion
         Dim daPresupuesto As New SqlDataAdapter(strQuery, cnnSigamet)
         Dim dtPresupuesto As New DataTable("Presupuesto")
         daPresupuesto.Fill(dtPresupuesto)
-        lblNPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("FolioPresupuesto"), String)
-        lblStatusPre.Text = CType(dtPresupuesto.Rows(0).Item("statuspresupuesto"), String)
-        lblTotal.Text = CType(dtPresupuesto.Rows(0).Item("total"), String)
-        txtObservacionesPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("ObservacionesPresupuesto"), String)
-        lblSubTotal.Text = CType(dtPresupuesto.Rows(0).Item("subtotal"), String)
-        lblDescuento.Text = CType(dtPresupuesto.Rows(0).Item("descuento"), String)
+
+        If Not IsNothing(dtPresupuesto) AndAlso dtPresupuesto.Rows.Count > 0 Then
+            lblNPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("FolioPresupuesto"), String)
+            lblStatusPre.Text = CType(dtPresupuesto.Rows(0).Item("statuspresupuesto"), String)
+            lblTotal.Text = CType(dtPresupuesto.Rows(0).Item("total"), String)
+            txtObservacionesPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("ObservacionesPresupuesto"), String)
+            lblSubTotal.Text = CType(dtPresupuesto.Rows(0).Item("subtotal"), String)
+            lblDescuento.Text = CType(dtPresupuesto.Rows(0).Item("descuento"), String)
+        End If
     End Sub
 
     Private Sub OrdenAutomatica()
+        LimpiarCamposOrdenAutomatica()
+
+        If Not String.IsNullOrEmpty(_URLGateway) Then
+            OrdenAutomatica_CRM()
+        Else
+            Try
+                Dim da As New SqlDataAdapter("select PedidoPrimero,TrabajoSolicitadoPrimero,TrabajoRealizadoPrimero,FolioPresupuestoViene,StatusPresupuestoViene,SubTotalPresupuesto,DescuentoPresupuesto,TotalPresupuesto,ObservacionesPresupuestoViene, PedidoAuto, NombreUsuario, TipoPedido, TipoServicio, TrabajoSolicitado from vwSTLlenaPedidoPresupuesto where pedidoauto = " & Pedido & "And celulaauto = " & Celula & "And añopedauto = " & AñoPed, cnnSigamet)
+                Dim dt As New DataTable("Orden")
+                da.Fill(dt)
+                If dt.Rows.Count > 0 Then
+                    lblPedido.Text = CType(dt.Rows(0).Item("pedidoprimero"), String)
+                    txtTrabajoSolicitado.Text = CType(dt.Rows(0).Item("trabajosolicitadoprimero"), String)
+                    lblTrabajoRealizado.Text = CType(dt.Rows(0).Item("trabajorealizadoprimero"), String)
+                    lblFolioPresupuesto.Text = CType(dt.Rows(0).Item("Foliopresupuestoviene"), String)
+                    lblStatusPresupuesto.Text = CType(dt.Rows(0).Item("statuspresupuestoviene"), String)
+                    lblSubT.Text = CType(dt.Rows(0).Item("subtotalpresupuesto"), String)
+                    lblDesc.Text = CType(dt.Rows(0).Item("descuentopresupuesto"), String)
+                    lblTot.Text = CType(dt.Rows(0).Item("totalpresupuesto"), String)
+                    txtObservacionesPres.Text = CType(dt.Rows(0).Item("observacionespresupuestoviene"), String)
+                    lblAutoPedido.Text = CType(dt.Rows(0).Item("pedidoauto"), String)
+                    lblUsuario.Text = CType(If(dt.Rows(0).Item("NombreUsuario") Is DBNull.Value, "", dt.Rows(0).Item("NombreUsuario")), String)
+                    lblFormaPago.Text = CType(If(dt.Rows(0).Item("tipopedido") Is DBNull.Value, "", dt.Rows(0).Item("tipopedido")), String)
+                    lblTipoServicio.Text = CType(If(dt.Rows(0).Item("tiposervicio") Is DBNull.Value, "", dt.Rows(0).Item("tiposervicio")), String)
+                    txtTrabSolc.Text = CType(dt.Rows(0).Item("trabajosolicitado"), String)
+                End If
+            Catch e As Exception
+                MessageBox.Show(e.Message)
+            Finally
+                cnnSigamet.Close()
+                'cnnSigamet.Dispose()
+            End Try
+        End If
+    End Sub
+
+    Private Sub OrdenAutomatica_CRM()
+        Dim idPedido As Integer = 0
+        Dim obPedido As RTGMCore.Pedido = Nothing
+
+        Integer.TryParse(_Pedido, idPedido)
+
         Try
-            Dim da As New SqlDataAdapter("select PedidoPrimero,TrabajoSolicitadoPrimero,TrabajoRealizadoPrimero,FolioPresupuestoViene,StatusPresupuestoViene,SubTotalPresupuesto,DescuentoPresupuesto,TotalPresupuesto,ObservacionesPresupuestoViene, PedidoAuto, NombreUsuario, TipoPedido, TipoServicio, TrabajoSolicitado from vwSTLlenaPedidoPresupuesto where pedidoauto = " & Pedido & "And celulaauto = " & Celula & "And añopedauto = " & AñoPed, cnnSigamet)
-            Dim dt As New DataTable("Orden")
-            da.Fill(dt)
-            lblPedido.Text = CType(dt.Rows(0).Item("pedidoprimero"), String)
-            txtTrabajoSolicitado.Text = CType(dt.Rows(0).Item("trabajosolicitadoprimero"), String)
-            lblTrabajoRealizado.Text = CType(dt.Rows(0).Item("trabajorealizadoprimero"), String)
-            lblFolioPresupuesto.Text = CType(dt.Rows(0).Item("Foliopresupuestoviene"), String)
-            lblStatusPresupuesto.Text = CType(dt.Rows(0).Item("statuspresupuestoviene"), String)
-            lblSubT.Text = CType(dt.Rows(0).Item("subtotalpresupuesto"), String)
-            lblDesc.Text = CType(dt.Rows(0).Item("descuentopresupuesto"), String)
-            lblTot.Text = CType(dt.Rows(0).Item("totalpresupuesto"), String)
-            txtObservacionesPres.Text = CType(dt.Rows(0).Item("observacionespresupuestoviene"), String)
-            lblAutoPedido.Text = CType(dt.Rows(0).Item("pedidoauto"), String)
-            lblUsuario.Text = CType(dt.Rows(0).Item("NombreUsuario"), String)
-            lblFormaPago.Text = CType(dt.Rows(0).Item("tipopedido"), String)
-            lblTipoServicio.Text = CType(dt.Rows(0).Item("tiposervicio"), String)
-            txtTrabSolc.Text = CType(dt.Rows(0).Item("trabajosolicitado"), String)
+            If idPedido > 0 AndAlso _PedidosCRM.Count > 0 Then
+                obPedido = _PedidosCRM.First(Function(x) If(x.IDPedido, 0) = idPedido)
 
-        Catch e As Exception
-            MessageBox.Show(e.Message)
-        Finally
-            cnnSigamet.Close()
-            'cnnSigamet.Dispose()
+                lblAutoPedido.Text = obPedido.IDPedido.ToString
+                lblFormaPago.Text = obPedido.FormaPago
+                lblTipoServicio.Text = obPedido.TipoServicio
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
 
+    Private Sub LimpiarCamposOrdenAutomatica()
+        lblPedido.Text = ""
+        lblTrabajoRealizado.Text = ""
+        lblFolioPresupuesto.Text = ""
+        lblStatusPresupuesto.Text = ""
+        lblSubT.Text = ""
+        lblDesc.Text = ""
+        lblTot.Text = ""
+        txtObservacionesPres.Text = ""
+        lblAutoPedido.Text = ""
+        lblUsuario.Text = ""
+        lblFormaPago.Text = ""
+        lblTipoServicio.Text = ""
+        txtTrabSolc.Text = ""
     End Sub
 
     Private Sub LlenaPagare()
@@ -368,7 +626,12 @@ Public Class frmServProgramacion
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(ByVal Usuario As String, ByVal Clave As String, ByVal CadenaConexion As String, ByVal Corporativo As Short, ByVal Sucursal As Short)
+    Public Sub New(ByVal Usuario As String,
+                   ByVal Clave As String,
+                   ByVal CadenaConexion As String,
+                   ByVal Corporativo As Short,
+                   ByVal Sucursal As Short,
+                   Optional ByVal URLGateway As String = "")
         MyBase.New()
         SigametSeguridad.Seguridad.Conexion = cnnSigamet
 
@@ -377,6 +640,7 @@ Public Class frmServProgramacion
         GLOBAL_CadenaConexion = CadenaConexion
         GLOBAL_Corporativo = Corporativo
         GLOBAL_Sucursal = Sucursal
+        _URLGateway = URLGateway
 
         'oConfig2 = New SigaMetClasses.cConfig(11, GLOBAL_Corporativo, GLOBAL_Sucursal)
 
@@ -387,7 +651,7 @@ Public Class frmServProgramacion
         'Add any initialization after the InitializeComponent() call
         oSeguridad = New SigaMetClasses.cSeguridad(Usuario, 11)
 
-        GLOBAL_RutaReportes = CType(SigametSeguridad.Seguridad.Parametros(11, CType(GLOBAL_Corporativo, Byte), _
+        GLOBAL_RutaReportes = CType(SigametSeguridad.Seguridad.Parametros(11, CType(GLOBAL_Corporativo, Byte),
                         CType(GLOBAL_Sucursal, Byte)).ValorParametro("RutaReportesW7"), String)
 
 
@@ -411,7 +675,7 @@ Public Class frmServProgramacion
             Dim _FechaCorte As Date
             'Dim oConfig As New SigaMetClasses.cConfig(11)
             'ST_HoraCorte = CType(oConfig2.Parametros("horacorteentresemana"), String)
-            ST_HoraCorte = CType(SigametSeguridad.Seguridad.Parametros(11, CType(GLOBAL_Corporativo, Byte), _
+            ST_HoraCorte = CType(SigametSeguridad.Seguridad.Parametros(11, CType(GLOBAL_Corporativo, Byte),
                         CType(GLOBAL_Sucursal, Byte)).ValorParametro("horacorteentresemana"), String)
             _FechaCorte = CType(Now.Date.ToShortDateString & " " & ST_HoraCorte, Date)
             If _FechaCorte < Now Then
@@ -726,6 +990,7 @@ Public Class frmServProgramacion
     Friend WithEvents DGTBCFCompromisoActual As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents DGTBCObservacionesReprogramacion As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents btnTodasFranquicias As System.Windows.Forms.ToolBarButton
+    Friend WithEvents btnConsultar As System.Windows.Forms.ToolBarButton
     Friend WithEvents btnObservacion As System.Windows.Forms.ToolBarButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
@@ -3352,6 +3617,7 @@ Public Class frmServProgramacion
         LlenaLista()
         SumServicios()
         SumPuntos()
+        CargarVariablesGateway()
         'paintalternatingbackcolor(lvwProgramaciones, Color.CornflowerBlue, Color.White)
         lblFolio.Visible = False
         Dim w As New Check()
@@ -3458,7 +3724,15 @@ Public Class frmServProgramacion
 
                 If _Estatus = "ACTIVO" Or _Estatus = "PENDIENTE" Then
                     Cursor = Cursors.WaitCursor
-                    Dim Asignar As New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario)
+                    Dim Asignar As frmAsignar
+                    'Dim Asignar As New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario)
+
+                    If Not String.IsNullOrEmpty(_URLGateway) AndAlso _FuenteGateway = "CRM" Then
+                        Asignar = New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario, PedidoCRM:=_PedidoCRM)
+                    Else
+                        Asignar = New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario)
+                    End If
+
                     Asignar.ShowDialog()
                     Cursor = Cursors.Default
                     LlenaLista()
@@ -3485,13 +3759,19 @@ Public Class frmServProgramacion
                     End If
 
                 Else
-                        MessageBox.Show("Usted no puede agregar un comentario al servicio técnico, pues no tiene status 'ACTIVO'.", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
+                    MessageBox.Show("Usted no puede agregar un comentario al servicio técnico, pues no tiene status 'ACTIVO'.", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
 
                 Cursor = Cursors.Default
 
             Case "Consultar"
-                Dim frmConsulta As New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario)
+                Dim frmConsulta As LiquidacionSTN.frmConsultar
+
+                If Not String.IsNullOrEmpty(_URLGateway) Then
+                    frmConsulta = New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario, _URLGateway, GLOBAL_Modulo, GLOBAL_CadenaConexion)
+                Else
+                    frmConsulta = New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario)
+                End If
                 frmConsulta.ShowDialog()
 
             Case "Liquidar"
@@ -3502,420 +3782,192 @@ Public Class frmServProgramacion
                 Cursor = Cursors.Default
 
             Case "Cancel. Liq."
-                    Cursor = Cursors.WaitCursor
-                    Dim CancelarLiquidacion As New FrmCancelarLiquidacion(GLOBAL_Usuario)
-                    CancelarLiquidacion.ShowDialog()
-                    Cursor = Cursors.Default
+                Cursor = Cursors.WaitCursor
+                Dim CancelarLiquidacion As New FrmCancelarLiquidacion(GLOBAL_Usuario)
+                CancelarLiquidacion.ShowDialog()
+                Cursor = Cursors.Default
             Case "Cancel. Ord."
 
-                    Cursor = Cursors.WaitCursor
+                Cursor = Cursors.WaitCursor
 
                 Dim _pedidoReferenciaOrden As String = Nothing
 
 
-                    Dim LlenaLlamada As New SqlCommand("select RTRIM (PedidoReferencia) as PedidoReferencia from pedido p left join serviciotecnico st on p.pedido = st.pedido and p.celula = st.celula and p.añoped = st.añoped where st.franquicia = 1 and StatusServicioTecnico = 'ACTIVO' and pedidoreferencia = '" & _Pedido & "' ", cnnSigamet)
-                    Try
-                        cnnSigamet.Open()
-                        Dim drLlenaLlamada As SqlDataReader = LlenaLlamada.ExecuteReader
-                        While drLlenaLlamada.Read
-                            _pedidoReferenciaOrden = CType(drLlenaLlamada("PedidoReferencia"), String)
+                Dim LlenaLlamada As New SqlCommand("select RTRIM (PedidoReferencia) as PedidoReferencia from pedido p left join serviciotecnico st on p.pedido = st.pedido and p.celula = st.celula and p.añoped = st.añoped where st.franquicia = 1 and StatusServicioTecnico = 'ACTIVO' and pedidoreferencia = '" & _Pedido & "' ", cnnSigamet)
+                Try
+                    cnnSigamet.Open()
+                    Dim drLlenaLlamada As SqlDataReader = LlenaLlamada.ExecuteReader
+                    While drLlenaLlamada.Read
+                        _pedidoReferenciaOrden = CType(drLlenaLlamada("PedidoReferencia"), String)
 
-                        End While
-                        cnnSigamet.Close()
-                    Catch ex As Exception
-                        MessageBox.Show(ex.Message)
-                    End Try
+                    End While
+                    cnnSigamet.Close()
+                Catch ex As Exception
+                    MessageBox.Show(ex.Message)
+                End Try
 
-                    If _Pedido = _pedidoReferenciaOrden Then
-                        MessageBox.Show("Usted no puede cancelar el servicio pues es una franquicia 'ACTIVA'.", "Franquicia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Else
+                If _Pedido = _pedidoReferenciaOrden Then
+                    MessageBox.Show("Usted no puede cancelar el servicio pues es una franquicia 'ACTIVA'.", "Franquicia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
 
-                        If _Estatus = "ACTIVO" Or _Estatus = "PENDIENTE" Then
-                            Cursor = Cursors.WaitCursor
-                            Dim CancelarOrden As New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario)
-                            CancelarOrden.ShowDialog()
-                            Cursor = Cursors.Default
-                            LlenaLista()
+                    If _Estatus = "ACTIVO" Or _Estatus = "PENDIENTE" Then
+                        Cursor = Cursors.WaitCursor
+                        'Dim CancelarOrden As New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario)
+
+                        Dim CancelarOrden As frmCancelarOrden
+                        If Not String.IsNullOrEmpty(_URLGateway) Then
+                            CancelarOrden = New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario, Cliente:=Client, Autotanque:=_Autotanque)
                         Else
-                            MessageBox.Show("Usted no puede cancelar el servicio técnico,pues no tiene status 'ACTIVO'.", "servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            CancelarOrden = New frmCancelarOrden(Pedido, Celula, AñoPed, GLOBAL_Usuario)
                         End If
-                    End If
 
-                    Cursor = Cursors.Default
+                        CancelarOrden.ShowDialog()
+                        Cursor = Cursors.Default
+                        LlenaLista()
+                    Else
+                        MessageBox.Show("Usted no puede cancelar el servicio técnico,pues no tiene status 'ACTIVO'.", "servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                End If
+
+                Cursor = Cursors.Default
 
 
 
 
 
             Case "Presupuesto"
+                Cursor = Cursors.WaitCursor
+                If _Estatus = "ACTIVO" Then
                     Cursor = Cursors.WaitCursor
-                    If _Estatus = "ACTIVO" Then
-                        Cursor = Cursors.WaitCursor
-                        _UsaLiquidacion = False
-                        Dim Presupuesto As New frmPresupuesto(Pedido, Celula, AñoPed, _UsaLiquidacion)
-                        Presupuesto.ShowDialog()
-                        Cursor = Cursors.Default
-                    Else
-                        MessageBox.Show("Usted no puede utilizar esta opción, pues el pedido tiene estatus ATENDIDO.", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
+                    _UsaLiquidacion = False
+                    Dim Presupuesto As New frmPresupuesto(Pedido, Celula, AñoPed, _UsaLiquidacion)
+                    Presupuesto.ShowDialog()
                     Cursor = Cursors.Default
+                Else
+                    MessageBox.Show("Usted no puede utilizar esta opción, pues el pedido tiene estatus ATENDIDO.", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+                Cursor = Cursors.Default
 
             Case "Refrescar"
-                    Cursor = Cursors.WaitCursor
-                    Application.DoEvents()
-                    LlenaLista()
-                    Cursor = Cursors.Default
+                Cursor = Cursors.WaitCursor
+                Application.DoEvents()
+                LlenaLista()
+                Cursor = Cursors.Default
 
             Case "Reporte Prog."
 
-                    Cursor = Cursors.WaitCursor
-                    Try
-                        Dim folio As Integer
-                        folio = 0
-                        Dim Reportes As New frmReportesST(dtpFecha.Value, CType(cboCelula.SelectedValue, Integer), folio)
-                        Reportes.Imprime = 1
-                        Reportes.ShowDialog()
-                    Catch er As Exception
-                        MessageBox.Show("Error en la impresion del reporte de programacion" & er.Message & er.Source)
+                Cursor = Cursors.WaitCursor
+                Try
+                    Dim folio As Integer
+                    folio = 0
+                    Dim Reportes As New frmReportesST(dtpFecha.Value, CType(cboCelula.SelectedValue, Integer), folio)
+                    Reportes.Imprime = 1
+                    Reportes.ShowDialog()
+                Catch er As Exception
+                    MessageBox.Show("Error en la impresion del reporte de programacion" & er.Message & er.Source)
 
-                    End Try
-                    Cursor = Cursors.Default
+                End Try
+                Cursor = Cursors.Default
 
             Case "Ciclos"
 
-                    Cursor = Cursors.WaitCursor
-                    Dim Ciclos As New GeneraCiclosAutomaticos.frmGeneraCiclos(GLOBAL_Usuario)
-                    Ciclos.ShowDialog()
-                    Cursor = Cursors.Default
+                Cursor = Cursors.WaitCursor
+                Dim Ciclos As New GeneraCiclosAutomaticos.frmGeneraCiclos(GLOBAL_Usuario)
+                Ciclos.ShowDialog()
+                Cursor = Cursors.Default
 
 
             Case "UnaFranquicia"
-                    Cursor = Cursors.WaitCursor
-                    If MessageBox.Show("¿Desea usted mandar el pedido '" & _Pedido & "' a una franquicia?.", "Franquicia", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                        ChecaFolio()
-                        If _Folio > 0 Then
-                            If MessageBox.Show("¿Confirma usted el envio de el pedido '" & _Pedido & "'?", "Franquicia", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                                Dim daPedido As New SqlDataAdapter("select * from vwSTExtraeInformacionFranquicia where PedidoReferencia =  '" & _Pedido & "'", cnnSigamet)
-                                Dim dtpedido As New DataTable("Franquicias")
-                                daPedido.Fill(dtpedido)
-                                cnnSigamet.Close()
+                Cursor = Cursors.WaitCursor
+                If MessageBox.Show("¿Desea usted mandar el pedido '" & _Pedido & "' a una franquicia?.", "Franquicia", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                    ChecaFolio()
+                    If _Folio > 0 Then
+                        If MessageBox.Show("¿Confirma usted el envio de el pedido '" & _Pedido & "'?", "Franquicia", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                            Dim daPedido As New SqlDataAdapter("select * from vwSTExtraeInformacionFranquicia where PedidoReferencia =  '" & _Pedido & "'", cnnSigamet)
+                            Dim dtpedido As New DataTable("Franquicias")
+                            daPedido.Fill(dtpedido)
+                            cnnSigamet.Close()
 
-                                If cnSigamet.State = ConnectionState.Open Then
-                                    cnSigamet.Close()
-                                Else
-                                End If
-
-                                ConfiguraConexion()
-
-                                Dim Conexion As SqlConnection = cnSigamet
-                                Dim Consulta As DataRow() = dtpedido.Select()
-                                Dim dr As DataRow
-                                Dim Transaccion As SqlTransaction = Nothing
-
-                                For Each dr In Consulta
-                                    Try
-                                        cnSigamet.Open()
-                                        Dim sqlComando As New SqlCommand()
-                                        Transaccion = Conexion.BeginTransaction
-                                        sqlComando.Connection = Conexion
-                                        sqlComando.Transaction = Transaccion
-
-                                        sqlComando.Parameters.Add("@FRANQUICIA", SqlDbType.Int).Value = dr.Item("Franquicia")
-                                        sqlComando.Parameters.Add("@PEDIDO", SqlDbType.Int).Value = dr.Item("Pedido")
-                                        sqlComando.Parameters.Add("@AÑOPED", SqlDbType.SmallInt).Value = dr.Item("AñoPed")
-                                        sqlComando.Parameters.Add("@CLL", SqlDbType.TinyInt).Value = dr.Item("Celula")
-                                        sqlComando.Parameters.Add("@NMCTT", SqlDbType.VarChar).Value = dr.Item("Nombre")
-                                        sqlComando.Parameters.Add("@DRRCTT", SqlDbType.VarChar).Value = dr.Item("Direccion")
-                                        sqlComando.Parameters.Add("@SVCSLTA", SqlDbType.VarChar).Value = dr.Item("ServicioSolicitado")
-                                        sqlComando.Parameters.Add("@FCMPSVC", SqlDbType.DateTime).Value = dr.Item("FCompromiso")
-                                        sqlComando.Parameters.Add("@STT", SqlDbType.VarChar).Value = dr.Item("StatusServicioTecnico")
-                                        sqlComando.Parameters.Add("@TSVC", SqlDbType.VarChar).Value = dr.Item("TipoServicioDescripcion")
-                                        sqlComando.Parameters.Add("@FLPSPT", SqlDbType.Int).Value = dr.Item("FolioPresupuesto")
-                                        sqlComando.Parameters.Add("@TSSVCID", SqlDbType.TinyInt).Value = dr.Item("TipoServicio")
-                                        sqlComando.Parameters.Add("@CTT", SqlDbType.Int).Value = dr.Item("Cliente")
-
-
-                                        sqlComando.CommandType = CommandType.StoredProcedure
-                                        sqlComando.CommandText = "spSTInsertaFranquicia"
-                                        sqlComando.CommandTimeout = 300
-
-                                        sqlComando.ExecuteNonQuery()
-                                        Transaccion.Commit()
-                                    Catch es As Exception
-
-                                        MessageBox.Show(es.Message)
-                                        Transaccion.Rollback()
-                                    Finally
-                                        Conexion.Close()
-                                        'Conexion.Dispose()
-                                    End Try
-
-
-                                Next
-
-
-
-                                Dim daPed As New SqlDataAdapter("select Pedido,Celula,Añoped from vwSTExtraeInformacionFranquicia where PedidoReferencia = '" & _Pedido & "'", cnnSigamet)
-                                Dim dtPed As New DataTable("Ped")
-                                daPed.Fill(dtPed)
-
-                                Dim con As SqlConnection = SigaMetClasses.DataLayer.Conexion
-                                Dim Query As DataRow() = dtPed.Select()
-                                Dim drPed As DataRow
-
-                                Dim Transacciones As SqlTransaction
-                                For Each drPed In Query
-
-                                    Try
-                                        con.Open()
-                                        Dim Comando As New SqlCommand()
-                                        Transacciones = con.BeginTransaction
-                                        Comando.Connection = con
-                                        Comando.Transaction = Transacciones
-
-                                        Comando.Parameters.Add("@Pedido", SqlDbType.Int).Value = drPed.Item("Pedido")
-                                        Comando.Parameters.Add("@Celula", SqlDbType.Int).Value = drPed.Item("celula")
-                                        Comando.Parameters.Add("@Añoped", SqlDbType.Int).Value = drPed.Item("AñoPed")
-
-
-                                        Comando.CommandType = CommandType.Text
-                                        Comando.CommandText = "update serviciotecnico set franquicia = 1 where pedido = @Pedido and celula = @Celula and añoped = @AñoPed"
-                                        Comando.ExecuteNonQuery()
-                                        Transacciones.Commit()
-                                    Catch exc As Exception
-                                        MessageBox.Show(exc.Message)
-                                    Finally
-                                        con.Close()
-                                        'con.Dispose()
-                                    End Try
-                                Next
-
-                                MessageBox.Show("Ha terminado el proceso de exportación.", "Franquicia", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                LlenaLista()
-                            Else
-                            End If
-
-                        Else
-                            MessageBox.Show("El pedido no esta asignado, debe de asignar primero el pedido", "Franquicia", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End If
-
-                    Else
-
-                        Dim Fecha As DateTime
-                        Fecha = Now.Date
-                        If dtpFecha.Value = Fecha Then
-                            MessageBox.Show("Para exportar las franquicias usted debede seleccionar la fecha en que asigno sus pedidos.", "Franquicia", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Else
-
-                        End If
-
-                    End If
-
-                    Cursor = Cursors.Default
-
-            Case "TFranquicias"
-
-                    Cursor = Cursors.WaitCursor
-
-                    If MessageBox.Show("¿Desea usted mandar las franquicias?.", "Franquicia", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                        ChecaFolio()
-                        If _Folio > 0 Then
                             If cnSigamet.State = ConnectionState.Open Then
                                 cnSigamet.Close()
-                            End If
-                            ConfiguraConexion()
-                            cnSigamet.Open()
-                            Dim da As New SqlDataAdapter("select pdd from vwSTExportaServiciosAtendidos WHERE FCMPSVC BETWEEN '" & dtpFecha.Value.ToShortDateString & "' AND '" & dtpFecha.Value.ToShortDateString & " 23:59:59'", cnSigamet)
-                            Dim dt As New DataTable("ChecaFranquicia")
-                            cnSigamet.Close()
-                            da.Fill(dt)
-                            If dt.Rows.Count > 0 Then
-                                MessageBox.Show("Usted ya exporto los datos de las franquicias ó selecciono una fecha incorrecta.", "Franquicias", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Else
-                                Dim daAsig As New SqlDataAdapter("select autotanque,folio from autotanqueturno  where finicioruta between '" & dtpFecha.Value.ToShortDateString & "'and'" & dtpFecha.Value.ToShortDateString & " 23:59:59'and autotanque in (select a.autotanque  from autotanque a  where franquicia is not null) and folio in (select folio from pedido where producto = 4 and fcompromiso = '" & dtpFecha.Value.ToShortDateString & "')", cnnSigamet)
-                                Dim dtAsig As New DataTable("ChecaAsignacion")
-                                daAsig.Fill(dtAsig)
-                                If dtAsig.Rows.Count = 0 Then
-                                    MessageBox.Show("Usted no puede exportar los datos de las franquicias por no estar asignadas", "Franquicias", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                Else
-                                    If MessageBox.Show("¿Desea usted mandar información a las fraquicias?", "Servicios Técnnico", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                                        Dim daExp As New SqlDataAdapter("select * from vwSTExtraeInformacionFranquicia where finicioruta between '" & dtpFecha.Value.ToShortDateString & "'and'" & dtpFecha.Value.ToShortDateString & " 23:59:59' ", cnnSigamet)
-                                        Dim dtExp As New DataTable("Franquicias")
-                                        daExp.Fill(dtExp)
-                                        cnnSigamet.Close()
-
-                                        'If cnSigamet.State = ConnectionState.Open Then
-                                        '    cnSigamet.Close()
-                                        'Else
-                                        'End If
-
-                                        Dim Conexion As SqlConnection = cnSigamet
-                                        Dim Transaccion As SqlTransaction
-                                        ConfiguraConexion()
-                                        cnSigamet.Open()
-                                        Transaccion = Conexion.BeginTransaction
-
-                                        Dim Consulta As DataRow() = dtExp.Select()
-                                        Dim dr As DataRow
-
-                                        'Dim sqlComando As New SqlCommand()
-
-
-                                        'sqlComando.Connection = Conexion
-                                        'sqlComando.Transaction = Transaccion
-
-                                        For Each dr In Consulta
-                                            Try
-                                                'cnSigamet.Open()
-                                                Dim sqlComando As New SqlCommand()
-                                                'Transaccion = Conexion.BeginTransaction
-                                                sqlComando.Connection = Conexion
-                                                sqlComando.Transaction = Transaccion
-
-                                                sqlComando.Parameters.Add("@FRANQUICIA", SqlDbType.Int).Value = dr.Item("Franquicia")
-                                                sqlComando.Parameters.Add("@PEDIDO", SqlDbType.Int).Value = dr.Item("Pedido")
-                                                sqlComando.Parameters.Add("@AÑOPED", SqlDbType.SmallInt).Value = dr.Item("AñoPed")
-                                                sqlComando.Parameters.Add("@CLL", SqlDbType.TinyInt).Value = dr.Item("Celula")
-                                                sqlComando.Parameters.Add("@NMCTT", SqlDbType.VarChar).Value = dr.Item("Nombre")
-                                                sqlComando.Parameters.Add("@DRRCTT", SqlDbType.VarChar).Value = dr.Item("Direccion")
-                                                sqlComando.Parameters.Add("@SVCSLTA", SqlDbType.VarChar).Value = dr.Item("ServicioSolicitado")
-                                                sqlComando.Parameters.Add("@FCMPSVC", SqlDbType.DateTime).Value = dr.Item("FCompromiso")
-                                                sqlComando.Parameters.Add("@STT", SqlDbType.VarChar).Value = dr.Item("StatusServicioTecnico")
-                                                sqlComando.Parameters.Add("@TSVC", SqlDbType.VarChar).Value = dr.Item("TipoServicioDescripcion")
-                                                sqlComando.Parameters.Add("@FLPSPT", SqlDbType.Int).Value = dr.Item("FolioPresupuesto")
-                                                sqlComando.Parameters.Add("@TSSVCID", SqlDbType.TinyInt).Value = dr.Item("TipoServicio")
-                                                sqlComando.Parameters.Add("@CTT", SqlDbType.Int).Value = dr.Item("Cliente")
-
-                                                sqlComando.CommandType = CommandType.StoredProcedure
-                                                sqlComando.CommandText = "spSTInsertaFranquicia"
-                                                sqlComando.CommandTimeout = 300
-
-                                                sqlComando.ExecuteNonQuery()
-                                                'Transaccion.Commit()
-                                            Catch es As Exception
-                                                Transaccion.Rollback()
-                                                MessageBox.Show("Usted ha tenido problemas con la Exportación de datos.", es.Message)
-                                            End Try
-
-
-                                        Next
-
-                                        Transaccion.Commit()
-                                        Conexion.Close()
-                                        'Conexion.Dispose()
-
-                                        Dim daFranquicia As New SqlDataAdapter("select Pedido,Celula,Añoped from vwSTExtraeInformacionFranquicia where finicioruta between '" & Now.Date & "'and'" & Now.Date & " 23:59:59' ", cnnSigamet)
-                                        Dim dtFranquicia As New DataTable("Franquicias")
-                                        daFranquicia.Fill(dtFranquicia)
-
-                                        Dim con As SqlConnection = SigaMetClasses.DataLayer.Conexion
-                                        Dim Query As DataRow() = dtFranquicia.Select()
-                                        Dim drFranquicia As DataRow
-
-                                        Dim Transacciones As SqlTransaction
-                                        For Each drFranquicia In Query
-
-                                            Try
-                                                con.Open()
-                                                Dim Comando As New SqlCommand()
-                                                Transacciones = con.BeginTransaction
-                                                Comando.Connection = con
-                                                Comando.Transaction = Transacciones
-
-                                                Comando.Parameters.Add("@Pedido", SqlDbType.Int).Value = drFranquicia.Item("Pedido")
-                                                Comando.Parameters.Add("@Celula", SqlDbType.Int).Value = drFranquicia.Item("celula")
-                                                Comando.Parameters.Add("@Añoped", SqlDbType.Int).Value = drFranquicia.Item("AñoPed")
-
-
-                                                Comando.CommandType = CommandType.Text
-                                                Comando.CommandText = "update serviciotecnico set franquicia = 1 where pedido = @Pedido and celula = @Celula and añoped = @AñoPed"
-                                                Comando.ExecuteNonQuery()
-                                                Transacciones.Commit()
-                                            Catch exc As Exception
-                                                MessageBox.Show(exc.Message)
-                                            Finally
-                                                con.Close()
-                                                'con.Dispose()
-                                            End Try
-                                        Next
-
-
-                                        MessageBox.Show("Ha terminado el proceso de exportacion", "Servicios Tecnicos", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                        LlenaLista()
-                                    Else
-                                    End If
-
-                                End If
                             End If
-                        Else
-                            MessageBox.Show("El pedido no esta asignado, debe de asignar primero el pedido", "Franquicia", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End If
-                    Else
-                    End If
 
-                    Cursor = Cursors.Default
+                            ConfiguraConexion()
 
+                            Dim Conexion As SqlConnection = cnSigamet
+                            Dim Consulta As DataRow() = dtpedido.Select()
+                            Dim dr As DataRow
+                            Dim Transaccion As SqlTransaction = Nothing
 
-            Case "PantallaFranquicia"
-
-                    Cursor = Cursors.WaitCursor
-                    Dim PantallaF As New PantallaFranquicia.frmPantallaFranquicia()
-                    PantallaF.ShowDialog()
-                    Cursor = Cursors.Default
-
-            Case "Llamada"
-
-                    Cursor = Cursors.WaitCursor
-                Dim _pedidoReferenciaLlamada As String = Nothing
-
-
-                    Dim LlenaLlamada As New SqlCommand("select RTRIM (PedidoReferencia) as PedidoReferencia from pedido p left join serviciotecnico st on p.pedido = st.pedido and p.celula = st.celula and p.añoped = st.añoped where st.llamada = 1 and pedidoreferencia = '" & _Pedido & "' ", cnnSigamet)
-                    Try
-                        cnnSigamet.Open()
-                        Dim drLlenaLlamada As SqlDataReader = LlenaLlamada.ExecuteReader
-                        While drLlenaLlamada.Read
-                            _pedidoReferenciaLlamada = CType(drLlenaLlamada("PedidoReferencia"), String)
-
-                        End While
-                        cnnSigamet.Close()
-                    Catch ex As Exception
-                        MessageBox.Show(ex.Message)
-                    End Try
-
-                    If _Pedido = _pedidoReferenciaLlamada Then
-                        MessageBox.Show("Usted no puede volver a confirmar el pedido, pues ya esta confirmado", "Franquicia", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Else
-                    Dim _pedidoReferenciaFranquicia As String = Nothing
-
-
-                        Dim Llena As New SqlCommand("select RTRIM (PedidoReferencia) as PedidoReferencia from pedido p left join serviciotecnico st on p.pedido = st.pedido and p.celula = st.celula and p.añoped = st.añoped where st.franquicia = 1 and pedidoreferencia = '" & _Pedido & "' ", cnnSigamet)
-                        Try
-                            cnnSigamet.Open()
-                            Dim drLlena As SqlDataReader = Llena.ExecuteReader
-                            While drLlena.Read
-                                _pedidoReferenciaFranquicia = CType(drLlena("PedidoReferencia"), String)
-
-                            End While
-                            cnnSigamet.Close()
-                        Catch ex As Exception
-                            MessageBox.Show(ex.Message)
-                        End Try
-
-                        If _Pedido = Trim(_pedidoReferenciaFranquicia) Then
-                            If MessageBox.Show("¿Desea confirmar la llamada del pedido?.", "Franquicia", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                                Dim con As SqlConnection = SigaMetClasses.DataLayer.Conexion
-                                con.Open()
-                                Dim Comando As New SqlCommand()
-                                Dim Transacciones As SqlTransaction
-                                Comando.Parameters.Add("@Pedido", SqlDbType.Int).Value = Pedido
-                                Comando.Parameters.Add("@Celula", SqlDbType.Int).Value = Celula
-                                Comando.Parameters.Add("@Añoped", SqlDbType.Int).Value = AñoPed
-                                Transacciones = con.BeginTransaction
-                                Comando.Connection = con
-                                Comando.Transaction = Transacciones
+                            For Each dr In Consulta
                                 Try
+                                    cnSigamet.Open()
+                                    Dim sqlComando As New SqlCommand()
+                                    Transaccion = Conexion.BeginTransaction
+                                    sqlComando.Connection = Conexion
+                                    sqlComando.Transaction = Transaccion
+
+                                    sqlComando.Parameters.Add("@FRANQUICIA", SqlDbType.Int).Value = dr.Item("Franquicia")
+                                    sqlComando.Parameters.Add("@PEDIDO", SqlDbType.Int).Value = dr.Item("Pedido")
+                                    sqlComando.Parameters.Add("@AÑOPED", SqlDbType.SmallInt).Value = dr.Item("AñoPed")
+                                    sqlComando.Parameters.Add("@CLL", SqlDbType.TinyInt).Value = dr.Item("Celula")
+                                    sqlComando.Parameters.Add("@NMCTT", SqlDbType.VarChar).Value = dr.Item("Nombre")
+                                    sqlComando.Parameters.Add("@DRRCTT", SqlDbType.VarChar).Value = dr.Item("Direccion")
+                                    sqlComando.Parameters.Add("@SVCSLTA", SqlDbType.VarChar).Value = dr.Item("ServicioSolicitado")
+                                    sqlComando.Parameters.Add("@FCMPSVC", SqlDbType.DateTime).Value = dr.Item("FCompromiso")
+                                    sqlComando.Parameters.Add("@STT", SqlDbType.VarChar).Value = dr.Item("StatusServicioTecnico")
+                                    sqlComando.Parameters.Add("@TSVC", SqlDbType.VarChar).Value = dr.Item("TipoServicioDescripcion")
+                                    sqlComando.Parameters.Add("@FLPSPT", SqlDbType.Int).Value = dr.Item("FolioPresupuesto")
+                                    sqlComando.Parameters.Add("@TSSVCID", SqlDbType.TinyInt).Value = dr.Item("TipoServicio")
+                                    sqlComando.Parameters.Add("@CTT", SqlDbType.Int).Value = dr.Item("Cliente")
+
+
+                                    sqlComando.CommandType = CommandType.StoredProcedure
+                                    sqlComando.CommandText = "spSTInsertaFranquicia"
+                                    sqlComando.CommandTimeout = 300
+
+                                    sqlComando.ExecuteNonQuery()
+                                    Transaccion.Commit()
+                                Catch es As Exception
+
+                                    MessageBox.Show(es.Message)
+                                    Transaccion.Rollback()
+                                Finally
+                                    Conexion.Close()
+                                    'Conexion.Dispose()
+                                End Try
+
+
+                            Next
+
+
+
+                            Dim daPed As New SqlDataAdapter("select Pedido,Celula,Añoped from vwSTExtraeInformacionFranquicia where PedidoReferencia = '" & _Pedido & "'", cnnSigamet)
+                            Dim dtPed As New DataTable("Ped")
+                            daPed.Fill(dtPed)
+
+                            Dim con As SqlConnection = SigaMetClasses.DataLayer.Conexion
+                            Dim Query As DataRow() = dtPed.Select()
+                            Dim drPed As DataRow
+
+                            Dim Transacciones As SqlTransaction
+                            For Each drPed In Query
+
+                                Try
+                                    con.Open()
+                                    Dim Comando As New SqlCommand()
+                                    Transacciones = con.BeginTransaction
+                                    Comando.Connection = con
+                                    Comando.Transaction = Transacciones
+
+                                    Comando.Parameters.Add("@Pedido", SqlDbType.Int).Value = drPed.Item("Pedido")
+                                    Comando.Parameters.Add("@Celula", SqlDbType.Int).Value = drPed.Item("celula")
+                                    Comando.Parameters.Add("@Añoped", SqlDbType.Int).Value = drPed.Item("AñoPed")
+
+
                                     Comando.CommandType = CommandType.Text
-                                    Comando.CommandText = "update serviciotecnico set llamada = 1 where pedido = " & Pedido & " and celula =  " & Celula & " and añoped = " & AñoPed
+                                    Comando.CommandText = "update serviciotecnico set franquicia = 1 where pedido = @Pedido and celula = @Celula and añoped = @AñoPed"
                                     Comando.ExecuteNonQuery()
                                     Transacciones.Commit()
                                 Catch exc As Exception
@@ -3924,19 +3976,255 @@ Public Class frmServProgramacion
                                     con.Close()
                                     'con.Dispose()
                                 End Try
-                                MessageBox.Show("Usted registro la llamada", "Franquicias", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                LlenaLista()
-                            Else
-                            End If
+                            Next
+
+                            MessageBox.Show("Ha terminado el proceso de exportación.", "Franquicia", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            LlenaLista()
                         Else
-                        MessageBox.Show("Usted no puede confirmar la llamada a este pedido " & _Pedido & ", pues no es de franquicia.", "Franquicia", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
+
+                    Else
+                        MessageBox.Show("El pedido no esta asignado, debe de asignar primero el pedido", "Franquicia", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
 
-                    Cursor = Cursors.Default
+                Else
+
+                    Dim Fecha As DateTime
+                    Fecha = Now.Date
+                    If dtpFecha.Value = Fecha Then
+                        MessageBox.Show("Para exportar las franquicias usted debede seleccionar la fecha en que asigno sus pedidos.", "Franquicia", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Else
+
+                    End If
+
+                End If
+
+                Cursor = Cursors.Default
+
+            Case "TFranquicias"
+
+                Cursor = Cursors.WaitCursor
+
+                If MessageBox.Show("¿Desea usted mandar las franquicias?.", "Franquicia", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                    ChecaFolio()
+                    If _Folio > 0 Then
+                        If cnSigamet.State = ConnectionState.Open Then
+                            cnSigamet.Close()
+                        End If
+                        ConfiguraConexion()
+                        cnSigamet.Open()
+                        Dim da As New SqlDataAdapter("select pdd from vwSTExportaServiciosAtendidos WHERE FCMPSVC BETWEEN '" & dtpFecha.Value.ToShortDateString & "' AND '" & dtpFecha.Value.ToShortDateString & " 23:59:59'", cnSigamet)
+                        Dim dt As New DataTable("ChecaFranquicia")
+                        cnSigamet.Close()
+                        da.Fill(dt)
+                        If dt.Rows.Count > 0 Then
+                            MessageBox.Show("Usted ya exporto los datos de las franquicias ó selecciono una fecha incorrecta.", "Franquicias", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Else
+                            Dim daAsig As New SqlDataAdapter("select autotanque,folio from autotanqueturno  where finicioruta between '" & dtpFecha.Value.ToShortDateString & "'and'" & dtpFecha.Value.ToShortDateString & " 23:59:59'and autotanque in (select a.autotanque  from autotanque a  where franquicia is not null) and folio in (select folio from pedido where producto = 4 and fcompromiso = '" & dtpFecha.Value.ToShortDateString & "')", cnnSigamet)
+                            Dim dtAsig As New DataTable("ChecaAsignacion")
+                            daAsig.Fill(dtAsig)
+                            If dtAsig.Rows.Count = 0 Then
+                                MessageBox.Show("Usted no puede exportar los datos de las franquicias por no estar asignadas", "Franquicias", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Else
+                                If MessageBox.Show("¿Desea usted mandar información a las fraquicias?", "Servicios Técnnico", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                                    Dim daExp As New SqlDataAdapter("select * from vwSTExtraeInformacionFranquicia where finicioruta between '" & dtpFecha.Value.ToShortDateString & "'and'" & dtpFecha.Value.ToShortDateString & " 23:59:59' ", cnnSigamet)
+                                    Dim dtExp As New DataTable("Franquicias")
+                                    daExp.Fill(dtExp)
+                                    cnnSigamet.Close()
+
+                                    'If cnSigamet.State = ConnectionState.Open Then
+                                    '    cnSigamet.Close()
+                                    'Else
+                                    'End If
+
+                                    Dim Conexion As SqlConnection = cnSigamet
+                                    Dim Transaccion As SqlTransaction
+                                    ConfiguraConexion()
+                                    cnSigamet.Open()
+                                    Transaccion = Conexion.BeginTransaction
+
+                                    Dim Consulta As DataRow() = dtExp.Select()
+                                    Dim dr As DataRow
+
+                                    'Dim sqlComando As New SqlCommand()
+
+
+                                    'sqlComando.Connection = Conexion
+                                    'sqlComando.Transaction = Transaccion
+
+                                    For Each dr In Consulta
+                                        Try
+                                            'cnSigamet.Open()
+                                            Dim sqlComando As New SqlCommand()
+                                            'Transaccion = Conexion.BeginTransaction
+                                            sqlComando.Connection = Conexion
+                                            sqlComando.Transaction = Transaccion
+
+                                            sqlComando.Parameters.Add("@FRANQUICIA", SqlDbType.Int).Value = dr.Item("Franquicia")
+                                            sqlComando.Parameters.Add("@PEDIDO", SqlDbType.Int).Value = dr.Item("Pedido")
+                                            sqlComando.Parameters.Add("@AÑOPED", SqlDbType.SmallInt).Value = dr.Item("AñoPed")
+                                            sqlComando.Parameters.Add("@CLL", SqlDbType.TinyInt).Value = dr.Item("Celula")
+                                            sqlComando.Parameters.Add("@NMCTT", SqlDbType.VarChar).Value = dr.Item("Nombre")
+                                            sqlComando.Parameters.Add("@DRRCTT", SqlDbType.VarChar).Value = dr.Item("Direccion")
+                                            sqlComando.Parameters.Add("@SVCSLTA", SqlDbType.VarChar).Value = dr.Item("ServicioSolicitado")
+                                            sqlComando.Parameters.Add("@FCMPSVC", SqlDbType.DateTime).Value = dr.Item("FCompromiso")
+                                            sqlComando.Parameters.Add("@STT", SqlDbType.VarChar).Value = dr.Item("StatusServicioTecnico")
+                                            sqlComando.Parameters.Add("@TSVC", SqlDbType.VarChar).Value = dr.Item("TipoServicioDescripcion")
+                                            sqlComando.Parameters.Add("@FLPSPT", SqlDbType.Int).Value = dr.Item("FolioPresupuesto")
+                                            sqlComando.Parameters.Add("@TSSVCID", SqlDbType.TinyInt).Value = dr.Item("TipoServicio")
+                                            sqlComando.Parameters.Add("@CTT", SqlDbType.Int).Value = dr.Item("Cliente")
+
+                                            sqlComando.CommandType = CommandType.StoredProcedure
+                                            sqlComando.CommandText = "spSTInsertaFranquicia"
+                                            sqlComando.CommandTimeout = 300
+
+                                            sqlComando.ExecuteNonQuery()
+                                            'Transaccion.Commit()
+                                        Catch es As Exception
+                                            Transaccion.Rollback()
+                                            MessageBox.Show("Usted ha tenido problemas con la Exportación de datos.", es.Message)
+                                        End Try
+
+
+                                    Next
+
+                                    Transaccion.Commit()
+                                    Conexion.Close()
+                                    'Conexion.Dispose()
+
+                                    Dim daFranquicia As New SqlDataAdapter("select Pedido,Celula,Añoped from vwSTExtraeInformacionFranquicia where finicioruta between '" & Now.Date & "'and'" & Now.Date & " 23:59:59' ", cnnSigamet)
+                                    Dim dtFranquicia As New DataTable("Franquicias")
+                                    daFranquicia.Fill(dtFranquicia)
+
+                                    Dim con As SqlConnection = SigaMetClasses.DataLayer.Conexion
+                                    Dim Query As DataRow() = dtFranquicia.Select()
+                                    Dim drFranquicia As DataRow
+
+                                    Dim Transacciones As SqlTransaction
+                                    For Each drFranquicia In Query
+
+                                        Try
+                                            con.Open()
+                                            Dim Comando As New SqlCommand()
+                                            Transacciones = con.BeginTransaction
+                                            Comando.Connection = con
+                                            Comando.Transaction = Transacciones
+
+                                            Comando.Parameters.Add("@Pedido", SqlDbType.Int).Value = drFranquicia.Item("Pedido")
+                                            Comando.Parameters.Add("@Celula", SqlDbType.Int).Value = drFranquicia.Item("celula")
+                                            Comando.Parameters.Add("@Añoped", SqlDbType.Int).Value = drFranquicia.Item("AñoPed")
+
+
+                                            Comando.CommandType = CommandType.Text
+                                            Comando.CommandText = "update serviciotecnico set franquicia = 1 where pedido = @Pedido and celula = @Celula and añoped = @AñoPed"
+                                            Comando.ExecuteNonQuery()
+                                            Transacciones.Commit()
+                                        Catch exc As Exception
+                                            MessageBox.Show(exc.Message)
+                                        Finally
+                                            con.Close()
+                                            'con.Dispose()
+                                        End Try
+                                    Next
+
+
+                                    MessageBox.Show("Ha terminado el proceso de exportacion", "Servicios Tecnicos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                    LlenaLista()
+                                Else
+                                End If
+
+                            End If
+                        End If
+                    Else
+                        MessageBox.Show("El pedido no esta asignado, debe de asignar primero el pedido", "Franquicia", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                Else
+                End If
+
+                Cursor = Cursors.Default
+
+
+            Case "PantallaFranquicia"
+
+                Cursor = Cursors.WaitCursor
+                Dim PantallaF As New PantallaFranquicia.frmPantallaFranquicia()
+                PantallaF.ShowDialog()
+                Cursor = Cursors.Default
+
+            Case "Llamada"
+
+                Cursor = Cursors.WaitCursor
+                Dim _pedidoReferenciaLlamada As String = Nothing
+
+
+                Dim LlenaLlamada As New SqlCommand("select RTRIM (PedidoReferencia) as PedidoReferencia from pedido p left join serviciotecnico st on p.pedido = st.pedido and p.celula = st.celula and p.añoped = st.añoped where st.llamada = 1 and pedidoreferencia = '" & _Pedido & "' ", cnnSigamet)
+                Try
+                    cnnSigamet.Open()
+                    Dim drLlenaLlamada As SqlDataReader = LlenaLlamada.ExecuteReader
+                    While drLlenaLlamada.Read
+                        _pedidoReferenciaLlamada = CType(drLlenaLlamada("PedidoReferencia"), String)
+
+                    End While
+                    cnnSigamet.Close()
+                Catch ex As Exception
+                    MessageBox.Show(ex.Message)
+                End Try
+
+                If _Pedido = _pedidoReferenciaLlamada Then
+                    MessageBox.Show("Usted no puede volver a confirmar el pedido, pues ya esta confirmado", "Franquicia", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    Dim _pedidoReferenciaFranquicia As String = Nothing
+
+
+                    Dim Llena As New SqlCommand("select RTRIM (PedidoReferencia) as PedidoReferencia from pedido p left join serviciotecnico st on p.pedido = st.pedido and p.celula = st.celula and p.añoped = st.añoped where st.franquicia = 1 and pedidoreferencia = '" & _Pedido & "' ", cnnSigamet)
+                    Try
+                        cnnSigamet.Open()
+                        Dim drLlena As SqlDataReader = Llena.ExecuteReader
+                        While drLlena.Read
+                            _pedidoReferenciaFranquicia = CType(drLlena("PedidoReferencia"), String)
+
+                        End While
+                        cnnSigamet.Close()
+                    Catch ex As Exception
+                        MessageBox.Show(ex.Message)
+                    End Try
+
+                    If _Pedido = Trim(_pedidoReferenciaFranquicia) Then
+                        If MessageBox.Show("¿Desea confirmar la llamada del pedido?.", "Franquicia", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                            Dim con As SqlConnection = SigaMetClasses.DataLayer.Conexion
+                            con.Open()
+                            Dim Comando As New SqlCommand()
+                            Dim Transacciones As SqlTransaction
+                            Comando.Parameters.Add("@Pedido", SqlDbType.Int).Value = Pedido
+                            Comando.Parameters.Add("@Celula", SqlDbType.Int).Value = Celula
+                            Comando.Parameters.Add("@Añoped", SqlDbType.Int).Value = AñoPed
+                            Transacciones = con.BeginTransaction
+                            Comando.Connection = con
+                            Comando.Transaction = Transacciones
+                            Try
+                                Comando.CommandType = CommandType.Text
+                                Comando.CommandText = "update serviciotecnico set llamada = 1 where pedido = " & Pedido & " and celula =  " & Celula & " and añoped = " & AñoPed
+                                Comando.ExecuteNonQuery()
+                                Transacciones.Commit()
+                            Catch exc As Exception
+                                MessageBox.Show(exc.Message)
+                            Finally
+                                con.Close()
+                                'con.Dispose()
+                            End Try
+                            MessageBox.Show("Usted registro la llamada", "Franquicias", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            LlenaLista()
+                        Else
+                        End If
+                    Else
+                        MessageBox.Show("Usted no puede confirmar la llamada a este pedido " & _Pedido & ", pues no es de franquicia.", "Franquicia", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                End If
+
+                Cursor = Cursors.Default
 
             Case "Cerrar"
-                    Me.Close()
+                Me.Close()
         End Select
     End Sub
 
@@ -4118,6 +4406,10 @@ Public Class frmServProgramacion
 
     End Sub
 
+    Private Sub CargarVariablesGateway()
+        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
+        _FuenteGateway = CType(oConfig.Parametros("FuenteCRM"), String)
+    End Sub
 
     Private Sub Label23_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label23.Click
 
@@ -4128,6 +4420,7 @@ Public Class frmServProgramacion
         _Estatus = lvwProgramaciones.FocusedItem.SubItems(6).Text.Trim
         Fcomp = CType(lvwProgramaciones.FocusedItem.SubItems(4).Text.Trim, Date)
         _Pedido = lvwProgramaciones.FocusedItem.SubItems(0).Text.Trim
+        _Autotanque = lvwProgramaciones.FocusedItem.SubItems(2).Text.Trim
         LlenaPedido()
         CargaDatosCliente()
         LlenaObservaciones()

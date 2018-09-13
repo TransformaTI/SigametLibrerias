@@ -6,17 +6,26 @@ Public Class frmCancelarOrden
     Public _Celula As Integer
     Public _AñoPed As Integer
     Public _Usuario As String
+    Private _Cliente As String
+    Private _Autotanque As String
     Public StatusServicioTecnico As String
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(ByVal Pedido As Integer, ByVal Celula As Integer, ByVal AñoPed As Integer, ByVal Usuario As String)
+    Public Sub New(ByVal Pedido As Integer,
+                   ByVal Celula As Integer,
+                   ByVal AñoPed As Integer,
+                   ByVal Usuario As String,
+                   Optional ByVal Cliente As String = "",
+                   Optional ByVal Autotanque As String = "")
         MyBase.New()
 
         _Pedido = Pedido
         _Celula = Celula
         _AñoPed = AñoPed
         _Usuario = Usuario
+        _Cliente = Cliente
+        _Autotanque = Autotanque
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -67,7 +76,7 @@ Public Class frmCancelarOrden
     Friend WithEvents cboMotivoCancelacion As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmCancelarOrden))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCancelarOrden))
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lblPedido = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -106,7 +115,7 @@ Public Class frmCancelarOrden
         '
         'lblPedido
         '
-        Me.lblPedido.BackColor = System.Drawing.SystemColors.InactiveCaptionText
+        Me.lblPedido.BackColor = System.Drawing.SystemColors.Window
         Me.lblPedido.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblPedido.Location = New System.Drawing.Point(312, 56)
         Me.lblPedido.Name = "lblPedido"
@@ -126,7 +135,7 @@ Public Class frmCancelarOrden
         '
         'lblContratoCerrar
         '
-        Me.lblContratoCerrar.BackColor = System.Drawing.SystemColors.InactiveCaptionText
+        Me.lblContratoCerrar.BackColor = System.Drawing.SystemColors.Window
         Me.lblContratoCerrar.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblContratoCerrar.Location = New System.Drawing.Point(88, 56)
         Me.lblContratoCerrar.Name = "lblContratoCerrar"
@@ -145,7 +154,6 @@ Public Class frmCancelarOrden
         Me.txtServicioRealizado.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.txtServicioRealizado.Size = New System.Drawing.Size(416, 64)
         Me.txtServicioRealizado.TabIndex = 230
-        Me.txtServicioRealizado.Text = ""
         '
         'Label12
         '
@@ -158,7 +166,7 @@ Public Class frmCancelarOrden
         '
         'dtpFAtencion
         '
-        Me.dtpFAtencion.Format = System.Windows.Forms.DateTimePickerFormat.Short
+        Me.dtpFAtencion.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.dtpFAtencion.Location = New System.Drawing.Point(312, 88)
         Me.dtpFAtencion.Name = "dtpFAtencion"
         Me.dtpFAtencion.Size = New System.Drawing.Size(120, 20)
@@ -176,13 +184,12 @@ Public Class frmCancelarOrden
         '
         'txtAyudante
         '
-        Me.txtAyudante.BackColor = System.Drawing.SystemColors.InactiveCaptionText
+        Me.txtAyudante.BackColor = System.Drawing.SystemColors.Window
         Me.txtAyudante.Location = New System.Drawing.Point(88, 152)
         Me.txtAyudante.Name = "txtAyudante"
         Me.txtAyudante.ReadOnly = True
         Me.txtAyudante.Size = New System.Drawing.Size(344, 20)
         Me.txtAyudante.TabIndex = 238
-        Me.txtAyudante.Text = ""
         '
         'Label20
         '
@@ -195,13 +202,12 @@ Public Class frmCancelarOrden
         '
         'txtTecnico
         '
-        Me.txtTecnico.BackColor = System.Drawing.SystemColors.InactiveCaptionText
+        Me.txtTecnico.BackColor = System.Drawing.SystemColors.Window
         Me.txtTecnico.Location = New System.Drawing.Point(88, 120)
         Me.txtTecnico.Name = "txtTecnico"
         Me.txtTecnico.ReadOnly = True
         Me.txtTecnico.Size = New System.Drawing.Size(344, 20)
         Me.txtTecnico.TabIndex = 236
-        Me.txtTecnico.Text = ""
         '
         'Label19
         '
@@ -214,13 +220,12 @@ Public Class frmCancelarOrden
         '
         'txtCamioneta
         '
-        Me.txtCamioneta.BackColor = System.Drawing.SystemColors.InactiveCaptionText
+        Me.txtCamioneta.BackColor = System.Drawing.SystemColors.Window
         Me.txtCamioneta.Location = New System.Drawing.Point(88, 88)
         Me.txtCamioneta.Name = "txtCamioneta"
         Me.txtCamioneta.ReadOnly = True
         Me.txtCamioneta.Size = New System.Drawing.Size(96, 20)
         Me.txtCamioneta.TabIndex = 234
-        Me.txtCamioneta.Text = ""
         '
         'Label18
         '
@@ -238,27 +243,30 @@ Public Class frmCancelarOrden
         Me.ToolBar1.DropDownArrows = True
         Me.ToolBar1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ToolBar1.ImageList = Me.ImageList1
+        Me.ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.ToolBar1.Name = "ToolBar1"
         Me.ToolBar1.ShowToolTips = True
-        Me.ToolBar1.Size = New System.Drawing.Size(448, 39)
+        Me.ToolBar1.Size = New System.Drawing.Size(448, 42)
         Me.ToolBar1.TabIndex = 249
         '
         'btnAceptar
         '
         Me.btnAceptar.ImageIndex = 0
+        Me.btnAceptar.Name = "btnAceptar"
         Me.btnAceptar.Text = "Aceptar"
         '
         'btnCancelar
         '
         Me.btnCancelar.ImageIndex = 1
+        Me.btnCancelar.Name = "btnCancelar"
         Me.btnCancelar.Text = "Cerrar"
         '
         'ImageList1
         '
-        Me.ImageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
-        Me.ImageList1.ImageSize = New System.Drawing.Size(16, 16)
         Me.ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageList1.TransparentColor = System.Drawing.Color.Transparent
+        Me.ImageList1.Images.SetKeyName(0, "")
+        Me.ImageList1.Images.SetKeyName(1, "")
         '
         'Label4
         '
@@ -296,7 +304,7 @@ Public Class frmCancelarOrden
         Me.Label51.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label51.Location = New System.Drawing.Point(232, 208)
         Me.Label51.Name = "Label51"
-        Me.Label51.Size = New System.Drawing.Size(86, 13)
+        Me.Label51.Size = New System.Drawing.Size(97, 13)
         Me.Label51.TabIndex = 253
         Me.Label51.Text = "Status Servicio:"
         Me.Label51.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -307,7 +315,7 @@ Public Class frmCancelarOrden
         Me.Label3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.Location = New System.Drawing.Point(16, 176)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(47, 14)
+        Me.Label3.Size = New System.Drawing.Size(49, 13)
         Me.Label3.TabIndex = 255
         Me.Label3.Text = "Motivo:"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -326,7 +334,27 @@ Public Class frmCancelarOrden
         Me.AutoScaleBaseSize = New System.Drawing.Size(6, 13)
         Me.BackColor = System.Drawing.Color.LightSteelBlue
         Me.ClientSize = New System.Drawing.Size(448, 312)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.cboMotivoCancelacion, Me.Label3, Me.cboStatusServicio, Me.Label51, Me.Label4, Me.lblCelula, Me.ToolBar1, Me.Label2, Me.lblPedido, Me.Label1, Me.lblContratoCerrar, Me.txtServicioRealizado, Me.Label12, Me.dtpFAtencion, Me.Label21, Me.txtAyudante, Me.Label20, Me.txtTecnico, Me.Label19, Me.txtCamioneta, Me.Label18})
+        Me.Controls.Add(Me.cboMotivoCancelacion)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.cboStatusServicio)
+        Me.Controls.Add(Me.Label51)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.lblCelula)
+        Me.Controls.Add(Me.ToolBar1)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.lblPedido)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.lblContratoCerrar)
+        Me.Controls.Add(Me.txtServicioRealizado)
+        Me.Controls.Add(Me.Label12)
+        Me.Controls.Add(Me.dtpFAtencion)
+        Me.Controls.Add(Me.Label21)
+        Me.Controls.Add(Me.txtAyudante)
+        Me.Controls.Add(Me.Label20)
+        Me.Controls.Add(Me.txtTecnico)
+        Me.Controls.Add(Me.Label19)
+        Me.Controls.Add(Me.txtCamioneta)
+        Me.Controls.Add(Me.Label18)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Name = "frmCancelarOrden"
@@ -334,6 +362,7 @@ Public Class frmCancelarOrden
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Cancelar Orden"
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -344,12 +373,21 @@ Public Class frmCancelarOrden
         Dim daCancelarOrden As New SqlDataAdapter("Select Cliente,Autotanque,Chofer,Ayudante,StatusServicioTecnico,Celula From vwSTAutotanqueServicioTecnico Where AñoPed = " & _AñoPed & "And Pedido = " & _Pedido & "And Celula = " & _Celula, cnnSigamet)
         Dim dtCancelarOrden As New DataTable("CancelarOrden")
 
-        daCancelarOrden.Fill(dtCancelarOrden)
-        txtCamioneta.Text = CType(dtCancelarOrden.Rows(0).Item("Autotanque"), String)
-        txtTecnico.Text = CType(dtCancelarOrden.Rows(0).Item("Chofer"), String)
-        txtAyudante.Text = CType(dtCancelarOrden.Rows(0).Item("Ayudante"), String)
-        lblContratoCerrar.Text = CType(dtCancelarOrden.Rows(0).Item("cliente"), String)
+        If _Cliente > "" Then
+            lblContratoCerrar.Text = _Cliente
+        End If
 
+        If _Autotanque > "" Then
+            txtCamioneta.Text = _Autotanque
+        End If
+
+        daCancelarOrden.Fill(dtCancelarOrden)
+        If dtCancelarOrden.Rows.Count > 0 Then
+            txtCamioneta.Text = CType(dtCancelarOrden.Rows(0).Item("Autotanque"), String)
+            txtTecnico.Text = CType(dtCancelarOrden.Rows(0).Item("Chofer"), String)
+            txtAyudante.Text = CType(dtCancelarOrden.Rows(0).Item("Ayudante"), String)
+            lblContratoCerrar.Text = CType(dtCancelarOrden.Rows(0).Item("cliente"), String)
+        End If
     End Sub
 
     Private Sub LlenaCombo()
@@ -379,10 +417,11 @@ Public Class frmCancelarOrden
         Dim daObservaciones As New SqlDataAdapter("Select isnull(ObservacionesServicioRealizado,'')as ObservacionesServicioRealizado,StatusServicioTecnico From ServicioTecnico Where AñoPed = " & _AñoPed & " And Celula = " & _Celula & "And Pedido = " & _Pedido, cnnSigamet)
         Dim dtObservaciones As New DataTable("Observaciones")
         daObservaciones.Fill(dtObservaciones)
-        txtServicioRealizado.Text = CType(dtObservaciones.Rows(0).Item("ObservacionesServicioRealizado"), String)
-        StatusServicioTecnico = RTrim(CType(dtObservaciones.Rows(0).Item("StatusServicioTecnico"), String))
+        If Not IsNothing(dtObservaciones) AndAlso dtObservaciones.Rows.Count > 0 Then
+            txtServicioRealizado.Text = CType(dtObservaciones.Rows(0).Item("ObservacionesServicioRealizado"), String)
+            StatusServicioTecnico = RTrim(CType(dtObservaciones.Rows(0).Item("StatusServicioTecnico"), String))
+        End If
         'dbcboStatusServicio.SelectedItem = CType(dtObservaciones.Rows(0).Item("statusserviciotecnico"), Date)
-
 
     End Sub
 
