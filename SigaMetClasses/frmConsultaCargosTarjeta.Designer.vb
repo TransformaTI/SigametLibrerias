@@ -24,12 +24,14 @@ Partial Class frmConsultaCargosTarjeta
     Private Sub InitializeComponent()
         Me.dtpFechaAltaCargoTarjeta = New System.Windows.Forms.DateTimePicker()
         Me.dgvCargos = New System.Windows.Forms.DataGridView()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.btnCerrar = New System.Windows.Forms.Button()
         CType(Me.dgvCargos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'dtpFechaAltaCargoTarjeta
         '
+        Me.dtpFechaAltaCargoTarjeta.CustomFormat = ""
+        Me.dtpFechaAltaCargoTarjeta.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.dtpFechaAltaCargoTarjeta.Location = New System.Drawing.Point(12, 12)
         Me.dtpFechaAltaCargoTarjeta.Name = "dtpFechaAltaCargoTarjeta"
         Me.dtpFechaAltaCargoTarjeta.Size = New System.Drawing.Size(200, 20)
@@ -43,25 +45,26 @@ Partial Class frmConsultaCargosTarjeta
         Me.dgvCargos.Size = New System.Drawing.Size(687, 261)
         Me.dgvCargos.TabIndex = 1
         '
-        'Button1
+        'btnCerrar
         '
-        Me.Button1.Location = New System.Drawing.Point(320, 305)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 2
-        Me.Button1.Text = "Button1"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.btnCerrar.Location = New System.Drawing.Point(320, 305)
+        Me.btnCerrar.Name = "btnCerrar"
+        Me.btnCerrar.Size = New System.Drawing.Size(75, 23)
+        Me.btnCerrar.TabIndex = 2
+        Me.btnCerrar.Text = "&Cerrar"
+        Me.btnCerrar.UseVisualStyleBackColor = True
         '
         'frmConsultaCargosTarjeta
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(711, 340)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.btnCerrar)
         Me.Controls.Add(Me.dgvCargos)
         Me.Controls.Add(Me.dtpFechaAltaCargoTarjeta)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "frmConsultaCargosTarjeta"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Consulta de cargos a tarjeta del día"
         CType(Me.dgvCargos, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -70,5 +73,5 @@ Partial Class frmConsultaCargosTarjeta
 
     Friend WithEvents dtpFechaAltaCargoTarjeta As Windows.Forms.DateTimePicker
     Friend WithEvents dgvCargos As Windows.Forms.DataGridView
-    Friend WithEvents Button1 As Windows.Forms.Button
+    Friend WithEvents btnCerrar As Windows.Forms.Button
 End Class
