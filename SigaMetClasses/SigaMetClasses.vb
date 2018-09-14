@@ -8433,6 +8433,9 @@ Public Structure sPedido
     'Para validar el abono a edificios administrados JAGD 28/12/2004
     Private _PedidoEdificio As Boolean
 
+    ' Recuperar nuevo campo IdCRM RM 14/09/2018
+    Private _IDCRM As Integer
+
 #End Region
 
 #Region "Propiedades"
@@ -8596,6 +8599,15 @@ Public Structure sPedido
         End Get
         Set(ByVal Value As Boolean)
             _PedidoEdificio = Value
+        End Set
+    End Property
+
+    Public Property IDCRM As Integer
+        Get
+            Return _IDCRM
+        End Get
+        Set(value As Integer)
+            _IDCRM = value
         End Set
     End Property
 
