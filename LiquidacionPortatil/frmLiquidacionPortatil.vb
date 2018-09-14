@@ -6223,6 +6223,19 @@ Public Class frmLiquidacionPortatil
 			oRemisionManual.Usuario = _Usuario
 			oRemisionManual.DatosCliente = _DatosCliente
 			oRemisionManual.DetalleGrid = _DetalleGrid
+			oRemisionManual.FechaLiquidacion = dtpFLiquidacion.Value
+			oRemisionManual.LiqPrecioVigente = _LiqPrecioVigente
+
+
+
+			If _DetalleGrid.Rows.Count > 0 Then
+				oRemisionManual.ZonaEconomicaActual = cboZEconomica.Identificador
+				oRemisionManual.ZonaEconomica = cboZEconomica.Text
+			Else
+				oRemisionManual.ZonaEconomicaActual = -1
+			End If
+
+
 			'oRemisionManual.ProductosPadre = _dtProductos.Copy()
 			'grdDetalle.DataSource = Nothing
 
