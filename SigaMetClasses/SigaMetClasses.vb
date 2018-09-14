@@ -9,6 +9,7 @@ Imports System.Data.SqlTypes
 Imports SigaMetClasses.Enumeradores
 Imports LiquidadorEstacionario
 Imports RTGMCore
+Imports SigaMetClasses
 
 
 'ENUMERADORES
@@ -5530,7 +5531,6 @@ End Class
 
 Public Class TransaccionMovimientoCaja
     Inherits System.ComponentModel.Component
-    'Private lstPedidos As List(Of RTGMCore.Pedido)
 
     ' Variables para la conexión con RTGMGateway
     Private _URLGateway As String
@@ -5540,6 +5540,7 @@ Public Class TransaccionMovimientoCaja
 
     Private _ObGateway As RTGMGateway.RTGMActualizarPedido
     Private _ObSolicitud As RTGMGateway.SolicitudActualizarPedido
+    Private _PedidosCRM As List(Of RTGMCore.Pedido)
 
     'Clave del movimiento de caja para transferir a caja de validación
 
@@ -5824,7 +5825,6 @@ Public Class TransaccionMovimientoCaja
 
                 End Select
 
-
                 If Not Cobro.ListaPedidos Is Nothing Then 'Cambio realizado el 6 de mayo del 2003
                     For Each CobroPedido In Cobro.ListaPedidos
                         CobroPedido.Cobro = FolioCobro
@@ -5837,9 +5837,9 @@ Public Class TransaccionMovimientoCaja
                         End If
 
                         objCobroPedido.Alta(CobroPedido.Celula, Cobro.AnoCobro, CobroPedido.Cobro, CobroPedido.AnoPed, CobroPedido.Pedido, CobroPedido.ImporteAbono)
-
-                        'ActualizarPedidoSaldoCRM(CobroPedido.IDCRM, CobroPedido.Celula, CobroPedido.)
                     Next
+
+                    ActualizarSaldoPedidosCRM(Cobro.ListaPedidos)
                 End If
                 'No guardar movimientocajacobro para cheques posfechados
                 If Not Cobro.Posfechado Then
@@ -5974,46 +5974,14 @@ Public Class TransaccionMovimientoCaja
 
                         objCobroPedido.Alta(CobroPedido.Celula, Cobro.AnoCobro, CobroPedido.Cobro, CobroPedido.AnoPed, CobroPedido.Pedido, CobroPedido.ImporteAbono)
                     Next
+
+                    ActualizarSaldoPedidosCRM(Cobro.ListaPedidos)
                 End If
                 'No guardar movimientocajacobro para cheques posfechados
                 If Not Cobro.Posfechado Then
                     objMovCajaCobro.Alta(Caja, FOperacion, Consecutivo, FolioMovCaja, Cobro.AnoCobro, FolioCobro)
                 End If
                 '*****
-                If URLGateway IsNot Nothing Then
-                    Dim objLiquida As liquidadorEstacionarioDatos = New liquidadorEstacionarioDatos(_CadenaConexion, GLOBAL_Empresa)
-                    Try
-                        Dim año As New DateTime
-                        Dim _añoatt As Short = año.Year
-                        Dim _folioatt As Integer = FolioCobro
-                        objLiquida.Usuario = GLOBAL_Usuario
-
-                        If objLiquida.revisaConciliacion(_añoatt, _folioatt) Then
-                            objLiquida.IniciaTransaccion()
-                            objLiquida.iniciarLiquidacion(_añoatt, _folioatt)
-
-                            'configurarGateway(URLGateway, _CadenaConexion)
-                            'liquidarPedidos(objLiquida)
-                            'actualizarSaldoPedidos(objLiquida, _añoatt, _folioatt)
-
-                            objLiquida.finalizarLiquidacion(_añoatt, _folioatt)
-                            objLiquida.CommitTransaccion()
-                        End If
-
-                    Catch ex As Exception
-                        Try
-                            objLiquida.RevierteTransaccion()
-                        Catch e As Exception
-
-                        End Try
-                        Throw New Exception(ex.Message)
-
-                    Finally
-                        objLiquida.CierraConexion()
-                    End Try
-                End If
-
-
             Next
             Transaccion.Commit()
             Return FolioMovCaja
@@ -6032,87 +6000,49 @@ Public Class TransaccionMovimientoCaja
         End Try
     End Function
 
-    Private Sub ActualizarPedidoSaldoCRM(ByVal parPedido As Integer, ByVal parZona As Integer,
-                                         ByVal parAbono As Decimal, ByVal parEmpresa As Integer)
+    Private Sub ActualizarSaldoPedidosCRM(ByVal parPedidos As ArrayList)
+        Dim pedidosRespuesta As List(Of RTGMCore.Pedido)
 
+        If (_FuenteGateway <> "CRM") Then
+            Exit Sub
+        End If
 
+        Try
+            _ObGateway = New RTGMGateway.RTGMActualizarPedido(_Modulo, _CadenaConexion)
+            _ObGateway.URLServicio = _URLGateway
+
+            PrepararPedidosCRM(parPedidos)
+            If (IsNothing(_PedidosCRM) OrElse _PedidosCRM.Count = 0) Then
+                Exit Sub
+            End If
+
+            _ObSolicitud = New RTGMGateway.SolicitudActualizarPedido With
+            {
+                .TipoActualizacion = RTGMCore.TipoActualizacion.Saldo,
+                .Pedidos = _PedidosCRM
+            }
+
+            pedidosRespuesta = _ObGateway.ActualizarPedido(_ObSolicitud)
+        Catch ex As Exception
+            Throw ex
+        End Try
     End Sub
 
-    'Private Sub actualizarSaldoPedidos(objLiquida As liquidadorEstacionarioDatos, _añoatt As Short, _folioatt As Short)
+    Private Sub PrepararPedidosCRM(parPedidos As ArrayList)
+        Dim pedido As SigaMetClasses.sPedido
+        _PedidosCRM = New List(Of RTGMCore.Pedido)
 
-    '    Dim respuestaExitosa As Boolean = False
-
-    '    lstPedidos = objLiquida.consultaPedidosFolio(_añoatt, _folioatt, RTGMCore.TipoActualizacion.Saldo)
-
-    '    configurarSolicitud(lstPedidos, RTGMCore.TipoActualizacion.Saldo, GLOBAL_Usuario)
-
-    '    Dim ListaRespuesta As List(Of RTGMCore.Pedido) = ActualizarPedido(Solicitud)
-    '    If ListaRespuesta(0) IsNot DBNull.Value Then
-    '        If (ListaRespuesta(0).Success) Then
-    '            respuestaExitosa = True
-    '        End If
-
-    '    End If
-    '    RTGMGateway.Utilerias.Exportar(Solicitud, ListaRespuesta, objGateway.Fuente, respuestaExitosa, RTGMGateway.EnumMetodoWS.ActualizarPedidoSaldo)
-    'End Sub
-
-    'Public Sub configurarGateway(URLGateway As String, _cadenaConexion As String)
-    '    Try
-
-    '        objGateway = New RTGMGateway.RTGMActualizarPedido(GLOBAL_Modulo, _cadenaConexion)
-    '        objGateway.URLServicio = URLGateway
-
-    '    Catch ex As Exception
-    '        Throw New Exception("Error al configurar solicitud de consulta: " + ex.Message)
-    '    End Try
-
-    'End Sub
-
-    'Public Sub liquidarPedidos(objLiquida As liquidadorEstacionarioDatos)
-    '    Dim respuestaExitosa As Boolean = False
-    '    Dim _folioatt As Integer
-    '    Dim _añoatt As Short
-
-    '    lstPedidos = objLiquida.consultaPedidosFolio(_añoatt, _folioatt, RTGMCore.TipoActualizacion.Liquidacion)
-
-    '    configurarSolicitud(lstPedidos, RTGMCore.TipoActualizacion.Liquidacion, GLOBAL_Usuario)
-
-    '    Dim ListaRespuesta As List(Of RTGMCore.Pedido) = ActualizarPedido(Solicitud)
-
-    '    If ListaRespuesta(0) IsNot DBNull.Value Then
-    '        If (ListaRespuesta(0).Success) Then
-    '            respuestaExitosa = True
-    '        End If
-    '    End If
-    '    RTGMGateway.Utilerias.Exportar(Solicitud, ListaRespuesta, objGateway.Fuente, respuestaExitosa, RTGMGateway.EnumMetodoWS.ActualizarPedidoLiquidacion)
-    'End Sub
-    'Public Sub configurarSolicitud(pedidos As List(Of RTGMCore.Pedido), tipoActualizacion As RTGMCore.TipoActualizacion, _usuario As String)
-    '    Try
-    '        Dim solicitud = New RTGMGateway.SolicitudActualizarPedido
-    '        With solicitud
-    '            .pedidos = pedidos
-    '            .portatil = False
-    '            .tipoActualizacion = tipoActualizacion
-    '            .usuario = _usuario
-
-    '        End With
-    '    Catch ex As Exception
-    '        Throw New Exception("error al configurar solicitud de actualización de pedido: " + ex.Message)
-    '    End Try
-    'End Sub
-
-    'Function ActualizarPedido(Solicitud As RTGMGateway.SolicitudActualizarPedido) As List(Of RTGMCore.Pedido)
-    '    Try
-
-    '        Return objGateway.ActualizarPedido(Solicitud)
-    '    Catch ex As Exception
-    '        Throw New Exception("Error al actualizar pedido: " + ex.Message)
-    '    End Try
-    'End Function
-
-
-
-
+        If Not IsNothing(parPedidos) Then
+            For Each pedido In parPedidos
+                _PedidosCRM.Add(New RTGMCore.PedidoCRMSaldo With {
+                    .IDPedido = pedido.IDCRM,
+                    .PedidoReferencia = CType(pedido.IDCRM, String),
+                    .IDZona = pedido.Celula,
+                    .Abono = pedido.ImporteAbono        ' Revisar propiedad
+                })
+            Next
+        End If
+    End Sub
 
 #End Region
 
