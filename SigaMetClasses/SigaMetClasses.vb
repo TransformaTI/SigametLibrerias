@@ -5974,46 +5974,14 @@ Public Class TransaccionMovimientoCaja
 
                         objCobroPedido.Alta(CobroPedido.Celula, Cobro.AnoCobro, CobroPedido.Cobro, CobroPedido.AnoPed, CobroPedido.Pedido, CobroPedido.ImporteAbono)
                     Next
+
+                    ActualizarSaldoPedidosCRM(Cobro.ListaPedidos)
                 End If
                 'No guardar movimientocajacobro para cheques posfechados
                 If Not Cobro.Posfechado Then
                     objMovCajaCobro.Alta(Caja, FOperacion, Consecutivo, FolioMovCaja, Cobro.AnoCobro, FolioCobro)
                 End If
                 '*****
-                If URLGateway IsNot Nothing Then
-                    Dim objLiquida As liquidadorEstacionarioDatos = New liquidadorEstacionarioDatos(_CadenaConexion, GLOBAL_Empresa)
-                    Try
-                        Dim año As New DateTime
-                        Dim _añoatt As Short = año.Year
-                        Dim _folioatt As Integer = FolioCobro
-                        objLiquida.Usuario = GLOBAL_Usuario
-
-                        If objLiquida.revisaConciliacion(_añoatt, _folioatt) Then
-                            objLiquida.IniciaTransaccion()
-                            objLiquida.iniciarLiquidacion(_añoatt, _folioatt)
-
-                            'configurarGateway(URLGateway, _CadenaConexion)
-                            'liquidarPedidos(objLiquida)
-                            'actualizarSaldoPedidos(objLiquida, _añoatt, _folioatt)
-
-                            objLiquida.finalizarLiquidacion(_añoatt, _folioatt)
-                            objLiquida.CommitTransaccion()
-                        End If
-
-                    Catch ex As Exception
-                        Try
-                            objLiquida.RevierteTransaccion()
-                        Catch e As Exception
-
-                        End Try
-                        Throw New Exception(ex.Message)
-
-                    Finally
-                        objLiquida.CierraConexion()
-                    End Try
-                End If
-
-
             Next
             Transaccion.Commit()
             Return FolioMovCaja
