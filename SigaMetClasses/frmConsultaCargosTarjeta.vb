@@ -2,7 +2,6 @@
     Private Sub dtpFechaAltaCargoTarjeta_ValueChanged(sender As Object, e As EventArgs) Handles dtpFechaAltaCargoTarjeta.ValueChanged
         Dim objConsulta As New SigaMetClasses.cCalle()
         dgvCargos.DataSource = objConsulta.ConsultaCargoTarjetaXDia(dtpFechaAltaCargoTarjeta.Value.ToShortDateString)
-
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnCerrar.Click
