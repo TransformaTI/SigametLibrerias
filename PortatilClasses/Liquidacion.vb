@@ -229,30 +229,53 @@ Public Class cLiquidacion
         GLOBAL_Conexion.Close()
     End Sub
 
-    '20150715CNSM$003-----------------
+	'20150715CNSM$003-----------------
 
-    'Metodo de la clase para realizar una consulta del detalle del Pedido
-    Public Sub ConsultaPedido(ByVal Configuracion As Short, ByVal FolioAtt As Integer, ByVal AñoAtt As Short)
-        Dim da As SqlDataAdapter
-        cmd = New SqlCommand("spPTLConsultaPedido", GLOBAL_Conexion)
-        cmd.CommandType = CommandType.StoredProcedure
-        cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
-        cmd.Parameters.Add("@FolioAtt", SqlDbType.Int).Value = FolioAtt
-        cmd.Parameters.Add("@AñoAtt", SqlDbType.Int).Value = AñoAtt
-        da = New SqlDataAdapter(cmd)
-        dtTable = New DataTable()
-        Try
-            da.Fill(dtTable)
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, "Liquidación Portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)        
-        End Try
-        GLOBAL_Conexion.Close()
-    End Sub
+	'Metodo de la clase para realizar una consulta del detalle del Pedido
+	Public Sub ConsultaPedido(ByVal Configuracion As Short, ByVal FolioAtt As Integer, ByVal AñoAtt As Short)
+		Dim da As SqlDataAdapter
+		cmd = New SqlCommand("spPTLConsultaPedido", GLOBAL_Conexion)
+		cmd.CommandType = CommandType.StoredProcedure
+		cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
+		cmd.Parameters.Add("@FolioAtt", SqlDbType.Int).Value = FolioAtt
+		cmd.Parameters.Add("@AñoAtt", SqlDbType.Int).Value = AñoAtt
+		da = New SqlDataAdapter(cmd)
+		dtTable = New DataTable()
+		Try
+			da.Fill(dtTable)
+		Catch ex As Exception
+			MessageBox.Show(ex.Message, "Liquidación Portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
+		End Try
+		GLOBAL_Conexion.Close()
+	End Sub
 
-    '20150715CNSM$004-----------------
 
-    'Metodo de la clase para realizar una consulta del detalle del Pedido
-    Public Sub ConsultaRemision(ByVal Configuracion As Integer, ByVal Remision As Integer, ByVal Serie As String, ByVal FRemision As DateTime)
+	Public Sub ConsultaPedido(ByVal Configuracion As Short, ByVal FolioAtt As Integer, ByVal AñoAtt As Short, ByVal FechaLiquidacion As DateTime, ByVal PrecioVigente As Integer,
+							  ByVal ZonaEconomica As Integer)
+		Dim da As SqlDataAdapter
+		cmd = New SqlCommand("spPTLConsultaPedido", GLOBAL_Conexion)
+		cmd.CommandType = CommandType.StoredProcedure
+		cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
+		cmd.Parameters.Add("@FolioAtt", SqlDbType.Int).Value = FolioAtt
+		cmd.Parameters.Add("@AñoAtt", SqlDbType.Int).Value = AñoAtt
+		cmd.Parameters.Add("@PrecioVigente", SqlDbType.Int).Value = PrecioVigente
+		cmd.Parameters.Add("@ZonaEconomica", SqlDbType.Int).Value = ZonaEconomica
+		cmd.Parameters.Add("@FechaLiquidacion", SqlDbType.DateTime).Value = FechaLiquidacion
+
+		da = New SqlDataAdapter(cmd)
+		dtTable = New DataTable()
+		Try
+			da.Fill(dtTable)
+		Catch ex As Exception
+			MessageBox.Show(ex.Message, "Liquidación Portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
+		End Try
+		GLOBAL_Conexion.Close()
+	End Sub
+
+	'20150715CNSM$004-----------------
+
+	'Metodo de la clase para realizar una consulta del detalle del Pedido
+	Public Sub ConsultaRemision(ByVal Configuracion As Integer, ByVal Remision As Integer, ByVal Serie As String, ByVal FRemision As DateTime)
         Dim da As SqlDataAdapter
         cmd = New SqlCommand("spPTLConsultaRemision", GLOBAL_Conexion)
         cmd.CommandType = CommandType.StoredProcedure
