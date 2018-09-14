@@ -10,5 +10,6 @@
 
     Private Sub frmConsultaCargosTarjeta_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         dtpFechaAltaCargoTarjeta.Value = DateTime.Now
+        dgvCargos.AutoGenerateColumns = False
     End Sub
 End Class
