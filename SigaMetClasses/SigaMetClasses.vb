@@ -1290,6 +1290,8 @@ Public Class cCalle
         Try
             If cmd.Connection.State = ConnectionState.Open Then
                 cmd.Connection.Close()
+            Else
+                AbreConexion()
             End If
             da.Fill(dt)
             Return dt
