@@ -108,11 +108,11 @@ Public Class frmAltaPagoTarjeta
         If rdCargoPorVenta.Checked Then
 
         Else
-            If (txtRemision.Text.Equals("")) Then
-                lErrores.Add("Campo remisión es requerido")
-                validacion = False
-                coun = coun + 1
-            End If
+            'If (txtRemision.Text.Equals("")) Then
+            '    lErrores.Add("Campo remisión es requerido")
+            '    validacion = False
+            '    coun = coun + 1
+            'End If
         End If
         If (txtTarjeta.Text.Equals("")) Then
             lErrores.Add("Campo Tarjeta es requerido")
