@@ -3241,6 +3241,9 @@ namespace LiquidacionSTN
                 {
                     cliente = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
                     CargarDatosClienteCRM(cliente);
+                    _PedidoReferencia = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 2]);
+                    _StatusST = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 9]);
+                    _TipoPedido = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 35]);
                 }
                 else
                 {

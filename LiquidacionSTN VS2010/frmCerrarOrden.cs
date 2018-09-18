@@ -1227,7 +1227,10 @@ namespace LiquidacionSTN
 
             try
             {
-              this.chkNoSuministrar.Checked =  (Boolean)cmd.ExecuteScalar();              
+                if (cmd.ExecuteScalar() != null)
+                {
+                    this.chkNoSuministrar.Checked = (Boolean)cmd.ExecuteScalar();
+                }
             }
             catch (Exception e)
             {
