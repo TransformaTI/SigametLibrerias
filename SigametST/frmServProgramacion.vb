@@ -3777,7 +3777,31 @@ Public Class frmServProgramacion
             Case "Liquidar"
 
                 Cursor = Cursors.WaitCursor
-                Dim Liq As New LiquidacionSTN.frmLiquidacionST(GLOBAL_Usuario, GLOBAL_Password, GLOBAL_RutaReportes, GLOBAL_Corporativo, GLOBAL_Sucursal, GLOBAL_UsuarioReporte, GLOBAL_PasswordReporte)
+                'Dim Liq As New LiquidacionSTN.frmLiquidacionST(GLOBAL_Usuario, GLOBAL_Password, GLOBAL_RutaReportes, GLOBAL_Corporativo, GLOBAL_Sucursal, GLOBAL_UsuarioReporte, GLOBAL_PasswordReporte)
+                Dim Liq As LiquidacionSTN.frmLiquidacionST
+
+                If (Not IsNothing(_URLGateway)) Then
+                    Liq = New LiquidacionSTN.frmLiquidacionST(GLOBAL_Usuario,
+                                                              GLOBAL_Password,
+                                                              GLOBAL_RutaReportes,
+                                                              GLOBAL_Corporativo,
+                                                              GLOBAL_Sucursal,
+                                                              GLOBAL_UsuarioReporte,
+                                                              GLOBAL_PasswordReporte,
+                                                              URLGateway:=_URLGateway,
+                                                              ParModulo:=GLOBAL_Modulo,
+                                                              CadenaConexion:=GLOBAL_CadenaConexion,
+                                                              FuenteGateway:=_FuenteGateway)
+                Else
+                    Liq = New LiquidacionSTN.frmLiquidacionST(GLOBAL_Usuario,
+                                                                   GLOBAL_Password,
+                                                                   GLOBAL_RutaReportes,
+                                                                   GLOBAL_Corporativo,
+                                                                   GLOBAL_Sucursal,
+                                                                   GLOBAL_UsuarioReporte,
+                                                                   GLOBAL_PasswordReporte)
+                End If
+
                 Liq.ShowDialog()
                 Cursor = Cursors.Default
 
