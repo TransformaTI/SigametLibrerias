@@ -64,7 +64,7 @@ Public Class frmRemisionManual
 	Private _ZonaEconomicaActual As Integer
 	Private _FechaLiquidacion As DateTime
 	Private _LiqPrecioVigente As Boolean
-
+	Friend WithEvents lblPreciosMensaje As Label
 	Private _DiccionarioPrecios As New Dictionary(Of Integer, Decimal)
 	Property DetalleGrid As DataTable
 		Get
@@ -538,6 +538,7 @@ Public Class frmRemisionManual
 		Me.lblTotal = New System.Windows.Forms.Label()
 		Me.lblTotalLiquidado = New System.Windows.Forms.Label()
 		Me.grbInformacion = New System.Windows.Forms.GroupBox()
+		Me.lblPreciosMensaje = New System.Windows.Forms.Label()
 		Me.lblZonaEconomica = New System.Windows.Forms.Label()
 		Me.cbxAplicaDescuento = New System.Windows.Forms.CheckBox()
 		Me.lblTipoCobro = New System.Windows.Forms.Label()
@@ -976,6 +977,7 @@ Public Class frmRemisionManual
 		'
 		'grbInformacion
 		'
+		Me.grbInformacion.Controls.Add(Me.lblPreciosMensaje)
 		Me.grbInformacion.Controls.Add(Me.Btn_Modificar)
 		Me.grbInformacion.Controls.Add(Me.lblZonaEconomica)
 		Me.grbInformacion.Controls.Add(Me.cboZEconomica)
@@ -1008,6 +1010,16 @@ Public Class frmRemisionManual
 		Me.grbInformacion.TabIndex = 0
 		Me.grbInformacion.TabStop = False
 		Me.grbInformacion.Text = "Productos  a procesar por remisión"
+		'
+		'lblPreciosMensaje
+		'
+		Me.lblPreciosMensaje.AutoSize = True
+		Me.lblPreciosMensaje.Location = New System.Drawing.Point(183, 271)
+		Me.lblPreciosMensaje.Name = "lblPreciosMensaje"
+		Me.lblPreciosMensaje.Size = New System.Drawing.Size(240, 13)
+		Me.lblPreciosMensaje.TabIndex = 75
+		Me.lblPreciosMensaje.Text = "No hay precios para esta zona económica"
+		Me.lblPreciosMensaje.Visible = False
 		'
 		'lblZonaEconomica
 		'
@@ -1231,6 +1243,15 @@ Public Class frmRemisionManual
 		If (_ZonaEconomicaActual = -1) Then
 			_dtProductos = Nothing
 			_DiccionarioPrecios.Clear()
+			pnlProducto.Controls.Clear()
+			Me.pnlProducto.Controls.Add(Me.lblExistencia1)
+			Me.pnlProducto.Controls.Add(Me.lblProducto1)
+			Me.pnlProducto.Controls.Add(Me.txtCantidad1)
+			Me.pnlProducto.Controls.Add(Me.lbltckExistencia)
+			Me.pnlProducto.Controls.Add(Me.Label8)
+			Me.pnlProducto.Controls.Add(Me.lbltckProducto)
+			lblListaExistencia.Clear()
+			txtListaCantidad.Clear()
 		End If
 
 		If _dtProductos Is Nothing Then
@@ -1238,16 +1259,25 @@ Public Class frmRemisionManual
 			oLiquidacion.ConsultaPedido(_Configuracion, _FolioAtt, _AñoAtt, _FechaLiquidacion, precioVigente, cboZEconomica.Identificador)
 			_dtProductos = oLiquidacion.dtTable
 			_dtProductos.TableName = "ProductosInicial"
+			If _dtProductos.Rows.Count = 0 Then
+				lblPreciosMensaje.Visible = True
+				pnlProducto.Visible = False
+			Else
+				lblPreciosMensaje.Visible = False
+				pnlProducto.Visible = True
+			End If
+
 			For Each dr As DataRow In _dtProductos.Rows
 				_DiccionarioPrecios.Add(CType(dr(0), Integer), CType(dr(2), Decimal))
 			Next
 		Else
 			_dtProductos.TableName = "ProductosIteracion"
+			lblPreciosMensaje.Visible = False
+			pnlProducto.Visible = True
 		End If
 
 
 		If _DiccionarioPrecios.Count = 0 Then
-
 			oLiquidacion.ConsultaPedido(_Configuracion, _FolioAtt, _AñoAtt, _FechaLiquidacion, precioVigente, cboZEconomica.Identificador)
 			dtPrecios = oLiquidacion.dtTable
 			For Each dr As DataRow In dtPrecios.Rows
@@ -1706,6 +1736,16 @@ Public Class frmRemisionManual
 
 			End If
 		Catch ex As Exception
+
+			If (grdDetalle.DataSource Is Nothing) Then
+				_ZonaEconomicaActual = -1
+			Else
+				If dtLiquidacionTotal.Rows.Count = 0 Then
+					_ZonaEconomicaActual = -1
+				End If
+			End If
+
+
 			If ex.Message.Contains("Por favor seleccione una zona económica.") Then
 				MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
 			ElseIf ex.Message.Contains("La cantidad de kilos de gas a granel no debe superar los 255 kilos, por favor corrija.") Then
@@ -1803,13 +1843,41 @@ Public Class frmRemisionManual
 
 	End Sub
 
+	Private Sub revisaProductosPadre()
+		Dim i As Integer = 0
+		Dim j As Integer
+		Dim encontrado As Boolean
+		Dim producto As Integer
+
+		Dim productosTemp As New DataTable
+		productosTemp = ProductosPadre.Copy
+		productosTemp.Clear()
+
+		For Each filaPadre As DataRow In ProductosPadre.Rows
+			encontrado = False
+			producto = CType(filaPadre.Item("Producto"), Integer)
+			For Each fila As DataRow In _dtProductos.Rows
+				If CType(fila.Item("Producto"), Integer) = producto Then
+					encontrado = True
+
+				End If
+			Next
+
+			If encontrado Then
+				productosTemp.ImportRow(filaPadre)
+
+			End If
+		Next
+
+		ProductosPadre = productosTemp
+	End Sub
+
 	Private Sub btnAgregar_Click(sender As Object, e As EventArgs) Handles btnAgregar.Click
 		'Validamos los datos capturados pertenecientes a la remision
 		Try
 			If cboTipoCobro.SelectedItem Is Nothing Then
 				Throw New Exception("Por favor elija un tipo de cobro.")
 			End If
-
 
 			If Not ValidaZonaEconomica(cboZEconomica.Identificador) Then
 				Throw New Exception("No se puede usar otra zona economica, solamente " & _ZonaEconomica)
@@ -1818,6 +1886,7 @@ Public Class frmRemisionManual
 			If _RutaMovil = False Then
 				If ValidaRemision() Then 'Que haya serie, remisión y que no se duplique
 					If VerificaDatos() Then 'Se verifica que la cantidad indicada por el usuario sea menos que la disponible en le inventario del almacén
+						_ZonaEconomicaActual = cboZEconomica.Identificador
 						CargarProductosVarios() 'Carga de los productos disponibles en el almacén
 						CargaGrid() 'Cargar la tabla dtLiquidacionTotal y conectarla al grid grdDetalle
 					Else
@@ -2103,6 +2172,8 @@ Public Class frmRemisionManual
 					MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
 				End If
 			End If
+
+			revisaProductosPadre()
 		Else
 			Dim oMensaje As New PortatilClasses.Mensaje(136)
 			MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -2707,5 +2778,9 @@ Public Class frmRemisionManual
 
 	End Sub
 
-
+	Private Sub cboZEconomica_DropDownClosed(sender As Object, e As EventArgs) Handles cboZEconomica.DropDownClosed
+		If _ZonaEconomicaActual = -1 Then
+			CargarProductosVarios()
+		End If
+	End Sub
 End Class
