@@ -198,6 +198,7 @@ namespace LiquidacionSTN
         private string _URLGateway;
         private byte _Modulo;
         private string _CadenaConexion;
+        private string _FuenteGateway;
 
         public frmLiquidacionST(string Usuario, 
                                 string clave, 
@@ -208,7 +209,8 @@ namespace LiquidacionSTN
                                 string UsuarioReportePassword,
                                 string URLGateway = "",
                                 byte ParModulo = 0,
-                                string CadenaConexion = "")
+                                string CadenaConexion = "",
+                                string FuenteGateway = "")
 		{
 			_Usuario += Usuario;
 			_Clave += clave;            
@@ -222,6 +224,7 @@ namespace LiquidacionSTN
             _URLGateway = URLGateway;
             _CadenaConexion = CadenaConexion;
             _Modulo = ParModulo;
+            _FuenteGateway = FuenteGateway;
 
 			//
 			// Required for Windows Form Designer support
@@ -3226,26 +3229,94 @@ namespace LiquidacionSTN
 		}
 
 		private void grdLiquidacion_CurrentCellChanged(object sender, System.EventArgs e)
-		{		
-			lblCliente.Text = Convert.ToString (grdLiquidacion [grdLiquidacion.CurrentRowIndex ,0]);
-			lblRuta.Text = Convert.ToString (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,1]);
-			lblCelula.Text = Convert.ToString (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,13]);
-			lblNombre.Text = Convert.ToString (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,15]);
-			lblCalle.Text = Convert.ToString (grdLiquidacion [grdLiquidacion.CurrentRowIndex ,20]);
-			lblNumExterior.Text = Convert.ToString (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,23 ]);
-			lblNumInterior.Text = Convert.ToString (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,22]);
-			lblColonia.Text = Convert.ToString (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,21]);
-			lblCP.Text = Convert.ToString (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,25]);
-			lblMunicipio.Text = Convert.ToString (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,24]);
-			lblTrabajoSolicitado.Text = Convert.ToString (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,17]);
-			lblUnidad.Text = Convert.ToString (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,11]);
-			lblTecnico.Text = Convert.ToString (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,18]);
-			lblAyudante.Text = Convert.ToString (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,19]);
-			_PedidoReferencia = Convert.ToString (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,2]);
-			_StatusST = Convert.ToString (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,9]);
-			_TipoPedido = Convert.ToInt32 (grdLiquidacion[grdLiquidacion.CurrentRowIndex ,35]);
-			
+		{
+            int cliente = 0;
+            LimpiarDatosCliente();
+
+            try
+            {
+                if (grdLiquidacion.CurrentRowIndex < 0) { return; }
+
+                if (_FuenteGateway.Equals("CRM") && !String.IsNullOrEmpty(_URLGateway))
+                {
+                    cliente = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
+                    CargarDatosClienteCRM(cliente);
+                }
+                else
+                {
+                    lblCliente.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
+                    lblRuta.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 1]);
+                    lblCelula.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 13]);
+                    lblNombre.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 15]);
+                    lblCalle.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 20]);
+                    lblNumExterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 23]);
+                    lblNumInterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 22]);
+                    lblColonia.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 21]);
+                    lblCP.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 25]);
+                    lblMunicipio.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 24]);
+                    lblTrabajoSolicitado.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 17]);
+                    lblUnidad.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 11]);
+                    lblTecnico.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 18]);
+                    lblAyudante.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 19]);
+                    _PedidoReferencia = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 2]);
+                    _StatusST = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 9]);
+                    _TipoPedido = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 35]);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 		}
+
+        private void CargarDatosClienteCRM(int parCliente)
+        {
+            string ruta = "";
+            string celula = "";
+            RTGMGateway.RTGMGateway obGateway = new RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion);
+            obGateway.URLServicio = _URLGateway;
+
+            RTGMGateway.SolicitudGateway objRequest = new RTGMGateway.SolicitudGateway
+            {
+                IDCliente = parCliente,
+                Portatil = false,
+                IDAutotanque = null,
+                FechaConsulta = null
+            };
+
+            RTGMCore.DireccionEntrega obDireccionEntrega = obGateway.buscarDireccionEntrega(objRequest);
+
+            if (obDireccionEntrega != null)
+            {
+                if (obDireccionEntrega.Ruta != null) { ruta = obDireccionEntrega.Ruta.IDRuta.ToString(); }
+                if (obDireccionEntrega.ZonaSuministro != null) { celula = obDireccionEntrega.ZonaSuministro.IDZona.ToString(); }
+
+                lblCliente.Text = obDireccionEntrega.IDDireccionEntrega.ToString();
+                lblRuta.Text = ruta;
+                lblCelula.Text = celula;
+                lblNombre.Text = obDireccionEntrega.NombreContacto;
+                lblCalle.Text = obDireccionEntrega.CalleNombre;
+                lblNumExterior.Text = obDireccionEntrega.NumExterior;
+                lblNumInterior.Text = obDireccionEntrega.NumInterior;
+                lblColonia.Text = obDireccionEntrega.ColoniaNombre;
+                lblCP.Text = obDireccionEntrega.CP;
+                lblMunicipio.Text = obDireccionEntrega.MunicipioNombre;
+            }
+        }
+
+        private void LimpiarDatosCliente()
+        {
+            lblCliente.Text = "";
+            lblRuta.Text = "";
+            lblCelula.Text = "";
+            lblNombre.Text = "";
+            lblCalle.Text = "";
+            lblNumExterior.Text = "";
+            lblNumInterior.Text = "";
+            lblColonia.Text = "";
+            lblCP.Text = "";
+            lblMunicipio.Text = "";
+        }
 
 		private void grdLiquidacion_DoubleClick(object sender, System.EventArgs e)
 		{
