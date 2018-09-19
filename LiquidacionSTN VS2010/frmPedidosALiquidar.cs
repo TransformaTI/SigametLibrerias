@@ -16,11 +16,22 @@ namespace LiquidacionSTN
 		/// Required designer variable.
 		/// </summary>
 		private System.ComponentModel.Container components = null;
+        private System.Windows.Forms.DataGrid grdPedidos;
+        private System.Windows.Forms.DataGridTableStyle dataGridTableStyle1;
+        private System.Windows.Forms.DataGridTextBoxColumn dGTBCCliente;
+        private System.Windows.Forms.DataGridTextBoxColumn dGTBCPedidoReferencia;
+        private System.Windows.Forms.DataGridTextBoxColumn dGTBCFCompromiso;
+        int _AñoAtt;
+        int _Folio;
 
-		public frmPedidosALiquidar(int Folio, int AñoAtt)
+        // Indica si se están consultando pedidos desde el CRM
+        private string _FuenteGateway;
+
+		public frmPedidosALiquidar(int Folio, int AñoAtt, string FuenteGateway = "")
 		{
 			_Folio = Folio;
 			_AñoAtt = AñoAtt;
+            _FuenteGateway = FuenteGateway;
 			//
 			// Required for Windows Form Designer support
 			//
@@ -47,14 +58,6 @@ namespace LiquidacionSTN
 		}
 
 	
-		private System.Windows.Forms.DataGrid grdPedidos;
-		int _AñoAtt;
-		private System.Windows.Forms.DataGridTableStyle dataGridTableStyle1;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTBCCliente;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTBCPedidoReferencia;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTBCFCompromiso;
-		int _Folio;
-
 		#region Windows Form Designer generated code
 		/// <summary>
 		/// Required method for Designer support - do not modify
@@ -150,8 +153,21 @@ namespace LiquidacionSTN
 			
 		{
 		LiquidacionSTN.Modulo.CnnSigamet.Close ();
-			string Consulta = "select Cliente,PedidoReferencia,Fcompromiso from pedido where folio = " + _Folio + " and AñoAtt = " + _AñoAtt;
-			SqlDataAdapter da = new SqlDataAdapter ();
+            //string Consulta = "select Cliente,PedidoReferencia,Fcompromiso from pedido where folio = " + _Folio + " and AñoAtt = " + _AñoAtt;
+            string Consulta;
+            
+            if (_FuenteGateway.Equals("CRM"))
+            {
+                Consulta = "select Cliente, ISNULL(IdCRM, 0) As PedidoReferencia, Fcompromiso " + 
+                    "from pedido where folio = " + _Folio + " and AñoAtt = " + _AñoAtt;
+            }
+            else
+            {
+                Consulta = "select Cliente, PedidoReferencia, Fcompromiso " + 
+                    "from pedido where folio = " + _Folio + " and AñoAtt = " + _AñoAtt;
+            }
+
+            SqlDataAdapter da = new SqlDataAdapter ();
 			System.Data.DataTable dt;
 			dt = new System.Data.DataTable ("Pedidos");
 			LiquidacionSTN.Modulo.CnnSigamet.Open ();
