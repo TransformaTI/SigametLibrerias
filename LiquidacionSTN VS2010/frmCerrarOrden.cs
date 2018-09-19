@@ -1186,7 +1186,7 @@ namespace LiquidacionSTN
 		{
 			if (txtServicioRealizado.Text.Trim ().Length > 1000 )
 			{
-				MessageBox.Show ("Usted sobrepaso el numero permitido de caracteres, por favor recorte su mensaje.","Liquidación Servicios Técnicos",MessageBoxButtons.OK, MessageBoxIcon.Information );
+				MessageBox.Show ("Usted sobrepasó el número permitido de carácteres, por favor recorte su mensaje.","Liquidación Servicios Técnicos",MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
 		}
 
