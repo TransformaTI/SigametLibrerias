@@ -623,9 +623,7 @@ Public Class frmPresupuesto
                 Else
                     If CType(lblNumeroPresupuesto.Text, Double) > 0 Then
 
-
                         'Conexion para Modificar un presupuesto 
-
                         Dim ConexionTransaccion2 As SqlConnection = SigaMetClasses.DataLayer.Conexion
                         'Conexion para la Transaccion
                         ConexionTransaccion2.Open()
@@ -643,8 +641,9 @@ Public Class frmPresupuesto
                         SQlCommandTransac2.Parameters.Add("@descuento", SqlDbType.Money).Value = txtDescuento.Text
                         SQlCommandTransac2.Parameters.Add("@Status", SqlDbType.Char).Value = cboStatusPresupuesto.SelectedItem
                         SQlCommandTransac2.Parameters.Add("@ObservacionesPresupuesto", SqlDbType.Text).Value = txtObservacionesPresupuesto.Text
-
-
+                        If (_FuenteGateway.Equals("CRM")) Then
+                            SQlCommandTransac2.Parameters.Add("@IDCRM", SqlDbType.Int).Value = _Pedido
+                        End If
 
                         'Asigna el comando de inicio de transaccion
                         SQLTransac = ConexionTransaccion2.BeginTransaction
