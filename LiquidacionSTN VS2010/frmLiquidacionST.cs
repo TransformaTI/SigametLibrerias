@@ -3185,7 +3185,18 @@ namespace LiquidacionSTN
 				case 7:
 					Cursor = Cursors.WaitCursor;
 					ValidaPedidos ();
-					LiquidacionSTN.frmPedidosALiquidar PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio,_AñoAtt);
+                    //LiquidacionSTN.frmPedidosALiquidar PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio,_AñoAtt);
+                    LiquidacionSTN.frmPedidosALiquidar PedidosTablaPedido;
+
+                    if (_FuenteGateway.Equals("CRM"))
+                    {
+                        PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio, _AñoAtt, _FuenteGateway);
+                    }
+                    else
+                    {
+                        PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio, _AñoAtt);
+                    }
+
                     PedidosTablaPedido.ShowDialog ();
 					Cursor = Cursors.Default ;
 					break;
