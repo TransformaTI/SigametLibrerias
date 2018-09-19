@@ -497,7 +497,17 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub LlenaPestañaPresupuesto()
-        Dim strQuery As String = "select FolioPresupuesto,StatusPresupuesto,subtotal,ObservacionesPresupuesto,Descuento,Total from vwSTPestanaServicioTecnico where  pedido = " & Pedido & " And celula = " & Celula & " and añoped = " & AñoPed
+        Dim strQuery As String
+        LimpiarCamposPresupuesto()
+
+        If (_FuenteGateway.Equals("CRM")) Then
+            strQuery = "select FolioPresupuesto, StatusPresupuesto, subtotal, ObservacionesPresupuesto, " +
+                       "Descuento, Total from vwSTPestanaServicioTecnico where IdCRM = " & Pedido
+        Else
+            strQuery = "select FolioPresupuesto, StatusPresupuesto, subtotal, ObservacionesPresupuesto, " +
+                       "Descuento, Total from vwSTPestanaServicioTecnico where  pedido = " & Pedido & " And celula = " & Celula & " and añoped = " & AñoPed
+        End If
+
         Dim daPresupuesto As New SqlDataAdapter(strQuery, cnnSigamet)
         Dim dtPresupuesto As New DataTable("Presupuesto")
         daPresupuesto.Fill(dtPresupuesto)
@@ -510,6 +520,15 @@ Public Class frmServProgramacion
             lblSubTotal.Text = CType(dtPresupuesto.Rows(0).Item("subtotal"), String)
             lblDescuento.Text = CType(dtPresupuesto.Rows(0).Item("descuento"), String)
         End If
+    End Sub
+
+    Private Sub LimpiarCamposPresupuesto()
+        lblNPresupuesto.Text = ""
+        lblStatusPre.Text = ""
+        lblTotal.Text = ""
+        txtObservacionesPresupuesto.Text = ""
+        lblSubTotal.Text = ""
+        lblDescuento.Text = ""
     End Sub
 
     Private Sub OrdenAutomatica()
