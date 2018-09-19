@@ -2207,7 +2207,7 @@ namespace LiquidacionSTN
 					+ "StatusServicioTecnico,TipoCobroDescripcion,Autotanque,Pedido,Celula,Añoped,Nombre,Empresa, " 
 					+ "TrabajoSolicitado,Chofer,Ayudante,Calle,Colonia,NumInterior,NumExterior,Municipio,cp, " 
 					+ "AñoFolioPresupuesto,FolioPresupuesto,isnull(StatusPresupuesto,'Sin Status') as StatusPresupuesto,isnull(ObservacionesPresupuesto,'sin Observ') as ObservacionesPresupuesto,DescuentoPresupuesto," 
-					+ "SubTotalPresupuesto,TotalPresupuesto,CostoServicioTecnico,ObservacionesServicioRealizado," 
+					+ "SubTotalPresupuesto,TotalPresupuesto,CostoServicioTecnico,ObservacionesServicioRealizado, IdCRM, " 
 					+ "TipoPedido,NumeroPagos,FrecuenciaPagos,CreditoServicioTecnico,TipoCobro,PagosDe,ImporteLetra, " 
 					+ "BancoCheque,FAltaCheque,FCheque,NumCuentaCheque,SaldoCheque,NumeroCheque,TotalCheque,TipoCobroCheque,Folio,AñoAtt,TipoServicio,'' as BancoNombre " 
 					+ " from vwSTNuevaLiquidacion " 
@@ -2434,10 +2434,18 @@ namespace LiquidacionSTN
 		    LlenaCamioneta ();
 			LlenaDataSet();
 			LlenaGrid();
-		
+            MostrarPedidoCRM();
 		}
 
-		private void ConfiguraConexion ()
+        private void MostrarPedidoCRM()
+        {
+            if (!String.IsNullOrEmpty(_URLGateway) && _FuenteGateway.Equals("CRM"))
+            {
+                dGTBCPedidoReferencia.MappingName = "IdCRM";
+            }
+        }
+
+        private void ConfiguraConexion ()
 		{
 			string Usuario;
 			string Password;
