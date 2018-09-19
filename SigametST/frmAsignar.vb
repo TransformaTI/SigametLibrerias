@@ -366,11 +366,22 @@ Public Class frmAsignar
     Private Sub InsertarPedidoServicioTecnico(ByVal conexion As SqlConnection, ByVal transaccion As SqlTransaction)
         Dim drDatos As SqlDataReader
         Dim ruta As Integer = 0
+        Dim numExterior As String = ""
+        Dim numInterior As String = ""
+        Dim calle As Integer = 0
+        Dim colonia As Integer = 0
 
         If IsNothing(_PedidoCRM) Then
             Exit Sub
         Else
             If Not IsNothing(_PedidoCRM.RutaOrigen) Then ruta = If(_PedidoCRM.RutaOrigen.IDRuta, 0)
+
+            If Not IsNothing(_PedidoCRM.DireccionEntrega) Then
+                numExterior = _PedidoCRM.DireccionEntrega.NumExterior
+                numInterior = _PedidoCRM.DireccionEntrega.NumInterior
+                calle = _PedidoCRM.DireccionEntrega.IDCalle
+                colonia = _PedidoCRM.DireccionEntrega.IDColonia
+            End If
 
             _PedidoServicioTecnicoAlta = New PedidoServiciotecnicoAlta(conexion, transaccion)
             drDatos = _PedidoServicioTecnicoAlta.PedidoServiciotecnico(_PedidoCRM.Observaciones,
@@ -382,10 +393,10 @@ Public Class frmAsignar
                                                              ruta,
                                                              _PedidoCRM.IDUsuarioAlta,
                                                              If(_PedidoCRM.IDTipoServicio, 0),
-                                                             "",
-                                                             "",
-                                                             0,
-                                                             0,
+                                                             numExterior,
+                                                             numInterior,
+                                                             calle,
+                                                             colonia,
                                                              If(_PedidoCRM.IDPedido, _Pedido))
             ' Recuperar el pedido que se insertó
             While drDatos.Read
