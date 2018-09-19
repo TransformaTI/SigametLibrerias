@@ -3864,7 +3864,7 @@ Public Class frmServProgramacion
                 If _Estatus = "ACTIVO" Then
                     Cursor = Cursors.WaitCursor
                     _UsaLiquidacion = False
-                    Dim Presupuesto As New frmPresupuesto(Pedido, Celula, AñoPed, _UsaLiquidacion)
+                    Dim Presupuesto As New frmPresupuesto(Pedido, Celula, AñoPed, _UsaLiquidacion, _FuenteGateway)
                     Presupuesto.ShowDialog()
                     Cursor = Cursors.Default
                 Else
