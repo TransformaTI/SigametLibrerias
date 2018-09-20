@@ -3,6 +3,7 @@ Option Strict On
 Imports System.Windows.Forms
 Imports System.Configuration
 Imports System.Data.SqlTypes
+Imports System.Collections.Generic
 
 Public Class frmConsultaCliente
     Inherits System.Windows.Forms.Form
@@ -2938,6 +2939,228 @@ Public Class frmConsultaCliente
                     lblLitrosConsulta.Text = _TotalLitros.ToString
                 End If
             End If
+
+            ''--------------------------------------------pedido EN SIGAMET----------------------------------------
+            'dsDatos = oCliente.ConsultaDatos(Cliente, , , , SoloPedidosCredito, SoloPedidosSurtidos)
+            'dtDocumento = dsDatos.Tables("Pedido")
+            'grdDocumento.DataSource = dtDocumento
+            'For Each dr In dtDocumento.Rows
+            '    If Not IsDBNull(dr("Saldo")) Then
+            '        If Not IsDBNull(dr("CyC")) Then
+            '            _TotalSaldoCartera += CType(dr("Saldo"), Decimal)
+            '            _TotalLitrosCartera += CType(dr("Litros"), Decimal)
+            '        End If
+            '        _TotalSaldo += CType(dr("Saldo"), Decimal)
+            '        _TotalLitros += CType(dr("Litros"), Decimal)
+            '    End If
+            'Next
+
+            'lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
+            'lblSaldoTotal.Text = _TotalSaldo.ToString("C")
+            'lblLitrosCartera.Text = _TotalLitrosCartera.ToString
+            'lblLitrosConsulta.Text = _TotalLitros.ToString
+
+
+
+            ' pedido en crm 
+
+            Dim dtPedidos As New DataTable
+            dtPedidos.Columns.Add("TipoCobro", GetType(String))
+            dtPedidos.Columns.Add("TipoCargoTipoPedido", GetType(String))
+            dtPedidos.Columns.Add("StatusPedido", GetType(String))
+            dtPedidos.Columns.Add("PedidoReferencia", GetType(String))
+            dtPedidos.Columns.Add("Factura", GetType(String))
+            dtPedidos.Columns.Add("FCompromiso", GetType(String))
+            dtPedidos.Columns.Add("FCargo", GetType(String))
+            dtPedidos.Columns.Add("Litros", GetType(String))
+            dtPedidos.Columns.Add("Total", GetType(String))
+            dtPedidos.Columns.Add("Saldo", GetType(String))
+            dtPedidos.Columns.Add("StatusCobranza", GetType(String))
+            dtPedidos.Columns.Add("CyC", GetType(String))
+            dtPedidos.Columns.Add("FolioNota", GetType(String))
+
+            Dim objPedidoGateway As New RTGMGateway.RTGMPedidoGateway(_Modulo, _CadenaConexion)
+
+            objPedidoGateway.URLServicio = URLGateway
+            Dim objPedido As New List(Of RTGMCore.Pedido)
+            Dim objRequest As New RTGMGateway.SolicitudPedidoGateway
+
+            objRequest.TipoConsultaPedido = RTGMCore.TipoConsultaPedido.RegistroPedido
+            objRequest.IDDireccionEntrega = Cliente
+
+            Try
+                objPedido = objPedidoGateway.buscarPedidos(objRequest)
+                If objPedido.Count > 0 Then
+                    For Each oPedido As RTGMCore.Pedido In objPedido
+                        dtPedidos.Rows.Add("SIN INFORMACIÓN EN CRM", oPedido.TipoCargo, oPedido.EstatusPedido, oPedido.PedidoReferencia, oPedido.SerieFactura, oPedido.FCompromiso, oPedido.FCargo, "0.0", oPedido.Importe.ToString(), oPedido.Saldo, "SIN INFORMACIÓN EN CRM", "SIN INFORMACIÓN EN CRM", oPedido.FolioRemision)
+                    Next
+
+                    'vALIDACION NULA
+                    For Each pedido As DataRow In dtPedidos.Rows
+
+
+                        If IsNothing(pedido("TipoCobro")) Then
+                            dtPedidos.BeginInit()
+                            pedido("TipoCobro") = "SIN INFORMACIÓN EN CRM"
+                            dtPedidos.EndInit()
+
+                        Else
+                            dtPedidos.BeginInit()
+                            pedido("TipoCobro") = pedido("TipoCobro").ToString().Replace("(null)", "SIN INFORMACIÓN EN CRM")
+                            dtPedidos.EndInit()
+
+                        End If
+
+
+                        If IsNothing(pedido("TipoCargoTipoPedido")) Then
+                            dtPedidos.BeginInit()
+                            pedido("TipoCargoTipoPedido") = "SIN INFORMACIÓN EN CRM"
+                            dtPedidos.EndInit()
+                        Else
+                            dtPedidos.BeginInit()
+                            pedido("TipoCargoTipoPedido") = pedido("TipoCargoTipoPedido").ToString().Replace("(null)", "SIN INFORMACIÓN EN CRM")
+                            dtPedidos.EndInit()
+
+                        End If
+
+                        If IsNothing(pedido("StatusPedido")) Then
+                            dtPedidos.BeginInit()
+                            pedido("StatusPedido") = "SIN INFORMACIÓN EN CRM"
+                            dtPedidos.EndInit()
+
+                        Else
+                            dtPedidos.BeginInit()
+                            pedido("StatusPedido") = pedido("StatusPedido").ToString().Replace("(null)", "SIN INFORMACIÓN EN CRM")
+                            dtPedidos.EndInit()
+                        End If
+                        If IsNothing(pedido("PedidoReferencia")) Then
+                            dtPedidos.BeginInit()
+                            pedido("PedidoReferencia") = "SIN INFORMACIÓN EN CRM"
+                            dtPedidos.EndInit()
+                        Else
+                            dtPedidos.BeginInit()
+                            pedido("PedidoReferencia") = pedido("PedidoReferencia").ToString().Replace("(null)", "SIN INFORMACIÓN EN CRM")
+                            dtPedidos.EndInit()
+                        End If
+
+                        If IsNothing(pedido("Factura")) Then
+                            dtPedidos.BeginInit()
+                            pedido("Factura") = "SIN INFORMACIÓN EN CRM"
+                            dtPedidos.EndInit()
+                        Else
+                            dtPedidos.BeginInit()
+                            pedido("Factura") = pedido("Factura").ToString().Replace("(null)", "SIN INFORMACIÓN EN CRM")
+                            dtPedidos.EndInit()
+
+                        End If
+
+                        If IsNothing(pedido("FCompromiso")) Then
+                            dtPedidos.BeginInit()
+                            pedido("FCompromiso") = "SIN INFORMACIÓN EN CRM"
+                            dtPedidos.EndInit()
+                        Else
+                            dtPedidos.BeginInit()
+                            pedido("FCompromiso") = pedido("FCompromiso").ToString().Replace("(null)", "SIN INFORMACIÓN EN CRM")
+                            dtPedidos.EndInit()
+
+                        End If
+
+                        If Not IsNothing(pedido("FCargo")) Then
+                            dtPedidos.BeginInit()
+                            pedido("FCargo") = "SIN INFORMACIÓN EN CRM"
+                            dtPedidos.EndInit()
+                        Else
+                            dtPedidos.BeginInit()
+                            pedido("FCargo") = pedido("FCargo").ToString().Replace("(null)", "SIN INFORMACIÓN EN CRM")
+                            dtPedidos.EndInit()
+                        End If
+
+                        If IsNothing(pedido("Litros")) Then
+                            dtPedidos.BeginInit()
+                            pedido("Litros") = "0.00"
+                            dtPedidos.EndInit()
+                        Else
+                            dtPedidos.BeginInit()
+                            pedido("Litros") = pedido("Litros").ToString().Replace("(null)", "0.00")
+                            dtPedidos.EndInit()
+                        End If
+                        If IsNothing(pedido("Total")) Then
+                            dtPedidos.BeginInit()
+                            pedido("Total") = "0.00"
+                            dtPedidos.EndInit()
+                        Else
+                            dtPedidos.BeginInit()
+                            pedido("Total") = pedido("Total").ToString().Replace("(null)", "0.00")
+                            dtPedidos.EndInit()
+                        End If
+                        If IsNothing(pedido("Saldo")) Then
+                            dtPedidos.BeginInit()
+                            pedido("Saldo") = "0.00"
+                            dtPedidos.EndInit()
+                        Else
+                            dtPedidos.BeginInit()
+                            pedido("Saldo") = pedido("Saldo").ToString().Replace("(null)", "0.00")
+                            dtPedidos.EndInit()
+                        End If
+                        If IsNothing(pedido("StatusCobranza")) Then
+                            dtPedidos.BeginInit()
+                            pedido("StatusCobranza") = "SIN INFORMACIÓN EN CRM"
+                            dtPedidos.EndInit()
+                        Else
+                            dtPedidos.BeginInit()
+                            pedido("StatusCobranza") = pedido("StatusCobranza").ToString().Replace("(null)", "SIN INFORMACIÓN EN CRM")
+                            dtPedidos.EndInit()
+                        End If
+                        If IsNothing(pedido("CyC")) Then
+                            dtPedidos.BeginInit()
+                            pedido("CyC") = "SIN INFORMACIÓN EN CRM"
+                            dtPedidos.EndInit()
+                        Else
+                            dtPedidos.BeginInit()
+                            pedido("CyC") = pedido("CyC").ToString().Replace("(null)", "SIN INFORMACIÓN EN CRM")
+                            dtPedidos.EndInit()
+                        End If
+                        If IsNothing(pedido("FolioNota")) Then
+                            dtPedidos.BeginInit()
+                            pedido("FolioNota") = "SIN INFORMACIÓN EN CRM"
+                            dtPedidos.EndInit()
+                        Else
+                            dtPedidos.BeginInit()
+                            pedido("FolioNota") = pedido("FolioNota").ToString().Replace("(null)", "SIN INFORMACIÓN EN CRM")
+                            dtPedidos.EndInit()
+                        End If
+
+                    Next
+
+                    grdDocumento.DataSource = dtPedidos
+
+                    For Each dr In dtPedidos.Rows
+                        If Not IsDBNull(dr("Saldo")) Then
+                            If Not IsDBNull(dr("CyC")) Then
+                                _TotalSaldoCartera += CType(dr("Saldo"), Decimal)
+                                _TotalLitrosCartera += CType(dr("Litros"), Decimal)
+                            End If
+                            _TotalSaldo += CType(dr("Saldo"), Decimal)
+                            _TotalLitros += CType(dr("Litros"), Decimal)
+                        End If
+                    Next
+
+                    lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
+                    lblSaldoTotal.Text = _TotalSaldo.ToString("C")
+                    lblLitrosCartera.Text = _TotalLitrosCartera.ToString
+                    lblLitrosConsulta.Text = _TotalLitros.ToString
+
+
+                End If
+
+
+            Catch ex As Exception
+
+            End Try
+
+
+
+
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Consulta de cliente", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
