@@ -3747,7 +3747,7 @@ Public Class frmServProgramacion
                     'Dim Asignar As New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario)
 
                     If Not String.IsNullOrEmpty(_URLGateway) AndAlso _FuenteGateway = "CRM" Then
-                        Asignar = New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario, PedidoCRM:=_PedidoCRM)
+                        Asignar = New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario, PedidoCRM:=_PedidoCRM, FuenteGateway:=_FuenteGateway)
                     Else
                         Asignar = New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario)
                     End If
