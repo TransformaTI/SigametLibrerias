@@ -26,6 +26,7 @@ Public Class frmServProgramacion
     Friend WithEvents rbNoAsignados As RadioButton
     Friend WithEvents gbPedidos As GroupBox
     Private _PedidoCRM As RTGMCore.Pedido
+    Private _VerPedidosAsignados As Boolean = False
 
     Private Sub Llenacelula()
         ''Dim LlenaCelula As New SqlDataAdapter("select celula,descripcion from celula where comercial = 1", cnnSigamet)
@@ -68,7 +69,7 @@ Public Class frmServProgramacion
 
     Private Sub LlenaLista()
 
-        If Not (String.IsNullOrEmpty(_URLGateway)) Then
+        If SeCarganPedidosCRM() Then
             LlenaLista_CRM()
         Else
             Dim sqlcomST As New SqlCommand("Select PedidoReferencia,Cliente,Rutadescripcion,FPedido,FCompromiso,Usuario,Status,TipoServicio,Puntos,TipoCobro,Tecnico,Programacion,Franquicia,Llamada" _
@@ -112,6 +113,9 @@ Public Class frmServProgramacion
                     lvwProgramaciones.Items.Add(oProgST)
                     oProgST.EnsureVisible()
                 End While
+
+                ' Asignar el texto de la columna PedidoReferencia
+                Me.PedidoReferencia.Text = "PedidoReferencia"
             Catch e As Exception
                 MessageBox.Show(e.Message)
             Finally
@@ -156,18 +160,6 @@ Public Class frmServProgramacion
                     Dim oItem As ListViewItem
 
                     oItem = New ListViewItem(Convert.ToString(pedido.IDPedido)) '0
-
-                    'oItem.SubItems.Add(CType(drProgST("Cliente"), String)) '1
-                    'oItem.SubItems.Add(RTrim(CType(drProgST("Rutadescripcion"), String))) '2
-                    'oItem.SubItems.Add(CType(drProgST("FPedido"), String)) '3
-                    'oItem.SubItems.Add(CType(drProgST("FCompromiso"), String)) '4
-                    'oItem.SubItems.Add(CType(drProgST("Usuario"), String)) '5
-                    'oItem.SubItems.Add(CType(drProgST("status"), String)) '6
-                    'oItem.SubItems.Add(CType(drProgST("TipoServicio"), String)) '7
-                    'oItem.SubItems.Add(CType(drProgST("Puntos"), String)) '8
-                    'oItem.SubItems.Add(CType(drProgST("TipoCobro"), String)) '9
-                    'oItem.SubItems.Add(CType(drProgST("Tecnico"), String)) '10
-
                     oItem.SubItems.Add(Convert.ToString(pedido.IDDireccionEntrega)) '1
                     If Not IsNothing(pedido.RutaOrigen) Then
                         oItem.SubItems.Add(If(pedido.RutaOrigen.Descripcion, "").Trim) '2
@@ -185,6 +177,9 @@ Public Class frmServProgramacion
 
                     lvwProgramaciones.Items.Add(oItem)
                 Next
+
+                ' Asignar el texto de la columna PedidoReferencia
+                Me.PedidoReferencia.Text = "ID CRM"
             End If
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -250,7 +245,7 @@ Public Class frmServProgramacion
     Private Sub LlenaPedido()
         RestablecerLlavePedido()
 
-        If Not String.IsNullOrEmpty(_URLGateway) Then
+        If SeCarganPedidosCRM() Then
             LlenaPedido_CRM()
         Else
             Dim Llena As New SqlCommand("select pedido,celula,AñoPed from Pedido where pedidoreferencia = '" & _Pedido & "' ", cnnSigamet)
@@ -314,7 +309,7 @@ Public Class frmServProgramacion
     Private Sub CargaDatosCliente()
         LimpiarCamposCliente()
 
-        If Not String.IsNullOrEmpty(_URLGateway) Then
+        If SeCarganPedidosCRM() Then
             CargaDatosCliente_CRM()
         Else
             Try
@@ -409,8 +404,9 @@ Public Class frmServProgramacion
         Dim strQuery As String = "select isnull(ObservacionesServicioRealizado,'')as ObservacionesServicioRealizado from SERVICIOTECNICO where  pedido = " & Pedido & " and añoped = " & AñoPed & " And CELULA = " & Celula
         Dim daObservaciones As New SqlDataAdapter(strQuery, cnnSigamet)
         Dim dtObservaciones As New DataTable("Observaciones")
+        daObservaciones.Fill(dtObservaciones)
+
         If dtObservaciones.Rows.Count > 0 Then
-            daObservaciones.Fill(dtObservaciones)
             txtTrabajoRealizado.Text = CType(dtObservaciones.Rows(0).Item("observacionesserviciorealizado"), String)
         End If
 
@@ -419,7 +415,7 @@ Public Class frmServProgramacion
     Private Sub LlenaServiciosTecnicos()
         LimpiarCamposServiciosTecnicos()
 
-        If Not String.IsNullOrEmpty(_URLGateway) Then
+        If SeCarganPedidosCRM() Then
             LlenaServiciosTecnicos_CRM()
         Else
             Dim da As New SqlCommand("select PedidoReferencia,UsuarioCambio,Cliente,FAtencion,Pedido,AñoPed,Autotanque,chofer,ayudante,ObservacionesServicioRealizado,ObservacionesServicioTecnico,StatusServicioTecnico,isnull(fcompromisoinciial,'') as FCompromisoinciial " _
@@ -503,7 +499,7 @@ Public Class frmServProgramacion
         Dim strQuery As String
         LimpiarCamposPresupuesto()
 
-        If (_FuenteGateway.Equals("CRM")) Then
+        If SeCarganPedidosCRM() Then
             strQuery = "select FolioPresupuesto, StatusPresupuesto, subtotal, ObservacionesPresupuesto, " +
                        "Descuento, Total from vwSTPestanaServicioTecnico where IdCRM = " & Pedido
         Else
@@ -542,7 +538,7 @@ Public Class frmServProgramacion
     Private Sub OrdenAutomatica()
         LimpiarCamposOrdenAutomatica()
 
-        If Not String.IsNullOrEmpty(_URLGateway) Then
+        If SeCarganPedidosCRM() Then
             OrdenAutomatica_CRM()
         Else
             Try
@@ -3728,19 +3724,36 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub cboCelula_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboCelula.SelectedIndexChanged
-        If DatosCargados Then LlenaLista()
-        SumServicios()
-        If DatosCargados Then SumPuntos()
-        'If DatosCargados Then paintalternatingbackcolor(lvwProgramaciones, Color.CornflowerBlue, Color.White)
+        RecargarVista()
     End Sub
 
     Private Sub dtpFecha_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles dtpFecha.ValueChanged
-        If DatosCargados Then LlenaLista()
-        SumServicios()
-        If DatosCargados Then SumPuntos()
-        'If DatosCargados Then paintalternatingbackcolor(lvwProgramaciones, Color.CornflowerBlue, Color.White)
+        RecargarVista()
     End Sub
 
+    Private Sub rbAsignados_CheckedChanged(sender As Object, e As EventArgs) Handles rbAsignados.CheckedChanged
+        ConmutarPedidosAsignados()
+        RecargarVista()
+    End Sub
+
+    Private Sub RecargarVista()
+        Cursor = Cursors.WaitCursor
+
+        Try
+            If DatosCargados Then LlenaLista()
+            SumServicios()
+            If DatosCargados Then SumPuntos()
+            'If DatosCargados Then paintalternatingbackcolor(lvwProgramaciones, Color.CornflowerBlue, Color.White)
+        Catch ex As Exception
+            MessageBox.Show("Error recargando la vista:" & vbCrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+        End Try
+    End Sub
+
+    Private Sub ConmutarPedidosAsignados()
+        _VerPedidosAsignados = rbAsignados.Checked
+    End Sub
 
     Public Sub ConfiguraConexion()
         Dim Usuario As String
@@ -4544,4 +4557,15 @@ Public Class frmServProgramacion
         LlenaComodato()
         LlenaBitacora()
     End Sub
+
+    ''' <summary>
+    ''' Indica si se cumplen las condiciones para cargar los pedidos desde el CRM:
+    ''' Que _FuenteGateway sea igual a CRM y se seleccione
+    ''' la opcion ver pedidos NO asignados
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function SeCarganPedidosCRM() As Boolean
+        Return (_FuenteGateway.Equals("CRM")) AndAlso (Not _VerPedidosAsignados)
+    End Function
+
 End Class
