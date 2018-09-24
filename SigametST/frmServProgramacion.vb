@@ -1664,7 +1664,7 @@ Public Class frmServProgramacion
         Me.ToolBar2.Location = New System.Drawing.Point(946, 0)
         Me.ToolBar2.Name = "ToolBar2"
         Me.ToolBar2.ShowToolTips = True
-        Me.ToolBar2.Size = New System.Drawing.Size(80, 583)
+        Me.ToolBar2.Size = New System.Drawing.Size(80, 562)
         Me.ToolBar2.TabIndex = 0
         Me.ToolBar2.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
         '
@@ -3633,7 +3633,7 @@ Public Class frmServProgramacion
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.YellowGreen
-        Me.ClientSize = New System.Drawing.Size(1026, 583)
+        Me.ClientSize = New System.Drawing.Size(1026, 562)
         Me.Controls.Add(Me.gbPedidos)
         Me.Controls.Add(Me.cboBitacora)
         Me.Controls.Add(Me.Label8)
@@ -3868,11 +3868,11 @@ Public Class frmServProgramacion
             Case "Consultar"
                 Dim frmConsulta As LiquidacionSTN.frmConsultar
 
-                If Not String.IsNullOrEmpty(_URLGateway) Then
-                    frmConsulta = New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario, _URLGateway, GLOBAL_Modulo, GLOBAL_CadenaConexion)
-                Else
-                    frmConsulta = New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario)
-                End If
+                'If Not String.IsNullOrEmpty(_URLGateway) Then
+                '    frmConsulta = New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario, _URLGateway, GLOBAL_Modulo, GLOBAL_CadenaConexion)
+                'End If
+
+                frmConsulta = New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario)
                 frmConsulta.ShowDialog()
 
             Case "Liquidar"
