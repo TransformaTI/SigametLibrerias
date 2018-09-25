@@ -27,7 +27,11 @@ Public Class frmServProgramacion
     Friend WithEvents gbPedidos As GroupBox
     Private _PedidoCRM As RTGMCore.Pedido
     Private _VerPedidosAsignados As Boolean = False
-    Private _TieneAccesoCerrarOrden As Boolean
+
+    ' Variables para habilitar o deshabilitar opciones de la botonera
+    Private _TieneAccesoLiquidar As Boolean = True
+    Private _TieneAccesoCancelarLiquidacion As Boolean = True
+    Private _TieneAccesoCancelarOrden As Boolean = True
 
     Private Sub Llenacelula()
         ''Dim LlenaCelula As New SqlDataAdapter("select celula,descripcion from celula where comercial = 1", cnnSigamet)
@@ -711,7 +715,9 @@ Public Class frmServProgramacion
                     'btnLiquidacion.Enabled = False
                     btnAsignar.Enabled = False
                     btnCancelarOrden.Enabled = True
+                    _TieneAccesoCancelarOrden = True
                     btnCancelarLiquidacion.Enabled = False
+                    _TieneAccesoCancelarLiquidacion = False
                     MenuItem1.Enabled = False
                     'Catalogos.Enabled = False
                 End If
@@ -730,7 +736,9 @@ Public Class frmServProgramacion
                     btnAsignar.Enabled = False
                     btnReprogramar.Enabled = False
                     btnLiquidar.Enabled = False
+                    _TieneAccesoLiquidar = False
                     btnCancelarLiquidacion.Enabled = False
+                    _TieneAccesoCancelarLiquidacion = False
                     btnCiclos.Enabled = False
                 End If
             End If
@@ -743,7 +751,9 @@ Public Class frmServProgramacion
             btnAsignar.Enabled = False
             btnReprogramar.Enabled = False
             btnLiquidar.Enabled = False
+            _TieneAccesoLiquidar = False
             btnCancelarLiquidacion.Enabled = False
+            _TieneAccesoCancelarLiquidacion = False
             btnCiclos.Enabled = False
             btnPresupuesto.Enabled = False
             btnFranquicia.Enabled = False
@@ -3751,9 +3761,9 @@ Public Class frmServProgramacion
             btnReporteProgramacion.Enabled = False
         Else
             btnObservacion.Enabled = True
-            btnLiquidar.Enabled = True
-            btnCancelarLiquidacion.Enabled = True
-            btnCancelarOrden.Enabled = True
+            btnLiquidar.Enabled = _TieneAccesoLiquidar
+            btnCancelarLiquidacion.Enabled = _TieneAccesoCancelarLiquidacion
+            btnCancelarOrden.Enabled = _TieneAccesoCancelarOrden
             btnReporteProgramacion.Enabled = True
         End If
     End Sub
