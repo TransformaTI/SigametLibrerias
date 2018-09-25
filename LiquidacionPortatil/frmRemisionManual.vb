@@ -1604,8 +1604,11 @@ Public Class frmRemisionManual
 									Descuento = CDec(_DatosCliente.GetValue(7))
 									Dim descuentoGrupal As Decimal
 									descuentoGrupal = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * Descuento
-									drow(7) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'SALDO
-									drow(6) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
+									drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) - descuentoGrupal 'Importe
+									drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) - descuentoGrupal 'Saldo
+									drow("TipoCobro") = CType(cboTipoCobro.SelectedValue, Integer)
+									'drow(7) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'SALDO
+									'drow(6) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
 								Catch ex As Exception
 									Descuento = 0
 								End Try
@@ -1635,7 +1638,7 @@ Public Class frmRemisionManual
 							drow(9) = CType(_dtProductos.Rows(i).Item(1), String) 'ProductoDesc
 							If CType(_dtProductos.Rows(i).Item(0), Integer) <> 9 Then
 								If _dtProductos.TableName = "ProductoIteracion" Then
-									drow(4) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(5), Integer) 'Kilos en la remisión
+									drow(4) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Integer) 'Kilos en la remisión
 								Else
 									drow(4) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Integer) 'Kilos en la remisión
 								End If

@@ -985,11 +985,11 @@ Public Class LiquidacionTransaccionada
 				cmd.Parameters.Add("@FolioAtt", SqlDbType.Int).Value = FolioAtt
 				cmd.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = AñoAtt
 
-				If Banco = 0 Then
-					cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Bit).Value = System.DBNull.Value
-				Else
-					cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Bit).Value = SaldoAFavor
-				End If
+				'If Banco = 0 Then
+				'	cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Bit).Value = System.DBNull.Value
+				'Else
+				cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Bit).Value = SaldoAFavor
+				'End If
 
 
 				If TipoCobro = 3 Then
