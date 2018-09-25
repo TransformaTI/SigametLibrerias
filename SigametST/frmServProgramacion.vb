@@ -27,6 +27,7 @@ Public Class frmServProgramacion
     Friend WithEvents gbPedidos As GroupBox
     Private _PedidoCRM As RTGMCore.Pedido
     Private _VerPedidosAsignados As Boolean = False
+    Private _TieneAccesoCerrarOrden As Boolean
 
     Private Sub Llenacelula()
         ''Dim LlenaCelula As New SqlDataAdapter("select celula,descripcion from celula where comercial = 1", cnnSigamet)
@@ -177,10 +178,10 @@ Public Class frmServProgramacion
 
                     lvwProgramaciones.Items.Add(oItem)
                 Next
-
-                ' Asignar el texto de la columna PedidoReferencia
-                Me.PedidoReferencia.Text = "ID CRM"
             End If
+
+            ' Asignar el texto de la columna PedidoReferencia
+            Me.PedidoReferencia.Text = "ID CRM"
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -663,11 +664,11 @@ Public Class frmServProgramacion
         GLOBAL_CadenaConexion = CadenaConexion
         GLOBAL_Corporativo = Corporativo
         GLOBAL_Sucursal = Sucursal
-        _URLGateway = URLGateway
+        '_URLGateway = URLGateway
 
         'oConfig2 = New SigaMetClasses.cConfig(11, GLOBAL_Corporativo, GLOBAL_Sucursal)
 
-        CargarVariablesGateway()
+        CargarParametrosGateway()
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -763,7 +764,7 @@ Public Class frmServProgramacion
     ''' Habilita y deshabilita opciones si _FuenteGateway es igual a CRM
     ''' </summary>
     Private Sub ConmutarFuncionalidadesCRM()
-        If (_FuenteGateway.Equals("CRM")) Then
+        If (Not String.IsNullOrEmpty(_URLGateway)) AndAlso _FuenteGateway.Equals("CRM") Then
             gbPedidos.Visible = True
             btnReprogramar.Enabled = False
             btnPresupuesto.Enabled = False
@@ -3697,6 +3698,7 @@ Public Class frmServProgramacion
         End If
         dtpFecha.Value = Now.Date.AddDays(1)
         ConmutarFuncionalidadesCRM()
+        ConmutarBotonera()
         Llenacelula()
         LlenaLista()
         SumServicios()
@@ -3733,7 +3735,27 @@ Public Class frmServProgramacion
 
     Private Sub rbAsignados_CheckedChanged(sender As Object, e As EventArgs) Handles rbAsignados.CheckedChanged
         ConmutarPedidosAsignados()
+        ConmutarBotonera()
         RecargarVista()
+    End Sub
+
+    ''' <summary>
+    ''' Habilita o deshabilita opciones de la botonera dependiendo de dónde provienen los pedidos.
+    ''' </summary>
+    Private Sub ConmutarBotonera()
+        If SeCarganPedidosCRM() Then
+            btnObservacion.Enabled = False
+            btnLiquidar.Enabled = False
+            btnCancelarLiquidacion.Enabled = False
+            btnCancelarOrden.Enabled = False
+            btnReporteProgramacion.Enabled = False
+        Else
+            btnObservacion.Enabled = True
+            btnLiquidar.Enabled = True
+            btnCancelarLiquidacion.Enabled = True
+            btnCancelarOrden.Enabled = True
+            btnReporteProgramacion.Enabled = True
+        End If
     End Sub
 
     Private Sub RecargarVista()
@@ -4531,8 +4553,9 @@ Public Class frmServProgramacion
 
     End Sub
 
-    Private Sub CargarVariablesGateway()
+    Private Sub CargarParametrosGateway()
         Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
+        _URLGateway = CType(oConfig.Parametros("URLGateway"), String)
         _FuenteGateway = CType(oConfig.Parametros("FuenteCRM"), String)
     End Sub
 
@@ -4559,13 +4582,12 @@ Public Class frmServProgramacion
     End Sub
 
     ''' <summary>
-    ''' Indica si se cumplen las condiciones para cargar los pedidos desde el CRM:
-    ''' Que _FuenteGateway sea igual a CRM y se seleccione
-    ''' la opcion ver pedidos NO asignados
+    ''' Indica si se cumplen las condiciones para cargar los pedidos desde el CRM.
     ''' </summary>
     ''' <returns></returns>
     Private Function SeCarganPedidosCRM() As Boolean
-        Return (_FuenteGateway.Equals("CRM")) AndAlso (Not _VerPedidosAsignados)
+        Return (Not String.IsNullOrEmpty(_URLGateway)) AndAlso (_FuenteGateway.Equals("CRM")) AndAlso
+               (Not _VerPedidosAsignados)
     End Function
 
 End Class
