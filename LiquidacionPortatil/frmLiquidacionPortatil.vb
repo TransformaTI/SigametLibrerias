@@ -4286,7 +4286,7 @@ Public Class frmLiquidacionPortatil
 									_AlmacenGas, 0,
 									ZonaEconomicaTemp, 0,
 									CantidadTemp,
-									CantidadTemp * ValorTemp,
+									ValorTemp,
 									connection, transaction, 0, "", False,
 									CType(dtLiquidacionTotal.Rows(i).Item(20), String),
 								   CInt(dtLiquidacionTotal.Rows(i).Item(21))
@@ -6722,6 +6722,7 @@ Public Class frmLiquidacionPortatil
 		Dim Acumulado As Decimal
 		Dim VentaTotal As Decimal
 		Dim DescuentoTotal As Decimal
+		Dim SaldoAFavor As Decimal = 0
 
 		For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
 			If Cobro.TipoCobro = 5 Then
@@ -6742,7 +6743,7 @@ Public Class frmLiquidacionPortatil
 			If Cobro.TipoCobro = 3 Then
 				TotalCheques = TotalCheques + Cobro.Total
 			End If
-
+			SaldoAFavor = SaldoAFavor + Cobro.Saldo
 			TotalLiquidado = TotalLiquidado + Cobro.Total
 		Next
 
@@ -6765,7 +6766,7 @@ Public Class frmLiquidacionPortatil
 			Acumulado = TotalEfectivo + TotalVales +
 						TotalTransferencia + TotalTarjeta +
 						TotalAnticipo + TotalCheques +
-						calcularCredito(TryCast(grdDetalle.DataSource, DataTable)) + DescuentoTotal
+						calcularCredito(TryCast(grdDetalle.DataSource, DataTable)) + DescuentoTotal - SaldoAFavor
 			lblResto.Text = (VentaTotal - Acumulado).ToString("N2")
 
 		End If
@@ -7410,6 +7411,13 @@ Public Class frmLiquidacionPortatil
 
 		End If
 
+		Dim SaldoAFavor As Decimal = 0
+
+		For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
+			SaldoAFavor = SaldoAFavor + Cobro.Saldo
+		Next
+
+		totalPagos = totalPagos - SaldoAFavor
 
 		If totalCobro = totalPagos And totalCobro > 0 Then
 			Validado = True
