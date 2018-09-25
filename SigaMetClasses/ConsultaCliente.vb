@@ -2966,6 +2966,7 @@ Public Class frmConsultaCliente
 
 
 
+
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Consulta de cliente", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
