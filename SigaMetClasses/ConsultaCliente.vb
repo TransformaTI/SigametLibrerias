@@ -2635,8 +2635,10 @@ Public Class frmConsultaCliente
             If (
                 String.IsNullOrEmpty(_URLGateway)) Then
                 Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+                btnModificar.Enabled = True
             Else
                 Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
+                btnModificar.Enabled = False
                 'Me.ConsultaCliente(_Cliente, _URLGateway)
             End If
             DeshabilitaBotonModificar()
@@ -2963,8 +2965,6 @@ Public Class frmConsultaCliente
             lblSaldoTotal.Text = _TotalSaldo.ToString("C")
             lblLitrosCartera.Text = _TotalLitrosCartera.ToString
             lblLitrosConsulta.Text = _TotalLitros.ToString
-
-
 
 
         Catch ex As Exception
