@@ -299,50 +299,46 @@ Public Class frmAsignar
                         'Asigna el comando de inicio de transaccion 
                         SQLTransaccion = ConexionTransaccion.BeginTransaction
 
-                        If _FuenteGateway.Equals("CRM") Then
-                            Try
+                        Try
+
+                            If _FuenteGateway.Equals("CRM") Then
                                 If ExistePedidoCRMEnSigamet(_Pedido, ConexionTransaccion, SQLTransaccion) Then
+                                    MessageBox.Show("El pedido ya se dió de alta en Sigamet.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                                     Exit Sub
                                 End If
+
                                 ' Insertar pedido de CRM en Sigamet
                                 InsertarPedidoServicioTecnico(ConexionTransaccion, SQLTransaccion)
-                            Catch ex As Exception
-                                SQLTransaccion.Rollback()
-                                MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Finally
-                                ConexionTransaccion.Close()
-                                Me.Close()
-                            End Try
-                        End If
+                            End If
 
-                        'Anexamos los parametros del comando
-                        sqlcommandtransac.Parameters.Add("@Pedido", SqlDbType.Int).Value = _Pedido
-                        sqlcommandtransac.Parameters.Add("@AñoAtt", SqlDbType.Int).Value = _AñoAtt
-                        sqlcommandtransac.Parameters.Add("@AñoPed", SqlDbType.Int).Value = _AñoPed
+                            'Anexamos los parametros del comando
+                            sqlcommandtransac.Parameters.Add("@Pedido", SqlDbType.Int).Value = _Pedido
+                            sqlcommandtransac.Parameters.Add("@AñoAtt", SqlDbType.Int).Value = _AñoAtt
+                            sqlcommandtransac.Parameters.Add("@AñoPed", SqlDbType.Int).Value = _AñoPed
 
-                        sqlcommandtransac.Parameters.Add("@Celula", SqlDbType.Int).Value = _Celula
-                        If cboUnidad.SelectedValue Is Nothing Then
-                            sqlcommandtransac.Parameters.Add("@Unidad", SqlDbType.Int).Value = 0
-                        Else
-                            sqlcommandtransac.Parameters.Add("@Unidad", SqlDbType.Int).Value = cboUnidad.SelectedValue
-                        End If
-                        If _Folio = 0 Then
-                            sqlcommandtransac.Parameters.Add("@Folio", SqlDbType.Int).Value = 0
-                        Else
-                            sqlcommandtransac.Parameters.Add("@Folio", SqlDbType.Int).Value = _Folio
-                        End If
+                            sqlcommandtransac.Parameters.Add("@Celula", SqlDbType.Int).Value = _Celula
+                            If cboUnidad.SelectedValue Is Nothing Then
+                                sqlcommandtransac.Parameters.Add("@Unidad", SqlDbType.Int).Value = 0
+                            Else
+                                sqlcommandtransac.Parameters.Add("@Unidad", SqlDbType.Int).Value = cboUnidad.SelectedValue
+                            End If
+                            If _Folio = 0 Then
+                                sqlcommandtransac.Parameters.Add("@Folio", SqlDbType.Int).Value = 0
+                            Else
+                                sqlcommandtransac.Parameters.Add("@Folio", SqlDbType.Int).Value = _Folio
+                            End If
 
-                        sqlcommandtransac.Parameters.Add("@Tipo", SqlDbType.Int).Value = Guarda
-                        sqlcommandtransac.Parameters.Add("@Usuario", SqlDbType.Char).Value = _Usuario
+                            sqlcommandtransac.Parameters.Add("@Tipo", SqlDbType.Int).Value = Guarda
+                            sqlcommandtransac.Parameters.Add("@Usuario", SqlDbType.Char).Value = _Usuario
 
 
-                        'Asigna el comando de inicio de transaccion 
-                        'SQLTransaccion = ConexionTransaccion.BeginTransaction
-                        'Arma la conexion para la transaccion
-                        sqlcommandtransac.Connection = ConexionTransaccion
-                        'Inicio de la transaccion
-                        sqlcommandtransac.Transaction = SQLTransaccion
-                        Try
+                            'Asigna el comando de inicio de transaccion 
+                            'SQLTransaccion = ConexionTransaccion.BeginTransaction
+                            'Arma la conexion para la transaccion
+                            sqlcommandtransac.Connection = ConexionTransaccion
+                            'Inicio de la transaccion
+                            sqlcommandtransac.Transaction = SQLTransaccion
+                            'Try
                             'Construccion del comando
                             sqlcommandtransac.CommandType = CommandType.StoredProcedure
                             sqlcommandtransac.CommandTimeout = 300
