@@ -299,8 +299,9 @@ Public Class frmAsignar
                         'Asigna el comando de inicio de transaccion 
                         SQLTransaccion = ConexionTransaccion.BeginTransaction
 
-                        Try
+                        Cursor = Cursors.WaitCursor
 
+                        Try
                             If _FuenteGateway.Equals("CRM") Then
                                 If ExistePedidoCRMEnSigamet(_Pedido, ConexionTransaccion, SQLTransaccion) Then
                                     MessageBox.Show("El pedido ya se dió de alta en Sigamet.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -356,6 +357,7 @@ Public Class frmAsignar
                             'Fin de la transaccion
                             ConexionTransaccion.Close()
                             'ConexionTransaccion.Dispose()
+                            Cursor = Cursors.Default
                             Me.Close()
                         End Try
                     End If
