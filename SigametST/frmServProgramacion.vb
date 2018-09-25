@@ -22,7 +22,16 @@ Public Class frmServProgramacion
     Private _URLGateway As String
     Private _FuenteGateway As String
     Private _PedidosCRM As List(Of RTGMCore.Pedido)
+    Friend WithEvents rbAsignados As RadioButton
+    Friend WithEvents rbNoAsignados As RadioButton
+    Friend WithEvents gbPedidos As GroupBox
     Private _PedidoCRM As RTGMCore.Pedido
+    Private _VerPedidosAsignados As Boolean = False
+
+    ' Variables para habilitar o deshabilitar opciones de la botonera
+    Private _TieneAccesoLiquidar As Boolean = True
+    Private _TieneAccesoCancelarLiquidacion As Boolean = True
+    Private _TieneAccesoCancelarOrden As Boolean = True
 
     Private Sub Llenacelula()
         ''Dim LlenaCelula As New SqlDataAdapter("select celula,descripcion from celula where comercial = 1", cnnSigamet)
@@ -65,7 +74,7 @@ Public Class frmServProgramacion
 
     Private Sub LlenaLista()
 
-        If Not (String.IsNullOrEmpty(_URLGateway)) Then
+        If SeCarganPedidosCRM() Then
             LlenaLista_CRM()
         Else
             Dim sqlcomST As New SqlCommand("Select PedidoReferencia,Cliente,Rutadescripcion,FPedido,FCompromiso,Usuario,Status,TipoServicio,Puntos,TipoCobro,Tecnico,Programacion,Franquicia,Llamada" _
@@ -109,6 +118,9 @@ Public Class frmServProgramacion
                     lvwProgramaciones.Items.Add(oProgST)
                     oProgST.EnsureVisible()
                 End While
+
+                ' Asignar el texto de la columna PedidoReferencia
+                Me.PedidoReferencia.Text = "PedidoReferencia"
             Catch e As Exception
                 MessageBox.Show(e.Message)
             Finally
@@ -153,18 +165,6 @@ Public Class frmServProgramacion
                     Dim oItem As ListViewItem
 
                     oItem = New ListViewItem(Convert.ToString(pedido.IDPedido)) '0
-
-                    'oItem.SubItems.Add(CType(drProgST("Cliente"), String)) '1
-                    'oItem.SubItems.Add(RTrim(CType(drProgST("Rutadescripcion"), String))) '2
-                    'oItem.SubItems.Add(CType(drProgST("FPedido"), String)) '3
-                    'oItem.SubItems.Add(CType(drProgST("FCompromiso"), String)) '4
-                    'oItem.SubItems.Add(CType(drProgST("Usuario"), String)) '5
-                    'oItem.SubItems.Add(CType(drProgST("status"), String)) '6
-                    'oItem.SubItems.Add(CType(drProgST("TipoServicio"), String)) '7
-                    'oItem.SubItems.Add(CType(drProgST("Puntos"), String)) '8
-                    'oItem.SubItems.Add(CType(drProgST("TipoCobro"), String)) '9
-                    'oItem.SubItems.Add(CType(drProgST("Tecnico"), String)) '10
-
                     oItem.SubItems.Add(Convert.ToString(pedido.IDDireccionEntrega)) '1
                     If Not IsNothing(pedido.RutaOrigen) Then
                         oItem.SubItems.Add(If(pedido.RutaOrigen.Descripcion, "").Trim) '2
@@ -183,6 +183,9 @@ Public Class frmServProgramacion
                     lvwProgramaciones.Items.Add(oItem)
                 Next
             End If
+
+            ' Asignar el texto de la columna PedidoReferencia
+            Me.PedidoReferencia.Text = "ID CRM"
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -247,7 +250,7 @@ Public Class frmServProgramacion
     Private Sub LlenaPedido()
         RestablecerLlavePedido()
 
-        If Not String.IsNullOrEmpty(_URLGateway) Then
+        If SeCarganPedidosCRM() Then
             LlenaPedido_CRM()
         Else
             Dim Llena As New SqlCommand("select pedido,celula,AñoPed from Pedido where pedidoreferencia = '" & _Pedido & "' ", cnnSigamet)
@@ -311,7 +314,7 @@ Public Class frmServProgramacion
     Private Sub CargaDatosCliente()
         LimpiarCamposCliente()
 
-        If Not String.IsNullOrEmpty(_URLGateway) Then
+        If SeCarganPedidosCRM() Then
             CargaDatosCliente_CRM()
         Else
             Try
@@ -406,8 +409,9 @@ Public Class frmServProgramacion
         Dim strQuery As String = "select isnull(ObservacionesServicioRealizado,'')as ObservacionesServicioRealizado from SERVICIOTECNICO where  pedido = " & Pedido & " and añoped = " & AñoPed & " And CELULA = " & Celula
         Dim daObservaciones As New SqlDataAdapter(strQuery, cnnSigamet)
         Dim dtObservaciones As New DataTable("Observaciones")
+        daObservaciones.Fill(dtObservaciones)
+
         If dtObservaciones.Rows.Count > 0 Then
-            daObservaciones.Fill(dtObservaciones)
             txtTrabajoRealizado.Text = CType(dtObservaciones.Rows(0).Item("observacionesserviciorealizado"), String)
         End If
 
@@ -416,7 +420,7 @@ Public Class frmServProgramacion
     Private Sub LlenaServiciosTecnicos()
         LimpiarCamposServiciosTecnicos()
 
-        If Not String.IsNullOrEmpty(_URLGateway) Then
+        If SeCarganPedidosCRM() Then
             LlenaServiciosTecnicos_CRM()
         Else
             Dim da As New SqlCommand("select PedidoReferencia,UsuarioCambio,Cliente,FAtencion,Pedido,AñoPed,Autotanque,chofer,ayudante,ObservacionesServicioRealizado,ObservacionesServicioTecnico,StatusServicioTecnico,isnull(fcompromisoinciial,'') as FCompromisoinciial " _
@@ -500,7 +504,7 @@ Public Class frmServProgramacion
         Dim strQuery As String
         LimpiarCamposPresupuesto()
 
-        If (_FuenteGateway.Equals("CRM")) Then
+        If SeCarganPedidosCRM() Then
             strQuery = "select FolioPresupuesto, StatusPresupuesto, subtotal, ObservacionesPresupuesto, " +
                        "Descuento, Total from vwSTPestanaServicioTecnico where IdCRM = " & Pedido
         Else
@@ -510,16 +514,21 @@ Public Class frmServProgramacion
 
         Dim daPresupuesto As New SqlDataAdapter(strQuery, cnnSigamet)
         Dim dtPresupuesto As New DataTable("Presupuesto")
-        daPresupuesto.Fill(dtPresupuesto)
 
-        If Not IsNothing(dtPresupuesto) AndAlso dtPresupuesto.Rows.Count > 0 Then
-            lblNPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("FolioPresupuesto"), String)
-            lblStatusPre.Text = CType(dtPresupuesto.Rows(0).Item("statuspresupuesto"), String)
-            lblTotal.Text = CType(dtPresupuesto.Rows(0).Item("total"), String)
-            txtObservacionesPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("ObservacionesPresupuesto"), String)
-            lblSubTotal.Text = CType(dtPresupuesto.Rows(0).Item("subtotal"), String)
-            lblDescuento.Text = CType(dtPresupuesto.Rows(0).Item("descuento"), String)
-        End If
+        Try
+            daPresupuesto.Fill(dtPresupuesto)
+
+            If Not IsNothing(dtPresupuesto) AndAlso dtPresupuesto.Rows.Count > 0 Then
+                lblNPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("FolioPresupuesto"), String)
+                lblStatusPre.Text = CType(dtPresupuesto.Rows(0).Item("statuspresupuesto"), String)
+                lblTotal.Text = CType(dtPresupuesto.Rows(0).Item("total"), String)
+                txtObservacionesPresupuesto.Text = CType(dtPresupuesto.Rows(0).Item("ObservacionesPresupuesto"), String)
+                lblSubTotal.Text = CType(dtPresupuesto.Rows(0).Item("subtotal"), String)
+                lblDescuento.Text = CType(dtPresupuesto.Rows(0).Item("descuento"), String)
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error recuperando el presupuesto:" & vbCrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub LimpiarCamposPresupuesto()
@@ -534,7 +543,7 @@ Public Class frmServProgramacion
     Private Sub OrdenAutomatica()
         LimpiarCamposOrdenAutomatica()
 
-        If Not String.IsNullOrEmpty(_URLGateway) Then
+        If SeCarganPedidosCRM() Then
             OrdenAutomatica_CRM()
         Else
             Try
@@ -659,10 +668,11 @@ Public Class frmServProgramacion
         GLOBAL_CadenaConexion = CadenaConexion
         GLOBAL_Corporativo = Corporativo
         GLOBAL_Sucursal = Sucursal
-        _URLGateway = URLGateway
+        '_URLGateway = URLGateway
 
         'oConfig2 = New SigaMetClasses.cConfig(11, GLOBAL_Corporativo, GLOBAL_Sucursal)
 
+        CargarParametrosGateway()
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -705,7 +715,9 @@ Public Class frmServProgramacion
                     'btnLiquidacion.Enabled = False
                     btnAsignar.Enabled = False
                     btnCancelarOrden.Enabled = True
+                    _TieneAccesoCancelarOrden = True
                     btnCancelarLiquidacion.Enabled = False
+                    _TieneAccesoCancelarLiquidacion = False
                     MenuItem1.Enabled = False
                     'Catalogos.Enabled = False
                 End If
@@ -724,7 +736,9 @@ Public Class frmServProgramacion
                     btnAsignar.Enabled = False
                     btnReprogramar.Enabled = False
                     btnLiquidar.Enabled = False
+                    _TieneAccesoLiquidar = False
                     btnCancelarLiquidacion.Enabled = False
+                    _TieneAccesoCancelarLiquidacion = False
                     btnCiclos.Enabled = False
                 End If
             End If
@@ -737,7 +751,9 @@ Public Class frmServProgramacion
             btnAsignar.Enabled = False
             btnReprogramar.Enabled = False
             btnLiquidar.Enabled = False
+            _TieneAccesoLiquidar = False
             btnCancelarLiquidacion.Enabled = False
+            _TieneAccesoCancelarLiquidacion = False
             btnCiclos.Enabled = False
             btnPresupuesto.Enabled = False
             btnFranquicia.Enabled = False
@@ -752,6 +768,21 @@ Public Class frmServProgramacion
             btnCiclos.Enabled = True
         End If
 
+    End Sub
+
+    ''' <summary>
+    ''' Habilita y deshabilita opciones si _FuenteGateway es igual a CRM
+    ''' </summary>
+    Private Sub ConmutarFuncionalidadesCRM()
+        If (Not String.IsNullOrEmpty(_URLGateway)) AndAlso _FuenteGateway.Equals("CRM") Then
+            gbPedidos.Visible = True
+            btnReprogramar.Enabled = False
+            btnPresupuesto.Enabled = False
+        Else
+            gbPedidos.Visible = False
+            btnReprogramar.Enabled = True
+            btnPresupuesto.Enabled = True
+        End If
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -1255,6 +1286,9 @@ Public Class frmServProgramacion
         Me.DGTBCFCambioReprogramo = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.DGTBCFCompromisoActual = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.DGTBCObservacionesReprogramacion = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.rbAsignados = New System.Windows.Forms.RadioButton()
+        Me.rbNoAsignados = New System.Windows.Forms.RadioButton()
+        Me.gbPedidos = New System.Windows.Forms.GroupBox()
         Me.tbLlenaServicioTecnico.SuspendLayout()
         Me.tpCliente.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -1270,6 +1304,7 @@ Public Class frmServProgramacion
         Me.GroupBox7.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
         CType(Me.cboBitacora, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbPedidos.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuItem1
@@ -1640,7 +1675,7 @@ Public Class frmServProgramacion
         Me.ToolBar2.Location = New System.Drawing.Point(946, 0)
         Me.ToolBar2.Name = "ToolBar2"
         Me.ToolBar2.ShowToolTips = True
-        Me.ToolBar2.Size = New System.Drawing.Size(80, 583)
+        Me.ToolBar2.Size = New System.Drawing.Size(80, 562)
         Me.ToolBar2.TabIndex = 0
         Me.ToolBar2.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
         '
@@ -3568,11 +3603,49 @@ Public Class frmServProgramacion
         Me.DGTBCObservacionesReprogramacion.MappingName = "ObservacionesReprogramacion"
         Me.DGTBCObservacionesReprogramacion.Width = 320
         '
+        'rbAsignados
+        '
+        Me.rbAsignados.AutoSize = True
+        Me.rbAsignados.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbAsignados.Location = New System.Drawing.Point(6, 13)
+        Me.rbAsignados.Name = "rbAsignados"
+        Me.rbAsignados.Size = New System.Drawing.Size(74, 17)
+        Me.rbAsignados.TabIndex = 285
+        Me.rbAsignados.Text = "Asignados"
+        Me.rbAsignados.UseVisualStyleBackColor = True
+        '
+        'rbNoAsignados
+        '
+        Me.rbNoAsignados.AutoSize = True
+        Me.rbNoAsignados.Checked = True
+        Me.rbNoAsignados.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbNoAsignados.Location = New System.Drawing.Point(100, 13)
+        Me.rbNoAsignados.Name = "rbNoAsignados"
+        Me.rbNoAsignados.Size = New System.Drawing.Size(90, 17)
+        Me.rbNoAsignados.TabIndex = 286
+        Me.rbNoAsignados.TabStop = True
+        Me.rbNoAsignados.Text = "No asignados"
+        Me.rbNoAsignados.UseVisualStyleBackColor = True
+        '
+        'gbPedidos
+        '
+        Me.gbPedidos.Controls.Add(Me.rbAsignados)
+        Me.gbPedidos.Controls.Add(Me.rbNoAsignados)
+        Me.gbPedidos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gbPedidos.Location = New System.Drawing.Point(292, 0)
+        Me.gbPedidos.Name = "gbPedidos"
+        Me.gbPedidos.Size = New System.Drawing.Size(203, 32)
+        Me.gbPedidos.TabIndex = 287
+        Me.gbPedidos.TabStop = False
+        Me.gbPedidos.Text = "Pedidos:"
+        Me.gbPedidos.Visible = False
+        '
         'frmServProgramacion
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.Color.YellowGreen
-        Me.ClientSize = New System.Drawing.Size(1026, 583)
+        Me.ClientSize = New System.Drawing.Size(1026, 562)
+        Me.Controls.Add(Me.gbPedidos)
         Me.Controls.Add(Me.cboBitacora)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.tbLlenaServicioTecnico)
@@ -3616,6 +3689,8 @@ Public Class frmServProgramacion
         Me.GroupBox6.ResumeLayout(False)
         Me.GroupBox6.PerformLayout()
         CType(Me.cboBitacora, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbPedidos.ResumeLayout(False)
+        Me.gbPedidos.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -3632,11 +3707,13 @@ Public Class frmServProgramacion
             End If
         End If
         dtpFecha.Value = Now.Date.AddDays(1)
+        ConmutarFuncionalidadesCRM()
+        ConmutarBotonera()
         Llenacelula()
         LlenaLista()
         SumServicios()
         SumPuntos()
-        CargarVariablesGateway()
+
         'paintalternatingbackcolor(lvwProgramaciones, Color.CornflowerBlue, Color.White)
         lblFolio.Visible = False
         Dim w As New Check()
@@ -3659,19 +3736,56 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub cboCelula_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboCelula.SelectedIndexChanged
-        If DatosCargados Then LlenaLista()
-        SumServicios()
-        If DatosCargados Then SumPuntos()
-        'If DatosCargados Then paintalternatingbackcolor(lvwProgramaciones, Color.CornflowerBlue, Color.White)
+        RecargarVista()
     End Sub
 
     Private Sub dtpFecha_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles dtpFecha.ValueChanged
-        If DatosCargados Then LlenaLista()
-        SumServicios()
-        If DatosCargados Then SumPuntos()
-        'If DatosCargados Then paintalternatingbackcolor(lvwProgramaciones, Color.CornflowerBlue, Color.White)
+        RecargarVista()
     End Sub
 
+    Private Sub rbAsignados_CheckedChanged(sender As Object, e As EventArgs) Handles rbAsignados.CheckedChanged
+        ConmutarPedidosAsignados()
+        ConmutarBotonera()
+        RecargarVista()
+    End Sub
+
+    ''' <summary>
+    ''' Habilita o deshabilita opciones de la botonera dependiendo de dónde provienen los pedidos.
+    ''' </summary>
+    Private Sub ConmutarBotonera()
+        If SeCarganPedidosCRM() Then
+            btnObservacion.Enabled = False
+            btnLiquidar.Enabled = False
+            btnCancelarLiquidacion.Enabled = False
+            btnCancelarOrden.Enabled = False
+            btnReporteProgramacion.Enabled = False
+        Else
+            btnObservacion.Enabled = True
+            btnLiquidar.Enabled = _TieneAccesoLiquidar
+            btnCancelarLiquidacion.Enabled = _TieneAccesoCancelarLiquidacion
+            btnCancelarOrden.Enabled = _TieneAccesoCancelarOrden
+            btnReporteProgramacion.Enabled = True
+        End If
+    End Sub
+
+    Private Sub RecargarVista()
+        Cursor = Cursors.WaitCursor
+
+        Try
+            If DatosCargados Then LlenaLista()
+            SumServicios()
+            If DatosCargados Then SumPuntos()
+            'If DatosCargados Then paintalternatingbackcolor(lvwProgramaciones, Color.CornflowerBlue, Color.White)
+        Catch ex As Exception
+            MessageBox.Show("Error recargando la vista:" & vbCrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+        End Try
+    End Sub
+
+    Private Sub ConmutarPedidosAsignados()
+        _VerPedidosAsignados = rbAsignados.Checked
+    End Sub
 
     Public Sub ConfiguraConexion()
         Dim Usuario As String
@@ -3746,8 +3860,8 @@ Public Class frmServProgramacion
                     Dim Asignar As frmAsignar
                     'Dim Asignar As New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario)
 
-                    If Not String.IsNullOrEmpty(_URLGateway) AndAlso _FuenteGateway = "CRM" Then
-                        Asignar = New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario, PedidoCRM:=_PedidoCRM)
+                    If SeCarganPedidosCRM() Then
+                        Asignar = New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario, PedidoCRM:=_PedidoCRM, FuenteGateway:=_FuenteGateway)
                     Else
                         Asignar = New frmAsignar(Pedido, Celula, AñoPed, Fcomp, GLOBAL_Usuario)
                     End If
@@ -3786,11 +3900,11 @@ Public Class frmServProgramacion
             Case "Consultar"
                 Dim frmConsulta As LiquidacionSTN.frmConsultar
 
-                If Not String.IsNullOrEmpty(_URLGateway) Then
-                    frmConsulta = New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario, _URLGateway, GLOBAL_Modulo, GLOBAL_CadenaConexion)
-                Else
-                    frmConsulta = New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario)
-                End If
+                'If Not String.IsNullOrEmpty(_URLGateway) Then
+                '    frmConsulta = New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario, _URLGateway, GLOBAL_Modulo, GLOBAL_CadenaConexion)
+                'End If
+
+                frmConsulta = New LiquidacionSTN.frmConsultar(GLOBAL_Usuario, CelulaUsuario)
                 frmConsulta.ShowDialog()
 
             Case "Liquidar"
@@ -3799,28 +3913,35 @@ Public Class frmServProgramacion
                 'Dim Liq As New LiquidacionSTN.frmLiquidacionST(GLOBAL_Usuario, GLOBAL_Password, GLOBAL_RutaReportes, GLOBAL_Corporativo, GLOBAL_Sucursal, GLOBAL_UsuarioReporte, GLOBAL_PasswordReporte)
                 Dim Liq As LiquidacionSTN.frmLiquidacionST
 
-                If (Not IsNothing(_URLGateway)) Then
-                    Liq = New LiquidacionSTN.frmLiquidacionST(GLOBAL_Usuario,
-                                                              GLOBAL_Password,
-                                                              GLOBAL_RutaReportes,
-                                                              GLOBAL_Corporativo,
-                                                              GLOBAL_Sucursal,
-                                                              GLOBAL_UsuarioReporte,
-                                                              GLOBAL_PasswordReporte,
-                                                              URLGateway:=_URLGateway,
-                                                              ParModulo:=GLOBAL_Modulo,
-                                                              CadenaConexion:=GLOBAL_CadenaConexion,
-                                                              FuenteGateway:=_FuenteGateway)
-                Else
-                    Liq = New LiquidacionSTN.frmLiquidacionST(GLOBAL_Usuario,
+                'If (Not IsNothing(_URLGateway)) Then
+                '    Liq = New LiquidacionSTN.frmLiquidacionST(GLOBAL_Usuario,
+                '                                              GLOBAL_Password,
+                '                                              GLOBAL_RutaReportes,
+                '                                              GLOBAL_Corporativo,
+                '                                              GLOBAL_Sucursal,
+                '                                              GLOBAL_UsuarioReporte,
+                '                                              GLOBAL_PasswordReporte,
+                '                                              URLGateway:=_URLGateway,
+                '                                              ParModulo:=GLOBAL_Modulo,
+                '                                              CadenaConexion:=GLOBAL_CadenaConexion,
+                '                                              FuenteGateway:=_FuenteGateway)
+                'Else
+                '    Liq = New LiquidacionSTN.frmLiquidacionST(GLOBAL_Usuario,
+                '                                                   GLOBAL_Password,
+                '                                                   GLOBAL_RutaReportes,
+                '                                                   GLOBAL_Corporativo,
+                '                                                   GLOBAL_Sucursal,
+                '                                                   GLOBAL_UsuarioReporte,
+                '                                                   GLOBAL_PasswordReporte)
+                'End If
+
+                Liq = New LiquidacionSTN.frmLiquidacionST(GLOBAL_Usuario,
                                                                    GLOBAL_Password,
                                                                    GLOBAL_RutaReportes,
                                                                    GLOBAL_Corporativo,
                                                                    GLOBAL_Sucursal,
                                                                    GLOBAL_UsuarioReporte,
                                                                    GLOBAL_PasswordReporte)
-                End If
-
                 Liq.ShowDialog()
                 Cursor = Cursors.Default
 
@@ -3874,16 +3995,13 @@ Public Class frmServProgramacion
 
                 Cursor = Cursors.Default
 
-
-
-
-
             Case "Presupuesto"
                 Cursor = Cursors.WaitCursor
                 If _Estatus = "ACTIVO" Then
                     Cursor = Cursors.WaitCursor
                     _UsaLiquidacion = False
-                    Dim Presupuesto As New frmPresupuesto(Pedido, Celula, AñoPed, _UsaLiquidacion, _FuenteGateway)
+                    'Dim Presupuesto As New frmPresupuesto(Pedido, Celula, AñoPed, _UsaLiquidacion, _FuenteGateway)
+                    Dim Presupuesto As New frmPresupuesto(Pedido, Celula, AñoPed, _UsaLiquidacion)
                     Presupuesto.ShowDialog()
                     Cursor = Cursors.Default
                 Else
@@ -4449,8 +4567,9 @@ Public Class frmServProgramacion
 
     End Sub
 
-    Private Sub CargarVariablesGateway()
+    Private Sub CargarParametrosGateway()
         Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, GLOBAL_Corporativo, GLOBAL_Sucursal)
+        _URLGateway = CType(oConfig.Parametros("URLGateway"), String)
         _FuenteGateway = CType(oConfig.Parametros("FuenteCRM"), String)
     End Sub
 
@@ -4475,4 +4594,14 @@ Public Class frmServProgramacion
         LlenaComodato()
         LlenaBitacora()
     End Sub
+
+    ''' <summary>
+    ''' Indica si se cumplen las condiciones para cargar los pedidos desde el CRM.
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function SeCarganPedidosCRM() As Boolean
+        Return (Not String.IsNullOrEmpty(_URLGateway)) AndAlso (_FuenteGateway.Equals("CRM")) AndAlso
+               (Not _VerPedidosAsignados)
+    End Function
+
 End Class

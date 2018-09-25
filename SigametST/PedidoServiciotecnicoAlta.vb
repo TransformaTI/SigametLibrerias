@@ -71,7 +71,29 @@ Public Class PedidoServiciotecnicoAlta
         Return reader
     End Function
 
+    Public Function ExistePedidoCRMEnSigamet(ByVal IDCRM As Integer) As Boolean
+        Dim reader As SqlDataReader = Nothing
+        Dim resultado As Boolean
+        Dim cmd As New SqlCommand()
 
+        If Not IsNothing(_Transaccion) Then
+            cmd.Transaction = _Transaccion
+        End If
+        cmd.Connection = _Conexion
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "spSTExistePedidoDeCRM"
+        cmd.Parameters.Add("@IDCRM", SqlDbType.Int).Value = IDCRM
+
+        Try
+            '_Conexion.Open()
+            resultado = CType(cmd.ExecuteScalar(), Boolean)
+
+        Catch ex As Exception
+            Throw New Exception("Error consultando el pedido en Sigamet:" & vbCrLf & ex.Message)
+        End Try
+
+        Return resultado
+    End Function
 
 
 End Class

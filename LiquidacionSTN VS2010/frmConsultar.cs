@@ -301,7 +301,7 @@ namespace LiquidacionSTN
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al consultar Giros:" + ex.Message);
+                    MessageBox.Show("Error al consultar Celulas:" + ex.Message);
                 }
                 finally
                 {
@@ -334,7 +334,7 @@ namespace LiquidacionSTN
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al consultar Giros:" + ex.Message);
+                    MessageBox.Show("Error al consultar Celulas:" + ex.Message);
                 }
                 finally
                 {
@@ -852,12 +852,14 @@ namespace LiquidacionSTN
                 int giro = (cmbGiro.SelectedIndex == -1) ? 0 : ((Giro)cmbGiro.SelectedItem).IdGiro;
                 int ramo = (cmbRamo.SelectedIndex == -1) ? 0 : ((Ramo)cmbRamo.SelectedItem).IdRamo;
                 string pedidoReferencia = txtPedidoReferencia.Text;
+                int pedido = 0;
+                int.TryParse(pedidoReferencia, out pedido);
                 string serie = txtSerie.Text;
                 string folioCarpeta = txtFolioCarpet.Text;
 
                 if (!String.IsNullOrEmpty(urlGateway))
                 {
-                    ConsultarPedidosCRM(fInicio, fFin, pedidoReferencia, cliente, celula, status);
+                    ConsultarPedidosCRM(fInicio, fFin, pedido, cliente, celula, status);
                     CargarGrid(pedidosCRM);
                 }
                 else
@@ -879,14 +881,15 @@ namespace LiquidacionSTN
             }
         }
 
-        private void ConsultarPedidosCRM(DateTime parFInicio, DateTime parFFin, string parPedido, int? parCliente, int? parCelula, string estatus)
+        private void ConsultarPedidosCRM(DateTime parFInicio, DateTime parFFin, int? parPedido, int? parCliente, int? parCelula, string estatus)
         {
-            int? idPedido = null;
-            int iPedido = 0;
+            //int? pedidoNulo = null;
+            //int iPedido = 0;
+            parPedido = (parPedido == 0 ? null : parPedido);
             parCliente = (parCliente == 0 ? null : parCliente);
             parCelula = (parCelula == 0 ? null : parCelula);
 
-            int.TryParse(parPedido, out iPedido);
+            //int.TryParse(parPedido, out iPedido);
 
             RTGMGateway.RTGMPedidoGateway obGateway = new RTGMGateway.RTGMPedidoGateway(modulo, cadenaConexion);
             obGateway.URLServicio = urlGateway;
@@ -898,7 +901,8 @@ namespace LiquidacionSTN
                 FechaCompromisoInicio = parFInicio,
                 FechaCompromisoFin = parFFin,
                 EstatusPedidoDescripcion = estatus,
-                IDZona = parCelula
+                IDZona = parCelula,
+                IDPedido = parPedido
             };
 
             pedidosCRM = obGateway.buscarPedidos(obSolicitud);
@@ -910,7 +914,7 @@ namespace LiquidacionSTN
             dataGridViewDatos.DataSource = null;
             dataGridViewDatos.DataSource = datos;
             dataGridViewDatos.Refresh();
-            lblNumeroRegistros.Text = datos.Count.ToString();
+            lblNumeroRegistros.Text = datos.Count.ToString() + "-R: " + pedidosCRM[0].RutaOrigen.IDRuta;
         }
 
         private void AsignarColumnasGridViewCRM()

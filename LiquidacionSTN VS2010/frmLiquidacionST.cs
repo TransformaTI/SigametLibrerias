@@ -3188,17 +3188,18 @@ namespace LiquidacionSTN
                     //LiquidacionSTN.frmPedidosALiquidar PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio,_AñoAtt);
                     LiquidacionSTN.frmPedidosALiquidar PedidosTablaPedido;
 
-                    if (_FuenteGateway.Equals("CRM"))
-                    {
-                        PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio, _AñoAtt, _FuenteGateway);
-                    }
-                    else
-                    {
-                        PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio, _AñoAtt);
-                    }
+                    //if (_FuenteGateway.Equals("CRM"))
+                    //{
+                    //    PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio, _AñoAtt, _FuenteGateway);
+                    //}
+                    //else
+                    //{
+                    //    PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio, _AñoAtt);
+                    //}
 
+                    PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio, _AñoAtt);
                     PedidosTablaPedido.ShowDialog ();
-					Cursor = Cursors.Default ;
+                    Cursor = Cursors.Default ;
 					break;
 				case 8:
 					this.Close() ;
