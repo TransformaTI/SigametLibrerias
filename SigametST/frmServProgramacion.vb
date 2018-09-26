@@ -1687,6 +1687,7 @@ Public Class frmServProgramacion
         '
         'btnConsultar
         '
+        Me.btnConsultar.Enabled = False
         Me.btnConsultar.ImageIndex = 24
         Me.btnConsultar.Name = "btnConsultar"
         Me.btnConsultar.Text = "Consultar"
@@ -3896,7 +3897,7 @@ Public Class frmServProgramacion
                 End If
 
                 Cursor = Cursors.Default
-
+                RecargarPestanas()
             Case "Consultar"
                 Dim frmConsulta As LiquidacionSTN.frmConsultar
 
@@ -4578,6 +4579,12 @@ Public Class frmServProgramacion
     End Sub
 
     Private Sub lvwProgramaciones_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwProgramaciones.SelectedIndexChanged
+        RecargarPestanas()
+    End Sub
+
+    Private Sub RecargarPestanas()
+        If IsNothing(lvwProgramaciones.FocusedItem) Then Exit Sub
+
         Client = lvwProgramaciones.FocusedItem.SubItems(1).Text.Trim
         _Estatus = lvwProgramaciones.FocusedItem.SubItems(6).Text.Trim
         Fcomp = CType(lvwProgramaciones.FocusedItem.SubItems(4).Text.Trim, Date)
