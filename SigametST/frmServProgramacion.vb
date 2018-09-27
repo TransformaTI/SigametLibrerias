@@ -3936,13 +3936,26 @@ Public Class frmServProgramacion
                 '                                                   GLOBAL_PasswordReporte)
                 'End If
 
-                Liq = New LiquidacionSTN.frmLiquidacionST(GLOBAL_Usuario,
+                If Not String.IsNullOrEmpty(_URLGateway) AndAlso _FuenteGateway.Equals("CRM") Then
+                    ' Deshabilitar el botón Presupuesto en la ventana Cerrar orden
+                    Liq = New LiquidacionSTN.frmLiquidacionST(GLOBAL_Usuario,
+                                                                   GLOBAL_Password,
+                                                                   GLOBAL_RutaReportes,
+                                                                   GLOBAL_Corporativo,
+                                                                   GLOBAL_Sucursal,
+                                                                   GLOBAL_UsuarioReporte,
+                                                                   GLOBAL_PasswordReporte,
+                                                                   VerCerrarOrden_Presupuesto:=False)
+                Else
+                    Liq = New LiquidacionSTN.frmLiquidacionST(GLOBAL_Usuario,
                                                                    GLOBAL_Password,
                                                                    GLOBAL_RutaReportes,
                                                                    GLOBAL_Corporativo,
                                                                    GLOBAL_Sucursal,
                                                                    GLOBAL_UsuarioReporte,
                                                                    GLOBAL_PasswordReporte)
+                End If
+
                 Liq.ShowDialog()
                 Cursor = Cursors.Default
 

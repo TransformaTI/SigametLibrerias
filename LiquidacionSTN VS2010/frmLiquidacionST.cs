@@ -194,12 +194,6 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.Label lblTotalALiquidar;
 		private System.ComponentModel.IContainer components;
 
-        // Variables para la conexión al servicio web de GM
-        private string _URLGateway;
-        private byte _Modulo;
-        private string _CadenaConexion;
-        private string _FuenteGateway;
-
         public frmLiquidacionST(string Usuario, 
                                 string clave, 
                                 string RutaReportes, 
@@ -210,7 +204,8 @@ namespace LiquidacionSTN
                                 string URLGateway = "",
                                 byte ParModulo = 0,
                                 string CadenaConexion = "",
-                                string FuenteGateway = "")
+                                string FuenteGateway = "",
+                                bool VerCerrarOrden_Presupuesto = true)
 		{
 			_Usuario += Usuario;
 			_Clave += clave;            
@@ -225,6 +220,8 @@ namespace LiquidacionSTN
             _CadenaConexion = CadenaConexion;
             _Modulo = ParModulo;
             _FuenteGateway = FuenteGateway;
+
+            _VerCerrarOrden_Presupuesto = VerCerrarOrden_Presupuesto;
 
 			//
 			// Required for Windows Form Designer support
@@ -250,9 +247,7 @@ namespace LiquidacionSTN
 			}
 			base.Dispose( disposing );
 		}
-
-		
-
+        
 		public System.Data.SqlClient.SqlConnection conn = new SqlConnection ();
 
 		string _Usuario;
@@ -263,8 +258,6 @@ namespace LiquidacionSTN
 		//public System.Data.DataTable dtLiquidacion = new DataTable("Liquidacion");
 
 		//DataTable dtLiquidacion;
-		
-		
 		
 		int a;
 		
@@ -279,7 +272,6 @@ namespace LiquidacionSTN
 
 		//public SqlConnection cnnSigamet = new SqlConnection(SigaMetClasses.Main.LeeInfoConexion(false,false,"LiquidacionST"));
 		
-
 		int _Folio;
 		int _AñoAtt;
 
@@ -296,19 +288,25 @@ namespace LiquidacionSTN
 		int _Añoped;
 		int _TipoCobro;
 		string CnSigamet;
-
-
-
+        
 		int FolioL;
 		int AñoAttL;
 
+        // Variables para la conexión al servicio web de GM
+        private string _URLGateway;
+        private byte _Modulo;
+        private string _CadenaConexion;
+        private string _FuenteGateway;
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
+        // Variable para deshabilitar el botón Presupuesto de la forma frmCerrarOrden -- RM 27/09/2018
+        private bool _VerCerrarOrden_Presupuesto;
+
+        #region Windows Form Designer generated code
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLiquidacionST));
@@ -2953,7 +2951,16 @@ namespace LiquidacionSTN
                     Cursor = Cursors.WaitCursor;
                     if (_PedidoReferencia != null)
                     {
-                        LiquidacionSTN.frmCerrarOrden CerrarOrden = new LiquidacionSTN.frmCerrarOrden(_PedidoReferencia, _Usuario);
+                        LiquidacionSTN.frmCerrarOrden CerrarOrden = null;
+
+                        if (!_VerCerrarOrden_Presupuesto)
+                        {
+                            CerrarOrden = new LiquidacionSTN.frmCerrarOrden(_PedidoReferencia, _Usuario, HabilitarPresupuesto:false);
+                        }
+                        else
+                        {
+                            CerrarOrden = new LiquidacionSTN.frmCerrarOrden(_PedidoReferencia, _Usuario);
+                        }
                         CerrarOrden.ShowDialog();
                         //LlenaGridFinal();
                         TotalGeneral();

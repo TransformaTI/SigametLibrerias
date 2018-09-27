@@ -58,13 +58,14 @@ namespace LiquidacionSTN
         private CheckBox chkNoSuministrar;
 		private System.ComponentModel.IContainer components;
 
-		public frmCerrarOrden(string PedidoReferencia,string Usuario)
+		public frmCerrarOrden(string PedidoReferencia, string Usuario, bool HabilitarPresupuesto = true)
 
 		{
 
 			_PedidoReferencia = PedidoReferencia;
 			//CnnSigamet = Conexion;
 			_Usuario = Usuario;
+            _HabilitarPresupuesto = HabilitarPresupuesto;
 			//
 			// Required for Windows Form Designer support
 			//
@@ -109,8 +110,10 @@ namespace LiquidacionSTN
 		string Importe;
 		decimal Contado;
 		int _ClienteTarjeta;
-		int _TipoCobro;       
+		int _TipoCobro;
 
+        // Variable para deshabilitar el botón Prespuesto -- RM 27/09/2018
+        bool _HabilitarPresupuesto;
        		
 		#region Windows Form Designer generated code
 		/// <summary>
@@ -806,9 +809,15 @@ namespace LiquidacionSTN
             SigaMetClasses.cConfig oConfig = new SigaMetClasses.cConfig(11,Modulo.GLOBAL_Corporativo,Modulo.GLOBAL_Sucursal);
             txtServicioRealizado.ReadOnly = Convert.ToBoolean(Convert.ToByte(oConfig.Parametros["ModificarObsLiqST"]));                                    
             ConsultaPuedeSuministrar();
+            ConmutarBotonPresupuesto();
 		}
 
-		private void label13_Click(object sender, System.EventArgs e)
+        private void ConmutarBotonPresupuesto()
+        {
+            tBBPresupuesto.Enabled = _HabilitarPresupuesto;
+        }
+
+        private void label13_Click(object sender, System.EventArgs e)
 		{
 		
 		}
