@@ -141,7 +141,6 @@ Public Class frmServProgramacion
             lvwProgramaciones.Items.Clear()
 
             Dim Fecha As Date = dtpFecha.Value
-
             Dim Celula As Integer = Convert.ToInt32(cboCelula.SelectedValue)
 
             Dim obGatewayPedido As New RTGMPedidoGateway(GLOBAL_Modulo, GLOBAL_CadenaConexion)
@@ -157,6 +156,8 @@ Public Class frmServProgramacion
             }
 
             _PedidosCRM = obGatewayPedido.buscarPedidos(obSolicitud)
+
+            FiltrarPedidosAsignadosCRM()
 
             If Not IsNothing(_PedidosCRM) AndAlso _PedidosCRM.Count > 0 Then
                 Dim pedido As New RTGMCore.Pedido
@@ -189,6 +190,39 @@ Public Class frmServProgramacion
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    ''' <summary>
+    ''' Elimina los pedidos que ya se han dado de alta en Sigamet.
+    ''' </summary>
+    Private Sub FiltrarPedidosAsignadosCRM()
+        If IsNothing(_PedidosCRM) OrElse _PedidosCRM.Count = 0 Then
+            Exit Sub
+        End If
+
+        Dim IDCRM As Integer = 0
+        Dim command As New SqlCommand("Select ISNULL(IDCRM, 0) As IDCRM" _
+                                        & " From  vwSTLlenaProgranmacion Where tipocargo = 2 " _
+                                        & "and fcompromiso >= ' " & dtpFecha.Value.ToShortDateString & " 00:00:00' " _
+                                        & "and fcompromiso <= ' " & dtpFecha.Value.ToShortDateString & " 23:59:59' " _
+                                        & "and celula = " & CType(cboCelula.SelectedValue, String), cnnSigamet)
+        Try
+            cnnSigamet.Open()
+            Dim dataReader As SqlDataReader = command.ExecuteReader
+
+            While dataReader.Read
+                IDCRM = DirectCast(dataReader("IDCRM"), Integer)
+
+                If IDCRM > 0 Then
+                    _PedidosCRM.RemoveAll(Function(x) If(x.IDPedido, 0) = IDCRM)
+                End If
+            End While
+        Catch e As Exception
+            Throw e
+        Finally
+            cnnSigamet.Close()
+        End Try
+
     End Sub
 
     Private Sub llenaEquipo()
@@ -3784,6 +3818,9 @@ Public Class frmServProgramacion
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Asigna el valor de la variable _VerPedidosAsignados.
+    ''' </summary>
     Private Sub ConmutarPedidosAsignados()
         _VerPedidosAsignados = rbAsignados.Checked
     End Sub
