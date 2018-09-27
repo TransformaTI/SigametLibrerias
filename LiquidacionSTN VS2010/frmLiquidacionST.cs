@@ -2599,7 +2599,7 @@ namespace LiquidacionSTN
 			{
 				case 0:
 					Cursor = Cursors.WaitCursor ;
-					ttbAceptar.Enabled = false;
+					//ttbAceptar.Enabled = false;       -- Se inhabilita el botón pero nunca se vuelve a habilitar. RM 27/09/2018
 					
 					ValidaPedidos ();
 
@@ -2640,8 +2640,6 @@ namespace LiquidacionSTN
 							    Transaccion = Conexion.BeginTransaction () ;						
 							    foreach (System.Data.DataRow dr in Query)
 							    {
-								
-								
 								    _Pedido = Convert.ToInt32 (dr["Pedido"]);
 								    _Celula = Convert.ToInt32 (dr["Celula"]);
 								    _Añoped = Convert.ToInt32 (dr["AñoPed"]);
@@ -2747,13 +2745,13 @@ namespace LiquidacionSTN
 										    {
 											    MessageBox.Show (ex.Message );
 										    }
-    //										finally
-    //										{
-    //											Conexion.Close ();
-    //											Conexion.Dispose ();
-    //											this.Close ();
-    //										}
-									    }
+                                            //finally
+                                            //{
+                                            //    Conexion.Close();
+                                            //    Conexion.Dispose();
+                                            //    this.Close();
+                                            //}
+                                        }
 								    }
 								    else
 								    {
@@ -2918,25 +2916,20 @@ namespace LiquidacionSTN
                                 }
 
                                 Conexion.Close();
-//						   Conexion.Dispose ();
-						   this.Close ();
+                                //Conexion.Dispose ();
+                                this.Close ();
 																				
-							try
-							{
-								LiquidacionSTN.frmImprime Imprime = new frmImprime (_Folio,_AñoAtt);
-								Imprime.ShowDialog ();
-														
-							}
-							catch(Exception exc)
-							{
-								MessageBox.Show("Error al imprimir liquidacion" + exc.Message + exc.Source, "Servicios Tecnicos", MessageBoxButtons.OK, MessageBoxIcon.Information);
-							}
-														
-														
+                                try
+                                {
+	                                LiquidacionSTN.frmImprime Imprime = new frmImprime (_Folio,_AñoAtt);
+	                                Imprime.ShowDialog ();
+                                }
+                                catch(Exception exc)
+                                {
+	                                MessageBox.Show("Error al imprimir liquidacion" + exc.Message + exc.Source, "Servicios Tecnicos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
 						}
-
-						}
-
 					}
 					else
 					{
