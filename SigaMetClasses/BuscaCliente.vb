@@ -518,7 +518,7 @@ Public Class BuscaCliente
 
     Private Sub btnConsultar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultar.Click
         Cursor = Cursors.WaitCursor
-        Dim ConsultaMasDatos As New frmConsultaCliente(_ClienteSeleccionado, , True)
+        Dim ConsultaMasDatos As New frmConsultaCliente(_ClienteSeleccionado, , True, Nuevo:=0)
         ConsultaMasDatos.ShowDialog()
         Cursor = Cursors.Default
     End Sub

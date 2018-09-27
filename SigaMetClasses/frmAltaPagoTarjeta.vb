@@ -221,7 +221,7 @@ Public Class frmAltaPagoTarjeta
 
 
     Private Sub btnConsultaCliente_Click(sender As Object, e As EventArgs) Handles btnConsultaCliente.Click
-        Dim frmConsultaCliente As New frmConsultaCliente(idCliente)
+        Dim frmConsultaCliente As New frmConsultaCliente(idCliente, Nuevo:=0)
 
         Dim pedidoreferencia As String
         frmConsultaCliente.ShowDialog()

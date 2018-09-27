@@ -1851,7 +1851,7 @@ Public Class frmConsultaCliente
     '   -PermiteCambioEmpleadoNomina, Habilita la posibilidad de cambio de empleado de nómina para el usuario que cuente con el permiso
     '   -PermiteCambio
     Public Sub New(ByVal Cliente As Integer,
-          ByVal Usuario As String,
+          Optional ByVal Usuario As String = "",
           Optional ByVal SoloDocumentosACredito As Boolean = False,
           Optional ByVal SoloDocumentosSurtidos As Boolean = True,
           Optional ByVal PermiteSeleccionarDocumento As Boolean = False,
@@ -1865,7 +1865,8 @@ Public Class frmConsultaCliente
           Optional ByVal LinkQueja As Boolean = True,
           Optional ByVal URLGateway As String = "",
           Optional ByVal CadenaCon As String = "",
-          Optional ByVal Modulo As Byte = 0)
+          Optional ByVal Modulo As Byte = 0,
+          Optional ByVal Nuevo As Byte = 0)
 
         MyBase.New()
         InitializeComponent()

@@ -795,7 +795,7 @@ Public Class GestionCobranza
 #Region "Menus"
     Private Sub mnuConsultaCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuConsultaCliente.Click
         Cursor = Cursors.WaitCursor
-        Dim oConsultaCliente As New frmConsultaCliente(Cliente)
+        Dim oConsultaCliente As New frmConsultaCliente(Cliente, Nuevo:=0)
         oConsultaCliente.ShowDialog()
         Cursor = Cursors.Default
     End Sub

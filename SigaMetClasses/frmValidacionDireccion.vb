@@ -325,7 +325,7 @@ Public Class frmValidacionDireccion
         Dim selectedItem As ListViewItem
         For Each selectedItem In lvwCliente.SelectedItems
             Cursor = Cursors.WaitCursor
-            Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(Convert.ToInt32(DirectCast(selectedItem.Tag, DataRow)("Cliente")))
+            Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(Convert.ToInt32(DirectCast(selectedItem.Tag, DataRow)("Cliente")), Nuevo:=0)
             oConsultaCliente.ShowDialog()
             Cursor = Cursors.Default
         Next

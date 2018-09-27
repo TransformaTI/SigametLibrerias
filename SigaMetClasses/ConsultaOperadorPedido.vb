@@ -460,7 +460,7 @@ Public Class ConsultaOperadorPedido
 
     Private Sub ConsultaCliente()
         Cursor = Cursors.WaitCursor
-        Dim oConsulta As New frmConsultaCliente(_Cliente)
+        Dim oConsulta As New frmConsultaCliente(_Cliente, Nuevo:=0)
         oConsulta.ShowDialog()
         Cursor = Cursors.Default
     End Sub

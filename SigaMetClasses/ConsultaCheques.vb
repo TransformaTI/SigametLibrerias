@@ -1004,7 +1004,7 @@ Public Class ConsultaCheques
 		End Try
 
         If (_URLGateway <> String.Empty) Then
-            Dim ConsultaCliente As New frmConsultaCliente(_Cliente)
+            Dim ConsultaCliente As New frmConsultaCliente(_Cliente, Nuevo:=0)
         Else
             Dim ConsultaCliente As New frmConsultaCliente(_Cliente, _URLGateway, "")
         End If
@@ -1093,7 +1093,7 @@ Public Class ConsultaCheques
             Case Is = "ConsultarCliente"
                 If _Cliente > 0 Then
                     Cursor = Cursors.WaitCursor
-                    Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(_Cliente)
+                    Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0)
                     frmConCliente.ShowDialog()
                     Cursor = Cursors.Default
                 End If

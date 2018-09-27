@@ -739,7 +739,7 @@ Public Class ConsultaEmpresa
 
     Private Sub mnuConsultaCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuConsultaCliente.Click
         Cursor = Cursors.WaitCursor
-        Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(CType(lvwCliente.FocusedItem.Text, Integer))
+        Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(CType(lvwCliente.FocusedItem.Text, Integer), Nuevo:=0)
         oConsultaCliente.ShowDialog()
         Cursor = Cursors.Default
     End Sub
