@@ -7,7 +7,6 @@ Imports MySql.Data.MySqlClient
 Imports System.Collections.Generic
 Imports System.Data.SqlTypes
 Imports SigaMetClasses.Enumeradores
-Imports LiquidadorEstacionario
 Imports RTGMCore
 Imports SigaMetClasses
 

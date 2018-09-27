@@ -1851,7 +1851,7 @@ Public Class frmConsultaCliente
     '   -PermiteCambioEmpleadoNomina, Habilita la posibilidad de cambio de empleado de nómina para el usuario que cuente con el permiso
     '   -PermiteCambio
     Public Sub New(ByVal Cliente As Integer,
-          Optional ByVal Usuario As String = "",
+          ByVal Usuario As String,
           Optional ByVal SoloDocumentosACredito As Boolean = False,
           Optional ByVal SoloDocumentosSurtidos As Boolean = True,
           Optional ByVal PermiteSeleccionarDocumento As Boolean = False,
@@ -1899,6 +1899,65 @@ Public Class frmConsultaCliente
         btnModificar.Visible = PermiteModificarDatosCliente
         btnListaNotas.Visible = PermiteCapturarNotas
         btnContactos.Visible = MostrarBtnContactos
+
+        'Alta de quejas, se utiliza el permiso de captura de notas para capturar quejas en este módulo
+        If Not System.Configuration.ConfigurationManager.AppSettings.Item("CapturaQueja@Consulta") Is Nothing Then
+            btnQuejas.Visible = CType(System.Configuration.ConfigurationManager.AppSettings("CapturaQueja@Consulta"), Boolean)
+        End If
+
+        btnQuejas.Visible = (_Usuario.Trim.Length > 0)
+
+        'Consulta de imágenes capturadas para los clientes, solo para los usuarios con permiso de modificación de datos de crédito
+
+        consultaImagenes()
+
+        _dsCatalogos = DSCatalogos
+        _LinkQueja = LinkQueja          '20070622#CFSL001
+
+        'Alta de seguimients, se utiliza el permiso de captura de notas para capturar quejas en este módulo, y la configuracion
+        'para captura de notas
+        'Se Comenta ya que no es funcional
+        'If Not System.Configuration.ConfigurationManager.AppSettings.Item("CapturaQueja@Consulta") Is Nothing Then
+        '    btnSeguimiento.Visible = CType(System.Configuration.ConfigurationManager.AppSettings("CapturaQueja@Consulta"), Boolean)
+        'End If
+        'btnSeguimiento.Visible = (_Usuario.Trim.Length > 0)
+        '*****
+    End Sub
+
+    'Se agregaron los siguientes parámetros opcionales:
+    '   -PermiteCambioEmpleadoNomina, Habilita la posibilidad de cambio de empleado de nómina para el usuario que cuente con el permiso
+    '   -PermiteCambio
+    Public Sub New(ByVal Cliente As Integer,
+          Optional ByVal Usuario As String = "",
+          Optional ByVal SoloDocumentosACredito As Boolean = False,
+          Optional ByVal SoloDocumentosSurtidos As Boolean = True,
+          Optional ByVal PermiteSeleccionarDocumento As Boolean = False,
+          Optional ByVal PermiteModificarDatosCredito As Boolean = False,
+          Optional ByVal PermiteModificarDatosCliente As Boolean = False,
+          Optional ByVal PermiteCapturarNotas As Boolean = False,
+          Optional ByVal PermiteCambioEmpleadoNomina As Boolean = False,
+          Optional ByVal PermiteCambioCtePadre As Boolean = False,
+          Optional ByVal DSCatalogos As DataSet = Nothing,
+          Optional ByVal LinkQueja As Boolean = True)
+
+        MyBase.New()
+        InitializeComponent()
+        _Cliente = Cliente
+        _Usuario = Usuario
+        _SoloCreditos = SoloDocumentosACredito
+        _SoloSurtidos = SoloDocumentosSurtidos
+        _SeleccionPedidoReferencia = PermiteSeleccionarDocumento
+
+        _CambioEmpleadoNomina = PermiteCambioEmpleadoNomina
+        _CambioClientePadre = PermiteCambioCtePadre
+
+        Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+
+        If dtDocumento.Rows.Count > 0 Then grdDocumento.Select(0)
+        If _SoloCreditos Then Me.Text = "Consulta de cliente (Solo créditos pendientes)"
+        lnkModificarDatosCredito.Visible = PermiteModificarDatosCredito
+        btnModificar.Visible = PermiteModificarDatosCliente
+        btnListaNotas.Visible = PermiteCapturarNotas
 
         'Alta de quejas, se utiliza el permiso de captura de notas para capturar quejas en este módulo
         If Not System.Configuration.ConfigurationManager.AppSettings.Item("CapturaQueja@Consulta") Is Nothing Then
