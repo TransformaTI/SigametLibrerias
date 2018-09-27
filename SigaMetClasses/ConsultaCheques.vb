@@ -992,7 +992,7 @@ Public Class ConsultaCheques
 
     Private Sub tbrEstandar_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles tbrEstandar.ButtonClick
 
-        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        Dim oConfig As New SigaMetClasses.cConfig(_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
 
         Dim _URLGateway As String = ""
         Try
@@ -1004,9 +1004,10 @@ Public Class ConsultaCheques
 		End Try
 
         If (_URLGateway <> String.Empty) Then
-            Dim ConsultaCliente As New frmConsultaCliente(_Cliente, Nuevo:=0)
+            Dim ConsultaCliente As New frmConsultaCliente(_Cliente, _URLGateway, "", CadenaConexion)
         Else
-            Dim ConsultaCliente As New frmConsultaCliente(_Cliente, _URLGateway, "")
+
+            Dim ConsultaCliente As New frmConsultaCliente(_Cliente, Nuevo:=0)
         End If
 
         Select Case e.Button.Tag.ToString()
@@ -1093,7 +1094,7 @@ Public Class ConsultaCheques
             Case Is = "ConsultarCliente"
                 If _Cliente > 0 Then
                     Cursor = Cursors.WaitCursor
-                    Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0)
+                    Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(_Cliente, "",,,,,,,,,,,, _URLGateway, CadenaConexion, CByte(_Modulo), 0)
                     frmConCliente.ShowDialog()
                     Cursor = Cursors.Default
                 End If
