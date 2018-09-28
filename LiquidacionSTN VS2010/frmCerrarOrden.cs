@@ -707,21 +707,23 @@ namespace LiquidacionSTN
 				_Celula = Convert.ToInt32 (dr["Celula"]);
 				_AñoPed = Convert.ToInt32 (dr["AñoPed"]);
 				_TotalCheque = Convert.ToDecimal (dr["TotalCheque"]);
+
+                txtServicioRealizado.Text = (string)dr["ObservacionesServicioRealizado"];
 			}
-		// Texis se agrego el codigo para consultar  observaciones y que sea visible para su consulta
-			System.Data.DataRow [] Query;
-			if(_Pedido != 0 && _Celula != 0 && _AñoPed != 0)
-			{
-				Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + "and AñoPed =" + _AñoPed);
-				if(Query.Length > 0)
-				{
-					foreach(System.Data.DataRow drA in Query)
-					{
-						txtServicioRealizado.Text = drA["ObservacionesServicioRealizado"].ToString();
-					}
-				}
-			}
-		//
+		    // Texis se agrego el codigo para consultar  observaciones y que sea visible para su consulta
+            // Se comenta para leer el valor de memoria. RM 27/09/2018
+			//System.Data.DataRow [] Query;
+			//if(_Pedido != 0 && _Celula != 0 && _AñoPed != 0)
+			//{
+			//	Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + "and AñoPed =" + _AñoPed);
+			//	if(Query.Length > 0)
+			//	{
+			//		foreach(System.Data.DataRow drA in Query)
+			//		{
+			//			txtServicioRealizado.Text = drA["ObservacionesServicioRealizado"].ToString();
+			//		}
+			//	}
+			//}
 		}
 
 		private void LlenaEquipo ()
@@ -923,42 +925,41 @@ namespace LiquidacionSTN
 					}
 					else
 					{
-											if (txtCostoServicio.Text == "")
-											{
-												MessageBox.Show("Debe de capturar un costo a este servicio técnico", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-												break;
-											}
-						//Texis inhabilito estas lineas para que no sea forzozo el campo de servicio realizado
-//											if (txtServicioRealizado.Text == "")
-//											{
-//												MessageBox.Show("Debe de capturar el servicio realizado.", "Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
-//												break;
-//											}
-//						
-											if (MessageBox.Show("¿Esta seguro de cerrar la orden de servicio?", "Servicio Tecnico", MessageBoxButtons.YesNo) == DialogResult.Yes)
-											{
-												System.Data.DataRow [] Query;
-												Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + "and AñoPed =" + _AñoPed);
-												foreach(System.Data.DataRow drA in Query)
-												{
-													drA.BeginEdit ();
-													drA["CostoServicioTecnico"] = txtCostoServicio.Text;
-													drA["ObservacionesServicioRealizado"] = txtServicioRealizado.Text;
-													drA["StatusServicioTecnico"] = "ATENDIDO";
-													drA["FAtencion"] = dtpFAtencion.Value;
-													drA.EndEdit ();
-												}
-												RevisaTotal();
-                                                RegistraPuedeSuministrar();
-												this.Close ();
-											}
-											else
-											{
-											}
+					    if (txtCostoServicio.Text == "")
+					    {
+						    MessageBox.Show("Debe de capturar un costo a este servicio técnico", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						    break;
+					    }
+                        //Texis inhabilito estas lineas para que no sea forzozo el campo de servicio realizado
+                        //if (txtServicioRealizado.Text == "")
+                        //{
+                        //    MessageBox.Show("Debe de capturar el servicio realizado.", "Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //    break;
+                        //}
+
+                        if (MessageBox.Show("¿Esta seguro de cerrar la orden de servicio?", "Servicio Tecnico", MessageBoxButtons.YesNo) == DialogResult.Yes)
+					    {
+						    System.Data.DataRow [] Query;
+						    Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + "and AñoPed =" + _AñoPed);
+						    foreach(System.Data.DataRow drA in Query)
+						    {
+							    drA.BeginEdit ();
+							    drA["CostoServicioTecnico"] = txtCostoServicio.Text;
+							    drA["ObservacionesServicioRealizado"] = txtServicioRealizado.Text;
+							    drA["StatusServicioTecnico"] = "ATENDIDO";
+							    drA["FAtencion"] = dtpFAtencion.Value;
+							    drA.EndEdit ();
+						    }
+						    RevisaTotal();
+                            RegistraPuedeSuministrar();
+						    this.Close ();
+					    }
+					    else
+					    {
+					    }
 					}
-
-
 					break;
+
 				case "Modificar":
 					if (FormaPago == 7) 
 					{
@@ -992,37 +993,36 @@ namespace LiquidacionSTN
 						foreach(System.Data.DataRow drM in Consulta)
 						{
 							drM.BeginEdit ();
-							       decimal Pagos;
-							      drM["NumeroPagos"] = lblNumPagos.Text;
-							      Pagos = Convert.ToDecimal (lblPagosDe.Text);
+							decimal Pagos;
+							drM["NumeroPagos"] = lblNumPagos.Text;
+							Pagos = Convert.ToDecimal (lblPagosDe.Text);
 
-							      drM["Pagosde"] = Convert.ToDecimal (lblPagosDe.Text);
-							      drM["FrecuenciaPagos"] = lblDias.Text;
-							      drM["TipoPedidoDescripcion"] = CboTipoPedido.Text;
-							      if (cboFormaCredito.SelectedValue == null)
-									 {
-									   drM["CreditoServicioTecnico"] = 0;
-									 }
-							      else
-								     {
-									  drM["CreditoServicioTecnico"] = cboFormaCredito.SelectedValue;
-									  }
-							      
-							
-							      drM["Total"] = txtTotal.Text;
-							      if (CboTipoPedido.Text == "S.T. sin cargo")
-								  {
-									  drM["TipoCobro"] = 0;
-								  }
-							      else
-								  {
-									  drM["TipoCobro"] = cboTipoCobro.SelectedValue;
-								  }
+							drM["Pagosde"] = Convert.ToDecimal (lblPagosDe.Text);
+							drM["FrecuenciaPagos"] = lblDias.Text;
+							drM["TipoPedidoDescripcion"] = CboTipoPedido.Text;
+                            drM["Total"] = txtTotal.Text;
+                            drM["ImporteLetra"] = Importe;
+                            drM["TipoPedido"] = this.CboTipoPedido.SelectedValue;
+                            drM["TipoCobroDescripcion"] = cboTipoCobro.Text;
+                            drM["ObservacionesServicioRealizado"] = txtServicioRealizado.Text;
+
+                            if (cboFormaCredito.SelectedValue == null)
+							{
+							    drM["CreditoServicioTecnico"] = 0;
+							}
+							else
+							{
+							    drM["CreditoServicioTecnico"] = cboFormaCredito.SelectedValue;
+							}
+							if (CboTipoPedido.Text == "S.T. sin cargo")
+							{
+								drM["TipoCobro"] = 0;
+							}
+							else
+							{
+								drM["TipoCobro"] = cboTipoCobro.SelectedValue;
+							}
 							     
-							      drM["ImporteLetra"] = Importe;
-							      drM["TipoPedido"] = this.CboTipoPedido.SelectedValue ;
-							      drM["TipoCobroDescripcion"] = cboTipoCobro.Text;
-							
 							drM.EndEdit ();
 						}
 						this.Close ();
