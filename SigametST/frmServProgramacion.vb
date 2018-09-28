@@ -3995,6 +3995,7 @@ Public Class frmServProgramacion
                 End If
 
                 Liq.ShowDialog()
+                RecargarVista()
                 Cursor = Cursors.Default
 
             Case "Cancel. Liq."
