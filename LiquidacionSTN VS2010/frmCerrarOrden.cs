@@ -642,15 +642,22 @@ namespace LiquidacionSTN
 				string Query = "select TipoCobro,Descripcion from tipocobro where TipoCobro in (5,6,7,8)";
 				SqlDataAdapter daTipoCobro = new SqlDataAdapter ();
 				DataTable dtTipoCobro;
+                DataRow drRow;
 				dtTipoCobro = new DataTable ("TipoCobro");
 				LiquidacionSTN.Modulo.CnnSigamet.Open ();
 				daTipoCobro.SelectCommand = new SqlCommand (Query,LiquidacionSTN.Modulo.CnnSigamet);
 				daTipoCobro.Fill (dtTipoCobro);
-				cboTipoCobro.DataSource = dtTipoCobro;
-				cboTipoCobro.DisplayMember = "Descripcion";
+
+                drRow = dtTipoCobro.NewRow();
+                drRow["TipoCobro"] = 0;
+                drRow["Descripcion"] = "SinCobro";
+                dtTipoCobro.Rows.InsertAt(drRow, 0);
+
+                cboTipoCobro.DataSource = dtTipoCobro;
+                cboTipoCobro.DisplayMember = "Descripcion";
 				cboTipoCobro.ValueMember = "TipoCobro";
-			}
-			catch (Exception e)
+            }
+            catch (Exception e)
 			{
 				MessageBox.Show (e.Message );
 			}
