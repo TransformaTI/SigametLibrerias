@@ -689,6 +689,8 @@ namespace LiquidacionSTN
 
 		private void LlenaDatos()
 		{
+            int tipoCobro = 0;
+            int formaCredito = 0;
 			System.Data.DataRow[] Consulta;
 			Consulta = Modulo.dtLiquidacion.Select("PedidoReferencia = '"+_PedidoReferencia+"'");
 			foreach(System.Data.DataRow dr in Consulta)
@@ -700,10 +702,15 @@ namespace LiquidacionSTN
 				lblDias.Text = Convert.ToString (dr["FrecuenciaPagos"]);
 				_TipoPedido = Convert.ToInt32 (dr["TipoPedido"]);
 				CboTipoPedido.SelectedValue = _TipoPedido;
-				
-				cboFormaCredito.SelectedValue = dr["CreditoServicioTecnico"];
-				cboTipoCobro.SelectedValue = dr["TipoCobro"];
-				_Pedido = Convert.ToInt32 (dr["Pedido"]);
+
+                formaCredito = Convert.ToInt32(dr["CreditoServicioTecnico"]);
+                tipoCobro = Convert.ToInt32(dr["TipoCobro"]);
+
+                //cboFormaCredito.SelectedValue = dr["CreditoServicioTecnico"];
+                //cboTipoCobro.SelectedValue = dr["TipoCobro"];
+                cboFormaCredito.SelectedValue = (formaCredito > 0 ? formaCredito : cboFormaCredito.SelectedValue);
+                cboTipoCobro.SelectedValue = (tipoCobro > 0 ? tipoCobro : cboTipoCobro.SelectedValue);
+                _Pedido = Convert.ToInt32 (dr["Pedido"]);
 				_Celula = Convert.ToInt32 (dr["Celula"]);
 				_AñoPed = Convert.ToInt32 (dr["AñoPed"]);
 				_TotalCheque = Convert.ToDecimal (dr["TotalCheque"]);
