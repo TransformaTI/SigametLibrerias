@@ -647,12 +647,7 @@ namespace LiquidacionSTN
 				LiquidacionSTN.Modulo.CnnSigamet.Open ();
 				daTipoCobro.SelectCommand = new SqlCommand (Query,LiquidacionSTN.Modulo.CnnSigamet);
 				daTipoCobro.Fill (dtTipoCobro);
-
-                drRow = dtTipoCobro.NewRow();
-                drRow["TipoCobro"] = 0;
-                drRow["Descripcion"] = "SinCobro";
-                dtTipoCobro.Rows.InsertAt(drRow, 0);
-
+                
                 cboTipoCobro.DataSource = dtTipoCobro;
                 cboTipoCobro.DisplayMember = "Descripcion";
 				cboTipoCobro.ValueMember = "TipoCobro";
@@ -713,10 +708,8 @@ namespace LiquidacionSTN
                 formaCredito = Convert.ToInt32(dr["CreditoServicioTecnico"]);
                 tipoCobro = Convert.ToInt32(dr["TipoCobro"]);
 
-                //cboFormaCredito.SelectedValue = dr["CreditoServicioTecnico"];
-                //cboTipoCobro.SelectedValue = dr["TipoCobro"];
-                cboFormaCredito.SelectedValue = (formaCredito > 0 ? formaCredito : cboFormaCredito.SelectedValue);
-                cboTipoCobro.SelectedValue = (tipoCobro > 0 ? tipoCobro : cboTipoCobro.SelectedValue);
+                cboFormaCredito.SelectedValue = dr["CreditoServicioTecnico"];
+                cboTipoCobro.SelectedValue = dr["TipoCobro"];
                 _Pedido = Convert.ToInt32 (dr["Pedido"]);
 				_Celula = Convert.ToInt32 (dr["Celula"]);
 				_AñoPed = Convert.ToInt32 (dr["AñoPed"]);
@@ -1034,7 +1027,7 @@ namespace LiquidacionSTN
 							}
 							else
 							{
-								drM["TipoCobro"] = cboTipoCobro.SelectedValue;
+								drM["TipoCobro"] = (cboTipoCobro.SelectedValue != null ? cboTipoCobro.SelectedValue : 0);
 							}
 							     
 							drM.EndEdit ();
