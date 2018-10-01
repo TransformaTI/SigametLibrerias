@@ -3304,8 +3304,7 @@ namespace LiquidacionSTN
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error actualizando el pedido en CRM:" + Environment.NewLine + ex.Message, this.Text, 
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    throw new Exception("Error actualizando el pedido en CRM:" + Environment.NewLine + ex.Message);
                 }
             }
         }
