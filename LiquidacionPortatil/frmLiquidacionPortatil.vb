@@ -3307,7 +3307,7 @@ Public Class frmLiquidacionPortatil
 						End If
 					End If
 
-					drow(11) = CType(drow(8), Decimal) - Descuento
+					drow(11) = CType(drow(8), Decimal) ' - Descuento
 					drow(15) = drow(11)
 				Else
 					_ExisteObsequio = _ExisteObsequio + 1
@@ -6277,8 +6277,8 @@ Public Class frmLiquidacionPortatil
 								End If
 
 								row("Kilos") = Convert.ToInt64(item("Valor"))
-								row("descuento") = 0
-								row("Importe") = item("TotalNeto")
+							row("descuento") = item("descuento")
+							row("Importe") = item("TotalNeto")
 								row("Saldo") = item("TotalNeto")
 								row("Descripcion") = item("ProductoDescripcion")
 								row("Cantidad") = item("Cantidad")
