@@ -8,6 +8,8 @@ using System.Data.SqlClient;
 using System.IO;
 using LiquidacionSTN;
 using System.Collections.Generic;
+using RTGMGateway;
+using RTGMCore;
 
 namespace LiquidacionSTN
 {
@@ -2205,7 +2207,7 @@ namespace LiquidacionSTN
 					+ "StatusServicioTecnico,TipoCobroDescripcion,Autotanque,Pedido,Celula,Añoped,Nombre,Empresa, " 
 					+ "TrabajoSolicitado,Chofer,Ayudante,Calle,Colonia,NumInterior,NumExterior,Municipio,cp, " 
 					+ "AñoFolioPresupuesto,FolioPresupuesto,isnull(StatusPresupuesto,'Sin Status') as StatusPresupuesto,isnull(ObservacionesPresupuesto,'sin Observ') as ObservacionesPresupuesto,DescuentoPresupuesto," 
-					+ "SubTotalPresupuesto,TotalPresupuesto,CostoServicioTecnico,ObservacionesServicioRealizado, IdCRM, " 
+					+ "SubTotalPresupuesto,TotalPresupuesto,CostoServicioTecnico,ObservacionesServicioRealizado, IdCRM, Producto," 
 					+ "TipoPedido,NumeroPagos,FrecuenciaPagos,CreditoServicioTecnico,TipoCobro,PagosDe,ImporteLetra, " 
 					+ "BancoCheque,FAltaCheque,FCheque,NumCuentaCheque,SaldoCheque,NumeroCheque,TotalCheque,TipoCobroCheque,Folio,AñoAtt,TipoServicio,'' as BancoNombre " 
 					+ " from vwSTNuevaLiquidacion " 
@@ -2432,7 +2434,7 @@ namespace LiquidacionSTN
 		    LlenaCamioneta ();
 			LlenaDataSet();
 			LlenaGrid();
-            MostrarPedidoCRM();
+            //MostrarPedidoCRM();
 		}
 
         private void MostrarPedidoCRM()
@@ -2504,7 +2506,7 @@ namespace LiquidacionSTN
             }
             catch (Exception exc)
             {
-                MessageBox.Show(exc.Message);
+                throw new Exception("Error consultando el IVA:" + Environment.NewLine + exc.Message);
             }
             finally
             {
@@ -2597,6 +2599,7 @@ namespace LiquidacionSTN
 
 			switch(toolBar1.Buttons.IndexOf(e.Button))
 			{
+                //      ACEPTAR
 				case 0:
 					Cursor = Cursors.WaitCursor ;
 					//ttbAceptar.Enabled = false;       -- Se inhabilita el botón pero nunca se vuelve a habilitar. RM 27/09/2018
@@ -2635,9 +2638,9 @@ namespace LiquidacionSTN
 							    SqlConnection Conexion = SigaMetClasses.DataLayer.Conexion; 
 							    SqlTransaction Transaccion;
 														                        
-							    System.Data.DataRow [] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Autotanque = " + cboCamioneta.Text );
+							    System.Data.DataRow[] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Autotanque = " + cboCamioneta.Text );
 							    Conexion.Open ();
-							    Transaccion = Conexion.BeginTransaction () ;						
+							    Transaccion = Conexion.BeginTransaction() ;						
 							    foreach (System.Data.DataRow dr in Query)
 							    {
 								    _Pedido = Convert.ToInt32 (dr["Pedido"]);
@@ -2850,70 +2853,73 @@ namespace LiquidacionSTN
 										    MessageBox.Show (ex.Message );
 									    }
 								    }												
-							    }
+							    }// foreach dr in Query
+
+                                LiquidarPedidosCRM(Query);
 
                                 Transaccion.Commit();
 
-                                if (!string.IsNullOrEmpty(_URLGateway))
-                                {
-                                    try
-                                    {
-                                        Decimal iva = ObtenerIVA() / 100;
-                                        int empresa = 0;
-                                        RTGMGateway.RTGMActualizarPedido objGateway = new RTGMGateway.RTGMActualizarPedido(_Modulo, _CadenaConexion);
-                                        objGateway.URLServicio = _URLGateway;
+                                //if (!string.IsNullOrEmpty(_URLGateway))
+                                //{
+                                //    try
+                                //    {
+                                //        Decimal iva = ObtenerIVA() / 100;
+                                //        int empresa = 0;
+                                //        RTGMGateway.RTGMActualizarPedido objGateway = new RTGMGateway.RTGMActualizarPedido(_Modulo, _CadenaConexion);
+                                //        objGateway.URLServicio = _URLGateway;
 
-                                        List<RTGMCore.Pedido> lstPedido = new List<RTGMCore.Pedido>();
+                                //        List<RTGMCore.Pedido> lstPedido = new List<RTGMCore.Pedido>();
 
-                                        foreach (System.Data.DataRow dr in Query)
-                                        {
-                                            RTGMGateway.RTGMGateway cliente = new RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion);
-                                            cliente.URLServicio = _URLGateway;
+                                //        foreach (System.Data.DataRow dr in Query)
+                                //        {
+                                //            RTGMGateway.RTGMGateway cliente = new RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion);
+                                //            cliente.URLServicio = _URLGateway;
 
-                                            RTGMGateway.SolicitudGateway objSolicitud = new RTGMGateway.SolicitudGateway();
-                                            objSolicitud.IDCliente = Convert.ToInt32(dr["Cliente"]);
+                                //            RTGMGateway.SolicitudGateway objSolicitud = new RTGMGateway.SolicitudGateway();
+                                //            objSolicitud.IDCliente = Convert.ToInt32(dr["Cliente"]);
 
-                                            RTGMCore.DireccionEntrega objDireccion = new RTGMCore.DireccionEntrega();
-                                            objDireccion = cliente.buscarDireccionEntrega(objSolicitud);
+                                //            RTGMCore.DireccionEntrega objDireccion = new RTGMCore.DireccionEntrega();
 
-                                            empresa = objDireccion.IDEmpresa;
-                                            //MessageBox.Show("dr[\"Cliente\"]: " + Convert.ToString(dr["Cliente"]) + "; objDireccion.IDDireccionEntrega: " + Convert.ToString(objDireccion.IDDireccionEntrega));
-                                            RTGMCore.PedidoCRMDatos pedido = new RTGMCore.PedidoCRMDatos();
-                                            pedido.IDPedido = Convert.ToInt32(dr["Pedido"]);
-                                            pedido.IDDireccionEntrega = objDireccion.IDDireccionEntrega;// Convert.ToInt32(dr["Cliente"]);
-                                            pedido.FSuministro = Convert.ToDateTime(dr["FAtencion"]);
-                                            pedido.Importe = (Convert.ToDecimal(dr["Total"]) / (1 + iva));   // preguntar con Juan
-                                            pedido.Impuesto = iva;
-                                            pedido.Total = Convert.ToDecimal(dr["Total"]);
-                                            pedido.AnioAtt = Convert.ToInt32(dr["AñoATT"]);
-                                            pedido.IDAutotanque = objDireccion.IDAutotanque;// Convert.ToInt32(dr["Autotanque"]);
-                                            pedido.IDFolioAtt = Convert.ToInt32(dr["Folio"]);
+                                //            objDireccion = cliente.buscarDireccionEntrega(objSolicitud);
 
-                                            RTGMCore.RutaCRMDatos ruta = new RTGMCore.RutaCRMDatos();
-                                            ruta.IDRuta = objDireccion.Ruta.IDRuta;// Convert.ToInt32(dr["RutaCliente"]);
+                                //            empresa                         = objDireccion.IDEmpresa;
+                                //            //MessageBox.Show("dr[\"Cliente\"]: " + Convert.ToString(dr["Cliente"]) + "; objDireccion.IDDireccionEntrega: " + Convert.ToString(objDireccion.IDDireccionEntrega));
+                                //            RTGMCore.PedidoCRMDatos pedido = new RTGMCore.PedidoCRMDatos();
+                                //            pedido.IDPedido                 = Convert.ToInt32(dr["Pedido"]);
+                                //            pedido.IDDireccionEntrega       = objDireccion.IDDireccionEntrega;// Convert.ToInt32(dr["Cliente"]);
+                                //            pedido.FSuministro              = Convert.ToDateTime(dr["FAtencion"]);
+                                //            pedido.Importe                  = (Convert.ToDecimal(dr["Total"]) / (1 + iva));   // preguntar con Juan
+                                //            pedido.Impuesto                 = iva;
+                                //            pedido.Total                    = Convert.ToDecimal(dr["Total"]);
+                                //            pedido.AnioAtt                  = Convert.ToInt32(dr["AñoATT"]);
+                                //            pedido.IDAutotanque             = objDireccion.IDAutotanque;// Convert.ToInt32(dr["Autotanque"]);
+                                //            pedido.IDFolioAtt               = Convert.ToInt32(dr["Folio"]);
 
-                                            pedido.RutaSuministro = objDireccion.Ruta;// ruta;
-                                            pedido.IDFormaPago = Convert.ToInt32(dr["TipoCobro"]);
+                                //            RTGMCore.RutaCRMDatos ruta = new RTGMCore.RutaCRMDatos();
+                                //            ruta.IDRuta                     = objDireccion.Ruta.IDRuta;// Convert.ToInt32(dr["RutaCliente"]);
 
-                                            lstPedido.Add(pedido);
-                                        }
-                                        RTGMGateway.SolicitudActualizarPedido Solicitud = new RTGMGateway.SolicitudActualizarPedido();
-                                        Solicitud.Pedidos = lstPedido;
-                                        Solicitud.Portatil = false;
-                                        Solicitud.TipoActualizacion = RTGMCore.TipoActualizacion.Liquidacion;
-                                        Solicitud.Usuario = _Usuario;
-                                        List<RTGMCore.Pedido> ListaRespuesta = objGateway.ActualizarPedido(Solicitud);
+                                //            pedido.RutaSuministro = objDireccion.Ruta;// ruta;
+                                //            pedido.IDFormaPago              = Convert.ToInt32(dr["TipoCobro"]);
 
-                                        //MessageBox.Show("ListaRespuesta.Count: " + Convert.ToString(ListaRespuesta.Count));
+                                //            lstPedido.Add(pedido);
+                                //        }
+                                //        RTGMGateway.SolicitudActualizarPedido Solicitud = new RTGMGateway.SolicitudActualizarPedido();
+                                //        Solicitud.Pedidos = lstPedido;
+                                //        Solicitud.Portatil = false;
+                                //        Solicitud.TipoActualizacion = RTGMCore.TipoActualizacion.Liquidacion;
+                                //        Solicitud.Usuario = _Usuario;
+                                //        List<RTGMCore.Pedido> ListaRespuesta = objGateway.ActualizarPedido(Solicitud);
 
-                                        //rtgm
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        MessageBox.Show(ex.Message);
-                                    }
-                                    //rtgm
-                                }
+                                //        //MessageBox.Show("ListaRespuesta.Count: " + Convert.ToString(ListaRespuesta.Count));
+
+                                //        //rtgm
+                                //    }
+                                //    catch (Exception ex)
+                                //    {
+                                //        MessageBox.Show(ex.Message);
+                                //    }
+                                //    //rtgm
+                                //}
 
                                 Conexion.Close();
                                 //Conexion.Dispose ();
@@ -3210,7 +3216,101 @@ namespace LiquidacionSTN
 			LiquidacionSTN.Modulo.CnnSigamet.Close ();
 		}
 
-		private void label9_Click(object sender, System.EventArgs e)
+        private void LiquidarPedidosCRM(System.Data.DataRow[] parPedidos)
+        {
+            if (_FuenteGateway.Equals("CRM"))
+            {
+                try
+                {
+                    decimal IVA = ObtenerIVA() / 100;
+                    int IDCRM = 0;
+                    decimal importe = 0;
+                    decimal precio = 0;
+
+                    RTGMGateway.RTGMActualizarPedido obGateway = new RTGMActualizarPedido(_Modulo, _CadenaConexion);
+                    obGateway.URLServicio = _URLGateway;
+                    List<RTGMCore.Pedido> lsPedidos = new List<Pedido>();
+
+                    foreach(DataRow dr in parPedidos)
+                    {
+                        IDCRM = (int)dr["IdCRM"];
+                        importe = ((decimal)dr["Total"] - IVA);
+
+                        if (IDCRM > 0)
+                        {
+                            List<RTGMCore.DetallePedido> lsDetallesPedido = new List<DetallePedido>();
+                            RTGMCore.RutaCRMDatos obRuta = new RTGMCore.RutaCRMDatos { IDRuta = (short)dr["RutaCliente"] };
+                            RTGMCore.Producto obProducto = new RTGMCore.Producto { IDProducto = (short)dr["Producto"] };
+                            RTGMCore.DetallePedido obDetalle = new RTGMCore.DetallePedido
+                            {
+                                Producto                    = obProducto,
+                                DescuentoAplicado           = (decimal)dr["DescuentoPresupuesto"],
+                                Importe                     = importe,
+                                Impuesto                    = IVA,
+                                Precio                      = precio,
+                                CantidadSurtida             = 0M,
+                                Total                       = (decimal)dr["Total"],
+
+                                CantidadLectura             = 0,
+                                CantidadLecturaAnterior     = 0,
+                                CantidadSolicitada          = 0,
+                                DescuentoAplicable          = 0,
+                                DiferenciaDeLecturas        = 0,
+                                IDDetallePedido             = 0,
+                                IDPedido                    = 0,
+                                ImpuestoAplicable           = 0,
+                                PorcentajeTanque            = 0,
+                                PrecioAplicable             = 0,
+                                RedondeoAnterior            = 0,
+                                TotalAplicable              = 0
+                            };
+                            lsDetallesPedido.Add(obDetalle);
+
+                            lsPedidos.Add(new RTGMCore.PedidoCRM
+                            {
+                                IDPedido                = IDCRM
+                                ,IDZona                 = (byte)dr["Celula"]
+                                ,RutaSuministro         = obRuta
+                                ,DetallePedido          = lsDetallesPedido
+                                ,IDDireccionEntrega     = (int)dr["Cliente"]
+                                ,AnioAtt                = (short)dr["AñoAtt"]
+                                ,FSuministro            = (DateTime)dr["FAtencion"]
+                                ,FolioRemision          = 0
+                                ,IDAutotanque           = (short)dr["Autotanque"]
+                                ,IDEmpresa              = LiquidacionSTN.Modulo.GLOBAL_Corporativo
+                                ,IDFolioAtt             = (int)dr["Folio"]
+                                ,IDFormaPago            = (byte)dr["TipoCobro"]
+                                ,IDTipoCargo            = 0
+                                ,IDTipoPedido           = (byte)dr["TipoPedido"]
+                                ,IDTipoServicio         = (byte)dr["TipoServicio"]
+                                ,Importe                = importe
+                                ,Impuesto               = IVA
+                                ,SerieRemision          = ""
+                                ,Total                  = (decimal)dr["Total"]
+                                ,Saldo                  = (decimal)dr["SaldoCheque"]
+                            });
+
+                            RTGMGateway.SolicitudActualizarPedido obSolicitud = new SolicitudActualizarPedido
+                            {
+                                TipoActualizacion = RTGMCore.TipoActualizacion.Liquidacion,
+                                Pedidos = lsPedidos,
+                                Usuario = _Usuario,
+                                Portatil = false
+                            };
+
+                            List<RTGMCore.Pedido> lsRespuesta = obGateway.ActualizarPedido(obSolicitud);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error actualizando el pedido en CRM:" + Environment.NewLine + ex.Message, this.Text, 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void label9_Click(object sender, System.EventArgs e)
 		{
 		
 		}
@@ -3257,24 +3357,41 @@ namespace LiquidacionSTN
             {
                 if (grdLiquidacion.CurrentRowIndex < 0) { return; }
 
-                if (_FuenteGateway.Equals("CRM") && !String.IsNullOrEmpty(_URLGateway))
-                {
-                    cliente = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
-                    CargarDatosClienteCRM(cliente);
-                }
-                else
-                {
-                    lblCliente.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
-                    lblRuta.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 1]);
-                    lblCelula.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 13]);
-                    lblNombre.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 15]);
-                    lblCalle.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 20]);
-                    lblNumExterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 23]);
-                    lblNumInterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 22]);
-                    lblColonia.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 21]);
-                    lblCP.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 25]);
-                    lblMunicipio.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 24]);
-                }
+                #region CargarDatosClienteCRM
+
+                // Se deshabilita esta funcionalidad    RM 01/10/2018
+
+                //if (_FuenteGateway.Equals("CRM") && !String.IsNullOrEmpty(_URLGateway))
+                //{
+                //    cliente = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
+                //    CargarDatosClienteCRM(cliente);
+                //}
+                //else
+                //{
+                //    lblCliente.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
+                //    lblRuta.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 1]);
+                //    lblCelula.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 13]);
+                //    lblNombre.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 15]);
+                //    lblCalle.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 20]);
+                //    lblNumExterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 23]);
+                //    lblNumInterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 22]);
+                //    lblColonia.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 21]);
+                //    lblCP.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 25]);
+                //    lblMunicipio.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 24]);
+                //}
+
+                #endregion
+
+                lblCliente.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
+                lblRuta.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 1]);
+                lblCelula.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 13]);
+                lblNombre.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 15]);
+                lblCalle.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 20]);
+                lblNumExterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 23]);
+                lblNumInterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 22]);
+                lblColonia.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 21]);
+                lblCP.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 25]);
+                lblMunicipio.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 24]);
 
                 lblTrabajoSolicitado.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 17]);
                 lblUnidad.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 11]);
