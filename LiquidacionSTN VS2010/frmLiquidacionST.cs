@@ -8,6 +8,8 @@ using System.Data.SqlClient;
 using System.IO;
 using LiquidacionSTN;
 using System.Collections.Generic;
+using RTGMGateway;
+using RTGMCore;
 
 namespace LiquidacionSTN
 {
@@ -2201,11 +2203,11 @@ namespace LiquidacionSTN
 			LiquidacionSTN.Modulo.CnnSigamet.Close ();
 			try
 			{
-				string Query = ("Select Cliente,RutaCliente,PedidoReferencia,TipoPedidoDescripcion,TipoServicioDescripcion,FAtencion,FCompromiso,Total,Status," 
+				string Query = ("Select Cliente,RutaCliente,PedidoReferencia,TipoPedidoDescripcion,TipoServicioDescripcion,FAtencion,FCompromiso,Total, Impuesto, Status," 
 					+ "StatusServicioTecnico,TipoCobroDescripcion,Autotanque,Pedido,Celula,Añoped,Nombre,Empresa, " 
 					+ "TrabajoSolicitado,Chofer,Ayudante,Calle,Colonia,NumInterior,NumExterior,Municipio,cp, " 
 					+ "AñoFolioPresupuesto,FolioPresupuesto,isnull(StatusPresupuesto,'Sin Status') as StatusPresupuesto,isnull(ObservacionesPresupuesto,'sin Observ') as ObservacionesPresupuesto,DescuentoPresupuesto," 
-					+ "SubTotalPresupuesto,TotalPresupuesto,CostoServicioTecnico,ObservacionesServicioRealizado, IdCRM, " 
+					+ "SubTotalPresupuesto,TotalPresupuesto,CostoServicioTecnico,ObservacionesServicioRealizado, IdCRM, Producto," 
 					+ "TipoPedido,NumeroPagos,FrecuenciaPagos,CreditoServicioTecnico,TipoCobro,PagosDe,ImporteLetra, " 
 					+ "BancoCheque,FAltaCheque,FCheque,NumCuentaCheque,SaldoCheque,NumeroCheque,TotalCheque,TipoCobroCheque,Folio,AñoAtt,TipoServicio,'' as BancoNombre " 
 					+ " from vwSTNuevaLiquidacion " 
@@ -2432,7 +2434,7 @@ namespace LiquidacionSTN
 		    LlenaCamioneta ();
 			LlenaDataSet();
 			LlenaGrid();
-            MostrarPedidoCRM();
+            //MostrarPedidoCRM();
 		}
 
         private void MostrarPedidoCRM()
@@ -2504,7 +2506,7 @@ namespace LiquidacionSTN
             }
             catch (Exception exc)
             {
-                MessageBox.Show(exc.Message);
+                throw new Exception("Error consultando el IVA:" + Environment.NewLine + exc.Message);
             }
             finally
             {
@@ -2597,6 +2599,7 @@ namespace LiquidacionSTN
 
 			switch(toolBar1.Buttons.IndexOf(e.Button))
 			{
+                //      ACEPTAR
 				case 0:
 					Cursor = Cursors.WaitCursor ;
 					//ttbAceptar.Enabled = false;       -- Se inhabilita el botón pero nunca se vuelve a habilitar. RM 27/09/2018
@@ -2635,290 +2638,245 @@ namespace LiquidacionSTN
 							    SqlConnection Conexion = SigaMetClasses.DataLayer.Conexion; 
 							    SqlTransaction Transaccion;
 														                        
-							    System.Data.DataRow [] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Autotanque = " + cboCamioneta.Text );
-							    Conexion.Open ();
-							    Transaccion = Conexion.BeginTransaction () ;						
-							    foreach (System.Data.DataRow dr in Query)
-							    {
-								    _Pedido = Convert.ToInt32 (dr["Pedido"]);
-								    _Celula = Convert.ToInt32 (dr["Celula"]);
-								    _Añoped = Convert.ToInt32 (dr["AñoPed"]);
-								    _TipoCobro = Convert.ToInt32 (dr["TipoCobro"]);
+							    System.Data.DataRow[] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Autotanque = " + cboCamioneta.Text );
 
-								    if (_TipoCobro == 6)
-								    {
-									    System.Data.DataRow [] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select ("Pedido = " + _Pedido + " and Celula = " + _Celula + "and AñoPed = " + _Añoped);
-									    foreach (System.Data.DataRow drVoucher in Consulta)
-									    {
-										    try
-										    {
-											    //Conexion.Open ();
-																																		
-											    SqlCommand Comando = Conexion.CreateCommand ();
-																													
-											    //Transaccion = Conexion.BeginTransaction () ;
-											    Comando.Connection = Conexion;
-											    Comando.Transaction = Transaccion;
-																																				
-											    SqlParameter Parametro;
-											    Parametro = Comando.Parameters.Add ("@Pedido",System.Data.SqlDbType.Int );
-											    Parametro.Value = drVoucher["Pedido"];
-											    Parametro = Comando.Parameters.Add ("@Celula",System.Data.SqlDbType.TinyInt );
-											    Parametro.Value = dr["Celula"];
-											    Parametro = Comando.Parameters.Add ("@AñoPed",System.Data.SqlDbType.SmallInt );
-											    Parametro.Value = dr["AñoPed"];
-											    Parametro = Comando.Parameters.Add ("@ObservacionesServicioRealizado",System.Data.SqlDbType.VarChar );
-											    Parametro.Value = dr["ObservacionesServicioRealizado"];
-											    Parametro = Comando.Parameters.Add ("@CostoServicioTecnico", SqlDbType.Money);
-											    Parametro.Value = dr["CostoServicioTecnico"];
-											    Parametro = Comando.Parameters.Add ("@TipoPedido", SqlDbType.TinyInt);
-											    Parametro.Value = dr["TipoPedido"];
-											    Parametro = Comando.Parameters.Add ("@TotalPedido", SqlDbType.Money);
-											    Parametro.Value = Convert.ToDecimal (dr["Total"]);
-											    Parametro = Comando.Parameters.Add ("@StatusPresupuesto", SqlDbType.Char);
-											    Parametro.Value = dr["StatusPresupuesto"];
-											    Parametro = Comando.Parameters.Add ("@TotalPresupuesto", SqlDbType.Money);
-											    Parametro.Value = dr["TotalPresupuesto"];
-											    Parametro = Comando.Parameters.Add ("@DescuentoPresupuesto", SqlDbType.Money);
-											    Parametro.Value = dr["DescuentoPresupuesto"];
-											    Parametro = Comando.Parameters.Add ("@SubTotalPresupuesto", SqlDbType.Money);
-											    Parametro.Value = dr["SubTotalPresupuesto"];
-											    Parametro = Comando.Parameters.Add ("@ObservacionesPresupuesto", SqlDbType.VarChar);
-											    Parametro.Value = dr["ObservacionesPresupuesto"];
-											    Parametro = Comando.Parameters.Add ("@Parcialidad",System.Data.SqlDbType.Money );
-											    Parametro.Value = dr["PagosDe"];
-											    Parametro = Comando.Parameters.Add ("@ImporteLetra", SqlDbType.VarChar);
-											    Parametro.Value = dr["ImporteLetra"];
-											    Parametro = Comando.Parameters.Add ("@NumPagos", SqlDbType.Int);
-											    Parametro.Value = dr["NumeroPagos"];
-											    Parametro = Comando.Parameters.Add ("@Dias", SqlDbType.Int);
-											    Parametro.Value = dr["FrecuenciaPagos"];
-											    Parametro = Comando.Parameters.Add ("@TipoServicio", SqlDbType.Int);
-											    Parametro.Value = dr["TipoServicio"];
-											    Parametro = Comando.Parameters.Add ("@TipoCobro", SqlDbType.Int);
-											    Parametro.Value = dr["TipoCobro"];
-											    Parametro = Comando.Parameters.Add("@BancoTarjetaCredito", SqlDbType.Int);
-											    Parametro.Value = drVoucher["Banco"];
-											    Parametro = Comando.Parameters.Add ("@Cliente", SqlDbType.Int);
-											    Parametro.Value = dr["Cliente"];
-											    Parametro = Comando.Parameters.Add ("@FChequeTarjetaCredito", SqlDbType.DateTime);
-											    Parametro.Value = drVoucher["Fecha"];
-											    Parametro = Comando.Parameters.Add ("@NumCuenta", SqlDbType.Char);
-											    Parametro.Value = dr["NumCuentaCheque"];
-											    Parametro = Comando.Parameters.Add ("@NumChequeTarjetaCredito", SqlDbType.Char);
-											    Parametro.Value = drVoucher["Folio"];
-											    Parametro = Comando.Parameters.Add ("@TotalTarjetaCredito", SqlDbType.Money);
-											    Parametro.Value = drVoucher["Monto"];
-											    Parametro = Comando.Parameters.Add ("@SaldoTarjetaCredito", SqlDbType.Money);
-											    Parametro.Value = drVoucher["Saldo"];
-											    Parametro = Comando.Parameters.Add ("@Usuario", SqlDbType.Char);
-											    Parametro.Value = _Usuario;
-											    Parametro = Comando.Parameters.Add ("@Folio", SqlDbType.Int);
-											    Parametro.Value = dr["Folio"];
-											    Parametro = Comando.Parameters.Add ("@AñoAtt", SqlDbType.Int);
-											    _Folio = Convert.ToInt32 (dr["Folio"]);
-											    _AñoAtt = Convert.ToInt32 (dr["AñoAtt"]);
-											    Parametro.Value = dr["AñoAtt"];
-											    Parametro = Comando.Parameters.Add ("@ImporteContado", SqlDbType.Money);
-											    Parametro.Value = lblTotalContados.Text ;
-											    Parametro = Comando.Parameters.Add ("@ImporteCredito",System.Data.SqlDbType.Money );
-											    Parametro.Value = lblTotalCreditos.Text ;
-											    Parametro = Comando.Parameters.Add ("@KilometrajeInicial", SqlDbType.Int);
-											    Parametro.Value = txtKilometrajeInicial.Text ;
-											    Parametro = Comando.Parameters.Add ("@KilometrajeFinal", SqlDbType.Int);
-											    Parametro.Value = txtKilometrajeFinal.Text ;
-											    Parametro = Comando.Parameters.Add ("@DiferenciaKilometraje", SqlDbType.Int);
-											    Parametro.Value = _Diferencia;
-											    Parametro = Comando.Parameters.Add ("@Ruta", SqlDbType.Int);
-											    Parametro.Value = dr["RutaCliente"]; 
-											    Parametro = Comando.Parameters.Add ("@FAtencion", SqlDbType.DateTime);
-											    Parametro.Value = dr["FAtencion"];
-																												
-											    Comando.CommandType = CommandType.StoredProcedure ;
-											    Comando.CommandText = "spSTLiquidacionServiciosTecnicos";
-											    Comando.CommandTimeout = 300;
-											    Comando.ExecuteNonQuery ();
-											    //Transaccion.Commit ();
-																												
-										    }
-										    catch(Exception ex)
-										    {
-											    MessageBox.Show (ex.Message );
-										    }
-                                            //finally
-                                            //{
-                                            //    Conexion.Close();
-                                            //    Conexion.Dispose();
-                                            //    this.Close();
-                                            //}
-                                        }
-								    }
-								    else
-								    {
-									    try
-									    {
-										    //Conexion.Open ();
-																																		
-										    SqlCommand Comando = Conexion.CreateCommand ();
-																													
-										
-										    Comando.Connection = Conexion;
-										    Comando.Transaction = Transaccion;
-																																				
-										    SqlParameter Parametro;
-										    Parametro = Comando.Parameters.Add ("@Pedido",System.Data.SqlDbType.Int );
-										    Parametro.Value = dr["Pedido"];
-										    Parametro = Comando.Parameters.Add ("@Celula",System.Data.SqlDbType.TinyInt );
-										    Parametro.Value = dr["Celula"];
-										    Parametro = Comando.Parameters.Add ("@AñoPed",System.Data.SqlDbType.SmallInt );
-										    Parametro.Value = dr["AñoPed"];
-										    Parametro = Comando.Parameters.Add ("@ObservacionesServicioRealizado",System.Data.SqlDbType.VarChar );
-										    Parametro.Value = dr["ObservacionesServicioRealizado"];
-										    Parametro = Comando.Parameters.Add ("@CostoServicioTecnico", SqlDbType.Money);
-										    Parametro.Value = dr["CostoServicioTecnico"];
-										    Parametro = Comando.Parameters.Add ("@TipoPedido", SqlDbType.TinyInt);
-										    Parametro.Value = dr["TipoPedido"];
-										    Parametro = Comando.Parameters.Add ("@TotalPedido", SqlDbType.Money);
-										    Parametro.Value = Convert.ToDecimal (dr["Total"]);
-										    Parametro = Comando.Parameters.Add ("@StatusPresupuesto", SqlDbType.Char);
-										    Parametro.Value = dr["StatusPresupuesto"];
-										    Parametro = Comando.Parameters.Add ("@TotalPresupuesto", SqlDbType.Money);
-										    Parametro.Value = dr["TotalPresupuesto"];
-										    Parametro = Comando.Parameters.Add ("@DescuentoPresupuesto", SqlDbType.Money);
-										    Parametro.Value = dr["DescuentoPresupuesto"];
-										    Parametro = Comando.Parameters.Add ("@SubTotalPresupuesto", SqlDbType.Money);
-										    Parametro.Value = dr["SubTotalPresupuesto"];
-										    Parametro = Comando.Parameters.Add ("@ObservacionesPresupuesto", SqlDbType.VarChar);
-										    Parametro.Value = dr["ObservacionesPresupuesto"];
-										    Parametro = Comando.Parameters.Add ("@Parcialidad",System.Data.SqlDbType.Money );
-										    Parametro.Value = dr["PagosDe"];
-										    Parametro = Comando.Parameters.Add ("@ImporteLetra", SqlDbType.VarChar);
-										    Parametro.Value = dr["ImporteLetra"];
-										    Parametro = Comando.Parameters.Add ("@NumPagos", SqlDbType.Int);
-										    Parametro.Value = dr["NumeroPagos"];
-										    Parametro = Comando.Parameters.Add ("@Dias", SqlDbType.Int);
-										    Parametro.Value = dr["FrecuenciaPagos"];
-										    Parametro = Comando.Parameters.Add ("@TipoServicio", SqlDbType.Int);
-										    Parametro.Value = dr["TipoServicio"];
-										    Parametro = Comando.Parameters.Add ("@TipoCobro", SqlDbType.Int);
-										    Parametro.Value = dr["TipoCobro"];
-										    Parametro = Comando.Parameters.Add("@Banco", SqlDbType.Int);
-										    Parametro.Value = dr["BancoCheque"];
-										    Parametro = Comando.Parameters.Add ("@Cliente", SqlDbType.Int);
-										    Parametro.Value = dr["Cliente"];
-										    Parametro = Comando.Parameters.Add ("@FCheque", SqlDbType.DateTime);
-										    Parametro.Value = dr["FCheque"];
-										    Parametro = Comando.Parameters.Add ("@NumCuenta", SqlDbType.Char);
-										    Parametro.Value = dr["NumCuentaCheque"];
-										    Parametro = Comando.Parameters.Add ("@NumCheque", SqlDbType.Char);
-										    Parametro.Value = dr["NumeroCheque"];
-										    Parametro = Comando.Parameters.Add ("@TotalCheque", SqlDbType.Money);
-										    Parametro.Value = dr["TotalCheque"];
-										    Parametro = Comando.Parameters.Add ("@Saldo", SqlDbType.Money);
-										    Parametro.Value = dr["SaldoCheque"];
-										    Parametro = Comando.Parameters.Add ("@Usuario", SqlDbType.Char);
-										    Parametro.Value = _Usuario;
-										    Parametro = Comando.Parameters.Add ("@Folio", SqlDbType.Int);
-										    Parametro.Value = dr["Folio"];
-										    Parametro = Comando.Parameters.Add ("@AñoAtt", SqlDbType.Int);
-										    _Folio = Convert.ToInt32 (dr["Folio"]);
-										    _AñoAtt = Convert.ToInt32 (dr["AñoAtt"]);
-										    Parametro.Value = dr["AñoAtt"];
-										    Parametro = Comando.Parameters.Add ("@ImporteContado", SqlDbType.Money);
-										    Parametro.Value = lblTotalContados.Text ;
-										    Parametro = Comando.Parameters.Add ("@ImporteCredito",System.Data.SqlDbType.Money );
-										    Parametro.Value = lblTotalCreditos.Text ;
-										    Parametro = Comando.Parameters.Add ("@KilometrajeInicial", SqlDbType.Int);
-										    Parametro.Value = txtKilometrajeInicial.Text ;
-										    Parametro = Comando.Parameters.Add ("@KilometrajeFinal", SqlDbType.Int);
-										    Parametro.Value = txtKilometrajeFinal.Text ;
-										    Parametro = Comando.Parameters.Add ("@DiferenciaKilometraje", SqlDbType.Int);
-										    Parametro.Value = _Diferencia;
-										    Parametro = Comando.Parameters.Add ("@Ruta", SqlDbType.Int);
-										    Parametro.Value = dr["RutaCliente"]; 
-										    Parametro = Comando.Parameters.Add ("@FAtencion", SqlDbType.DateTime);
-										    Parametro.Value = dr["FAtencion"];
-																												
-										    Comando.CommandType = CommandType.StoredProcedure ;
-										    Comando.CommandText = "spSTLiquidacionServiciosTecnicos";
-										    Comando.CommandTimeout = 300;
-										    Comando.ExecuteNonQuery ();
-										    //Transaccion.Commit ();																												
-									    }
-									    catch(Exception ex)
-									    {
-										    MessageBox.Show (ex.Message );
-									    }
-								    }												
-							    }
-
-                                Transaccion.Commit();
-
-                                if (!string.IsNullOrEmpty(_URLGateway))
+                                Conexion.Open();
+                                Transaccion = Conexion.BeginTransaction();
+                                try
                                 {
-                                    try
+                                    foreach (System.Data.DataRow dr in Query)
                                     {
-                                        Decimal iva = ObtenerIVA() / 100;
-                                        int empresa = 0;
-                                        RTGMGateway.RTGMActualizarPedido objGateway = new RTGMGateway.RTGMActualizarPedido(_Modulo, _CadenaConexion);
-                                        objGateway.URLServicio = _URLGateway;
+                                        _Pedido = Convert.ToInt32(dr["Pedido"]);
+                                        _Celula = Convert.ToInt32(dr["Celula"]);
+                                        _Añoped = Convert.ToInt32(dr["AñoPed"]);
+                                        _TipoCobro = Convert.ToInt32(dr["TipoCobro"]);
 
-                                        List<RTGMCore.Pedido> lstPedido = new List<RTGMCore.Pedido>();
-
-                                        foreach (System.Data.DataRow dr in Query)
+                                        if (_TipoCobro == 6)
                                         {
-                                            RTGMGateway.RTGMGateway cliente = new RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion);
-                                            cliente.URLServicio = _URLGateway;
+                                            System.Data.DataRow[] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select("Pedido = " + _Pedido + " and Celula = " + _Celula + "and AñoPed = " + _Añoped);
+                                            foreach (System.Data.DataRow drVoucher in Consulta)
+                                            {
+                                                try
+                                                {
+                                                    //Conexion.Open ();
 
-                                            RTGMGateway.SolicitudGateway objSolicitud = new RTGMGateway.SolicitudGateway();
-                                            objSolicitud.IDCliente = Convert.ToInt32(dr["Cliente"]);
+                                                    SqlCommand Comando = Conexion.CreateCommand();
 
-                                            RTGMCore.DireccionEntrega objDireccion = new RTGMCore.DireccionEntrega();
-                                            objDireccion = cliente.buscarDireccionEntrega(objSolicitud);
+                                                    //Transaccion = Conexion.BeginTransaction () ;
+                                                    Comando.Connection = Conexion;
+                                                    Comando.Transaction = Transaccion;
 
-                                            empresa = objDireccion.IDEmpresa;
-                                            //MessageBox.Show("dr[\"Cliente\"]: " + Convert.ToString(dr["Cliente"]) + "; objDireccion.IDDireccionEntrega: " + Convert.ToString(objDireccion.IDDireccionEntrega));
-                                            RTGMCore.PedidoCRMDatos pedido = new RTGMCore.PedidoCRMDatos();
-                                            pedido.IDPedido = Convert.ToInt32(dr["Pedido"]);
-                                            pedido.IDDireccionEntrega = objDireccion.IDDireccionEntrega;// Convert.ToInt32(dr["Cliente"]);
-                                            pedido.FSuministro = Convert.ToDateTime(dr["FAtencion"]);
-                                            pedido.Importe = (Convert.ToDecimal(dr["Total"]) / (1 + iva));   // preguntar con Juan
-                                            pedido.Impuesto = iva;
-                                            pedido.Total = Convert.ToDecimal(dr["Total"]);
-                                            pedido.AnioAtt = Convert.ToInt32(dr["AñoATT"]);
-                                            pedido.IDAutotanque = objDireccion.IDAutotanque;// Convert.ToInt32(dr["Autotanque"]);
-                                            pedido.IDFolioAtt = Convert.ToInt32(dr["Folio"]);
+                                                    SqlParameter Parametro;
+                                                    Parametro = Comando.Parameters.Add("@Pedido", System.Data.SqlDbType.Int);
+                                                    Parametro.Value = drVoucher["Pedido"];
+                                                    Parametro = Comando.Parameters.Add("@Celula", System.Data.SqlDbType.TinyInt);
+                                                    Parametro.Value = dr["Celula"];
+                                                    Parametro = Comando.Parameters.Add("@AñoPed", System.Data.SqlDbType.SmallInt);
+                                                    Parametro.Value = dr["AñoPed"];
+                                                    Parametro = Comando.Parameters.Add("@ObservacionesServicioRealizado", System.Data.SqlDbType.VarChar);
+                                                    Parametro.Value = dr["ObservacionesServicioRealizado"];
+                                                    Parametro = Comando.Parameters.Add("@CostoServicioTecnico", SqlDbType.Money);
+                                                    Parametro.Value = dr["CostoServicioTecnico"];
+                                                    Parametro = Comando.Parameters.Add("@TipoPedido", SqlDbType.TinyInt);
+                                                    Parametro.Value = dr["TipoPedido"];
+                                                    Parametro = Comando.Parameters.Add("@TotalPedido", SqlDbType.Money);
+                                                    Parametro.Value = Convert.ToDecimal(dr["Total"]);
+                                                    Parametro = Comando.Parameters.Add("@StatusPresupuesto", SqlDbType.Char);
+                                                    Parametro.Value = dr["StatusPresupuesto"];
+                                                    Parametro = Comando.Parameters.Add("@TotalPresupuesto", SqlDbType.Money);
+                                                    Parametro.Value = dr["TotalPresupuesto"];
+                                                    Parametro = Comando.Parameters.Add("@DescuentoPresupuesto", SqlDbType.Money);
+                                                    Parametro.Value = dr["DescuentoPresupuesto"];
+                                                    Parametro = Comando.Parameters.Add("@SubTotalPresupuesto", SqlDbType.Money);
+                                                    Parametro.Value = dr["SubTotalPresupuesto"];
+                                                    Parametro = Comando.Parameters.Add("@ObservacionesPresupuesto", SqlDbType.VarChar);
+                                                    Parametro.Value = dr["ObservacionesPresupuesto"];
+                                                    Parametro = Comando.Parameters.Add("@Parcialidad", System.Data.SqlDbType.Money);
+                                                    Parametro.Value = dr["PagosDe"];
+                                                    Parametro = Comando.Parameters.Add("@ImporteLetra", SqlDbType.VarChar);
+                                                    Parametro.Value = dr["ImporteLetra"];
+                                                    Parametro = Comando.Parameters.Add("@NumPagos", SqlDbType.Int);
+                                                    Parametro.Value = dr["NumeroPagos"];
+                                                    Parametro = Comando.Parameters.Add("@Dias", SqlDbType.Int);
+                                                    Parametro.Value = dr["FrecuenciaPagos"];
+                                                    Parametro = Comando.Parameters.Add("@TipoServicio", SqlDbType.Int);
+                                                    Parametro.Value = dr["TipoServicio"];
+                                                    Parametro = Comando.Parameters.Add("@TipoCobro", SqlDbType.Int);
+                                                    Parametro.Value = dr["TipoCobro"];
+                                                    Parametro = Comando.Parameters.Add("@BancoTarjetaCredito", SqlDbType.Int);
+                                                    Parametro.Value = drVoucher["Banco"];
+                                                    Parametro = Comando.Parameters.Add("@Cliente", SqlDbType.Int);
+                                                    Parametro.Value = dr["Cliente"];
+                                                    Parametro = Comando.Parameters.Add("@FChequeTarjetaCredito", SqlDbType.DateTime);
+                                                    Parametro.Value = drVoucher["Fecha"];
+                                                    Parametro = Comando.Parameters.Add("@NumCuenta", SqlDbType.Char);
+                                                    Parametro.Value = dr["NumCuentaCheque"];
+                                                    Parametro = Comando.Parameters.Add("@NumChequeTarjetaCredito", SqlDbType.Char);
+                                                    Parametro.Value = drVoucher["Folio"];
+                                                    Parametro = Comando.Parameters.Add("@TotalTarjetaCredito", SqlDbType.Money);
+                                                    Parametro.Value = drVoucher["Monto"];
+                                                    Parametro = Comando.Parameters.Add("@SaldoTarjetaCredito", SqlDbType.Money);
+                                                    Parametro.Value = drVoucher["Saldo"];
+                                                    Parametro = Comando.Parameters.Add("@Usuario", SqlDbType.Char);
+                                                    Parametro.Value = _Usuario;
+                                                    Parametro = Comando.Parameters.Add("@Folio", SqlDbType.Int);
+                                                    Parametro.Value = dr["Folio"];
+                                                    Parametro = Comando.Parameters.Add("@AñoAtt", SqlDbType.Int);
+                                                    _Folio = Convert.ToInt32(dr["Folio"]);
+                                                    _AñoAtt = Convert.ToInt32(dr["AñoAtt"]);
+                                                    Parametro.Value = dr["AñoAtt"];
+                                                    Parametro = Comando.Parameters.Add("@ImporteContado", SqlDbType.Money);
+                                                    Parametro.Value = lblTotalContados.Text;
+                                                    Parametro = Comando.Parameters.Add("@ImporteCredito", System.Data.SqlDbType.Money);
+                                                    Parametro.Value = lblTotalCreditos.Text;
+                                                    Parametro = Comando.Parameters.Add("@KilometrajeInicial", SqlDbType.Int);
+                                                    Parametro.Value = txtKilometrajeInicial.Text;
+                                                    Parametro = Comando.Parameters.Add("@KilometrajeFinal", SqlDbType.Int);
+                                                    Parametro.Value = txtKilometrajeFinal.Text;
+                                                    Parametro = Comando.Parameters.Add("@DiferenciaKilometraje", SqlDbType.Int);
+                                                    Parametro.Value = _Diferencia;
+                                                    Parametro = Comando.Parameters.Add("@Ruta", SqlDbType.Int);
+                                                    Parametro.Value = dr["RutaCliente"];
+                                                    Parametro = Comando.Parameters.Add("@FAtencion", SqlDbType.DateTime);
+                                                    Parametro.Value = dr["FAtencion"];
 
-                                            RTGMCore.RutaCRMDatos ruta = new RTGMCore.RutaCRMDatos();
-                                            ruta.IDRuta = objDireccion.Ruta.IDRuta;// Convert.ToInt32(dr["RutaCliente"]);
+                                                    Comando.CommandType = CommandType.StoredProcedure;
+                                                    Comando.CommandText = "spSTLiquidacionServiciosTecnicos";
+                                                    Comando.CommandTimeout = 300;
+                                                    Comando.ExecuteNonQuery();
+                                                    //Transaccion.Commit ();
 
-                                            pedido.RutaSuministro = objDireccion.Ruta;// ruta;
-                                            pedido.IDFormaPago = Convert.ToInt32(dr["TipoCobro"]);
-
-                                            lstPedido.Add(pedido);
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    //MessageBox.Show(ex.Message);
+                                                    throw;
+                                                }
+                                                //finally
+                                                //{
+                                                //    Conexion.Close();
+                                                //    Conexion.Dispose();
+                                                //    this.Close();
+                                                //}
+                                            }
                                         }
-                                        RTGMGateway.SolicitudActualizarPedido Solicitud = new RTGMGateway.SolicitudActualizarPedido();
-                                        Solicitud.Pedidos = lstPedido;
-                                        Solicitud.Portatil = false;
-                                        Solicitud.TipoActualizacion = RTGMCore.TipoActualizacion.Liquidacion;
-                                        Solicitud.Usuario = _Usuario;
-                                        List<RTGMCore.Pedido> ListaRespuesta = objGateway.ActualizarPedido(Solicitud);
+                                        else
+                                        {
+                                            try
+                                            {
+                                                //Conexion.Open ();
 
-                                        //MessageBox.Show("ListaRespuesta.Count: " + Convert.ToString(ListaRespuesta.Count));
+                                                SqlCommand Comando = Conexion.CreateCommand();
 
-                                        //rtgm
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        MessageBox.Show(ex.Message);
-                                    }
-                                    //rtgm
+
+                                                Comando.Connection = Conexion;
+                                                Comando.Transaction = Transaccion;
+
+                                                SqlParameter Parametro;
+                                                Parametro = Comando.Parameters.Add("@Pedido", System.Data.SqlDbType.Int);
+                                                Parametro.Value = dr["Pedido"];
+                                                Parametro = Comando.Parameters.Add("@Celula", System.Data.SqlDbType.TinyInt);
+                                                Parametro.Value = dr["Celula"];
+                                                Parametro = Comando.Parameters.Add("@AñoPed", System.Data.SqlDbType.SmallInt);
+                                                Parametro.Value = dr["AñoPed"];
+                                                Parametro = Comando.Parameters.Add("@ObservacionesServicioRealizado", System.Data.SqlDbType.VarChar);
+                                                Parametro.Value = dr["ObservacionesServicioRealizado"];
+                                                Parametro = Comando.Parameters.Add("@CostoServicioTecnico", SqlDbType.Money);
+                                                Parametro.Value = dr["CostoServicioTecnico"];
+                                                Parametro = Comando.Parameters.Add("@TipoPedido", SqlDbType.TinyInt);
+                                                Parametro.Value = dr["TipoPedido"];
+                                                Parametro = Comando.Parameters.Add("@TotalPedido", SqlDbType.Money);
+                                                Parametro.Value = Convert.ToDecimal(dr["Total"]);
+                                                Parametro = Comando.Parameters.Add("@StatusPresupuesto", SqlDbType.Char);
+                                                Parametro.Value = dr["StatusPresupuesto"];
+                                                Parametro = Comando.Parameters.Add("@TotalPresupuesto", SqlDbType.Money);
+                                                Parametro.Value = dr["TotalPresupuesto"];
+                                                Parametro = Comando.Parameters.Add("@DescuentoPresupuesto", SqlDbType.Money);
+                                                Parametro.Value = dr["DescuentoPresupuesto"];
+                                                Parametro = Comando.Parameters.Add("@SubTotalPresupuesto", SqlDbType.Money);
+                                                Parametro.Value = dr["SubTotalPresupuesto"];
+                                                Parametro = Comando.Parameters.Add("@ObservacionesPresupuesto", SqlDbType.VarChar);
+                                                Parametro.Value = dr["ObservacionesPresupuesto"];
+                                                Parametro = Comando.Parameters.Add("@Parcialidad", System.Data.SqlDbType.Money);
+                                                Parametro.Value = dr["PagosDe"];
+                                                Parametro = Comando.Parameters.Add("@ImporteLetra", SqlDbType.VarChar);
+                                                Parametro.Value = dr["ImporteLetra"];
+                                                Parametro = Comando.Parameters.Add("@NumPagos", SqlDbType.Int);
+                                                Parametro.Value = dr["NumeroPagos"];
+                                                Parametro = Comando.Parameters.Add("@Dias", SqlDbType.Int);
+                                                Parametro.Value = dr["FrecuenciaPagos"];
+                                                Parametro = Comando.Parameters.Add("@TipoServicio", SqlDbType.Int);
+                                                Parametro.Value = dr["TipoServicio"];
+                                                Parametro = Comando.Parameters.Add("@TipoCobro", SqlDbType.Int);
+                                                Parametro.Value = dr["TipoCobro"];
+                                                Parametro = Comando.Parameters.Add("@Banco", SqlDbType.Int);
+                                                Parametro.Value = dr["BancoCheque"];
+                                                Parametro = Comando.Parameters.Add("@Cliente", SqlDbType.Int);
+                                                Parametro.Value = dr["Cliente"];
+                                                Parametro = Comando.Parameters.Add("@FCheque", SqlDbType.DateTime);
+                                                Parametro.Value = dr["FCheque"];
+                                                Parametro = Comando.Parameters.Add("@NumCuenta", SqlDbType.Char);
+                                                Parametro.Value = dr["NumCuentaCheque"];
+                                                Parametro = Comando.Parameters.Add("@NumCheque", SqlDbType.Char);
+                                                Parametro.Value = dr["NumeroCheque"];
+                                                Parametro = Comando.Parameters.Add("@TotalCheque", SqlDbType.Money);
+                                                Parametro.Value = dr["TotalCheque"];
+                                                Parametro = Comando.Parameters.Add("@Saldo", SqlDbType.Money);
+                                                Parametro.Value = dr["SaldoCheque"];
+                                                Parametro = Comando.Parameters.Add("@Usuario", SqlDbType.Char);
+                                                Parametro.Value = _Usuario;
+                                                Parametro = Comando.Parameters.Add("@Folio", SqlDbType.Int);
+                                                Parametro.Value = dr["Folio"];
+                                                Parametro = Comando.Parameters.Add("@AñoAtt", SqlDbType.Int);
+                                                _Folio = Convert.ToInt32(dr["Folio"]);
+                                                _AñoAtt = Convert.ToInt32(dr["AñoAtt"]);
+                                                Parametro.Value = dr["AñoAtt"];
+                                                Parametro = Comando.Parameters.Add("@ImporteContado", SqlDbType.Money);
+                                                Parametro.Value = lblTotalContados.Text;
+                                                Parametro = Comando.Parameters.Add("@ImporteCredito", System.Data.SqlDbType.Money);
+                                                Parametro.Value = lblTotalCreditos.Text;
+                                                Parametro = Comando.Parameters.Add("@KilometrajeInicial", SqlDbType.Int);
+                                                Parametro.Value = txtKilometrajeInicial.Text;
+                                                Parametro = Comando.Parameters.Add("@KilometrajeFinal", SqlDbType.Int);
+                                                Parametro.Value = txtKilometrajeFinal.Text;
+                                                Parametro = Comando.Parameters.Add("@DiferenciaKilometraje", SqlDbType.Int);
+                                                Parametro.Value = _Diferencia;
+                                                Parametro = Comando.Parameters.Add("@Ruta", SqlDbType.Int);
+                                                Parametro.Value = dr["RutaCliente"];
+                                                Parametro = Comando.Parameters.Add("@FAtencion", SqlDbType.DateTime);
+                                                Parametro.Value = dr["FAtencion"];
+
+                                                Comando.CommandType = CommandType.StoredProcedure;
+                                                Comando.CommandText = "spSTLiquidacionServiciosTecnicos";
+                                                Comando.CommandTimeout = 300;
+                                                Comando.ExecuteNonQuery();
+                                                //Transaccion.Commit ();																												
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                //MessageBox.Show (ex.Message );
+                                                throw;
+                                            }
+                                        }
+                                    }// foreach dr in Query
+
+                                    LiquidarPedidosCRM(Query);
+
+                                    Transaccion.Commit();
                                 }
-
-                                Conexion.Close();
-                                //Conexion.Dispose ();
-                                this.Close ();
-																				
+                                catch (Exception ex)
+                                {
+                                    Transaccion.Rollback();
+                                    MessageBox.Show("Error liquidando los pedidos:" + Environment.NewLine + ex.Message, this.Text,
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                                finally
+                                {
+                                    Conexion.Close();
+                                    //Conexion.Dispose ();
+                                    this.Close();
+                                }
+                                
                                 try
                                 {
 	                                LiquidacionSTN.frmImprime Imprime = new frmImprime (_Folio,_AñoAtt);
@@ -3210,7 +3168,111 @@ namespace LiquidacionSTN
 			LiquidacionSTN.Modulo.CnnSigamet.Close ();
 		}
 
-		private void label9_Click(object sender, System.EventArgs e)
+        private void LiquidarPedidosCRM(System.Data.DataRow[] parPedidos)
+        {
+            if (_FuenteGateway.Equals("CRM"))
+            {
+                try
+                {
+                    //decimal IVA = ObtenerIVA() / 100;
+                    decimal impuesto = 0M;
+                    decimal importe = 0M;
+                    decimal precio = 0M;
+                    int IDCRM = 0;
+                    int tipoCargo = 2;  // 2 = Servicio técnico
+
+                    RTGMGateway.RTGMActualizarPedido obGateway = new RTGMActualizarPedido(_Modulo, _CadenaConexion);
+                    obGateway.URLServicio = _URLGateway;
+                    List<RTGMCore.Pedido> lsPedidos = new List<Pedido>();
+
+                    foreach(DataRow dr in parPedidos)
+                    {
+                        IDCRM = (int)dr["IdCRM"];
+                        impuesto = (decimal)dr["Impuesto"];
+                        importe = ((decimal)dr["Total"] - impuesto);
+
+                        if (IDCRM > 0)
+                        {
+                            List<RTGMCore.DetallePedido> lsDetallesPedido = new List<DetallePedido>();
+                            RTGMCore.RutaCRMDatos obRuta = new RTGMCore.RutaCRMDatos { IDRuta = (short)dr["RutaCliente"] };
+                            RTGMCore.Producto obProducto = new RTGMCore.Producto { IDProducto = (short)dr["Producto"] };
+                            RTGMCore.DetallePedido obDetalle = new RTGMCore.DetallePedido
+                            {
+                                Producto                    = obProducto,
+                                DescuentoAplicado           = (decimal)dr["DescuentoPresupuesto"],
+                                Importe                     = importe,
+                                Impuesto                    = impuesto,
+                                Precio                      = precio,
+                                CantidadSurtida             = 0M,
+                                Total                       = (decimal)dr["Total"],
+
+                                CantidadLectura             = 0,
+                                CantidadLecturaAnterior     = 0,
+                                CantidadSolicitada          = 0,
+                                DescuentoAplicable          = 0,
+                                DiferenciaDeLecturas        = 0,
+                                IDDetallePedido             = 0,
+                                IDPedido                    = 0,
+                                ImpuestoAplicable           = 0,
+                                PorcentajeTanque            = 0,
+                                PrecioAplicable             = 0,
+                                RedondeoAnterior            = 0,
+                                TotalAplicable              = 0
+                            };
+                            lsDetallesPedido.Add(obDetalle);
+
+                            lsPedidos.Add(new RTGMCore.PedidoCRMDatos
+                            {
+                                IDPedido                    = IDCRM
+                                ,IDZona                     = (byte)dr["Celula"]
+                                ,RutaSuministro             = obRuta
+                                ,DetallePedido              = lsDetallesPedido
+                                ,IDDireccionEntrega         = (int)dr["Cliente"]
+                                ,AnioAtt                    = (short)dr["AñoAtt"]
+                                ,FSuministro                = (DateTime)dr["FAtencion"]
+                                ,FolioRemision              = 0
+                                ,IDAutotanque               = (short)dr["Autotanque"]
+                                ,IDEmpresa                  = LiquidacionSTN.Modulo.GLOBAL_Corporativo
+                                ,IDFolioAtt                 = (int)dr["Folio"]
+                                ,IDFormaPago                = (byte)dr["TipoCobro"]
+                                ,IDTipoCargo                = tipoCargo
+                                ,IDTipoPedido               = (byte)dr["TipoPedido"]
+                                ,IDTipoServicio             = (byte)dr["TipoServicio"]
+                                ,Importe                    = importe
+                                ,Impuesto                   = impuesto
+                                ,SerieRemision              = ""
+                                ,Total                      = (decimal)dr["Total"]
+                                ,Saldo                      = (decimal)dr["SaldoCheque"]
+                            });
+                        }
+                    }
+
+                    if (lsPedidos.Count > 0)
+                    {
+                        RTGMGateway.SolicitudActualizarPedido obSolicitud = new SolicitudActualizarPedido
+                        {
+                            TipoActualizacion = RTGMCore.TipoActualizacion.Liquidacion,
+                            Pedidos = lsPedidos,
+                            Usuario = _Usuario,
+                            Portatil = false
+                        };
+
+                        List<RTGMCore.Pedido> lsRespuesta = obGateway.ActualizarPedido(obSolicitud);
+
+                        if (lsRespuesta.Count > 0 && !lsRespuesta[0].Success && lsRespuesta[0].Message != null)
+                        {
+                            throw new Exception(lsRespuesta[0].Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error actualizando el pedido en CRM:" + Environment.NewLine + ex.Message);
+                }
+            }
+        }
+
+        private void label9_Click(object sender, System.EventArgs e)
 		{
 		
 		}
@@ -3257,24 +3319,41 @@ namespace LiquidacionSTN
             {
                 if (grdLiquidacion.CurrentRowIndex < 0) { return; }
 
-                if (_FuenteGateway.Equals("CRM") && !String.IsNullOrEmpty(_URLGateway))
-                {
-                    cliente = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
-                    CargarDatosClienteCRM(cliente);
-                }
-                else
-                {
-                    lblCliente.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
-                    lblRuta.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 1]);
-                    lblCelula.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 13]);
-                    lblNombre.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 15]);
-                    lblCalle.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 20]);
-                    lblNumExterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 23]);
-                    lblNumInterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 22]);
-                    lblColonia.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 21]);
-                    lblCP.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 25]);
-                    lblMunicipio.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 24]);
-                }
+                #region CargarDatosClienteCRM
+
+                // Se deshabilita esta funcionalidad    RM 01/10/2018
+
+                //if (_FuenteGateway.Equals("CRM") && !String.IsNullOrEmpty(_URLGateway))
+                //{
+                //    cliente = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
+                //    CargarDatosClienteCRM(cliente);
+                //}
+                //else
+                //{
+                //    lblCliente.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
+                //    lblRuta.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 1]);
+                //    lblCelula.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 13]);
+                //    lblNombre.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 15]);
+                //    lblCalle.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 20]);
+                //    lblNumExterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 23]);
+                //    lblNumInterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 22]);
+                //    lblColonia.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 21]);
+                //    lblCP.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 25]);
+                //    lblMunicipio.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 24]);
+                //}
+
+                #endregion
+
+                lblCliente.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
+                lblRuta.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 1]);
+                lblCelula.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 13]);
+                lblNombre.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 15]);
+                lblCalle.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 20]);
+                lblNumExterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 23]);
+                lblNumInterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 22]);
+                lblColonia.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 21]);
+                lblCP.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 25]);
+                lblMunicipio.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 24]);
 
                 lblTrabajoSolicitado.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 17]);
                 lblUnidad.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 11]);
