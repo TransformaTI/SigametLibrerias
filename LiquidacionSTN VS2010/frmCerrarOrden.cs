@@ -1009,7 +1009,17 @@ namespace LiquidacionSTN
 							drM["TipoPedidoDescripcion"] = CboTipoPedido.Text;
                             drM["Total"] = txtTotal.Text;
                             drM["ImporteLetra"] = Importe;
-                            drM["TipoPedido"] = this.CboTipoPedido.SelectedValue;
+                            if (this.CboTipoPedido.SelectedValue == null)
+                            {
+                                MessageBox.Show("Por favor seleccione un tipo de pedido.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                drM.CancelEdit();
+                                return;
+                            }
+                            else
+                            {
+                                drM["TipoPedido"] = this.CboTipoPedido.SelectedValue;
+                            }
+                            //drM["TipoPedido"] = this.CboTipoPedido.SelectedValue;
                             drM["TipoCobroDescripcion"] = cboTipoCobro.Text;
                             drM["ObservacionesServicioRealizado"] = txtServicioRealizado.Text;
 

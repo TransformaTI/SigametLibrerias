@@ -4662,7 +4662,8 @@ Public Class frmServProgramacion
     ''' </summary>
     ''' <returns></returns>
     Private Function SeCarganPedidosCRM() As Boolean
-        Return (Not String.IsNullOrEmpty(_URLGateway)) AndAlso (_FuenteGateway.Equals("CRM")) AndAlso
+        Return (Not String.IsNullOrEmpty(_URLGateway)) AndAlso
+                (_FuenteGateway.Equals("CRM")) AndAlso
                (Not _VerPedidosAsignados)
     End Function
 
