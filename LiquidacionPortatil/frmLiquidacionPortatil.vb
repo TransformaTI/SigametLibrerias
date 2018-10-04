@@ -2316,7 +2316,6 @@ Public Class frmLiquidacionPortatil
 			dcColumna = New DataColumn()
 			dcColumna.DataType = System.Type.GetType("System.String")
 			dcColumna.ColumnName = "Nombre"
-			dtLiquidacionTotal.Columns.Add(dcColumna)
 		End If
 	End Sub
 
@@ -4112,6 +4111,7 @@ Public Class frmLiquidacionPortatil
 			command.Connection = connection
 			command.Transaction = transaction
 			banderaTransaccion = False
+			Dim i As Integer = 0
 
 			Try
 				'---INICIO
@@ -4127,6 +4127,8 @@ Public Class frmLiquidacionPortatil
 					Throw New Exception("No se ha configurado el IVA")
 
 				End Try
+
+
 
 
 				If SesionIniciada = False Then
@@ -4165,10 +4167,10 @@ Public Class frmLiquidacionPortatil
 						Dim _TotalCredito As Decimal = 0
 						Dim _TotalSinCargo As Decimal = 0
 
-						Dim i As Integer = 0
+
 
 						'Dim NumRenglones As Integer = dtLiquidacionTotal.Rows.Count
-
+						i = 0
 						While i < dtLiquidacionTotal.Rows.Count
 							Dim Total As Decimal
 							Dim Importe As Decimal
@@ -7260,6 +7262,10 @@ Public Class frmLiquidacionPortatil
 			cboZEconomica.SelectedIndex = cboZEconomica.FindString(_DetalleGrid.Rows(0).Item("zonaeconomica").ToString())
 			TotalKilos = Convert.ToDecimal(_DetalleGrid.Compute("SUM(Kilos)", String.Empty))
 			lblTotalKilos.Text = TotalKilos.ToString
+			Dim col As New DataColumn("Modificado", GetType(Integer))
+			col.ReadOnly = False
+			col.DefaultValue = 0
+			_DetalleGrid.Columns.Add(col)
 		End If
 	End Sub
 
@@ -7447,6 +7453,16 @@ Public Class frmLiquidacionPortatil
 
 		End If
 
+		Dim i = 0
+		If _RutaMovil Then
+			While i < _DetalleGrid.Rows.Count
+				If CType(_DetalleGrid.Rows(i).Item(15), Integer) = 0 Then
+					_DetalleGrid.Rows(i).Item(2) = 0
+				End If
+				i = i + 1
+			End While
+		End If
+
 		If _BoletinEnLineaCamion = False Then
 			If _obligaInsercionRemision Then
 				If (TxtCliente.Text.Length > 0) Then
@@ -7523,8 +7539,16 @@ Public Class frmLiquidacionPortatil
 
 		Dim oLiquidacion As New PortatilClasses.cLiquidacion()
 
+		Dim precioVigente As Integer
+
+		If _LiqPrecioVigente Then
+			precioVigente = 1
+		Else
+			precioVigente = 0
+		End If
+
 		_dtListaProductos = New DataTable
-		oLiquidacion.ConsultaPedido(1, _Folio, _AnoAtt)
+		oLiquidacion.ConsultaPedido(1, _Folio, _AnoAtt, dtpFLiquidacion.Value, precioVigente, cboZEconomica.Identificador)
 		_dtListaProductos = oLiquidacion.dtTable
 		_dtListaProductos.TableName = "ProductosInicial"
 
@@ -7533,7 +7557,7 @@ Public Class frmLiquidacionPortatil
 
 	Private Function obtenerRegistroProducto(ByVal _Clave As Integer) As Integer
 
-		For i As Integer = 0 To _dtProductos.Rows.Count
+		For i As Integer = 0 To _dtListaProductos.Rows.Count
 			If CType(_dtListaProductos.Rows(i).Item(0), Integer) = _Clave Then
 				Return i
 			End If

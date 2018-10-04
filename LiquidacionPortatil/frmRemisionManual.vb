@@ -2513,7 +2513,7 @@ Public Class frmRemisionManual
 						grdDetalle.Item(i, 3) = "VENTA AL PUBLICO GENERAL"
 					End If
 
-
+					grdDetalle.Item(i, 15) = 1
 
 
 					grdDetalle.Item(i, 13) = cboTipoCobro.Identificador
@@ -2521,14 +2521,22 @@ Public Class frmRemisionManual
 						grdDetalle.Item(i, 8) = cboTipoCobro.Text
 						grdDetalle.Item(i, 13) = 18
 
+						If nombreTabla = "Remision" Then
+							fila = obtenerRegistroProducto(CType(grdDetalle.Item(i, 11), Integer))
+						Else
+							fila = obtenerRegistroProducto(CType(grdDetalle.Item(i, 3), Integer))
+						End If
+
 						If cbxAplicaDescuento.Checked Then
 							Try
 								Descuento = CDec(_DatosCliente.GetValue(7))
 								'grdDetalle.Item(i, 13) = Descuento ' FALTA AGRAGAR COLUMNA DESCUENTO
 								If nombreTabla = "Remision" Then
 									descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
+									campoDescuento = 5
 								Else
 									descuentoGrupal = CType(grdDetalle.Item(i, 6), Decimal) * Descuento
+									campoDescuento = 13
 								End If
 								grdDetalle.Item(i, campoDescuento) = descuentoGrupal
 							Catch ex As Exception
