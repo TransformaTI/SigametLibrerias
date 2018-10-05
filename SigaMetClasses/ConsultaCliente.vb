@@ -2845,6 +2845,7 @@ Public Class frmConsultaCliente
                     End If
 
 
+
                     If Not IsNothing(_oDireccionEntrega.DatosFiscales) Then
                         lblEmpresa.Text = _oDireccionEntrega.DatosFiscales.IDDatosFiscales.ToString
                         lblRazonSocial.Text = _oDireccionEntrega.DatosFiscales.RazonSocial.Trim
