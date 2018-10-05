@@ -50,18 +50,45 @@ Public Class frmConTarjetaCredito
         _CadenaConexion = CadCon
     End Sub
 
-    Private Sub ConsultaClienteGateway(ByVal oDireccionEntrega As RTGMCore.DireccionEntrega)
+    'Private Sub ConsultaClienteGateway(ByVal oDireccionEntrega As RTGMCore.DireccionEntrega)
+    Private Sub ConsultaClienteGateway(ByVal cliente As Integer)
         Cursor = Cursors.WaitCursor
 
-        txtCliente.Text = CType(oDireccionEntrega.IDDireccionEntrega, String)
-        lblNombre.Text = CType(oDireccionEntrega.Nombre, String)
-        lblCelula.Text = CType(oDireccionEntrega.ZonaSuministro.Descripcion, String)
-        lblRuta.Text = CType(oDireccionEntrega.Ruta.Descripcion, String)
-        lblTipoCredito.Text = CType(oDireccionEntrega.CondicionesCredito.ClasificacionCredito, String)
-        lblEstatus.Text = CType(oDireccionEntrega.Status, String)
-        lblSaldo.Text = CType(oDireccionEntrega.CondicionesCredito.Saldo, Decimal).ToString("C")
-        OcultarTarjetaCredito()
-        btnModificar.Enabled = False
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+        oSolicitud = New RTGMGateway.SolicitudGateway
+        oGateway.URLServicio = _URLGateway
+        oSolicitud.IDCliente = _Cliente
+        oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+        If IsNothing(oDireccionEntrega.Message) Then
+            txtCliente.Text = CType(oDireccionEntrega.IDDireccionEntrega, String)
+            lblNombre.Text = CType(oDireccionEntrega.Nombre, String)
+            lblEstatus.Text = CType(oDireccionEntrega.Status, String)
+
+            If Not IsNothing(oDireccionEntrega.ZonaSuministro) Then
+                lblCelula.Text = CType(oDireccionEntrega.ZonaSuministro.Descripcion, String)
+            End If
+            If Not IsNothing(oDireccionEntrega.Ruta) Then
+                lblRuta.Text = CType(oDireccionEntrega.Ruta.Descripcion, String)
+            End If
+            If Not IsNothing(oDireccionEntrega.CondicionesCredito) Then
+                lblTipoCredito.Text = CType(oDireccionEntrega.CondicionesCredito.ClasificacionCredito, String)
+                lblSaldo.Text = CType(oDireccionEntrega.CondicionesCredito.Saldo, Decimal).ToString("C")
+            End If
+
+            OcultarTarjetaCredito()
+            btnModificar.Enabled = False
+
+            If Not IsNothing(oDireccionEntrega.TarjetasCredito) AndAlso oDireccionEntrega.TarjetasCredito.Count > 0 Then
+                grdTarjetaCredito.DataSource = oDireccionEntrega.TarjetasCredito
+            End If
+        Else
+            MessageBox.Show(oDireccionEntrega.Message, "CRM", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+
         Cursor = Cursors.Default
     End Sub
 
@@ -646,19 +673,7 @@ Public Class frmConTarjetaCredito
                     btnAgregar.Enabled = True
                 End If
             Else
-                Dim oGateway As RTGMGateway.RTGMGateway
-                Dim oSolicitud As RTGMGateway.SolicitudGateway
-                Dim oDireccionEntrega As RTGMCore.DireccionEntrega
-                oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
-                oSolicitud = New RTGMGateway.SolicitudGateway
-                oGateway.URLServicio = _URLGateway
-                oSolicitud.IDCliente = _Cliente
-                oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
-                If IsNothing(oDireccionEntrega.Message) Then
-                    ConsultaClienteGateway(oDireccionEntrega)
-                Else
-                    MessageBox.Show(oDireccionEntrega.Message, "SIGAMET", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End If
+                ConsultaClienteGateway(_Cliente)
                 If lblNombre.Text = "" Then
                     btnAgregar.Enabled = False
                     MessageBox.Show("No se encontró el cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
