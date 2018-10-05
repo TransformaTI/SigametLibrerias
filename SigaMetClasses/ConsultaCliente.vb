@@ -2862,6 +2862,7 @@ Public Class frmConsultaCliente
 
                         lblSaldo.Text = _oDireccionEntrega.CondicionesCredito.Saldo.ToString()
 
+
                         lblTipoCredito.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ClasificacionCredito),
                             String.Empty, _oDireccionEntrega.CondicionesCredito.ClasificacionCredito.Trim())
 
