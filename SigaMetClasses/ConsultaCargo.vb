@@ -1540,6 +1540,9 @@ Public Class ConsultaCargo
         Dim serie As String = Nothing
         Dim documento As Integer
         Dim numeroPedidoReferencia As String = Nothing
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
 
         Dim cargarComplemento As Boolean
 
@@ -1602,6 +1605,24 @@ Public Class ConsultaCargo
                 lblStatusPedido.Text = CType(dr("StatusPedido"), String).Trim
                 lblStatusCobranza.Text = CType(dr("StatusCobranza"), String).Trim
                 lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("ClienteNombre"), String)
+
+                If String.IsNullOrEmpty(_URLGateway) Then
+                    lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("ClienteNombre"), String)
+                Else
+                    oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+                    oSolicitud = New RTGMGateway.SolicitudGateway()
+                    oGateway.URLServicio = _URLGateway
+                    oSolicitud.IDCliente = CInt(dr("Cliente"))
+                    oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+                    If Not IsNothing(oDireccionEntrega) Then
+                        If Not IsNothing(oDireccionEntrega.Nombre) Then
+                            lblCliente.Text = oDireccionEntrega.IDDireccionEntrega & " " & oDireccionEntrega.Nombre.Trim()
+                        End If
+                    End If
+
+                End If
+
                 If IsDBNull(dr("RutaSuministro")) Then
                     lblRutaSuministro.Text = "Sin ruta suministro"
                 Else
