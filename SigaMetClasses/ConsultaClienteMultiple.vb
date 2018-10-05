@@ -803,7 +803,14 @@ Public Class frmConsultaClienteMultiple
                 End If
             End If
 
-            consultarPedidos(Cliente, SoloPedidosCredito, SoloPedidosSurtidos)
+            If (oDireccionEntrega.IDDireccionEntrega <> 0) Then
+                consultarPedidos(Cliente, SoloPedidosCredito, SoloPedidosSurtidos)
+
+            Else
+                MessageBox.Show("¡El cliente ingresado no existe!", "Consulta Clientes", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Me.Close()
+            End If
+
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Consulta de cliente", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
