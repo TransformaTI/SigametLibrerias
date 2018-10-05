@@ -2783,6 +2783,8 @@ Public Class frmConsultaCliente
 
                 If Not IsNothing(_oDireccionEntrega) Then
 
+
+
                     ' Verificar errores de DynamicsCRM
                     If _oDireccionEntrega.Message IsNot Nothing AndAlso
                     _oDireccionEntrega.Message.Contains("ERROR EN DYNAMICS CRM") Then
@@ -2857,6 +2859,8 @@ Public Class frmConsultaCliente
 
                     'Condiciones crédito
                     If Not IsNothing(_oDireccionEntrega.CondicionesCredito) Then
+
+                        lblSaldo.Text = _oDireccionEntrega.CondicionesCredito.Saldo.ToString()
 
                         lblTipoCredito.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ClasificacionCredito),
                             String.Empty, _oDireccionEntrega.CondicionesCredito.ClasificacionCredito.Trim())
@@ -3020,6 +3024,8 @@ Public Class frmConsultaCliente
                     _TotalLitros += CType(dr("Litros"), Decimal)
                 End If
             Next
+
+            lblSaldo.Text = _TotalSaldoCartera.ToString("C")
 
             lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
             lblSaldoTotal.Text = _TotalSaldo.ToString("C")
