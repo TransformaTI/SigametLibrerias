@@ -50,7 +50,6 @@ Public Class frmConTarjetaCredito
         _CadenaConexion = CadCon
     End Sub
 
-    'Private Sub ConsultaClienteGateway(ByVal oDireccionEntrega As RTGMCore.DireccionEntrega)
     Private Sub ConsultaClienteGateway(ByVal cliente As Integer)
         Cursor = Cursors.WaitCursor
 
@@ -664,24 +663,29 @@ Public Class frmConTarjetaCredito
             _Cliente = CType(txtCliente.Text, Integer)
             LimpiaCajas()
 
-            If (String.IsNullOrEmpty(_URLGateway)) Then
-                ConsultaCliente(_Cliente)
-                If lblNombre.Text = "" Then
-                    btnAgregar.Enabled = False
-                    MessageBox.Show("No se encontró el cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Try
+                If (String.IsNullOrEmpty(_URLGateway)) Then
+                    ConsultaCliente(_Cliente)
+                    If lblNombre.Text = "" Then
+                        btnAgregar.Enabled = False
+                        MessageBox.Show("No se encontró el cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Else
+                        btnAgregar.Enabled = True
+                    End If
                 Else
-                    btnAgregar.Enabled = True
-                End If
-            Else
-                ConsultaClienteGateway(_Cliente)
-                If lblNombre.Text = "" Then
-                    btnAgregar.Enabled = False
-                    MessageBox.Show("No se encontró el cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Else
-                    btnAgregar.Enabled = True
-                End If
+                    ConsultaClienteGateway(_Cliente)
+                    If lblNombre.Text = "" Then
+                        btnAgregar.Enabled = False
+                        MessageBox.Show("No se encontró el cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Else
+                        btnAgregar.Enabled = True
+                    End If
 
-            End If
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Ocurrió un error consultando el cliente." & vbCrLf & ex.Message, Titulo,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End If
     End Sub
 
@@ -705,33 +709,58 @@ Public Class frmConTarjetaCredito
 
     Private Sub grdTarjetaCredito_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles grdTarjetaCredito.CurrentCellChanged
 
+        If (grdTarjetaCredito.CurrentRowIndex < 0) Then Exit Sub
+
         grdTarjetaCredito.Select(grdTarjetaCredito.CurrentRowIndex)
 
-        If Not _NumOculto Then
-            _TarjetaCredito = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 0), String)
+        If Not IsNothing(_URLGateway) Then
+            CargarTarjetaClienteCRM()
         Else
-            _NumTDCOculto = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 0), String)
-            _TarjetaCredito = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 13), String)
+            If Not _NumOculto Then
+                _TarjetaCredito = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 0), String)
+            Else
+                _NumTDCOculto = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 0), String)
+                _TarjetaCredito = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 13), String)
+            End If
+            _Titular = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 6), String).Trim
+            _Banco = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 10), Short)
+            _AnoVigencia = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 3), Short)
+            _MesVigencia = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 4), Byte)
+            _Domicilio = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 7), String)
+            _TipoTarjetaCredito = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 11), Byte)
+            _Identificacion = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 8), String)
+            _Firma = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 9), String)
+            _Status = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 5), String)
+            _Recurrente = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 12), Boolean)
+
+            lblTitular.Text = _Titular
+            lblDomicilio.Text = _Domicilio
+            lblIdentificacion.Text = _Identificacion
+            lblFirma.Text = _Firma
+
+            btnAgregar.Enabled = True
+            btnModificar.Enabled = True
         End If
-        _Titular = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 6), String).Trim
-        _Banco = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 10), Short)
-        _AnoVigencia = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 3), Short)
-        _MesVigencia = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 4), Byte)
-        _Domicilio = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 7), String)
-        _TipoTarjetaCredito = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 11), Byte)
-        _Identificacion = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 8), String)
-        _Firma = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 9), String)
-        _Status = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 5), String)
-        _Recurrente = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 12), Boolean)
+
+    End Sub
+
+    Private Sub CargarTarjetaClienteCRM()
+        _Titular = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 13), String).Trim    '13
+        _Domicilio = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 2), String)        '2
+        _Identificacion = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 7), String)   '7
+        _Firma = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 5), String)            '5
+
+        '_Banco = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 1), String)
+        _AnoVigencia = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 0), Short)       '0
+        _MesVigencia = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 8), Byte)
+        '_TipoTarjetaCredito = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 12), Byte)
+        _Status = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 11), String)
+        _Recurrente = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 10), Boolean)
 
         lblTitular.Text = _Titular
         lblDomicilio.Text = _Domicilio
         lblIdentificacion.Text = _Identificacion
         lblFirma.Text = _Firma
-
-        btnAgregar.Enabled = True
-        btnModificar.Enabled = True
-
     End Sub
 
     Private Sub LimpiaCajas()
