@@ -4554,6 +4554,13 @@ Public Class frmLiquidacionPortatil
 						
 					End If
 					transaction.Commit()
+					Try
+						Dim ObjLiquida As New LiquidadorEstacionario.liquidadorEstacionario()
+
+						ObjLiquida.liquidarRuta(Globals.GetInstance._URLGateway, 0, 0, _AnoAtt, _Folio, 3, Globals.GetInstance._CadenaConexion)
+					Catch ex As Exception
+						MessageBox.Show("Error al liquidar:" & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+					End Try
 					banderaTransaccion = True
 				Else
 					Dim Mensajes As New PortatilClasses.Mensaje(123)
