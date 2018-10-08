@@ -82,7 +82,36 @@ Public Class frmConTarjetaCredito
             btnModificar.Enabled = False
 
             If Not IsNothing(oDireccionEntrega.TarjetasCredito) AndAlso oDireccionEntrega.TarjetasCredito.Count > 0 Then
-                grdTarjetaCredito.DataSource = oDireccionEntrega.TarjetasCredito
+                Dim obTarjeta As RTGMCore.TarjetaCredito
+                Dim row As DataRow
+
+                Dim objCliente As New SigaMetClasses.cCliente()
+                dsDatos = objCliente.ConsultaDatos(cliente, False, True)
+                dsDatos.Tables("TarjetaCredito").Clear()
+
+                For Each obTarjeta In oDireccionEntrega.TarjetasCredito
+                    row = dsDatos.Tables("TarjetaCredito").NewRow()
+                    row("TarjetaCredito") = obTarjeta.NumeroTarjetaCredito
+                    row("NumeroTarjetaCredito") = obTarjeta.NumeroTarjetaCredito
+                    row("Titular") = obTarjeta.Titular
+                    'row("Banco") = obTarjeta.Banco
+                    row("BancoNombre") = obTarjeta.Banco
+                    row("Titular") = obTarjeta.Titular
+                    row("AñoVigencia") = obTarjeta.AñoVigencia
+                    row("MesVigencia") = obTarjeta.MesVigencia
+                    row("Domicilio") = obTarjeta.Domicilio
+                    'row("TipoTarjetaCredito") = obTarjeta.TipoTarjetaCredito
+                    row("TipoTarjetaCreditoDescripcion") = obTarjeta.TipoTarjetaCredito
+                    row("Identificacion") = obTarjeta.Identificacion
+                    row("Firma") = obTarjeta.Firma
+                    row("Status") = obTarjeta.Status
+                    row("FAlta") = obTarjeta.FAlta
+                    row("Recurrente") = obTarjeta.Recurrente
+
+                    dsDatos.Tables("TarjetaCredito").Rows.Add(row)
+                Next
+
+                grdTarjetaCredito.DataSource = dsDatos.Tables("TarjetaCredito")
             End If
         Else
             MessageBox.Show(oDireccionEntrega.Message, "CRM", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -745,17 +774,15 @@ Public Class frmConTarjetaCredito
     End Sub
 
     Private Sub CargarTarjetaClienteCRM()
-        _Titular = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 13), String).Trim    '13
-        _Domicilio = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 2), String)        '2
-        _Identificacion = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 7), String)   '7
-        _Firma = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 5), String)            '5
+        _Titular = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 6), String).Trim
+        _Domicilio = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 7), String)
+        _Identificacion = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 8), String)
+        _Firma = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 9), String)
 
-        '_Banco = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 1), String)
-        _AnoVigencia = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 0), Short)       '0
-        _MesVigencia = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 8), Byte)
-        '_TipoTarjetaCredito = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 12), Byte)
-        _Status = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 11), String)
-        _Recurrente = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 10), Boolean)
+        _AnoVigencia = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 3), Short)
+        _MesVigencia = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 4), Byte)
+        _Status = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 5), String)
+        _Recurrente = CType(grdTarjetaCredito.Item(grdTarjetaCredito.CurrentRowIndex, 12), Boolean)
 
         lblTitular.Text = _Titular
         lblDomicilio.Text = _Domicilio
@@ -804,10 +831,10 @@ Public Class frmConTarjetaCredito
     End Sub
 
     Private Sub btnModificar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnModificar.Click
-        Dim frmCaptura As New frmCapTarjetaCredito(_Cliente, _
-                            _TarjetaCredito, _Titular, _Banco, _AnoVigencia, _
-                            _MesVigencia, _Domicilio, _TipoTarjetaCredito, _
-                            _Identificacion, _Firma, _Status, _Recurrente, _
+        Dim frmCaptura As New frmCapTarjetaCredito(_Cliente,
+                            _TarjetaCredito, _Titular, _Banco, _AnoVigencia,
+                            _MesVigencia, _Domicilio, _TipoTarjetaCredito,
+                            _Identificacion, _Firma, _Status, _Recurrente,
                             _NumOculto, _NumTDCOculto)
         If frmCaptura.ShowDialog() = DialogResult.OK Then
             LimpiaCajas()
