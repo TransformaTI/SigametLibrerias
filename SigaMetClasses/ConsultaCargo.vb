@@ -1484,11 +1484,13 @@ Public Class ConsultaCargo
         cboTipoBusqueda.Enabled = False
         ConsultaCatalogoFiltros()
 
-        If String.IsNullOrEmpty(_URLGateway) Then
-            ConsultaDocumento(strPedidoReferencia)
-        Else
-            ConsultaDocumento(strPedidoReferencia, _URLGateway)
-        End If
+        'If String.IsNullOrEmpty(_URLGateway) Then
+        '    ConsultaDocumento(strPedidoReferencia)
+        'Else
+        '    ConsultaDocumento(strPedidoReferencia, _URLGateway)
+        'End If
+
+        ConsultaDocumento(strPedidoReferencia)
 
         'Mejorar
         If VentanaDefault = enumConsultaCargo.DatosCheque Then
@@ -1750,6 +1752,12 @@ Public Class ConsultaCargo
                 lblReferencia.Text = Convert.ToString(dr("PedidoReferencia"))
 
                 txtPedidoReferencia.Focus()
+
+
+
+
+
+
             Loop
             If lblPedido.Text = "" Then
                 MessageBox.Show("No se encontró el documento especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -2129,11 +2137,13 @@ Public Class ConsultaCargo
         If Trim(txtPedidoReferencia.Text) <> "" Then
             _PedidoReferencia = Replace(UCase(Trim(txtPedidoReferencia.Text)), "'", "")
 
-            If (String.IsNullOrEmpty(_URLGateway)) Then
-                ConsultaDocumento(_PedidoReferencia)
-            Else
-                ConsultaDocumento(_PedidoReferencia, _URLGateway)
-            End If
+            'If (String.IsNullOrEmpty(_URLGateway)) Then
+            '    ConsultaDocumento(_PedidoReferencia)
+            'Else
+            '    ConsultaDocumento(_PedidoReferencia, _URLGateway)
+            'End If
+
+            ConsultaDocumento(_PedidoReferencia)
         End If
     End Sub
 
