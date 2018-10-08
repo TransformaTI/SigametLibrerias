@@ -1079,7 +1079,7 @@ Public Class frmConsultaClienteMultiple
 
         For Each lwPedido In lwoDocumentos.SelectedItems
             Cursor = Cursors.WaitCursor
-            Dim frmConsultaCargo As New ConsultaCargo(DirectCast(lwPedido.Tag, DocumentoCliente).PedidoReferencia)
+            Dim frmConsultaCargo As New ConsultaCargo(DirectCast(lwPedido.Tag, DocumentoCliente).PedidoReferencia, strURLGateway:=_URLGateway, Modulo:=Modulo, CadenaConexion:=_CadenaConexion)
             frmConsultaCargo.ShowDialog()
             Cursor = Cursors.Default
         Next
