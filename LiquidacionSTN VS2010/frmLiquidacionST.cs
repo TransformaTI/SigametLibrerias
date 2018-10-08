@@ -2639,6 +2639,13 @@ namespace LiquidacionSTN
 							    SqlTransaction Transaccion;
 														                        
 							    System.Data.DataRow[] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Autotanque = " + cboCamioneta.Text );
+                                
+                                if (!ValidarTipoCobro(Query))
+                                {
+                                    MessageBox.Show("Debe seleccionar un Tipo de cobro para todos los pedidos.", this.Text,
+                                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    break;
+                                }
 
                                 Conexion.Open();
                                 Transaccion = Conexion.BeginTransaction();
@@ -3167,6 +3174,31 @@ namespace LiquidacionSTN
 			Cursor = Cursors.Default ;
 			LiquidacionSTN.Modulo.CnnSigamet.Close ();
 		}
+
+        /// <summary>
+        /// Valida el tipo de cobro de los pedidos cuando la fuente del Gateway es CRM
+        /// </summary>
+        private bool ValidarTipoCobro(DataRow[] parPedidos)
+        {
+            bool resultado = true;
+            byte tipoCobro = 0;
+
+            if (_FuenteGateway.Equals("CRM"))
+            {
+                foreach(DataRow row in parPedidos)
+                {
+                    byte.TryParse(row["TipoCobro"].ToString(), out tipoCobro);
+
+                    if (tipoCobro == 0)
+                    {
+                        resultado = false;
+                        break;
+                    }
+                }
+            }
+
+            return resultado;
+        }
 
         private void LiquidarPedidosCRM(System.Data.DataRow[] parPedidos)
         {
