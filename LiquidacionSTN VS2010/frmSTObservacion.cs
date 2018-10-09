@@ -132,8 +132,9 @@ namespace LiquidacionSTN
 			{
 				try
 				{
-                    string dbQuery = "UPDATE Pedido SET Observaciones = Observaciones + ' - ' + @Observaciones" +
+                    string dbQuery = "UPDATE ServicioTecnico SET ObservacionesServicioRealizado = @Observaciones" +
                                     " WHERE Pedido = @Pedido AND Celula = @Celula AND AñoPed = @AñoPed;";
+
                     LiquidacionSTN.Modulo.CnnSigamet.Open();
 
                     using (SqlCommand dbCommand = new SqlCommand(dbQuery, LiquidacionSTN.Modulo.CnnSigamet))

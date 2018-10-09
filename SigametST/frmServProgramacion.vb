@@ -3919,8 +3919,8 @@ Public Class frmServProgramacion
 
                 If _Estatus = "ACTIVO" Then
                     Cursor = Cursors.WaitCursor
-                    'Dim frmDescripcion As New LiquidacionSTN.frmSTObservacion(Pedido, Celula, AñoPed, GLOBAL_Usuario, txtTrabajoRealizado.Text)
-                    Dim frmDescripcion As New LiquidacionSTN.frmSTObservacion(Pedido, Celula, AñoPed, GLOBAL_Usuario, "")
+                    Dim frmDescripcion As New LiquidacionSTN.frmSTObservacion(Pedido, Celula, AñoPed, GLOBAL_Usuario, txtTrabajoRealizado.Text)
+                    'Dim frmDescripcion As New LiquidacionSTN.frmSTObservacion(Pedido, Celula, AñoPed, GLOBAL_Usuario, "")
                     frmDescripcion.ShowDialog()
                     If (Convert.ToBoolean(frmDescripcion.Tag) = Nothing) Then
                     ElseIf (Convert.ToBoolean(frmDescripcion.Tag) = True) Then
