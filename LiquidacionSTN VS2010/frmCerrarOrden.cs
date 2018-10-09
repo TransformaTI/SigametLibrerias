@@ -992,7 +992,7 @@ namespace LiquidacionSTN
 							break;
 						}
 					}
-
+                    
 					if (MessageBox.Show ("¿Esta usted seguro de modificar el servicio técnico?", "Servicios Técnicos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 					{
 						System.Data.DataRow [] Consulta;
@@ -1021,7 +1021,6 @@ namespace LiquidacionSTN
                             }
                             //drM["TipoPedido"] = this.CboTipoPedido.SelectedValue;
                             drM["TipoCobroDescripcion"] = cboTipoCobro.Text;
-                            drM["ObservacionesServicioRealizado"] = txtServicioRealizado.Text;
 
                             if (cboFormaCredito.SelectedValue == null)
 							{
