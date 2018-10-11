@@ -2489,7 +2489,8 @@ Public Class frmConsultaCliente
     End Sub
 
     Private Sub grdDocumento_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles grdDocumento.CurrentCellChanged
-        If _URLGateway = String.Empty Then
+
+        If (grdDocumento.CurrentRowIndex >= 0) Then
             _PedidoReferencia = Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 3), String))
             If grdDocumento.Item(grdDocumento.CurrentRowIndex, 7) IsNot DBNull.Value Then
                 _Fecha = Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 7), String))
@@ -2498,6 +2499,8 @@ Public Class frmConsultaCliente
             _Importe = CDec(Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 10), String)))
             If btnConsultaDocumento.Enabled = False And _PedidoReferencia <> "" Then btnConsultaDocumento.Enabled = True
             grdDocumento.Select(grdDocumento.CurrentRowIndex)
+
+
         End If
     End Sub
 
