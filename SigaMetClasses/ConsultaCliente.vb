@@ -2786,8 +2786,6 @@ Public Class frmConsultaCliente
 
                 If Not IsNothing(_oDireccionEntrega) Then
 
-
-
                     ' Verificar errores de DynamicsCRM
                     If _oDireccionEntrega.Message IsNot Nothing AndAlso
                     _oDireccionEntrega.Message.Contains("ERROR EN DYNAMICS CRM") Then
@@ -2847,8 +2845,6 @@ Public Class frmConsultaCliente
                         lblProgramacion.Text = "INACTIVA"
                     End If
 
-
-
                     If Not IsNothing(_oDireccionEntrega.DatosFiscales) Then
                         lblEmpresa.Text = _oDireccionEntrega.DatosFiscales.IDDatosFiscales.ToString
                         lblRazonSocial.Text = _oDireccionEntrega.DatosFiscales.RazonSocial.Trim
@@ -2864,16 +2860,15 @@ Public Class frmConsultaCliente
                     'Condiciones crédito
                     If Not IsNothing(_oDireccionEntrega.CondicionesCredito) Then
 
-                        lblSaldo.Text = _oDireccionEntrega.CondicionesCredito.Saldo.ToString()
-
+                        'lblSaldo.Text = _oDireccionEntrega.CondicionesCredito.Saldo.ToString()
 
                         lblTipoCredito.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ClasificacionCredito),
                             String.Empty, _oDireccionEntrega.CondicionesCredito.ClasificacionCredito.Trim())
 
                         lblMaxImporteCredito.Text = CDec(_oDireccionEntrega.CondicionesCredito.LimiteCredito).ToString("C")
                         lblDiasCredito.Text = _oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString()
-                        'lblSaldo.Text = CDec(oDireccionEntrega.CondicionesCredito.Saldo).ToString("C")
-                        lblSaldo.Text = SaldoSigamet.ToString("C")
+                        lblSaldo.Text = CDec(_oDireccionEntrega.CondicionesCredito.Saldo).ToString("C")
+                        'lblSaldo.Text = SaldoSigamet.ToString("C")
                         lblDiaRevision.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DiasRevision),
                             String.Empty, _oDireccionEntrega.CondicionesCredito.DiasRevision.Trim())
 
@@ -3030,13 +3025,13 @@ Public Class frmConsultaCliente
                 End If
             Next
 
-            lblSaldo.Text = _TotalSaldoCartera.ToString("C")
+            ' 12/10/2018 - RM. En esta sobrecarga del método, el saldo se debe cargar desde el servicio web
+            'lblSaldo.Text = _TotalSaldoCartera.ToString("C")
 
             lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
             lblSaldoTotal.Text = _TotalSaldo.ToString("C")
             lblLitrosCartera.Text = _TotalLitrosCartera.ToString
             lblLitrosConsulta.Text = _TotalLitros.ToString
-
 
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Consulta de cliente", MessageBoxButtons.OK, MessageBoxIcon.Error)
