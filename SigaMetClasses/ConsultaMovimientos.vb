@@ -1281,11 +1281,10 @@ Public Class ConsultaMovimientos
                 Dim oMovCaja As New SigaMetClasses.TransaccionMovimientoCaja()
                 Try
                     oMovCaja.Cancela(_Caja, _FOperacion, _Consecutivo, _Folio, frmMotivoCancelacion.MotivoCancelacion, _ModuloUsuario)
-                    If _URLGateway = "" Then
-                        CargaDatos()
-                    Else
+                    If Not String.IsNullOrEmpty(_URLGateway) AndAlso _ConsultarPedidosGateway Then
                         CargaDatos(_URLGateway)
-
+                    Else
+                        CargaDatos()
                     End If
                 Catch ex As Exception
                     MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1348,11 +1347,10 @@ Public Class ConsultaMovimientos
                         Dim oMovCaja As New SigaMetClasses.TransaccionMovimientoCaja()
                         Try
                             oMovCaja.Revive(_Clave)
-                            If _URLGateway = "" Then
-                                CargaDatos()
-                            Else
+                            If Not String.IsNullOrEmpty(_URLGateway) AndAlso _ConsultarPedidosGateway Then
                                 CargaDatos(_URLGateway)
-
+                            Else
+                                CargaDatos()
                             End If
                         Catch ex As Exception
                             MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1410,11 +1408,10 @@ Public Class ConsultaMovimientos
             End If
 
             If oConsultaCobro.ShowDialog() = DialogResult.OK Then
-                If _URLGateway = "" Then
-                    Me.CargaDatos()
-                Else
+                If Not String.IsNullOrEmpty(_URLGateway) AndAlso _ConsultarPedidosGateway Then
                     Me.CargaDatos(_URLGateway)
-
+                Else
+                    Me.CargaDatos()
                 End If
             End If
             Cursor = Cursors.Default
@@ -1456,11 +1453,10 @@ Public Class ConsultaMovimientos
             Case Is = "ConsultarDocumento"
                 ConsultarDocumento()
             Case Is = "Refrescar"
-                If _URLGateway = "" Then
-                    CargaDatos()
-                Else
+                If Not String.IsNullOrEmpty(_URLGateway) AndAlso _ConsultarPedidosGateway Then
                     CargaDatos(_URLGateway)
-
+                Else
+                    CargaDatos()
                 End If
             Case Is = "Imprimir"
                 ImprimirFormato()
@@ -1495,11 +1491,10 @@ Public Class ConsultaMovimientos
     End Sub
 
     Private Sub btnConsultar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultar.Click
-        If _URLGateway = "" Then
-            CargaDatos()
-        Else
+        If Not String.IsNullOrEmpty(_URLGateway) AndAlso _ConsultarPedidosGateway Then
             CargaDatos(_URLGateway)
-
+        Else
+            CargaDatos()
         End If
     End Sub
 
