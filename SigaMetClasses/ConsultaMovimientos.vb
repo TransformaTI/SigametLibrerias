@@ -24,6 +24,7 @@ Public Class ConsultaMovimientos
     Private _Empleado As Integer
     Private _URLGateway As String
     Private _CadenaConexion As String
+    Private _ConsultarPedidosGateway As Boolean
 #End Region
 
 #Region "Propiedades"
@@ -73,7 +74,10 @@ Public Class ConsultaMovimientos
 
     End Sub
 
-    Public Sub New(URLGateway As String, Optional ByVal Modulo As Byte = 0, Optional Cadcon As String = "")
+    Public Sub New(ByVal URLGateway As String,
+          Optional ByVal Modulo As Byte = 0,
+          Optional ByVal Cadcon As String = "",
+          Optional ByVal ConsultarPedidosGateway As Boolean = False)
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
@@ -82,6 +86,7 @@ Public Class ConsultaMovimientos
         _URLGateway = URLGateway
         _Modulo = Modulo
         _CadenaConexion = Cadcon
+        _ConsultarPedidosGateway = ConsultarPedidosGateway
     End Sub
 
 
@@ -879,7 +884,9 @@ Public Class ConsultaMovimientos
     Public Sub New(ByVal Modulo As Short,
                    ByVal ModuloUsuario As String,
                    ByVal ModuloEmpleado As Integer,
-                   ByVal URLGateway As String, Optional CadCon As String = "")
+                   ByVal URLGateway As String,
+          Optional ByVal CadCon As String = "",
+          Optional ByVal ConsultarPedidosGateway As Boolean = False)
 
         MyBase.New()
         InitializeComponent()
@@ -888,6 +895,7 @@ Public Class ConsultaMovimientos
         _ModuloEmpleado = ModuloEmpleado
         _URLGateway = URLGateway
         _CadenaConexion = CadCon
+        _ConsultarPedidosGateway = ConsultarPedidosGateway
     End Sub
 
     Public Sub CargaDatos()
