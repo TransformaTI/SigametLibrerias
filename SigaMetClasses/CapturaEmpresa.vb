@@ -928,18 +928,20 @@ Public Class CapturaEmpresa
                 End If
 
                 If Not IsDBNull(dt.Rows(0).Item("NumeroCuenta")) Then
-                    _maskedText.MaskText(Convert.ToString(dt.Rows(0).Item("NumeroCuenta")), 4, Convert.ToChar("*"))
-                    txtNumeroCuenta.Text = _maskedText.MaskedText
+                    If CStr(dt.Rows(0).Item("NumeroCuenta")).Length > 0 Then
+                        _maskedText.MaskText(Convert.ToString(dt.Rows(0).Item("NumeroCuenta")), 4, Convert.ToChar("*"))
+                        txtNumeroCuenta.Text = _maskedText.MaskedText
+                    End If
                 End If
-                'If Not IsDBNull(dt.Rows(0).Item("Descripcion")) Then
-                '    Dim i As Integer
-                '    For i = 0 To cboTipoCobro.Items.Count - 1
-                '        If Convert.ToString(CType(cboTipoCobro.Items(i), System.Data.DataRowView).Item(1)).ToUpper.Trim = CType(dt.Rows(0).Item("Descripcion"), String).ToUpper.Trim Then
-                '            cboTipoCobro.SelectedIndex = i
-                '        End If
-                '    Next i
-                'End If
-            Else
+                    'If Not IsDBNull(dt.Rows(0).Item("Descripcion")) Then
+                    '    Dim i As Integer
+                    '    For i = 0 To cboTipoCobro.Items.Count - 1
+                    '        If Convert.ToString(CType(cboTipoCobro.Items(i), System.Data.DataRowView).Item(1)).ToUpper.Trim = CType(dt.Rows(0).Item("Descripcion"), String).ToUpper.Trim Then
+                    '            cboTipoCobro.SelectedIndex = i
+                    '        End If
+                    '    Next i
+                    'End If
+                Else
                 btnAceptar.Enabled = False
             End If
 
