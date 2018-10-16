@@ -195,6 +195,9 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.ToolBarButton tbbPedidos;
 		private System.Windows.Forms.Label lblTotalALiquidar;
         private ToolBarButton tbbTransferencia;
+        private DataGridView grdTransferencias;
+        private Panel pnlTransferencias;
+        private Label label6;
         private System.ComponentModel.IContainer components;
 
         public frmLiquidacionST(string Usuario, 
@@ -488,6 +491,9 @@ namespace LiquidacionSTN
             this.grdTarjerta = new System.Windows.Forms.DataGrid();
             this.lblTotalALiquidar = new System.Windows.Forms.Label();
             this.tbbTransferencia = new System.Windows.Forms.ToolBarButton();
+            this.grdTransferencias = new System.Windows.Forms.DataGridView();
+            this.pnlTransferencias = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdCheque)).BeginInit();
@@ -495,6 +501,8 @@ namespace LiquidacionSTN
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdLiquidacion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdTarjerta)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grdTransferencias)).BeginInit();
+            this.pnlTransferencias.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolBar1
@@ -968,7 +976,7 @@ namespace LiquidacionSTN
             this.grdCheque.Location = new System.Drawing.Point(8, 472);
             this.grdCheque.Name = "grdCheque";
             this.grdCheque.ReadOnly = true;
-            this.grdCheque.Size = new System.Drawing.Size(455, 76);
+            this.grdCheque.Size = new System.Drawing.Size(455, 72);
             this.grdCheque.TabIndex = 9;
             this.grdCheque.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
             this.dataGridTableStyle2});
@@ -2177,10 +2185,44 @@ namespace LiquidacionSTN
             this.tbbTransferencia.Tag = "Transferencia";
             this.tbbTransferencia.Text = "Transferencia";
             // 
+            // grdTransferencias
+            // 
+            this.grdTransferencias.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.grdTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.grdTransferencias.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdTransferencias.Location = new System.Drawing.Point(-2, 20);
+            this.grdTransferencias.Name = "grdTransferencias";
+            this.grdTransferencias.Size = new System.Drawing.Size(453, 48);
+            this.grdTransferencias.TabIndex = 16;
+            // 
+            // pnlTransferencias
+            // 
+            this.pnlTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlTransferencias.Controls.Add(this.label6);
+            this.pnlTransferencias.Controls.Add(this.grdTransferencias);
+            this.pnlTransferencias.Location = new System.Drawing.Point(8, 616);
+            this.pnlTransferencias.Name = "pnlTransferencias";
+            this.pnlTransferencias.Size = new System.Drawing.Size(455, 72);
+            this.pnlTransferencias.TabIndex = 17;
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.YellowGreen;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.DarkOliveGreen;
+            this.label6.Location = new System.Drawing.Point(0, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(451, 19);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Transferencias incluidas en la liquidación";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // frmLiquidacionST
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(968, 620);
+            this.ClientSize = new System.Drawing.Size(968, 694);
+            this.Controls.Add(this.pnlTransferencias);
             this.Controls.Add(this.lblTotalALiquidar);
             this.Controls.Add(this.grdTarjerta);
             this.Controls.Add(this.grdLiquidacion);
@@ -2211,6 +2253,8 @@ namespace LiquidacionSTN
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdLiquidacion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdTarjerta)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grdTransferencias)).EndInit();
+            this.pnlTransferencias.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
