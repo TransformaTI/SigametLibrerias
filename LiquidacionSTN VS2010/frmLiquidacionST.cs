@@ -194,7 +194,8 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCBancoNombre;
 		private System.Windows.Forms.ToolBarButton tbbPedidos;
 		private System.Windows.Forms.Label lblTotalALiquidar;
-		private System.ComponentModel.IContainer components;
+        private ToolBarButton tbbTransferencia;
+        private System.ComponentModel.IContainer components;
 
         public frmLiquidacionST(string Usuario, 
                                 string clave, 
@@ -486,6 +487,7 @@ namespace LiquidacionSTN
             this.dGTBCTipoServicio = new System.Windows.Forms.DataGridTextBoxColumn();
             this.grdTarjerta = new System.Windows.Forms.DataGrid();
             this.lblTotalALiquidar = new System.Windows.Forms.Label();
+            this.tbbTransferencia = new System.Windows.Forms.ToolBarButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdCheque)).BeginInit();
@@ -505,6 +507,7 @@ namespace LiquidacionSTN
             this.tbbCheque,
             this.tbbCancelaCheque,
             this.tbbVoucher,
+            this.tbbTransferencia,
             this.tbbFranquicia,
             this.tbbReporte,
             this.tbbPedidos,
@@ -515,7 +518,7 @@ namespace LiquidacionSTN
             this.toolBar1.Location = new System.Drawing.Point(0, 0);
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.ShowToolTips = true;
-            this.toolBar1.Size = new System.Drawing.Size(896, 40);
+            this.toolBar1.Size = new System.Drawing.Size(1222, 40);
             this.toolBar1.TabIndex = 0;
             this.toolBar1.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.toolBar1_ButtonClick);
             // 
@@ -523,54 +526,63 @@ namespace LiquidacionSTN
             // 
             this.ttbAceptar.ImageIndex = 0;
             this.ttbAceptar.Name = "ttbAceptar";
+            this.ttbAceptar.Tag = "Aceptar";
             this.ttbAceptar.Text = "Aceptar";
             // 
             // tbbCerrarOrden
             // 
             this.tbbCerrarOrden.ImageIndex = 1;
             this.tbbCerrarOrden.Name = "tbbCerrarOrden";
-            this.tbbCerrarOrden.Text = "CerrarOrden";
+            this.tbbCerrarOrden.Tag = "CerrarOrden";
+            this.tbbCerrarOrden.Text = "Cerrar Orden";
             // 
             // tbbCheque
             // 
             this.tbbCheque.ImageIndex = 2;
             this.tbbCheque.Name = "tbbCheque";
+            this.tbbCheque.Tag = "Cheque";
             this.tbbCheque.Text = "Cheque";
             // 
             // tbbCancelaCheque
             // 
             this.tbbCancelaCheque.ImageIndex = 3;
             this.tbbCancelaCheque.Name = "tbbCancelaCheque";
-            this.tbbCancelaCheque.Text = "CancelaCheque";
+            this.tbbCancelaCheque.Tag = "CancelarCheque";
+            this.tbbCancelaCheque.Text = "Cancelar Cheque";
             // 
             // tbbVoucher
             // 
             this.tbbVoucher.ImageIndex = 7;
             this.tbbVoucher.Name = "tbbVoucher";
+            this.tbbVoucher.Tag = "Voucher";
             this.tbbVoucher.Text = "Voucher";
             // 
             // tbbFranquicia
             // 
             this.tbbFranquicia.ImageIndex = 5;
             this.tbbFranquicia.Name = "tbbFranquicia";
+            this.tbbFranquicia.Tag = "Franquicia";
             this.tbbFranquicia.Text = "Franquicia";
             // 
             // tbbReporte
             // 
             this.tbbReporte.ImageIndex = 6;
             this.tbbReporte.Name = "tbbReporte";
+            this.tbbReporte.Tag = "Reporte";
             this.tbbReporte.Text = "Reporte";
             // 
             // tbbPedidos
             // 
             this.tbbPedidos.ImageIndex = 8;
             this.tbbPedidos.Name = "tbbPedidos";
+            this.tbbPedidos.Tag = "Pedidos";
             this.tbbPedidos.Text = "Pedidos";
             // 
             // tbbCerrar
             // 
             this.tbbCerrar.ImageIndex = 4;
             this.tbbCerrar.Name = "tbbCerrar";
+            this.tbbCerrar.Tag = "Cerrar";
             this.tbbCerrar.Text = "Cerrar";
             // 
             // imageList1
@@ -589,7 +601,7 @@ namespace LiquidacionSTN
             // 
             // cboCamioneta
             // 
-            this.cboCamioneta.Location = new System.Drawing.Point(608, 8);
+            this.cboCamioneta.Location = new System.Drawing.Point(930, 8);
             this.cboCamioneta.Name = "cboCamioneta";
             this.cboCamioneta.Size = new System.Drawing.Size(96, 21);
             this.cboCamioneta.TabIndex = 1;
@@ -598,7 +610,7 @@ namespace LiquidacionSTN
             // dtpFLiquidacion
             // 
             this.dtpFLiquidacion.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFLiquidacion.Location = new System.Drawing.Point(792, 8);
+            this.dtpFLiquidacion.Location = new System.Drawing.Point(1114, 8);
             this.dtpFLiquidacion.Name = "dtpFLiquidacion";
             this.dtpFLiquidacion.Size = new System.Drawing.Size(96, 20);
             this.dtpFLiquidacion.TabIndex = 2;
@@ -606,7 +618,7 @@ namespace LiquidacionSTN
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(544, 10);
+            this.label1.Location = new System.Drawing.Point(866, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 16);
             this.label1.TabIndex = 3;
@@ -614,7 +626,7 @@ namespace LiquidacionSTN
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(712, 10);
+            this.label2.Location = new System.Drawing.Point(1034, 10);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(72, 16);
             this.label2.TabIndex = 4;
@@ -2158,10 +2170,17 @@ namespace LiquidacionSTN
             this.lblTotalALiquidar.Text = "0";
             this.lblTotalALiquidar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // tbbTransferencia
+            // 
+            this.tbbTransferencia.ImageIndex = 2;
+            this.tbbTransferencia.Name = "tbbTransferencia";
+            this.tbbTransferencia.Tag = "Transferencia";
+            this.tbbTransferencia.Text = "Transferencia";
+            // 
             // frmLiquidacionST
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(896, 620);
+            this.ClientSize = new System.Drawing.Size(1222, 620);
             this.Controls.Add(this.lblTotalALiquidar);
             this.Controls.Add(this.grdTarjerta);
             this.Controls.Add(this.grdLiquidacion);
@@ -2583,24 +2602,9 @@ namespace LiquidacionSTN
 
 		private void toolBar1_ButtonClick(object sender, System.Windows.Forms.ToolBarButtonClickEventArgs e)
 		{
-//			switch(e.Button.Text)
-//			{
-//				case "Aceptar":
-//					MessageBox.Show ("Aceptar");
-//					break;
-//				case "CerrarOrden":
-//					MessageBox.Show ("Cerrar Orden.");
-//					break;
-//				case "Cheque":
-//					MessageBox.Show ("Cheque.");
-//					break;
-//
-//			}
-
-			switch(toolBar1.Buttons.IndexOf(e.Button))
+            switch (e.Button.Tag.ToString())
 			{
-                //      ACEPTAR
-				case 0:
+                case "Aceptar":
 					Cursor = Cursors.WaitCursor ;
 					//ttbAceptar.Enabled = false;       -- Se inhabilita el botón pero nunca se vuelve a habilitar. RM 27/09/2018
 					
@@ -2903,9 +2907,8 @@ namespace LiquidacionSTN
 
                     Cursor = Cursors.Default;
                     break;
-				
-				case 1:
 
+                case "CerrarOrden":
                     Cursor = Cursors.WaitCursor;
                     if (_PedidoReferencia != null)
                     {
@@ -2930,9 +2933,8 @@ namespace LiquidacionSTN
                     
                     Cursor = Cursors.Default;
                     break;
-					
-				case 2:
 
+                case "Cheque":
 					Cursor = Cursors.WaitCursor;
 					if (_StatusST == "ATENDIDO")
 					{
@@ -2955,10 +2957,9 @@ namespace LiquidacionSTN
 					}
 
 					Cursor = Cursors.Default ;
-					
 					break;
-				case 3:
 
+                case "CancelarCheque":
 					Cursor = Cursors.WaitCursor ;
 					if(_StatusST == "ATENDIDO")
 					{
@@ -2978,7 +2979,8 @@ namespace LiquidacionSTN
 					Cursor = Cursors.Default ;
 
 					break;
-				case 4:
+
+                case "Voucher":
 					Cursor = Cursors.WaitCursor ;
 
 
@@ -3012,13 +3014,14 @@ namespace LiquidacionSTN
 							MessageBox.Show("El cliente  " + lblCliente.Text  + "  no pertenece a la lista de tarjetas autorizadas, por favor llame a telemarketing, para verificar", "Liquidación Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Information);
 						}
 
-					
 					Cursor = Cursors.Default ;
-
-
 					break;
 
-				case 5:
+                case "Transferencia":
+                    MessageBox.Show("Transferencia !", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    break;
+
+                case "Franquicia":
 					Cursor = Cursors.WaitCursor ;
 					int Folio;
 					int AñoAtt;
@@ -3126,8 +3129,7 @@ namespace LiquidacionSTN
                 
 					break;
 
-				case 6:
-
+                case "Reporte":
 					Cursor = Cursors.WaitCursor ;
 
 					System.Data.DataRow [] ConsultaL = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Autotanque = " + cboCamioneta.Text );
@@ -3147,7 +3149,7 @@ namespace LiquidacionSTN
 					Cursor = Cursors.Default ;
 					break;
 
-				case 7:
+                case "Pedidos":
 					Cursor = Cursors.WaitCursor;
 					ValidaPedidos ();
                     //LiquidacionSTN.frmPedidosALiquidar PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio,_AñoAtt);
@@ -3166,7 +3168,8 @@ namespace LiquidacionSTN
                     PedidosTablaPedido.ShowDialog ();
                     Cursor = Cursors.Default ;
 					break;
-				case 8:
+
+                case "Cerrar":
 					this.Close() ;
 					break;
 			}
