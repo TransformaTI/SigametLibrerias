@@ -2487,6 +2487,7 @@ Public Class frmRemisionManual
 
 
 			CargarProductosVarios()
+			ObtenProductos()
 			If grdDetalle.DataSource Is Nothing Then
 				Throw New Exception("No hay elementos para modificar.")
 			End If
