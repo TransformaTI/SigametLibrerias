@@ -2140,8 +2140,9 @@ Public Class frmLiquidacionPortatil
 	'Inicializa una tabla de uso interno donde se va guardando la informacion de 
 	'los producto que se van a liquidar
 	Private Sub InicializaTablaLiquidacion()
+
+		Dim dcColumna As DataColumn
 		If dtLiquidacionTotal.Columns.Count = 0 Then
-			Dim dcColumna As DataColumn
 			'Dim dtRenglon As DataRow
 			'Columana 000
 			dcColumna = New DataColumn()
@@ -2254,6 +2255,17 @@ Public Class frmLiquidacionPortatil
 			dcColumna.ColumnName = "Remision"
 			dtLiquidacionTotal.Columns.Add(dcColumna)
 		End If
+
+		Try
+			'Columna 022
+			dcColumna = New DataColumn()
+			dcColumna.DataType = System.Type.GetType("System.Decimal")
+			dcColumna.ColumnName = "Descuento"
+			dtLiquidacionTotal.Columns.Add(dcColumna)
+		Catch ex As Exception
+
+		End Try
+
 	End Sub
 
 
@@ -3291,7 +3303,7 @@ Public Class frmLiquidacionPortatil
 				End If
 				If CInt(_DetalleGrid.Rows(i).Item("Tipocobro")) <> 15 Then
 					Dim Descuento As Decimal = 0
-					Descuento = (CType(drow(4), Integer) * CType(_DetalleGrid.Rows(i).Item(5), Decimal))
+					Descuento = CType(_DetalleGrid.Rows(i).Item(5), Decimal)
 					If cbxAplicaDescuento.Checked Then
 						'Dim Descuento As Decimal = 0
 						Dim cCLienteDescuento As New PortatilClasses.Consulta.cClienteDescuento(1, _ClienteNormal)
@@ -3308,6 +3320,7 @@ Public Class frmLiquidacionPortatil
 
 					drow(11) = CType(drow(8), Decimal) ' - Descuento
 					drow(15) = drow(11)
+					drow(22) = Descuento
 				Else
 					_ExisteObsequio = _ExisteObsequio + 1
 					drow(11) = 0
@@ -4289,7 +4302,7 @@ Public Class frmLiquidacionPortatil
 									ZonaEconomicaTemp, 0,
 									CantidadTemp,
 									ValorTemp,
-									connection, transaction, 0, "", False,
+									connection, transaction, CType(dtLiquidacionTotal.Rows(i).Item(22), Decimal), "", False,
 									CType(dtLiquidacionTotal.Rows(i).Item(20), String),
 								   CInt(dtLiquidacionTotal.Rows(i).Item(21))
 								)
