@@ -7650,10 +7650,10 @@ Public Class frmLiquidacionPortatil
 		'	If grdDetalle.VisibleRowCount > 0 Then
 		btnCapturarTarjeta.Enabled = grdDetalle.VisibleRowCount > 0
 		btnCapturarCheque.Enabled = grdDetalle.VisibleRowCount > 0
-		'btnTransferencia.Enabled = grdDetalle.VisibleRowCount > 0
+		btnTransferencia.Enabled = grdDetalle.VisibleRowCount > 0
 		btnCapturarVale.Enabled = grdDetalle.VisibleRowCount > 0
 		btnPagoEfectivo.Enabled = grdDetalle.VisibleRowCount > 0
-		'btnAplicacionAnticipo.Enabled = grdDetalle.VisibleRowCount > 0
+		btnAplicacionAnticipo.Enabled = grdDetalle.VisibleRowCount > 0
 		'	End If
 	End Sub
 
