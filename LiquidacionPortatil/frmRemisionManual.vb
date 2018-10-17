@@ -1480,6 +1480,7 @@ Public Class frmRemisionManual
 		Dim textBox1 As New SigaMetClasses.Controles.txtNumeroEntero()
 		Dim ValorText As Integer
 		'Dim ExistenciaProducto As Integer
+		Dim TipoDescuento As Integer
 		Try
 
 			If cboZEconomica.SelectedItem Is Nothing Then
@@ -1519,9 +1520,14 @@ Public Class frmRemisionManual
 							drow(3) = CType(_dtProductos.Rows(i).Item(0), Integer) 'Producto
 							' Se agreg validacion de descuento
 							Dim Descuento As Decimal
+
 							If cbxAplicaDescuento.Checked Then
 								Try
 									Descuento = CDec(_DatosCliente.GetValue(7))
+									TipoDescuento = CInt(_DatosCliente.GetValue(6))
+
+									Descuento = calculaDescuento(TipoDescuento, Descuento, CType(_dtProductos.Rows(i).Item(5), Decimal))
+
 									Dim descuentoGrupal As Decimal
 									descuentoGrupal = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * Descuento
 									drow(9) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
@@ -1604,6 +1610,9 @@ Public Class frmRemisionManual
 							If cbxAplicaDescuento.Checked Then
 								Try
 									Descuento = CDec(_DatosCliente.GetValue(7))
+									TipoDescuento = CInt(_DatosCliente.GetValue(6))
+									Descuento = calculaDescuento(TipoDescuento, Descuento, CType(_dtProductos.Rows(i).Item(2), Decimal))
+
 									Dim descuentoGrupal As Decimal
 									descuentoGrupal = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * Descuento
 									drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) - descuentoGrupal 'Importe
@@ -2481,6 +2490,23 @@ Public Class frmRemisionManual
 
 	End Sub
 
+	Public Function calculaDescuento(tipoDescuento As Integer, valorDescuento As Decimal, cantidadProducto As Decimal) As Decimal
+		Dim _descuento As Decimal = 0
+
+		Select Case tipoDescuento
+			Case 1
+				_descuento = (cantidadProducto * valorDescuento)
+			Case 5
+				_descuento = valorDescuento
+			Case 6
+				_descuento = (cantidadProducto * valorDescuento)
+		End Select
+
+		Return _descuento
+
+
+	End Function
+
 	Public Sub CargaGridModificado()
 		Try
 
@@ -2502,7 +2528,7 @@ Public Class frmRemisionManual
 			Dim Descuento As Decimal = 0
 
 			Dim descuentoGrupal As Decimal = 0
-
+			Dim TipoDescuento As Integer
 
 			If grdDetalle.VisibleRowCount > 0 Then
 				If _RutaMovil = True Then
@@ -2516,6 +2542,11 @@ Public Class frmRemisionManual
 
 					grdDetalle.Item(i, 15) = 1
 
+					If nombreTabla = "Remision" Then
+						campoDescuento = 5
+					Else
+						campoDescuento = 13
+					End If
 
 					grdDetalle.Item(i, 13) = cboTipoCobro.Identificador
 					If cboTipoCobro.Identificador = 18 And CBool(_DatosCliente.GetValue(3)) = True Then
@@ -2527,24 +2558,28 @@ Public Class frmRemisionManual
 						Else
 							fila = obtenerRegistroProducto(CType(grdDetalle.Item(i, 3), Integer))
 						End If
-
+						descuentoGrupal = 0
 						If cbxAplicaDescuento.Checked Then
 							Try
 								Descuento = CDec(_DatosCliente.GetValue(7))
+								TipoDescuento = CInt(_DatosCliente.GetValue(6))
+								Descuento = calculaDescuento(TipoDescuento, Descuento, CType(_dtListaProductos.Rows(fila).Item(5), Decimal))
+
 								'grdDetalle.Item(i, 13) = Descuento ' FALTA AGRAGAR COLUMNA DESCUENTO
 								If nombreTabla = "Remision" Then
 									descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
-									campoDescuento = 5
+
 								Else
 									descuentoGrupal = CType(grdDetalle.Item(i, 6), Decimal) * Descuento
-									campoDescuento = 13
+
 								End If
-								grdDetalle.Item(i, campoDescuento) = descuentoGrupal
+
 							Catch ex As Exception
 								Descuento = 0
 							End Try
 						End If
 
+						grdDetalle.Item(i, campoDescuento) = descuentoGrupal
 						If nombreTabla = "Remision" Then
 							descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
 							'Control de OBSEQUIO
@@ -2586,6 +2621,7 @@ Public Class frmRemisionManual
 									If cbxAplicaDescuento.Checked Then
 										grdDetalle.Item(i, 8) = cboTipoCobro.Text
 									End If
+
 								End If
 							End If
 						End If
@@ -2596,12 +2632,14 @@ Public Class frmRemisionManual
 						grdDetalle.Item(i, 6) = 0 'Importe = 0
 						grdDetalle.Item(i, 7) = 0 'Saldo = 0
 						grdDetalle.Item(i, 8) = cboTipoCobro.Text
+						grdDetalle.Item(i, campoDescuento) = 0
 					End If
 
 					If cboTipoCobro.Text.Trim = "Efectivo" Then
 						grdDetalle.Item(i, 6) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) 'Total
 						grdDetalle.Item(i, 7) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) 'Total
 						grdDetalle.Item(i, 8) = "CONTADO"
+						grdDetalle.Item(i, campoDescuento) = 0
 					End If
 
 
@@ -2656,6 +2694,9 @@ Public Class frmRemisionManual
 								If cbxAplicaDescuento.Checked Then
 									Try
 										Descuento = CDec(_DatosCliente.GetValue(7))
+										TipoDescuento = CInt(_DatosCliente.GetValue(6))
+										Descuento = calculaDescuento(TipoDescuento, Descuento, CType(_dtListaProductos.Rows(fila).Item(5), Decimal))
+
 										'grdDetalle.Item(i, 13) = Descuento ' FALTA AGRAGAR COLUMNA DESCUENTO
 										If nombreTabla = "Remision" Then
 											descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
@@ -2673,6 +2714,7 @@ Public Class frmRemisionManual
 									'Control de OBSEQUIO
 									grdDetalle.Item(i, 6) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) - descuentoGrupal 'Total
 									grdDetalle.Item(i, 7) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) - descuentoGrupal 'Total
+									grdDetalle.Item(i, 13) = cboTipoCobro.Identificador
 								Else
 									descuentoGrupal = CType(grdDetalle.Item(i, 6), Decimal) * Descuento
 									grdDetalle.Item(i, 7) = ((CType(grdDetalle.Item(i, 6), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal)) - descuentoGrupal) / ((CType((_dtListaProductos.Rows(fila).Item(4)), Decimal) / 100) + 1)

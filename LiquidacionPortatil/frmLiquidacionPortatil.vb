@@ -4330,7 +4330,7 @@ Public Class frmLiquidacionPortatil
 								_TotalContado = _TotalContado + Total
 
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
-								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAProductoObsequio.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
+								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenSObsequio.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
 								_TotalContado = _TotalContado + Total
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
 								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
@@ -6299,7 +6299,7 @@ Public Class frmLiquidacionPortatil
 								End If
 
 								row("Kilos") = Convert.ToInt64(item("Valor"))
-							row("descuento") = item("descuento")
+							row("descuento") = Convert.ToDecimal(item("descuento"))
 							row("Importe") = item("TotalNeto")
 								row("Saldo") = item("TotalNeto")
 								row("Descripcion") = item("ProductoDescripcion")
