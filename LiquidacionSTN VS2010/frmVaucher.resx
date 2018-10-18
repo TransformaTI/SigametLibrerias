@@ -134,8 +134,26 @@
         cAB3d5ERGHdwAHd5EREYd3AAd5ERgRGHcAB5ERh5ERhwAHkRh3eREYAAd5F3d3kREAB3d3d3d5GQAA==
 </value>
   </data>
-  <data name="$this.Name" xml:space="preserve">
-    <value>frmVaucher</value>
+  <metadata name="tsBotonera.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="tsbAceptar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACpSURBVDhPnZLRDYAgDAW7Ezt1Dqcg4c8PB2EAdsK+BogV
+        otWQi4n0LlGgnHP9A8nS533DA2TaGquBJ4IsSk2m7VvAyF8Dkxy47vvhC6zkGKPuvQZCEblYmTmNfQ1w
+        YSN18N7KwciA+tA94pEBjaFLxCsDIpZv7IMtYmQgx7WSgcSTfIeNGFn2MLOSgf7EKeKUwTjGKeKQgbkH
+        GmkBjwymi6T3++GnWXI9ARLxsZ2oN43QAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="tsbCerrar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACjSURBVDhPjZBbEoUgDENZOl+si515CRhubINjZ2IBe46P
+        0nu/Ykop33MStNZSeI7i3CdBBGtd+yTAgQoiiDVh9IdgbowApZD2LZiLMTh7CMrB6PfMuAB2uQUORv8L
+        an0VOBh9svsTIFnGR1AY5r9Kb8AbBLjmAGoPj9g3UIkTKKQ9CZgocDD6q4BBHeGTgKFAYYJ7RoEYCvSJ
+        aSYeaAg5cKVfP95xWUcf2TsTAAAAAElFTkSuQmCC
+</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
