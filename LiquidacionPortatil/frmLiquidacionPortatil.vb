@@ -4371,6 +4371,14 @@ Public Class frmLiquidacionPortatil
 
 						ArmaCobro(connection, transaction)
 
+						Dim SaldoAFavor As Decimal = 0
+
+						For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
+							SaldoAFavor = SaldoAFavor + Cobro.Saldo
+						Next
+
+
+
 						Dim oLiquidacionAutotanqueTurno As New LiquidacionTransaccionada.cLiquidacion(2, Now, _AnoAtt, _Folio)
 
 						'oLiquidacionAutotanqueTurno.LiquidacionAutotanqueTurno(_Kilos / _FactorDensidad, _
@@ -4389,7 +4397,7 @@ Public Class frmLiquidacionPortatil
 																		  Now,
 																		  _Kilos / _FactorDensidad,
 																		  _TotalCredito,
-																		  _TotalContado,
+																		  _TotalContado + SaldoAFavor,
 																		  dtpFLiquidacion.Value,
 																		   (_Kilos - (_KilosCredito + _KilosObsequio)) / _FactorDensidad,
 																		   _KilosCredito / _FactorDensidad,
@@ -4409,7 +4417,7 @@ Public Class frmLiquidacionPortatil
 						End If
 
 						Dim oMovimientoCaja As New LiquidacionTransaccionada.cMovimientoCaja()
-						oMovimientoCaja.AltaMovimientoCaja(_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, 0, _TotalNetoCaja, _Empleado, _Usuario, 2, "EMITIDO", CType(_drLiquidacion(0).Item(25), Short), _ClienteVentasPublico, Now, "", 0, dtpFLiquidacion.Value.Date, "", _AnoAtt, _Folio, connection, transaction)
+						oMovimientoCaja.AltaMovimientoCaja(_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, 0, _TotalNetoCaja, _Empleado, _Usuario, 2, "EMITIDO", CType(_drLiquidacion(0).Item(25), Short), _ClienteVentasPublico, Now, "", 0, dtpFLiquidacion.Value.Date, "", _AnoAtt, _Folio, connection, transaction, SaldoAFavor)
 
 
 						'GRABA EL MOVIMIENTO CAJA COBRO
@@ -6194,7 +6202,8 @@ Public Class frmLiquidacionPortatil
 	Private Sub btnAgregar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAgregar.Click
 		InsertaRemisiones()
 		validarFormasPago()
-		Totalizador()
+		'Totalizador()
+		ActualizarTotalizadorFormasDePago(_listaCobros)
 
 	End Sub
 
@@ -6726,7 +6735,7 @@ Public Class frmLiquidacionPortatil
 
 					TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) 'Total
 				End If
-
+				TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(5), Decimal)
 				i = i + 1
 			End While
 		End If
@@ -6790,6 +6799,7 @@ Public Class frmLiquidacionPortatil
 						TotalAnticipo + TotalCheques +
 						calcularCredito(TryCast(grdDetalle.DataSource, DataTable)) + DescuentoTotal - SaldoAFavor
 			lblResto.Text = (VentaTotal - Acumulado).ToString("N2")
+			'	lblVentaTotal.Text = (VentaTotal + DescuentoTotal).ToString("N2")
 
 		End If
 	End Sub

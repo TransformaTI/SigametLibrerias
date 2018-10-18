@@ -1428,73 +1428,75 @@ Public Class LiquidacionTransaccionada
             End Get
         End Property
 
-        Public Sub AltaMovimientoCaja(ByVal Caja As Short, _
-                                      ByVal FOperacion As Date, _
-                                      ByVal Consecutivo As Short, _
-                                      ByVal Folio As Integer, _
-                                      ByVal Total As Decimal, _
-                                      ByVal Empleado As Integer, _
-                                      ByVal UsuarioCaptura As String, _
-                                      ByVal TipoMovimientoCaja As Short, _
-                                      ByVal Status As String, _
-                                      ByVal Ruta As Short, _
-                                      ByVal Cliente As Integer, _
-                                      ByVal FAlta As Date, _
-                                      ByVal Clave As String, _
-                                      ByVal ClaveConsecutivo As Integer, _
-                                      ByVal FMovimiento As Date, _
-                                      ByVal Observaciones As String, _
-                                      ByVal AnoAtt As Short, _
-                                      ByVal FolioAtt As Integer, _
-                                      ByVal Connection As SqlConnection, _
-                                      ByVal Transaction As SqlTransaction)
+		Public Sub AltaMovimientoCaja(ByVal Caja As Short,
+									  ByVal FOperacion As Date,
+									  ByVal Consecutivo As Short,
+									  ByVal Folio As Integer,
+									  ByVal Total As Decimal,
+									  ByVal Empleado As Integer,
+									  ByVal UsuarioCaptura As String,
+									  ByVal TipoMovimientoCaja As Short,
+									  ByVal Status As String,
+									  ByVal Ruta As Short,
+									  ByVal Cliente As Integer,
+									  ByVal FAlta As Date,
+									  ByVal Clave As String,
+									  ByVal ClaveConsecutivo As Integer,
+									  ByVal FMovimiento As Date,
+									  ByVal Observaciones As String,
+									  ByVal AnoAtt As Short,
+									  ByVal FolioAtt As Integer,
+									  ByVal Connection As SqlConnection,
+									  ByVal Transaction As SqlTransaction,
+							 Optional ByVal SaldoAFavor As Decimal = 0)
 
-            Dim dr As SqlDataReader
-            Dim cmd As SqlCommand
+			Dim dr As SqlDataReader
+			Dim cmd As SqlCommand
 
-            Try
-                cmd = New SqlCommand("spPTLMovimientoCajaAltaTRN", Connection)
-                cmd.Transaction = Transaction
-                cmd.CommandType = CommandType.StoredProcedure
-                cmd.Parameters.Add("@Caja", SqlDbType.TinyInt).Value = Caja
-                cmd.Parameters.Add("@FOperacion", SqlDbType.DateTime).Value = FOperacion
-                cmd.Parameters.Add("@Consecutivo", SqlDbType.TinyInt).Value = Consecutivo
-                cmd.Parameters.Add("@Folio ", SqlDbType.Int).Value = Folio
-                cmd.Parameters.Add("@Total", SqlDbType.Money).Value = Total
-                cmd.Parameters.Add("@Empleado", SqlDbType.Int).Value = Empleado
-                cmd.Parameters.Add("@UsuarioCaptura ", SqlDbType.VarChar).Value = UsuarioCaptura
-                cmd.Parameters.Add("@TipoMovimientoCaja", SqlDbType.TinyInt).Value = TipoMovimientoCaja
-                cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = Status
-                cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = Ruta
-                'If Cliente = 0 Then
-                cmd.Parameters.Add("@Cliente ", SqlDbType.Int).Value = Cliente
-                'Else
-                '     cmd.Parameters.Add("@Cliente ", SqlDbType.Int).Value = Cliente
-                'End If
-                cmd.Parameters.Add("@FAlta", SqlDbType.DateTime).Value = FAlta
-                cmd.Parameters.Add("@Clave", SqlDbType.VarChar).Value = Clave
-                cmd.Parameters.Add("@ClaveConsecutivo ", SqlDbType.Int).Value = ClaveConsecutivo
-                cmd.Parameters.Add("@FMovimiento", SqlDbType.DateTime).Value = FMovimiento
-                cmd.Parameters.Add("@Observaciones", SqlDbType.VarChar).Value = Observaciones
-                cmd.Parameters.Add("@AnoAtt ", SqlDbType.SmallInt).Value = AnoAtt
-                cmd.Parameters.Add("@FolioAtt", SqlDbType.Int).Value = FolioAtt
-                dr = cmd.ExecuteReader()
+			Try
+				cmd = New SqlCommand("spPTLMovimientoCajaAltaTRN", Connection)
+				cmd.Transaction = Transaction
+				cmd.CommandType = CommandType.StoredProcedure
+				cmd.Parameters.Add("@Caja", SqlDbType.TinyInt).Value = Caja
+				cmd.Parameters.Add("@FOperacion", SqlDbType.DateTime).Value = FOperacion
+				cmd.Parameters.Add("@Consecutivo", SqlDbType.TinyInt).Value = Consecutivo
+				cmd.Parameters.Add("@Folio ", SqlDbType.Int).Value = Folio
+				cmd.Parameters.Add("@Total", SqlDbType.Money).Value = Total
+				cmd.Parameters.Add("@Empleado", SqlDbType.Int).Value = Empleado
+				cmd.Parameters.Add("@UsuarioCaptura ", SqlDbType.VarChar).Value = UsuarioCaptura
+				cmd.Parameters.Add("@TipoMovimientoCaja", SqlDbType.TinyInt).Value = TipoMovimientoCaja
+				cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = Status
+				cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = Ruta
+				'If Cliente = 0 Then
+				cmd.Parameters.Add("@Cliente ", SqlDbType.Int).Value = Cliente
+				'Else
+				'     cmd.Parameters.Add("@Cliente ", SqlDbType.Int).Value = Cliente
+				'End If
+				cmd.Parameters.Add("@FAlta", SqlDbType.DateTime).Value = FAlta
+				cmd.Parameters.Add("@Clave", SqlDbType.VarChar).Value = Clave
+				cmd.Parameters.Add("@ClaveConsecutivo ", SqlDbType.Int).Value = ClaveConsecutivo
+				cmd.Parameters.Add("@FMovimiento", SqlDbType.DateTime).Value = FMovimiento
+				cmd.Parameters.Add("@Observaciones", SqlDbType.VarChar).Value = Observaciones
+				cmd.Parameters.Add("@AnoAtt ", SqlDbType.SmallInt).Value = AnoAtt
+				cmd.Parameters.Add("@FolioAtt", SqlDbType.Int).Value = FolioAtt
+				cmd.Parameters.Add("@SaldoAFavor", SqlDbType.Money).Value = SaldoAFavor
+				dr = cmd.ExecuteReader()
 
-                Do While dr.Read()
-                    _Folio = CType(dr(0), Integer)
-                    _Clave = CType(dr(1), String)
-                    _ClaveConsecutivo = CType(dr(2), Integer)
-                Loop
+				Do While dr.Read()
+					_Folio = CType(dr(0), Integer)
+					_Clave = CType(dr(1), String)
+					_ClaveConsecutivo = CType(dr(2), Integer)
+				Loop
 
-                cmd.Dispose()
-                dr.Close()
-            Catch ex As Exception
-                Throw ex
-            End Try
+				cmd.Dispose()
+				dr.Close()
+			Catch ex As Exception
+				Throw ex
+			End Try
 
-        End Sub
+		End Sub
 
-        Public Sub AltaMovimientoCajaCobro(ByVal Caja As Short, _
+		Public Sub AltaMovimientoCajaCobro(ByVal Caja As Short, _
                                   ByVal FOperacion As Date, _
                                   ByVal Consecutivo As Short, _
                                   ByVal Folio As Integer, _

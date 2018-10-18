@@ -2509,9 +2509,6 @@ Public Class frmRemisionManual
 
 	Public Sub CargaGridModificado()
 		Try
-
-
-
 			CargarProductosVarios()
 			ObtenProductos()
 			If grdDetalle.DataSource Is Nothing Then
