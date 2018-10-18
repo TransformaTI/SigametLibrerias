@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTransferencia));
             this.tsBotonera = new System.Windows.Forms.ToolStrip();
             this.tsbAceptar = new System.Windows.Forms.ToolStripButton();
-            this.tsbCancelar = new System.Windows.Forms.ToolStripButton();
+            this.tsbCerrar = new System.Windows.Forms.ToolStripButton();
             this.pnlPrincipal = new System.Windows.Forms.Panel();
             this.txtObservaciones = new System.Windows.Forms.TextBox();
             this.lblSaldo = new System.Windows.Forms.Label();
@@ -53,38 +53,44 @@
             // 
             // tsBotonera
             // 
+            this.tsBotonera.BackColor = System.Drawing.SystemColors.Control;
+            this.tsBotonera.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.tsBotonera.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbAceptar,
-            this.tsbCancelar});
+            this.tsbCerrar});
             this.tsBotonera.Location = new System.Drawing.Point(0, 0);
             this.tsBotonera.Name = "tsBotonera";
-            this.tsBotonera.Size = new System.Drawing.Size(346, 25);
+            this.tsBotonera.Size = new System.Drawing.Size(346, 38);
             this.tsBotonera.TabIndex = 0;
             this.tsBotonera.Text = "Botonera";
             // 
             // tsbAceptar
             // 
+            this.tsbAceptar.AutoSize = false;
             this.tsbAceptar.AutoToolTip = false;
+            this.tsbAceptar.Image = ((System.Drawing.Image)(resources.GetObject("tsbAceptar.Image")));
             this.tsbAceptar.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.tsbAceptar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbAceptar.Name = "tsbAceptar";
-            this.tsbAceptar.Size = new System.Drawing.Size(52, 22);
+            this.tsbAceptar.Size = new System.Drawing.Size(52, 35);
             this.tsbAceptar.Tag = "Aceptar";
             this.tsbAceptar.Text = "Aceptar";
             this.tsbAceptar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.tsbAceptar.Click += new System.EventHandler(this.tsbAceptar_Click);
             // 
-            // tsbCancelar
+            // tsbCerrar
             // 
-            this.tsbCancelar.AutoToolTip = false;
-            this.tsbCancelar.Image = ((System.Drawing.Image)(resources.GetObject("tsbCancelar.Image")));
-            this.tsbCancelar.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.tsbCancelar.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbCancelar.Name = "tsbCancelar";
-            this.tsbCancelar.Size = new System.Drawing.Size(73, 22);
-            this.tsbCancelar.Tag = "Cancelar";
-            this.tsbCancelar.Text = "Cancelar";
-            this.tsbCancelar.Click += new System.EventHandler(this.tsbCancelar_Click);
+            this.tsbCerrar.AutoSize = false;
+            this.tsbCerrar.AutoToolTip = false;
+            this.tsbCerrar.Image = ((System.Drawing.Image)(resources.GetObject("tsbCerrar.Image")));
+            this.tsbCerrar.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.tsbCerrar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCerrar.Name = "tsbCerrar";
+            this.tsbCerrar.Size = new System.Drawing.Size(53, 35);
+            this.tsbCerrar.Tag = "Cerrar";
+            this.tsbCerrar.Text = "Cerrar";
+            this.tsbCerrar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsbCerrar.Click += new System.EventHandler(this.tsbCerrar_Click);
             // 
             // pnlPrincipal
             // 
@@ -102,9 +108,9 @@
             this.pnlPrincipal.Controls.Add(this.label2);
             this.pnlPrincipal.Controls.Add(this.label1);
             this.pnlPrincipal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlPrincipal.Location = new System.Drawing.Point(0, 25);
+            this.pnlPrincipal.Location = new System.Drawing.Point(0, 38);
             this.pnlPrincipal.Name = "pnlPrincipal";
-            this.pnlPrincipal.Size = new System.Drawing.Size(346, 328);
+            this.pnlPrincipal.Size = new System.Drawing.Size(346, 315);
             this.pnlPrincipal.TabIndex = 1;
             // 
             // txtObservaciones
@@ -229,11 +235,14 @@
             this.ClientSize = new System.Drawing.Size(346, 353);
             this.Controls.Add(this.pnlPrincipal);
             this.Controls.Add(this.tsBotonera);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmTransferencia";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmTransferencia";
+            this.Text = "Transferencia";
             this.tsBotonera.ResumeLayout(false);
             this.tsBotonera.PerformLayout();
             this.pnlPrincipal.ResumeLayout(false);
@@ -247,7 +256,7 @@
 
         private System.Windows.Forms.ToolStrip tsBotonera;
         private System.Windows.Forms.ToolStripButton tsbAceptar;
-        private System.Windows.Forms.ToolStripButton tsbCancelar;
+        private System.Windows.Forms.ToolStripButton tsbCerrar;
         private System.Windows.Forms.Panel pnlPrincipal;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label7;

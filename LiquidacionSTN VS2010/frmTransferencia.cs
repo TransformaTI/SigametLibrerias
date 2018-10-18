@@ -29,7 +29,7 @@ namespace LiquidacionSTN
             }
         }
 
-        private void Cancelar()
+        private void Cerrar()
         {
             this.Close();
         }
@@ -44,13 +44,13 @@ namespace LiquidacionSTN
             decimal.TryParse(txtMonto.Text, out monto);
             if (monto == 0)
             {
-                mensaje.Append("Debes ingresar un monto válido." + Environment.NewLine);
+                mensaje.Append("Ingresa un monto válido." + Environment.NewLine);
             }
 
             //  Documento
             if (!EsAlfanumerico(txtDocumento.Text.Trim()))
             {
-                mensaje.Append("Debes ingresar un documento válido." + Environment.NewLine);
+                mensaje.Append("Ingresa un documento válido." + Environment.NewLine);
             }
 
             if (mensaje.ToString().Length > 0)
@@ -72,9 +72,9 @@ namespace LiquidacionSTN
             return texto.All(char.IsLetterOrDigit);
         }
 
-        private void tsbCancelar_Click(object sender, EventArgs e)
+        private void tsbCerrar_Click(object sender, EventArgs e)
         {
-            Cancelar();
+            Cerrar();
         }
     }
 }
