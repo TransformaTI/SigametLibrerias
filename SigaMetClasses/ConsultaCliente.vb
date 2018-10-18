@@ -39,6 +39,8 @@ Public Class frmConsultaCliente
     ' Información del cliente consultada a través del servicio web GM
     Private _oDireccionEntrega As RTGMCore.DireccionEntrega
 
+
+
     Public ReadOnly Property PedidoReferenciaSeleccionado() As String
         Get
             Return _PedidoReferencia
@@ -110,6 +112,9 @@ Public Class frmConsultaCliente
             _Modulo = value
         End Set
     End Property
+
+
+
 
 #Region " Windows Form Designer generated code "
 
@@ -2731,21 +2736,59 @@ Public Class frmConsultaCliente
     End Sub
 
     Private Sub DeshabilitaBotonQuejas()
-        If (Not String.IsNullOrEmpty(_URLGateway)) Then
+
+        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Corporativo, Short)
+        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Sucursal, Short)
+        Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
+        Dim FuenteCRM As String = CStr(oConfig.Parametros("FUENTECRM")).Trim()
+
+        'If (Not String.IsNullOrEmpty(_URLGateway)) Then
+        If FuenteCRM = "CRM" Then
             btnQuejas.Enabled = False
+
+        Else
+            btnQuejas.Enabled = True
         End If
+
+
     End Sub
+    Private Function ObtenerUsuario() As String
+
+        'Variables declaradas para obetener el usuario
+        Dim StrCadenaConexion As String
+        Dim Usuario As String
+
+        Dim ValorInicial As Integer
+        Dim ValorFinal As Integer
+
+
+        StrCadenaConexion = DataLayer.Conexion.ConnectionString
+        ValorInicial = (StrCadenaConexion.IndexOf("User ID = ")) + 10
+        ValorFinal = (StrCadenaConexion.Length - ValorInicial) - 1
+
+        Usuario = StrCadenaConexion.Substring(ValorInicial, ValorFinal)
+
+        Return Usuario
+
+    End Function
 
     Private Sub DeshabilitaBotonModificar()
-        Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+
+        Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
+        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
+        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
+        Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, CShort(Corporativo), Sucursal)
+        Dim FuenteCRM As String = CStr(oConfig.Parametros("FUENTECRM")).Trim()
+
         Try
             If (oConfig.Parametros.Count > 0) Then
-                _URLParada = CStr(oConfig.Parametros("URLParada")).Trim
-
-                If (Not String.IsNullOrEmpty(_URLParada)) Then
+                If FuenteCRM = "CRM" Then
                     btnModificar.Enabled = False
                     lnkModificarDatosCredito.Enabled = False
+                Else
+                    btnModificar.Enabled = True
                 End If
+
             End If
         Catch ex As Exception
             If _URLParada = "" Then
