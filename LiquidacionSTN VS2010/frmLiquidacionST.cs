@@ -322,6 +322,7 @@ namespace LiquidacionSTN
             this.tbbCheque = new System.Windows.Forms.ToolBarButton();
             this.tbbCancelaCheque = new System.Windows.Forms.ToolBarButton();
             this.tbbVoucher = new System.Windows.Forms.ToolBarButton();
+            this.tbbTransferencia = new System.Windows.Forms.ToolBarButton();
             this.tbbFranquicia = new System.Windows.Forms.ToolBarButton();
             this.tbbReporte = new System.Windows.Forms.ToolBarButton();
             this.tbbPedidos = new System.Windows.Forms.ToolBarButton();
@@ -490,7 +491,6 @@ namespace LiquidacionSTN
             this.dGTBCTipoServicio = new System.Windows.Forms.DataGridTextBoxColumn();
             this.grdTarjerta = new System.Windows.Forms.DataGrid();
             this.lblTotalALiquidar = new System.Windows.Forms.Label();
-            this.tbbTransferencia = new System.Windows.Forms.ToolBarButton();
             this.grdTransferencias = new System.Windows.Forms.DataGridView();
             this.pnlTransferencias = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
@@ -564,6 +564,13 @@ namespace LiquidacionSTN
             this.tbbVoucher.Name = "tbbVoucher";
             this.tbbVoucher.Tag = "Voucher";
             this.tbbVoucher.Text = "Voucher";
+            // 
+            // tbbTransferencia
+            // 
+            this.tbbTransferencia.ImageIndex = 2;
+            this.tbbTransferencia.Name = "tbbTransferencia";
+            this.tbbTransferencia.Tag = "Transferencia";
+            this.tbbTransferencia.Text = "Transferencia";
             // 
             // tbbFranquicia
             // 
@@ -2178,13 +2185,6 @@ namespace LiquidacionSTN
             this.lblTotalALiquidar.Text = "0";
             this.lblTotalALiquidar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tbbTransferencia
-            // 
-            this.tbbTransferencia.ImageIndex = 2;
-            this.tbbTransferencia.Name = "tbbTransferencia";
-            this.tbbTransferencia.Tag = "Transferencia";
-            this.tbbTransferencia.Text = "Transferencia";
-            // 
             // grdTransferencias
             // 
             this.grdTransferencias.BackgroundColor = System.Drawing.SystemColors.Window;
@@ -3060,7 +3060,7 @@ namespace LiquidacionSTN
 					break;
 
                 case "Transferencia":
-                    MessageBox.Show("Transferencia !", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    Transferencia();
                     break;
 
                 case "Franquicia":
@@ -3219,6 +3219,14 @@ namespace LiquidacionSTN
 			Cursor = Cursors.Default ;
 			LiquidacionSTN.Modulo.CnnSigamet.Close ();
 		}
+
+        private void Transferencia()
+        {
+            Cursor = Cursors.WaitCursor;
+            LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia();
+            frmTransferencia.ShowDialog();
+            Cursor = Cursors.Default;
+        }
 
         /// <summary>
         /// Valida el tipo de cobro de los pedidos cuando la fuente del Gateway es CRM
