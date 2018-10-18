@@ -194,7 +194,11 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCBancoNombre;
 		private System.Windows.Forms.ToolBarButton tbbPedidos;
 		private System.Windows.Forms.Label lblTotalALiquidar;
-		private System.ComponentModel.IContainer components;
+        private ToolBarButton tbbTransferencia;
+        private DataGridView grdTransferencias;
+        private Panel pnlTransferencias;
+        private Label label6;
+        private System.ComponentModel.IContainer components;
 
         public frmLiquidacionST(string Usuario, 
                                 string clave, 
@@ -318,6 +322,7 @@ namespace LiquidacionSTN
             this.tbbCheque = new System.Windows.Forms.ToolBarButton();
             this.tbbCancelaCheque = new System.Windows.Forms.ToolBarButton();
             this.tbbVoucher = new System.Windows.Forms.ToolBarButton();
+            this.tbbTransferencia = new System.Windows.Forms.ToolBarButton();
             this.tbbFranquicia = new System.Windows.Forms.ToolBarButton();
             this.tbbReporte = new System.Windows.Forms.ToolBarButton();
             this.tbbPedidos = new System.Windows.Forms.ToolBarButton();
@@ -486,6 +491,9 @@ namespace LiquidacionSTN
             this.dGTBCTipoServicio = new System.Windows.Forms.DataGridTextBoxColumn();
             this.grdTarjerta = new System.Windows.Forms.DataGrid();
             this.lblTotalALiquidar = new System.Windows.Forms.Label();
+            this.grdTransferencias = new System.Windows.Forms.DataGridView();
+            this.pnlTransferencias = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdCheque)).BeginInit();
@@ -493,6 +501,8 @@ namespace LiquidacionSTN
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdLiquidacion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdTarjerta)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grdTransferencias)).BeginInit();
+            this.pnlTransferencias.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolBar1
@@ -505,6 +515,7 @@ namespace LiquidacionSTN
             this.tbbCheque,
             this.tbbCancelaCheque,
             this.tbbVoucher,
+            this.tbbTransferencia,
             this.tbbFranquicia,
             this.tbbReporte,
             this.tbbPedidos,
@@ -515,7 +526,7 @@ namespace LiquidacionSTN
             this.toolBar1.Location = new System.Drawing.Point(0, 0);
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.ShowToolTips = true;
-            this.toolBar1.Size = new System.Drawing.Size(896, 40);
+            this.toolBar1.Size = new System.Drawing.Size(968, 40);
             this.toolBar1.TabIndex = 0;
             this.toolBar1.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.toolBar1_ButtonClick);
             // 
@@ -523,54 +534,70 @@ namespace LiquidacionSTN
             // 
             this.ttbAceptar.ImageIndex = 0;
             this.ttbAceptar.Name = "ttbAceptar";
+            this.ttbAceptar.Tag = "Aceptar";
             this.ttbAceptar.Text = "Aceptar";
             // 
             // tbbCerrarOrden
             // 
             this.tbbCerrarOrden.ImageIndex = 1;
             this.tbbCerrarOrden.Name = "tbbCerrarOrden";
-            this.tbbCerrarOrden.Text = "CerrarOrden";
+            this.tbbCerrarOrden.Tag = "CerrarOrden";
+            this.tbbCerrarOrden.Text = "Cerrar Orden";
             // 
             // tbbCheque
             // 
             this.tbbCheque.ImageIndex = 2;
             this.tbbCheque.Name = "tbbCheque";
+            this.tbbCheque.Tag = "Cheque";
             this.tbbCheque.Text = "Cheque";
             // 
             // tbbCancelaCheque
             // 
             this.tbbCancelaCheque.ImageIndex = 3;
             this.tbbCancelaCheque.Name = "tbbCancelaCheque";
-            this.tbbCancelaCheque.Text = "CancelaCheque";
+            this.tbbCancelaCheque.Tag = "CancelarCheque";
+            this.tbbCancelaCheque.Text = "Cancelar Cheque";
             // 
             // tbbVoucher
             // 
             this.tbbVoucher.ImageIndex = 7;
             this.tbbVoucher.Name = "tbbVoucher";
+            this.tbbVoucher.Tag = "Voucher";
             this.tbbVoucher.Text = "Voucher";
+            // 
+            // tbbTransferencia
+            // 
+            this.tbbTransferencia.ImageIndex = 2;
+            this.tbbTransferencia.Name = "tbbTransferencia";
+            this.tbbTransferencia.Tag = "Transferencia";
+            this.tbbTransferencia.Text = "Transferencia";
             // 
             // tbbFranquicia
             // 
             this.tbbFranquicia.ImageIndex = 5;
             this.tbbFranquicia.Name = "tbbFranquicia";
+            this.tbbFranquicia.Tag = "Franquicia";
             this.tbbFranquicia.Text = "Franquicia";
             // 
             // tbbReporte
             // 
             this.tbbReporte.ImageIndex = 6;
             this.tbbReporte.Name = "tbbReporte";
+            this.tbbReporte.Tag = "Reporte";
             this.tbbReporte.Text = "Reporte";
             // 
             // tbbPedidos
             // 
             this.tbbPedidos.ImageIndex = 8;
             this.tbbPedidos.Name = "tbbPedidos";
+            this.tbbPedidos.Tag = "Pedidos";
             this.tbbPedidos.Text = "Pedidos";
             // 
             // tbbCerrar
             // 
             this.tbbCerrar.ImageIndex = 4;
             this.tbbCerrar.Name = "tbbCerrar";
+            this.tbbCerrar.Tag = "Cerrar";
             this.tbbCerrar.Text = "Cerrar";
             // 
             // imageList1
@@ -589,7 +616,7 @@ namespace LiquidacionSTN
             // 
             // cboCamioneta
             // 
-            this.cboCamioneta.Location = new System.Drawing.Point(608, 8);
+            this.cboCamioneta.Location = new System.Drawing.Point(674, 8);
             this.cboCamioneta.Name = "cboCamioneta";
             this.cboCamioneta.Size = new System.Drawing.Size(96, 21);
             this.cboCamioneta.TabIndex = 1;
@@ -598,7 +625,7 @@ namespace LiquidacionSTN
             // dtpFLiquidacion
             // 
             this.dtpFLiquidacion.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFLiquidacion.Location = new System.Drawing.Point(792, 8);
+            this.dtpFLiquidacion.Location = new System.Drawing.Point(858, 8);
             this.dtpFLiquidacion.Name = "dtpFLiquidacion";
             this.dtpFLiquidacion.Size = new System.Drawing.Size(96, 20);
             this.dtpFLiquidacion.TabIndex = 2;
@@ -606,7 +633,7 @@ namespace LiquidacionSTN
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(544, 10);
+            this.label1.Location = new System.Drawing.Point(610, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 16);
             this.label1.TabIndex = 3;
@@ -614,7 +641,7 @@ namespace LiquidacionSTN
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(712, 10);
+            this.label2.Location = new System.Drawing.Point(778, 10);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(72, 16);
             this.label2.TabIndex = 4;
@@ -644,7 +671,7 @@ namespace LiquidacionSTN
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(8, 248);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(416, 224);
+            this.groupBox1.Size = new System.Drawing.Size(455, 224);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos del Cliente";
@@ -654,15 +681,15 @@ namespace LiquidacionSTN
             this.lblMunicipio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblMunicipio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblMunicipio.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMunicipio.Location = new System.Drawing.Point(264, 188);
+            this.lblMunicipio.Location = new System.Drawing.Point(284, 188);
             this.lblMunicipio.Name = "lblMunicipio";
-            this.lblMunicipio.Size = new System.Drawing.Size(144, 24);
+            this.lblMunicipio.Size = new System.Drawing.Size(152, 24);
             this.lblMunicipio.TabIndex = 19;
             this.lblMunicipio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label18
             // 
-            this.label18.Location = new System.Drawing.Point(208, 192);
+            this.label18.Location = new System.Drawing.Point(228, 192);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(56, 16);
             this.label18.TabIndex = 18;
@@ -675,7 +702,7 @@ namespace LiquidacionSTN
             this.lblCP.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCP.Location = new System.Drawing.Point(64, 188);
             this.lblCP.Name = "lblCP";
-            this.lblCP.Size = new System.Drawing.Size(136, 24);
+            this.lblCP.Size = new System.Drawing.Size(152, 24);
             this.lblCP.TabIndex = 17;
             this.lblCP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -694,7 +721,7 @@ namespace LiquidacionSTN
             this.lblColonia.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblColonia.Location = new System.Drawing.Point(64, 156);
             this.lblColonia.Name = "lblColonia";
-            this.lblColonia.Size = new System.Drawing.Size(344, 24);
+            this.lblColonia.Size = new System.Drawing.Size(372, 24);
             this.lblColonia.TabIndex = 15;
             this.lblColonia.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -711,15 +738,15 @@ namespace LiquidacionSTN
             this.lblNumInterior.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblNumInterior.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblNumInterior.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNumInterior.Location = new System.Drawing.Point(264, 124);
+            this.lblNumInterior.Location = new System.Drawing.Point(284, 124);
             this.lblNumInterior.Name = "lblNumInterior";
-            this.lblNumInterior.Size = new System.Drawing.Size(144, 24);
+            this.lblNumInterior.Size = new System.Drawing.Size(152, 24);
             this.lblNumInterior.TabIndex = 13;
             this.lblNumInterior.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label14
             // 
-            this.label14.Location = new System.Drawing.Point(208, 128);
+            this.label14.Location = new System.Drawing.Point(228, 128);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(56, 16);
             this.label14.TabIndex = 12;
@@ -732,7 +759,7 @@ namespace LiquidacionSTN
             this.lblNumExterior.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNumExterior.Location = new System.Drawing.Point(64, 124);
             this.lblNumExterior.Name = "lblNumExterior";
-            this.lblNumExterior.Size = new System.Drawing.Size(136, 24);
+            this.lblNumExterior.Size = new System.Drawing.Size(152, 24);
             this.lblNumExterior.TabIndex = 11;
             this.lblNumExterior.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblNumExterior.Click += new System.EventHandler(this.lblNumExterior_Click);
@@ -752,7 +779,7 @@ namespace LiquidacionSTN
             this.lblCalle.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCalle.Location = new System.Drawing.Point(64, 88);
             this.lblCalle.Name = "lblCalle";
-            this.lblCalle.Size = new System.Drawing.Size(344, 24);
+            this.lblCalle.Size = new System.Drawing.Size(372, 24);
             this.lblCalle.TabIndex = 9;
             this.lblCalle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblCalle.Click += new System.EventHandler(this.label9_Click);
@@ -772,7 +799,7 @@ namespace LiquidacionSTN
             this.lblNombre.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNombre.Location = new System.Drawing.Point(64, 56);
             this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(344, 24);
+            this.lblNombre.Size = new System.Drawing.Size(372, 24);
             this.lblNombre.TabIndex = 7;
             this.lblNombre.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -789,7 +816,7 @@ namespace LiquidacionSTN
             this.lblRuta.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblRuta.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblRuta.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRuta.Location = new System.Drawing.Point(352, 20);
+            this.lblRuta.Location = new System.Drawing.Point(380, 20);
             this.lblRuta.Name = "lblRuta";
             this.lblRuta.Size = new System.Drawing.Size(56, 24);
             this.lblRuta.TabIndex = 5;
@@ -797,9 +824,9 @@ namespace LiquidacionSTN
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(296, 24);
+            this.label7.Location = new System.Drawing.Point(334, 24);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(48, 16);
+            this.label7.Size = new System.Drawing.Size(40, 16);
             this.label7.TabIndex = 4;
             this.label7.Text = "Ruta:";
             // 
@@ -808,7 +835,7 @@ namespace LiquidacionSTN
             this.lblCelula.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCelula.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblCelula.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCelula.Location = new System.Drawing.Point(232, 20);
+            this.lblCelula.Location = new System.Drawing.Point(247, 20);
             this.lblCelula.Name = "lblCelula";
             this.lblCelula.Size = new System.Drawing.Size(56, 24);
             this.lblCelula.TabIndex = 3;
@@ -816,9 +843,9 @@ namespace LiquidacionSTN
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(176, 24);
+            this.label4.Location = new System.Drawing.Point(201, 24);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(48, 16);
+            this.label4.Size = new System.Drawing.Size(40, 16);
             this.label4.TabIndex = 2;
             this.label4.Text = "Célula:";
             // 
@@ -848,7 +875,7 @@ namespace LiquidacionSTN
             this.label5.ForeColor = System.Drawing.Color.DarkOliveGreen;
             this.label5.Location = new System.Drawing.Point(0, 216);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(896, 24);
+            this.label5.Size = new System.Drawing.Size(968, 24);
             this.label5.TabIndex = 7;
             this.label5.Text = "Datos del Servicio Técnico";
             // 
@@ -862,9 +889,9 @@ namespace LiquidacionSTN
             this.groupBox2.Controls.Add(this.label22);
             this.groupBox2.Controls.Add(this.lblTrabajoSolicitado);
             this.groupBox2.Controls.Add(this.label24);
-            this.groupBox2.Location = new System.Drawing.Point(432, 248);
+            this.groupBox2.Location = new System.Drawing.Point(475, 248);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(456, 224);
+            this.groupBox2.Size = new System.Drawing.Size(485, 224);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos del Servicio";
@@ -876,7 +903,7 @@ namespace LiquidacionSTN
             this.lblAyudante.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAyudante.Location = new System.Drawing.Point(72, 192);
             this.lblAyudante.Name = "lblAyudante";
-            this.lblAyudante.Size = new System.Drawing.Size(376, 24);
+            this.lblAyudante.Size = new System.Drawing.Size(397, 24);
             this.lblAyudante.TabIndex = 21;
             this.lblAyudante.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -895,7 +922,7 @@ namespace LiquidacionSTN
             this.lblTecnico.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTecnico.Location = new System.Drawing.Point(72, 160);
             this.lblTecnico.Name = "lblTecnico";
-            this.lblTecnico.Size = new System.Drawing.Size(376, 24);
+            this.lblTecnico.Size = new System.Drawing.Size(397, 24);
             this.lblTecnico.TabIndex = 19;
             this.lblTecnico.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -933,7 +960,7 @@ namespace LiquidacionSTN
             this.lblTrabajoSolicitado.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTrabajoSolicitado.Location = new System.Drawing.Point(8, 48);
             this.lblTrabajoSolicitado.Name = "lblTrabajoSolicitado";
-            this.lblTrabajoSolicitado.Size = new System.Drawing.Size(440, 72);
+            this.lblTrabajoSolicitado.Size = new System.Drawing.Size(461, 72);
             this.lblTrabajoSolicitado.TabIndex = 15;
             // 
             // label24
@@ -956,7 +983,7 @@ namespace LiquidacionSTN
             this.grdCheque.Location = new System.Drawing.Point(8, 472);
             this.grdCheque.Name = "grdCheque";
             this.grdCheque.ReadOnly = true;
-            this.grdCheque.Size = new System.Drawing.Size(416, 80);
+            this.grdCheque.Size = new System.Drawing.Size(455, 72);
             this.grdCheque.TabIndex = 9;
             this.grdCheque.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
             this.dataGridTableStyle2});
@@ -1461,9 +1488,9 @@ namespace LiquidacionSTN
             this.groupBox3.Controls.Add(this.txtKilometrajeInicial);
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Location = new System.Drawing.Point(432, 480);
+            this.groupBox3.Location = new System.Drawing.Point(475, 480);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(168, 136);
+            this.groupBox3.Size = new System.Drawing.Size(184, 136);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Kilometraje";
@@ -1515,9 +1542,9 @@ namespace LiquidacionSTN
             this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.label15);
-            this.groupBox4.Location = new System.Drawing.Point(608, 480);
+            this.groupBox4.Location = new System.Drawing.Point(665, 480);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(280, 136);
+            this.groupBox4.Size = new System.Drawing.Size(295, 136);
             this.groupBox4.TabIndex = 11;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Totales";
@@ -1529,7 +1556,7 @@ namespace LiquidacionSTN
             this.lblTotalLiquidacion.ForeColor = System.Drawing.Color.DarkGreen;
             this.lblTotalLiquidacion.Location = new System.Drawing.Point(136, 104);
             this.lblTotalLiquidacion.Name = "lblTotalLiquidacion";
-            this.lblTotalLiquidacion.Size = new System.Drawing.Size(128, 24);
+            this.lblTotalLiquidacion.Size = new System.Drawing.Size(143, 24);
             this.lblTotalLiquidacion.TabIndex = 21;
             this.lblTotalLiquidacion.Text = "0.0";
             this.lblTotalLiquidacion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1541,7 +1568,7 @@ namespace LiquidacionSTN
             this.lblTotalContados.ForeColor = System.Drawing.Color.ForestGreen;
             this.lblTotalContados.Location = new System.Drawing.Point(136, 64);
             this.lblTotalContados.Name = "lblTotalContados";
-            this.lblTotalContados.Size = new System.Drawing.Size(128, 24);
+            this.lblTotalContados.Size = new System.Drawing.Size(143, 24);
             this.lblTotalContados.TabIndex = 20;
             this.lblTotalContados.Text = "0.0";
             this.lblTotalContados.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1553,7 +1580,7 @@ namespace LiquidacionSTN
             this.lblTotalCreditos.ForeColor = System.Drawing.Color.LimeGreen;
             this.lblTotalCreditos.Location = new System.Drawing.Point(136, 24);
             this.lblTotalCreditos.Name = "lblTotalCreditos";
-            this.lblTotalCreditos.Size = new System.Drawing.Size(128, 24);
+            this.lblTotalCreditos.Size = new System.Drawing.Size(143, 24);
             this.lblTotalCreditos.TabIndex = 19;
             this.lblTotalCreditos.Text = "0.0";
             this.lblTotalCreditos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1639,7 +1666,7 @@ namespace LiquidacionSTN
             this.grdLiquidacion.Name = "grdLiquidacion";
             this.grdLiquidacion.ReadOnly = true;
             this.grdLiquidacion.SelectionBackColor = System.Drawing.Color.YellowGreen;
-            this.grdLiquidacion.Size = new System.Drawing.Size(896, 176);
+            this.grdLiquidacion.Size = new System.Drawing.Size(968, 176);
             this.grdLiquidacion.TabIndex = 12;
             this.grdLiquidacion.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
             this.dataGridTableStyle1});
@@ -2143,7 +2170,7 @@ namespace LiquidacionSTN
             this.grdTarjerta.Location = new System.Drawing.Point(8, 544);
             this.grdTarjerta.Name = "grdTarjerta";
             this.grdTarjerta.ReadOnly = true;
-            this.grdTarjerta.Size = new System.Drawing.Size(416, 72);
+            this.grdTarjerta.Size = new System.Drawing.Size(455, 72);
             this.grdTarjerta.TabIndex = 14;
             // 
             // lblTotalALiquidar
@@ -2158,10 +2185,44 @@ namespace LiquidacionSTN
             this.lblTotalALiquidar.Text = "0";
             this.lblTotalALiquidar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // grdTransferencias
+            // 
+            this.grdTransferencias.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.grdTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.grdTransferencias.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdTransferencias.Location = new System.Drawing.Point(-2, 20);
+            this.grdTransferencias.Name = "grdTransferencias";
+            this.grdTransferencias.Size = new System.Drawing.Size(453, 48);
+            this.grdTransferencias.TabIndex = 16;
+            // 
+            // pnlTransferencias
+            // 
+            this.pnlTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlTransferencias.Controls.Add(this.label6);
+            this.pnlTransferencias.Controls.Add(this.grdTransferencias);
+            this.pnlTransferencias.Location = new System.Drawing.Point(8, 616);
+            this.pnlTransferencias.Name = "pnlTransferencias";
+            this.pnlTransferencias.Size = new System.Drawing.Size(455, 72);
+            this.pnlTransferencias.TabIndex = 17;
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.YellowGreen;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.DarkOliveGreen;
+            this.label6.Location = new System.Drawing.Point(0, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(451, 19);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Transferencias incluidas en la liquidación";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // frmLiquidacionST
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(896, 620);
+            this.ClientSize = new System.Drawing.Size(968, 694);
+            this.Controls.Add(this.pnlTransferencias);
             this.Controls.Add(this.lblTotalALiquidar);
             this.Controls.Add(this.grdTarjerta);
             this.Controls.Add(this.grdLiquidacion);
@@ -2192,6 +2253,8 @@ namespace LiquidacionSTN
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdLiquidacion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdTarjerta)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grdTransferencias)).EndInit();
+            this.pnlTransferencias.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
@@ -2583,24 +2646,9 @@ namespace LiquidacionSTN
 
 		private void toolBar1_ButtonClick(object sender, System.Windows.Forms.ToolBarButtonClickEventArgs e)
 		{
-//			switch(e.Button.Text)
-//			{
-//				case "Aceptar":
-//					MessageBox.Show ("Aceptar");
-//					break;
-//				case "CerrarOrden":
-//					MessageBox.Show ("Cerrar Orden.");
-//					break;
-//				case "Cheque":
-//					MessageBox.Show ("Cheque.");
-//					break;
-//
-//			}
-
-			switch(toolBar1.Buttons.IndexOf(e.Button))
+            switch (e.Button.Tag.ToString())
 			{
-                //      ACEPTAR
-				case 0:
+                case "Aceptar":
 					Cursor = Cursors.WaitCursor ;
 					//ttbAceptar.Enabled = false;       -- Se inhabilita el botón pero nunca se vuelve a habilitar. RM 27/09/2018
 					
@@ -2903,9 +2951,8 @@ namespace LiquidacionSTN
 
                     Cursor = Cursors.Default;
                     break;
-				
-				case 1:
 
+                case "CerrarOrden":
                     Cursor = Cursors.WaitCursor;
                     if (_PedidoReferencia != null)
                     {
@@ -2930,9 +2977,8 @@ namespace LiquidacionSTN
                     
                     Cursor = Cursors.Default;
                     break;
-					
-				case 2:
 
+                case "Cheque":
 					Cursor = Cursors.WaitCursor;
 					if (_StatusST == "ATENDIDO")
 					{
@@ -2955,10 +3001,9 @@ namespace LiquidacionSTN
 					}
 
 					Cursor = Cursors.Default ;
-					
 					break;
-				case 3:
 
+                case "CancelarCheque":
 					Cursor = Cursors.WaitCursor ;
 					if(_StatusST == "ATENDIDO")
 					{
@@ -2978,10 +3023,9 @@ namespace LiquidacionSTN
 					Cursor = Cursors.Default ;
 
 					break;
-				case 4:
+
+                case "Voucher":
 					Cursor = Cursors.WaitCursor ;
-
-
 
 						ValidaTarjeta();
 						
@@ -3012,13 +3056,14 @@ namespace LiquidacionSTN
 							MessageBox.Show("El cliente  " + lblCliente.Text  + "  no pertenece a la lista de tarjetas autorizadas, por favor llame a telemarketing, para verificar", "Liquidación Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Information);
 						}
 
-					
 					Cursor = Cursors.Default ;
-
-
 					break;
 
-				case 5:
+                case "Transferencia":
+                    Transferencia();
+                    break;
+
+                case "Franquicia":
 					Cursor = Cursors.WaitCursor ;
 					int Folio;
 					int AñoAtt;
@@ -3126,8 +3171,7 @@ namespace LiquidacionSTN
                 
 					break;
 
-				case 6:
-
+                case "Reporte":
 					Cursor = Cursors.WaitCursor ;
 
 					System.Data.DataRow [] ConsultaL = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Autotanque = " + cboCamioneta.Text );
@@ -3147,7 +3191,7 @@ namespace LiquidacionSTN
 					Cursor = Cursors.Default ;
 					break;
 
-				case 7:
+                case "Pedidos":
 					Cursor = Cursors.WaitCursor;
 					ValidaPedidos ();
                     //LiquidacionSTN.frmPedidosALiquidar PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio,_AñoAtt);
@@ -3166,7 +3210,8 @@ namespace LiquidacionSTN
                     PedidosTablaPedido.ShowDialog ();
                     Cursor = Cursors.Default ;
 					break;
-				case 8:
+
+                case "Cerrar":
 					this.Close() ;
 					break;
 			}
@@ -3174,6 +3219,14 @@ namespace LiquidacionSTN
 			Cursor = Cursors.Default ;
 			LiquidacionSTN.Modulo.CnnSigamet.Close ();
 		}
+
+        private void Transferencia()
+        {
+            Cursor = Cursors.WaitCursor;
+            LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia();
+            frmTransferencia.ShowDialog();
+            Cursor = Cursors.Default;
+        }
 
         /// <summary>
         /// Valida el tipo de cobro de los pedidos cuando la fuente del Gateway es CRM
