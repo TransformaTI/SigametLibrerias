@@ -259,6 +259,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmVaucher.resx">
       <SubType>Designer</SubType>
+      <DependentUpon>frmVaucher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
