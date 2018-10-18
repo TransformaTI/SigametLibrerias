@@ -567,7 +567,7 @@ namespace LiquidacionSTN
             // 
             // tbbTransferencia
             // 
-            this.tbbTransferencia.ImageIndex = 2;
+            this.tbbTransferencia.ImageIndex = 9;
             this.tbbTransferencia.Name = "tbbTransferencia";
             this.tbbTransferencia.Tag = "Transferencia";
             this.tbbTransferencia.Text = "Transferencia";
@@ -613,6 +613,7 @@ namespace LiquidacionSTN
             this.imageList1.Images.SetKeyName(6, "");
             this.imageList1.Images.SetKeyName(7, "");
             this.imageList1.Images.SetKeyName(8, "");
+            this.imageList1.Images.SetKeyName(9, "cash-back.png");
             // 
             // cboCamioneta
             // 
