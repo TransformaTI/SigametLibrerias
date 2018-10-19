@@ -6754,6 +6754,7 @@ Public Class frmLiquidacionPortatil
 		Dim VentaTotal As Decimal
 		Dim DescuentoTotal As Decimal
 		Dim SaldoAFavor As Decimal = 0
+		Dim TotalCredito As Decimal = 0
 
 		For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
 			If Cobro.TipoCobro = 5 Then
@@ -6782,7 +6783,7 @@ Public Class frmLiquidacionPortatil
 		If grdDetalle.VisibleRowCount > 0 Then
 			VentaTotal = calcularVentaTotal(TryCast(grdDetalle.DataSource, DataTable)) + DescuentoTotal
 
-			lblTotalCobro.Text = (VentaTotal - DescuentoTotal).ToString("N2")
+
 			lblEfectivo.Text = TotalEfectivo.ToString("N2")
 			lblVales.Text = TotalVales.ToString("N2")
 			lblTransferElect.Text = TotalTransferencia.ToString("N2")
@@ -6790,9 +6791,10 @@ Public Class frmLiquidacionPortatil
 			lblAplicAnticipo.Text = TotalAnticipo.ToString("N2")
 			lblCheque.Text = TotalCheques.ToString("N2")
 			lblVentaTotal.Text = VentaTotal.ToString("N2")
-			lblCredito.Text = calcularCredito(TryCast(grdDetalle.DataSource, DataTable)).ToString("N2")
+			TotalCredito = calcularCredito(TryCast(grdDetalle.DataSource, DataTable))
+			lblCredito.Text = TotalCredito.ToString("N2")
 
-
+			lblTotalCobro.Text = (VentaTotal - DescuentoTotal - TotalCredito).ToString("N2")
 
 			Acumulado = TotalEfectivo + TotalVales +
 						TotalTransferencia + TotalTarjeta +
