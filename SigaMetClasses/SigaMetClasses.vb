@@ -5108,7 +5108,9 @@ Public Class Cobro
                             Optional ByVal shrBancoOrigen As Short = Nothing,
                             Optional ByVal SaldoAFavor As Boolean = False,
                             Optional ByVal Posfechado As Boolean = False,
-                            Optional ByVal referencia As String = "") As Integer
+                            Optional ByVal referencia As String = "",
+                            Optional ByVal dtmFCobro As Date = Nothing
+                                       ) As Integer
 
         Dim cmd As New SqlCommand("spChequeTarjetaAltaModifica")
         With cmd
@@ -5125,6 +5127,12 @@ Public Class Cobro
             If TipoCobro <> Enumeradores.enumTipoCobro.EfectivoVales Then
                 .Parameters.Add(New SqlParameter("@NumeroCheque", SqlDbType.Char, 20)).Value = strNumeroCheque
                 .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = IIf(dtmFCheque = Date.MinValue, Date.Now, Date.Now)
+                If TipoCobro = Enumeradores.enumTipoCobro.Cheque Then
+                    .Parameters.Add(New SqlParameter("@FechaCobro", SqlDbType.DateTime)).Value = dtmFCobro
+                Else
+                    .Parameters.Add(New SqlParameter("@FechaCobro", SqlDbType.DateTime)).Value = DBNull.Value
+
+                End If
 
             End If
             .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = intCliente
@@ -5845,9 +5853,9 @@ Public Class TransaccionMovimientoCaja
 						Enumeradores.enumTipoCobro.Transferencia,
 						Enumeradores.enumTipoCobro.AplicacionAnticipo
 
-						FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Cobro.FechaCheque, Cobro.Cliente, Cobro.Banco,
-							Cobro.Observaciones, Cobro.TipoCobro, Usuario, Cobro.Saldo, Cobro.NoCuentaDestino, Cobro.BancoOrigen, Cobro.SaldoAFavor,
-							Cobro.Posfechado, Cobro.Referencia)
+                        FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Cobro.FechaCheque, Cobro.Cliente, Cobro.Banco,
+                            Cobro.Observaciones, Cobro.TipoCobro, Usuario, Cobro.Saldo, Cobro.NoCuentaDestino, Cobro.BancoOrigen, Cobro.SaldoAFavor,
+                            Cobro.Posfechado, Cobro.Referencia, Cobro.Fcobro)
 
 					Case Enumeradores.enumTipoCobro.TarjetaCredito
 						FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
@@ -8069,6 +8077,7 @@ Public Structure sCobro
     Private _Observaciones As String
     Private _Referencia As String
     Private _ListaPedidos As ArrayList
+    Private _FCobro As Date
 
     'Se agregó para captura de transferencias bancarias
     '23-03-2005 JAG
@@ -8255,6 +8264,15 @@ Public Structure sCobro
         End Get
         Set(ByVal Value As Boolean)
             _Posfechado = Value
+        End Set
+    End Property
+
+    Public Property Fcobro() As Date
+        Get
+            Return _FCobro
+        End Get
+        Set(ByVal value As Date)
+            _FCobro = value
         End Set
     End Property
 
