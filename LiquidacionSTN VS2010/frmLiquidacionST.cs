@@ -276,6 +276,9 @@ namespace LiquidacionSTN
 		string _StatusServicio;
 		int _TIpoCobro;
 
+        // 22-10-2018 RM. Variable local para guardar el cliente
+        int _Cliente;
+
 		//public SqlConnection cnnSigamet = new SqlConnection(SigaMetClasses.Main.LeeInfoConexion(false,false,"LiquidacionST"));
 		
 		int _Folio;
@@ -3026,6 +3029,12 @@ namespace LiquidacionSTN
 					break;
 
                 case "Voucher":
+
+                    LiquidacionSTN.frmVoucher frmVaucher = new LiquidacionSTN.frmVoucher(123, "2018205123");
+                    frmVaucher.ShowDialog();
+                    break;
+
+
 					Cursor = Cursors.WaitCursor ;
 
 						ValidaTarjeta();
@@ -3224,9 +3233,42 @@ namespace LiquidacionSTN
         private void Transferencia()
         {
             Cursor = Cursors.WaitCursor;
-            LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia();
-            frmTransferencia.ShowDialog();
-            Cursor = Cursors.Default;
+
+            try
+            {
+                if (String.IsNullOrEmpty(_PedidoReferencia) || _Cliente == 0)
+                {
+                    return;
+                }
+
+                if (_StatusST == "ATENDIDO")
+                {
+                    MessageBox.Show("El servicio técnico ya ha sido ATENDIDO, no puede agregarle una transferencia.", this.Text,
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    if (_TipoPedido == 7)
+                    {
+                        LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente);
+                        frmTransferencia.ShowDialog();
+                    }
+                    else
+                    {
+                        MessageBox.Show("El pedido " + _PedidoReferencia.Trim() + " no es de contado, no puede agregarle transferencias.",
+                            this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Se produjo un error:" + Environment.NewLine + ex.Message, this.Text,
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
         /// <summary>
@@ -3448,6 +3490,7 @@ namespace LiquidacionSTN
                 _PedidoReferencia = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 2]);
                 _StatusST = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 9]);
                 _TipoPedido = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 35]);
+                _Cliente = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
             }
             catch (Exception ex)
             {
