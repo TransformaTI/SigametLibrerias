@@ -385,7 +385,6 @@ namespace LiquidacionSTN
 
 		private void LlenaBanco()
 		{
-
 			try
 			{
 				string Query = "select Banco,Nombre from banco where status = 'ACTIVO'";
@@ -454,10 +453,11 @@ namespace LiquidacionSTN
 		    txtCliente.Text = Convert.ToString (_Cliente);
 		    LlenaBanco();
 		    LlenaPedido();
+            CargarComboAfiliacion();
 
-		}
+        }
 
-		private void btnAceptar_Click(object sender, System.EventArgs e)
+        private void btnAceptar_Click(object sender, System.EventArgs e)
 		{
 			//if (Convert.ToInt32 (this.cboBanco.SelectedValue)  == 0)
 			//{
@@ -508,5 +508,36 @@ namespace LiquidacionSTN
 		{
 		
 		}
+
+        private void CargarComboAfiliacion()
+        {
+            string dbQuery = "EXEC spCBConsultaAfiliacionTC";
+            SqlDataAdapter dataAdapter = new SqlDataAdapter();
+            DataTable dtAfiliacion = new DataTable("Afiliacion");
+
+            try
+            {
+                dataAdapter.SelectCommand = new SqlCommand(dbQuery, LiquidacionSTN.Modulo.CnnSigamet);
+                LiquidacionSTN.Modulo.CnnSigamet.Open();
+                dataAdapter.Fill(dtAfiliacion);
+
+                if (dtAfiliacion.Rows.Count > 0)
+                {
+                    cboAfiliacion.DataSource = dtAfiliacion;
+                    cboAfiliacion.DisplayMember = "NumeroAfiliacion";
+                    cboAfiliacion.ValueMember = "Afiliacion";
+                    cboAfiliacion.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error cargando el combo afiliación:" + Environment.NewLine + ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                LiquidacionSTN.Modulo.CnnSigamet.Close();
+            }
+        }
+
     }
 }
