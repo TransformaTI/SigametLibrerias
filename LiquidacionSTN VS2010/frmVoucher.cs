@@ -13,6 +13,10 @@ namespace LiquidacionSTN
 	/// </summary>
 	public class frmVoucher : System.Windows.Forms.Form
 	{
+        // Variables de clase
+        private int _Afiliacion;
+        private short _BancoAfiliacion;
+
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label5;
@@ -105,16 +109,16 @@ namespace LiquidacionSTN
             this.tsbAceptar = new System.Windows.Forms.ToolStripButton();
             this.tsbCerrar = new System.Windows.Forms.ToolStripButton();
             this.pnlPrincipal = new System.Windows.Forms.Panel();
+            this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
+            this.txtConfirmaAutorizacion = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtAutorizacion = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cboTipoTarjeta = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.cboAfiliacion = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.cboTipoTarjeta = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtAutorizacion = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtConfirmaAutorizacion = new System.Windows.Forms.TextBox();
-            this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.tsBotonera.SuspendLayout();
             this.pnlPrincipal.SuspendLayout();
             this.SuspendLayout();
@@ -273,6 +277,52 @@ namespace LiquidacionSTN
             this.pnlPrincipal.Size = new System.Drawing.Size(268, 351);
             this.pnlPrincipal.TabIndex = 13;
             // 
+            // txtMonto
+            // 
+            this.txtMonto.Location = new System.Drawing.Point(119, 258);
+            this.txtMonto.Name = "txtMonto";
+            this.txtMonto.Size = new System.Drawing.Size(100, 20);
+            this.txtMonto.TabIndex = 22;
+            // 
+            // txtConfirmaAutorizacion
+            // 
+            this.txtConfirmaAutorizacion.Location = new System.Drawing.Point(119, 215);
+            this.txtConfirmaAutorizacion.Name = "txtConfirmaAutorizacion";
+            this.txtConfirmaAutorizacion.Size = new System.Drawing.Size(100, 20);
+            this.txtConfirmaAutorizacion.TabIndex = 21;
+            // 
+            // label9
+            // 
+            this.label9.Location = new System.Drawing.Point(23, 215);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(75, 30);
+            this.label9.TabIndex = 20;
+            this.label9.Text = "Conrfirmar autorización:";
+            // 
+            // txtAutorizacion
+            // 
+            this.txtAutorizacion.Location = new System.Drawing.Point(119, 179);
+            this.txtAutorizacion.Name = "txtAutorizacion";
+            this.txtAutorizacion.Size = new System.Drawing.Size(100, 20);
+            this.txtAutorizacion.TabIndex = 19;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(23, 182);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(68, 13);
+            this.label8.TabIndex = 18;
+            this.label8.Text = "Autorización:";
+            // 
+            // cboTipoTarjeta
+            // 
+            this.cboTipoTarjeta.FormattingEnabled = true;
+            this.cboTipoTarjeta.Location = new System.Drawing.Point(119, 113);
+            this.cboTipoTarjeta.Name = "cboTipoTarjeta";
+            this.cboTipoTarjeta.Size = new System.Drawing.Size(100, 21);
+            this.cboTipoTarjeta.TabIndex = 17;
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -289,6 +339,7 @@ namespace LiquidacionSTN
             this.cboAfiliacion.Name = "cboAfiliacion";
             this.cboAfiliacion.Size = new System.Drawing.Size(100, 21);
             this.cboAfiliacion.TabIndex = 15;
+            this.cboAfiliacion.SelectedIndexChanged += new System.EventHandler(this.cboAfiliacion_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -311,52 +362,6 @@ namespace LiquidacionSTN
             this.label7.TabIndex = 13;
             this.label7.Text = "Llenar Voucher";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // cboTipoTarjeta
-            // 
-            this.cboTipoTarjeta.FormattingEnabled = true;
-            this.cboTipoTarjeta.Location = new System.Drawing.Point(119, 113);
-            this.cboTipoTarjeta.Name = "cboTipoTarjeta";
-            this.cboTipoTarjeta.Size = new System.Drawing.Size(100, 21);
-            this.cboTipoTarjeta.TabIndex = 17;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(23, 182);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(68, 13);
-            this.label8.TabIndex = 18;
-            this.label8.Text = "Autorización:";
-            // 
-            // txtAutorizacion
-            // 
-            this.txtAutorizacion.Location = new System.Drawing.Point(119, 179);
-            this.txtAutorizacion.Name = "txtAutorizacion";
-            this.txtAutorizacion.Size = new System.Drawing.Size(100, 20);
-            this.txtAutorizacion.TabIndex = 19;
-            // 
-            // label9
-            // 
-            this.label9.Location = new System.Drawing.Point(23, 215);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(75, 30);
-            this.label9.TabIndex = 20;
-            this.label9.Text = "Conrfirmar autorización:";
-            // 
-            // txtConfirmaAutorizacion
-            // 
-            this.txtConfirmaAutorizacion.Location = new System.Drawing.Point(119, 215);
-            this.txtConfirmaAutorizacion.Name = "txtConfirmaAutorizacion";
-            this.txtConfirmaAutorizacion.Size = new System.Drawing.Size(100, 20);
-            this.txtConfirmaAutorizacion.TabIndex = 21;
-            // 
-            // txtMonto
-            // 
-            this.txtMonto.Location = new System.Drawing.Point(119, 258);
-            this.txtMonto.Name = "txtMonto";
-            this.txtMonto.Size = new System.Drawing.Size(100, 20);
-            this.txtMonto.TabIndex = 22;
             // 
             // frmVoucher
             // 
@@ -451,10 +456,10 @@ namespace LiquidacionSTN
 		private void frmVoucher_Load(object sender, System.EventArgs e)
 		{
 		    txtCliente.Text = Convert.ToString (_Cliente);
-		    LlenaBanco();
+		    //LlenaBanco();
 		    LlenaPedido();
             CargarComboAfiliacion();
-
+            ConsultarBancoAfiliacion();
         }
 
         private void btnAceptar_Click(object sender, System.EventArgs e)
@@ -527,6 +532,8 @@ namespace LiquidacionSTN
                     cboAfiliacion.DisplayMember = "NumeroAfiliacion";
                     cboAfiliacion.ValueMember = "Afiliacion";
                     cboAfiliacion.SelectedIndex = 0;
+
+                    int.TryParse(cboAfiliacion.SelectedValue.ToString(), out _Afiliacion);
                 }
             }
             catch (Exception ex)
@@ -539,5 +546,41 @@ namespace LiquidacionSTN
             }
         }
 
+        private void ConsultarBancoAfiliacion()
+        {
+            _BancoAfiliacion = 0;
+
+            if (_Afiliacion == 0) { return; }
+
+            SqlCommand cmd = new SqlCommand("spSTBancoAfiliacion", LiquidacionSTN.Modulo.CnnSigamet);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@IDAfiliacion", SqlDbType.Int).Value = _Afiliacion;
+
+            try
+            {
+                //cmd = new SqlCommand("spSTBancoAfiliacion", LiquidacionSTN.Modulo.CnnSigamet);
+                LiquidacionSTN.Modulo.CnnSigamet.Open();
+                _BancoAfiliacion = (short)cmd.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error consultando banco afiliación:" + Environment.NewLine + ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                LiquidacionSTN.Modulo.CnnSigamet.Close();
+            }
+        }
+
+        private void cboAfiliacion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboAfiliacion.DataSource == null || cboAfiliacion.SelectedIndex < 0)
+            {
+                return;
+            }
+
+            //int.TryParse
+            ConsultarBancoAfiliacion();
+        }
     }
 }
