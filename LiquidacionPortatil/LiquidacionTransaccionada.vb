@@ -912,7 +912,8 @@ Public Class LiquidacionTransaccionada
 									ByVal FDeposito As DateTime,
 									ByVal TPV As Short,
 									ByVal Connection As SqlConnection,
-									ByVal Transaction As SqlTransaction)
+									ByVal Transaction As SqlTransaction,
+									ByVal FechaCobro As Date)
 
 			Dim dr As SqlDataReader
 			Dim cmd As SqlCommand
@@ -996,7 +997,13 @@ Public Class LiquidacionTransaccionada
 					cmd.Parameters.Add("@FDeposito", SqlDbType.DateTime).Value = FDeposito
 				End If
 
+
+
 				cmd.Parameters.Add("@TPV", SqlDbType.SmallInt).Value = TPV
+
+				If FechaCobro <> DateTime.MinValue.Date Then
+					cmd.Parameters.Add("@FCobro", SqlDbType.DateTime).Value = FechaCobro
+				End If
 
 				dr = cmd.ExecuteReader()
 				dr.Read()

@@ -4714,35 +4714,64 @@ Public Class cMovimientoAConciliarCobro
 
     End Function
 
-    Public Sub altaMovimientoConciliarCobro(ByRef FolioMovimiento As Integer, ByRef AñoMovimiento As Integer, ByRef AñoCobro As Int16, ByRef Cobro As Integer, ByRef Monto As Decimal, ByRef Status As String)
-        Dim cmd As New SqlCommand()
-        cmd.CommandType = CommandType.StoredProcedure
-        cmd.CommandText = "spLIQ2InsertaMovimientoAConciliarCobro"
+	Public Sub altaMovimientoConciliarCobro(ByRef FolioMovimiento As Integer, ByRef AñoMovimiento As Integer, ByRef AñoCobro As Int16, ByRef Cobro As Integer, ByRef Monto As Decimal, ByRef Status As String)
+		Dim cmd As New SqlCommand()
+		cmd.CommandType = CommandType.StoredProcedure
+		cmd.CommandText = "spLIQ2InsertaMovimientoAConciliarCobro"
 
-        cmd.Parameters.Add("@FolioMovimiento", SqlDbType.Int).Value = FolioMovimiento
-        cmd.Parameters.Add("@AñoMovimiento", SqlDbType.Int).Value = AñoMovimiento
-        cmd.Parameters.Add("@AñoCobro", SqlDbType.SmallInt).Value = AñoCobro
-        cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
-        cmd.Parameters.Add("@Monto", SqlDbType.Money).Value = Monto
-        cmd.Parameters.Add("@Status", SqlDbType.VarChar, 20).Value = Status
-        cmd.Connection = DataLayer.Conexion
-        Try
-            If cmd.Connection.State = ConnectionState.Closed Then
-                cmd.Connection.Open()
-            End If
-            cmd.ExecuteNonQuery()
-        Catch ex As Exception
-            Throw New Exception("Error en el registro del anticipo, detalles: " & ex.Message)
-        Finally
-            da.Dispose()
-            da = Nothing
-            If cmd.Connection.State = ConnectionState.Open Then
-                cmd.Connection.Close()
-            End If
-        End Try
-    End Sub
+		cmd.Parameters.Add("@FolioMovimiento", SqlDbType.Int).Value = FolioMovimiento
+		cmd.Parameters.Add("@AñoMovimiento", SqlDbType.Int).Value = AñoMovimiento
+		cmd.Parameters.Add("@AñoCobro", SqlDbType.SmallInt).Value = AñoCobro
+		cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
+		cmd.Parameters.Add("@Monto", SqlDbType.Money).Value = Monto
+		cmd.Parameters.Add("@Status", SqlDbType.VarChar, 20).Value = Status
+		cmd.Connection = DataLayer.Conexion
+		Try
+			If cmd.Connection.State = ConnectionState.Closed Then
+				cmd.Connection.Open()
+			End If
+			cmd.ExecuteNonQuery()
+		Catch ex As Exception
+			Throw New Exception("Error en el registro del anticipo, detalles: " & ex.Message)
+		Finally
+			da.Dispose()
+			da = Nothing
+			If cmd.Connection.State = ConnectionState.Open Then
+				cmd.Connection.Close()
+			End If
+		End Try
+	End Sub
 
-    Public Sub altaMovimientoConciliarCobroQ(ByRef FolioMovimiento As Integer, ByRef AñoMovimiento As Integer, ByRef AñoCobro As Int16, ByRef Cobro As Integer, ByRef Monto As Decimal, ByRef Status As String)
+	Public Sub altaMovimientoConciliarCobro(ByRef FolioMovimiento As Integer, ByRef AñoMovimiento As Integer, ByRef AñoCobro As Int16, ByRef Cobro As Integer, ByRef Monto As Decimal, ByRef Status As String,
+											ByVal Connection As SqlConnection,
+											ByVal Transaction As SqlTransaction)
+		Dim cmd As New SqlCommand()
+		cmd = New SqlCommand("spLIQ2InsertaMovimientoAConciliarCobro", Connection)
+		cmd.Transaction = Transaction
+		cmd.CommandType = CommandType.StoredProcedure
+		'cmd.CommandText = "spLIQ2InsertaMovimientoAConciliarCobro"
+
+		cmd.Parameters.Add("@FolioMovimiento", SqlDbType.Int).Value = FolioMovimiento
+		cmd.Parameters.Add("@AñoMovimiento", SqlDbType.Int).Value = AñoMovimiento
+		cmd.Parameters.Add("@AñoCobro", SqlDbType.SmallInt).Value = AñoCobro
+		cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
+		cmd.Parameters.Add("@Monto", SqlDbType.Money).Value = Monto
+		cmd.Parameters.Add("@Status", SqlDbType.VarChar, 20).Value = Status
+
+		Try
+			If cmd.Connection.State = ConnectionState.Closed Then
+				cmd.Connection.Open()
+			End If
+			cmd.ExecuteNonQuery()
+		Catch ex As Exception
+			Throw New Exception("Error en el registro del anticipo, detalles: " & ex.Message)
+		Finally
+			cmd.Dispose()
+
+		End Try
+	End Sub
+
+	Public Sub altaMovimientoConciliarCobroQ(ByRef FolioMovimiento As Integer, ByRef AñoMovimiento As Integer, ByRef AñoCobro As Int16, ByRef Cobro As Integer, ByRef Monto As Decimal, ByRef Status As String)
         Dim cmd As New SqlCommand()
         cmd.CommandType = CommandType.Text
         cmd.CommandText = "INSERT INTO [dbo].[MovimientoAConciliarCobro] ([FolioMovimiento],[AñoMovimiento],[AñoCobro],[Cobro],[Monto],[Status])VALUES(" + CType(FolioMovimiento, String) + "," + CType(AñoMovimiento, String) + "," + CType(AñoCobro, String) + "," + CType(Cobro, String) + "," + CType(Monto, String) + ",'" + CType(Status, String) + "');"
@@ -5108,7 +5137,9 @@ Public Class Cobro
                             Optional ByVal shrBancoOrigen As Short = Nothing,
                             Optional ByVal SaldoAFavor As Boolean = False,
                             Optional ByVal Posfechado As Boolean = False,
-                            Optional ByVal referencia As String = "") As Integer
+                            Optional ByVal referencia As String = "",
+                            Optional ByVal dtmFCobro As Date = Nothing
+                                       ) As Integer
 
         Dim cmd As New SqlCommand("spChequeTarjetaAltaModifica")
         With cmd
@@ -5125,6 +5156,12 @@ Public Class Cobro
             If TipoCobro <> Enumeradores.enumTipoCobro.EfectivoVales Then
                 .Parameters.Add(New SqlParameter("@NumeroCheque", SqlDbType.Char, 20)).Value = strNumeroCheque
                 .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = IIf(dtmFCheque = Date.MinValue, Date.Now, Date.Now)
+                If TipoCobro = Enumeradores.enumTipoCobro.Cheque Then
+                    .Parameters.Add(New SqlParameter("@FechaCobro", SqlDbType.DateTime)).Value = dtmFCobro
+                Else
+                    .Parameters.Add(New SqlParameter("@FechaCobro", SqlDbType.DateTime)).Value = DBNull.Value
+
+                End If
 
             End If
             .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = intCliente
@@ -5212,55 +5249,86 @@ Public Class Cobro
         End Try
     End Function
 
-    <Description("Procedimiento para modificar cobro de tarjeta y cheque.")>
-    Public Sub ChequeTarjetaModifica(ByVal strNumeroCheque As String,
-                                     ByVal decTotal As Decimal,
-                                     ByVal strNumeroCuenta As String,
-                                     ByVal dtmFCheque As Date,
-                                     ByVal intCliente As Integer,
-                                     ByVal shrBanco As Short,
-                                     ByVal Usuario As String,
-                                     ByVal NuevoNumeroCheque As String,
-                                     ByVal NuevoBanco As Short,
-                                     ByVal NuevoCliente As Integer,
-                            Optional ByVal strObservaciones As String = "",
-                            Optional ByVal TipoCobro As Enumeradores.enumTipoCobro = Enumeradores.enumTipoCobro.Cheque)
+	<Description("Procedimiento para modificar cobro de tarjeta y cheque.")>
+	Public Sub ChequeTarjetaModifica(ByVal strNumeroCheque As String,
+									 ByVal decTotal As Decimal,
+									 ByVal strNumeroCuenta As String,
+									 ByVal dtmFCheque As Date,
+									 ByVal intCliente As Integer,
+									 ByVal shrBanco As Short,
+									 ByVal Usuario As String,
+									 ByVal NuevoNumeroCheque As String,
+									 ByVal NuevoBanco As Short,
+									 ByVal NuevoCliente As Integer,
+							Optional ByVal strObservaciones As String = "",
+							Optional ByVal TipoCobro As Enumeradores.enumTipoCobro = Enumeradores.enumTipoCobro.Cheque)
 
-        Dim cmd As New SqlCommand("spChequeTarjetaAltaModifica")
-        With cmd
-            .CommandType = CommandType.StoredProcedure
-            .Transaction = Transaccion
-            .Parameters.Add("@Total", SqlDbType.Money).Value = decTotal
-            .Parameters.Add("@NumeroCuenta", SqlDbType.Char, 20).Value = strNumeroCuenta
-            If TipoCobro = Enumeradores.enumTipoCobro.Cheque Then
-                .Parameters.Add("@NumeroCheque", SqlDbType.Char, 20).Value = strNumeroCheque
-                .Parameters.Add("@FCheque", SqlDbType.DateTime).Value = dtmFCheque
-            End If
-            .Parameters.Add("@Cliente", SqlDbType.Int).Value = intCliente
-            .Parameters.Add("@Banco", SqlDbType.SmallInt).Value = shrBanco
-            .Parameters.Add("@Observaciones", SqlDbType.VarChar, 250).Value = strObservaciones
-            .Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = TipoCobro
-            .Parameters.Add("@Alta", SqlDbType.Bit).Value = 0
-            .Parameters.Add("@Usuario", SqlDbType.Char, 10).Value = Usuario
-            .Parameters.Add("@NewNumeroCheque", SqlDbType.Char, 20).Value = NuevoNumeroCheque
-            .Parameters.Add("@NewCliente", SqlDbType.Int).Value = NuevoCliente
-            .Parameters.Add("@NewBanco", SqlDbType.SmallInt).Value = NuevoBanco
-        End With
+		Dim cmd As New SqlCommand("spChequeTarjetaAltaModifica")
+		With cmd
+			.CommandType = CommandType.StoredProcedure
+			.Transaction = Transaccion
+			.Parameters.Add("@Total", SqlDbType.Money).Value = decTotal
+			.Parameters.Add("@NumeroCuenta", SqlDbType.Char, 20).Value = strNumeroCuenta
+			If TipoCobro = Enumeradores.enumTipoCobro.Cheque Then
+				.Parameters.Add("@NumeroCheque", SqlDbType.Char, 20).Value = strNumeroCheque
+				.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = dtmFCheque
+			End If
+			.Parameters.Add("@Cliente", SqlDbType.Int).Value = intCliente
+			.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = shrBanco
+			.Parameters.Add("@Observaciones", SqlDbType.VarChar, 250).Value = strObservaciones
+			.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = TipoCobro
+			.Parameters.Add("@Alta", SqlDbType.Bit).Value = 0
+			.Parameters.Add("@Usuario", SqlDbType.Char, 10).Value = Usuario
+			.Parameters.Add("@NewNumeroCheque", SqlDbType.Char, 20).Value = NuevoNumeroCheque
+			.Parameters.Add("@NewCliente", SqlDbType.Int).Value = NuevoCliente
+			.Parameters.Add("@NewBanco", SqlDbType.SmallInt).Value = NuevoBanco
+		End With
 
-        Try
-            AbreConexion()
-            cmd.Connection = DataLayer.Conexion
-            cmd.ExecuteNonQuery()
+		Try
+			AbreConexion()
+			cmd.Connection = DataLayer.Conexion
+			cmd.ExecuteNonQuery()
 
-        Catch ex As Exception
-            Throw ex
-        Finally
-            cmd = Nothing
-        End Try
+		Catch ex As Exception
+			Throw ex
+		Finally
+			cmd = Nothing
+		End Try
 
-    End Sub
+	End Sub
 
-    <Description("Función para dar de alta Efectivo y Vales en la tabla 'Cobro'")>
+	<Description("Función para modificar tabla 'Cobro'")>
+	Public Sub ModificaCobroReciboCaja(ByVal Cobro As Integer,
+									  ByVal AnoCobro As Integer,
+									  ByVal TipoConcepto As Integer,
+									  ByVal CuentaContable As String)
+
+		Dim cmd As New SqlCommand("spModificaCobroReciboCaja")
+		With cmd
+			.CommandType = CommandType.StoredProcedure
+			.Transaction = Transaccion
+			.Parameters.Add(New SqlParameter("@Cobro", SqlDbType.Int)).Value = Cobro
+			.Parameters.Add(New SqlParameter("@AnoCobro", SqlDbType.SmallInt)).Value = AnoCobro
+			.Parameters.Add(New SqlParameter("@TipoConcepto", SqlDbType.Int)).Value = TipoConcepto
+			.Parameters.Add(New SqlParameter("@CuentaContable", SqlDbType.VarChar, 20)).Value = CuentaContable
+
+		End With
+
+		Try
+			cmd.Connection = DataLayer.Conexion
+			cmd.ExecuteNonQuery()
+
+
+		Catch ex As Exception
+
+			Throw ex
+
+		Finally
+			cmd = Nothing
+		End Try
+	End Sub
+
+	<Description("Función para dar de alta Efectivo y Vales en la tabla 'Cobro'")>
     Public Function EfectivoValesAlta(ByVal Total As Decimal,
                                       ByVal TipoCobro As Enumeradores.enumTipoCobro,
                                       ByVal Usuario As String,
@@ -5732,140 +5800,146 @@ Public Class TransaccionMovimientoCaja
 #End Region
 
 #Region "Alta"
-    Public Function Alta(ByVal Caja As Byte,
-                         ByVal FOperacion As Date,
-                         ByVal Consecutivo As Byte,
-                         ByVal FMovimiento As Date,
-                         ByVal Total As Decimal,
-                         ByVal UsuarioCaptura As String,
-                         ByVal Empleado As Integer,
-                         ByVal TipoMovimientoCaja As Byte,
-                         ByVal Ruta As Short,
-                         ByVal Cliente As Integer,
-                         ByVal ListaCobro As ArrayList,
-                         ByVal Usuario As String,
-                Optional ByVal Observaciones As String = "",
-                Optional ByRef Clave As String = "",
-                Optional ByVal TipoAjuste As Byte = 0) As Integer
+	Public Function Alta(ByVal Caja As Byte,
+						 ByVal FOperacion As Date,
+						 ByVal Consecutivo As Byte,
+						 ByVal FMovimiento As Date,
+						 ByVal Total As Decimal,
+						 ByVal UsuarioCaptura As String,
+						 ByVal Empleado As Integer,
+						 ByVal TipoMovimientoCaja As Byte,
+						 ByVal Ruta As Short,
+						 ByVal Cliente As Integer,
+						 ByVal ListaCobro As ArrayList,
+						 ByVal Usuario As String,
+				Optional ByVal Observaciones As String = "",
+				Optional ByRef Clave As String = "",
+				Optional ByVal TipoAjuste As Byte = 0,
+				Optional ByVal TipoConcepto As Integer = 0,
+				Optional ByVal CuentaContable As String = "") As Integer
 
-        'Usuario = Es el usuario que se escribe en la tabla Cobro
-        'UsuarioCaptura - Es el usuario que captura el movimiento, no necesariamente
-        'el usuario relacionado con el abono
+		'Usuario = Es el usuario que se escribe en la tabla Cobro
+		'UsuarioCaptura - Es el usuario que captura el movimiento, no necesariamente
+		'el usuario relacionado con el abono
 
-        Dim objMovCaja As New MovimientoCaja()  'Objeto MovimientoCaja
-        Dim FolioMovCaja As Integer             'Folio del nuevo movimiento caja
-        Dim FolioCobro As Integer               'Folio del cobro
-        Dim Cobro As sCobro                     'Estructura sCobro
-        Dim CobroPedido As sPedido              'Estructura sPedido
-        Dim objCobroPedido As New CobroPedido()
-        Dim objCobro As New Cobro()
-        Dim objMovCajaCobro As New MovimientoCajaCobro()
+		Dim objMovCaja As New MovimientoCaja()  'Objeto MovimientoCaja
+		Dim FolioMovCaja As Integer             'Folio del nuevo movimiento caja
+		Dim FolioCobro As Integer               'Folio del cobro
+		Dim Cobro As sCobro                     'Estructura sCobro
+		Dim CobroPedido As sPedido              'Estructura sPedido
+		Dim objCobroPedido As New CobroPedido()
+		Dim objCobro As New Cobro()
+		Dim objMovCajaCobro As New MovimientoCajaCobro()
 
 
-        AbreConexion()
-        IniciaTransaccion()
+		AbreConexion()
+		IniciaTransaccion()
 
-        Try
-            'No generar movimiento para cobranzas solo con documentos posfechados
-            Dim _generarMov As Boolean = False
-            For Each Cobro In ListaCobro
-                If Not Cobro.Posfechado Then
-                    _generarMov = True
-                    Exit For
-                End If
-            Next
+		Try
+			'No generar movimiento para cobranzas solo con documentos posfechados
+			Dim _generarMov As Boolean = False
+			For Each Cobro In ListaCobro
+				If Not Cobro.Posfechado Then
+					_generarMov = True
+					Exit For
+				End If
+			Next
 
-            'Alta en la tabla MovimientoCaja
-            If _generarMov Then
-                FolioMovCaja = objMovCaja.Alta(Caja:=Caja,
-                                               FOperacion:=FOperacion,
-                                               Consecutivo:=Consecutivo,
-                                               FMovimiento:=FMovimiento,
-                                               Total:=Total,
-                                               UsuarioCaptura:=UsuarioCaptura,
-                                               Empleado:=Empleado,
-                                               TipoMovimientoCaja:=TipoMovimientoCaja,
-                                               Ruta:=Ruta,
-                                               Cliente:=Cliente,
-                                               NuevaClave:=Clave,
-                                               Observaciones:=Observaciones,
-                                               SaldoAFavor:=SaldoAFavor(ListaCobro),
-                                               TipoAjuste:=TipoAjuste)
-            End If
+			'Alta en la tabla MovimientoCaja
+			If _generarMov Then
+				FolioMovCaja = objMovCaja.Alta(Caja:=Caja,
+											   FOperacion:=FOperacion,
+											   Consecutivo:=Consecutivo,
+											   FMovimiento:=FMovimiento,
+											   Total:=Total,
+											   UsuarioCaptura:=UsuarioCaptura,
+											   Empleado:=Empleado,
+											   TipoMovimientoCaja:=TipoMovimientoCaja,
+											   Ruta:=Ruta,
+											   Cliente:=Cliente,
+											   NuevaClave:=Clave,
+											   Observaciones:=Observaciones,
+											   SaldoAFavor:=SaldoAFavor(ListaCobro),
+											   TipoAjuste:=TipoAjuste)
+			End If
 
-            For Each Cobro In ListaCobro
+			For Each Cobro In ListaCobro
 
-                Select Case Cobro.TipoCobro
-                    Case Enumeradores.enumTipoCobro.Efectivo,
-                         Enumeradores.enumTipoCobro.EfectivoVales,
-                         Enumeradores.enumTipoCobro.Vales
-                        FolioCobro = objCobro.EfectivoValesAlta(Cobro.Total, CType(Cobro.TipoCobro, Enumeradores.enumTipoCobro), Usuario, Cobro.Observaciones)
+				Select Case Cobro.TipoCobro
+					Case Enumeradores.enumTipoCobro.Efectivo,
+						 Enumeradores.enumTipoCobro.EfectivoVales,
+						 Enumeradores.enumTipoCobro.Vales
+						FolioCobro = objCobro.EfectivoValesAlta(Cobro.Total, CType(Cobro.TipoCobro, Enumeradores.enumTipoCobro), Usuario, Cobro.Observaciones)
 
-                    Case Enumeradores.enumTipoCobro.Cheque,
-                        Enumeradores.enumTipoCobro.FichaDeposito,
-                        Enumeradores.enumTipoCobro.NotaCredito,
-                        Enumeradores.enumTipoCobro.NotaIngreso,
-                        Enumeradores.enumTipoCobro.Transferencia,
-                        Enumeradores.enumTipoCobro.AplicacionAnticipo
+						If TipoMovimientoCaja = 43 Then
+							objCobro.ModificaCobroReciboCaja(FolioCobro, Date.Today.Year, TipoConcepto, CuentaContable)
+						End If
+
+					Case Enumeradores.enumTipoCobro.Cheque,
+						Enumeradores.enumTipoCobro.FichaDeposito,
+						Enumeradores.enumTipoCobro.NotaCredito,
+						Enumeradores.enumTipoCobro.NotaIngreso,
+						Enumeradores.enumTipoCobro.Transferencia,
+						Enumeradores.enumTipoCobro.AplicacionAnticipo
 
                         FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Cobro.FechaCheque, Cobro.Cliente, Cobro.Banco,
                             Cobro.Observaciones, Cobro.TipoCobro, Usuario, Cobro.Saldo, Cobro.NoCuentaDestino, Cobro.BancoOrigen, Cobro.SaldoAFavor,
-                            Cobro.Posfechado, Cobro.Referencia)
+                            Cobro.Posfechado, Cobro.Referencia, Cobro.Fcobro)
 
-                    Case Enumeradores.enumTipoCobro.TarjetaCredito
-                        FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
-                            Enumeradores.enumTipoCobro.TarjetaCredito, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia)
+					Case Enumeradores.enumTipoCobro.TarjetaCredito
+						FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
+							Enumeradores.enumTipoCobro.TarjetaCredito, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia)
 
-                        'CONTROL DE SALDOS 01-04-2005
-                    Case Enumeradores.enumTipoCobro.SaldoAFavor
-                        FolioCobro = objCobro.SaldoAFavorAlta(Cobro.Total, Cobro.Cliente, Cobro.AnioCobroOrigen, Cobro.CobroOrigen,
-                            Cobro.Observaciones, Cobro.TipoCobro, Usuario)
+						'CONTROL DE SALDOS 01-04-2005
+					Case Enumeradores.enumTipoCobro.SaldoAFavor
+						FolioCobro = objCobro.SaldoAFavorAlta(Cobro.Total, Cobro.Cliente, Cobro.AnioCobroOrigen, Cobro.CobroOrigen,
+							Cobro.Observaciones, Cobro.TipoCobro, Usuario)
 
-                    Case Enumeradores.enumTipoCobro.DacionEnPago 'MCC 06-07-2018
-                        FolioCobro = objCobro.DacionPago(Cobro.Total, CType(Cobro.TipoCobro, Enumeradores.enumTipoCobro), Usuario, Cobro.Observaciones)
+					Case Enumeradores.enumTipoCobro.DacionEnPago 'MCC 06-07-2018
+						FolioCobro = objCobro.DacionPago(Cobro.Total, CType(Cobro.TipoCobro, Enumeradores.enumTipoCobro), Usuario, Cobro.Observaciones)
 
-                End Select
+				End Select
 
-                If Not Cobro.ListaPedidos Is Nothing Then 'Cambio realizado el 6 de mayo del 2003
-                    For Each CobroPedido In Cobro.ListaPedidos
-                        CobroPedido.Cobro = FolioCobro
+				If Not Cobro.ListaPedidos Is Nothing Then 'Cambio realizado el 6 de mayo del 2003
+					For Each CobroPedido In Cobro.ListaPedidos
+						CobroPedido.Cobro = FolioCobro
 
-                        'Para evitar que la modificación de cobranza afecte registros de movimientos de otros años:
-                        'Si el año de FOperacion es diferente del año de la structure cobro, le asignamos el
-                        'año  de FOperacion. JAGD 04/04/2005
-                        If Cobro.AnoCobro <> DatePart(DateInterval.Year, FOperacion) Then
-                            Cobro.AnoCobro = DatePart(DateInterval.Year, FOperacion)
-                        End If
+						'Para evitar que la modificación de cobranza afecte registros de movimientos de otros años:
+						'Si el año de FOperacion es diferente del año de la structure cobro, le asignamos el
+						'año  de FOperacion. JAGD 04/04/2005
+						If Cobro.AnoCobro <> DatePart(DateInterval.Year, FOperacion) Then
+							Cobro.AnoCobro = DatePart(DateInterval.Year, FOperacion)
+						End If
 
-                        objCobroPedido.Alta(CobroPedido.Celula, Cobro.AnoCobro, CobroPedido.Cobro, CobroPedido.AnoPed, CobroPedido.Pedido, CobroPedido.ImporteAbono)
-                    Next
+						objCobroPedido.Alta(CobroPedido.Celula, Cobro.AnoCobro, CobroPedido.Cobro, CobroPedido.AnoPed, CobroPedido.Pedido, CobroPedido.ImporteAbono)
+					Next
 
-                    ActualizarSaldoPedidosCRM(Cobro.ListaPedidos)
-                End If
-                'No guardar movimientocajacobro para cheques posfechados
-                If Not Cobro.Posfechado Then
-                    objMovCajaCobro.Alta(Caja, FOperacion, Consecutivo, FolioMovCaja, Cobro.AnoCobro, FolioCobro)
-                End If
-                '*****
-            Next
-            Transaccion.Commit()
-            Return FolioMovCaja
-        Catch ex As Exception
-            EventLog.WriteEntry("SigametClasses " & ex.Source, ex.Message, EventLogEntryType.Error)
-            If Not Transaccion.Connection Is Nothing Then
-                If Transaccion.Connection.State = ConnectionState.Open Then
-                    Transaccion.Rollback()
-                End If
-            End If
+					ActualizarSaldoPedidosCRM(Cobro.ListaPedidos)
+				End If
+				'No guardar movimientocajacobro para cheques posfechados
+				If Not Cobro.Posfechado Then
+					objMovCajaCobro.Alta(Caja, FOperacion, Consecutivo, FolioMovCaja, Cobro.AnoCobro, FolioCobro)
+				End If
+				'*****
+			Next
+			Transaccion.Commit()
+			Return FolioMovCaja
+		Catch ex As Exception
+			EventLog.WriteEntry("SigametClasses " & ex.Source, ex.Message, EventLogEntryType.Error)
+			If Not Transaccion.Connection Is Nothing Then
+				If Transaccion.Connection.State = ConnectionState.Open Then
+					Transaccion.Rollback()
+				End If
+			End If
 
-            Throw ex
-        Finally
-            CierraConexion()
-            objMovCaja = Nothing
-        End Try
-    End Function
+			Throw ex
+		Finally
+			CierraConexion()
+			objMovCaja = Nothing
+		End Try
+	End Function
 
-    Private Sub ActualizarSaldoPedidosCRM(ByVal parPedidos As ArrayList)
+	Private Sub ActualizarSaldoPedidosCRM(ByVal parPedidos As ArrayList)
         Dim pedidosRespuesta As List(Of RTGMCore.Pedido)
 
         If (_FuenteGateway <> "CRM") Then
@@ -8032,6 +8106,7 @@ Public Structure sCobro
     Private _Observaciones As String
     Private _Referencia As String
     Private _ListaPedidos As ArrayList
+    Private _FCobro As Date
 
     'Se agregó para captura de transferencias bancarias
     '23-03-2005 JAG
@@ -8218,6 +8293,15 @@ Public Structure sCobro
         End Get
         Set(ByVal Value As Boolean)
             _Posfechado = Value
+        End Set
+    End Property
+
+    Public Property Fcobro() As Date
+        Get
+            Return _FCobro
+        End Get
+        Set(ByVal value As Date)
+            _FCobro = value
         End Set
     End Property
 
