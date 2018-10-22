@@ -9,18 +9,14 @@ using System.Data;
 namespace LiquidacionSTN
 {
 	/// <summary>
-	/// Summary description for frmVaucher.
+	/// Summary description for frmVoucher.
 	/// </summary>
-	public class frmVaucher : System.Windows.Forms.Form
+	public class frmVoucher : System.Windows.Forms.Form
 	{
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.TextBox txtCliente;
-		private System.Windows.Forms.ComboBox cboBanco;
-		private System.Windows.Forms.TextBox txtFolio;
 		private System.Windows.Forms.Button btnAceptar;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.DateTimePicker dtpFecha;
@@ -32,13 +28,16 @@ namespace LiquidacionSTN
         private ToolStripButton tsbCerrar;
         private Panel pnlPrincipal;
         private Label label7;
+        private Label label4;
+        private ComboBox comboBox1;
+        private Label label2;
 
         /// <summary>
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.Container components = null;
 
-		public frmVaucher(int Cliente,string PedidoReferencia)
+		public frmVoucher(int Cliente,string PedidoReferencia)
 		{
 			
 			_PedidoReferencia = PedidoReferencia;
@@ -87,16 +86,12 @@ namespace LiquidacionSTN
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmVaucher));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmVoucher));
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.dtpFecha = new System.Windows.Forms.DateTimePicker();
             this.txtCliente = new System.Windows.Forms.TextBox();
-            this.cboBanco = new System.Windows.Forms.ComboBox();
-            this.txtFolio = new System.Windows.Forms.TextBox();
             this.txtMonto = new System.Windows.Forms.TextBox();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -106,6 +101,9 @@ namespace LiquidacionSTN
             this.tsbAceptar = new System.Windows.Forms.ToolStripButton();
             this.tsbCerrar = new System.Windows.Forms.ToolStripButton();
             this.pnlPrincipal = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.tsBotonera.SuspendLayout();
             this.pnlPrincipal.SuspendLayout();
@@ -120,40 +118,20 @@ namespace LiquidacionSTN
             this.label1.Text = "Cliente:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label2
-            // 
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(23, 81);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 16);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Banco:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(23, 111);
+            this.label3.Location = new System.Drawing.Point(23, 157);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(56, 16);
             this.label3.TabIndex = 2;
             this.label3.Text = "Fecha:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label4
-            // 
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(23, 145);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(56, 16);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Folio:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // label5
             // 
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(23, 177);
+            this.label5.Location = new System.Drawing.Point(23, 263);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(56, 16);
             this.label5.TabIndex = 4;
@@ -163,7 +141,7 @@ namespace LiquidacionSTN
             // dtpFecha
             // 
             this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFecha.Location = new System.Drawing.Point(95, 109);
+            this.dtpFecha.Location = new System.Drawing.Point(95, 155);
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(120, 20);
             this.dtpFecha.TabIndex = 2;
@@ -179,23 +157,9 @@ namespace LiquidacionSTN
             this.txtCliente.TabIndex = 0;
             this.txtCliente.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // cboBanco
-            // 
-            this.cboBanco.Location = new System.Drawing.Point(95, 79);
-            this.cboBanco.Name = "cboBanco";
-            this.cboBanco.Size = new System.Drawing.Size(192, 21);
-            this.cboBanco.TabIndex = 1;
-            // 
-            // txtFolio
-            // 
-            this.txtFolio.Location = new System.Drawing.Point(95, 143);
-            this.txtFolio.Name = "txtFolio";
-            this.txtFolio.Size = new System.Drawing.Size(120, 20);
-            this.txtFolio.TabIndex = 3;
-            // 
             // txtMonto
             // 
-            this.txtMonto.Location = new System.Drawing.Point(95, 175);
+            this.txtMonto.Location = new System.Drawing.Point(95, 261);
             this.txtMonto.Name = "txtMonto";
             this.txtMonto.Size = new System.Drawing.Size(120, 20);
             this.txtMonto.TabIndex = 4;
@@ -226,7 +190,7 @@ namespace LiquidacionSTN
             // 
             // txtSaldo
             // 
-            this.txtSaldo.Location = new System.Drawing.Point(95, 207);
+            this.txtSaldo.Location = new System.Drawing.Point(95, 293);
             this.txtSaldo.Name = "txtSaldo";
             this.txtSaldo.Size = new System.Drawing.Size(120, 20);
             this.txtSaldo.TabIndex = 5;
@@ -235,7 +199,7 @@ namespace LiquidacionSTN
             // label6
             // 
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(23, 207);
+            this.label6.Location = new System.Drawing.Point(23, 293);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(56, 16);
             this.label6.TabIndex = 12;
@@ -250,7 +214,7 @@ namespace LiquidacionSTN
             this.tsbCerrar});
             this.tsBotonera.Location = new System.Drawing.Point(0, 0);
             this.tsBotonera.Name = "tsBotonera";
-            this.tsBotonera.Size = new System.Drawing.Size(404, 38);
+            this.tsBotonera.Size = new System.Drawing.Size(402, 38);
             this.tsBotonera.TabIndex = 0;
             this.tsBotonera.Text = "tsBotonera";
             // 
@@ -276,26 +240,51 @@ namespace LiquidacionSTN
             // 
             // pnlPrincipal
             // 
+            this.pnlPrincipal.Controls.Add(this.label4);
+            this.pnlPrincipal.Controls.Add(this.comboBox1);
+            this.pnlPrincipal.Controls.Add(this.label2);
             this.pnlPrincipal.Controls.Add(this.label7);
             this.pnlPrincipal.Controls.Add(this.label3);
             this.pnlPrincipal.Controls.Add(this.label1);
             this.pnlPrincipal.Controls.Add(this.txtSaldo);
-            this.pnlPrincipal.Controls.Add(this.label2);
             this.pnlPrincipal.Controls.Add(this.label6);
-            this.pnlPrincipal.Controls.Add(this.label4);
             this.pnlPrincipal.Controls.Add(this.button2);
             this.pnlPrincipal.Controls.Add(this.label5);
             this.pnlPrincipal.Controls.Add(this.btnAceptar);
             this.pnlPrincipal.Controls.Add(this.dtpFecha);
             this.pnlPrincipal.Controls.Add(this.txtMonto);
             this.pnlPrincipal.Controls.Add(this.txtCliente);
-            this.pnlPrincipal.Controls.Add(this.txtFolio);
-            this.pnlPrincipal.Controls.Add(this.cboBanco);
             this.pnlPrincipal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlPrincipal.Location = new System.Drawing.Point(0, 38);
             this.pnlPrincipal.Name = "pnlPrincipal";
-            this.pnlPrincipal.Size = new System.Drawing.Size(404, 342);
+            this.pnlPrincipal.Size = new System.Drawing.Size(402, 399);
             this.pnlPrincipal.TabIndex = 13;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(23, 123);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(78, 13);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "Tipo de tarjeta:";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(94, 76);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 15;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(23, 79);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(52, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Afiliación:";
             // 
             // label7
             // 
@@ -305,26 +294,26 @@ namespace LiquidacionSTN
             this.label7.ForeColor = System.Drawing.SystemColors.Window;
             this.label7.Location = new System.Drawing.Point(0, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(404, 25);
+            this.label7.Size = new System.Drawing.Size(402, 25);
             this.label7.TabIndex = 13;
             this.label7.Text = "Llenar Voucher";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // frmVaucher
+            // frmVoucher
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(404, 380);
+            this.ClientSize = new System.Drawing.Size(402, 437);
             this.Controls.Add(this.pnlPrincipal);
             this.Controls.Add(this.tsBotonera);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmVaucher";
+            this.Name = "frmVoucher";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Voucher";
-            this.Load += new System.EventHandler(this.frmVaucher_Load);
+            this.Load += new System.EventHandler(this.frmVoucher_Load);
             this.tsBotonera.ResumeLayout(false);
             this.tsBotonera.PerformLayout();
             this.pnlPrincipal.ResumeLayout(false);
@@ -347,10 +336,10 @@ namespace LiquidacionSTN
 				LiquidacionSTN.Modulo.CnnSigamet.Open ();
 				da.SelectCommand = new SqlCommand (Query,LiquidacionSTN.Modulo.CnnSigamet);
 				da.Fill (dt);	
-				this.cboBanco.DataSource = dt;
-				this.cboBanco.DisplayMember = "Nombre";
-				this.cboBanco.ValueMember = "Banco";
-				this.cboBanco.SelectedIndex = 0;
+				//this.cboBanco.DataSource = dt;
+				//this.cboBanco.DisplayMember = "Nombre";
+				//this.cboBanco.ValueMember = "Banco";
+				//this.cboBanco.SelectedIndex = 0;
 				a = 1;
 				
 			}
@@ -401,28 +390,28 @@ namespace LiquidacionSTN
 			txtSaldo.Text = Convert.ToString (_Saldo);
 		}
 
-		private void frmVaucher_Load(object sender, System.EventArgs e)
+		private void frmVoucher_Load(object sender, System.EventArgs e)
 		{
-					txtCliente.Text = Convert.ToString (_Cliente);
-					LlenaBanco();
-					LlenaPedido();
+		    txtCliente.Text = Convert.ToString (_Cliente);
+		    LlenaBanco();
+		    LlenaPedido();
 
 		}
 
 		private void btnAceptar_Click(object sender, System.EventArgs e)
 		{
-			if (Convert.ToInt32 (this.cboBanco.SelectedValue)  == 0)
-			{
-				MessageBox.Show("Usted debe de seleccionar un banco.", "Liquidación Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			}
-			else
-			{
-				if (this.txtFolio.Text  == "")
-				{
-					MessageBox.Show("Usted debe de capturar un folio.", "Liquidación Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				}
-				else
-				{
+			//if (Convert.ToInt32 (this.cboBanco.SelectedValue)  == 0)
+			//{
+			//	MessageBox.Show("Usted debe de seleccionar un banco.", "Liquidación Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			//}
+			//else
+			//{
+				//if (this.txtFolio.Text  == "")
+				//{
+				//	MessageBox.Show("Usted debe de capturar un folio.", "Liquidación Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				//}
+				//else
+				//{
 					if (this.txtMonto.Text  == "")
 					{
 						MessageBox.Show("Usted debe de capturar un monto.", "Liquidación Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -435,9 +424,9 @@ namespace LiquidacionSTN
 						Registro["Celula"]= _Celula;
 						Registro["AñoPed"]= _AñoPed;
 						Registro["Cliente"] = _Cliente;
-						Registro["Banco"] = this.cboBanco.SelectedValue;
+						//Registro["Banco"] = this.cboBanco.SelectedValue;
 						Registro["Fecha"] = this.dtpFecha.Value.Date;
-						Registro["Folio"] = this.txtFolio.Text;
+						//Registro["Folio"] = this.txtFolio.Text;
 						Registro["Monto"] = this.txtMonto.Text;
 						Registro["Autotanque"] = _Autotanque;
 						Registro["Saldo"] = _Saldo;
@@ -446,8 +435,8 @@ namespace LiquidacionSTN
 				
 						this.Close ();
 					}
-				}
-			}
+				//}
+			//}
 
 		}
 
@@ -460,5 +449,5 @@ namespace LiquidacionSTN
 		{
 		
 		}
-	}
+    }
 }

@@ -206,7 +206,7 @@
     <Compile Include="frmTransferencia.Designer.cs">
       <DependentUpon>frmTransferencia.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmVaucher.cs">
+    <Compile Include="frmVoucher.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Modulo.cs">
@@ -257,9 +257,9 @@
     <EmbeddedResource Include="frmTransferencia.resx">
       <DependentUpon>frmTransferencia.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmVaucher.resx">
+    <EmbeddedResource Include="frmVoucher.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>frmVaucher.cs</DependentUpon>
+      <DependentUpon>frmVoucher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
