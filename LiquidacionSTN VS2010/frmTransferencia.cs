@@ -11,9 +11,19 @@ namespace LiquidacionSTN
 {
     public partial class frmTransferencia : Form
     {
+        // Variables de clase
+        private int _Cliente;
+
         public frmTransferencia()
         {
             InitializeComponent();
+        }
+
+        public frmTransferencia(int cliente)
+        {
+            InitializeComponent();
+
+            _Cliente = cliente;
         }
 
         private void tsbAceptar_Click(object sender, EventArgs e)
@@ -75,6 +85,19 @@ namespace LiquidacionSTN
         private void tsbCerrar_Click(object sender, EventArgs e)
         {
             Cerrar();
+        }
+
+        private void frmTransferencia_Load(object sender, EventArgs e)
+        {
+            CargarEtiquetas();
+        }
+
+        private void CargarEtiquetas()
+        {
+            if (_Cliente > 0)
+            {
+                lblCliente.Text = _Cliente.ToString();
+            }
         }
     }
 }

@@ -243,6 +243,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Transferencia";
+            this.Load += new System.EventHandler(this.frmTransferencia_Load);
             this.tsBotonera.ResumeLayout(false);
             this.tsBotonera.PerformLayout();
             this.pnlPrincipal.ResumeLayout(false);
