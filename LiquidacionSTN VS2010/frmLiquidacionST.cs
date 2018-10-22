@@ -3030,7 +3030,7 @@ namespace LiquidacionSTN
 
                 case "Voucher":
 
-                    LiquidacionSTN.frmVaucher frmVaucher = new LiquidacionSTN.frmVaucher(123, "2018205123");
+                    LiquidacionSTN.frmVoucher frmVaucher = new LiquidacionSTN.frmVoucher(123, "2018205123");
                     frmVaucher.ShowDialog();
                     break;
 
