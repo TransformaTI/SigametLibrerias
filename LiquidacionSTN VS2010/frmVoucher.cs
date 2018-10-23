@@ -454,7 +454,7 @@ namespace LiquidacionSTN
                 //Registro["Folio"] = this.txtFolio.Text;
                 Registro["Monto"] = this.txtMonto.Text;
                 Registro["Autotanque"] = _Autotanque;
-                Registro["Saldo"] = _Saldo;
+                Registro["Saldo"] = txtSaldo.Text;
 
                 LiquidacionSTN.Modulo.dtVoucher.Rows.Add(Registro);
 
@@ -604,6 +604,10 @@ namespace LiquidacionSTN
             if (!autorizacion.Equals(confirmaAutorizacion))
             {
                 mensaje.Append("Los campos de autorización no concuerdan, verifíque." + Environment.NewLine);
+            }
+            else if (autorizacion.Length == 0 || confirmaAutorizacion.Length == 0)
+            {
+                mensaje.Append("Debe proporcionar un número de autorización." + Environment.NewLine);
             }
 
             decimal dMonto = 0;
