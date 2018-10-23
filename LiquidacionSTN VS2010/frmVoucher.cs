@@ -16,6 +16,7 @@ namespace LiquidacionSTN
         // Variables de clase
         private int _Afiliacion;
         private short _BancoAfiliacion;
+        private short _TipoTarjeta;
 
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label3;
@@ -322,6 +323,7 @@ namespace LiquidacionSTN
             this.cboTipoTarjeta.Name = "cboTipoTarjeta";
             this.cboTipoTarjeta.Size = new System.Drawing.Size(100, 21);
             this.cboTipoTarjeta.TabIndex = 17;
+            this.cboTipoTarjeta.SelectedIndexChanged += new System.EventHandler(this.cboTipoTarjeta_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -460,6 +462,7 @@ namespace LiquidacionSTN
 		    LlenaPedido();
             CargarComboAfiliacion();
             ConsultarBancoAfiliacion();
+            CargarTipoTarjeta();
         }
 
         private void btnAceptar_Click(object sender, System.EventArgs e)
@@ -575,11 +578,61 @@ namespace LiquidacionSTN
         {
             try
             {
-                _Afiliacion = 0;
-                int.TryParse(cboAfiliacion.SelectedValue.ToString(), out _Afiliacion);
-                ConsultarBancoAfiliacion();
+                ActualizarAfiliacion();
             }
             catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ActualizarAfiliacion()
+        {
+            _Afiliacion = 0;
+            int.TryParse(cboAfiliacion.SelectedValue.ToString(), out _Afiliacion);
+            ConsultarBancoAfiliacion();
+        }
+
+        private void CargarTipoTarjeta()
+        {
+            //string dbQuery = "EXEC spCBConsultaTipoTarjeta";
+            SqlDataAdapter dataAdapter = new SqlDataAdapter();
+            DataTable dtTipoTarjeta = new DataTable("TipoTarjeta");
+            dataAdapter.SelectCommand = new SqlCommand("EXEC spCBConsultaTipoTarjeta", LiquidacionSTN.Modulo.CnnSigamet);
+
+            try
+            {
+                LiquidacionSTN.Modulo.CnnSigamet.Open();
+                dataAdapter.Fill(dtTipoTarjeta);
+
+                if (dtTipoTarjeta.Rows.Count > 0)
+                {
+                    cboTipoTarjeta.DataSource = dtTipoTarjeta;
+                    cboTipoTarjeta.DisplayMember = "DESCRIPCION";
+                    cboTipoTarjeta.ValueMember = "ID";
+                    cboTipoTarjeta.SelectedIndex = 0;
+
+                    short.TryParse(cboTipoTarjeta.SelectedValue.ToString(), out _TipoTarjeta);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(":" + Environment.NewLine + ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                LiquidacionSTN.Modulo.CnnSigamet.Close();
+            }
+        }
+
+        private void cboTipoTarjeta_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                _TipoTarjeta = 0;
+                short.TryParse(cboTipoTarjeta.SelectedValue.ToString(), out _TipoTarjeta);
+            }
+            catch(Exception ex)
             {
                 MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
