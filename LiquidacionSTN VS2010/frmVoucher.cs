@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data;
+using System.Text;
 
 namespace LiquidacionSTN
 {
@@ -109,7 +110,6 @@ namespace LiquidacionSTN
             this.tsbAceptar = new System.Windows.Forms.ToolStripButton();
             this.tsbCerrar = new System.Windows.Forms.ToolStripButton();
             this.pnlPrincipal = new System.Windows.Forms.Panel();
-            this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.txtConfirmaAutorizacion = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtAutorizacion = new System.Windows.Forms.TextBox();
@@ -120,6 +120,7 @@ namespace LiquidacionSTN
             this.label2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.txtSaldo = new SigaMetClasses.Controles.txtNumeroDecimal();
+            this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.tsBotonera.SuspendLayout();
             this.pnlPrincipal.SuspendLayout();
             this.SuspendLayout();
@@ -232,6 +233,7 @@ namespace LiquidacionSTN
             this.tsbAceptar.Size = new System.Drawing.Size(52, 35);
             this.tsbAceptar.Text = "Aceptar";
             this.tsbAceptar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsbAceptar.Click += new System.EventHandler(this.tsbAceptar_Click);
             // 
             // tsbCerrar
             // 
@@ -242,6 +244,7 @@ namespace LiquidacionSTN
             this.tsbCerrar.Size = new System.Drawing.Size(52, 35);
             this.tsbCerrar.Text = "Cerrar";
             this.tsbCerrar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsbCerrar.Click += new System.EventHandler(this.tsbCerrar_Click);
             // 
             // pnlPrincipal
             // 
@@ -269,13 +272,6 @@ namespace LiquidacionSTN
             this.pnlPrincipal.Name = "pnlPrincipal";
             this.pnlPrincipal.Size = new System.Drawing.Size(268, 351);
             this.pnlPrincipal.TabIndex = 13;
-            // 
-            // txtMonto
-            // 
-            this.txtMonto.Location = new System.Drawing.Point(119, 258);
-            this.txtMonto.Name = "txtMonto";
-            this.txtMonto.Size = new System.Drawing.Size(115, 20);
-            this.txtMonto.TabIndex = 6;
             // 
             // txtConfirmaAutorizacion
             // 
@@ -363,6 +359,13 @@ namespace LiquidacionSTN
             this.txtSaldo.Name = "txtSaldo";
             this.txtSaldo.Size = new System.Drawing.Size(115, 20);
             this.txtSaldo.TabIndex = 7;
+            // 
+            // txtMonto
+            // 
+            this.txtMonto.Location = new System.Drawing.Point(119, 258);
+            this.txtMonto.Name = "txtMonto";
+            this.txtMonto.Size = new System.Drawing.Size(115, 20);
+            this.txtMonto.TabIndex = 6;
             // 
             // frmVoucher
             // 
@@ -478,35 +481,76 @@ namespace LiquidacionSTN
 				//}
 				//else
 				//{
-					if (this.txtMonto.Text  == "")
-					{
-						MessageBox.Show("Usted debe de capturar un monto.", "Liquidación Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					}
-					else
-					{
-						DataRow Registro;
-						Registro = LiquidacionSTN.Modulo.dtVoucher.NewRow ();
-						Registro["Pedido"]= _Pedido;
-						Registro["Celula"]= _Celula;
-						Registro["AñoPed"]= _AñoPed;
-						Registro["Cliente"] = _Cliente;
-						//Registro["Banco"] = this.cboBanco.SelectedValue;
-						Registro["Fecha"] = this.dtpFecha.Value.Date;
-						//Registro["Folio"] = this.txtFolio.Text;
-						Registro["Monto"] = this.txtMonto.Text;
-						Registro["Autotanque"] = _Autotanque;
-						Registro["Saldo"] = _Saldo;
-				
-						LiquidacionSTN.Modulo.dtVoucher.Rows.Add (Registro);
-				
-						this.Close ();
-					}
+					//if (this.txtMonto.Text  == "")
+					//{
+					//	MessageBox.Show("Usted debe de capturar un monto.", "Liquidación Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					//}
+					//else
+					//{
+
+            if (ValidarEntradaUsuario(_Cliente,
+                                        _Afiliacion,
+                                        _TipoTarjeta, 
+                                        dtpFecha.Value, 
+                                        txtAutorizacion.Text.Trim(), 
+                                        txtConfirmaAutorizacion.Text.Trim(),
+                                        txtMonto.Text,
+                                        txtSaldo.Text))
+            {
+                DataRow Registro;
+                Registro = LiquidacionSTN.Modulo.dtVoucher.NewRow();
+                Registro["Pedido"] = _Pedido;
+                Registro["Celula"] = _Celula;
+                Registro["AñoPed"] = _AñoPed;
+                Registro["Cliente"] = _Cliente;
+                //Registro["Banco"] = this.cboBanco.SelectedValue;
+                Registro["Fecha"] = this.dtpFecha.Value.Date;
+                //Registro["Folio"] = this.txtFolio.Text;
+                Registro["Monto"] = this.txtMonto.Text;
+                Registro["Autotanque"] = _Autotanque;
+                Registro["Saldo"] = _Saldo;
+
+                LiquidacionSTN.Modulo.dtVoucher.Rows.Add(Registro);
+
+                this.Close();
+            }
+					//}
 				//}
 			//}
 
 		}
 
-		private void txtSaldo_Enter(object sender, System.EventArgs e)
+        private void Aceptar()
+        {
+            if (ValidarEntradaUsuario(_Cliente,
+                                        _Afiliacion,
+                                        _TipoTarjeta,
+                                        dtpFecha.Value,
+                                        txtAutorizacion.Text.Trim(),
+                                        txtConfirmaAutorizacion.Text.Trim(),
+                                        txtMonto.Text,
+                                        txtSaldo.Text))
+            {
+                DataRow Registro;
+                Registro = LiquidacionSTN.Modulo.dtVoucher.NewRow();
+                Registro["Pedido"] = _Pedido;
+                Registro["Celula"] = _Celula;
+                Registro["AñoPed"] = _AñoPed;
+                Registro["Cliente"] = _Cliente;
+                //Registro["Banco"] = this.cboBanco.SelectedValue;
+                Registro["Fecha"] = this.dtpFecha.Value.Date;
+                //Registro["Folio"] = this.txtFolio.Text;
+                Registro["Monto"] = this.txtMonto.Text;
+                Registro["Autotanque"] = _Autotanque;
+                Registro["Saldo"] = _Saldo;
+
+                LiquidacionSTN.Modulo.dtVoucher.Rows.Add(Registro);
+
+                this.Close();
+            }
+        }
+
+        private void txtSaldo_Enter(object sender, System.EventArgs e)
 		{
 			ChacaSaldo();
 		}
@@ -634,6 +678,66 @@ namespace LiquidacionSTN
             {
                 MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private bool ValidarEntradaUsuario(int cliente, int afiliacion, byte tipoTarjeta, DateTime fecha, 
+                                            string autorizacion, string confirmaAutorizacion, 
+                                            string monto, string saldo)
+        {
+            bool entradaValida = false;
+            StringBuilder mensaje = new StringBuilder();
+
+            if (cliente <= 0)
+            {
+                mensaje.Append("Debe proporcionar un número de cliente válido." + Environment.NewLine);
+            }
+            if (afiliacion == 0)
+            {
+                mensaje.Append("Debe proporcionar un número de afiliación válido." + Environment.NewLine);
+            }
+            if (tipoTarjeta == 0)
+            {
+                mensaje.Append("Debe proporcionar un tipo de tarjeta válido." + Environment.NewLine);
+            }
+            if (!autorizacion.Equals(confirmaAutorizacion))
+            {
+                mensaje.Append("Los campos de autorización no concuerdan, verifíque." + Environment.NewLine);
+            }
+
+            decimal dMonto = 0;
+            decimal.TryParse(monto, out dMonto);
+            if (dMonto == 0)
+            {
+                mensaje.Append("Debe proporcionar un monto válido." + Environment.NewLine);
+            }
+
+            decimal dSaldo = 0;
+            decimal.TryParse(saldo, out dSaldo);
+            if (dSaldo == 0)
+            {
+                mensaje.Append("Debe proporcionar un saldo válido." + Environment.NewLine);
+            }
+
+            if (mensaje.Length > 0)
+            {
+                MessageBox.Show(mensaje.ToString(), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                entradaValida = true;
+            }
+
+            return entradaValida;
+        }
+
+        private void tsbAceptar_Click(object sender, EventArgs e)
+        {
+            Aceptar();
+        }
+
+        private void tsbCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
