@@ -449,6 +449,7 @@ namespace LiquidacionSTN
                 Registro["AñoPed"] = _AñoPed;
                 Registro["Cliente"] = _Cliente;
                 //Registro["Banco"] = this.cboBanco.SelectedValue;
+                Registro["Banco"] = _BancoAfiliacion;
                 Registro["Fecha"] = this.dtpFecha.Value.Date;
                 //Registro["Folio"] = this.txtFolio.Text;
                 Registro["Monto"] = this.txtMonto.Text;
