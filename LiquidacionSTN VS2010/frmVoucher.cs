@@ -558,7 +558,6 @@ namespace LiquidacionSTN
 
             try
             {
-                //cmd = new SqlCommand("spSTBancoAfiliacion", LiquidacionSTN.Modulo.CnnSigamet);
                 LiquidacionSTN.Modulo.CnnSigamet.Open();
                 _BancoAfiliacion = (short)cmd.ExecuteScalar();
             }
@@ -574,13 +573,16 @@ namespace LiquidacionSTN
 
         private void cboAfiliacion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboAfiliacion.DataSource == null || cboAfiliacion.SelectedIndex < 0)
+            try
             {
-                return;
+                _Afiliacion = 0;
+                int.TryParse(cboAfiliacion.SelectedValue.ToString(), out _Afiliacion);
+                ConsultarBancoAfiliacion();
             }
-
-            //int.TryParse
-            ConsultarBancoAfiliacion();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
