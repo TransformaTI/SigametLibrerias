@@ -5891,9 +5891,10 @@ Public Class TransaccionMovimientoCaja
 
                     Case Enumeradores.enumTipoCobro.TarjetaCredito,
                         Enumeradores.enumTipoCobro.TarjetaDebito,
-                        Enumeradores.enumTipoCobro.TarjetaServicio
+                        Enumeradores.enumTipoCobro.TarjetaServicio,
+                        Enumeradores.enumTipoCobro.TarjetaDeDebito
                         FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
-                            Enumeradores.enumTipoCobro.TarjetaCredito, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia)
+                            Cobro.TipoCobro, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia)
 
                         'CONTROL DE SALDOS 01-04-2005
                     Case Enumeradores.enumTipoCobro.SaldoAFavor
