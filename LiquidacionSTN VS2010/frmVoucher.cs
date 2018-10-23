@@ -16,7 +16,7 @@ namespace LiquidacionSTN
         // Variables de clase
         private int _Afiliacion;
         private short _BancoAfiliacion;
-        private short _TipoTarjeta;
+        private byte _TipoTarjeta;
 
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label3;
@@ -25,7 +25,6 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.Button btnAceptar;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.DateTimePicker dtpFecha;
-		private System.Windows.Forms.TextBox txtSaldo;
 		private System.Windows.Forms.Label label6;
         private ToolStrip tsBotonera;
         private ToolStripButton tsbAceptar;
@@ -41,6 +40,7 @@ namespace LiquidacionSTN
         private TextBox txtAutorizacion;
         private Label label8;
         private SigaMetClasses.Controles.txtNumeroDecimal txtMonto;
+        private SigaMetClasses.Controles.txtNumeroDecimal txtSaldo;
 
         /// <summary>
         /// Required designer variable.
@@ -104,7 +104,6 @@ namespace LiquidacionSTN
             this.txtCliente = new System.Windows.Forms.TextBox();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.txtSaldo = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.tsBotonera = new System.Windows.Forms.ToolStrip();
             this.tsbAceptar = new System.Windows.Forms.ToolStripButton();
@@ -120,6 +119,7 @@ namespace LiquidacionSTN
             this.cboAfiliacion = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.txtSaldo = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.tsBotonera.SuspendLayout();
             this.pnlPrincipal.SuspendLayout();
             this.SuspendLayout();
@@ -160,8 +160,8 @@ namespace LiquidacionSTN
             this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFecha.Location = new System.Drawing.Point(119, 149);
             this.dtpFecha.Name = "dtpFecha";
-            this.dtpFecha.Size = new System.Drawing.Size(100, 20);
-            this.dtpFecha.TabIndex = 2;
+            this.dtpFecha.Size = new System.Drawing.Size(115, 20);
+            this.dtpFecha.TabIndex = 3;
             // 
             // txtCliente
             // 
@@ -170,7 +170,7 @@ namespace LiquidacionSTN
             this.txtCliente.Location = new System.Drawing.Point(119, 46);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.ReadOnly = true;
-            this.txtCliente.Size = new System.Drawing.Size(100, 20);
+            this.txtCliente.Size = new System.Drawing.Size(115, 20);
             this.txtCliente.TabIndex = 0;
             this.txtCliente.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -198,14 +198,6 @@ namespace LiquidacionSTN
             this.button2.Text = "Cancelar";
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button2.Visible = false;
-            // 
-            // txtSaldo
-            // 
-            this.txtSaldo.Location = new System.Drawing.Point(119, 291);
-            this.txtSaldo.Name = "txtSaldo";
-            this.txtSaldo.Size = new System.Drawing.Size(100, 20);
-            this.txtSaldo.TabIndex = 5;
-            this.txtSaldo.Enter += new System.EventHandler(this.txtSaldo_Enter);
             // 
             // label6
             // 
@@ -253,6 +245,7 @@ namespace LiquidacionSTN
             // 
             // pnlPrincipal
             // 
+            this.pnlPrincipal.Controls.Add(this.txtSaldo);
             this.pnlPrincipal.Controls.Add(this.txtMonto);
             this.pnlPrincipal.Controls.Add(this.txtConfirmaAutorizacion);
             this.pnlPrincipal.Controls.Add(this.label9);
@@ -265,7 +258,6 @@ namespace LiquidacionSTN
             this.pnlPrincipal.Controls.Add(this.label7);
             this.pnlPrincipal.Controls.Add(this.label3);
             this.pnlPrincipal.Controls.Add(this.label1);
-            this.pnlPrincipal.Controls.Add(this.txtSaldo);
             this.pnlPrincipal.Controls.Add(this.label6);
             this.pnlPrincipal.Controls.Add(this.button2);
             this.pnlPrincipal.Controls.Add(this.label5);
@@ -282,15 +274,15 @@ namespace LiquidacionSTN
             // 
             this.txtMonto.Location = new System.Drawing.Point(119, 258);
             this.txtMonto.Name = "txtMonto";
-            this.txtMonto.Size = new System.Drawing.Size(100, 20);
-            this.txtMonto.TabIndex = 22;
+            this.txtMonto.Size = new System.Drawing.Size(115, 20);
+            this.txtMonto.TabIndex = 6;
             // 
             // txtConfirmaAutorizacion
             // 
             this.txtConfirmaAutorizacion.Location = new System.Drawing.Point(119, 215);
             this.txtConfirmaAutorizacion.Name = "txtConfirmaAutorizacion";
-            this.txtConfirmaAutorizacion.Size = new System.Drawing.Size(100, 20);
-            this.txtConfirmaAutorizacion.TabIndex = 21;
+            this.txtConfirmaAutorizacion.Size = new System.Drawing.Size(115, 20);
+            this.txtConfirmaAutorizacion.TabIndex = 5;
             // 
             // label9
             // 
@@ -304,8 +296,8 @@ namespace LiquidacionSTN
             // 
             this.txtAutorizacion.Location = new System.Drawing.Point(119, 179);
             this.txtAutorizacion.Name = "txtAutorizacion";
-            this.txtAutorizacion.Size = new System.Drawing.Size(100, 20);
-            this.txtAutorizacion.TabIndex = 19;
+            this.txtAutorizacion.Size = new System.Drawing.Size(115, 20);
+            this.txtAutorizacion.TabIndex = 4;
             // 
             // label8
             // 
@@ -321,8 +313,8 @@ namespace LiquidacionSTN
             this.cboTipoTarjeta.FormattingEnabled = true;
             this.cboTipoTarjeta.Location = new System.Drawing.Point(119, 113);
             this.cboTipoTarjeta.Name = "cboTipoTarjeta";
-            this.cboTipoTarjeta.Size = new System.Drawing.Size(100, 21);
-            this.cboTipoTarjeta.TabIndex = 17;
+            this.cboTipoTarjeta.Size = new System.Drawing.Size(115, 21);
+            this.cboTipoTarjeta.TabIndex = 2;
             this.cboTipoTarjeta.SelectedIndexChanged += new System.EventHandler(this.cboTipoTarjeta_SelectedIndexChanged);
             // 
             // label4
@@ -339,8 +331,8 @@ namespace LiquidacionSTN
             this.cboAfiliacion.FormattingEnabled = true;
             this.cboAfiliacion.Location = new System.Drawing.Point(119, 80);
             this.cboAfiliacion.Name = "cboAfiliacion";
-            this.cboAfiliacion.Size = new System.Drawing.Size(100, 21);
-            this.cboAfiliacion.TabIndex = 15;
+            this.cboAfiliacion.Size = new System.Drawing.Size(115, 21);
+            this.cboAfiliacion.TabIndex = 1;
             this.cboAfiliacion.SelectedIndexChanged += new System.EventHandler(this.cboAfiliacion_SelectedIndexChanged);
             // 
             // label2
@@ -364,6 +356,13 @@ namespace LiquidacionSTN
             this.label7.TabIndex = 13;
             this.label7.Text = "Llenar Voucher";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtSaldo
+            // 
+            this.txtSaldo.Location = new System.Drawing.Point(119, 291);
+            this.txtSaldo.Name = "txtSaldo";
+            this.txtSaldo.Size = new System.Drawing.Size(115, 20);
+            this.txtSaldo.TabIndex = 7;
             // 
             // frmVoucher
             // 
@@ -462,7 +461,7 @@ namespace LiquidacionSTN
 		    LlenaPedido();
             CargarComboAfiliacion();
             ConsultarBancoAfiliacion();
-            CargarTipoTarjeta();
+            CargarComboTipoTarjeta();
         }
 
         private void btnAceptar_Click(object sender, System.EventArgs e)
@@ -593,9 +592,8 @@ namespace LiquidacionSTN
             ConsultarBancoAfiliacion();
         }
 
-        private void CargarTipoTarjeta()
+        private void CargarComboTipoTarjeta()
         {
-            //string dbQuery = "EXEC spCBConsultaTipoTarjeta";
             SqlDataAdapter dataAdapter = new SqlDataAdapter();
             DataTable dtTipoTarjeta = new DataTable("TipoTarjeta");
             dataAdapter.SelectCommand = new SqlCommand("EXEC spCBConsultaTipoTarjeta", LiquidacionSTN.Modulo.CnnSigamet);
@@ -612,12 +610,12 @@ namespace LiquidacionSTN
                     cboTipoTarjeta.ValueMember = "ID";
                     cboTipoTarjeta.SelectedIndex = 0;
 
-                    short.TryParse(cboTipoTarjeta.SelectedValue.ToString(), out _TipoTarjeta);
+                    byte.TryParse(cboTipoTarjeta.SelectedValue.ToString(), out _TipoTarjeta);
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(":" + Environment.NewLine + ex.Message, ex.InnerException);
+                throw new Exception("Error cargando los tipos de tarjeta:" + Environment.NewLine + ex.Message, ex.InnerException);
             }
             finally
             {
@@ -630,7 +628,7 @@ namespace LiquidacionSTN
             try
             {
                 _TipoTarjeta = 0;
-                short.TryParse(cboTipoTarjeta.SelectedValue.ToString(), out _TipoTarjeta);
+                byte.TryParse(cboTipoTarjeta.SelectedValue.ToString(), out _TipoTarjeta);
             }
             catch(Exception ex)
             {
