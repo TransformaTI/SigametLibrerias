@@ -19,12 +19,22 @@ namespace LiquidacionSTN
         private short _BancoAfiliacion;
         private byte _TipoTarjeta;
 
-		private System.Windows.Forms.Label label1;
+        int _Pedido;
+        int _Celula;
+        int _AñoPed;
+        int _Cliente;
+        int a;
+        int _Autotanque;
+        string _PedidoReferencia;
+        decimal _Saldo;
+        decimal _Monto;
+        int _ClienteTarjeta;
+        decimal _Total;
+
+        private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.TextBox txtCliente;
-		private System.Windows.Forms.Button btnAceptar;
-		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.DateTimePicker dtpFecha;
 		private System.Windows.Forms.Label label6;
         private ToolStrip tsBotonera;
@@ -79,17 +89,6 @@ namespace LiquidacionSTN
 			base.Dispose( disposing );
 		}
 
-		int _Pedido;
-		int _Celula;
-		int _AñoPed;
-		int _Cliente;
-		int a;
-		int _Autotanque;
-		string _PedidoReferencia;
-		decimal _Saldo;
-		decimal _Monto;
-		int _ClienteTarjeta;
-		decimal _Total;
 		#region Windows Form Designer generated code
 		/// <summary>
 		/// Required method for Designer support - do not modify
@@ -103,8 +102,6 @@ namespace LiquidacionSTN
             this.label5 = new System.Windows.Forms.Label();
             this.dtpFecha = new System.Windows.Forms.DateTimePicker();
             this.txtCliente = new System.Windows.Forms.TextBox();
-            this.btnAceptar = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.tsBotonera = new System.Windows.Forms.ToolStrip();
             this.tsbAceptar = new System.Windows.Forms.ToolStripButton();
@@ -175,31 +172,6 @@ namespace LiquidacionSTN
             this.txtCliente.TabIndex = 0;
             this.txtCliente.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // btnAceptar
-            // 
-            this.btnAceptar.Image = ((System.Drawing.Image)(resources.GetObject("btnAceptar.Image")));
-            this.btnAceptar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAceptar.Location = new System.Drawing.Point(304, 75);
-            this.btnAceptar.Name = "btnAceptar";
-            this.btnAceptar.Size = new System.Drawing.Size(75, 23);
-            this.btnAceptar.TabIndex = 6;
-            this.btnAceptar.Text = "Aceptar";
-            this.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnAceptar.Visible = false;
-            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
-            // 
-            // button2
-            // 
-            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(304, 111);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "Cancelar";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button2.Visible = false;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -262,9 +234,7 @@ namespace LiquidacionSTN
             this.pnlPrincipal.Controls.Add(this.label3);
             this.pnlPrincipal.Controls.Add(this.label1);
             this.pnlPrincipal.Controls.Add(this.label6);
-            this.pnlPrincipal.Controls.Add(this.button2);
             this.pnlPrincipal.Controls.Add(this.label5);
-            this.pnlPrincipal.Controls.Add(this.btnAceptar);
             this.pnlPrincipal.Controls.Add(this.dtpFecha);
             this.pnlPrincipal.Controls.Add(this.txtCliente);
             this.pnlPrincipal.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -422,14 +392,8 @@ namespace LiquidacionSTN
 			
 		}
 
-
-
-
-
 		private void LlenaPedido()
 		{
-
-
 			System.Data.DataRow [] C;
 			C = LiquidacionSTN.Modulo.dtLiquidacion.Select ("PedidoReferencia = '"+_PedidoReferencia+"'");
 
@@ -466,60 +430,7 @@ namespace LiquidacionSTN
             ConsultarBancoAfiliacion();
             CargarComboTipoTarjeta();
         }
-
-        private void btnAceptar_Click(object sender, System.EventArgs e)
-		{
-			//if (Convert.ToInt32 (this.cboBanco.SelectedValue)  == 0)
-			//{
-			//	MessageBox.Show("Usted debe de seleccionar un banco.", "Liquidación Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			//}
-			//else
-			//{
-				//if (this.txtFolio.Text  == "")
-				//{
-				//	MessageBox.Show("Usted debe de capturar un folio.", "Liquidación Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				//}
-				//else
-				//{
-					//if (this.txtMonto.Text  == "")
-					//{
-					//	MessageBox.Show("Usted debe de capturar un monto.", "Liquidación Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					//}
-					//else
-					//{
-
-            if (ValidarEntradaUsuario(_Cliente,
-                                        _Afiliacion,
-                                        _TipoTarjeta, 
-                                        dtpFecha.Value, 
-                                        txtAutorizacion.Text.Trim(), 
-                                        txtConfirmaAutorizacion.Text.Trim(),
-                                        txtMonto.Text,
-                                        txtSaldo.Text))
-            {
-                DataRow Registro;
-                Registro = LiquidacionSTN.Modulo.dtVoucher.NewRow();
-                Registro["Pedido"] = _Pedido;
-                Registro["Celula"] = _Celula;
-                Registro["AñoPed"] = _AñoPed;
-                Registro["Cliente"] = _Cliente;
-                //Registro["Banco"] = this.cboBanco.SelectedValue;
-                Registro["Fecha"] = this.dtpFecha.Value.Date;
-                //Registro["Folio"] = this.txtFolio.Text;
-                Registro["Monto"] = this.txtMonto.Text;
-                Registro["Autotanque"] = _Autotanque;
-                Registro["Saldo"] = _Saldo;
-
-                LiquidacionSTN.Modulo.dtVoucher.Rows.Add(Registro);
-
-                this.Close();
-            }
-					//}
-				//}
-			//}
-
-		}
-
+        
         private void Aceptar()
         {
             if (ValidarEntradaUsuario(_Cliente,
@@ -549,17 +460,7 @@ namespace LiquidacionSTN
                 this.Close();
             }
         }
-
-        private void txtSaldo_Enter(object sender, System.EventArgs e)
-		{
-			ChacaSaldo();
-		}
-
-		private void txtMonto_TextChanged(object sender, System.EventArgs e)
-		{
-		
-		}
-
+        
         private void CargarComboAfiliacion()
         {
             string dbQuery = "EXEC spCBConsultaAfiliacionTC";
