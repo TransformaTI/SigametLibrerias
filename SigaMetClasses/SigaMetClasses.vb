@@ -43,6 +43,9 @@ Namespace Enumeradores
         SaldoAFavor = 14
         DacionEnPago = 20 'No estan en la BD 1.30 sigametDEVTB
         TarjetaDebito = 6
+        TarjetaDeDebito = 19
+        TarjetaServicio = 22
+
         'AplicacionAnticipo = 0 No estan en la BD 1.30 sigametDEVTB
     End Enum
 
@@ -5886,13 +5889,16 @@ Public Class TransaccionMovimientoCaja
                             Cobro.Observaciones, Cobro.TipoCobro, Usuario, Cobro.Saldo, Cobro.NoCuentaDestino, Cobro.BancoOrigen, Cobro.SaldoAFavor,
                             Cobro.Posfechado, Cobro.Referencia, Cobro.Fcobro)
 
-					Case Enumeradores.enumTipoCobro.TarjetaCredito
-						FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
-							Enumeradores.enumTipoCobro.TarjetaCredito, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia)
+                    Case Enumeradores.enumTipoCobro.TarjetaCredito,
+                        Enumeradores.enumTipoCobro.TarjetaDebito,
+                        Enumeradores.enumTipoCobro.TarjetaServicio,
+                        Enumeradores.enumTipoCobro.TarjetaDeDebito
+                        FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
+                            Cobro.TipoCobro, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia)
 
-						'CONTROL DE SALDOS 01-04-2005
-					Case Enumeradores.enumTipoCobro.SaldoAFavor
-						FolioCobro = objCobro.SaldoAFavorAlta(Cobro.Total, Cobro.Cliente, Cobro.AnioCobroOrigen, Cobro.CobroOrigen,
+                        'CONTROL DE SALDOS 01-04-2005
+                    Case Enumeradores.enumTipoCobro.SaldoAFavor
+                        FolioCobro = objCobro.SaldoAFavorAlta(Cobro.Total, Cobro.Cliente, Cobro.AnioCobroOrigen, Cobro.CobroOrigen,
 							Cobro.Observaciones, Cobro.TipoCobro, Usuario)
 
 					Case Enumeradores.enumTipoCobro.DacionEnPago 'MCC 06-07-2018
