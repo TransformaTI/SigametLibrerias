@@ -3029,45 +3029,40 @@ namespace LiquidacionSTN
 					break;
 
                 case "Voucher":
-
-                    LiquidacionSTN.frmVoucher frmVaucher = new LiquidacionSTN.frmVoucher(123, "2018205123");
-                    frmVaucher.ShowDialog();
-                    break;
-
-
+                    
 					Cursor = Cursors.WaitCursor ;
-
-						ValidaTarjeta();
+                    ValidaTarjeta();
 						
-						if (_ClienteTarjeta > 0)
+					if (_ClienteTarjeta > 0)
+					{
+
+						DataRow [] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("PedidoReferencia = '"+ _PedidoReferencia +"'");
+						foreach (System.Data.DataRow dr in Query)
 						{
-
-							DataRow [] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("PedidoReferencia = '"+ _PedidoReferencia +"'");
-							foreach (System.Data.DataRow dr in Query)
-							{
-								_TipoCobro = Convert.ToInt32 (dr["TipoCobro"]);
-							}
-							if (_TipoCobro == 6)
-							{
-								Cursor = Cursors.WaitCursor ;
-								LiquidacionSTN.frmBaucher Baucher = new LiquidacionSTN.frmBaucher (Convert.ToInt32 (lblCliente.Text) ,_PedidoReferencia);
-								Baucher.ShowDialog ();
-								LlenaVoucher();
-								Cursor = Cursors.Default ;
-							}
-							else
-							{
-								MessageBox.Show("No puede abonar un voucher en un pedido de contado  y tipo cobro efectivo, debe Cambiar a Tarjeta de Crédito.", "Liquidación Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
-							}
-
+							_TipoCobro = Convert.ToInt32 (dr["TipoCobro"]);
+						}
+						if (_TipoCobro == 6)
+						{
+							Cursor = Cursors.WaitCursor ;
+							//LiquidacionSTN.frmBaucher Baucher = new LiquidacionSTN.frmBaucher (Convert.ToInt32 (lblCliente.Text) ,_PedidoReferencia);
+							//Baucher.ShowDialog ();
+                            LiquidacionSTN.frmVoucher frmVoucher = new LiquidacionSTN.frmVoucher(Convert.ToInt32(lblCliente.Text), _PedidoReferencia);
+                            frmVoucher.ShowDialog();
+                            LlenaVoucher();
+							Cursor = Cursors.Default ;
 						}
 						else
 						{
-							MessageBox.Show("El cliente  " + lblCliente.Text  + "  no pertenece a la lista de tarjetas autorizadas, por favor llame a telemarketing, para verificar", "Liquidación Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+							MessageBox.Show("No puede abonar un voucher en un pedido de contado  y tipo cobro efectivo, debe Cambiar a Tarjeta de Crédito.", "Liquidación Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
 						}
+					}
+					else
+					{
+						MessageBox.Show("El cliente  " + lblCliente.Text  + "  no pertenece a la lista de tarjetas autorizadas, por favor llame a telemarketing, para verificar", "Liquidación Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					}
 
-					Cursor = Cursors.Default ;
-					break;
+				    Cursor = Cursors.Default ;
+				    break;
 
                 case "Transferencia":
                     Transferencia();
