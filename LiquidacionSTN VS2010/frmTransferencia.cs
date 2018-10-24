@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using SigaMetClasses;
 
 namespace LiquidacionSTN
 {
@@ -13,6 +14,23 @@ namespace LiquidacionSTN
     {
         // Variables de clase
         private int _Cliente;
+        private SigaMetClasses.sTransferencia _Transferencia = new sTransferencia();
+
+        #region Propiedades
+
+        public sTransferencia Transferencia
+        {
+            get
+            {
+                return _Transferencia;
+            }
+            //set
+            //{
+            //    _Transferencia = value;
+            //}
+        }
+
+        #endregion
 
         public frmTransferencia()
         {
