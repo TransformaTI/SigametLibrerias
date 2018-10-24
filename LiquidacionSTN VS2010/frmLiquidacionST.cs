@@ -328,6 +328,8 @@ namespace LiquidacionSTN
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLiquidacionST));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolBar1 = new System.Windows.Forms.ToolBar();
             this.ttbAceptar = new System.Windows.Forms.ToolBarButton();
             this.tbbCerrarOrden = new System.Windows.Forms.ToolBarButton();
@@ -1002,7 +1004,7 @@ namespace LiquidacionSTN
             this.grdCheque.Location = new System.Drawing.Point(8, 472);
             this.grdCheque.Name = "grdCheque";
             this.grdCheque.ReadOnly = true;
-            this.grdCheque.Size = new System.Drawing.Size(455, 72);
+            this.grdCheque.Size = new System.Drawing.Size(455, 80);
             this.grdCheque.TabIndex = 9;
             this.grdCheque.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
             this.dataGridTableStyle2});
@@ -2186,10 +2188,10 @@ namespace LiquidacionSTN
             this.grdTarjerta.CaptionText = "Voucher incluidos en la liquidación";
             this.grdTarjerta.DataMember = "";
             this.grdTarjerta.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.grdTarjerta.Location = new System.Drawing.Point(8, 544);
+            this.grdTarjerta.Location = new System.Drawing.Point(8, 552);
             this.grdTarjerta.Name = "grdTarjerta";
             this.grdTarjerta.ReadOnly = true;
-            this.grdTarjerta.Size = new System.Drawing.Size(455, 72);
+            this.grdTarjerta.Size = new System.Drawing.Size(455, 80);
             this.grdTarjerta.TabIndex = 14;
             // 
             // lblTotalALiquidar
@@ -2220,7 +2222,7 @@ namespace LiquidacionSTN
             this.colObservaciones});
             this.grdTransferencias.Location = new System.Drawing.Point(-2, 20);
             this.grdTransferencias.Name = "grdTransferencias";
-            this.grdTransferencias.Size = new System.Drawing.Size(453, 48);
+            this.grdTransferencias.Size = new System.Drawing.Size(453, 58);
             this.grdTransferencias.TabIndex = 16;
             // 
             // pnlTransferencias
@@ -2228,9 +2230,9 @@ namespace LiquidacionSTN
             this.pnlTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pnlTransferencias.Controls.Add(this.label6);
             this.pnlTransferencias.Controls.Add(this.grdTransferencias);
-            this.pnlTransferencias.Location = new System.Drawing.Point(8, 616);
+            this.pnlTransferencias.Location = new System.Drawing.Point(8, 632);
             this.pnlTransferencias.Name = "pnlTransferencias";
-            this.pnlTransferencias.Size = new System.Drawing.Size(455, 72);
+            this.pnlTransferencias.Size = new System.Drawing.Size(455, 80);
             this.pnlTransferencias.TabIndex = 17;
             // 
             // label6
@@ -2271,6 +2273,9 @@ namespace LiquidacionSTN
             // colMonto
             // 
             this.colMonto.DataPropertyName = "Monto";
+            dataGridViewCellStyle1.Format = "C2";
+            dataGridViewCellStyle1.NullValue = null;
+            this.colMonto.DefaultCellStyle = dataGridViewCellStyle1;
             this.colMonto.HeaderText = "Monto";
             this.colMonto.Name = "colMonto";
             this.colMonto.ReadOnly = true;
@@ -2278,6 +2283,9 @@ namespace LiquidacionSTN
             // colSaldo
             // 
             this.colSaldo.DataPropertyName = "Saldo";
+            dataGridViewCellStyle2.Format = "C2";
+            dataGridViewCellStyle2.NullValue = null;
+            this.colSaldo.DefaultCellStyle = dataGridViewCellStyle2;
             this.colSaldo.HeaderText = "Saldo";
             this.colSaldo.Name = "colSaldo";
             this.colSaldo.ReadOnly = true;
@@ -2292,7 +2300,7 @@ namespace LiquidacionSTN
             // frmLiquidacionST
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(968, 694);
+            this.ClientSize = new System.Drawing.Size(968, 719);
             this.Controls.Add(this.pnlTransferencias);
             this.Controls.Add(this.lblTotalALiquidar);
             this.Controls.Add(this.grdTarjerta);

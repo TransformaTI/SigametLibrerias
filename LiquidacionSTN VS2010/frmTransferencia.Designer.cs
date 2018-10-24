@@ -33,6 +33,7 @@
             this.tsbAceptar = new System.Windows.Forms.ToolStripButton();
             this.tsbCerrar = new System.Windows.Forms.ToolStripButton();
             this.pnlPrincipal = new System.Windows.Forms.Panel();
+            this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.txtObservaciones = new System.Windows.Forms.TextBox();
             this.lblSaldo = new System.Windows.Forms.Label();
             this.txtDocumento = new System.Windows.Forms.TextBox();
@@ -45,7 +46,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.cCalle1 = new SigaMetClasses.cCalle();
             this.tsBotonera.SuspendLayout();
             this.pnlPrincipal.SuspendLayout();
@@ -113,6 +113,13 @@
             this.pnlPrincipal.Size = new System.Drawing.Size(346, 315);
             this.pnlPrincipal.TabIndex = 1;
             // 
+            // txtMonto
+            // 
+            this.txtMonto.Location = new System.Drawing.Point(107, 146);
+            this.txtMonto.Name = "txtMonto";
+            this.txtMonto.Size = new System.Drawing.Size(110, 20);
+            this.txtMonto.TabIndex = 13;
+            // 
             // txtObservaciones
             // 
             this.txtObservaciones.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
@@ -133,6 +140,7 @@
             // 
             // txtDocumento
             // 
+            this.txtDocumento.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtDocumento.Location = new System.Drawing.Point(107, 112);
             this.txtDocumento.Name = "txtDocumento";
             this.txtDocumento.Size = new System.Drawing.Size(110, 20);
@@ -220,13 +228,6 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Realizar una transferencia";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtMonto
-            // 
-            this.txtMonto.Location = new System.Drawing.Point(107, 146);
-            this.txtMonto.Name = "txtMonto";
-            this.txtMonto.Size = new System.Drawing.Size(110, 20);
-            this.txtMonto.TabIndex = 13;
             // 
             // frmTransferencia
             // 
