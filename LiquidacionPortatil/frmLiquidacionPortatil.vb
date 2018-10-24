@@ -4402,7 +4402,7 @@ Public Class frmLiquidacionPortatil
 																		  Now,
 																		  _Kilos / _FactorDensidad,
 																		  _TotalCredito,
-																		  _TotalContado + SaldoAFavor,
+																		  _TotalContado,
 																		  dtpFLiquidacion.Value,
 																		   (_Kilos - (_KilosCredito + _KilosObsequio)) / _FactorDensidad,
 																		   _KilosCredito / _FactorDensidad,
@@ -4587,7 +4587,7 @@ Public Class frmLiquidacionPortatil
 
 							ObjLiquida.liquidarRuta(Globals.GetInstance._URLGateway, 0, 0, _AnoAtt, _Folio, 3, Globals.GetInstance._CadenaConexion)
 						Catch ex As Exception
-							MessageBox.Show("Error al liquidar:" & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+							'MessageBox.Show("Error al liquidar:" & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
 						End Try
 					End If
 
