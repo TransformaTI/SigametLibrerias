@@ -3035,14 +3035,13 @@ namespace LiquidacionSTN
 						
 					if (_ClienteTarjeta > 0)
 					{
-
 						DataRow [] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("PedidoReferencia = '"+ _PedidoReferencia +"'");
 						foreach (System.Data.DataRow dr in Query)
 						{
 							_TipoCobro = Convert.ToInt32 (dr["TipoCobro"]);
 						}
-						if (_TipoCobro == 6)
-						{
+                        if (_TipoCobro == 6 || _TipoCobro == 19 || _TipoCobro == 22)
+                        {
 							Cursor = Cursors.WaitCursor ;
 							//LiquidacionSTN.frmBaucher Baucher = new LiquidacionSTN.frmBaucher (Convert.ToInt32 (lblCliente.Text) ,_PedidoReferencia);
 							//Baucher.ShowDialog ();

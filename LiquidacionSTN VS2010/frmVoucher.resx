@@ -117,26 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnAceptar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        Qk3uAAAAAAAAAHYAAAAoAAAAEAAAAA8AAAABAAQAAAAAAAAAAADODgAAxA4AABAAAAAQAAAAAAAA/wAA
-        gP8AgAD/AICA/4AAAP+AAID/gIAA/8DAwP+AgID/AAD//wD/AP8A/////wAA//8A/////wD//////3d3
-        RHd3d3d3d3QiR3d3d3d3QiIkd3d3d3QiIiJHd3d3QiKiIiR3d3ciKnoiJHd3d6Knd6IiR3d3end3eiIk
-        d3d3d3d3oiJHd3d3d3d6IiR3d3d3d3eiIkd3d3d3d3oiJHd3d3d3d6Ikd3d3d3d3eiJ3d3d3d3d3pw==
-</value>
-  </data>
-  <data name="button2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        Qk3uAAAAAAAAAHYAAAAoAAAADQAAAA8AAAABAAQAAAAAAAAAAADODgAAxA4AABAAAAAQAAAAAAAA/wAA
-        gP8AgAD/AICA/4AAAP+AAID/gIAA/8DAwP+AgID/AAD//wD/AP8A/////wAA//8A/////wD//////3iH
-        d3d3d3AAkRh3d3mHcACREYd3kRhwAJERGHkREYAAeRERgRERgAB3kRERERhwAHd5ERERh3AAd3cRERh3
-        cAB3d5ERGHdwAHd5EREYd3AAd5ERgRGHcAB5ERh5ERhwAHkRh3eREYAAd5F3d3kREAB3d3d3d5GQAA==
-</value>
-  </data>
   <metadata name="tsBotonera.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="tsbAceptar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

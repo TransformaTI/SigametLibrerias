@@ -454,14 +454,34 @@ namespace LiquidacionSTN
                 //Registro["Folio"] = this.txtFolio.Text;
                 Registro["Monto"] = this.txtMonto.Text;
                 Registro["Autotanque"] = _Autotanque;
-                Registro["Saldo"] = _Saldo;
+                Registro["Saldo"] = txtSaldo.Text;
 
                 LiquidacionSTN.Modulo.dtVoucher.Rows.Add(Registro);
+
+                ActualizarPedido();
 
                 this.Close();
             }
         }
-        
+
+        /// <summary>
+        /// Actualiza datos del pedido en memoria
+        /// </summary>
+        private void ActualizarPedido()
+        {
+            System.Data.DataRow[] drPedidos;
+
+            drPedidos = LiquidacionSTN.Modulo.dtLiquidacion.Select("PedidoReferencia = '" + _PedidoReferencia + "'");
+
+            foreach (System.Data.DataRow dr in drPedidos)
+            {
+                dr.BeginEdit();
+                dr["TipoCobro"] = _TipoTarjeta;
+                dr["TipoCobroDescripcion"] = cboTipoTarjeta.GetItemText(cboTipoTarjeta.SelectedItem);
+                dr.EndEdit();
+            }
+        }
+
         private void CargarComboAfiliacion()
         {
             string dbQuery = "EXEC spCBConsultaAfiliacionTC";
@@ -605,6 +625,10 @@ namespace LiquidacionSTN
             {
                 mensaje.Append("Los campos de autorización no concuerdan, verifíque." + Environment.NewLine);
             }
+            else if (autorizacion.Length == 0 || confirmaAutorizacion.Length == 0)
+            {
+                mensaje.Append("Debe proporcionar un número de autorización." + Environment.NewLine);
+            }
 
             decimal dMonto = 0;
             decimal.TryParse(monto, out dMonto);
@@ -634,7 +658,15 @@ namespace LiquidacionSTN
 
         private void tsbAceptar_Click(object sender, EventArgs e)
         {
-            Aceptar();
+            try
+            {
+                Aceptar();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Se produjo el siguiente error: " + Environment.NewLine + ex.Message, this.Text, 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void tsbCerrar_Click(object sender, EventArgs e)
