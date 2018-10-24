@@ -8682,6 +8682,21 @@ Public Structure sTransferencia
 
 #End Region
 
+    Public Sub New(ByVal cliente As Integer,
+                   ByVal fecha As Date,
+                   ByVal documento As String,
+                   ByVal monto As Decimal,
+                   ByVal saldo As Decimal,
+                   ByVal observaciones As String)
+
+        Me._Cliente = cliente
+        Me._Fecha = fecha
+        Me._Documento = documento
+        Me._Monto = monto
+        Me._Saldo = saldo
+        Me._Observaciones = observaciones
+    End Sub
+
 End Structure
 
 #End Region

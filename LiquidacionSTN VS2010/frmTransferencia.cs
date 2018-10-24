@@ -14,15 +14,17 @@ namespace LiquidacionSTN
     {
         // Variables de clase
         private int _Cliente;
-        private SigaMetClasses.sTransferencia _Transferencia = new sTransferencia();
+        private decimal _Monto;
+        private decimal _Saldo;
+        private List<SigaMetClasses.sTransferencia> _Transferencias = new List<sTransferencia>();
 
         #region Propiedades
 
-        public sTransferencia Transferencia
+        public List<SigaMetClasses.sTransferencia> Transferencias
         {
             get
             {
-                return _Transferencia;
+                return _Transferencias;
             }
             //set
             //{
@@ -46,14 +48,33 @@ namespace LiquidacionSTN
 
         private void tsbAceptar_Click(object sender, EventArgs e)
         {
-            Aceptar();
+            try
+            {
+                Aceptar();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Se produjo un error agregando la transferencia:" + Environment.NewLine + ex.Message,
+                    this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void Aceptar()
         {
-            if (!CamposValidos())
+            if (CamposValidos())
             {
-                return;
+                SigaMetClasses.sTransferencia obTransferencia = new sTransferencia
+                (
+                    _Cliente,
+                    dtpFecha.Value,
+                    txtDocumento.Text.Trim(),
+                    _Monto,
+                    _Saldo,
+                    txtObservaciones.Text.Trim()
+                );
+
+                _Transferencias.Add(obTransferencia);
+                this.DialogResult = DialogResult.OK;
             }
         }
 
@@ -67,14 +88,18 @@ namespace LiquidacionSTN
             bool camposValidos = true;
             StringBuilder mensaje = new StringBuilder();
 
+            //  Cliente
+            if (_Cliente == 0)
+            {
+                mensaje.Append("Debe proporcionar un cliente válido." + Environment.NewLine);
+            }
             //  Monto
-            decimal monto = 0;
-            decimal.TryParse(txtMonto.Text, out monto);
-            if (monto == 0)
+            _Monto = 0;
+            decimal.TryParse(txtMonto.Text, out _Monto);
+            if (_Monto == 0)
             {
                 mensaje.Append("Ingresa un monto válido." + Environment.NewLine);
             }
-
             //  Documento
             if (!EsAlfanumerico(txtDocumento.Text.Trim()))
             {
