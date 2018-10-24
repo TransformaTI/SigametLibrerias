@@ -198,6 +198,12 @@ namespace LiquidacionSTN
         private DataGridView grdTransferencias;
         private Panel pnlTransferencias;
         private Label label6;
+        private DataGridViewTextBoxColumn colCliente;
+        private DataGridViewTextBoxColumn colFecha;
+        private DataGridViewTextBoxColumn colDocumento;
+        private DataGridViewTextBoxColumn colMonto;
+        private DataGridViewTextBoxColumn colSaldo;
+        private DataGridViewTextBoxColumn colObservaciones;
         private System.ComponentModel.IContainer components;
 
         public frmLiquidacionST(string Usuario, 
@@ -278,6 +284,9 @@ namespace LiquidacionSTN
 
         // 22-10-2018 RM. Variable local para guardar el cliente
         int _Cliente;
+
+        // 24/10/2018 RM. Variable para guardar las transferencias que se mostraran en el grid grdTransferencias
+        private List<SigaMetClasses.sTransferencia> _Transferencias = new List<SigaMetClasses.sTransferencia>();
 
 		//public SqlConnection cnnSigamet = new SqlConnection(SigaMetClasses.Main.LeeInfoConexion(false,false,"LiquidacionST"));
 		
@@ -497,6 +506,12 @@ namespace LiquidacionSTN
             this.grdTransferencias = new System.Windows.Forms.DataGridView();
             this.pnlTransferencias = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
+            this.colCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDocumento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMonto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSaldo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colObservaciones = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdCheque)).BeginInit();
@@ -2191,9 +2206,18 @@ namespace LiquidacionSTN
             // 
             // grdTransferencias
             // 
+            this.grdTransferencias.AllowUserToAddRows = false;
+            this.grdTransferencias.AllowUserToDeleteRows = false;
             this.grdTransferencias.BackgroundColor = System.Drawing.SystemColors.Window;
             this.grdTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.grdTransferencias.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdTransferencias.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colCliente,
+            this.colFecha,
+            this.colDocumento,
+            this.colMonto,
+            this.colSaldo,
+            this.colObservaciones});
             this.grdTransferencias.Location = new System.Drawing.Point(-2, 20);
             this.grdTransferencias.Name = "grdTransferencias";
             this.grdTransferencias.Size = new System.Drawing.Size(453, 48);
@@ -2221,6 +2245,49 @@ namespace LiquidacionSTN
             this.label6.TabIndex = 0;
             this.label6.Text = "Transferencias incluidas en la liquidación";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // colCliente
+            // 
+            this.colCliente.DataPropertyName = "Cliente";
+            this.colCliente.HeaderText = "Cliente";
+            this.colCliente.Name = "colCliente";
+            this.colCliente.ReadOnly = true;
+            this.colCliente.Width = 80;
+            // 
+            // colFecha
+            // 
+            this.colFecha.DataPropertyName = "Fecha";
+            this.colFecha.HeaderText = "Fecha";
+            this.colFecha.Name = "colFecha";
+            this.colFecha.ReadOnly = true;
+            // 
+            // colDocumento
+            // 
+            this.colDocumento.DataPropertyName = "Documento";
+            this.colDocumento.HeaderText = "Documento";
+            this.colDocumento.Name = "colDocumento";
+            this.colDocumento.ReadOnly = true;
+            // 
+            // colMonto
+            // 
+            this.colMonto.DataPropertyName = "Monto";
+            this.colMonto.HeaderText = "Monto";
+            this.colMonto.Name = "colMonto";
+            this.colMonto.ReadOnly = true;
+            // 
+            // colSaldo
+            // 
+            this.colSaldo.DataPropertyName = "Saldo";
+            this.colSaldo.HeaderText = "Saldo";
+            this.colSaldo.Name = "colSaldo";
+            this.colSaldo.ReadOnly = true;
+            // 
+            // colObservaciones
+            // 
+            this.colObservaciones.DataPropertyName = "Observaciones";
+            this.colObservaciones.HeaderText = "Observaciones";
+            this.colObservaciones.Name = "colObservaciones";
+            this.colObservaciones.ReadOnly = true;
             // 
             // frmLiquidacionST
             // 
@@ -3245,7 +3312,10 @@ namespace LiquidacionSTN
                     if (_TipoPedido == 7)
                     {
                         LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente);
-                        frmTransferencia.ShowDialog();
+                        if (frmTransferencia.ShowDialog() == DialogResult.OK)
+                        {
+                            CargarTransferencias(frmTransferencia.Transferencias);
+                        }
                     }
                     else
                     {
@@ -3262,6 +3332,25 @@ namespace LiquidacionSTN
             finally
             {
                 Cursor = Cursors.Default;
+            }
+        }
+
+        /// <summary>
+        /// Carga los datos de grdTransferencias.
+        /// </summary>
+        /// <param name="lsTransferencias"></param>
+        private void CargarTransferencias(List<SigaMetClasses.sTransferencia> lsTransferencias)
+        {
+            grdTransferencias.DataSource = null;
+
+            foreach (var transferencia in lsTransferencias)
+            {
+                _Transferencias.Add(transferencia);
+            }
+            
+            if (_Transferencias.Count > 0)
+            {
+                grdTransferencias.DataSource = _Transferencias;
             }
         }
 
