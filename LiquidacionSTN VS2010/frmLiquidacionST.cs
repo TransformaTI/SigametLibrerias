@@ -2710,7 +2710,7 @@ namespace LiquidacionSTN
                                         _Añoped = Convert.ToInt32(dr["AñoPed"]);
                                         _TipoCobro = Convert.ToInt32(dr["TipoCobro"]);
 
-                                        if (_TipoCobro == 6)
+                                        if (_TipoCobro == 6 || _TipoCobro == 19 || _TipoCobro == 22)
                                         {
                                             System.Data.DataRow[] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select("Pedido = " + _Pedido + " and Celula = " + _Celula + "and AñoPed = " + _Añoped);
                                             foreach (System.Data.DataRow drVoucher in Consulta)
