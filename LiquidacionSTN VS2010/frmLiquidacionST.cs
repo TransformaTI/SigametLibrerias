@@ -2996,7 +2996,7 @@ namespace LiquidacionSTN
 
                                     if (Query.Length > 0)
                                     {
-                                        InsertarTransferencia(Query[0], Conexion, Transaccion);
+                                        InsertarTransferencias(Query[0], Conexion, Transaccion);
                                     }
 
                                     LiquidarPedidosCRM(Query);
@@ -3304,7 +3304,7 @@ namespace LiquidacionSTN
 			LiquidacionSTN.Modulo.CnnSigamet.Close ();
 		}
 
-        private void InsertarTransferencia(DataRow drPedido, SqlConnection conexion, SqlTransaction transaccion)
+        private void InsertarTransferencias(DataRow drPedido, SqlConnection conexion, SqlTransaction transaccion)
         {
             foreach (var transferencia in _Transferencias)
             {
