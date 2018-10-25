@@ -2994,6 +2994,11 @@ namespace LiquidacionSTN
                                         }
                                     }// foreach dr in Query
 
+                                    if (Query.Length > 0)
+                                    {
+                                        InsertarTransferencia(Query[0], Conexion, Transaccion);
+                                    }
+
                                     LiquidarPedidosCRM(Query);
 
                                     Transaccion.Commit();
@@ -3298,6 +3303,41 @@ namespace LiquidacionSTN
 			Cursor = Cursors.Default ;
 			LiquidacionSTN.Modulo.CnnSigamet.Close ();
 		}
+
+        private void InsertarTransferencia(DataRow drPedido, SqlConnection conexion, SqlTransaction transaccion)
+        {
+            foreach (var transferencia in _Transferencias)
+            {
+                _Folio = (int)drPedido["Folio"];
+                _AñoAtt = (short)drPedido["AñoAtt"];
+
+                SqlCommand cmd = new SqlCommand("spSTInsertaTransferencia", conexion);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 300;
+                cmd.Transaction = transaccion;
+
+                cmd.Parameters.Add("@Total", SqlDbType.Money).Value = transferencia.Monto;
+                cmd.Parameters.Add("@NumeroCheque", SqlDbType.Char).Value = transferencia.Documento;
+                cmd.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = transferencia.Fecha;
+                //cmd.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = tipoCobro;
+                cmd.Parameters.Add("@Observaciones", SqlDbType.VarChar).Value 
+                    = (transferencia.Observaciones.Length > 0 ? transferencia.Observaciones : (object)System.DBNull.Value);
+                cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = transferencia.Cliente;
+                cmd.Parameters.Add("@Saldo", SqlDbType.Money).Value = transferencia.Saldo;
+                cmd.Parameters.Add("@Usuario", SqlDbType.Char).Value = _Usuario;
+                cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = _Folio;
+                cmd.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = _AñoAtt;
+
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch(Exception)
+                {
+                    throw;
+                }
+            }
+        }
 
         private void Transferencia()
         {
