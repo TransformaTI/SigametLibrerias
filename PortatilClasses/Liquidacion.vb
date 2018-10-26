@@ -275,33 +275,34 @@ Public Class cLiquidacion
 	'20150715CNSM$004-----------------
 
 	'Metodo de la clase para realizar una consulta del detalle del Pedido
-	Public Sub ConsultaRemision(ByVal Configuracion As Integer, ByVal Remision As Integer, ByVal Serie As String, ByVal FRemision As DateTime)
-        Dim da As SqlDataAdapter
-        cmd = New SqlCommand("spPTLConsultaRemision", GLOBAL_Conexion)
-        cmd.CommandType = CommandType.StoredProcedure
+	Public Sub ConsultaRemision(ByVal Configuracion As Integer, ByVal Remision As Integer, ByVal Serie As String, ByVal FRemision As DateTime, ByVal celula As Integer)
+		Dim da As SqlDataAdapter
+		cmd = New SqlCommand("spPTLConsultaRemision", GLOBAL_Conexion)
+		cmd.CommandType = CommandType.StoredProcedure
 
-        cmd.Parameters.Add("@Configuracion", SqlDbType.Int).Value = Configuracion
-        'If Remision <> 0 Then
-        cmd.Parameters.Add("@Remision", SqlDbType.Int).Value = Remision
-        'End If
-        'If Serie <> "" Then
-        cmd.Parameters.Add("@Serie", SqlDbType.VarChar).Value = Serie
-        'End If
-        cmd.Parameters.Add("@FRemision", SqlDbType.DateTime).Value = FRemision
-        da = New SqlDataAdapter(cmd)
-        dtTable = New DataTable()
-        Try
-            da.Fill(dtTable)
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, "Liquidación Portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-        GLOBAL_Conexion.Close()
-    End Sub
+		cmd.Parameters.Add("@Configuracion", SqlDbType.Int).Value = Configuracion
+		'If Remision <> 0 Then
+		cmd.Parameters.Add("@Remision", SqlDbType.Int).Value = Remision
+		'End If
+		'If Serie <> "" Then
+		cmd.Parameters.Add("@Serie", SqlDbType.VarChar).Value = Serie
+		'End If
+		cmd.Parameters.Add("@FRemision", SqlDbType.DateTime).Value = FRemision
+		cmd.Parameters.Add("@Celula", SqlDbType.Int).Value = celula
+		da = New SqlDataAdapter(cmd)
+		dtTable = New DataTable()
+		Try
+			da.Fill(dtTable)
+		Catch ex As Exception
+			MessageBox.Show(ex.Message, "Liquidación Portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
+		End Try
+		GLOBAL_Conexion.Close()
+	End Sub
 
-    '20150627CNSM$001-----------------
+	'20150627CNSM$001-----------------
 
-    'Metodo de la clase para realizar una consulta de los productos que estan asociados a una ruta y camion
-    Public Sub ConsultaRutaMovil(ByVal Ruta As Integer, ByVal MovimientoAlmacen As Integer, ByVal FCarga As DateTime, _
+	'Metodo de la clase para realizar una consulta de los productos que estan asociados a una ruta y camion
+	Public Sub ConsultaRutaMovil(ByVal Ruta As Integer, ByVal MovimientoAlmacen As Integer, ByVal FCarga As DateTime, _
                                  ByVal FSuministroMG As DateTime, ByVal AlmacenGas As Integer, ByVal Autotanque As Integer)
         Dim da As SqlDataAdapter
         cmd = New SqlCommand("spPTLConsultaRutaMovil", GLOBAL_Conexion)

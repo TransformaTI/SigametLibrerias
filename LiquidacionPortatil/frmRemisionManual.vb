@@ -66,6 +66,8 @@ Public Class frmRemisionManual
 	Private _LiqPrecioVigente As Boolean
 	Friend WithEvents lblPreciosMensaje As Label
 	Private _DiccionarioPrecios As New Dictionary(Of Integer, Decimal)
+	Private _idCelula As Integer
+
 	Property DetalleGrid As DataTable
 		Get
 			Return _DetalleGrid
@@ -199,6 +201,15 @@ Public Class frmRemisionManual
 		End Get
 		Set(value As Boolean)
 			_LiqPrecioVigente = value
+		End Set
+	End Property
+
+	Public Property IdCelula As Integer
+		Get
+			Return _idCelula
+		End Get
+		Set(value As Integer)
+			_idCelula = value
 		End Set
 	End Property
 
@@ -2038,7 +2049,7 @@ Public Class frmRemisionManual
 		If Remision <> 0 And Serie <> "" Then
 
 			Dim oLiquidacion As New PortatilClasses.cLiquidacion()
-			oLiquidacion.ConsultaRemision(_Configuracion, Remision, Serie, CType(dtpFRemision.Value, DateTime))
+			oLiquidacion.ConsultaRemision(_Configuracion, Remision, Serie, CType(dtpFRemision.Value, DateTime), _idCelula)
 
 			If oLiquidacion.dtTable.Rows.Count > 0 Then
 

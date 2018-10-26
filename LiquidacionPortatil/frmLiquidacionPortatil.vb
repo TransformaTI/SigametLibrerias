@@ -106,6 +106,8 @@ Public Class frmLiquidacionPortatil
 	Private _Password As String
 	Private _RutaReportes As String
 
+	Private _IdCelula As Integer
+
 	'20150627CNSM$001-----------------
 	'Variable declarada para poder identificar si la sucursal cuenta con movil
 	Private _SucursalMovil As Boolean
@@ -372,7 +374,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblNombreCliente = New System.Windows.Forms.Label()
 		Me.lblNombreClientetck = New System.Windows.Forms.Label()
 		Me.btnBuscarCliente = New ControlesBase.BotonBase()
-		Me.TxtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
+		TxtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
 		Me.lblCliente = New System.Windows.Forms.Label()
 		Me.lblTipoCobro = New System.Windows.Forms.Label()
 		Me.cboTipoCobro = New PortatilClasses.Combo.ComboBase(Me.components)
@@ -3051,6 +3053,7 @@ Public Class frmLiquidacionPortatil
 		lblFolio.Text = CType(_drLiquidacion(0).Item(2), String)
 		lblFCarga.Text = CType(_drLiquidacion(0).Item(13), Date).ToString("D")
 		lblCelula.Text = CType(_drLiquidacion(0).Item(16), String)
+		_IdCelula = CType(_drLiquidacion(0).Item(4), Integer)
 		lblCorporativo.Text = CType(_drLiquidacion(0).Item(22), String)
 
 		lblRuta.Text = CType(_drLiquidacion(0).Item(15), String)
@@ -6569,6 +6572,7 @@ Public Class frmLiquidacionPortatil
 			oRemisionManual.DetalleGrid = _DetalleGrid
 			oRemisionManual.FechaLiquidacion = dtpFLiquidacion.Value
 			oRemisionManual.LiqPrecioVigente = _LiqPrecioVigente
+			oRemisionManual.IdCelula = _IdCelula
 
 
 
