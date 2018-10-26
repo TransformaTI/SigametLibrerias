@@ -94,6 +94,8 @@ Public Class frmConTarjetaCredito
                 Dim obTarjeta As RTGMCore.TarjetaCredito
                 Dim row As DataRow
 
+                ' Crear la misma estructura de la consulta directa a Sigamet
+                ' y llenarla con los datos del servicio web
                 Dim objCliente As New SigaMetClasses.cCliente()
                 dsDatos = objCliente.ConsultaDatos(cliente, False, True)
                 dsDatos.Tables("TarjetaCredito").Clear()
