@@ -22,6 +22,8 @@ Public Class frmConTarjetaCredito
     Private _Usuario As String
     Public _URLGateway As String
     Private _Modulo As Byte
+    Private _FuenteGateway As String
+    Private _BtnAgregarHabilitado As Boolean    ' Deshabilitar el botón agregar cuando _FuenteGateway es igual a CRM
 
     Private _NumTDCOculto As String
     Private _NumOculto As Boolean = False
@@ -39,7 +41,12 @@ Public Class frmConTarjetaCredito
         _Usuario = Usuario
     End Sub
 
-    Public Sub New(ByVal Cliente As Integer, Optional ByVal Usuario As String = Nothing, Optional ByVal URLGateway As String = Nothing, Optional ByVal Modulo As Byte = 0, Optional ByVal CadCon As String = "")
+    Public Sub New(ByVal Cliente As Integer,
+          Optional ByVal Usuario As String = Nothing,
+          Optional ByVal URLGateway As String = Nothing,
+          Optional ByVal Modulo As Byte = 0,
+          Optional ByVal CadCon As String = "",
+          Optional ByVal FuenteGateway As String = "")
         MyBase.New()
         InitializeComponent()
 
@@ -48,6 +55,8 @@ Public Class frmConTarjetaCredito
         _URLGateway = URLGateway
         _Modulo = Modulo
         _CadenaConexion = CadCon
+        _FuenteGateway = FuenteGateway
+        _BtnAgregarHabilitado = Not (FuenteGateway.Equals("CRM"))
     End Sub
 
     Private Sub ConsultaClienteGateway(ByVal cliente As Integer)
@@ -202,7 +211,7 @@ Public Class frmConTarjetaCredito
     End Property
 
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmConTarjetaCredito))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmConTarjetaCredito))
         Me.grdTarjetaCredito = New System.Windows.Forms.DataGrid()
         Me.Estilo1 = New System.Windows.Forms.DataGridTableStyle()
         Me.colTarjetaCredito = New System.Windows.Forms.DataGridTextBoxColumn()
@@ -218,6 +227,7 @@ Public Class frmConTarjetaCredito
         Me.colBanco = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.colTipoTarjetaCredito = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.colRecurrente = New System.Windows.Forms.DataGridBoolColumn()
+        Me.colNumTarjetaCredito = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.lblNombre = New System.Windows.Forms.Label()
         Me.lblCelula = New System.Windows.Forms.Label()
         Me.lblRuta = New System.Windows.Forms.Label()
@@ -246,7 +256,6 @@ Public Class frmConTarjetaCredito
         Me.lblSaldo = New System.Windows.Forms.Label()
         Me.btnAgregar = New System.Windows.Forms.Button()
         Me.txtCliente = New SigaMetClasses.Controles.txtNumeroEntero()
-        Me.colNumTarjetaCredito = New System.Windows.Forms.DataGridTextBoxColumn()
         CType(Me.grdTarjetaCredito, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabDatos.SuspendLayout()
         Me.tpDatos.SuspendLayout()
@@ -254,9 +263,9 @@ Public Class frmConTarjetaCredito
         '
         'grdTarjetaCredito
         '
-        Me.grdTarjetaCredito.Anchor = (((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.grdTarjetaCredito.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdTarjetaCredito.BackgroundColor = System.Drawing.Color.Gainsboro
         Me.grdTarjetaCredito.CaptionBackColor = System.Drawing.Color.Brown
         Me.grdTarjetaCredito.CaptionText = "Tarjetas de crédito"
@@ -376,18 +385,22 @@ Public Class frmConTarjetaCredito
         'colRecurrente
         '
         Me.colRecurrente.AllowNull = False
-        Me.colRecurrente.FalseValue = False
         Me.colRecurrente.HeaderText = "Recurrente"
         Me.colRecurrente.MappingName = "Recurrente"
         Me.colRecurrente.NullText = ""
-        Me.colRecurrente.NullValue = CType(resources.GetObject("colRecurrente.NullValue"), System.DBNull)
-        Me.colRecurrente.TrueValue = True
+        Me.colRecurrente.NullValue = Nothing
         Me.colRecurrente.Width = 70
+        '
+        'colNumTarjetaCredito
+        '
+        Me.colNumTarjetaCredito.Format = ""
+        Me.colNumTarjetaCredito.FormatInfo = Nothing
+        Me.colNumTarjetaCredito.Width = 0
         '
         'lblNombre
         '
-        Me.lblNombre.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblNombre.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblNombre.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblNombre.Location = New System.Drawing.Point(96, 56)
         Me.lblNombre.Name = "lblNombre"
@@ -406,7 +419,7 @@ Public Class frmConTarjetaCredito
         '
         'lblRuta
         '
-        Me.lblRuta.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblRuta.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblRuta.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblRuta.Location = New System.Drawing.Point(408, 80)
         Me.lblRuta.Name = "lblRuta"
@@ -419,7 +432,7 @@ Public Class frmConTarjetaCredito
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(16, 19)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(42, 14)
+        Me.Label4.Size = New System.Drawing.Size(44, 13)
         Me.Label4.TabIndex = 7
         Me.Label4.Text = "Cliente:"
         '
@@ -428,17 +441,17 @@ Public Class frmConTarjetaCredito
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(16, 59)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(48, 14)
+        Me.Label5.Size = New System.Drawing.Size(48, 13)
         Me.Label5.TabIndex = 8
         Me.Label5.Text = "Nombre:"
         '
         'Label6
         '
-        Me.Label6.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(352, 83)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(31, 14)
+        Me.Label6.Size = New System.Drawing.Size(34, 13)
         Me.Label6.TabIndex = 9
         Me.Label6.Text = "Ruta:"
         '
@@ -447,23 +460,23 @@ Public Class frmConTarjetaCredito
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(16, 83)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(38, 14)
+        Me.Label7.Size = New System.Drawing.Size(40, 13)
         Me.Label7.TabIndex = 10
         Me.Label7.Text = "Célula:"
         '
         'Label8
         '
-        Me.Label8.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.Label8.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(352, 107)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(44, 14)
+        Me.Label8.Size = New System.Drawing.Size(47, 13)
         Me.Label8.TabIndex = 12
         Me.Label8.Text = "Estatus:"
         '
         'lblEstatus
         '
-        Me.lblEstatus.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblEstatus.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblEstatus.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblEstatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEstatus.Location = New System.Drawing.Point(408, 104)
@@ -477,7 +490,7 @@ Public Class frmConTarjetaCredito
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(16, 107)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(67, 14)
+        Me.Label10.Size = New System.Drawing.Size(67, 13)
         Me.Label10.TabIndex = 14
         Me.Label10.Text = "Tipo crédito:"
         '
@@ -492,29 +505,31 @@ Public Class frmConTarjetaCredito
         '
         'btnCerrar
         '
-        Me.btnCerrar.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.btnCerrar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnCerrar.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCerrar.Image = CType(resources.GetObject("btnCerrar.Image"), System.Drawing.Bitmap)
+        Me.btnCerrar.Image = CType(resources.GetObject("btnCerrar.Image"), System.Drawing.Image)
         Me.btnCerrar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnCerrar.Location = New System.Drawing.Point(472, 15)
         Me.btnCerrar.Name = "btnCerrar"
+        Me.btnCerrar.Size = New System.Drawing.Size(75, 23)
         Me.btnCerrar.TabIndex = 15
         Me.btnCerrar.Text = "&Cerrar"
         Me.btnCerrar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'btnBuscar
         '
-        Me.btnBuscar.Image = CType(resources.GetObject("btnBuscar.Image"), System.Drawing.Bitmap)
+        Me.btnBuscar.Image = CType(resources.GetObject("btnBuscar.Image"), System.Drawing.Image)
         Me.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnBuscar.Location = New System.Drawing.Point(216, 15)
         Me.btnBuscar.Name = "btnBuscar"
+        Me.btnBuscar.Size = New System.Drawing.Size(75, 23)
         Me.btnBuscar.TabIndex = 1
         Me.btnBuscar.Text = "&Buscar"
         Me.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'tabDatos
         '
-        Me.tabDatos.Controls.AddRange(New System.Windows.Forms.Control() {Me.tpDatos})
+        Me.tabDatos.Controls.Add(Me.tpDatos)
         Me.tabDatos.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.tabDatos.Location = New System.Drawing.Point(0, 301)
         Me.tabDatos.Name = "tabDatos"
@@ -524,7 +539,14 @@ Public Class frmConTarjetaCredito
         '
         'tpDatos
         '
-        Me.tpDatos.Controls.AddRange(New System.Windows.Forms.Control() {Me.Label14, Me.Label13, Me.Label12, Me.Label11, Me.lblFirma, Me.lblIdentificacion, Me.lblDomicilio, Me.lblTitular})
+        Me.tpDatos.Controls.Add(Me.Label14)
+        Me.tpDatos.Controls.Add(Me.Label13)
+        Me.tpDatos.Controls.Add(Me.Label12)
+        Me.tpDatos.Controls.Add(Me.Label11)
+        Me.tpDatos.Controls.Add(Me.lblFirma)
+        Me.tpDatos.Controls.Add(Me.lblIdentificacion)
+        Me.tpDatos.Controls.Add(Me.lblDomicilio)
+        Me.tpDatos.Controls.Add(Me.lblTitular)
         Me.tpDatos.Location = New System.Drawing.Point(4, 22)
         Me.tpDatos.Name = "tpDatos"
         Me.tpDatos.Size = New System.Drawing.Size(544, 126)
@@ -536,7 +558,7 @@ Public Class frmConTarjetaCredito
         Me.Label14.AutoSize = True
         Me.Label14.Location = New System.Drawing.Point(16, 91)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(36, 14)
+        Me.Label14.Size = New System.Drawing.Size(37, 13)
         Me.Label14.TabIndex = 12
         Me.Label14.Text = "Firma:"
         '
@@ -545,7 +567,7 @@ Public Class frmConTarjetaCredito
         Me.Label13.AutoSize = True
         Me.Label13.Location = New System.Drawing.Point(16, 67)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(75, 14)
+        Me.Label13.Size = New System.Drawing.Size(75, 13)
         Me.Label13.TabIndex = 11
         Me.Label13.Text = "Identificación:"
         '
@@ -554,7 +576,7 @@ Public Class frmConTarjetaCredito
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(16, 43)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(53, 14)
+        Me.Label12.Size = New System.Drawing.Size(51, 13)
         Me.Label12.TabIndex = 10
         Me.Label12.Text = "Domicilio:"
         '
@@ -563,7 +585,7 @@ Public Class frmConTarjetaCredito
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(16, 19)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(40, 14)
+        Me.Label11.Size = New System.Drawing.Size(41, 13)
         Me.Label11.TabIndex = 9
         Me.Label11.Text = "Titular:"
         '
@@ -605,12 +627,13 @@ Public Class frmConTarjetaCredito
         '
         'btnModificar
         '
-        Me.btnModificar.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.btnModificar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnModificar.Enabled = False
-        Me.btnModificar.Image = CType(resources.GetObject("btnModificar.Image"), System.Drawing.Bitmap)
+        Me.btnModificar.Image = CType(resources.GetObject("btnModificar.Image"), System.Drawing.Image)
         Me.btnModificar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnModificar.Location = New System.Drawing.Point(469, 144)
         Me.btnModificar.Name = "btnModificar"
+        Me.btnModificar.Size = New System.Drawing.Size(75, 23)
         Me.btnModificar.TabIndex = 18
         Me.btnModificar.Text = "&Modificar"
         Me.btnModificar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -620,7 +643,7 @@ Public Class frmConTarjetaCredito
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(16, 131)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(35, 14)
+        Me.Label1.Size = New System.Drawing.Size(37, 13)
         Me.Label1.TabIndex = 20
         Me.Label1.Text = "Saldo:"
         '
@@ -636,12 +659,13 @@ Public Class frmConTarjetaCredito
         '
         'btnAgregar
         '
-        Me.btnAgregar.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.btnAgregar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnAgregar.Enabled = False
-        Me.btnAgregar.Image = CType(resources.GetObject("btnAgregar.Image"), System.Drawing.Bitmap)
+        Me.btnAgregar.Image = CType(resources.GetObject("btnAgregar.Image"), System.Drawing.Image)
         Me.btnAgregar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnAgregar.Location = New System.Drawing.Point(384, 144)
         Me.btnAgregar.Name = "btnAgregar"
+        Me.btnAgregar.Size = New System.Drawing.Size(75, 23)
         Me.btnAgregar.TabIndex = 21
         Me.btnAgregar.Text = "&Agregar"
         Me.btnAgregar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -652,21 +676,32 @@ Public Class frmConTarjetaCredito
         Me.txtCliente.Name = "txtCliente"
         Me.txtCliente.Size = New System.Drawing.Size(112, 21)
         Me.txtCliente.TabIndex = 22
-        Me.txtCliente.Text = ""
-        '
-        'colNumTarjetaCredito
-        '
-        Me.colNumTarjetaCredito.Format = ""
-        Me.colNumTarjetaCredito.FormatInfo = Nothing
-        Me.colNumTarjetaCredito.MappingName = ""
-        Me.colNumTarjetaCredito.Width = 0
         '
         'frmConTarjetaCredito
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
         Me.CancelButton = Me.btnCerrar
         Me.ClientSize = New System.Drawing.Size(552, 453)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.txtCliente, Me.btnAgregar, Me.Label1, Me.lblSaldo, Me.btnModificar, Me.tabDatos, Me.btnBuscar, Me.btnCerrar, Me.Label10, Me.lblTipoCredito, Me.Label8, Me.lblEstatus, Me.Label7, Me.Label6, Me.Label5, Me.Label4, Me.lblRuta, Me.lblCelula, Me.lblNombre, Me.grdTarjetaCredito})
+        Me.Controls.Add(Me.txtCliente)
+        Me.Controls.Add(Me.btnAgregar)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.lblSaldo)
+        Me.Controls.Add(Me.btnModificar)
+        Me.Controls.Add(Me.tabDatos)
+        Me.Controls.Add(Me.btnBuscar)
+        Me.Controls.Add(Me.btnCerrar)
+        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.lblTipoCredito)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.lblEstatus)
+        Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.lblRuta)
+        Me.Controls.Add(Me.lblCelula)
+        Me.Controls.Add(Me.lblNombre)
+        Me.Controls.Add(Me.grdTarjetaCredito)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmConTarjetaCredito"
@@ -675,7 +710,9 @@ Public Class frmConTarjetaCredito
         CType(Me.grdTarjetaCredito, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabDatos.ResumeLayout(False)
         Me.tpDatos.ResumeLayout(False)
+        Me.tpDatos.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -707,7 +744,7 @@ Public Class frmConTarjetaCredito
                         btnAgregar.Enabled = False
                         MessageBox.Show("No se encontró el cliente especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Else
-                        btnAgregar.Enabled = True
+                        btnAgregar.Enabled = _BtnAgregarHabilitado
                     End If
 
                 End If
@@ -861,4 +898,5 @@ Public Class frmConTarjetaCredito
             _NumOculto = True
         End If
     End Sub
+
 End Class
