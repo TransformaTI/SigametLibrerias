@@ -5335,7 +5335,8 @@ Public Class Cobro
     Public Function EfectivoValesAlta(ByVal Total As Decimal,
                                       ByVal TipoCobro As Enumeradores.enumTipoCobro,
                                       ByVal Usuario As String,
-                             Optional ByVal Observaciones As String = "") As Integer
+                             Optional ByVal Observaciones As String = "",
+                                      Optional ByVal NumeroCuentaDestino As String = "") As Integer
 
         Dim cmd As New SqlCommand("spEfectivoValesAltaModifica")
         With cmd
@@ -5343,11 +5344,15 @@ Public Class Cobro
             .Transaction = Transaccion
             .Parameters.Add(New SqlParameter("@Total", SqlDbType.Money)).Value = Total
             .Parameters.Add(New SqlParameter("@Usuario", SqlDbType.Char, 15)).Value = Usuario
+            .Parameters.Add(New SqlParameter("@NumeroCuentaDestino", SqlDbType.VarChar, 250)).Value = NumeroCuentaDestino
+
             If TipoCobro = Enumeradores.enumTipoCobro.Vales Or TipoCobro = Enumeradores.enumTipoCobro.EfectivoVales Then
                 .Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.TinyInt)).Value = TipoCobro
             End If
             .Parameters.Add(New SqlParameter("@Observaciones", SqlDbType.VarChar, 250)).Value = Observaciones
             .Parameters.Add(New SqlParameter("@Consecutivo", SqlDbType.Int)).Direction = ParameterDirection.Output
+
+
         End With
 
         Try
