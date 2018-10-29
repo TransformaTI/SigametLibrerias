@@ -5150,10 +5150,11 @@ Public Class Cobro
             .Transaction = Transaccion
             .Parameters.Add(New SqlParameter("@Total", SqlDbType.Money)).Value = decTotal
             .Parameters.Add(New SqlParameter("@NumeroCuenta", SqlDbType.Char, 20)).Value = strNumeroCuenta
+            .Parameters.Add(New SqlParameter("@NumeroCuentaDestino", SqlDbType.Char, 20)).Value = strNumeroCuentaDestino
             'Se agregó para captura de transferencias bancarias
             '23-03-2005 JAG
             If TipoCobro = Enumeradores.enumTipoCobro.Transferencia Then
-                .Parameters.Add(New SqlParameter("@NumeroCuentaDestino", SqlDbType.Char, 20)).Value = strNumeroCuentaDestino
+
                 .Parameters.Add(New SqlParameter("@BancoOrigen", SqlDbType.SmallInt)).Value = shrBancoOrigen
             End If
             If TipoCobro <> Enumeradores.enumTipoCobro.EfectivoVales Then
@@ -5216,7 +5217,8 @@ Public Class Cobro
                                       ByVal CobroOrigen As Integer,
                             Optional ByVal strObservaciones As String = "",
                             Optional ByVal TipoCobro As Enumeradores.enumTipoCobro = Enumeradores.enumTipoCobro.SaldoAFavor,
-                            Optional ByVal Usuario As String = "") As Integer
+                            Optional ByVal Usuario As String = "",
+                            Optional ByVal NumeroCuentaDestino As String = "") As Integer
 
         Dim cmd As New SqlCommand("spSaldoAFavorAltaModifica")
         With cmd
@@ -5231,6 +5233,7 @@ Public Class Cobro
             .Parameters.Add(New SqlParameter("@Observaciones", SqlDbType.VarChar, 250)).Value = strObservaciones
             .Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.TinyInt)).Value = TipoCobro
             .Parameters.Add(New SqlParameter("@Alta", SqlDbType.Bit)).Value = 1
+            .Parameters.Add(New SqlParameter("@NumeroCuentaDestino", SqlDbType.VarChar, 250)).Value = NumeroCuentaDestino
             .Parameters.Add(New SqlParameter("@Consecutivo", SqlDbType.Int)).Direction = ParameterDirection.Output
             If Usuario <> "" Then
                 .Parameters.Add(New SqlParameter("@Usuario", SqlDbType.Char, 10)).Value = Usuario
@@ -5264,7 +5267,8 @@ Public Class Cobro
                                      ByVal NuevoBanco As Short,
                                      ByVal NuevoCliente As Integer,
                             Optional ByVal strObservaciones As String = "",
-                            Optional ByVal TipoCobro As Enumeradores.enumTipoCobro = Enumeradores.enumTipoCobro.Cheque)
+                            Optional ByVal TipoCobro As Enumeradores.enumTipoCobro = Enumeradores.enumTipoCobro.Cheque,
+                             Optional ByVal NumeroCuentaDestino As String = "")
 
         Dim cmd As New SqlCommand("spChequeTarjetaAltaModifica")
         With cmd
@@ -5272,6 +5276,8 @@ Public Class Cobro
             .Transaction = Transaccion
             .Parameters.Add("@Total", SqlDbType.Money).Value = decTotal
             .Parameters.Add("@NumeroCuenta", SqlDbType.Char, 20).Value = strNumeroCuenta
+            .Parameters.Add("@NumeroCuentaDestino", SqlDbType.Char, 20).Value = NumeroCuentaDestino
+
             If TipoCobro = Enumeradores.enumTipoCobro.Cheque Then
                 .Parameters.Add("@NumeroCheque", SqlDbType.Char, 20).Value = strNumeroCheque
                 .Parameters.Add("@FCheque", SqlDbType.DateTime).Value = dtmFCheque
@@ -5335,7 +5341,8 @@ Public Class Cobro
     Public Function EfectivoValesAlta(ByVal Total As Decimal,
                                       ByVal TipoCobro As Enumeradores.enumTipoCobro,
                                       ByVal Usuario As String,
-                             Optional ByVal Observaciones As String = "") As Integer
+                             Optional ByVal Observaciones As String = "",
+                                      Optional ByVal NumeroCuentaDestino As String = "") As Integer
 
         Dim cmd As New SqlCommand("spEfectivoValesAltaModifica")
         With cmd
@@ -5343,11 +5350,15 @@ Public Class Cobro
             .Transaction = Transaccion
             .Parameters.Add(New SqlParameter("@Total", SqlDbType.Money)).Value = Total
             .Parameters.Add(New SqlParameter("@Usuario", SqlDbType.Char, 15)).Value = Usuario
+            .Parameters.Add(New SqlParameter("@NumeroCuentaDestino", SqlDbType.VarChar, 250)).Value = NumeroCuentaDestino
+
             If TipoCobro = Enumeradores.enumTipoCobro.Vales Or TipoCobro = Enumeradores.enumTipoCobro.EfectivoVales Then
                 .Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.TinyInt)).Value = TipoCobro
             End If
             .Parameters.Add(New SqlParameter("@Observaciones", SqlDbType.VarChar, 250)).Value = Observaciones
             .Parameters.Add(New SqlParameter("@Consecutivo", SqlDbType.Int)).Direction = ParameterDirection.Output
+
+
         End With
 
         Try
@@ -5367,13 +5378,15 @@ Public Class Cobro
     Public Function DacionPago(ByVal Total As Decimal,
                                       ByVal TipoCobro As Enumeradores.enumTipoCobro,
                                       ByVal Usuario As String,
-                             Optional ByVal Observaciones As String = "") As Integer
+                             Optional ByVal Observaciones As String = "",
+                              Optional ByVal NoCuentaDestino As String = "") As Integer
         Dim cmd As New SqlCommand("spCobroDacionPago")
         With cmd
             .CommandType = CommandType.StoredProcedure
             .Transaction = Transaccion
             .Parameters.Add(New SqlParameter("@Total", SqlDbType.Money)).Value = Total
             .Parameters.Add(New SqlParameter("@Usuario", SqlDbType.Char, 15)).Value = Usuario
+            .Parameters.Add(New SqlParameter("@NumeroCuentaDestino", SqlDbType.VarChar, 250)).Value = NoCuentaDestino
             If TipoCobro = Enumeradores.enumTipoCobro.DacionEnPago Then
                 .Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.TinyInt)).Value = TipoCobro
             End If
@@ -5872,7 +5885,7 @@ Public Class TransaccionMovimientoCaja
                     Case Enumeradores.enumTipoCobro.Efectivo,
                          Enumeradores.enumTipoCobro.EfectivoVales,
                          Enumeradores.enumTipoCobro.Vales
-                        FolioCobro = objCobro.EfectivoValesAlta(Cobro.Total, CType(Cobro.TipoCobro, Enumeradores.enumTipoCobro), Usuario, Cobro.Observaciones)
+                        FolioCobro = objCobro.EfectivoValesAlta(Cobro.Total, CType(Cobro.TipoCobro, Enumeradores.enumTipoCobro), Usuario, Cobro.Observaciones, Cobro.NoCuentaDestino)
 
                         If TipoMovimientoCaja = 43 Then
                             objCobro.ModificaCobroReciboCaja(FolioCobro, Date.Today.Year, TipoConcepto, CuentaContable)
@@ -5894,12 +5907,12 @@ Public Class TransaccionMovimientoCaja
                         Enumeradores.enumTipoCobro.TarjetaServicio,
                         Enumeradores.enumTipoCobro.TarjetaDeDebito
                         FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
-                            Cobro.TipoCobro, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia)
+                            Cobro.TipoCobro, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia, strNumeroCuentaDestino:=Cobro.NoCuentaDestino)
 
                         'CONTROL DE SALDOS 01-04-2005
                     Case Enumeradores.enumTipoCobro.SaldoAFavor
                         FolioCobro = objCobro.SaldoAFavorAlta(Cobro.Total, Cobro.Cliente, Cobro.AnioCobroOrigen, Cobro.CobroOrigen,
-                            Cobro.Observaciones, Cobro.TipoCobro, Usuario)
+                            Cobro.Observaciones, Cobro.TipoCobro, Usuario, NumeroCuentaDestino:=Cobro.NoCuentaDestino)
 
                     Case Enumeradores.enumTipoCobro.DacionEnPago 'MCC 06-07-2018
                         FolioCobro = objCobro.DacionPago(Cobro.Total, CType(Cobro.TipoCobro, Enumeradores.enumTipoCobro), Usuario, Cobro.Observaciones)
