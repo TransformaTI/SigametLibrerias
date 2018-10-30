@@ -38,7 +38,7 @@ Public Class SeleccionCalleColonia
     Private _NumExteriorOriginal As String
     Private _CalleNombreOriginal As String
     Private _ColoniaNombreOriginal As String
-    Public _URLGateway As String
+    Private _URLGateway As String
     Private _Modulo As Byte
     Private _CadenaConexion As String
 
@@ -208,20 +208,38 @@ Public Class SeleccionCalleColonia
         End Set
     End Property
 
+    Public Property URLGateway As String
+        Get
+            Return _URLGateway
+        End Get
+        Set(value As String)
+            _URLGateway = value
+        End Set
+    End Property
+
 #End Region
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(Optional ByVal URLGateway As String = Nothing)
+    Public Sub New()
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
-        _URLGateway = URLGateway
-
         'Add any initialization after the InitializeComponent() call
     End Sub
+
+    'Public Sub New(ByVal URLGateway As String)
+    '    MyBase.New()
+
+    '    'This call is required by the Windows Form Designer.
+    '    InitializeComponent()
+
+    '    _URLGateway = URLGateway
+
+    '    'Add any initialization after the InitializeComponent() call
+    'End Sub
 
     'UserControl1 overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
