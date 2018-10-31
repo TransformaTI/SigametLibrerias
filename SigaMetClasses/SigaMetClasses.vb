@@ -11154,6 +11154,7 @@ Public Module Main
         Dim cmd As New SqlCommand("spCBConsultaAfiliacionTC", conn)
 
         Try
+
             conn.Open()
         Catch
             Throw New Exception(SigaMetClasses.M_NO_CONEXION)

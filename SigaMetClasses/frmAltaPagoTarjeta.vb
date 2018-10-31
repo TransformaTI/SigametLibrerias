@@ -22,6 +22,18 @@ Public Class frmAltaPagoTarjeta
         ' Add any initialization after the InitializeComponent() call.
         ChkCalculo.Checked = True
     End Sub
+#Region "Propiedades"
+    Private _modoOperacion As Byte
+    Public Property modoOperacion() As Byte
+        Get
+            Return _modoOperacion
+        End Get
+        Set(ByVal value As Byte)
+            _modoOperacion = value
+        End Set
+    End Property
+#End Region
+
 
     Private Sub limpiaCliente()
         txtcliente.Clear()
@@ -442,6 +454,10 @@ Public Class frmAltaPagoTarjeta
     End Sub
 
     Private Sub txtImporte_TextChanged(sender As Object, e As EventArgs) Handles txtImporte.TextChanged
+
+    End Sub
+
+    Private Sub frmAltaPagoTarjeta_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
 End Class

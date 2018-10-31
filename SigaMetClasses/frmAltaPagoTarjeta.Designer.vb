@@ -27,7 +27,6 @@ Partial Class frmAltaPagoTarjeta
         Me.rdCargoPorCobranza = New System.Windows.Forms.RadioButton()
         Me.rdCargoPorVenta = New System.Windows.Forms.RadioButton()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.cboRuta = New SigaMetClasses.Combos.ComboRuta2Filtro()
         Me.cboAutotanque = New System.Windows.Forms.ComboBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
@@ -52,7 +51,6 @@ Partial Class frmAltaPagoTarjeta
         Me.Label15 = New System.Windows.Forms.Label()
         Me.txtImporte = New System.Windows.Forms.TextBox()
         Me.Label20 = New System.Windows.Forms.Label()
-        Me.cboBancos = New SigaMetClasses.Combos.ComboBanco()
         Me.cboMeses = New System.Windows.Forms.ComboBox()
         Me.cboTipoTarjeta = New System.Windows.Forms.ComboBox()
         Me.txtObservaciones = New System.Windows.Forms.TextBox()
@@ -75,6 +73,8 @@ Partial Class frmAltaPagoTarjeta
         Me.btnAceptar = New System.Windows.Forms.Button()
         Me.Lbl_fechaCargo = New System.Windows.Forms.Label()
         Me.btnTarjetaConsultaDia = New System.Windows.Forms.Button()
+        Me.cboBancos = New SigaMetClasses.Combos.ComboBanco()
+        Me.cboRuta = New SigaMetClasses.Combos.ComboRuta2Filtro()
         Me.gbOpciones.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -137,15 +137,6 @@ Partial Class frmAltaPagoTarjeta
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Datos del cliente"
-        '
-        'cboRuta
-        '
-        Me.cboRuta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboRuta.FormattingEnabled = True
-        Me.cboRuta.Location = New System.Drawing.Point(90, 165)
-        Me.cboRuta.Name = "cboRuta"
-        Me.cboRuta.Size = New System.Drawing.Size(121, 21)
-        Me.cboRuta.TabIndex = 7
         '
         'cboAutotanque
         '
@@ -381,15 +372,6 @@ Partial Class frmAltaPagoTarjeta
         Me.Label20.TabIndex = 26
         Me.Label20.Text = "Importe:"
         '
-        'cboBancos
-        '
-        Me.cboBancos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboBancos.FormattingEnabled = True
-        Me.cboBancos.Location = New System.Drawing.Point(307, 48)
-        Me.cboBancos.Name = "cboBancos"
-        Me.cboBancos.Size = New System.Drawing.Size(105, 21)
-        Me.cboBancos.TabIndex = 13
-        '
         'cboMeses
         '
         Me.cboMeses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -596,6 +578,24 @@ Partial Class frmAltaPagoTarjeta
         Me.btnTarjetaConsultaDia.TabIndex = 24
         Me.btnTarjetaConsultaDia.Text = "Cargos"
         Me.btnTarjetaConsultaDia.UseVisualStyleBackColor = True
+        '
+        'cboBancos
+        '
+        Me.cboBancos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBancos.FormattingEnabled = True
+        Me.cboBancos.Location = New System.Drawing.Point(307, 48)
+        Me.cboBancos.Name = "cboBancos"
+        Me.cboBancos.Size = New System.Drawing.Size(105, 21)
+        Me.cboBancos.TabIndex = 13
+        '
+        'cboRuta
+        '
+        Me.cboRuta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboRuta.FormattingEnabled = True
+        Me.cboRuta.Location = New System.Drawing.Point(90, 165)
+        Me.cboRuta.Name = "cboRuta"
+        Me.cboRuta.Size = New System.Drawing.Size(121, 21)
+        Me.cboRuta.TabIndex = 7
         '
         'frmAltaPagoTarjeta
         '
