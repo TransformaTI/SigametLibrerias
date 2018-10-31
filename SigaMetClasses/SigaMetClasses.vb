@@ -4638,6 +4638,49 @@ Public Class AltaPagoTarjeta
 End Class
 #End Region
 
+
+#Region "Cuenta"
+Public Class cCuenta
+#Region "Funciones"
+
+	Public Function ConsultarPatron(ByVal TipoCobro As Integer) As String
+		Dim resultado As String
+
+
+		Dim cmd As New SqlCommand("uspConsultaPatronCuenta", DataLayer.Conexion)
+
+		With cmd
+			.CommandType = CommandType.StoredProcedure
+			.CommandText = "uspConsultaPatronCuenta"
+			.Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.Int)).Value = TipoCobro
+		End With
+
+		Try
+			If cmd.Connection.State = ConnectionState.Closed Then
+				cmd.Connection.Open()
+			End If
+
+			Dim dr As SqlDataReader
+			dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+
+			If dr.Read() Then
+				resultado = CType(dr("PatronCuentaOrdenante"), String)
+			Else
+				Throw New Exception("vacio")
+			End If
+		Catch ex As Exception
+			Throw New Exception(ex.Message)
+		Finally
+			If cmd.Connection.State = ConnectionState.Open Then
+				cmd.Connection.Close()
+			End If
+		End Try
+
+		Return resultado
+	End Function
+#End Region
+End Class
+#End Region
 #Region "MovimientoAConciliarCobro"
 Public Class cMovimientoAConciliarCobro
 #Region "Variables"
