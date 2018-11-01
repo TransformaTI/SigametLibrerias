@@ -4453,7 +4453,7 @@ Public Class frmLiquidacionPortatil
 						End If
 
 						k = 0
-						dtPedidoCobro.DefaultView.RowFilter = "Tabla = 0 and  TipoCobro in(6, 19, 22, 10, 21, 16)"
+						dtPedidoCobro.DefaultView.RowFilter = "Tabla = 0 and  TipoCobro in(6, 19, 22, 10, 21, 16,2)"
 						If dtPedidoCobro.DefaultView.Count > 0 Then
 							While k < dtPedidoCobro.DefaultView.Count
 								Dim _CobroTemp As Integer = CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer)
@@ -6145,7 +6145,7 @@ Public Class frmLiquidacionPortatil
 		End If
 
 
-		dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1  and TipoCobro in(6, 19, 22, 10, 21, 16)"  'Tarjeta De Crédito, Tarjeta De débito, Tarjeta de servicios, Transferencia, Anticipo, Vales
+		dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1  and TipoCobro in(6, 19, 22, 10, 21, 16, 2)"  'Tarjeta De Crédito, Tarjeta De débito, Tarjeta de servicios, Transferencia, Anticipo, Vales, ValesCaja
 		If dtPedidoCobro.DefaultView.Count > 0 Then
 			Dim j As Integer = 0
 			While j < dtPedidoCobro.DefaultView.Count
@@ -6213,7 +6213,7 @@ Public Class frmLiquidacionPortatil
 					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, Nothing, 0, Connection, Transaction, DateTime.MinValue.Date)
 				Case 10 'Transferencia
 					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), 0, Connection, Transaction, DateTime.MinValue.Date)
-				Case 16 'Vale
+				Case 16, 2 'Vale
 					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, Nothing, 0, Connection, Transaction, DateTime.MinValue.Date)
 				Case 21
 					Dim oMvtoConciliarCobro As New SigaMetClasses.cMovimientoAConciliarCobro()
@@ -7093,7 +7093,7 @@ Public Class frmLiquidacionPortatil
 			If Cobro.TipoCobro = 5 Then
 				TotalEfectivo = TotalEfectivo + Cobro.Total '- Credito
 			End If
-			If Cobro.TipoCobro = 16 Then
+			If Cobro.TipoCobro = 16 Or Cobro.TipoCobro = 2 Then
 				TotalVales = TotalVales + Cobro.Total
 			End If
 			If Cobro.TipoCobro = 10 Then
