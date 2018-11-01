@@ -17,8 +17,10 @@ namespace LiquidacionSTN
         private int _Cliente;
         private decimal _Monto;
         private decimal _Saldo;
+        private short _Banco;
         private List<SigaMetClasses.sTransferencia> _Transferencias = new List<sTransferencia>();
         private bool _SePresentoForma;
+        private DataTable _dtCuentas;
 
         #region Propiedades
 
@@ -137,6 +139,7 @@ namespace LiquidacionSTN
             CargarEtiquetas();
             cboBancoOrigen.CargaDatos(CargaBancoCero: false);
             cboBancoDestino.CargaDatos(CargaBancoCero: false);
+            CargarCuentasDestino();
         }
 
         private void CargarEtiquetas()
@@ -151,46 +154,37 @@ namespace LiquidacionSTN
         {
             try
             {
-                short sBanco = 0;
+                _Banco = 0;
                 if (cboBancoDestino.SelectedValue != null)
                 {
-                    short.TryParse(cboBancoDestino.SelectedValue.ToString(), out sBanco);
+                    short.TryParse(cboBancoDestino.SelectedValue.ToString(), out _Banco);
                 }
 
-                if (sBanco > 0 && _SePresentoForma)
+                if (_Banco > 0 && _SePresentoForma)
                 {
-                    CargarCuentasDestino(sBanco);
+                    MostrarCuentasDestino(_Banco);
                 }
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void CargarCuentasDestino(short sBanco)
+        private void CargarCuentasDestino()
         {
-            cboCuentaDestino.DataSource = null;
-            DataTable dtCuentas = new DataTable("Cuentas");
+            _dtCuentas = new DataTable("Cuentas");
 
             try
             {
                 if (LiquidacionSTN.Modulo.CnnSigamet.State != ConnectionState.Open)
                 { LiquidacionSTN.Modulo.CnnSigamet.Open(); }
 
-                using (SqlDataAdapter da = new SqlDataAdapter("spSTCuentaBanco", LiquidacionSTN.Modulo.CnnSigamet))
+                using (SqlDataAdapter da = new SqlDataAdapter("spSSCuentaBanco", LiquidacionSTN.Modulo.CnnSigamet))
                 {
                     da.SelectCommand.CommandType = CommandType.StoredProcedure;
-                    da.SelectCommand.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = sBanco;
-                    da.Fill(dtCuentas);
-                }
-
-                if (dtCuentas.Rows.Count > 0)
-                {
-                    cboCuentaDestino.DataSource = dtCuentas;
-                    cboCuentaDestino.ValueMember = "CuentaBanco";
-                    cboCuentaDestino.DisplayMember = "CuentaBanco";
-                    cboCuentaDestino.SelectedIndex = 0;
+                    da.SelectCommand.Parameters.Add("@EmpresaContable", SqlDbType.SmallInt).Value = SigaMetClasses.Main.GLOBAL_Empresa;
+                    da.Fill(_dtCuentas);
                 }
             }
             catch (Exception ex)
@@ -201,6 +195,25 @@ namespace LiquidacionSTN
             finally
             {
                 LiquidacionSTN.Modulo.CnnSigamet.Close();
+            }
+        }
+
+        private void MostrarCuentasDestino(short sBanco)
+        {
+            cboCuentaDestino.DataSource = null;
+
+            if (_dtCuentas.Rows.Count > 0)
+            {
+                DataView dv = new DataView(_dtCuentas);
+                dv.RowFilter = "Banco = " + sBanco;
+
+                if (dv.Count > 0)
+                {
+                    cboCuentaDestino.DataSource = dv;
+                    cboCuentaDestino.ValueMember = "CuentaBanco";
+                    cboCuentaDestino.DisplayMember = "CuentaBanco";
+                    cboCuentaDestino.SelectedIndex = 0;
+                }
             }
         }
 
