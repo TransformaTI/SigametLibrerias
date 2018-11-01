@@ -33,8 +33,8 @@
             this.tsbAceptar = new System.Windows.Forms.ToolStripButton();
             this.tsbCerrar = new System.Windows.Forms.ToolStripButton();
             this.pnlPrincipal = new System.Windows.Forms.Panel();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
+            this.lblAsteriscoCuenta = new System.Windows.Forms.Label();
+            this.lblAsteriscoBanco = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -108,8 +108,8 @@
             // 
             // pnlPrincipal
             // 
-            this.pnlPrincipal.Controls.Add(this.label17);
-            this.pnlPrincipal.Controls.Add(this.label16);
+            this.pnlPrincipal.Controls.Add(this.lblAsteriscoCuenta);
+            this.pnlPrincipal.Controls.Add(this.lblAsteriscoBanco);
             this.pnlPrincipal.Controls.Add(this.label15);
             this.pnlPrincipal.Controls.Add(this.label14);
             this.pnlPrincipal.Controls.Add(this.label13);
@@ -141,29 +141,29 @@
             this.pnlPrincipal.Size = new System.Drawing.Size(332, 481);
             this.pnlPrincipal.TabIndex = 1;
             // 
-            // label17
+            // lblAsteriscoCuenta
             // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.ForeColor = System.Drawing.Color.Red;
-            this.label17.Location = new System.Drawing.Point(299, 270);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(16, 20);
-            this.label17.TabIndex = 25;
-            this.label17.Text = "*";
-            this.label17.Visible = false;
+            this.lblAsteriscoCuenta.AutoSize = true;
+            this.lblAsteriscoCuenta.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAsteriscoCuenta.ForeColor = System.Drawing.Color.Red;
+            this.lblAsteriscoCuenta.Location = new System.Drawing.Point(299, 270);
+            this.lblAsteriscoCuenta.Name = "lblAsteriscoCuenta";
+            this.lblAsteriscoCuenta.Size = new System.Drawing.Size(16, 20);
+            this.lblAsteriscoCuenta.TabIndex = 25;
+            this.lblAsteriscoCuenta.Text = "*";
+            this.lblAsteriscoCuenta.Visible = false;
             // 
-            // label16
+            // lblAsteriscoBanco
             // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.ForeColor = System.Drawing.Color.Red;
-            this.label16.Location = new System.Drawing.Point(299, 232);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(16, 20);
-            this.label16.TabIndex = 24;
-            this.label16.Text = "*";
-            this.label16.Visible = false;
+            this.lblAsteriscoBanco.AutoSize = true;
+            this.lblAsteriscoBanco.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAsteriscoBanco.ForeColor = System.Drawing.Color.Red;
+            this.lblAsteriscoBanco.Location = new System.Drawing.Point(299, 232);
+            this.lblAsteriscoBanco.Name = "lblAsteriscoBanco";
+            this.lblAsteriscoBanco.Size = new System.Drawing.Size(16, 20);
+            this.lblAsteriscoBanco.TabIndex = 24;
+            this.lblAsteriscoBanco.Text = "*";
+            this.lblAsteriscoBanco.Visible = false;
             // 
             // label15
             // 
@@ -213,6 +213,7 @@
             this.cboCuentaDestino.Name = "cboCuentaDestino";
             this.cboCuentaDestino.Size = new System.Drawing.Size(187, 21);
             this.cboCuentaDestino.TabIndex = 14;
+            this.cboCuentaDestino.SelectedIndexChanged += new System.EventHandler(this.cboCuentaDestino_SelectedIndexChanged);
             // 
             // txtCuentaOrigen
             // 
@@ -444,8 +445,8 @@
         private SigaMetClasses.Combos.ComboBanco cboBancoDestino;
         private System.Windows.Forms.ComboBox cboCuentaDestino;
         private System.Windows.Forms.TextBox txtCuentaOrigen;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label lblAsteriscoCuenta;
+        private System.Windows.Forms.Label lblAsteriscoBanco;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;

@@ -17,7 +17,8 @@ namespace LiquidacionSTN
         private int _Cliente;
         private decimal _Monto;
         private decimal _Saldo;
-        private short _Banco;
+        private short _BancoDestino;
+        private string _CuentaDestino;
         private List<SigaMetClasses.sTransferencia> _Transferencias = new List<sTransferencia>();
         private bool _SePresentoForma;
         private DataTable _dtCuentas;
@@ -95,28 +96,40 @@ namespace LiquidacionSTN
             //  Cliente
             if (_Cliente == 0)
             {
-                mensaje.Append("Debe proporcionar un cliente válido." + Environment.NewLine);
+                mensaje.Append("- Debe proporcionar un cliente válido." + Environment.NewLine);
+            }
+            //  Documento
+            if (!EsAlfanumerico(txtDocumento.Text.Trim()))
+            {
+                mensaje.Append("- Ingresa un documento válido." + Environment.NewLine);
+            }
+            //  Banco destino - Cuenta destino
+            if (_BancoDestino == 0 || String.IsNullOrEmpty(_CuentaDestino))
+            {
+                mensaje.Append("- Banco destino y cuenta destino son obligatorios, seleccione uno para continuar." + Environment.NewLine);
+                MostrarAsteriscos(true);
             }
             //  Monto
             _Monto = 0;
             decimal.TryParse(txtMonto.Text, out _Monto);
             if (_Monto == 0)
             {
-                mensaje.Append("Ingresa un monto válido." + Environment.NewLine);
-            }
-            //  Documento
-            if (!EsAlfanumerico(txtDocumento.Text.Trim()))
-            {
-                mensaje.Append("Ingresa un documento válido." + Environment.NewLine);
+                mensaje.Append("- Ingresa un monto válido." + Environment.NewLine);
             }
 
             if (mensaje.ToString().Length > 0)
             {
                 camposValidos = false;
-                MessageBox.Show(mensaje.ToString(), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(mensaje.ToString(), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
             return camposValidos;   
+        }
+
+        private void MostrarAsteriscos(bool mostrar)
+        {
+            lblAsteriscoBanco.Visible = mostrar;
+            lblAsteriscoCuenta.Visible = mostrar;
         }
 
         private bool EsAlfanumerico(string texto)
@@ -136,10 +149,17 @@ namespace LiquidacionSTN
 
         private void frmTransferencia_Load(object sender, EventArgs e)
         {
-            CargarEtiquetas();
-            cboBancoOrigen.CargaDatos(CargaBancoCero: false);
-            cboBancoDestino.CargaDatos(CargaBancoCero: false);
-            CargarCuentasDestino();
+            try
+            {
+                CargarEtiquetas();
+                cboBancoOrigen.CargaDatos(CargaBancoCero: false);
+                cboBancoDestino.CargaDatos(CargaBancoCero: false);
+                CargarCuentasDestino();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Se produjo un error:" + Environment.NewLine + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void CargarEtiquetas()
@@ -154,15 +174,15 @@ namespace LiquidacionSTN
         {
             try
             {
-                _Banco = 0;
+                _BancoDestino = 0;
                 if (cboBancoDestino.SelectedValue != null)
                 {
-                    short.TryParse(cboBancoDestino.SelectedValue.ToString(), out _Banco);
+                    short.TryParse(cboBancoDestino.SelectedValue.ToString(), out _BancoDestino);
                 }
-
-                if (_Banco > 0 && _SePresentoForma)
+                if (_BancoDestino > 0 && _SePresentoForma)
                 {
-                    MostrarCuentasDestino(_Banco);
+                    MostrarCuentasDestino(_BancoDestino);
+                    MostrarAsteriscos(false);
                 }
             }
             catch(Exception ex)
@@ -220,6 +240,20 @@ namespace LiquidacionSTN
         private void frmTransferencia_Shown(object sender, EventArgs e)
         {
             _SePresentoForma = true;
+        }
+
+        private void cboCuentaDestino_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _CuentaDestino = "";
+
+            if (cboCuentaDestino.SelectedValue != null)
+            {
+                _CuentaDestino = cboCuentaDestino.GetItemText(cboCuentaDestino.SelectedItem);
+                if (!String.IsNullOrEmpty(_CuentaDestino))
+                {
+                    MostrarAsteriscos(false);
+                }
+            }
         }
     }
 }
