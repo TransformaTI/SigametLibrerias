@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SigaMetClasses;
+using System.Data.SqlClient;
 
 namespace LiquidacionSTN
 {
@@ -17,6 +18,7 @@ namespace LiquidacionSTN
         private decimal _Monto;
         private decimal _Saldo;
         private List<SigaMetClasses.sTransferencia> _Transferencias = new List<sTransferencia>();
+        private bool _SePresentoForma;
 
         #region Propiedades
 
@@ -133,6 +135,8 @@ namespace LiquidacionSTN
         private void frmTransferencia_Load(object sender, EventArgs e)
         {
             CargarEtiquetas();
+            cboBancoOrigen.CargaDatos(CargaBancoCero: false);
+            cboBancoDestino.CargaDatos(CargaBancoCero: false);
         }
 
         private void CargarEtiquetas()
@@ -141,6 +145,68 @@ namespace LiquidacionSTN
             {
                 lblCliente.Text = _Cliente.ToString();
             }
+        }
+
+        private void cboBancoDestino_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                short sBanco = 0;
+                if (cboBancoDestino.SelectedValue != null)
+                {
+                    short.TryParse(cboBancoDestino.SelectedValue.ToString(), out sBanco);
+                }
+
+                if (sBanco > 0 && _SePresentoForma)
+                {
+                    CargarCuentasDestino(sBanco);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CargarCuentasDestino(short sBanco)
+        {
+            cboCuentaDestino.DataSource = null;
+            DataTable dtCuentas = new DataTable("Cuentas");
+
+            try
+            {
+                if (LiquidacionSTN.Modulo.CnnSigamet.State != ConnectionState.Open)
+                { LiquidacionSTN.Modulo.CnnSigamet.Open(); }
+
+                using (SqlDataAdapter da = new SqlDataAdapter("spSTCuentaBanco", LiquidacionSTN.Modulo.CnnSigamet))
+                {
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    da.SelectCommand.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = sBanco;
+                    da.Fill(dtCuentas);
+                }
+
+                if (dtCuentas.Rows.Count > 0)
+                {
+                    cboCuentaDestino.DataSource = dtCuentas;
+                    cboCuentaDestino.ValueMember = "CuentaBanco";
+                    cboCuentaDestino.DisplayMember = "CuentaBanco";
+                    cboCuentaDestino.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Se produjo un error consultando las cuentas:" + Environment.NewLine + ex.Message, 
+                    ex.InnerException);
+            }
+            finally
+            {
+                LiquidacionSTN.Modulo.CnnSigamet.Close();
+            }
+        }
+
+        private void frmTransferencia_Shown(object sender, EventArgs e)
+        {
+            _SePresentoForma = true;
         }
     }
 }
