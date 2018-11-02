@@ -913,7 +913,9 @@ Public Class LiquidacionTransaccionada
 									ByVal TPV As Short,
 									ByVal Connection As SqlConnection,
 									ByVal Transaction As SqlTransaction,
-									ByVal FechaCobro As Date)
+									ByVal FechaCobro As Date,
+									Optional ByVal NumeroCuentaDestino As String = "",
+									Optional ByVal BancoOrigen As Short = 0)
 
 			Dim dr As SqlDataReader
 			Dim cmd As SqlCommand
@@ -970,6 +972,14 @@ Public Class LiquidacionTransaccionada
 					cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = System.DBNull.Value
 				Else
 					cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+				End If
+
+				If NumeroCuentaDestino <> "" Then
+					cmd.Parameters.Add("@numerocuentadestino", SqlDbType.Char, 20).Value = NumeroCuentaDestino
+				End If
+
+				If BancoOrigen <> 0 Then
+					cmd.Parameters.Add("@BancoOrigen", SqlDbType.SmallInt).Value = BancoOrigen
 				End If
 
 
