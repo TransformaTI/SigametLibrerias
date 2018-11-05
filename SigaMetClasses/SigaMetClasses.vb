@@ -9803,7 +9803,7 @@ Namespace Combos
                               Optional ByVal SoloActivos As Boolean = True)
             Me.Items.Clear()
 
-            strQuery = "SELECT Banco, Nombre, Cast(Banco AS varchar) + ' ' + Nombre AS NombreCompuesto FROM Banco "
+            strQuery = "SELECT Banco, RTRIM(Nombre) As Nombre, Cast(Banco AS varchar) + ' ' + Nombre AS NombreCompuesto FROM Banco "
             If CargaBancoCero = True Then
                 If SoloActivos Then
                     'strQuery &= "WHERE Status = 'ACTIVO' ORDER BY Banco"
