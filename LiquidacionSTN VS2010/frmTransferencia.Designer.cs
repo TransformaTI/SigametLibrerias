@@ -41,10 +41,13 @@
             this.label12 = new System.Windows.Forms.Label();
             this.cboCuentaDestino = new System.Windows.Forms.ComboBox();
             this.txtCuentaOrigen = new System.Windows.Forms.TextBox();
+            this.cboBancoDestino = new SigaMetClasses.Combos.ComboBanco();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.cboBancoOrigen = new SigaMetClasses.Combos.ComboBanco();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.txtObservaciones = new System.Windows.Forms.TextBox();
             this.lblSaldo = new System.Windows.Forms.Label();
             this.txtDocumento = new System.Windows.Forms.TextBox();
@@ -57,9 +60,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.cboBancoDestino = new SigaMetClasses.Combos.ComboBanco();
-            this.cboBancoOrigen = new SigaMetClasses.Combos.ComboBanco();
-            this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.cCalle1 = new SigaMetClasses.cCalle();
             this.tsBotonera.SuspendLayout();
             this.pnlPrincipal.SuspendLayout();
@@ -146,7 +146,7 @@
             this.lblAsteriscoCuenta.AutoSize = true;
             this.lblAsteriscoCuenta.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAsteriscoCuenta.ForeColor = System.Drawing.Color.Red;
-            this.lblAsteriscoCuenta.Location = new System.Drawing.Point(299, 270);
+            this.lblAsteriscoCuenta.Location = new System.Drawing.Point(304, 270);
             this.lblAsteriscoCuenta.Name = "lblAsteriscoCuenta";
             this.lblAsteriscoCuenta.Size = new System.Drawing.Size(16, 20);
             this.lblAsteriscoCuenta.TabIndex = 25;
@@ -158,7 +158,7 @@
             this.lblAsteriscoBanco.AutoSize = true;
             this.lblAsteriscoBanco.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAsteriscoBanco.ForeColor = System.Drawing.Color.Red;
-            this.lblAsteriscoBanco.Location = new System.Drawing.Point(299, 232);
+            this.lblAsteriscoBanco.Location = new System.Drawing.Point(304, 232);
             this.lblAsteriscoBanco.Name = "lblAsteriscoBanco";
             this.lblAsteriscoBanco.Size = new System.Drawing.Size(16, 20);
             this.lblAsteriscoBanco.TabIndex = 24;
@@ -209,7 +209,7 @@
             // cboCuentaDestino
             // 
             this.cboCuentaDestino.FormattingEnabled = true;
-            this.cboCuentaDestino.Location = new System.Drawing.Point(112, 272);
+            this.cboCuentaDestino.Location = new System.Drawing.Point(117, 272);
             this.cboCuentaDestino.Name = "cboCuentaDestino";
             this.cboCuentaDestino.Size = new System.Drawing.Size(187, 21);
             this.cboCuentaDestino.TabIndex = 14;
@@ -217,10 +217,19 @@
             // 
             // txtCuentaOrigen
             // 
-            this.txtCuentaOrigen.Location = new System.Drawing.Point(112, 158);
+            this.txtCuentaOrigen.Location = new System.Drawing.Point(117, 158);
             this.txtCuentaOrigen.Name = "txtCuentaOrigen";
             this.txtCuentaOrigen.Size = new System.Drawing.Size(110, 20);
             this.txtCuentaOrigen.TabIndex = 11;
+            // 
+            // cboBancoDestino
+            // 
+            this.cboBancoDestino.FormattingEnabled = true;
+            this.cboBancoDestino.Location = new System.Drawing.Point(117, 234);
+            this.cboBancoDestino.Name = "cboBancoDestino";
+            this.cboBancoDestino.Size = new System.Drawing.Size(187, 21);
+            this.cboBancoDestino.TabIndex = 13;
+            this.cboBancoDestino.SelectedIndexChanged += new System.EventHandler(this.cboBancoDestino_SelectedIndexChanged);
             // 
             // label11
             // 
@@ -240,6 +249,14 @@
             this.label10.TabIndex = 18;
             this.label10.Text = "Banco destino:";
             // 
+            // cboBancoOrigen
+            // 
+            this.cboBancoOrigen.FormattingEnabled = true;
+            this.cboBancoOrigen.Location = new System.Drawing.Point(117, 120);
+            this.cboBancoOrigen.Name = "cboBancoOrigen";
+            this.cboBancoOrigen.Size = new System.Drawing.Size(187, 21);
+            this.cboBancoOrigen.TabIndex = 10;
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -258,10 +275,17 @@
             this.label8.TabIndex = 15;
             this.label8.Text = "Banco origen:";
             // 
+            // txtMonto
+            // 
+            this.txtMonto.Location = new System.Drawing.Point(117, 310);
+            this.txtMonto.Name = "txtMonto";
+            this.txtMonto.Size = new System.Drawing.Size(110, 20);
+            this.txtMonto.TabIndex = 15;
+            // 
             // txtObservaciones
             // 
             this.txtObservaciones.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.txtObservaciones.Location = new System.Drawing.Point(112, 386);
+            this.txtObservaciones.Location = new System.Drawing.Point(117, 386);
             this.txtObservaciones.MaxLength = 250;
             this.txtObservaciones.Multiline = true;
             this.txtObservaciones.Name = "txtObservaciones";
@@ -271,7 +295,7 @@
             // lblSaldo
             // 
             this.lblSaldo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblSaldo.Location = new System.Drawing.Point(112, 350);
+            this.lblSaldo.Location = new System.Drawing.Point(117, 350);
             this.lblSaldo.Name = "lblSaldo";
             this.lblSaldo.Size = new System.Drawing.Size(110, 23);
             this.lblSaldo.TabIndex = 16;
@@ -279,7 +303,7 @@
             // txtDocumento
             // 
             this.txtDocumento.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.txtDocumento.Location = new System.Drawing.Point(112, 196);
+            this.txtDocumento.Location = new System.Drawing.Point(117, 196);
             this.txtDocumento.Name = "txtDocumento";
             this.txtDocumento.Size = new System.Drawing.Size(110, 20);
             this.txtDocumento.TabIndex = 12;
@@ -287,7 +311,7 @@
             // dtpFecha
             // 
             this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFecha.Location = new System.Drawing.Point(112, 85);
+            this.dtpFecha.Location = new System.Drawing.Point(117, 85);
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(110, 20);
             this.dtpFecha.TabIndex = 9;
@@ -295,7 +319,7 @@
             // lblCliente
             // 
             this.lblCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblCliente.Location = new System.Drawing.Point(112, 46);
+            this.lblCliente.Location = new System.Drawing.Point(117, 46);
             this.lblCliente.Name = "lblCliente";
             this.lblCliente.Size = new System.Drawing.Size(110, 23);
             this.lblCliente.TabIndex = 8;
@@ -366,30 +390,6 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Agregar una transferencia";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // cboBancoDestino
-            // 
-            this.cboBancoDestino.FormattingEnabled = true;
-            this.cboBancoDestino.Location = new System.Drawing.Point(112, 234);
-            this.cboBancoDestino.Name = "cboBancoDestino";
-            this.cboBancoDestino.Size = new System.Drawing.Size(187, 21);
-            this.cboBancoDestino.TabIndex = 13;
-            this.cboBancoDestino.SelectedIndexChanged += new System.EventHandler(this.cboBancoDestino_SelectedIndexChanged);
-            // 
-            // cboBancoOrigen
-            // 
-            this.cboBancoOrigen.FormattingEnabled = true;
-            this.cboBancoOrigen.Location = new System.Drawing.Point(112, 120);
-            this.cboBancoOrigen.Name = "cboBancoOrigen";
-            this.cboBancoOrigen.Size = new System.Drawing.Size(187, 21);
-            this.cboBancoOrigen.TabIndex = 10;
-            // 
-            // txtMonto
-            // 
-            this.txtMonto.Location = new System.Drawing.Point(112, 310);
-            this.txtMonto.Name = "txtMonto";
-            this.txtMonto.Size = new System.Drawing.Size(110, 20);
-            this.txtMonto.TabIndex = 15;
             // 
             // frmTransferencia
             // 
