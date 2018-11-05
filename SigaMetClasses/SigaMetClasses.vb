@@ -23,33 +23,34 @@ Namespace Enumeradores
         Ultimo = 5
     End Enum
 
-    Public Enum enumTipoCobro
-        Vales = 16
-        Cheque = 3
-        Cambio = 4
-        EfectivoVales = 5
-        Efectivo = 51
-        TarjetaCredito = 6
-        FichaDeposito = 7
-        NotaCredito = 12
-        NotaIngreso = 13
-        AplicacionAnticipo = 21 ' NO ESTA EN LABASE DE DATOS
-        'Se agregó para captura de transferencias bancarias
-        '23-03-2005 JAG
-        Transferencia = 10
+	Public Enum enumTipoCobro
+		ValesCaja = 2
+		Vales = 16
+		Cheque = 3
+		Cambio = 4
+		EfectivoVales = 5
+		Efectivo = 51
+		TarjetaCredito = 6
+		FichaDeposito = 7
+		NotaCredito = 12
+		NotaIngreso = 13
+		AplicacionAnticipo = 21 ' NO ESTA EN LABASE DE DATOS
+		'Se agregó para captura de transferencias bancarias
+		'23-03-2005 JAG
+		Transferencia = 10
 
-        'Se agregó para control de saldos a favor
-        '01-04-2005 JAG
-        SaldoAFavor = 14
-        DacionEnPago = 20 'No estan en la BD 1.30 sigametDEVTB
-        TarjetaDebito = 6
-        TarjetaDeDebito = 19
-        TarjetaServicio = 22
+		'Se agregó para control de saldos a favor
+		'01-04-2005 JAG
+		SaldoAFavor = 14
+		DacionEnPago = 20 'No estan en la BD 1.30 sigametDEVTB
+		TarjetaDebito = 6
+		TarjetaDeDebito = 19
+		TarjetaServicio = 22
 
-        'AplicacionAnticipo = 0 No estan en la BD 1.30 sigametDEVTB
-    End Enum
+		'AplicacionAnticipo = 0 No estan en la BD 1.30 sigametDEVTB
+	End Enum
 
-    Public Enum enumTipoOperacionCatalogo
+	Public Enum enumTipoOperacionCatalogo
         Agregar = 1
         Eliminar = 2
         Modificar = 3
