@@ -4634,7 +4634,59 @@ Public Class AltaPagoTarjeta
     End Function
 
 
+    Public Function ConsultaCargoTarjeta(ByVal FechaIni As Date, ByVal FechaFin As Date, ByVal NumCliente As Int64) As DataTable
+        Dim DtCargoTarjeta As New DataTable
+        Dim cmd As New SqlCommand("spCyCConsultaPagosTarjetaPorFechaAlta")
 
+        Dim dr As SqlDataReader
+
+        Try
+            AbreConexion()
+
+            cmd.Connection = DataLayer.Conexion
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.Add("@FechaIni", SqlDbType.Date).Value = FechaIni
+            cmd.Parameters.Add("@FechaFin", SqlDbType.Date).Value = FechaFin
+            If NumCliente > 0 Then
+                cmd.Parameters.Add("@NumCliente", SqlDbType.BigInt).Value = NumCliente
+            End If
+
+
+            dr = cmd.ExecuteReader()
+
+            DtCargoTarjeta.Load(dr)
+        Catch ex As Exception
+            EventLog.WriteEntry("SigametClasses " & ex.Source, ex.Message, EventLogEntryType.Error)
+            Throw ex
+        End Try
+
+        Return DtCargoTarjeta
+    End Function
+
+    Public Function ConsultaCargoTarjetaPorAnioFolio(ByVal Anio As Integer, ByVal Folio As Integer) As DataTable
+        Dim DtCargoTarjeta As New DataTable
+        Dim cmd As New SqlCommand("spCyCConsultaPagosTarjetaPorFolioAnio")
+
+        Dim dr As SqlDataReader
+
+        Try
+            AbreConexion()
+
+            cmd.Connection = DataLayer.Conexion
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.Add("@Anio", SqlDbType.Int).Value = Anio
+            cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio
+            dr = cmd.ExecuteReader()
+
+            DtCargoTarjeta.Load(dr)
+        Catch ex As Exception
+            EventLog.WriteEntry("SigametClasses " & ex.Source, ex.Message, EventLogEntryType.Error)
+            Throw ex
+        End Try
+
+        Return DtCargoTarjeta
+
+    End Function
 End Class
 #End Region
 
@@ -11154,6 +11206,7 @@ Public Module Main
         Dim cmd As New SqlCommand("spCBConsultaAfiliacionTC", conn)
 
         Try
+
 
             conn.Open()
         Catch

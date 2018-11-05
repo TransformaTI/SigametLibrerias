@@ -26,19 +26,19 @@ Partial Class frmConsultaPagosAreaTarjeta
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmConsultaPagosAreaTarjeta))
         Me.tbrPrincipal = New System.Windows.Forms.ToolBar()
         Me.BtnAlta = New System.Windows.Forms.ToolBarButton()
-        Me.imgLista = New System.Windows.Forms.ImageList(Me.components)
         Me.BtnModificar = New System.Windows.Forms.ToolBarButton()
         Me.BtnCancelar = New System.Windows.Forms.ToolBarButton()
         Me.BtnSalir = New System.Windows.Forms.ToolBarButton()
+        Me.imgLista = New System.Windows.Forms.ImageList(Me.components)
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.grdPagosTarjeta = New System.Windows.Forms.DataGrid()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.LblFechaAlta = New System.Windows.Forms.Label()
-        Me.dtpTarjetaCreditoFDocto = New System.Windows.Forms.DateTimePicker()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.TxtCliente = New System.Windows.Forms.TextBox()
+        Me.dtpFfinal = New System.Windows.Forms.DateTimePicker()
         Me.BtnBuscar = New System.Windows.Forms.Button()
-        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.TxtNumCliente = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.dtpFInicio = New System.Windows.Forms.DateTimePicker()
+        Me.LblFechaAlta = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         CType(Me.grdPagosTarjeta, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
@@ -65,21 +65,6 @@ Partial Class frmConsultaPagosAreaTarjeta
         Me.BtnAlta.Tag = "Alta"
         Me.BtnAlta.Text = "Alta"
         '
-        'imgLista
-        '
-        Me.imgLista.ImageStream = CType(resources.GetObject("imgLista.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgLista.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgLista.Images.SetKeyName(0, "")
-        Me.imgLista.Images.SetKeyName(1, "")
-        Me.imgLista.Images.SetKeyName(2, "")
-        Me.imgLista.Images.SetKeyName(3, "")
-        Me.imgLista.Images.SetKeyName(4, "")
-        Me.imgLista.Images.SetKeyName(5, "")
-        Me.imgLista.Images.SetKeyName(6, "")
-        Me.imgLista.Images.SetKeyName(7, "")
-        Me.imgLista.Images.SetKeyName(8, "")
-        Me.imgLista.Images.SetKeyName(9, "delete-sign.png")
-        '
         'BtnModificar
         '
         Me.BtnModificar.ImageIndex = 8
@@ -100,6 +85,21 @@ Partial Class frmConsultaPagosAreaTarjeta
         Me.BtnSalir.Name = "BtnSalir"
         Me.BtnSalir.Tag = "Salir"
         Me.BtnSalir.Text = "Salir"
+        '
+        'imgLista
+        '
+        Me.imgLista.ImageStream = CType(resources.GetObject("imgLista.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgLista.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgLista.Images.SetKeyName(0, "")
+        Me.imgLista.Images.SetKeyName(1, "")
+        Me.imgLista.Images.SetKeyName(2, "")
+        Me.imgLista.Images.SetKeyName(3, "")
+        Me.imgLista.Images.SetKeyName(4, "")
+        Me.imgLista.Images.SetKeyName(5, "")
+        Me.imgLista.Images.SetKeyName(6, "")
+        Me.imgLista.Images.SetKeyName(7, "")
+        Me.imgLista.Images.SetKeyName(8, "")
+        Me.imgLista.Images.SetKeyName(9, "delete-sign.png")
         '
         'GroupBox1
         '
@@ -127,11 +127,11 @@ Partial Class frmConsultaPagosAreaTarjeta
         '
         'GroupBox2
         '
-        Me.GroupBox2.Controls.Add(Me.DateTimePicker1)
+        Me.GroupBox2.Controls.Add(Me.dtpFfinal)
         Me.GroupBox2.Controls.Add(Me.BtnBuscar)
-        Me.GroupBox2.Controls.Add(Me.TxtCliente)
+        Me.GroupBox2.Controls.Add(Me.TxtNumCliente)
         Me.GroupBox2.Controls.Add(Me.Label1)
-        Me.GroupBox2.Controls.Add(Me.dtpTarjetaCreditoFDocto)
+        Me.GroupBox2.Controls.Add(Me.dtpFInicio)
         Me.GroupBox2.Controls.Add(Me.LblFechaAlta)
         Me.GroupBox2.Location = New System.Drawing.Point(18, 42)
         Me.GroupBox2.Name = "GroupBox2"
@@ -139,24 +139,30 @@ Partial Class frmConsultaPagosAreaTarjeta
         Me.GroupBox2.TabIndex = 7
         Me.GroupBox2.TabStop = False
         '
-        'LblFechaAlta
+        'dtpFfinal
         '
-        Me.LblFechaAlta.AutoSize = True
-        Me.LblFechaAlta.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblFechaAlta.Location = New System.Drawing.Point(6, 26)
-        Me.LblFechaAlta.Name = "LblFechaAlta"
-        Me.LblFechaAlta.Size = New System.Drawing.Size(68, 13)
-        Me.LblFechaAlta.TabIndex = 0
-        Me.LblFechaAlta.Text = "Fecha Alta"
+        Me.dtpFfinal.CustomFormat = ""
+        Me.dtpFfinal.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpFfinal.Location = New System.Drawing.Point(188, 26)
+        Me.dtpFfinal.Name = "dtpFfinal"
+        Me.dtpFfinal.Size = New System.Drawing.Size(85, 20)
+        Me.dtpFfinal.TabIndex = 7
         '
-        'dtpTarjetaCreditoFDocto
+        'BtnBuscar
         '
-        Me.dtpTarjetaCreditoFDocto.CustomFormat = ""
-        Me.dtpTarjetaCreditoFDocto.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpTarjetaCreditoFDocto.Location = New System.Drawing.Point(80, 26)
-        Me.dtpTarjetaCreditoFDocto.Name = "dtpTarjetaCreditoFDocto"
-        Me.dtpTarjetaCreditoFDocto.Size = New System.Drawing.Size(85, 20)
-        Me.dtpTarjetaCreditoFDocto.TabIndex = 3
+        Me.BtnBuscar.Location = New System.Drawing.Point(521, 23)
+        Me.BtnBuscar.Name = "BtnBuscar"
+        Me.BtnBuscar.Size = New System.Drawing.Size(89, 23)
+        Me.BtnBuscar.TabIndex = 6
+        Me.BtnBuscar.Text = "Buscar"
+        Me.BtnBuscar.UseVisualStyleBackColor = True
+        '
+        'TxtNumCliente
+        '
+        Me.TxtNumCliente.Location = New System.Drawing.Point(360, 22)
+        Me.TxtNumCliente.Name = "TxtNumCliente"
+        Me.TxtNumCliente.Size = New System.Drawing.Size(131, 20)
+        Me.TxtNumCliente.TabIndex = 5
         '
         'Label1
         '
@@ -168,30 +174,24 @@ Partial Class frmConsultaPagosAreaTarjeta
         Me.Label1.TabIndex = 4
         Me.Label1.Text = "Cliente"
         '
-        'TxtCliente
+        'dtpFInicio
         '
-        Me.TxtCliente.Location = New System.Drawing.Point(360, 22)
-        Me.TxtCliente.Name = "TxtCliente"
-        Me.TxtCliente.Size = New System.Drawing.Size(131, 20)
-        Me.TxtCliente.TabIndex = 5
+        Me.dtpFInicio.CustomFormat = ""
+        Me.dtpFInicio.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpFInicio.Location = New System.Drawing.Point(80, 26)
+        Me.dtpFInicio.Name = "dtpFInicio"
+        Me.dtpFInicio.Size = New System.Drawing.Size(85, 20)
+        Me.dtpFInicio.TabIndex = 3
         '
-        'BtnBuscar
+        'LblFechaAlta
         '
-        Me.BtnBuscar.Location = New System.Drawing.Point(521, 23)
-        Me.BtnBuscar.Name = "BtnBuscar"
-        Me.BtnBuscar.Size = New System.Drawing.Size(89, 23)
-        Me.BtnBuscar.TabIndex = 6
-        Me.BtnBuscar.Text = "Buscar"
-        Me.BtnBuscar.UseVisualStyleBackColor = True
-        '
-        'DateTimePicker1
-        '
-        Me.DateTimePicker1.CustomFormat = ""
-        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.DateTimePicker1.Location = New System.Drawing.Point(188, 26)
-        Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(85, 20)
-        Me.DateTimePicker1.TabIndex = 7
+        Me.LblFechaAlta.AutoSize = True
+        Me.LblFechaAlta.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblFechaAlta.Location = New System.Drawing.Point(6, 26)
+        Me.LblFechaAlta.Name = "LblFechaAlta"
+        Me.LblFechaAlta.Size = New System.Drawing.Size(68, 13)
+        Me.LblFechaAlta.TabIndex = 0
+        Me.LblFechaAlta.Text = "Fecha Alta"
         '
         'frmConsultaPagosAreaTarjeta
         '
@@ -221,9 +221,9 @@ Partial Class frmConsultaPagosAreaTarjeta
     Public WithEvents grdPagosTarjeta As Windows.Forms.DataGrid
     Friend WithEvents GroupBox2 As Windows.Forms.GroupBox
     Friend WithEvents BtnBuscar As Windows.Forms.Button
-    Friend WithEvents TxtCliente As Windows.Forms.TextBox
+    Friend WithEvents TxtNumCliente As Windows.Forms.TextBox
     Friend WithEvents Label1 As Windows.Forms.Label
-    Friend WithEvents dtpTarjetaCreditoFDocto As Windows.Forms.DateTimePicker
+    Friend WithEvents dtpFInicio As Windows.Forms.DateTimePicker
     Friend WithEvents LblFechaAlta As Windows.Forms.Label
-    Friend WithEvents DateTimePicker1 As Windows.Forms.DateTimePicker
+    Friend WithEvents dtpFfinal As Windows.Forms.DateTimePicker
 End Class
