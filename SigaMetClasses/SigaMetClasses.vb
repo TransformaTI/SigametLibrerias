@@ -8708,10 +8708,14 @@ Public Structure sTransferencia
 
     Private _Cliente As Integer
     Private _Fecha As Date
+    Private _BancoOrigen As Short
+    Private _CuentaOrigen As String
     Private _Documento As String
     Private _Monto As Decimal
     Private _Saldo As Decimal
     Private _Observaciones As String
+    Private _BancoDestino As Short
+    Private _CuentaDestino As String
 
 #End Region
 
@@ -8771,14 +8775,54 @@ Public Structure sTransferencia
         End Set
     End Property
 
+    Public Property BancoOrigen As Short
+        Get
+            Return _BancoOrigen
+        End Get
+        Set(value As Short)
+            _BancoOrigen = value
+        End Set
+    End Property
+
+    Public Property CuentaOrigen As String
+        Get
+            Return _CuentaOrigen
+        End Get
+        Set(value As String)
+            _CuentaOrigen = value
+        End Set
+    End Property
+
+    Public Property BancoDestino As Short
+        Get
+            Return _BancoDestino
+        End Get
+        Set(value As Short)
+            _BancoDestino = value
+        End Set
+    End Property
+
+    Public Property CuentaDestino As String
+        Get
+            Return _CuentaDestino
+        End Get
+        Set(value As String)
+            _CuentaDestino = value
+        End Set
+    End Property
+
 #End Region
 
     Public Sub New(ByVal cliente As Integer,
                    ByVal fecha As Date,
+                   ByVal bancoOrigen As Short,
+                   ByVal cuentaOrigen As String,
                    ByVal documento As String,
                    ByVal monto As Decimal,
                    ByVal saldo As Decimal,
-                   ByVal observaciones As String)
+                   ByVal observaciones As String,
+                   ByVal bancoDestino As Short,
+                   ByVal cuentaDestino As String)
 
         Me._Cliente = cliente
         Me._Fecha = fecha
@@ -8786,6 +8830,10 @@ Public Structure sTransferencia
         Me._Monto = monto
         Me._Saldo = saldo
         Me._Observaciones = observaciones
+        Me._BancoOrigen = bancoOrigen
+        Me._CuentaOrigen = cuentaOrigen
+        Me._BancoDestino = bancoDestino
+        Me._CuentaDestino = cuentaDestino
     End Sub
 
 End Structure
