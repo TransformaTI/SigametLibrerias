@@ -4645,8 +4645,6 @@ Public Class cCuenta
 
 	Public Function ConsultarPatron(ByVal TipoCobro As Integer) As String
 		Dim resultado As String
-
-
 		Dim cmd As New SqlCommand("uspConsultaPatronCuenta", DataLayer.Conexion)
 
 		With cmd
@@ -4678,6 +4676,42 @@ Public Class cCuenta
 
 		Return resultado
 	End Function
+
+	Public Function ConsultarCuentas(Optional ByVal empresa As Integer = 0, Optional banco As String = "") As List(Of String)
+		Dim resultado As New List(Of String)
+		Dim cmd As New SqlCommand("spSSCuentaBanco", DataLayer.Conexion)
+
+		With cmd
+			.CommandType = CommandType.StoredProcedure
+			.CommandText = "spSSCuentaBanco"
+			.Parameters.Add(New SqlParameter("@EmpresaContable", SqlDbType.Int)).Value = empresa
+		End With
+
+		Try
+			If cmd.Connection.State = ConnectionState.Closed Then
+				cmd.Connection.Open()
+			End If
+
+			Dim dr As SqlDataReader
+			dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+
+			While dr.Read()
+				If CType(dr("Descripcion"), String).Contains(banco) Then
+					resultado.Add(CType(dr("cuentaBanco"), String))
+				End If
+			End While
+
+		Catch ex As Exception
+			Throw New Exception(ex.Message)
+		Finally
+			If cmd.Connection.State = ConnectionState.Open Then
+				cmd.Connection.Close()
+			End If
+		End Try
+
+		Return resultado
+	End Function
+
 #End Region
 End Class
 #End Region
