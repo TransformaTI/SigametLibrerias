@@ -8,20 +8,22 @@ using System.Text;
 using System.Windows.Forms;
 using SigaMetClasses;
 using System.Data.SqlClient;
+using FormasPago;
 
 namespace LiquidacionSTN
 {
     public partial class frmTransferencia : Form
     {
         // Variables de clase
+        private List<SigaMetClasses.sTransferencia> _Transferencias = new List<sTransferencia>();
+        private DataTable _dtCuentas;
         private int _Cliente;
         private decimal _Monto;
         private decimal _Saldo;
         private short _BancoDestino;
-        private string _CuentaDestino;
-        private List<SigaMetClasses.sTransferencia> _Transferencias = new List<sTransferencia>();
         private bool _SePresentoForma;
-        private DataTable _dtCuentas;
+        private string _CuentaDestino;
+        private int _TipoCobro;
 
         #region Propiedades
 
@@ -44,11 +46,12 @@ namespace LiquidacionSTN
             InitializeComponent();
         }
 
-        public frmTransferencia(int cliente)
+        public frmTransferencia(int cliente, int tipoCobro)
         {
             InitializeComponent();
 
             _Cliente = cliente;
+            _TipoCobro = tipoCobro;
         }
 
         private void tsbAceptar_Click(object sender, EventArgs e)
@@ -92,16 +95,27 @@ namespace LiquidacionSTN
         {
             bool camposValidos = true;
             StringBuilder mensaje = new StringBuilder();
+            FormasPago.Cuenta obCuenta = new FormasPago.Cuenta();
 
             //  Cliente
             if (_Cliente == 0)
             {
                 mensaje.Append("- Debe proporcionar un cliente válido." + Environment.NewLine);
             }
+            //  Cuenta origen
+            if (txtCuentaOrigen.Text.Trim().Length > 0)
+            {
+                string cuenta = txtCuentaOrigen.Text.Trim();
+                if (!obCuenta.validarExpresionRegular(_TipoCobro, cuenta))
+                {
+                    mensaje.Append("- La cuenta origen que ingresó no cumple con las disposiciones del SAT." +
+                        Environment.NewLine);
+                }
+            }
             //  Documento
             if (!EsAlfanumerico(txtDocumento.Text.Trim()))
             {
-                mensaje.Append("- Ingresa un documento válido." + Environment.NewLine);
+                mensaje.Append("- Ingrese un documento válido." + Environment.NewLine);
             }
             //  Banco destino - Cuenta destino
             if (_BancoDestino == 0 || String.IsNullOrEmpty(_CuentaDestino))
@@ -114,7 +128,7 @@ namespace LiquidacionSTN
             decimal.TryParse(txtMonto.Text, out _Monto);
             if (_Monto == 0)
             {
-                mensaje.Append("- Ingresa un monto válido." + Environment.NewLine);
+                mensaje.Append("- Ingrese un monto válido.");
             }
 
             if (mensaje.ToString().Length > 0)

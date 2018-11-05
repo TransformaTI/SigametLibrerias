@@ -3359,7 +3359,7 @@ namespace LiquidacionSTN
                 {
                     if (_TipoPedido == 7)
                     {
-                        LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente);
+                        LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente, _TipoCobro);
                         if (frmTransferencia.ShowDialog() == DialogResult.OK)
                         {
                             CargarTransferencias(frmTransferencia.Transferencias);
