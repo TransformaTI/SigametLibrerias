@@ -741,8 +741,21 @@ Public Class SeleccionCalleColonia
             'Se agrega funcionalidad para ir a consultar al WS 
             Dim oDireccionEntrega As New RTGMCore.DireccionEntrega
             oDireccionEntrega = ConsultarDatosClienteCRM(Cliente)
+            Dim strDireccion As String = ""
+            Dim strManzana As String = ""
+            Dim strLote As String = ""
 
-            Me.lblCalle.Text = oDireccionEntrega.CalleNombre
+            If Not String.IsNullOrEmpty(oDireccionEntrega.Manzana) Then
+                strManzana = ", MANZANA: " + oDireccionEntrega.Manzana
+            End If
+            If Not String.IsNullOrEmpty(oDireccionEntrega.Lote) Then
+                strLote = ", LOTE: " + oDireccionEntrega.Lote
+            End If
+
+            strDireccion = oDireccionEntrega.CalleNombre & strManzana & strLote
+
+            'Me.lblCalle.Text = oDireccionEntrega.CalleNombre + " "
+            Me.lblCalle.Text = strDireccion
             Me.lblColonia.Text = oDireccionEntrega.ColoniaNombre
             Me.lblCP.Text = oDireccionEntrega.CP
             Me.lblEntreCalle1.Text = oDireccionEntrega.EntreCalle1Nombre
