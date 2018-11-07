@@ -3053,6 +3053,9 @@ namespace LiquidacionSTN
                         CerrarOrden.ShowDialog();
                         //LlenaGridFinal();
                         TotalGeneral();
+
+                        // Actualizar variables locales
+                        grdLiquidacion_CurrentCellChanged(sender, null);
                     }
                     else
                     {
@@ -3306,15 +3309,20 @@ namespace LiquidacionSTN
 
         private void InsertarTransferencias(DataRow drPedido, SqlConnection conexion, SqlTransaction transaccion)
         {
+            object bancoOrigen;
+            object cuentaOrigen;
+
             foreach (var transferencia in _Transferencias)
             {
-                _Folio = (int)drPedido["Folio"];
-                _AñoAtt = (short)drPedido["AñoAtt"];
+                _Folio          = (int)drPedido["Folio"];
+                _AñoAtt         = (short)drPedido["AñoAtt"];
+                bancoOrigen     = (transferencia.BancoOrigen > 0 ? transferencia.BancoOrigen : (object)System.DBNull.Value);
+                cuentaOrigen    = (transferencia.CuentaOrigen.Length > 0 ? transferencia.CuentaOrigen : (object)System.DBNull.Value);
 
-                SqlCommand cmd = new SqlCommand("spSTInsertaTransferencia", conexion);
+                SqlCommand cmd = new SqlCommand("spSTInsertaTransferencia", conexion, transaccion);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 300;
-                cmd.Transaction = transaccion;
+                //cmd.Transaction = transaccion;
 
                 cmd.Parameters.Add("@Total", SqlDbType.Money).Value = transferencia.Monto;
                 cmd.Parameters.Add("@NumeroCheque", SqlDbType.Char).Value = transferencia.Documento;
@@ -3327,6 +3335,10 @@ namespace LiquidacionSTN
                 cmd.Parameters.Add("@Usuario", SqlDbType.Char).Value = _Usuario;
                 cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = _Folio;
                 cmd.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = _AñoAtt;
+                cmd.Parameters.Add("@BancoOrigen", SqlDbType.SmallInt).Value = bancoOrigen;
+                cmd.Parameters.Add("@NumeroCuentaDestino", SqlDbType.Char).Value = cuentaOrigen;
+                cmd.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = transferencia.BancoDestino;
+                cmd.Parameters.Add("@NumeroCuenta", SqlDbType.Char).Value = transferencia.CuentaDestino;
 
                 try
                 {
@@ -3620,6 +3632,7 @@ namespace LiquidacionSTN
                 _StatusST = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 9]);
                 _TipoPedido = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 35]);
                 _Cliente = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
+                _TipoCobro = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 39]);
             }
             catch (Exception ex)
             {
