@@ -256,6 +256,7 @@
             this.cboBancoOrigen.Name = "cboBancoOrigen";
             this.cboBancoOrigen.Size = new System.Drawing.Size(187, 21);
             this.cboBancoOrigen.TabIndex = 10;
+            this.cboBancoOrigen.SelectedIndexChanged += new System.EventHandler(this.cboBancoOrigen_SelectedIndexChanged);
             // 
             // label9
             // 

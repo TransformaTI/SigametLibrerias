@@ -506,14 +506,14 @@ namespace LiquidacionSTN
             this.grdTarjerta = new System.Windows.Forms.DataGrid();
             this.lblTotalALiquidar = new System.Windows.Forms.Label();
             this.grdTransferencias = new System.Windows.Forms.DataGridView();
-            this.pnlTransferencias = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
             this.colCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDocumento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMonto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSaldo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colObservaciones = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pnlTransferencias = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdCheque)).BeginInit();
@@ -2225,29 +2225,6 @@ namespace LiquidacionSTN
             this.grdTransferencias.Size = new System.Drawing.Size(453, 58);
             this.grdTransferencias.TabIndex = 16;
             // 
-            // pnlTransferencias
-            // 
-            this.pnlTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pnlTransferencias.Controls.Add(this.label6);
-            this.pnlTransferencias.Controls.Add(this.grdTransferencias);
-            this.pnlTransferencias.Location = new System.Drawing.Point(8, 632);
-            this.pnlTransferencias.Name = "pnlTransferencias";
-            this.pnlTransferencias.Size = new System.Drawing.Size(455, 80);
-            this.pnlTransferencias.TabIndex = 17;
-            // 
-            // label6
-            // 
-            this.label6.BackColor = System.Drawing.Color.YellowGreen;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label6.Location = new System.Drawing.Point(0, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(451, 19);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Transferencias incluidas en la liquidación";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // colCliente
             // 
             this.colCliente.DataPropertyName = "Cliente";
@@ -2296,6 +2273,29 @@ namespace LiquidacionSTN
             this.colObservaciones.HeaderText = "Observaciones";
             this.colObservaciones.Name = "colObservaciones";
             this.colObservaciones.ReadOnly = true;
+            // 
+            // pnlTransferencias
+            // 
+            this.pnlTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlTransferencias.Controls.Add(this.label6);
+            this.pnlTransferencias.Controls.Add(this.grdTransferencias);
+            this.pnlTransferencias.Location = new System.Drawing.Point(8, 632);
+            this.pnlTransferencias.Name = "pnlTransferencias";
+            this.pnlTransferencias.Size = new System.Drawing.Size(455, 80);
+            this.pnlTransferencias.TabIndex = 17;
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.YellowGreen;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.DarkOliveGreen;
+            this.label6.Location = new System.Drawing.Point(0, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(451, 19);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Transferencias incluidas en la liquidación";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // frmLiquidacionST
             // 
@@ -3390,11 +3390,9 @@ namespace LiquidacionSTN
         private void CargarTransferencias(List<SigaMetClasses.sTransferencia> lsTransferencias)
         {
             grdTransferencias.DataSource = null;
-
-            foreach (var transferencia in lsTransferencias)
-            {
-                _Transferencias.Add(transferencia);
-            }
+            grdTransferencias.AutoGenerateColumns = false;
+            
+            lsTransferencias.ForEach(x => _Transferencias.Add(x));
             
             if (_Transferencias.Count > 0)
             {

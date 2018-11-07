@@ -20,9 +20,10 @@ namespace LiquidacionSTN
         private int _Cliente;
         private decimal _Monto;
         private decimal _Saldo;
+        private short _BancoOrigen;
         private short _BancoDestino;
-        private bool _SePresentoForma;
         private string _CuentaDestino;
+        private bool _SePresentoForma;
         private int _TipoCobro;
 
         #region Propiedades
@@ -75,10 +76,14 @@ namespace LiquidacionSTN
                 (
                     _Cliente,
                     dtpFecha.Value,
+                    _BancoOrigen,
+                    txtCuentaOrigen.Text.Trim(),
                     txtDocumento.Text.Trim(),
                     _Monto,
                     _Saldo,
-                    txtObservaciones.Text.Trim()
+                    txtObservaciones.Text.Trim(),
+                    _BancoDestino,
+                    _CuentaDestino
                 );
 
                 _Transferencias.Add(obTransferencia);
@@ -134,7 +139,7 @@ namespace LiquidacionSTN
             if (mensaje.ToString().Length > 0)
             {
                 camposValidos = false;
-                MessageBox.Show(mensaje.ToString(), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(mensaje.ToString(), "Atención", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
             return camposValidos;   
@@ -267,6 +272,15 @@ namespace LiquidacionSTN
                 {
                     MostrarAsteriscos(false);
                 }
+            }
+        }
+
+        private void cboBancoOrigen_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _BancoOrigen = 0;
+            if (cboBancoOrigen.SelectedValue != null)
+            {
+                short.TryParse(cboBancoOrigen.SelectedValue.ToString(), out _BancoOrigen);
             }
         }
     }
