@@ -26,10 +26,19 @@ Public Class frmConsultaPagosAreaTarjeta
     Private Sub MuestraAltaPagoTarjeta(ByVal sTipoLlamado As Byte)
         Dim frmAlta As frmAltaPagoTarjeta
 
-        If _Anio = 0 Then
+        If _Anio = 0 And sTipoLlamado = 1 Then
             MessageBox.Show("Seleccione un pago con tarjeta.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
+
+
+        If _Anio > 0 And sTipoLlamado = 1 Then
+            If grdPagosTarjeta.CurrentRow.Cells(9).Value.ToString().Trim = "EMITIDO" Or grdPagosTarjeta.CurrentRow.Cells(9).Value.ToString().Trim = "VALIDADO" Then
+                MessageBox.Show("No se puede modificar el cargo porque ya ha sido utilizado en Liquidación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+        End If
+
 
         CierraConexion()
         Cursor = Cursors.WaitCursor
@@ -55,17 +64,50 @@ Public Class frmConsultaPagosAreaTarjeta
             NumCliente = Convert.ToUInt64(TxtNumCliente.Text)
         End If
         CierraConexion()
+
         grdPagosTarjeta.DataSource = oPagoTarjeta.ConsultaCargoTarjeta(dtpFInicio.Value, dtpFfinal.Value, NumCliente)
+        oPagoTarjeta = Nothing
+    End Sub
+
+    Private Sub CancelaCargoTarjeta()
+        Dim oPagoTarjeta As New AltaPagoTarjeta
+        Dim Cancelacion As Boolean
+
+        Dim Respuesta = MessageBox.Show("¿Esta Seguro de eliminar el cargo?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+
+        If Respuesta = DialogResult.No Then
+            Exit Sub
+        End If
+
+        If _Anio = 0 Then
+            MessageBox.Show("Seleccione un pago con tarjeta.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        If grdPagosTarjeta.CurrentRow.Cells(9).Value.ToString().Trim = "EMITIDO" Or grdPagosTarjeta.CurrentRow.Cells(9).Value.ToString().Trim = "VALIDADO" Then
+            MessageBox.Show("No se puede eliminar el cargo porque ya ha sido utilizado en Liquidación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+
+        Cancelacion = oPagoTarjeta.CancelaCargoTarjeta(grdPagosTarjeta.CurrentRow.Cells(6).Value.ToString(), grdPagosTarjeta.CurrentRow.Cells(7).Value.ToString(), _Usuario)
+
+        If Cancelacion = True Then
+            MessageBox.Show("La información se actualizó correctamente.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            BuscarCargosTarjetaPorFechaAlta()
+        End If
 
         oPagoTarjeta = Nothing
     End Sub
+    Private Sub SeleccionaPagoTarjeta()
+        If grdPagosTarjeta.CurrentRow.Index >= 0 Then
+            _Folio = CInt(grdPagosTarjeta.CurrentRow.Cells(7).Value.ToString())
+            _Anio = CInt(grdPagosTarjeta.CurrentRow.Cells(6).Value.ToString())
+
+        End If
+    End Sub
 #End Region
 #Region "Eventos"
-
-
-    Private Sub frmConsultaPagosAreaTarjeta_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-    End Sub
 
 
     Private Sub tbrPrincipal_ButtonClick(sender As Object, e As Windows.Forms.ToolBarButtonClickEventArgs) Handles tbrPrincipal.ButtonClick
@@ -74,7 +116,10 @@ Public Class frmConsultaPagosAreaTarjeta
                 MuestraAltaPagoTarjeta(0)
             Case Is = "Modificar"
                 MuestraAltaPagoTarjeta(1)
-
+            Case Is = "Cancelar"
+                CancelaCargoTarjeta()
+            Case Is = "Salir"
+                Me.Close()
         End Select
     End Sub
 
@@ -82,21 +127,12 @@ Public Class frmConsultaPagosAreaTarjeta
         BuscarCargosTarjetaPorFechaAlta()
     End Sub
     Private Sub TxtNumCliente_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNumCliente.KeyPress
-
-
         SoloNumeros(sender, e)
     End Sub
 
-    Private Sub grdPagosTarjeta_Navigate(sender As Object, ne As NavigateEventArgs) Handles grdPagosTarjeta.Navigate
-
-    End Sub
 
     Private Sub grdPagosTarjeta_DoubleClick(sender As Object, e As EventArgs) Handles grdPagosTarjeta.DoubleClick
-        If grdPagosTarjeta.CurrentRowIndex >= 0 Then
-            _Folio = CInt(grdPagosTarjeta.Item(grdPagosTarjeta.CurrentRowIndex, 1))
-            _Anio = CInt(grdPagosTarjeta.Item(grdPagosTarjeta.CurrentRowIndex, 0))
-
-        End If
+        SeleccionaPagoTarjeta()
     End Sub
 
     Private Sub TxtNumCliente_TextChanged(sender As Object, e As EventArgs) Handles TxtNumCliente.TextChanged
@@ -107,6 +143,15 @@ Public Class frmConsultaPagosAreaTarjeta
         If (e.Button = MouseButtons.Right) Then
             Exit Sub
         End If
+    End Sub
+
+
+    Private Sub grdPagosTarjeta_RowDividerDoubleClick(sender As Object, e As DataGridViewRowDividerDoubleClickEventArgs) Handles grdPagosTarjeta.RowDividerDoubleClick
+
+    End Sub
+
+    Private Sub grdPagosTarjeta_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdPagosTarjeta.CellContentClick
+        SeleccionaPagoTarjeta()
     End Sub
 End Class
 #End Region

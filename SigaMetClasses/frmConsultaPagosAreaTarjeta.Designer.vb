@@ -31,7 +31,7 @@ Partial Class frmConsultaPagosAreaTarjeta
         Me.BtnSalir = New System.Windows.Forms.ToolBarButton()
         Me.imgLista = New System.Windows.Forms.ImageList(Me.components)
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.grdPagosTarjeta = New System.Windows.Forms.DataGrid()
+        Me.grdPagosTarjeta = New System.Windows.Forms.DataGridView()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.dtpFfinal = New System.Windows.Forms.DateTimePicker()
         Me.BtnBuscar = New System.Windows.Forms.Button()
@@ -55,7 +55,7 @@ Partial Class frmConsultaPagosAreaTarjeta
         Me.tbrPrincipal.Location = New System.Drawing.Point(0, 0)
         Me.tbrPrincipal.Name = "tbrPrincipal"
         Me.tbrPrincipal.ShowToolTips = True
-        Me.tbrPrincipal.Size = New System.Drawing.Size(741, 36)
+        Me.tbrPrincipal.Size = New System.Drawing.Size(706, 36)
         Me.tbrPrincipal.TabIndex = 4
         '
         'BtnAlta
@@ -112,18 +112,15 @@ Partial Class frmConsultaPagosAreaTarjeta
         '
         'grdPagosTarjeta
         '
-        Me.grdPagosTarjeta.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.grdPagosTarjeta.BackgroundColor = System.Drawing.Color.WhiteSmoke
-        Me.grdPagosTarjeta.CaptionText = "Pagos Area  Tarjetas de Crédito"
-        Me.grdPagosTarjeta.DataMember = ""
-        Me.grdPagosTarjeta.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.grdPagosTarjeta.Location = New System.Drawing.Point(0, 19)
+        Me.grdPagosTarjeta.AllowUserToAddRows = False
+        Me.grdPagosTarjeta.AllowUserToDeleteRows = False
+        Me.grdPagosTarjeta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.grdPagosTarjeta.Location = New System.Drawing.Point(6, 19)
         Me.grdPagosTarjeta.Name = "grdPagosTarjeta"
         Me.grdPagosTarjeta.ReadOnly = True
-        Me.grdPagosTarjeta.Size = New System.Drawing.Size(676, 144)
-        Me.grdPagosTarjeta.TabIndex = 6
+        Me.grdPagosTarjeta.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.grdPagosTarjeta.Size = New System.Drawing.Size(660, 154)
+        Me.grdPagosTarjeta.TabIndex = 7
         '
         'GroupBox2
         '
@@ -197,7 +194,7 @@ Partial Class frmConsultaPagosAreaTarjeta
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(741, 321)
+        Me.ClientSize = New System.Drawing.Size(706, 321)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.tbrPrincipal)
@@ -218,7 +215,6 @@ Partial Class frmConsultaPagosAreaTarjeta
     Friend WithEvents BtnCancelar As Windows.Forms.ToolBarButton
     Friend WithEvents BtnSalir As Windows.Forms.ToolBarButton
     Friend WithEvents GroupBox1 As Windows.Forms.GroupBox
-    Public WithEvents grdPagosTarjeta As Windows.Forms.DataGrid
     Friend WithEvents GroupBox2 As Windows.Forms.GroupBox
     Friend WithEvents BtnBuscar As Windows.Forms.Button
     Friend WithEvents TxtNumCliente As Windows.Forms.TextBox
@@ -226,4 +222,5 @@ Partial Class frmConsultaPagosAreaTarjeta
     Friend WithEvents dtpFInicio As Windows.Forms.DateTimePicker
     Friend WithEvents LblFechaAlta As Windows.Forms.Label
     Friend WithEvents dtpFfinal As Windows.Forms.DateTimePicker
+    Friend WithEvents grdPagosTarjeta As Windows.Forms.DataGridView
 End Class
