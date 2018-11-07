@@ -118,6 +118,7 @@ Partial Class frmConsultaPagosAreaTarjeta
         Me.grdPagosTarjeta.Location = New System.Drawing.Point(6, 19)
         Me.grdPagosTarjeta.Name = "grdPagosTarjeta"
         Me.grdPagosTarjeta.ReadOnly = True
+        Me.grdPagosTarjeta.RowHeadersVisible = False
         Me.grdPagosTarjeta.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.grdPagosTarjeta.Size = New System.Drawing.Size(660, 154)
         Me.grdPagosTarjeta.TabIndex = 7

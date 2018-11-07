@@ -4678,7 +4678,7 @@ Public Class AltaPagoTarjeta
             .Parameters.Add(New SqlParameter("@Autotanque", SqlDbType.SmallInt)).Value = Autotanque
             .Parameters.Add(New SqlParameter("@Meses", SqlDbType.SmallInt)).Value = Meses
             .Parameters.Add(New SqlParameter("@NumeroTarjeta", SqlDbType.VarChar, 20)).Value = NumeroTarjeta
-            .Parameters.Add(New SqlParameter("@Banco", SqlDbType.SmallInt)).Value = Cliente
+            .Parameters.Add(New SqlParameter("@Banco", SqlDbType.SmallInt)).Value = Banco
             .Parameters.Add(New SqlParameter("@Litros", SqlDbType.Decimal, 14, 2)).Value = Litros
             .Parameters.Add(New SqlParameter("@Importe", SqlDbType.Decimal)).Value = Importe
             .Parameters.Add(New SqlParameter("@Remision", SqlDbType.VarChar, 20)).Value = Remision

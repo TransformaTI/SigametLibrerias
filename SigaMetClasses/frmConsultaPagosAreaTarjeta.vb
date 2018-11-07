@@ -46,7 +46,8 @@ Public Class frmConsultaPagosAreaTarjeta
         frmAlta.modoOperacion = sTipoLlamado
         frmAlta.Folio = _Folio
         frmAlta.Anio = _Anio
-        frmAlta.Show()
+        frmAlta.ShowDialog()
+        BuscarCargosTarjetaPorFechaAlta()
         Cursor = Cursors.Default
 
     End Sub
@@ -151,6 +152,14 @@ Public Class frmConsultaPagosAreaTarjeta
     End Sub
 
     Private Sub grdPagosTarjeta_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdPagosTarjeta.CellContentClick
+        SeleccionaPagoTarjeta()
+    End Sub
+
+    Private Sub grdPagosTarjeta_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdPagosTarjeta.CellClick
+        SeleccionaPagoTarjeta()
+    End Sub
+
+    Private Sub grdPagosTarjeta_CellContentDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdPagosTarjeta.CellContentDoubleClick
         SeleccionaPagoTarjeta()
     End Sub
 End Class

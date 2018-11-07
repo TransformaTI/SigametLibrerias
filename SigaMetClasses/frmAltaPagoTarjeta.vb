@@ -297,13 +297,10 @@ Public Class frmAltaPagoTarjeta
 
             ConsultaCargoTarjeta()
             txtcliente.Enabled = True
-            rdCargoPorCobranza.Enabled = True
-            rdCargoPorVenta.Enabled = True
 
         Else
             txtcliente.Enabled = False
-            rdCargoPorCobranza.Enabled = False
-            rdCargoPorVenta.Enabled = False
+
         End If
 
 
