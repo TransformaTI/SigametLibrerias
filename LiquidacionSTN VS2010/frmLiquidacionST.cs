@@ -506,14 +506,14 @@ namespace LiquidacionSTN
             this.grdTarjerta = new System.Windows.Forms.DataGrid();
             this.lblTotalALiquidar = new System.Windows.Forms.Label();
             this.grdTransferencias = new System.Windows.Forms.DataGridView();
-            this.pnlTransferencias = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
             this.colCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDocumento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMonto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSaldo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colObservaciones = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pnlTransferencias = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdCheque)).BeginInit();
@@ -2225,29 +2225,6 @@ namespace LiquidacionSTN
             this.grdTransferencias.Size = new System.Drawing.Size(453, 58);
             this.grdTransferencias.TabIndex = 16;
             // 
-            // pnlTransferencias
-            // 
-            this.pnlTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pnlTransferencias.Controls.Add(this.label6);
-            this.pnlTransferencias.Controls.Add(this.grdTransferencias);
-            this.pnlTransferencias.Location = new System.Drawing.Point(8, 632);
-            this.pnlTransferencias.Name = "pnlTransferencias";
-            this.pnlTransferencias.Size = new System.Drawing.Size(455, 80);
-            this.pnlTransferencias.TabIndex = 17;
-            // 
-            // label6
-            // 
-            this.label6.BackColor = System.Drawing.Color.YellowGreen;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label6.Location = new System.Drawing.Point(0, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(451, 19);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Transferencias incluidas en la liquidación";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // colCliente
             // 
             this.colCliente.DataPropertyName = "Cliente";
@@ -2296,6 +2273,29 @@ namespace LiquidacionSTN
             this.colObservaciones.HeaderText = "Observaciones";
             this.colObservaciones.Name = "colObservaciones";
             this.colObservaciones.ReadOnly = true;
+            // 
+            // pnlTransferencias
+            // 
+            this.pnlTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlTransferencias.Controls.Add(this.label6);
+            this.pnlTransferencias.Controls.Add(this.grdTransferencias);
+            this.pnlTransferencias.Location = new System.Drawing.Point(8, 632);
+            this.pnlTransferencias.Name = "pnlTransferencias";
+            this.pnlTransferencias.Size = new System.Drawing.Size(455, 80);
+            this.pnlTransferencias.TabIndex = 17;
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.YellowGreen;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.DarkOliveGreen;
+            this.label6.Location = new System.Drawing.Point(0, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(451, 19);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Transferencias incluidas en la liquidación";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // frmLiquidacionST
             // 
@@ -3053,6 +3053,9 @@ namespace LiquidacionSTN
                         CerrarOrden.ShowDialog();
                         //LlenaGridFinal();
                         TotalGeneral();
+
+                        // Actualizar variables locales
+                        grdLiquidacion_CurrentCellChanged(sender, null);
                     }
                     else
                     {
@@ -3306,20 +3309,23 @@ namespace LiquidacionSTN
 
         private void InsertarTransferencias(DataRow drPedido, SqlConnection conexion, SqlTransaction transaccion)
         {
+            object bancoOrigen;
+            object cuentaOrigen;
+
             foreach (var transferencia in _Transferencias)
             {
-                _Folio = (int)drPedido["Folio"];
-                _AñoAtt = (short)drPedido["AñoAtt"];
+                _Folio          = (int)drPedido["Folio"];
+                _AñoAtt         = (short)drPedido["AñoAtt"];
+                bancoOrigen     = (transferencia.BancoOrigen > 0 ? transferencia.BancoOrigen : (object)System.DBNull.Value);
+                cuentaOrigen    = (transferencia.CuentaOrigen.Length > 0 ? transferencia.CuentaOrigen : (object)System.DBNull.Value);
 
-                SqlCommand cmd = new SqlCommand("spSTInsertaTransferencia", conexion);
+                SqlCommand cmd = new SqlCommand("spSTInsertaTransferencia", conexion, transaccion);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 300;
-                cmd.Transaction = transaccion;
 
                 cmd.Parameters.Add("@Total", SqlDbType.Money).Value = transferencia.Monto;
                 cmd.Parameters.Add("@NumeroCheque", SqlDbType.Char).Value = transferencia.Documento;
                 cmd.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = transferencia.Fecha;
-                //cmd.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = tipoCobro;
                 cmd.Parameters.Add("@Observaciones", SqlDbType.VarChar).Value 
                     = (transferencia.Observaciones.Length > 0 ? transferencia.Observaciones : (object)System.DBNull.Value);
                 cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = transferencia.Cliente;
@@ -3327,6 +3333,10 @@ namespace LiquidacionSTN
                 cmd.Parameters.Add("@Usuario", SqlDbType.Char).Value = _Usuario;
                 cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = _Folio;
                 cmd.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = _AñoAtt;
+                cmd.Parameters.Add("@BancoOrigen", SqlDbType.SmallInt).Value = bancoOrigen;
+                cmd.Parameters.Add("@NumeroCuentaDestino", SqlDbType.Char).Value = cuentaOrigen;
+                cmd.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = transferencia.BancoDestino;
+                cmd.Parameters.Add("@NumeroCuenta", SqlDbType.Char).Value = transferencia.CuentaDestino;
 
                 try
                 {
@@ -3359,7 +3369,7 @@ namespace LiquidacionSTN
                 {
                     if (_TipoPedido == 7)
                     {
-                        LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente);
+                        LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente, _TipoCobro);
                         if (frmTransferencia.ShowDialog() == DialogResult.OK)
                         {
                             CargarTransferencias(frmTransferencia.Transferencias);
@@ -3390,11 +3400,9 @@ namespace LiquidacionSTN
         private void CargarTransferencias(List<SigaMetClasses.sTransferencia> lsTransferencias)
         {
             grdTransferencias.DataSource = null;
-
-            foreach (var transferencia in lsTransferencias)
-            {
-                _Transferencias.Add(transferencia);
-            }
+            grdTransferencias.AutoGenerateColumns = false;
+            
+            lsTransferencias.ForEach(x => _Transferencias.Add(x));
             
             if (_Transferencias.Count > 0)
             {
@@ -3622,6 +3630,7 @@ namespace LiquidacionSTN
                 _StatusST = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 9]);
                 _TipoPedido = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 35]);
                 _Cliente = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
+                _TipoCobro = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 39]);
             }
             catch (Exception ex)
             {
