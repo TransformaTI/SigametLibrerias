@@ -4614,6 +4614,102 @@ Public Class AltaPagoTarjeta
 
     End Sub
 
+    Public Function CancelaCargoTarjeta(ByVal Anio As Integer, ByVal Folio As Integer, ByVal UsuarioCancela As String) As Boolean
+        Dim bReturn As Boolean
+
+        CierraConexion()
+
+        Dim cmd As New SqlCommand("spCyCCancelaCargoTarjeta")
+        With cmd
+            .CommandType = CommandType.StoredProcedure
+            .Parameters.Add(New SqlParameter("@Anio", SqlDbType.Int)).Value = Anio
+            .Parameters.Add(New SqlParameter("@Folio", SqlDbType.Int)).Value = Folio
+            .Parameters.Add(New SqlParameter("@UsuarioCancela", SqlDbType.Char)).Value = UsuarioCancela
+
+        End With
+
+        Try
+            AbreConexion()
+            cmd.Connection = DataLayer.Conexion
+            cmd.ExecuteNonQuery()
+            bReturn = True
+        Catch ex As Exception
+            bReturn = False
+            EventLog.WriteEntry("SigametClasses " & ex.Source, ex.Message, EventLogEntryType.Error)
+            Throw ex
+        Finally
+            CierraConexion()
+        End Try
+
+
+
+        Return bReturn
+    End Function
+
+    Public Function ModificaCargoTarjeta(ByVal Anio As Integer,
+        ByVal Folio As Integer,
+        ByVal Cliente As Integer,
+                                         ByVal Afiliacion As Integer,
+                                         ByVal TipoCobro As Integer,
+                                         ByVal TipoCargo As Integer,
+                                         ByVal Autotanque As Integer,
+                                         ByVal Meses As Integer,
+                                         ByVal NumeroTarjeta As String,
+                                         ByVal Banco As Integer,
+                                         ByVal Litros As Decimal,
+                                         ByVal Importe As Decimal,
+                                         ByVal Remision As String,
+                                         ByVal Autorizacion As String,
+                                         ByVal Observacion As String,
+                                         ByVal Ruta As Integer,
+                                         ByVal UsuarioModifica As String)
+        Dim bReturn As Boolean
+
+        CierraConexion()
+
+        Dim cmd As New SqlCommand("spCyCModificaCargoTarjeta")
+        With cmd
+            .CommandType = CommandType.StoredProcedure
+            .Parameters.Add(New SqlParameter("@Anio", SqlDbType.Int)).Value = Anio
+            .Parameters.Add(New SqlParameter("@Folio", SqlDbType.Int)).Value = Folio
+            .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = Cliente
+            .Parameters.Add(New SqlParameter("@Afiliacion", SqlDbType.Int)).Value = Afiliacion
+            .Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.TinyInt)).Value = TipoCobro
+            .Parameters.Add(New SqlParameter("@TipoCargo", SqlDbType.SmallInt)).Value = TipoCargo
+            .Parameters.Add(New SqlParameter("@Autotanque", SqlDbType.SmallInt)).Value = Autotanque
+            .Parameters.Add(New SqlParameter("@Meses", SqlDbType.SmallInt)).Value = Meses
+            .Parameters.Add(New SqlParameter("@NumeroTarjeta", SqlDbType.VarChar, 20)).Value = NumeroTarjeta
+            .Parameters.Add(New SqlParameter("@Banco", SqlDbType.SmallInt)).Value = Banco
+            .Parameters.Add(New SqlParameter("@Litros", SqlDbType.Decimal, 14, 2)).Value = Litros
+            .Parameters.Add(New SqlParameter("@Importe", SqlDbType.Decimal)).Value = Importe
+            .Parameters.Add(New SqlParameter("@Remision", SqlDbType.VarChar, 20)).Value = Remision
+            .Parameters.Add(New SqlParameter("@Autorizacion", SqlDbType.VarChar, 20)).Value = Autorizacion
+            .Parameters.Add(New SqlParameter("@Observacion", SqlDbType.VarChar, 100)).Value = Observacion
+            .Parameters.Add(New SqlParameter("@Ruta", SqlDbType.SmallInt)).Value = Ruta
+            .Parameters.Add(New SqlParameter("@UsuarioModifica", SqlDbType.VarChar, 15)).Value = UsuarioModifica
+
+
+
+        End With
+
+        Try
+            AbreConexion()
+            cmd.Connection = DataLayer.Conexion
+            cmd.ExecuteNonQuery()
+            bReturn = True
+        Catch ex As Exception
+            bReturn = False
+            EventLog.WriteEntry("SigametClasses " & ex.Source, ex.Message, EventLogEntryType.Error)
+            Throw ex
+        Finally
+            CierraConexion()
+        End Try
+
+
+
+        Return bReturn
+    End Function
+
     Public Function consultarAutotanques() As Dictionary(Of Int32, String)
         Dim diccionario As New Dictionary(Of Int32, String)
         Dim cmd As New SqlCommand("spLOGConsultaCamionesEstacionario")
@@ -4635,8 +4731,62 @@ Public Class AltaPagoTarjeta
     End Function
 
 
+    Public Function ConsultaCargoTarjeta(ByVal FechaIni As Date, ByVal FechaFin As Date, ByVal NumCliente As Int64) As DataTable
+        Dim DtCargoTarjeta As New DataTable
+        Dim cmd As New SqlCommand("spCyCConsultaPagosTarjetaPorFechaAlta")
 
+        Dim dr As SqlDataReader
+
+        Try
+            AbreConexion()
+
+            cmd.Connection = DataLayer.Conexion
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.Add("@FechaIni", SqlDbType.Date).Value = FechaIni
+            cmd.Parameters.Add("@FechaFin", SqlDbType.Date).Value = FechaFin
+            If NumCliente > 0 Then
+                cmd.Parameters.Add("@NumCliente", SqlDbType.BigInt).Value = NumCliente
+            End If
+
+
+            dr = cmd.ExecuteReader()
+
+            DtCargoTarjeta.Load(dr)
+        Catch ex As Exception
+            EventLog.WriteEntry("SigametClasses " & ex.Source, ex.Message, EventLogEntryType.Error)
+            Throw ex
+        End Try
+
+        Return DtCargoTarjeta
+    End Function
+
+    Public Function ConsultaCargoTarjetaPorAnioFolio(ByVal Anio As Integer, ByVal Folio As Integer) As DataTable
+        Dim DtCargoTarjeta As New DataTable
+        Dim cmd As New SqlCommand("spCyCConsultaPagosTarjetaPorFolioAnio")
+
+        Dim dr As SqlDataReader
+
+        Try
+            AbreConexion()
+
+            cmd.Connection = DataLayer.Conexion
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.Add("@Anio", SqlDbType.Int).Value = Anio
+            cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio
+            dr = cmd.ExecuteReader()
+
+            DtCargoTarjeta.Load(dr)
+        Catch ex As Exception
+            EventLog.WriteEntry("SigametClasses " & ex.Source, ex.Message, EventLogEntryType.Error)
+            Throw ex
+        End Try
+
+        Return DtCargoTarjeta
+
+    End Function
 End Class
+
+
 #End Region
 
 
@@ -4813,7 +4963,7 @@ Public Class cMovimientoAConciliarCobro
 			End If
 			cmd.ExecuteNonQuery()
 		Catch ex As Exception
-			Throw New Exception("Error en el registro del anticipo, detalles: " & ex.Message)
+			Throw New Exception("Error en el registro del anticipo, detalles:  " & ex.Message)
 		Finally
 			da.Dispose()
 			da = Nothing
@@ -11232,6 +11382,8 @@ Public Module Main
         Dim cmd As New SqlCommand("spCBConsultaAfiliacionTC", conn)
 
         Try
+
+
             conn.Open()
         Catch
             Throw New Exception(SigaMetClasses.M_NO_CONEXION)
