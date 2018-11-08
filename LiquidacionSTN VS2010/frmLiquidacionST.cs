@@ -3322,12 +3322,10 @@ namespace LiquidacionSTN
                 SqlCommand cmd = new SqlCommand("spSTInsertaTransferencia", conexion, transaccion);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 300;
-                //cmd.Transaction = transaccion;
 
                 cmd.Parameters.Add("@Total", SqlDbType.Money).Value = transferencia.Monto;
                 cmd.Parameters.Add("@NumeroCheque", SqlDbType.Char).Value = transferencia.Documento;
                 cmd.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = transferencia.Fecha;
-                //cmd.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = tipoCobro;
                 cmd.Parameters.Add("@Observaciones", SqlDbType.VarChar).Value 
                     = (transferencia.Observaciones.Length > 0 ? transferencia.Observaciones : (object)System.DBNull.Value);
                 cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = transferencia.Cliente;
