@@ -235,9 +235,9 @@ Public Class LiquidacionTransaccionada
         End Sub
 
         Public Sub CargaDatos(ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction)
-            Dim cmdComando As SqlCommand
-            Dim drAlmacen As SqlDataReader
-            Try
+			Dim cmdComando As SqlCommand
+			Dim drAlmacen As SqlDataReader
+			Try
                 cmdComando = New SqlCommand("spPTLMovimientoAlmacenTRN", Connection)
                 cmdComando.Transaction = Transaction
                 cmdComando.Parameters.Add("@Configuracion", SqlDbType.SmallInt).Value = Configuracion
@@ -261,8 +261,22 @@ Public Class LiquidacionTransaccionada
                 cmdComando.Dispose()
                 drAlmacen.Close()
             Catch exc As Exception
-                Throw exc
-            End Try
+				Try
+					cmdComando.Dispose()
+				Catch
+				End Try
+				Try
+					drAlmacen.Close()
+				Catch
+				End Try
+
+				If exc.Message.Contains("Datareader abierto") Then
+					Throw New Exception("Ocurrió un error al leer MovimientoAlmacen")
+				Else
+					Throw exc
+				End If
+
+			End Try
         End Sub
     End Class
 #End Region
