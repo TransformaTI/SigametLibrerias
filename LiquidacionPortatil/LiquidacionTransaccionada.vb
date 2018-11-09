@@ -64,8 +64,21 @@ Public Class LiquidacionTransaccionada
                 drAlmacen.Close()
 
             Catch exc As Exception
-                Throw exc
-            End Try
+				Try
+					cmdComando.Dispose()
+				Catch
+				End Try
+				Try
+					drAlmacen.Close()
+				Catch
+				End Try
+
+				If exc.Message.Contains("Datareader abierto") Then
+					Throw New Exception("Ocurrió un error al leer FolioMovimientoAlmacen")
+				Else
+					Throw exc
+				End If
+			End Try
         End Sub
 
     End Class
@@ -400,8 +413,21 @@ Public Class LiquidacionTransaccionada
                 cmdComando.Dispose()
                 drAlmacen.Close()
             Catch exc As Exception
-                Throw exc
-            End Try
+				Try
+					cmdComando.Dispose()
+				Catch
+				End Try
+				Try
+					drAlmacen.Close()
+				Catch
+				End Try
+
+				If exc.Message.Contains("Datareader abierto") Then
+					Throw New Exception("Ocurrió un error al leer MovimientoAProducto")
+				Else
+					Throw exc
+				End If
+			End Try
         End Sub
     End Class
 #End Region
@@ -535,29 +561,42 @@ Public Class LiquidacionTransaccionada
             Dim cmd As SqlCommand
             Dim IdentificadorAlmacenGas As Integer = Nothing
 
-            Try
-                cmd = New SqlCommand("spPTLMovimientoAProductoZonaTRN", Connection)
-                cmd.Transaction = Transaction
-                cmd.CommandType = CommandType.StoredProcedure
-                cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
-                cmd.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = AlmacenGas
-                cmd.Parameters.Add("@MovimientoAlmacen", SqlDbType.Int).Value = MovimientoAlmacen
-                cmd.Parameters.Add("@Producto", SqlDbType.Int).Value = Producto
-                cmd.Parameters.Add("@Cantidad", SqlDbType.Int).Value = Cantidad
-                cmd.Parameters.Add("@ZonaEconomica", SqlDbType.TinyInt).Value = ZonaEconomica
-                cmd.Parameters.Add("@Secuencia", SqlDbType.Int).Value = Secuencia
-                cmd.Parameters.Add("@Kilos", SqlDbType.Decimal).Value = Decimal.Round(Kilos, 3)
-                cmd.Parameters.Add("@Litros", SqlDbType.Decimal).Value = Decimal.Round(Litros, 3)
-                dr = cmd.ExecuteReader()
-                dr.Read()
-                _MovimientoAlmacen = CType(dr(0), Integer)
+			Try
+				cmd = New SqlCommand("spPTLMovimientoAProductoZonaTRN", Connection)
+				cmd.Transaction = Transaction
+				cmd.CommandType = CommandType.StoredProcedure
+				cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
+				cmd.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = AlmacenGas
+				cmd.Parameters.Add("@MovimientoAlmacen", SqlDbType.Int).Value = MovimientoAlmacen
+				cmd.Parameters.Add("@Producto", SqlDbType.Int).Value = Producto
+				cmd.Parameters.Add("@Cantidad", SqlDbType.Int).Value = Cantidad
+				cmd.Parameters.Add("@ZonaEconomica", SqlDbType.TinyInt).Value = ZonaEconomica
+				cmd.Parameters.Add("@Secuencia", SqlDbType.Int).Value = Secuencia
+				cmd.Parameters.Add("@Kilos", SqlDbType.Decimal).Value = Decimal.Round(Kilos, 3)
+				cmd.Parameters.Add("@Litros", SqlDbType.Decimal).Value = Decimal.Round(Litros, 3)
+				dr = cmd.ExecuteReader()
+				dr.Read()
+				_MovimientoAlmacen = CType(dr(0), Integer)
 
-                cmd.Dispose()
-                dr.Close()
-            Catch ex As Exception
-                _MovimientoAlmacen = 0
-                Throw ex
-            End Try
+				cmd.Dispose()
+				dr.Close()
+			Catch exc As Exception
+				_MovimientoAlmacen = 0
+				Try
+					cmd.Dispose()
+				Catch
+				End Try
+				Try
+					dr.Close()
+				Catch
+				End Try
+
+				If exc.Message.Contains("Datareader abierto") Then
+					Throw New Exception("Ocurrió un error al leer MovimientoAProductoZOna")
+				Else
+					Throw exc
+				End If
+			End Try
         End Sub
 
     End Class
@@ -790,36 +829,50 @@ Public Class LiquidacionTransaccionada
 
             Dim dr As SqlDataReader
             Dim cmd As SqlCommand
-            Try
-                cmd = New SqlCommand("spPTLLiquidacionPortatil", Connection)
-                cmd.Transaction = Transaction
-                cmd.CommandType = CommandType.StoredProcedure
+			Try
+				cmd = New SqlCommand("spPTLLiquidacionPortatil", Connection)
+				cmd.Transaction = Transaction
+				cmd.CommandType = CommandType.StoredProcedure
 
-                cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
-                cmd.Parameters.Add("@FechaAsignacion", SqlDbType.DateTime).Value = FAsignacion
-                cmd.Parameters.Add("@AnoAtt", SqlDbType.SmallInt).Value = AnoAtt
-                cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio
+				cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
+				cmd.Parameters.Add("@FechaAsignacion", SqlDbType.DateTime).Value = FAsignacion
+				cmd.Parameters.Add("@AnoAtt", SqlDbType.SmallInt).Value = AnoAtt
+				cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio
 
-                cmd.Parameters.Add("@LitrosVendidos", SqlDbType.Decimal).Value = Decimal.Round(LitrosVendidos, 3)
-                cmd.Parameters.Add("@FTerminoRuta", SqlDbType.DateTime).Value = FTerminoRuta
-                cmd.Parameters.Add("@LitrosLiquidados", SqlDbType.Decimal).Value = Decimal.Round(LitrosLiquidados, 3)
-                cmd.Parameters.Add("@ImporteCredito", SqlDbType.Money).Value = ImporteCredito
-                cmd.Parameters.Add("@ImporteContado", SqlDbType.Money).Value = ImporteContado
-                cmd.Parameters.Add("@FLiquidacion", SqlDbType.DateTime).Value = FLiquidacion
-                cmd.Parameters.Add("@LitrosContado", SqlDbType.Decimal).Value = Decimal.Round(LitrosContado, 3)
-                cmd.Parameters.Add("@LitrosCredito", SqlDbType.Decimal).Value = Decimal.Round(LitrosCredito, 3)
-                cmd.Parameters.Add("@FPreliquidacion", SqlDbType.DateTime).Value = FPreliquidacion
-                cmd.Parameters.Add("@TipoLiquidacion", SqlDbType.VarChar).Value = TipoLiquidacion
-                cmd.Parameters.Add("@UsuarioLiquidacion", SqlDbType.VarChar).Value = UsuarioLiquidacion
-                cmd.Parameters.Add("@LitrosObsequio", SqlDbType.Decimal).Value = Decimal.Round(LitrosObsequio, 3)
-                cmd.Parameters.Add("@ImporteObsequio", SqlDbType.Decimal).Value = Decimal.Round(ImporteObsequio, 3)
-                cmd.Parameters.Add("@KilosObsequio", SqlDbType.Decimal).Value = Decimal.Round(KilosObsequio, 3)
-                dr = cmd.ExecuteReader()
-                cmd.Dispose()
-                dr.Close()
-            Catch ex As Exception
-                MessageBox.Show(ex.Message, "Liquidación portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
+				cmd.Parameters.Add("@LitrosVendidos", SqlDbType.Decimal).Value = Decimal.Round(LitrosVendidos, 3)
+				cmd.Parameters.Add("@FTerminoRuta", SqlDbType.DateTime).Value = FTerminoRuta
+				cmd.Parameters.Add("@LitrosLiquidados", SqlDbType.Decimal).Value = Decimal.Round(LitrosLiquidados, 3)
+				cmd.Parameters.Add("@ImporteCredito", SqlDbType.Money).Value = ImporteCredito
+				cmd.Parameters.Add("@ImporteContado", SqlDbType.Money).Value = ImporteContado
+				cmd.Parameters.Add("@FLiquidacion", SqlDbType.DateTime).Value = FLiquidacion
+				cmd.Parameters.Add("@LitrosContado", SqlDbType.Decimal).Value = Decimal.Round(LitrosContado, 3)
+				cmd.Parameters.Add("@LitrosCredito", SqlDbType.Decimal).Value = Decimal.Round(LitrosCredito, 3)
+				cmd.Parameters.Add("@FPreliquidacion", SqlDbType.DateTime).Value = FPreliquidacion
+				cmd.Parameters.Add("@TipoLiquidacion", SqlDbType.VarChar).Value = TipoLiquidacion
+				cmd.Parameters.Add("@UsuarioLiquidacion", SqlDbType.VarChar).Value = UsuarioLiquidacion
+				cmd.Parameters.Add("@LitrosObsequio", SqlDbType.Decimal).Value = Decimal.Round(LitrosObsequio, 3)
+				cmd.Parameters.Add("@ImporteObsequio", SqlDbType.Decimal).Value = Decimal.Round(ImporteObsequio, 3)
+				cmd.Parameters.Add("@KilosObsequio", SqlDbType.Decimal).Value = Decimal.Round(KilosObsequio, 3)
+				dr = cmd.ExecuteReader()
+				cmd.Dispose()
+				dr.Close()
+			Catch exc As Exception
+				Try
+					cmd.Dispose()
+				Catch
+				End Try
+				Try
+					dr.Close()
+				Catch
+				End Try
+
+				If exc.Message.Contains("Datareader abierto") Then
+					Throw New Exception("Ocurrió un error al leer LiquidacionPortatil")
+				Else
+					Throw exc
+				End If
+				'MessageBox.Show(ex.Message, "Liquidación portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			End Try
         End Sub
 
 		Public Sub insertaMovimientoConciliar(ByVal TipoMovimientoAConciliar As Short,
@@ -1038,8 +1091,21 @@ Public Class LiquidacionTransaccionada
 
 				cmd.Dispose()
 				dr.Close()
-			Catch ex As Exception
-				Throw ex
+			Catch exc As Exception
+				Try
+					cmd.Dispose()
+				Catch
+				End Try
+				Try
+					dr.Close()
+				Catch
+				End Try
+
+				If exc.Message.Contains("Datareader abierto") Then
+					Throw New Exception("Ocurrió un error al leer LiquidacionCobro")
+				Else
+					Throw exc
+				End If
 			End Try
 
 		End Sub
@@ -1071,71 +1137,84 @@ Public Class LiquidacionTransaccionada
             Dim dr As SqlDataReader
             Dim cmd As SqlCommand
 
-            Try
-                'cmd = New SqlCommand("spPTLLiquidacionPedidoyCobroPedidoTRN", Connection)
-                cmd = New SqlCommand("spPTLLiquidacionPedidoyCobroPedidoTRNVersion2Remision", Connection)
-                cmd.Transaction = Transaction
-                cmd.CommandType = CommandType.StoredProcedure
-                cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
-                cmd.Parameters.Add("@Celula", SqlDbType.SmallInt).Value = Celula
-                cmd.Parameters.Add("@AnoPed", SqlDbType.SmallInt).Value = AnoPedido
-                cmd.Parameters.Add("@Pedido", SqlDbType.Int).Value = Pedido
-                cmd.Parameters.Add("@Producto", SqlDbType.Int).Value = Producto
-                cmd.Parameters.Add("@FPedido", SqlDbType.DateTime).Value = FPedido
-                cmd.Parameters.Add("@Precio", SqlDbType.Decimal).Value = Decimal.Round(Precio, 3)
-                cmd.Parameters.Add("@PrecioPublico", SqlDbType.Decimal).Value = Decimal.Round(PrecioPublico, 3)
-                cmd.Parameters.Add("@Importe", SqlDbType.Money).Value = Importe
-                cmd.Parameters.Add("@Impuesto", SqlDbType.Money).Value = Impuesto
-                cmd.Parameters.Add("@Total", SqlDbType.Money).Value = Total
-                cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = Status
-                cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
-                cmd.Parameters.Add("@FAlta", SqlDbType.DateTime).Value = FAlta
-                cmd.Parameters.Add("@Saldo", SqlDbType.Money).Value = Saldo
-                cmd.Parameters.Add("@PedidoReferencia", SqlDbType.VarChar).Value = PedidoReferencia
-                cmd.Parameters.Add("@Cartera", SqlDbType.TinyInt).Value = Cartera
-                cmd.Parameters.Add("@TipoCargo", SqlDbType.TinyInt).Value = TipoCargo
-                cmd.Parameters.Add("@RutaSuministro", SqlDbType.SmallInt).Value = RutaSuministro
-                cmd.Parameters.Add("@AnoCobro", SqlDbType.SmallInt).Value = AnoCobro
-                cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro 'Cobro se cambia la variable local del metodo por la variable global 
-                cmd.Parameters.Add("@Usuario", SqlDbType.VarChar).Value = Usuario
-                cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = Ruta
-                cmd.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = TipoCobro
-                cmd.Parameters.Add("@AnoAtt", SqlDbType.SmallInt).Value = AnoAtt
-                cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio  'Folio se cambia la variable local del metodo por la variable global 
-                cmd.Parameters.Add("@StatusCobranza", SqlDbType.VarChar).Value = StatusCobranza
-                cmd.Parameters.Add("@Autotanque", SqlDbType.SmallInt).Value = Autotanque
-                cmd.Parameters.Add("@FActualizacion", SqlDbType.DateTime).Value = FActualizacion
-                cmd.Parameters.Add("@FAtencion", SqlDbType.DateTime).Value = FAtencion
-                cmd.Parameters.Add("@ClientePortatil", SqlDbType.Int).Value = ClientePortatil
-                cmd.Parameters.Add("@MovimientoAlmacen", SqlDbType.Int).Value = MovimientoAlmacen
-                cmd.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = AlmacenGas
-                cmd.Parameters.Add("@TotalComisionPedido", SqlDbType.Money).Value = TotalComisionPedido
+			Try
+				'cmd = New SqlCommand("spPTLLiquidacionPedidoyCobroPedidoTRN", Connection)
+				cmd = New SqlCommand("spPTLLiquidacionPedidoyCobroPedidoTRNVersion2Remision", Connection)
+				cmd.Transaction = Transaction
+				cmd.CommandType = CommandType.StoredProcedure
+				cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
+				cmd.Parameters.Add("@Celula", SqlDbType.SmallInt).Value = Celula
+				cmd.Parameters.Add("@AnoPed", SqlDbType.SmallInt).Value = AnoPedido
+				cmd.Parameters.Add("@Pedido", SqlDbType.Int).Value = Pedido
+				cmd.Parameters.Add("@Producto", SqlDbType.Int).Value = Producto
+				cmd.Parameters.Add("@FPedido", SqlDbType.DateTime).Value = FPedido
+				cmd.Parameters.Add("@Precio", SqlDbType.Decimal).Value = Decimal.Round(Precio, 3)
+				cmd.Parameters.Add("@PrecioPublico", SqlDbType.Decimal).Value = Decimal.Round(PrecioPublico, 3)
+				cmd.Parameters.Add("@Importe", SqlDbType.Money).Value = Importe
+				cmd.Parameters.Add("@Impuesto", SqlDbType.Money).Value = Impuesto
+				cmd.Parameters.Add("@Total", SqlDbType.Money).Value = Total
+				cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = Status
+				cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+				cmd.Parameters.Add("@FAlta", SqlDbType.DateTime).Value = FAlta
+				cmd.Parameters.Add("@Saldo", SqlDbType.Money).Value = Saldo
+				cmd.Parameters.Add("@PedidoReferencia", SqlDbType.VarChar).Value = PedidoReferencia
+				cmd.Parameters.Add("@Cartera", SqlDbType.TinyInt).Value = Cartera
+				cmd.Parameters.Add("@TipoCargo", SqlDbType.TinyInt).Value = TipoCargo
+				cmd.Parameters.Add("@RutaSuministro", SqlDbType.SmallInt).Value = RutaSuministro
+				cmd.Parameters.Add("@AnoCobro", SqlDbType.SmallInt).Value = AnoCobro
+				cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro 'Cobro se cambia la variable local del metodo por la variable global 
+				cmd.Parameters.Add("@Usuario", SqlDbType.VarChar).Value = Usuario
+				cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = Ruta
+				cmd.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = TipoCobro
+				cmd.Parameters.Add("@AnoAtt", SqlDbType.SmallInt).Value = AnoAtt
+				cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio  'Folio se cambia la variable local del metodo por la variable global 
+				cmd.Parameters.Add("@StatusCobranza", SqlDbType.VarChar).Value = StatusCobranza
+				cmd.Parameters.Add("@Autotanque", SqlDbType.SmallInt).Value = Autotanque
+				cmd.Parameters.Add("@FActualizacion", SqlDbType.DateTime).Value = FActualizacion
+				cmd.Parameters.Add("@FAtencion", SqlDbType.DateTime).Value = FAtencion
+				cmd.Parameters.Add("@ClientePortatil", SqlDbType.Int).Value = ClientePortatil
+				cmd.Parameters.Add("@MovimientoAlmacen", SqlDbType.Int).Value = MovimientoAlmacen
+				cmd.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = AlmacenGas
+				cmd.Parameters.Add("@TotalComisionPedido", SqlDbType.Money).Value = TotalComisionPedido
 
-                cmd.Parameters.Add("@SerieRemision", SqlDbType.VarChar).Value = Serie
-                cmd.Parameters.Add("@Remision", SqlDbType.Int).Value = Remision
+				cmd.Parameters.Add("@SerieRemision", SqlDbType.VarChar).Value = Serie
+				cmd.Parameters.Add("@Remision", SqlDbType.Int).Value = Remision
 
-                If ZonaEconomica >= 0 Then
-                    cmd.Parameters.Add("@ZonaEconomica", SqlDbType.TinyInt).Value = ZonaEconomica
-                End If
+				If ZonaEconomica >= 0 Then
+					cmd.Parameters.Add("@ZonaEconomica", SqlDbType.TinyInt).Value = ZonaEconomica
+				End If
 
-                cmd.Parameters.Add("@Secuencia", SqlDbType.SmallInt).Value = Secuencia
-                cmd.Parameters.Add("@Cantidad", SqlDbType.Int).Value = Cantidad
-                cmd.Parameters.Add("@Kilos", SqlDbType.Decimal).Value = Decimal.Round(Kilos, 3)
-                cmd.Parameters.Add("@Descuento", SqlDbType.Decimal).Value = Decimal.Round(Descuento, 3)
-                cmd.Parameters.Add("@Observaciones", SqlDbType.VarChar).Value = Observaciones
-                cmd.Parameters.Add("@DescuentoAplicado", SqlDbType.Bit).Value = DescuentoAplicado
+				cmd.Parameters.Add("@Secuencia", SqlDbType.SmallInt).Value = Secuencia
+				cmd.Parameters.Add("@Cantidad", SqlDbType.Int).Value = Cantidad
+				cmd.Parameters.Add("@Kilos", SqlDbType.Decimal).Value = Decimal.Round(Kilos, 3)
+				cmd.Parameters.Add("@Descuento", SqlDbType.Decimal).Value = Decimal.Round(Descuento, 3)
+				cmd.Parameters.Add("@Observaciones", SqlDbType.VarChar).Value = Observaciones
+				cmd.Parameters.Add("@DescuentoAplicado", SqlDbType.Bit).Value = DescuentoAplicado
 
-                dr = cmd.ExecuteReader()
-                dr.Read()
+				dr = cmd.ExecuteReader()
+				dr.Read()
 
-                _AnoPedido = CType(dr(0), Short)
-                _Pedido = CType(dr(1), Integer)
+				_AnoPedido = CType(dr(0), Short)
+				_Pedido = CType(dr(1), Integer)
 
-                cmd.Dispose()
-                dr.Close()
-            Catch ex As Exception
-                Throw ex
-            End Try
+				cmd.Dispose()
+				dr.Close()
+			Catch exc As Exception
+				Try
+					cmd.Dispose()
+				Catch
+				End Try
+				Try
+					dr.Close()
+				Catch
+				End Try
+
+				If exc.Message.Contains("Datareader abierto") Then
+					Throw New Exception("Ocurrió un error al leer MovimientoAlmacen")
+				Else
+					Throw exc
+				End If
+			End Try
         End Sub
 
 
@@ -1212,8 +1291,22 @@ Public Class LiquidacionTransaccionada
 				dr = cmd.ExecuteReader()
 				cmd.Dispose()
 				dr.Close()
-			Catch ex As Exception
-				MessageBox.Show(ex.Message, "Liquidación portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			Catch exc As Exception
+				Try
+					cmd.Dispose()
+				Catch
+				End Try
+				Try
+					dr.Close()
+				Catch
+				End Try
+
+				If exc.Message.Contains("Datareader abierto") Then
+					Throw New Exception("Ocurrió un error al leer MovimientoAlmacen")
+				Else
+					Throw exc
+				End If
+				'MessageBox.Show(ex.Message, "Liquidación portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
 			End Try
 		End Sub
 
@@ -1290,8 +1383,22 @@ Public Class LiquidacionTransaccionada
 				dr = cmd.ExecuteReader()
 				cmd.Dispose()
 				dr.Close()
-			Catch ex As Exception
-				MessageBox.Show(ex.Message, "Liquidación portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			Catch exc As Exception
+				Try
+					cmd.Dispose()
+				Catch
+				End Try
+				Try
+					dr.Close()
+				Catch
+				End Try
+
+				If exc.Message.Contains("Datareader abierto") Then
+					Throw New Exception("Ocurrió un error al leer PedidoDetalleRemision")
+				Else
+					Throw exc
+				End If
+				'MessageBox.Show(ex.Message, "Liquidación portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
 			End Try
 		End Sub
 
@@ -1320,23 +1427,31 @@ Public Class LiquidacionTransaccionada
             Dim cmd As SqlCommand
             Dim reader As SqlDataReader
             Dim lista As New ArrayList
-            Try
-                Connection.Open()
-                cmd = New SqlCommand("spPTLConsultaFoliosFaltantesMovil", Connection)
-                cmd.CommandType = CommandType.StoredProcedure
-                cmd.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = AñoAtt
-                cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio
-                cmd.Parameters.Add("@FCarga", SqlDbType.DateTime).Value = FCarga
-                cmd.Parameters.Add("@FLiquidacion", SqlDbType.DateTime).Value = FLiquidacion
-                reader = cmd.ExecuteReader()
-                While reader.Read
-                    lista.Add(Convert.ToInt32(reader(0)))
-                End While
-                cmd.Dispose()
-                reader.Close()
+			Try
+				Connection.Open()
+				cmd = New SqlCommand("spPTLConsultaFoliosFaltantesMovil", Connection)
+				cmd.CommandType = CommandType.StoredProcedure
+				cmd.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = AñoAtt
+				cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio
+				cmd.Parameters.Add("@FCarga", SqlDbType.DateTime).Value = FCarga
+				cmd.Parameters.Add("@FLiquidacion", SqlDbType.DateTime).Value = FLiquidacion
+				reader = cmd.ExecuteReader()
+				While reader.Read
+					lista.Add(Convert.ToInt32(reader(0)))
+				End While
+				cmd.Dispose()
+				reader.Close()
 
-            Catch ex As Exception
-                MessageBox.Show(ex.Message, "Validación Consecutivos", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			Catch ex As Exception
+				Try
+					cmd.Dispose()
+				Catch
+				End Try
+				Try
+					reader.Close()
+				Catch
+				End Try
+				MessageBox.Show(ex.Message, "Validación Consecutivos", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Finally
                 If Connection.State = System.Data.ConnectionState.Open Then
                     Connection.Close()
@@ -1354,23 +1469,33 @@ Public Class LiquidacionTransaccionada
             dtDatos.Columns.Add("Producto", GetType(String))
             dtDatos.Columns.Add("Cantidad", GetType(Integer))
 
-            Try
-                Connection.Open()
-                cmd = New SqlCommand("spPTLConsultaFoliosALiquidarMovil", Connection)
-                cmd.CommandType = CommandType.StoredProcedure
-                cmd.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = AñoAtt
-                cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio
-                cmd.Parameters.Add("@FCarga", SqlDbType.DateTime).Value = FCarga
-                cmd.Parameters.Add("@FLiquidacion", SqlDbType.DateTime).Value = FLiquidacion
-                reader = cmd.ExecuteReader()
-                While reader.Read
-                    dtDatos.Rows.Add(reader(0).ToString(), Convert.ToInt32(reader(1)), reader(2).ToString(), Convert.ToInt32(reader(3)))
-                End While
-                cmd.Dispose()
-                reader.Close()
+			Try
+				Connection.Open()
+				cmd = New SqlCommand("spPTLConsultaFoliosALiquidarMovil", Connection)
+				cmd.CommandType = CommandType.StoredProcedure
+				cmd.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = AñoAtt
+				cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio
+				cmd.Parameters.Add("@FCarga", SqlDbType.DateTime).Value = FCarga
+				cmd.Parameters.Add("@FLiquidacion", SqlDbType.DateTime).Value = FLiquidacion
+				reader = cmd.ExecuteReader()
+				While reader.Read
+					dtDatos.Rows.Add(reader(0).ToString(), Convert.ToInt32(reader(1)), reader(2).ToString(), Convert.ToInt32(reader(3)))
+				End While
+				cmd.Dispose()
+				reader.Close()
 
-            Catch ex As Exception
-                MessageBox.Show(ex.Message, "Consulta folios liquidación", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			Catch ex As Exception
+				Try
+					cmd.Dispose()
+				Catch
+				End Try
+				Try
+					reader.Close()
+				Catch
+				End Try
+
+
+				MessageBox.Show(ex.Message, "Consulta folios liquidación", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Finally
                 If Connection.State = System.Data.ConnectionState.Open Then
                     Connection.Close()
@@ -1390,28 +1515,39 @@ Public Class LiquidacionTransaccionada
             cmdTrip.Parameters.Add("@FAsignacion", SqlDbType.DateTime).Value = FAsignacion
             cmdTrip.Parameters.Add("@Folio", SqlDbType.DateTime).Value = Folio
 
-            Try
-                If GLOBAL_Conexion.State = ConnectionState.Closed Then
-                    GLOBAL_Conexion.Open()
-                End If
-                drTrip = cmdTrip.ExecuteReader
+			Try
+				If GLOBAL_Conexion.State = ConnectionState.Closed Then
+					GLOBAL_Conexion.Open()
+				End If
+				drTrip = cmdTrip.ExecuteReader
 
-                Dim i As Integer = 1
+				Dim i As Integer = 1
 
 
-                While drTrip.Read
-                    If i = 1 Then
-                        trip = trip + CType(drTrip("Operador"), String) + ": " + CType(drTrip("Nombre"), String) + " - " + CType(drTrip("DescripcionCategoriaOperador"), String)
-                    Else
-                        trip = trip + " <> " + CType(drTrip("Operador"), String) + ": " + CType(drTrip("Nombre"), String) + " - " + CType(drTrip("DescripcionCategoriaOperador"), String)
-                    End If
-                    i = 2
-                End While
-                cmdTrip.Dispose()
-                drTrip.Close()
+				While drTrip.Read
+					If i = 1 Then
+						trip = trip + CType(drTrip("Operador"), String) + ": " + CType(drTrip("Nombre"), String) + " - " + CType(drTrip("DescripcionCategoriaOperador"), String)
+					Else
+						trip = trip + " <> " + CType(drTrip("Operador"), String) + ": " + CType(drTrip("Nombre"), String) + " - " + CType(drTrip("DescripcionCategoriaOperador"), String)
+					End If
+					i = 2
+				End While
+				cmdTrip.Dispose()
+				drTrip.Close()
 
-            Catch ex As Exception
-                MessageBox.Show(ex.Message, "Liquidación portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			Catch ex As Exception
+				Try
+					cmdTrip.Dispose()
+				Catch
+				End Try
+				Try
+					drTrip.Close()
+				Catch
+				End Try
+
+
+
+				MessageBox.Show(ex.Message, "Liquidación portátil", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Finally
                 cmdTrip.Dispose()
                 If GLOBAL_Conexion.State = ConnectionState.Open Then
@@ -1521,8 +1657,21 @@ Public Class LiquidacionTransaccionada
 
 				cmd.Dispose()
 				dr.Close()
-			Catch ex As Exception
-				Throw ex
+			Catch exc As Exception
+				Try
+					cmd.Dispose()
+				Catch
+				End Try
+				Try
+					dr.Close()
+				Catch
+				End Try
+
+				If exc.Message.Contains("Datareader abierto") Then
+					Throw New Exception("Ocurrió un error al leer MovimientoCajaAlta")
+				Else
+					Throw exc
+				End If
 			End Try
 
 		End Sub
@@ -1538,22 +1687,35 @@ Public Class LiquidacionTransaccionada
             Dim dr As SqlDataReader
             Dim cmd As SqlCommand
 
-            Try
-                cmd = New SqlCommand("spPTLMovimientoCajaCobroAltaTRN", Connection)
-                cmd.Transaction = Transaction
-                cmd.CommandType = CommandType.StoredProcedure
-                cmd.Parameters.Add("@Caja", SqlDbType.TinyInt).Value = Caja
-                cmd.Parameters.Add("@FOperacion", SqlDbType.DateTime).Value = FOperacion
-                cmd.Parameters.Add("@Consecutivo", SqlDbType.TinyInt).Value = Consecutivo
-                cmd.Parameters.Add("@Folio ", SqlDbType.Int).Value = Folio
-                cmd.Parameters.Add("@AnoCobro", SqlDbType.SmallInt).Value = AnoCobro
-                cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
-                dr = cmd.ExecuteReader()
-                cmd.Dispose()
-                dr.Close()
-            Catch ex As Exception
-                Throw ex
-            End Try
+			Try
+				cmd = New SqlCommand("spPTLMovimientoCajaCobroAltaTRN", Connection)
+				cmd.Transaction = Transaction
+				cmd.CommandType = CommandType.StoredProcedure
+				cmd.Parameters.Add("@Caja", SqlDbType.TinyInt).Value = Caja
+				cmd.Parameters.Add("@FOperacion", SqlDbType.DateTime).Value = FOperacion
+				cmd.Parameters.Add("@Consecutivo", SqlDbType.TinyInt).Value = Consecutivo
+				cmd.Parameters.Add("@Folio ", SqlDbType.Int).Value = Folio
+				cmd.Parameters.Add("@AnoCobro", SqlDbType.SmallInt).Value = AnoCobro
+				cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
+				dr = cmd.ExecuteReader()
+				cmd.Dispose()
+				dr.Close()
+			Catch exc As Exception
+				Try
+					cmd.Dispose()
+				Catch
+				End Try
+				Try
+					dr.Close()
+				Catch
+				End Try
+
+				If exc.Message.Contains("Datareader abierto") Then
+					Throw New Exception("Ocurrió un error al leer MovimientoCajaCobroAlta")
+				Else
+					Throw exc
+				End If
+			End Try
 
         End Sub
 
@@ -1571,25 +1733,38 @@ Public Class LiquidacionTransaccionada
             Dim dr As SqlDataReader
             Dim cmd As SqlCommand
 
-            Try
-                cmd = New SqlCommand("spPTLMovimientoCajaEntradaAltaTRN", Connection)
-                cmd.Transaction = Transaction
-                cmd.CommandType = CommandType.StoredProcedure
-                cmd.Parameters.Add("@Caja", SqlDbType.TinyInt).Value = Caja
-                cmd.Parameters.Add("@FOperacion", SqlDbType.DateTime).Value = FOperacion
-                cmd.Parameters.Add("@Consecutivo", SqlDbType.TinyInt).Value = Consecutivo
-                cmd.Parameters.Add("@Folio ", SqlDbType.Int).Value = Folio
-                cmd.Parameters.Add("@AnoCobro", SqlDbType.SmallInt).Value = AnoCobro
-                cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
-                cmd.Parameters.Add("@Denominacion ", SqlDbType.TinyInt).Value = Denominacion
-                cmd.Parameters.Add("@Cantidad", SqlDbType.Int).Value = Cantidad
-                cmd.Parameters.Add("@Pesos", SqlDbType.Money).Value = Pesos
-                dr = cmd.ExecuteReader()
-                cmd.Dispose()
-                dr.Close()
-            Catch ex As Exception
-                Throw ex
-            End Try
+			Try
+				cmd = New SqlCommand("spPTLMovimientoCajaEntradaAltaTRN", Connection)
+				cmd.Transaction = Transaction
+				cmd.CommandType = CommandType.StoredProcedure
+				cmd.Parameters.Add("@Caja", SqlDbType.TinyInt).Value = Caja
+				cmd.Parameters.Add("@FOperacion", SqlDbType.DateTime).Value = FOperacion
+				cmd.Parameters.Add("@Consecutivo", SqlDbType.TinyInt).Value = Consecutivo
+				cmd.Parameters.Add("@Folio ", SqlDbType.Int).Value = Folio
+				cmd.Parameters.Add("@AnoCobro", SqlDbType.SmallInt).Value = AnoCobro
+				cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
+				cmd.Parameters.Add("@Denominacion ", SqlDbType.TinyInt).Value = Denominacion
+				cmd.Parameters.Add("@Cantidad", SqlDbType.Int).Value = Cantidad
+				cmd.Parameters.Add("@Pesos", SqlDbType.Money).Value = Pesos
+				dr = cmd.ExecuteReader()
+				cmd.Dispose()
+				dr.Close()
+			Catch exc As Exception
+				Try
+					cmd.Dispose()
+				Catch
+				End Try
+				Try
+					dr.Close()
+				Catch
+				End Try
+
+				If exc.Message.Contains("Datareader abierto") Then
+					Throw New Exception("Ocurrió un error al leer Movimiendo Caja Entrada Alta")
+				Else
+					Throw exc
+				End If
+			End Try
         End Sub
 
         Public Sub AltaMovimientoCajaSalida(ByVal Caja As Short, _
@@ -1604,23 +1779,36 @@ Public Class LiquidacionTransaccionada
             Dim dr As SqlDataReader
             Dim cmd As SqlCommand
 
-            Try
-                cmd = New SqlCommand("spPTLMovimientoCajaSalidaAltaTRN", Connection)
-                cmd.Transaction = Transaction
-                cmd.CommandType = CommandType.StoredProcedure
-                cmd.Parameters.Add("@Caja", SqlDbType.TinyInt).Value = Caja
-                cmd.Parameters.Add("@FOperacion", SqlDbType.DateTime).Value = FOperacion
-                cmd.Parameters.Add("@Consecutivo", SqlDbType.TinyInt).Value = Consecutivo
-                cmd.Parameters.Add("@Folio ", SqlDbType.Int).Value = Folio
-                cmd.Parameters.Add("@Denominacion ", SqlDbType.TinyInt).Value = Denominacion
-                cmd.Parameters.Add("@Cantidad", SqlDbType.Int).Value = Cantidad
-                cmd.Parameters.Add("@Pesos", SqlDbType.Money).Value = Pesos
-                dr = cmd.ExecuteReader()
-                cmd.Dispose()
-                dr.Close()
-            Catch ex As Exception
-                Throw ex
-            End Try
+			Try
+				cmd = New SqlCommand("spPTLMovimientoCajaSalidaAltaTRN", Connection)
+				cmd.Transaction = Transaction
+				cmd.CommandType = CommandType.StoredProcedure
+				cmd.Parameters.Add("@Caja", SqlDbType.TinyInt).Value = Caja
+				cmd.Parameters.Add("@FOperacion", SqlDbType.DateTime).Value = FOperacion
+				cmd.Parameters.Add("@Consecutivo", SqlDbType.TinyInt).Value = Consecutivo
+				cmd.Parameters.Add("@Folio ", SqlDbType.Int).Value = Folio
+				cmd.Parameters.Add("@Denominacion ", SqlDbType.TinyInt).Value = Denominacion
+				cmd.Parameters.Add("@Cantidad", SqlDbType.Int).Value = Cantidad
+				cmd.Parameters.Add("@Pesos", SqlDbType.Money).Value = Pesos
+				dr = cmd.ExecuteReader()
+				cmd.Dispose()
+				dr.Close()
+			Catch exc As Exception
+				Try
+					cmd.Dispose()
+				Catch
+				End Try
+				Try
+					dr.Close()
+				Catch
+				End Try
+
+				If exc.Message.Contains("Datareader abierto") Then
+					Throw New Exception("Ocurrió un error al leer MovimientoCajaSalidaAlta")
+				Else
+					Throw exc
+				End If
+			End Try
         End Sub
 
     End Class
@@ -1955,8 +2143,21 @@ Public Class LiquidacionTransaccionada
                 cmdComando.Dispose()
                 drReader.Close()
             Catch exc As Exception
-                Throw exc
-            End Try
+				Try
+					cmdComando.Dispose()
+				Catch
+				End Try
+				Try
+					drReader.Close()
+				Catch
+				End Try
+
+				If exc.Message.Contains("Datareader abierto") Then
+					Throw New Exception("Ocurrió un error al leer TipoCuenta")
+				Else
+					Throw exc
+				End If
+			End Try
         End Sub
     End Class
 #End Region

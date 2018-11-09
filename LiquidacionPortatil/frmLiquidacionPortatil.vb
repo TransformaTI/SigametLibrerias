@@ -107,6 +107,7 @@ Public Class frmLiquidacionPortatil
 	Private _RutaReportes As String
 
 	Private _IdCelula As Integer
+	Private _seccion As String
 
 	'20150627CNSM$001-----------------
 	'Variable declarada para poder identificar si la sucursal cuenta con movil
@@ -4151,12 +4152,12 @@ Public Class frmLiquidacionPortatil
 
 				Dim ValorIva As Decimal
 
+				_seccion = "Buscando IVA"
 				Try
 					Dim oConfigCC As New SigaMetClasses.cConfig(3, _CorporativoUsuario, _SucursalUsuario)
 					ValorIva = CType(oConfigCC.Parametros("IVA"), Decimal) / 100
 				Catch ex As Exception
 					Throw New Exception("No se ha configurado el IVA")
-
 				End Try
 
 
@@ -4171,11 +4172,13 @@ Public Class frmLiquidacionPortatil
 					Dim oMovimientoAlmacenSObsequio As LiquidacionTransaccionada.cMovimientoAlmacen
 
 					'Crea el numero de documento para la transaccion "NDOCUMENTO" en la tabla FOLIOMOVIMIENTOALMACEN
+					_seccion = "Crear FolioMovimientoAlmacen"
 					Dim oFolioMovimiento As New LiquidacionTransaccionada.cFolioMovimientoAlmacen()
 					oFolioMovimiento.Registrar(1, _AlmacenGas, _NDocumento, 11, _Corporativo, connection, transaction)
 
 					If _ExisteObsequio > 0 Then
 						'Crea el numero de documento para la transaccion de OBSEQUIO "NDOCUMENTO" en la tabla FOLIOMOVIMIENTOALMACEN
+						_seccion = "Crear FolioMovimientoAlmacenObsequio"
 						oFolioMovimientoObsequio = New LiquidacionTransaccionada.cFolioMovimientoAlmacen()
 						oFolioMovimientoObsequio.Registrar(1, _AlmacenGas, _NDocumento, 25, _Corporativo, connection, transaction)
 					End If
@@ -4184,10 +4187,12 @@ Public Class frmLiquidacionPortatil
 						Dim MovimientoAlmacenSalidaObsequio As Integer
 
 						'Se crea el movimiento de liquidacion en la tabla MOVIMIENTOALMCEN
+						_seccion = "Crear MovimientoAlmacen"
 						Dim oMovimientoAlmacenS As New LiquidacionTransaccionada.cMovimientoAlmacen(0, 0, _AlmacenGas, dtpFLiquidacion.Value, _Kilos - _KilosObsequio, (_Kilos - _KilosObsequio) / _FactorDensidad, 11, CType(_drLiquidacion(0).Item(1), DateTime), _NDocumento, oFolioMovimiento.ClaseMovimientoAlmacen, _Corporativo, _Usuario)
 						oMovimientoAlmacenS.CargaDatos(connection, transaction)
 
 						If _ExisteObsequio > 0 Then
+							_seccion = "Crear MovimientoAlmacenObsequio"
 							oMovimientoAlmacenSObsequio = New LiquidacionTransaccionada.cMovimientoAlmacen(0, 0, _AlmacenGas, dtpFLiquidacion.Value, _KilosObsequio, _KilosObsequio / _FactorDensidad, 25, CType(_drLiquidacion(0).Item(1), DateTime), _NDocumento, oFolioMovimientoObsequio.ClaseMovimientoAlmacen, _Corporativo, _Usuario)
 							oMovimientoAlmacenSObsequio.CargaDatos(connection, transaction)
 							MovimientoAlmacenSalidaObsequio = oMovimientoAlmacenSObsequio.Identificador
@@ -4213,7 +4218,7 @@ Public Class frmLiquidacionPortatil
 							Dim oMovimientoAproductoZonaObsequio As LiquidacionTransaccionada.cMovimientoAProductoZona
 
 							If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) <> 15 Then
-
+								_seccion = "Crear MovimientoAProducto Contado"
 								oMovimientoAProducto = New LiquidacionTransaccionada.cMovimientoAProducto(2,
 											 _AlmacenGas,
 											 CType(dtLiquidacionTotal.Rows(i).Item(2), Integer),
@@ -4222,6 +4227,7 @@ Public Class frmLiquidacionPortatil
 											 0,
 											 CType(dtLiquidacionTotal.Rows(i).Item(4), Integer))
 
+								_seccion = "Crear MovimientoAProductoZona Contado"
 								oMovimientoAproductoZona = New LiquidacionTransaccionada.cMovimientoAProductoZona(0,
 																	   _AlmacenGas,
 																				oMovimientoAlmacenS.Identificador,
@@ -4232,9 +4238,11 @@ Public Class frmLiquidacionPortatil
 																				0,
 																				0)
 								oMovimientoAProducto.CargaDatos(connection, transaction)
+								_seccion = "Crear MovimientoAProductoZona ModificarEliminar Contado"
 								oMovimientoAproductoZona.RegistrarModificarEliminar(connection, transaction)
 
 							Else
+								_seccion = "Crear MovimientoAProducto Obsequio"
 								oMovimientoAProductoObsequio = New LiquidacionTransaccionada.cMovimientoAProducto(2,
 											 _AlmacenGas,
 											 CType(dtLiquidacionTotal.Rows(i).Item(2), Integer),
@@ -4242,6 +4250,8 @@ Public Class frmLiquidacionPortatil
 											 0,
 											 0,
 											 CType(dtLiquidacionTotal.Rows(i).Item(4), Integer))
+
+								_seccion = "Crear MovimientoAProductoZona Obsequio"
 								oMovimientoAproductoZonaObsequio = New LiquidacionTransaccionada.cMovimientoAProductoZona(0,
 																	   _AlmacenGas,
 																				MovimientoAlmacenSalidaObsequio,
@@ -4253,6 +4263,7 @@ Public Class frmLiquidacionPortatil
 																				0)
 
 								oMovimientoAProductoObsequio.CargaDatos(connection, transaction)
+								_seccion = "Crear MovimientoAProductoZona ModificarEliminar Obsequio"
 								oMovimientoAproductoZonaObsequio.RegistrarModificarEliminar(connection, transaction)
 							End If
 
@@ -4271,14 +4282,14 @@ Public Class frmLiquidacionPortatil
 
 							'Importe = Total / ((CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal) / 100) + 1)
 							'Impuesto = Total - Importe
-
+							_seccion = "Cálculo de importes"
 							Importe = Total / (1 + ValorIva)
 							Impuesto = Total - Importe
 
 							'Impuesto = CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal)
 
 
-
+							_seccion = "Asignación de variables"
 							Dim ProductoTemp, CantidadTemp, ValorTemp As Integer
 							Dim SaldoTemp As Decimal
 							Dim TipoCobroTemp, ZonaEconomicaTemp As Short
@@ -4296,7 +4307,7 @@ Public Class frmLiquidacionPortatil
 							oLiquidacionPedido = New LiquidacionTransaccionada.cLiquidacion(0, CType(_drLiquidacion(0).Item(4), Short), 0, 0)
 
 							If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = _TipoCobroCredito Then
-
+								_seccion = "Liquidacion Pedido y Cobro credito"
 								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(
 									ProductoTemp,
 									Now, 0, 0,
@@ -4327,7 +4338,7 @@ Public Class frmLiquidacionPortatil
 								_TotalCredito = _TotalCredito + CType(dtLiquidacionTotal.Rows(i).Item(15), Decimal)
 
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 5 Then
-
+								_seccion = "Liquidacion Pedido y Cobro Contado"
 								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now,
 																				 0, 0, Importe, Impuesto, Total, "SURTIDO",
 																				 CType(dtLiquidacionTotal.Rows(i).Item(12), Integer),
@@ -4348,15 +4359,18 @@ Public Class frmLiquidacionPortatil
 								_TotalContado = _TotalContado + Total
 
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
+								_seccion = "Liquidacion Pedido y Cobro Obsequio"
 								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenSObsequio.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
 								_TotalContado = _TotalContado + Total
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
+								_seccion = "Liquidacion Pedido y Cobro Obsequio"
 								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
 								_TotalContado = _TotalContado + Total
 							Else ' CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 3 Then
 								If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 18 Then
 
 								End If
+								_seccion = "Liquidacion Pedido y Cobro Formas Pago"
 								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), 5, _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
 								_TotalContado = _TotalContado + Total
 
@@ -4372,7 +4386,8 @@ Public Class frmLiquidacionPortatil
 
 							If Not _BoletinEnLineaCamion Then
 
-								'Insercion en la tabla pedido detalle remision
+								'Insercion en la tabla pedido detalle remisio
+								_seccion = "PedidoDetalleRemision Boletin"
 
 								oLiquidacionPedido.PedidoDetalleRemision(4, ProductoTemp, _Ruta, _MovimientoAlmacen, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime),
 																		 _AlmacenGas, ZonaEconomicaTemp, _AnoAtt, oLiquidacionPedido.Pedido, CType(lblCamion.Text, Integer),
@@ -4389,8 +4404,8 @@ Public Class frmLiquidacionPortatil
 
 						ArmaCobroNuevo(connection, transaction)
 
+						_seccion = "Calcula Saldo a Favor"
 						Dim SaldoAFavor As Decimal = 0
-
 						For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
 							SaldoAFavor = SaldoAFavor + Cobro.Saldo
 						Next
@@ -4410,7 +4425,7 @@ Public Class frmLiquidacionPortatil
 						'                                                   Now, _
 						'                                                    "MANUAL", _
 						'                                                    _Usuario, _KilosObsequio / _FactorDensidad, _TotalObsequios, _KilosObsequio)
-
+						_seccion = "Liquidacion AutotanqueTurno"
 						oLiquidacionAutotanqueTurno.LiquidacionAutotanqueTurno(_Kilos / _FactorDensidad,
 																		  Now,
 																		  _Kilos / _FactorDensidad,
@@ -4433,7 +4448,7 @@ Public Class frmLiquidacionPortatil
 								End If
 							Next
 						End If
-
+						_seccion = "AltaMovimientoCaja"
 						Dim oMovimientoCaja As New LiquidacionTransaccionada.cMovimientoCaja()
 						oMovimientoCaja.AltaMovimientoCaja(_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, 0, _TotalNetoCaja, _Empleado, _Usuario, 2, "EMITIDO", CType(_drLiquidacion(0).Item(25), Short), _ClienteVentasPublico, Now, "", 0, dtpFLiquidacion.Value.Date, "", _AnoAtt, _Folio, connection, transaction, SaldoAFavor)
 
@@ -4445,6 +4460,7 @@ Public Class frmLiquidacionPortatil
 							Dim _CobroTemp As Integer = CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer)
 							Dim _AnoCobroTemp As Short = CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short)
 							While k < dtPedidoCobro.DefaultView.Count
+								_seccion = "AltaMovimientoCajaCobro Efectivo"
 								Dim oMovimientoCajaCobro As New LiquidacionTransaccionada.cMovimientoCaja()
 								oMovimientoCajaCobro.AltaMovimientoCajaCobro(_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, oMovimientoCaja.Folio, _AnoCobroTemp, _CobroTemp, connection, transaction)
 								k = k + 1
@@ -4452,11 +4468,14 @@ Public Class frmLiquidacionPortatil
 
 
 							'Alta del efectivo en movimientocaja entrada
+							_seccion = "MovimientoCajasEntrada"
 							MovimientoCajasEntrada(oMovimientoCaja.Folio, _AnoCobroTemp, _CobroTemp, connection, transaction)
 
 							'Alta de vales en movimientocaja entrada
+							_seccion = "MovimientoCajasEntradavales"
 							MovimientoCajasEntradaVales(oMovimientoCaja.Folio, _AnoCobroTemp, _CobroTemp, connection, transaction)
 
+							_seccion = "MovimientoCajasSalida"
 							'Alta salida de dinero en caja por Cambio de la liquidacion
 							MovimientoCajasSalida(oMovimientoCaja.Folio, connection, transaction)
 
@@ -4469,6 +4488,7 @@ Public Class frmLiquidacionPortatil
 								Dim _CobroTemp As Integer = CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer)
 								Dim _AnoCobroTemp As Short = CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short)
 								Dim oMovimientoCajaCobro As New LiquidacionTransaccionada.cMovimientoCaja()
+								_seccion = "AltaMovimientoCajaCobro FormasPago"
 								oMovimientoCajaCobro.AltaMovimientoCajaCobro(_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, oMovimientoCaja.Folio, _AnoCobroTemp, _CobroTemp, connection, transaction)
 								k = k + 1
 							End While
@@ -4540,6 +4560,7 @@ Public Class frmLiquidacionPortatil
 							Dim _CobroTemporal As Integer = CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer)
 							Dim _AnoCobroTemporal As Short = CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short)
 							Dim oMovimientoCajaCobro As New LiquidacionTransaccionada.cMovimientoCaja()
+							_seccion = "AltaMovimientoCajaCobro Cheques"
 							oMovimientoCajaCobro.AltaMovimientoCajaCobro(_CajaUsuario, FechaOperacion, ConsecutivoInicioDeSesion, oMovimientoCaja.Folio, _AnoCobroTemporal, _CobroTemporal, connection, transaction)
 							'MovimientoCajasEntradaCheque(oMovimientoCaja.Folio, _AnoCobroTemporal, _CobroTemporal, CType(dtPedidoCobro.DefaultView.Item(k).Item(13), Decimal), connection, transaction)
 							k = k + 1
@@ -4548,16 +4569,20 @@ Public Class frmLiquidacionPortatil
 						Dim oConfiguracion As New SigaMetClasses.cConfig(16, _CorporativoUsuario, _SucursalUsuario)
 						If CType(oConfiguracion.Parametros("MedicionFisica"), String).Trim = "1" Then
 							Dim oMedicion As New LiquidacionTransaccionada.cMedicionFisicaAutomProducto(0, oMovimientoAlmacenS.Identificador, 0, 0, 0, 0, 0, _Usuario, _Empleado, Now, "", "MOVIMIENTO")
+							_seccion = "Medicion Modificar Eliminar"
 							oMedicion.RegistrarModificarEliminar(connection, transaction)
 
 							Dim oMedicionFisicaCorte As New LiquidacionTransaccionada.cMedicionFisicaCorte(0, oMedicion.MedicionFisica)
+							_seccion = "Medicion Fisica Corte"
 							oMedicionFisicaCorte.RealizarMedicionFisicaCorte(connection, transaction)
 
 							If _ExisteObsequio > 0 Then
 								Dim oMedicionObsequio As New LiquidacionTransaccionada.cMedicionFisicaAutomProducto(0, MovimientoAlmacenSalidaObsequio, 0, 0, 0, 0, 0, _Usuario, _Empleado, Now, "", "MOVIMIENTO")
+								_seccion = "Medicion Modifica Eliminar Obsequio"
 								oMedicionObsequio.RegistrarModificarEliminar(connection, transaction)
 
 								Dim oMedicionFisicaCorteObsequio As New LiquidacionTransaccionada.cMedicionFisicaCorte(0, oMedicionObsequio.MedicionFisica)
+								_seccion = "Medicion Fisica Corte Obsequio"
 								oMedicionFisicaCorteObsequio.RealizarMedicionFisicaCorte(connection, transaction)
 							End If
 
@@ -4572,13 +4597,16 @@ Public Class frmLiquidacionPortatil
 
 						If _RutaEspecial = True Then
 							'CancelarMovimiento(oMovimientoAlmacenS.Identificador, _AlmacenGas)
+
+							_seccion = "TipoCuenta Ruta Especial"
 							Dim oTipoCuenta As New LiquidacionTransaccionada.cTipoCuenta(1, _AnoAtt, _Folio, dtpFLiquidacion.Value.Date, connection, transaction)
 
 							'Dim oMovimientoAlmacenEst As New Liquidacion.cMovimientoAlmacen(3, oMovimientoAlmacenS.Identificador, _AlmacenGas, dtpFLiquidacion.Value, _Kilos - _KilosObsequio, (_Kilos - _KilosObsequio) / _FactorDensidad, 11, CType(_drLiquidacion(0).Item(1), DateTime), _NDocumento, oFolioMovimiento.ClaseMovimientoAlmacen, _Corporativo, _Usuario)
 							'oMovimientoAlmacenEst.CargaDatos()
+							_seccion = "TipoCuenta Ruta Especial2"
 							Dim oTipoCuenta2 As New LiquidacionTransaccionada.cTipoCuenta(2, _AnoAtt, _Folio, dtpFLiquidacion.Value.Date, connection, transaction)
 						Else
-
+							_seccion = "Pedido Detalle Remision"
 							'Se quito este fi a consideracion de JC alias Jose Carlos 
 							'If _FlagPedidoPortatil Then                        
 							Dim oLiquidacionPedido1 As LiquidacionTransaccionada.cLiquidacion
@@ -4590,11 +4618,16 @@ Public Class frmLiquidacionPortatil
 
 						MovimientoAlmacenS = oMovimientoAlmacenS
 						MovimientoAlmacenO = oMovimientoAlmacenSObsequio
-						
+
 					End If
+
+
+
+					_seccion = "Commit"
 					transaction.Commit()
 
 					If Globals.GetInstance._URLGateway <> "" Then
+						_seccion = "Liquidador Estacionario"
 						Try
 							Dim ObjLiquida As New LiquidadorEstacionario.liquidadorEstacionario()
 
@@ -4611,11 +4644,14 @@ Public Class frmLiquidacionPortatil
 				End If
 
 			Catch ex As Exception
-				transaction.Rollback()
+				Try
+					transaction.Rollback()
+				Catch
+				End Try
 				Throw New Exception("Error en la liquidación: " & ex.Message)
-				'MessageBox.Show("Error en la liquidación: " + ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-			Finally
-				If connection.State = System.Data.ConnectionState.Open Then
+					'MessageBox.Show("Error en la liquidación: " + ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+				Finally
+					If connection.State = System.Data.ConnectionState.Open Then
 					connection.Close()
 				End If
 			End Try
@@ -6077,7 +6113,7 @@ Public Class frmLiquidacionPortatil
 		Dim drPedidoCobro As DataRow
 		Dim i As Integer = 0
 		While i < dtLiquidacionTotal.Rows.Count
-
+			_seccion = "Creando Tabla de cobros"
 			Dim queryCobros = From cobro As SigaMetClasses.CobroDetalladoDatos In _listaCobros
 							  Where cobro.Remision = CType(dtLiquidacionTotal.Rows(i).Item(21), Integer)
 							  Where cobro.Serie = CType(dtLiquidacionTotal.Rows(i).Item(20), String)
@@ -6116,7 +6152,7 @@ Public Class frmLiquidacionPortatil
 
 
 		Dim k As Integer = 0
-
+		_seccion = "Tabla cobros Efectivo"
 		'VERSION DONDE SE CREA UN COBRO POR CADA TIPO DE COBRO
 		'Arma los cobros de TipoCobro en Efectivo
 		dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1  and TipoCobro = 5"
@@ -6139,6 +6175,7 @@ Public Class frmLiquidacionPortatil
 			dtPedidoCobro.Rows.Add(drPedidoCobro)
 		End If
 
+		_seccion = "Tabla cobros Cheques"
 		dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1  and TipoCobro = 3"
 		If dtPedidoCobro.DefaultView.Count > 0 Then
 			Dim j As Integer = 0
@@ -6156,7 +6193,7 @@ Public Class frmLiquidacionPortatil
 			End While
 		End If
 
-
+		_seccion = "Tabla cobros Formas Pago"
 		dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1  and TipoCobro in(6, 19, 22, 10, 21, 16, 2)"  'Tarjeta De Crédito, Tarjeta De débito, Tarjeta de servicios, Transferencia, Anticipo, Vales, ValesCaja
 		If dtPedidoCobro.DefaultView.Count > 0 Then
 			Dim j As Integer = 0
@@ -6175,7 +6212,7 @@ Public Class frmLiquidacionPortatil
 		End If
 
 		dtPedidoCobro.DefaultView.RowFilter = ""
-
+		_seccion = "Tabla cobros Obsequio"
 		'Arma los cobros de TipoCobro en Obsequio
 		dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1  and TipoCobro = 15"
 		If dtPedidoCobro.DefaultView.Count > 0 Then
@@ -6208,6 +6245,8 @@ Public Class frmLiquidacionPortatil
 			Dim Impuesto As Decimal
 			Dim TieneSaldoAFavor As Boolean
 
+			_seccion = "Calculando importes Cobros"
+
 			TieneSaldoAFavor = CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal) > 0
 
 			Total = CType(dtPedidoCobro.DefaultView.Item(k).Item(5), Decimal)
@@ -6218,27 +6257,34 @@ Public Class frmLiquidacionPortatil
 
 			Select Case tipoCobro
 				Case 3 'Cheque
+					_seccion = "Liquidacion Cobro Cheques"
 					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), 0, Connection, Transaction, CType(dtPedidoCobro.DefaultView.Item(k).Item(21), DateTime))
 				Case 6, 19, 22 'Tarjeta
+					_seccion = "Liquidacion Cobro Tarjeta"
 					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, Now, 1, Connection, Transaction, DateTime.MinValue.Date)
 				Case 5 'Efectivo
+					_seccion = "Liquidacion Cobro Efectivo"
 					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, Nothing, 0, Connection, Transaction, DateTime.MinValue.Date)
 				Case 10 'Transferencia
+					_seccion = "Liquidacion Cobro Transferencia"
 					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), 0, Connection, Transaction, DateTime.MinValue.Date)
 				Case 16, 2 'Vale
+					_seccion = "Liquidacion Cobro Vale"
 					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, Nothing, 0, Connection, Transaction, DateTime.MinValue.Date)
 				Case 21
+					_seccion = "Liquidacion Anticipo"
 					Dim oMvtoConciliarCobro As New SigaMetClasses.cMovimientoAConciliarCobro()
 					'Dim dt As New DataTable()
 					'dt = oMvtoConciliarCobro.ConsultarSaldoAnticipo(Cliente, Status, Folio, Anio)
 					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, Nothing, 0, Connection, Transaction, DateTime.MinValue.Date)
 					oMvtoConciliarCobro.altaMovimientoConciliarCobro(CType(dtPedidoCobro.DefaultView.Item(k).Item(20), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(19), Integer), oLiquidacionCobro.AnoCobro, oLiquidacionCobro.Cobro, Total, "EMITIDO", Connection, Transaction)
 			End Select
-
+			_seccion = "Lectura Datos Cobro"
 			dtPedidoCobro.DefaultView.Item(k).Item(17) = oLiquidacionCobro.Cobro
 			dtPedidoCobro.DefaultView.Item(k).Item(16) = oLiquidacionCobro.AnoCobro
 
 			If TieneSaldoAFavor Then
+				_seccion = "Insercion Saldo a favor Movimiento Conciliar"
 				oLiquidacionCobro.insertaMovimientoConciliar(4,
 				Nothing,
 				Nothing,
@@ -6281,7 +6327,10 @@ Public Class frmLiquidacionPortatil
 		'Arma la tabla para el registro de la relacion PedidoCobro
 		dtCobro.DefaultView.RowFilter = "Tabla = 0 AND TipoCobro =5"
 		Dim numreg As Integer = dtCobro.DefaultView.Count
+		_seccion = "Asignación datos cobros efectivo"
 		While k < numreg
+
+
 			Dim TipoCobro As String = CType(dtCobro.DefaultView.Item(k).Item(4), String)
 			Dim AnoCobro As Integer = CType(dtCobro.DefaultView.Item(k).Item(16), Integer)
 			Dim Cobro As Integer = CType(dtCobro.DefaultView.Item(k).Item(17), Integer)
@@ -6304,6 +6353,7 @@ Public Class frmLiquidacionPortatil
 		dtCobro.DefaultView.RowFilter = "Tabla = 0 AND TipoCobro <> 15 AND TipoCobro <> 5"
 		numreg = dtCobro.DefaultView.Count
 		While k < numreg
+			_seccion = "Asignación datos cobros contado"
 			dtCobro.DefaultView.RowFilter = "Tabla = 0 AND TipoCobro <> 15  AND TipoCobro <> 5"
 			Dim TipoCobro As String = CType(dtCobro.DefaultView.Item(k).Item(4), String)
 			Dim AnoCobro As Integer = CType(dtCobro.DefaultView.Item(k).Item(16), Integer)
@@ -6331,6 +6381,8 @@ Public Class frmLiquidacionPortatil
 		'Registra en la tabla COBROPEDIDO
 		dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1 AND TipoCobro <> 15"
 		While k < dtPedidoCobro.DefaultView.Count
+
+			_seccion = "Asignación datos cobros no credito"
 			Dim TipoCobro As Integer = CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Integer)
 
 			'If TipoCobro = 3 Or TipoCobro = 5 Or TipoCobro = 15 Then
@@ -7595,7 +7647,7 @@ Public Class frmLiquidacionPortatil
 					MessageBox.Show("El proceso de registro de cobros concluyó exitosamente.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
 				Catch ex As Exception
-					MessageBox.Show("Se generó el siguiente error: " & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+					MessageBox.Show("Se generó el siguiente error: " & ex.Message & ". Seccion: " & _seccion, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
 					Me.Close()
 				End Try
 			Else
