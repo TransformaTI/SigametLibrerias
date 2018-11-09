@@ -1900,7 +1900,21 @@ Public Class frmRemisionManual
 
 	Private Sub btnAgregar_Click(sender As Object, e As EventArgs) Handles btnAgregar.Click
 		'Validamos los datos capturados pertenecientes a la remision
+		Dim encontrado As Boolean = False
 		Try
+			i = 0
+			While i < txtListaCantidad.Count
+
+				If CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text.Trim() <> "" Then
+					encontrado = True
+				End If
+				i = i + 1
+			End While
+
+			If Not encontrado Then
+				Throw New Exception("Por favor escriba una cantidad válida")
+			End If
+
 			If cboTipoCobro.SelectedItem Is Nothing Then
 				Throw New Exception("Por favor elija un tipo de cobro.")
 			End If
