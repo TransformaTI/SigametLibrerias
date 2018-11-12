@@ -51,6 +51,8 @@ Public Class frmLiquidacionPortatil
 	Public dtRemisiones As New DataTable
 	Public dtCantidades As New DataTable
 	Private _Configuracion As Integer
+	Private _ValorIva As Decimal
+
 
 	Private _listaCobros As New List(Of SigaMetClasses.CobroDetalladoDatos)
 	Private _ListaCobroRemisiones As New List(Of SigaMetClasses.CobroRemisiones)
@@ -4150,12 +4152,11 @@ Public Class frmLiquidacionPortatil
 				'Se instancia el objeto que controla la transacción
 				Dim ClienteTemp As Integer
 
-				Dim ValorIva As Decimal
 
 				_seccion = "Buscando IVA"
 				Try
 					Dim oConfigCC As New SigaMetClasses.cConfig(3, _CorporativoUsuario, _SucursalUsuario)
-					ValorIva = CType(oConfigCC.Parametros("IVA"), Decimal) / 100
+					_ValorIva = CType(oConfigCC.Parametros("IVA"), Decimal) / 100
 				Catch ex As Exception
 					Throw New Exception("No se ha configurado el IVA")
 				End Try
@@ -4283,7 +4284,7 @@ Public Class frmLiquidacionPortatil
 							'Importe = Total / ((CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal) / 100) + 1)
 							'Impuesto = Total - Importe
 							_seccion = "Cálculo de importes"
-							Importe = Total / (1 + ValorIva)
+							Importe = Total / (1 + _ValorIva)
 							Impuesto = Total - Importe
 
 							'Impuesto = CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal)
@@ -6250,7 +6251,7 @@ Public Class frmLiquidacionPortatil
 			TieneSaldoAFavor = CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal) > 0
 
 			Total = CType(dtPedidoCobro.DefaultView.Item(k).Item(5), Decimal)
-			Importe = Total / ((CType(dtPedidoCobro.DefaultView.Item(k).Item(3), Decimal) / 100) + 1)
+			Importe = Total / (_ValorIva + 1)
 			Impuesto = Total - Importe
 			Dim tipoCobro As Short
 			tipoCobro = CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short)
@@ -6267,10 +6268,10 @@ Public Class frmLiquidacionPortatil
 					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, Nothing, 0, Connection, Transaction, DateTime.MinValue.Date)
 				Case 10 'Transferencia
 					_seccion = "Liquidacion Cobro Transferencia"
-					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), 0, Connection, Transaction, DateTime.MinValue.Date)
+					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), 0, Connection, Transaction, DateTime.MinValue.Date, CType(dtPedidoCobro.DefaultView.Item(k).Item(23), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(22), Short))
 				Case 16, 2 'Vale
 					_seccion = "Liquidacion Cobro Vale"
-					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, Nothing, 0, Connection, Transaction, DateTime.MinValue.Date)
+					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), "", "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), 0, Connection, Transaction, DateTime.MinValue.Date, NumeroCuentaDestino:=CType(dtPedidoCobro.DefaultView.Item(k).Item(23), String))
 				Case 21
 					_seccion = "Liquidacion Anticipo"
 					Dim oMvtoConciliarCobro As New SigaMetClasses.cMovimientoAConciliarCobro()
@@ -6386,7 +6387,7 @@ Public Class frmLiquidacionPortatil
 			Dim TipoCobro As Integer = CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Integer)
 
 			'If TipoCobro = 3 Or TipoCobro = 5 Or TipoCobro = 15 Then
-			If TipoCobro = 3 Or TipoCobro = 5 Or TipoCobro = 16 Or TipoCobro = 6 Or TipoCobro = 21 Or TipoCobro = 10 Then
+			If TipoCobro = 3 Or TipoCobro = 5 Or TipoCobro = 16 Or TipoCobro = 6 Or TipoCobro = 21 Or TipoCobro = 10 Or TipoCobro = 2 Then
 				Dim Total As Decimal
 				Dim Importe As Decimal
 				Dim Impuesto As Decimal
@@ -7312,6 +7313,7 @@ Public Class frmLiquidacionPortatil
 				_listaCobros = frmSeleTipoCobro.Cobros
 			Else
 				For Each Cobro As SigaMetClasses.CobroDetalladoDatos In frmSeleTipoCobro.Cobros
+					
 					_listaCobros.Add(Cobro)
 				Next
 				_DetalleGrid = frmSeleTipoCobro.ObtenerRemisiones

@@ -111,9 +111,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="FormasPago, Version=1.0.6802.35094, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FormasPago">
       <HintPath>..\..\Caja\FormasPago\FormasPago\FormasPago\bin\Debug\FormasPago.dll</HintPath>
+    </Reference>
+    <Reference Include="LiquidadorEstacionario">
+      <HintPath>..\..\liquidadorEstacionario\LiquidadorEstacionario\LiquidadorEstacionario\LiquidadorEstacionario\bin\Debug\LiquidadorEstacionario.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic">
       <Name>Microsoft.VisualBasic</Name>
@@ -122,7 +124,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\MobileGas.dll</HintPath>
     </Reference>
-    <Reference Include="PortatilClasses, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="PortatilClasses, Version=1.7.0.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\PortatilClasses\bin\PortatilClasses.dll</HintPath>
     </Reference>
@@ -226,6 +228,7 @@
     <Compile Include="frmValidarAbonos.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Globals.vb" />
     <Compile Include="Liquidacion.vb">
       <SubType>Code</SubType>
     </Compile>

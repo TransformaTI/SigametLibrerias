@@ -1017,8 +1017,13 @@ Public Class LiquidacionTransaccionada
 				Else
 					cmd.Parameters.Add("@NumeroCheque", SqlDbType.VarChar).Value = NumeroCheque
 				End If
+
 				If Banco = 0 Then
-					cmd.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = System.DBNull.Value
+					If TipoCobro = 2 Or TipoCobro = 16 Then
+						cmd.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = FCheque
+					Else
+						cmd.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = System.DBNull.Value
+					End If
 				Else
 					cmd.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = FCheque
 				End If
@@ -1070,9 +1075,11 @@ Public Class LiquidacionTransaccionada
 				'End If
 
 
-				If TipoCobro = 3 Then
+				If TipoCobro = 3 Or TipoCobro = 2 Or TipoCobro = 16 Then
 					cmd.Parameters.Add("@FDeposito", SqlDbType.DateTime).Value = FDeposito
 				End If
+
+
 
 
 
