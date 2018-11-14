@@ -4794,62 +4794,103 @@ End Class
 Public Class cCuenta
 #Region "Funciones"
 
-    Public Function ConsultarPatron(ByVal TipoCobro As Integer, Optional ByVal CadConexion As String = "") As String
-        Dim resultado As String
-        Dim cmd As SqlCommand
+	Public Function ConsultarPatron(ByVal TipoCobro As Integer, Optional ByVal CadConexion As String = "") As String
+		Dim resultado As String
+		Dim cmd As SqlCommand
 
 
-        If IsNothing(DataLayer.Conexion) And CadConexion.Length > 0 Then
-            Dim CN As SqlConnection = New SqlConnection(CadConexion)
-            cmd = New SqlCommand("uspConsultaPatronCuenta", CN)
-        Else
-            cmd = New SqlCommand("uspConsultaPatronCuenta", DataLayer.Conexion)
-        End If
+		If IsNothing(DataLayer.Conexion) And CadConexion.Length > 0 Then
+			Dim CN As SqlConnection = New SqlConnection(CadConexion)
+			cmd = New SqlCommand("uspConsultaPatronCuenta", CN)
+		Else
+			cmd = New SqlCommand("uspConsultaPatronCuenta", DataLayer.Conexion)
+		End If
 
-
-        With cmd
-            .CommandType = CommandType.StoredProcedure
-            .CommandText = "uspConsultaPatronCuenta"
-            .Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.Int)).Value = TipoCobro
-        End With
-
-        Try
-
-            If cmd.Connection.State = ConnectionState.Closed Then
-                cmd.Connection.Open()
-            End If
-
-
-            Dim dr As SqlDataReader
-            dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
-
-            If dr.Read() Then
-                resultado = CType(dr("PatronCuentaOrdenante"), String)
-            Else
-                Throw New Exception("vacio")
-            End If
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        Finally
-            If cmd.Connection.State = ConnectionState.Open Then
-                cmd.Connection.Close()
-            End If
-        End Try
-
-        Return resultado
-    End Function
-
-    Public Function ConsultarCuentas(Optional ByVal empresa As Integer = 0, Optional banco As String = "") As List(Of String)
-		Dim resultado As New List(Of String)
-		Dim cmd As New SqlCommand("spSSCuentaBanco", DataLayer.Conexion)
 
 		With cmd
 			.CommandType = CommandType.StoredProcedure
-			.CommandText = "spSSCuentaBanco"
-			.Parameters.Add(New SqlParameter("@EmpresaContable", SqlDbType.Int)).Value = empresa
+			.CommandText = "uspConsultaPatronCuenta"
+			.Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.Int)).Value = TipoCobro
 		End With
 
 		Try
+
+			If cmd.Connection.State = ConnectionState.Closed Then
+				cmd.Connection.Open()
+			End If
+
+
+			Dim dr As SqlDataReader
+			dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+
+			If dr.Read() Then
+				resultado = CType(dr("PatronCuentaOrdenante"), String)
+			Else
+				Throw New Exception("vacio")
+			End If
+		Catch ex As Exception
+			Throw New Exception(ex.Message)
+		Finally
+			If cmd.Connection.State = ConnectionState.Open Then
+				cmd.Connection.Close()
+			End If
+		End Try
+
+		Return resultado
+	End Function
+
+	Public Function ConsultarEmpresaContable(ByVal Corporativo As Integer) As Integer
+		Dim resultado As Integer
+		Dim cmd As New SqlCommand("spPTLObtieneEmpresaContable", DataLayer.Conexion)
+
+
+		With cmd
+			.CommandType = CommandType.StoredProcedure
+			.CommandText = "spPTLObtieneEmpresaContable"
+			.Parameters.Add(New SqlParameter("@Corporativo", SqlDbType.Int)).Value = Corporativo
+		End With
+
+		Try
+			If cmd.Connection.State = ConnectionState.Closed Then
+				cmd.Connection.Open()
+			End If
+
+			Dim dr As SqlDataReader
+			dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+
+			While dr.Read()
+
+				resultado = CType(dr("EmpresaContable"), Integer)
+
+			End While
+
+		Catch ex As Exception
+			Throw New Exception(ex.Message)
+		Finally
+			If cmd.Connection.State = ConnectionState.Open Then
+				cmd.Connection.Close()
+			End If
+		End Try
+
+		Return resultado
+	End Function
+
+	Public Function ConsultarCuentas(Optional ByVal corporativo As Integer = 0, Optional banco As String = "") As List(Of String)
+		Dim resultado As New List(Of String)
+		Dim cmd As New SqlCommand("spSSCuentaBanco", DataLayer.Conexion)
+
+
+
+
+		Try
+			Dim empresa As Integer = ConsultarEmpresaContable(corporativo)
+
+			With cmd
+				.CommandType = CommandType.StoredProcedure
+				.CommandText = "spSSCuentaBanco"
+				.Parameters.Add(New SqlParameter("@EmpresaContable", SqlDbType.Int)).Value = empresa
+			End With
+
 			If cmd.Connection.State = ConnectionState.Closed Then
 				cmd.Connection.Open()
 			End If
@@ -10997,26 +11038,26 @@ Namespace Combos
         End Property
 
 
-        Public Sub CargaDatos()
-            Me.DataSource = Nothing
-            Me.Items.Clear()
-            strQuery = "spLiqConsultaValeTipo"
-            da = New SqlDataAdapter(strQuery, DataLayer.Conexion)
-            dtDatos = New DataTable("ValeTipo")
-            da.Fill(dtDatos)
-            With Me
-                .DataSource = dtDatos
-                .ValueMember = "ValeTipo"
-                .DisplayMember = "Descripcion"
-            End With
+		Public Sub CargaDatos()
+			Me.DataSource = Nothing
+			Me.Items.Clear()
+			strQuery = "spLiqConsultaValeTipo"
+			da = New SqlDataAdapter(strQuery, DataLayer.Conexion)
+			dtDatos = New DataTable("ValeTipo")
+			da.Fill(dtDatos)
+			With Me
+				.DataSource = dtDatos
+				.ValueMember = "ValeTipo"
+				.DisplayMember = "Descripcion"
+			End With
 
-            'Con estas líneas hago el binding de la columna a la propiedad
-            Me.DataBindings.Clear()
-            Me.DataBindings.Add("ValeTipo", dtDatos, "ValeTipo")
-            Me.DataBindings.Add("Descripcion", dtDatos, "Descripcion")
+			'Con estas líneas hago el binding de la columna a la propiedad
+			Me.DataBindings.Clear()
+			Me.DataBindings.Add("ValeTipo", dtDatos, "ValeTipo")
+			Me.DataBindings.Add("Descripcion", dtDatos, "Descripcion")
 
-        End Sub
-    End Class
+		End Sub
+	End Class
 #End Region
 
 #End Region
