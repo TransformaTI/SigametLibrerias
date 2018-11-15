@@ -2517,7 +2517,7 @@ Public Class frmLiquidacionPortatil
 
 #Region "Inicio y Fin de Sesion"
 	'Realiza un inicio de sesion almacenando la informacion en la tabla CorteCaja
-	Public Sub IniciarSesion(ByRef InicioDeSesion As DateTime)
+	Public Sub IniciarSesion(ByRef InicioDeSesion As DateTime, ByVal connection As SqlConnection, ByRef transaccion As SqlTransaction)
 		If SesionIniciada Then
 			MessageBox.Show("La sesión ya fue iniciada.", "Inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
 			Exit Sub
@@ -2528,21 +2528,21 @@ Public Class frmLiquidacionPortatil
 			Exit Sub
 		End If
 
-		Dim oCorte As New SigaMetClasses.CorteCaja()
+		Dim oCorte As New LiquidacionTransaccionada.CorteCaja()
 		Try
 			If dtpFLiquidacion.Value.Date < CType(Today.ToShortDateString, Date) And _ReglaHoraLiquidar = "1" Then
 				If Now < CType(Today.ToShortDateString & " " & _MaxHoraLiquidar, DateTime) Then
 					InicioDeSesion = CType(Today.ToShortDateString, Date)
 					InicioDeSesion = InicioDeSesion.AddDays(-1)
-					ConsecutivoInicioDeSesion = CType(oCorte.Alta(_CajaUsuario, InicioDeSesion, _Usuario, InicioDeSesion), Byte)
+					ConsecutivoInicioDeSesion = CType(oCorte.Alta(_CajaUsuario, InicioDeSesion, _Usuario, InicioDeSesion, connection, transaccion), Byte)
 				Else
 					InicioDeSesion = Now
-					ConsecutivoInicioDeSesion = CType(oCorte.Alta(_CajaUsuario, CType(Today.ToShortDateString, Date), _Usuario, InicioDeSesion), Byte)
+					ConsecutivoInicioDeSesion = CType(oCorte.Alta(_CajaUsuario, CType(Today.ToShortDateString, Date), _Usuario, InicioDeSesion, connection, transaccion), Byte)
 					InicioDeSesion = CType(Today.ToShortDateString, Date)
 				End If
 			Else
 				InicioDeSesion = Now
-				ConsecutivoInicioDeSesion = CType(oCorte.Alta(_CajaUsuario, CType(Today.ToShortDateString, Date), _Usuario, InicioDeSesion), Byte)
+				ConsecutivoInicioDeSesion = CType(oCorte.Alta(_CajaUsuario, CType(Today.ToShortDateString, Date), _Usuario, InicioDeSesion, connection, transaccion), Byte)
 				InicioDeSesion = CType(Today.ToShortDateString, Date)
 			End If
 			FechaOperacion = InicioDeSesion
@@ -2557,14 +2557,14 @@ Public Class frmLiquidacionPortatil
 	End Sub
 
 	'Termina la sesion de la liquidacion en caja
-	Public Sub TerminarSesion(ByVal Importe As Decimal)
+	Public Sub TerminarSesion(ByVal Importe As Decimal, ByVal connection As SqlConnection, ByRef transaccion As SqlTransaction)
 		If Not SesionIniciada Then
 			MessageBox.Show("La sesión no ha sido iniciada.", "Termino de sesión", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 			Exit Sub
 		End If
-		Dim oCorte As New SigaMetClasses.CorteCaja()
+		Dim oCorte As New LiquidacionTransaccionada.CorteCaja()
 		Try
-			oCorte.TerminaSesion(_CajaUsuario, CType(Today.ToShortDateString, Date), ConsecutivoInicioDeSesion, Now, _Usuario, Importe)
+			oCorte.TerminaSesion(_CajaUsuario, CType(Today.ToShortDateString, Date), ConsecutivoInicioDeSesion, Now, _Usuario, connection, transaccion, Importe)
 			SesionIniciada = False
 		Catch ex As Exception
 			SesionIniciada = True
@@ -4165,7 +4165,7 @@ Public Class frmLiquidacionPortatil
 
 
 				If SesionIniciada = False Then
-					IniciarSesion(FechaOperacion)
+					IniciarSesion(FechaOperacion, connection, transaction)
 				End If
 				'Si se inicio la sesion correctamente se realiza se procede a realizar la liquidacion
 				If SesionIniciada Then
@@ -4204,6 +4204,121 @@ Public Class frmLiquidacionPortatil
 						Dim _TotalCredito As Decimal = 0
 						Dim _TotalSinCargo As Decimal = 0
 
+						i = 0
+						Dim listadoMovimientoProducto As New LiquidacionTransaccionada.cMovimientoProductoLista()
+
+						While i < dtLiquidacionTotal.Rows.Count
+							If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) <> 15 Then
+								listadoMovimientoProducto.agregaItem(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), 1, CType(dtLiquidacionTotal.Rows(i).Item(0), Short))
+							Else
+								listadoMovimientoProducto.agregaItem(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short))
+							End If
+							i = i + 1
+						End While
+
+
+						Dim oMovimientoAProducto As LiquidacionTransaccionada.cMovimientoAProducto
+						Dim oMovimientoAproductoZona As LiquidacionTransaccionada.cMovimientoAProductoZona
+						Dim oMovimientoAProductoObsequio As LiquidacionTransaccionada.cMovimientoAProducto
+						Dim oMovimientoAproductoZonaObsequio As LiquidacionTransaccionada.cMovimientoAProductoZona
+
+						For ii As Integer = 0 To listadoMovimientoProducto.items.Count - 1
+							If listadoMovimientoProducto.items(ii).Tipo = 1 Then
+								_seccion = "Crear MovimientoAProducto Contado"
+								oMovimientoAProducto = New LiquidacionTransaccionada.cMovimientoAProducto(2,
+													_AlmacenGas,
+													listadoMovimientoProducto.items(ii).Producto,
+													oMovimientoAlmacenS.Identificador,
+													0, 0,
+													listadoMovimientoProducto.items(ii).Cantidad)
+								oMovimientoAproductoZona = New LiquidacionTransaccionada.cMovimientoAProductoZona(0,
+														_AlmacenGas,
+														oMovimientoAlmacenS.Identificador,
+														listadoMovimientoProducto.items(ii).Producto,
+														listadoMovimientoProducto.items(ii).Cantidad,
+														listadoMovimientoProducto.items(ii).ZonaEconomica,
+														0,
+														0,
+														0)
+								_seccion = "Crear MovimientoAProductoZona Contado"
+								oMovimientoAProducto.CargaDatos(connection, transaction)
+								_seccion = "Crear MovimientoAProductoZona ModificarEliminar Contado"
+								oMovimientoAproductoZona.RegistrarModificarEliminar(connection, transaction)
+							Else
+								_seccion = "Crear MovimientoAProducto Obsequio"
+								oMovimientoAProductoObsequio = New LiquidacionTransaccionada.cMovimientoAProducto(2,
+															_AlmacenGas,
+															listadoMovimientoProducto.items(ii).Producto,
+															MovimientoAlmacenSalidaObsequio,
+															0, 0,
+															listadoMovimientoProducto.items(ii).Cantidad)
+								_seccion = "Crear MovimientoAProductoZona Obsequio"
+								oMovimientoAproductoZonaObsequio = New LiquidacionTransaccionada.cMovimientoAProductoZona(0,
+															_AlmacenGas,
+															MovimientoAlmacenSalidaObsequio,
+															listadoMovimientoProducto.items(ii).Producto,
+															listadoMovimientoProducto.items(ii).Cantidad,
+															listadoMovimientoProducto.items(ii).ZonaEconomica,
+															0,
+															0,
+															0)
+
+								oMovimientoAProductoObsequio.CargaDatos(connection, transaction)
+								_seccion = "Crear MovimientoAProductoZona ModificarEliminar Obsequio"
+								oMovimientoAproductoZonaObsequio.RegistrarModificarEliminar(connection, transaction)
+
+							End If
+						Next
+
+						'If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) <> 15 Then
+						'	_seccion = "Crear MovimientoAProducto Contado"
+						'	oMovimientoAProducto = New LiquidacionTransaccionada.cMovimientoAProducto(2,
+						'					 _AlmacenGas,
+						'					 CType(dtLiquidacionTotal.Rows(i).Item(2), Integer),
+						'					 oMovimientoAlmacenS.Identificador,
+						'					 0,
+						'					 0,
+						'					 CType(dtLiquidacionTotal.Rows(i).Item(4), Integer))
+
+						'	_seccion = "Crear MovimientoAProductoZona Contado"
+						'	oMovimientoAproductoZona = New LiquidacionTransaccionada.cMovimientoAProductoZona(0,
+						'											   _AlmacenGas,
+						'														oMovimientoAlmacenS.Identificador,
+						'														CType(dtLiquidacionTotal.Rows(i).Item(2), Integer),
+						'														CType(dtLiquidacionTotal.Rows(i).Item(4), Integer),
+						'														CType(dtLiquidacionTotal.Rows(i).Item(0), Short),
+						'														0,
+						'														0,
+						'														0)
+						'	oMovimientoAProducto.CargaDatos(connection, transaction)
+						'	_seccion = "Crear MovimientoAProductoZona ModificarEliminar Contado"
+						'	oMovimientoAproductoZona.RegistrarModificarEliminar(connection, transaction)
+
+						'Else
+						'	_seccion = "Crear MovimientoAProducto Obsequio"
+						'	oMovimientoAProductoObsequio = New LiquidacionTransaccionada.cMovimientoAProducto(2,
+						'					 _AlmacenGas,
+						'					 CType(dtLiquidacionTotal.Rows(i).Item(2), Integer),
+						'					 MovimientoAlmacenSalidaObsequio,
+						'					 0,
+						'					 0,
+						'					 CType(dtLiquidacionTotal.Rows(i).Item(4), Integer))
+
+						'	_seccion = "Crear MovimientoAProductoZona Obsequio"
+						'	oMovimientoAproductoZonaObsequio = New LiquidacionTransaccionada.cMovimientoAProductoZona(0,
+						'											   _AlmacenGas,
+						'														MovimientoAlmacenSalidaObsequio,
+						'														CType(dtLiquidacionTotal.Rows(i).Item(2), Integer),
+						'														CType(dtLiquidacionTotal.Rows(i).Item(4), Integer),
+						'														CType(dtLiquidacionTotal.Rows(i).Item(0), Short),
+						'														0,
+						'														0,
+						'														0)
+
+						'	oMovimientoAProductoObsequio.CargaDatos(connection, transaction)
+						'	_seccion = "Crear MovimientoAProductoZona ModificarEliminar Obsequio"
+						'	oMovimientoAproductoZonaObsequio.RegistrarModificarEliminar(connection, transaction)
+						'End If
 
 
 						'Dim NumRenglones As Integer = dtLiquidacionTotal.Rows.Count
@@ -4213,60 +4328,7 @@ Public Class frmLiquidacionPortatil
 							Dim Importe As Decimal
 							Dim Impuesto As Decimal
 
-							Dim oMovimientoAProducto As LiquidacionTransaccionada.cMovimientoAProducto
-							Dim oMovimientoAproductoZona As LiquidacionTransaccionada.cMovimientoAProductoZona
-							Dim oMovimientoAProductoObsequio As LiquidacionTransaccionada.cMovimientoAProducto
-							Dim oMovimientoAproductoZonaObsequio As LiquidacionTransaccionada.cMovimientoAProductoZona
 
-							If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) <> 15 Then
-								_seccion = "Crear MovimientoAProducto Contado"
-								oMovimientoAProducto = New LiquidacionTransaccionada.cMovimientoAProducto(2,
-											 _AlmacenGas,
-											 CType(dtLiquidacionTotal.Rows(i).Item(2), Integer),
-											 oMovimientoAlmacenS.Identificador,
-											 0,
-											 0,
-											 CType(dtLiquidacionTotal.Rows(i).Item(4), Integer))
-
-								_seccion = "Crear MovimientoAProductoZona Contado"
-								oMovimientoAproductoZona = New LiquidacionTransaccionada.cMovimientoAProductoZona(0,
-																	   _AlmacenGas,
-																				oMovimientoAlmacenS.Identificador,
-																				CType(dtLiquidacionTotal.Rows(i).Item(2), Integer),
-																				CType(dtLiquidacionTotal.Rows(i).Item(4), Integer),
-																				CType(dtLiquidacionTotal.Rows(i).Item(0), Short),
-																				0,
-																				0,
-																				0)
-								oMovimientoAProducto.CargaDatos(connection, transaction)
-								_seccion = "Crear MovimientoAProductoZona ModificarEliminar Contado"
-								oMovimientoAproductoZona.RegistrarModificarEliminar(connection, transaction)
-
-							Else
-								_seccion = "Crear MovimientoAProducto Obsequio"
-								oMovimientoAProductoObsequio = New LiquidacionTransaccionada.cMovimientoAProducto(2,
-											 _AlmacenGas,
-											 CType(dtLiquidacionTotal.Rows(i).Item(2), Integer),
-											 MovimientoAlmacenSalidaObsequio,
-											 0,
-											 0,
-											 CType(dtLiquidacionTotal.Rows(i).Item(4), Integer))
-
-								_seccion = "Crear MovimientoAProductoZona Obsequio"
-								oMovimientoAproductoZonaObsequio = New LiquidacionTransaccionada.cMovimientoAProductoZona(0,
-																	   _AlmacenGas,
-																				MovimientoAlmacenSalidaObsequio,
-																				CType(dtLiquidacionTotal.Rows(i).Item(2), Integer),
-																				CType(dtLiquidacionTotal.Rows(i).Item(4), Integer),
-																				CType(dtLiquidacionTotal.Rows(i).Item(0), Short),
-																				0,
-																				0,
-																				0)
-
-								oMovimientoAProductoObsequio.CargaDatos(connection, transaction)
-								_seccion = "Crear MovimientoAProductoZona ModificarEliminar Obsequio"
-								oMovimientoAproductoZonaObsequio.RegistrarModificarEliminar(connection, transaction)
-							End If
 
 							If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) <> 15 Then
 								If _RutaMovil Then
