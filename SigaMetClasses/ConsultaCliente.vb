@@ -2740,7 +2740,15 @@ Public Class frmConsultaCliente
         Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Corporativo, Short)
         Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Sucursal, Short)
         Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
-        Dim FuenteCRM As String = CStr(oConfig.Parametros("FUENTECRM")).Trim()
+        Dim FuenteCRM As String = ""
+
+        Try
+            FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
+        Catch ex As Exception
+            FuenteCRM = String.Empty
+        End Try
+
+
 
         'If (Not String.IsNullOrEmpty(_URLGateway)) Then
         If FuenteCRM = "CRM" Then
@@ -2778,7 +2786,14 @@ Public Class frmConsultaCliente
         Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
         Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
         Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, CShort(Corporativo), Sucursal)
-        Dim FuenteCRM As String = CStr(oConfig.Parametros("FUENTECRM")).Trim()
+        Dim FuenteCRM As String = ""
+
+        Try
+            FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
+        Catch ex As Exception
+            FuenteCRM = ""
+        End Try
+
 
         Try
             If (oConfig.Parametros.Count > 0) Then
