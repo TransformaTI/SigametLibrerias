@@ -67,6 +67,13 @@ Public Class frmConsultaPagosAreaTarjeta
         CierraConexion()
 
         grdPagosTarjeta.DataSource = oPagoTarjeta.ConsultaCargoTarjeta(dtpFInicio.Value, dtpFfinal.Value, NumCliente)
+
+        If grdPagosTarjeta.Rows.Count > 0 Then
+            grdPagosTarjeta.Rows(0).Selected = True
+            SeleccionaPagoTarjeta()
+        End If
+
+
         oPagoTarjeta = Nothing
     End Sub
 
@@ -161,6 +168,10 @@ Public Class frmConsultaPagosAreaTarjeta
 
     Private Sub grdPagosTarjeta_CellContentDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdPagosTarjeta.CellContentDoubleClick
         SeleccionaPagoTarjeta()
+    End Sub
+
+    Private Sub frmConsultaPagosAreaTarjeta_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        BuscarCargosTarjetaPorFechaAlta()
     End Sub
 End Class
 #End Region

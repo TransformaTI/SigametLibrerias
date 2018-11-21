@@ -326,8 +326,10 @@ Public Class frmAltaPagoTarjeta
 
                         If AltaPagoTarjeta() Then
                             MessageBox.Show("Pago con tarjeta registrado exitosamente", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Me.Close()
                         Else
                             MessageBox.Show("Pago con tarjeta no registrado", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                            Me.Close()
                         End If
                         limpiaCliente()
                         limpiaCargo()
@@ -345,6 +347,8 @@ Public Class frmAltaPagoTarjeta
                 ModificaCargoTarjeta()
             End If
         End If
+
+
     End Sub
 
     Private Sub txtLitros_Leave(sender As Object, e As EventArgs) Handles txtLitros.Leave
@@ -432,20 +436,30 @@ Public Class frmAltaPagoTarjeta
         Dim TipoCargo As Short
         Dim Modifica As Boolean
 
-        If rdCargoPorCobranza.Checked Then
-            TipoCargo = 1
-        End If
-        If rdCargoPorVenta.Checked Then
-            TipoCargo = 2
-        End If
+        Try
+            If rdCargoPorCobranza.Checked Then
+                TipoCargo = 1
+            End If
+            If rdCargoPorVenta.Checked Then
+                TipoCargo = 2
+            End If
 
-        Modifica = oPagoTarjeta.ModificaCargoTarjeta(_Anio, _Folio, txtcliente.Text, cboAfiliacion.SelectedValue, cboTipoTarjeta.SelectedValue, TipoCargo, cboAutotanque.SelectedValue, cboMeses.Text, txtTarjeta.Text, cboBancos.SelectedValue, txtLitros.Text, txtImporte.Text, txtRemision.Text, txtAutorizacion.Text, txtObservaciones.Text, cboRuta.SelectedValue, _UsuarioAlta)
+            Modifica = oPagoTarjeta.ModificaCargoTarjeta(_Anio, _Folio, txtcliente.Text, cboAfiliacion.SelectedValue, cboTipoTarjeta.SelectedValue, TipoCargo, cboAutotanque.SelectedValue, cboMeses.Text, txtTarjeta.Text, cboBancos.SelectedValue, txtLitros.Text, txtImporte.Text, txtRemision.Text, txtAutorizacion.Text, txtObservaciones.Text, cboRuta.SelectedValue, _UsuarioAlta)
 
-        If Modifica = True Then
-            MessageBox.Show("La información se actualizo correctamente.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        End If
+            If Modifica = True Then
+                MessageBox.Show("La información se actualizo correctamente.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Me.Close()
+            End If
 
-        oPagoTarjeta = Nothing
+            oPagoTarjeta = Nothing
+
+        Catch ex As Exception
+            If ex.Message.Contains("UC_CargoTarjeta") Then
+                MessageBox.Show("Operación rechazada, el cargo con tarjeta ya está registrado, por favor corrija.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
+
+
     End Sub
     Private Sub ConsultaCargoTarjeta()
         Dim oPagoTarjeta As New AltaPagoTarjeta()
