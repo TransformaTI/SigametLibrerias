@@ -11,5 +11,9 @@
     Private Sub frmConsultaCargosTarjeta_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         dtpFechaAltaCargoTarjeta.Value = DateTime.Now
         dgvCargos.AutoGenerateColumns = False
+
+        Dim objConsulta As New SigaMetClasses.cCalle()
+        dgvCargos.DataSource = objConsulta.ConsultaCargoTarjetaXDia(dtpFechaAltaCargoTarjeta.Value.ToShortDateString)
+
     End Sub
 End Class
