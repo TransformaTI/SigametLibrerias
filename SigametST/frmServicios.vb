@@ -1774,6 +1774,11 @@ Public Class frmServicios
                                         cmd.Parameters.Add("@Calle", SqlDbType.Int).Value = Calle
                                         cmd.Parameters.Add("@Colonia", SqlDbType.Int).Value = Colonia
 
+                                        cmd.Parameters.Add("@IdCRM", SqlDbType.Int).Value = 0
+                                        cmd.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = 0
+                                        cmd.Parameters.Add("@FolioAtt", SqlDbType.Int).Value = 0
+                                        cmd.Parameters.Add("@Unidad", SqlDbType.Int).Value = 0
+
                                         'For Each oEquipo In Me.ClienteEquipo.Equipos
                                         'SQLComandoTransaccion.Parameters.Add("@Equipo", SqlDbType.SmallInt).Value = oEquipo.Equipo
                                         'SQLComandoTransaccion.Parameters.Add("@TipoPropiedad", SqlDbType.TinyInt).Value = 2
@@ -1893,7 +1898,10 @@ Public Class frmServicios
                                             SQLComandoTransaccion.Parameters.Add("@FFinComodato", SqlDbType.DateTime).Value = Nothing
                                             SQLComandoTransaccion.Parameters.Add("@Status", SqlDbType.Char).Value = ""
                                             SQLComandoTransaccion.Parameters.Add("@Consumo", SqlDbType.Int).Value = 0
-
+                                            SQLComandoTransaccion.Parameters.Add("@IdCRM", SqlDbType.Int).Value = 0
+                                            SQLComandoTransaccion.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = 0
+                                            SQLComandoTransaccion.Parameters.Add("@FolioAtt", SqlDbType.Int).Value = 0
+                                            SQLComandoTransaccion.Parameters.Add("@Unidad", SqlDbType.Int).Value = 0
 
                                             SQLTransaccion = ConexionTransaccion.BeginTransaction
 
@@ -1997,6 +2005,10 @@ Public Class frmServicios
                                                 SQLComandoTransaccion.Parameters.Add("@Status", SqlDbType.Char).Value = ""
                                                 SQLComandoTransaccion.Parameters.Add("@Consumo", SqlDbType.Int).Value = 0
 
+                                                SQLComandoTransaccion.Parameters.Add("@IdCRM", SqlDbType.Int).Value = 0
+                                                SQLComandoTransaccion.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = 0
+                                                SQLComandoTransaccion.Parameters.Add("@FolioAtt", SqlDbType.Int).Value = 0
+                                                SQLComandoTransaccion.Parameters.Add("@Unidad", SqlDbType.Int).Value = 0
 
                                                 SQLTransaccion = ConexionTransaccion.BeginTransaction
 
@@ -2153,14 +2165,14 @@ Public Class frmServicios
                             .CommandType = CommandType.StoredProcedure
                             .CommandText = "spSTModificaPedidoServiciosTecnicos"
                             .Parameters.Clear()
-                            .Parameters.Add("@FCompromiso", SqlDbType.DateTime).Value = dtpFCompromiso.Value.Date
+                            .Parameters.Add("@FCompromiso", SqlDbType.DateTime).Value = dtpFCompromiso.Value.Date.ToShortDateString()
                             .Parameters.Add("@Observaciones", SqlDbType.Text).Value = txtObservaciones.Text
                             .Parameters.Add("@Tiposervicio", SqlDbType.Int).Value = cboTipoServicio.SelectedValue
                             .Parameters.Add("@Celula", SqlDbType.Int).Value = _celula
                             .Parameters.Add("@Usuario", SqlDbType.VarChar).Value = _Usuario
                             .Parameters.Add("@Pedido", SqlDbType.Int).Value = _Pedido
                             .Parameters.Add("@AñoPed", SqlDbType.SmallInt).Value = _AñoPed
-                            .Parameters.Add("@FCompromisoInicial", SqlDbType.DateTime).Value = CType(Me.lblHoraatencion.Text, Date)
+                            .Parameters.Add("@FCompromisoInicial", SqlDbType.DateTime).Value = CType(Me.lblHoraatencion.Text, Date).ToShortDateString()
 
                             .ExecuteNonQuery()
 
