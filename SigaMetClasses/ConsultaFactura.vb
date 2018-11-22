@@ -28,7 +28,7 @@ Public Class ConsultaFactura
 
     End Sub
 
-    Public Sub New(URLGateway As String, Optional ByVal Modulo As Byte = 0, Optional ByVal CadCon As String = "")
+    Public Sub New(URLGateway As String, Optional ByVal Modulo As Byte = 0, Optional ByVal CadCon As String = "", Optional ByVal Usuario As String = "")
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
@@ -38,6 +38,7 @@ Public Class ConsultaFactura
         _URLGateway = URLGateway
         _Modulo = Modulo
         _CadenaConexion = CadCon
+        _Usuario = Usuario
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -117,6 +118,15 @@ Public Class ConsultaFactura
         End Get
         Set(value As Byte)
             _Modulo = value
+        End Set
+    End Property
+    Private _Usuario As String
+    Public Property Usuario() As String
+        Get
+            Return _Usuario
+        End Get
+        Set(ByVal value As String)
+            _Usuario = value
         End Set
     End Property
 
@@ -816,7 +826,7 @@ Public Class ConsultaFactura
     Private Sub mnuConsultaCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuConsultaCliente.Click
         If Trim(lvwFacturaPedido.FocusedItem.SubItems(2).Text) <> "" Then
             Cursor = Cursors.WaitCursor
-            Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(CType(lvwFacturaPedido.FocusedItem.SubItems(2).Text, Integer), Nuevo:=0)
+            Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(CType(lvwFacturaPedido.FocusedItem.SubItems(2).Text, Integer), Nuevo:=0, Usuario:=_Usuario)
             oConsultaCliente.ShowDialog()
             Cursor = Cursors.Default
         End If
