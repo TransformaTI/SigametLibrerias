@@ -6161,6 +6161,8 @@ Public Class TransaccionMovimientoCaja
 
             For Each Cobro In ListaCobro
 
+
+
                 Select Case Cobro.TipoCobro
                     Case Enumeradores.enumTipoCobro.Efectivo,
                          Enumeradores.enumTipoCobro.EfectivoVales,
@@ -6187,7 +6189,7 @@ Public Class TransaccionMovimientoCaja
                         Enumeradores.enumTipoCobro.TarjetaServicio,
                         Enumeradores.enumTipoCobro.TarjetaDeDebito
                         FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
-                            Cobro.TipoCobro, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia, strNumeroCuentaDestino:=Cobro.NoCuentaDestino)
+                            Cobro.TipoCobro, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia, strNumeroCuentaDestino:=Cobro.NoCuentaDestino, SaldoAFavor:=Cobro.SaldoAFavor)
 
                         'CONTROL DE SALDOS 01-04-2005
                     Case Enumeradores.enumTipoCobro.SaldoAFavor
