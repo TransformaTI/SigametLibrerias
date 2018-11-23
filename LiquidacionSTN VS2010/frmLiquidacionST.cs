@@ -633,7 +633,6 @@ namespace LiquidacionSTN
             this.imageList1.Images.SetKeyName(6, "");
             this.imageList1.Images.SetKeyName(7, "");
             this.imageList1.Images.SetKeyName(8, "");
-            this.imageList1.Images.SetKeyName(9, "cash-back.png");
             // 
             // cboCamioneta
             // 
