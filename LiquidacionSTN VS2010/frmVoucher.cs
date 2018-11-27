@@ -52,6 +52,8 @@ namespace LiquidacionSTN
         private Label label8;
         private SigaMetClasses.Controles.txtNumeroDecimal txtMonto;
         private SigaMetClasses.Controles.txtNumeroDecimal txtSaldo;
+        private TextBox txtNoTarjeta;
+        private Label label11;
 
         /// <summary>
         /// Required designer variable.
@@ -107,6 +109,8 @@ namespace LiquidacionSTN
             this.tsbAceptar = new System.Windows.Forms.ToolStripButton();
             this.tsbCerrar = new System.Windows.Forms.ToolStripButton();
             this.pnlPrincipal = new System.Windows.Forms.Panel();
+            this.txtSaldo = new SigaMetClasses.Controles.txtNumeroDecimal();
+            this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.txtConfirmaAutorizacion = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtAutorizacion = new System.Windows.Forms.TextBox();
@@ -116,8 +120,8 @@ namespace LiquidacionSTN
             this.cboAfiliacion = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.txtSaldo = new SigaMetClasses.Controles.txtNumeroDecimal();
-            this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
+            this.txtNoTarjeta = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.tsBotonera.SuspendLayout();
             this.pnlPrincipal.SuspendLayout();
             this.SuspendLayout();
@@ -135,7 +139,7 @@ namespace LiquidacionSTN
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(23, 149);
+            this.label3.Location = new System.Drawing.Point(23, 186);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 2;
@@ -146,7 +150,7 @@ namespace LiquidacionSTN
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(23, 261);
+            this.label5.Location = new System.Drawing.Point(23, 298);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(40, 13);
             this.label5.TabIndex = 4;
@@ -156,10 +160,10 @@ namespace LiquidacionSTN
             // dtpFecha
             // 
             this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFecha.Location = new System.Drawing.Point(119, 149);
+            this.dtpFecha.Location = new System.Drawing.Point(119, 186);
             this.dtpFecha.Name = "dtpFecha";
-            this.dtpFecha.Size = new System.Drawing.Size(115, 20);
-            this.dtpFecha.TabIndex = 3;
+            this.dtpFecha.Size = new System.Drawing.Size(137, 20);
+            this.dtpFecha.TabIndex = 5;
             // 
             // txtCliente
             // 
@@ -168,7 +172,7 @@ namespace LiquidacionSTN
             this.txtCliente.Location = new System.Drawing.Point(119, 46);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.ReadOnly = true;
-            this.txtCliente.Size = new System.Drawing.Size(115, 20);
+            this.txtCliente.Size = new System.Drawing.Size(137, 20);
             this.txtCliente.TabIndex = 0;
             this.txtCliente.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -176,7 +180,7 @@ namespace LiquidacionSTN
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(23, 294);
+            this.label6.Location = new System.Drawing.Point(23, 331);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(37, 13);
             this.label6.TabIndex = 12;
@@ -220,6 +224,8 @@ namespace LiquidacionSTN
             // 
             // pnlPrincipal
             // 
+            this.pnlPrincipal.Controls.Add(this.txtNoTarjeta);
+            this.pnlPrincipal.Controls.Add(this.label11);
             this.pnlPrincipal.Controls.Add(this.txtSaldo);
             this.pnlPrincipal.Controls.Add(this.txtMonto);
             this.pnlPrincipal.Controls.Add(this.txtConfirmaAutorizacion);
@@ -240,19 +246,33 @@ namespace LiquidacionSTN
             this.pnlPrincipal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlPrincipal.Location = new System.Drawing.Point(0, 38);
             this.pnlPrincipal.Name = "pnlPrincipal";
-            this.pnlPrincipal.Size = new System.Drawing.Size(268, 351);
+            this.pnlPrincipal.Size = new System.Drawing.Size(268, 366);
             this.pnlPrincipal.TabIndex = 13;
+            // 
+            // txtSaldo
+            // 
+            this.txtSaldo.Location = new System.Drawing.Point(119, 328);
+            this.txtSaldo.Name = "txtSaldo";
+            this.txtSaldo.Size = new System.Drawing.Size(137, 20);
+            this.txtSaldo.TabIndex = 9;
+            // 
+            // txtMonto
+            // 
+            this.txtMonto.Location = new System.Drawing.Point(119, 295);
+            this.txtMonto.Name = "txtMonto";
+            this.txtMonto.Size = new System.Drawing.Size(137, 20);
+            this.txtMonto.TabIndex = 8;
             // 
             // txtConfirmaAutorizacion
             // 
-            this.txtConfirmaAutorizacion.Location = new System.Drawing.Point(119, 215);
+            this.txtConfirmaAutorizacion.Location = new System.Drawing.Point(119, 252);
             this.txtConfirmaAutorizacion.Name = "txtConfirmaAutorizacion";
-            this.txtConfirmaAutorizacion.Size = new System.Drawing.Size(115, 20);
-            this.txtConfirmaAutorizacion.TabIndex = 5;
+            this.txtConfirmaAutorizacion.Size = new System.Drawing.Size(137, 20);
+            this.txtConfirmaAutorizacion.TabIndex = 7;
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(23, 215);
+            this.label9.Location = new System.Drawing.Point(23, 252);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(75, 30);
             this.label9.TabIndex = 20;
@@ -260,15 +280,16 @@ namespace LiquidacionSTN
             // 
             // txtAutorizacion
             // 
-            this.txtAutorizacion.Location = new System.Drawing.Point(119, 179);
+            this.txtAutorizacion.Location = new System.Drawing.Point(119, 216);
             this.txtAutorizacion.Name = "txtAutorizacion";
-            this.txtAutorizacion.Size = new System.Drawing.Size(115, 20);
-            this.txtAutorizacion.TabIndex = 4;
+            this.txtAutorizacion.Size = new System.Drawing.Size(137, 20);
+            this.txtAutorizacion.TabIndex = 6;
+            this.txtAutorizacion.TextChanged += new System.EventHandler(this.txtAutorizacion_TextChanged);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(23, 182);
+            this.label8.Location = new System.Drawing.Point(23, 219);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(68, 13);
             this.label8.TabIndex = 18;
@@ -279,7 +300,7 @@ namespace LiquidacionSTN
             this.cboTipoTarjeta.FormattingEnabled = true;
             this.cboTipoTarjeta.Location = new System.Drawing.Point(119, 113);
             this.cboTipoTarjeta.Name = "cboTipoTarjeta";
-            this.cboTipoTarjeta.Size = new System.Drawing.Size(115, 21);
+            this.cboTipoTarjeta.Size = new System.Drawing.Size(137, 21);
             this.cboTipoTarjeta.TabIndex = 2;
             this.cboTipoTarjeta.SelectedIndexChanged += new System.EventHandler(this.cboTipoTarjeta_SelectedIndexChanged);
             // 
@@ -297,7 +318,7 @@ namespace LiquidacionSTN
             this.cboAfiliacion.FormattingEnabled = true;
             this.cboAfiliacion.Location = new System.Drawing.Point(119, 80);
             this.cboAfiliacion.Name = "cboAfiliacion";
-            this.cboAfiliacion.Size = new System.Drawing.Size(115, 21);
+            this.cboAfiliacion.Size = new System.Drawing.Size(137, 21);
             this.cboAfiliacion.TabIndex = 1;
             this.cboAfiliacion.SelectedIndexChanged += new System.EventHandler(this.cboAfiliacion_SelectedIndexChanged);
             // 
@@ -323,25 +344,27 @@ namespace LiquidacionSTN
             this.label7.Text = "Llenar Voucher";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtSaldo
+            // txtNoTarjeta
             // 
-            this.txtSaldo.Location = new System.Drawing.Point(119, 291);
-            this.txtSaldo.Name = "txtSaldo";
-            this.txtSaldo.Size = new System.Drawing.Size(115, 20);
-            this.txtSaldo.TabIndex = 7;
+            this.txtNoTarjeta.Location = new System.Drawing.Point(119, 148);
+            this.txtNoTarjeta.Name = "txtNoTarjeta";
+            this.txtNoTarjeta.Size = new System.Drawing.Size(137, 20);
+            this.txtNoTarjeta.TabIndex = 4;
             // 
-            // txtMonto
+            // label11
             // 
-            this.txtMonto.Location = new System.Drawing.Point(119, 258);
-            this.txtMonto.Name = "txtMonto";
-            this.txtMonto.Size = new System.Drawing.Size(115, 20);
-            this.txtMonto.TabIndex = 6;
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(23, 151);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(63, 13);
+            this.label11.TabIndex = 24;
+            this.label11.Text = "No. Tarjeta:";
             // 
             // frmVoucher
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(268, 389);
+            this.ClientSize = new System.Drawing.Size(268, 404);
             this.Controls.Add(this.pnlPrincipal);
             this.Controls.Add(this.tsBotonera);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -429,6 +452,7 @@ namespace LiquidacionSTN
             CargarComboAfiliacion();
             ConsultarBancoAfiliacion();
             CargarComboTipoTarjeta();
+           
         }
         
         private void Aceptar()
@@ -440,7 +464,8 @@ namespace LiquidacionSTN
                                         txtAutorizacion.Text.Trim(),
                                         txtConfirmaAutorizacion.Text.Trim(),
                                         txtMonto.Text,
-                                        txtSaldo.Text))
+                                        txtSaldo.Text,
+                                        txtNoTarjeta.Text))
             {
                 DataRow Registro;
                 Registro = LiquidacionSTN.Modulo.dtVoucher.NewRow();
@@ -451,7 +476,7 @@ namespace LiquidacionSTN
                 //Registro["Banco"] = this.cboBanco.SelectedValue;
                 Registro["Banco"] = _BancoAfiliacion;
                 Registro["Fecha"] = this.dtpFecha.Value.Date;
-                //Registro["Folio"] = this.txtFolio.Text;
+                Registro["Folio"] = this.txtNoTarjeta.Text;
                 Registro["Monto"] = this.txtMonto.Text;
                 Registro["Autotanque"] = _Autotanque;
                 Registro["Saldo"] = txtSaldo.Text;
@@ -604,7 +629,7 @@ namespace LiquidacionSTN
 
         private bool ValidarEntradaUsuario(int cliente, int afiliacion, byte tipoTarjeta, DateTime fecha, 
                                             string autorizacion, string confirmaAutorizacion, 
-                                            string monto, string saldo)
+                                            string monto, string saldo,  string tarjeta)
         {
             bool entradaValida = false;
             StringBuilder mensaje = new StringBuilder();
@@ -621,6 +646,11 @@ namespace LiquidacionSTN
             {
                 mensaje.Append("Debe proporcionar un tipo de tarjeta válido." + Environment.NewLine);
             }
+            if (tarjeta.Length == 0)
+            {
+                mensaje.Append("No ha proporcionado una No. de tarjeta." + Environment.NewLine);
+            }
+
             if (!autorizacion.Equals(confirmaAutorizacion))
             {
                 mensaje.Append("Los campos de autorización no concuerdan, verifíque." + Environment.NewLine);
@@ -637,9 +667,16 @@ namespace LiquidacionSTN
                 mensaje.Append("Debe proporcionar un monto válido." + Environment.NewLine);
             }
 
-            decimal dSaldo = 0;
-            decimal.TryParse(saldo, out dSaldo);
-            if (dSaldo == 0)
+            decimal dSaldo;
+            try
+            {
+                dSaldo = decimal.Parse(saldo);
+            }
+            catch
+            {
+                dSaldo = -1;
+            }
+            if (dSaldo < 0)
             {
                 mensaje.Append("Debe proporcionar un saldo válido." + Environment.NewLine);
             }
@@ -672,6 +709,11 @@ namespace LiquidacionSTN
         private void tsbCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtAutorizacion_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
