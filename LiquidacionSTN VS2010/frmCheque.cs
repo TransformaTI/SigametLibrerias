@@ -261,6 +261,7 @@ namespace LiquidacionSTN
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(16, 8);
             this.btnAceptar.TabIndex = 16;
+            this.btnAceptar.Visible = false;
             // 
             // btnleer
             // 
@@ -269,6 +270,7 @@ namespace LiquidacionSTN
             this.btnleer.Name = "btnleer";
             this.btnleer.Size = new System.Drawing.Size(16, 8);
             this.btnleer.TabIndex = 17;
+            this.btnleer.Visible = false;
             this.btnleer.Click += new System.EventHandler(this.btnleer_Click);
             // 
             // txtNumCheque
@@ -562,16 +564,16 @@ namespace LiquidacionSTN
 			string _strCodigo = txtCodigo.Text.Trim ();
 			string _NumeroCuenta;
 			string _NumeroCheque;
+            if (_strCodigo.Trim() != string.Empty)
+            { 
+			    _NumeroCuenta = _strCodigo.Substring (16,11);
+			    _NumeroCheque = _strCodigo.Substring (28,7);
 
-			_NumeroCuenta = _strCodigo.Substring (16,11);
-			_NumeroCheque = _strCodigo.Substring (28,7);
-
-			txtNumCuenta.Text = _NumeroCuenta;
-			txtNumCheque.Text = _NumeroCheque;
-			txtCodigo.Text = "";
-
-
-		}
+			    txtNumCuenta.Text = _NumeroCuenta;
+			    txtNumCheque.Text = _NumeroCheque;
+			    txtCodigo.Text = "";
+            }
+        }
 
 		private void txtCodigo_Enter(object sender, System.EventArgs e)
 		{
