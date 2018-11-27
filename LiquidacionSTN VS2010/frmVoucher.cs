@@ -107,6 +107,8 @@ namespace LiquidacionSTN
             this.tsbAceptar = new System.Windows.Forms.ToolStripButton();
             this.tsbCerrar = new System.Windows.Forms.ToolStripButton();
             this.pnlPrincipal = new System.Windows.Forms.Panel();
+            this.txtSaldo = new SigaMetClasses.Controles.txtNumeroDecimal();
+            this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.txtConfirmaAutorizacion = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtAutorizacion = new System.Windows.Forms.TextBox();
@@ -116,8 +118,6 @@ namespace LiquidacionSTN
             this.cboAfiliacion = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.txtSaldo = new SigaMetClasses.Controles.txtNumeroDecimal();
-            this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.tsBotonera.SuspendLayout();
             this.pnlPrincipal.SuspendLayout();
             this.SuspendLayout();
@@ -243,6 +243,22 @@ namespace LiquidacionSTN
             this.pnlPrincipal.Size = new System.Drawing.Size(268, 351);
             this.pnlPrincipal.TabIndex = 13;
             // 
+            // txtSaldo
+            // 
+            this.txtSaldo.Enabled = false;
+            this.txtSaldo.Location = new System.Drawing.Point(119, 291);
+            this.txtSaldo.Name = "txtSaldo";
+            this.txtSaldo.Size = new System.Drawing.Size(115, 20);
+            this.txtSaldo.TabIndex = 7;
+            // 
+            // txtMonto
+            // 
+            this.txtMonto.Location = new System.Drawing.Point(119, 258);
+            this.txtMonto.Name = "txtMonto";
+            this.txtMonto.Size = new System.Drawing.Size(115, 20);
+            this.txtMonto.TabIndex = 6;
+            this.txtMonto.Leave += new System.EventHandler(this.txtMonto_Leave);
+            // 
             // txtConfirmaAutorizacion
             // 
             this.txtConfirmaAutorizacion.Location = new System.Drawing.Point(119, 215);
@@ -322,20 +338,6 @@ namespace LiquidacionSTN
             this.label7.TabIndex = 13;
             this.label7.Text = "Llenar Voucher";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtSaldo
-            // 
-            this.txtSaldo.Location = new System.Drawing.Point(119, 291);
-            this.txtSaldo.Name = "txtSaldo";
-            this.txtSaldo.Size = new System.Drawing.Size(115, 20);
-            this.txtSaldo.TabIndex = 7;
-            // 
-            // txtMonto
-            // 
-            this.txtMonto.Location = new System.Drawing.Point(119, 258);
-            this.txtMonto.Name = "txtMonto";
-            this.txtMonto.Size = new System.Drawing.Size(115, 20);
-            this.txtMonto.TabIndex = 6;
             // 
             // frmVoucher
             // 
@@ -639,9 +641,9 @@ namespace LiquidacionSTN
 
             decimal dSaldo = 0;
             decimal.TryParse(saldo, out dSaldo);
-            if (dSaldo == 0)
+            if (dSaldo < 0)
             {
-                mensaje.Append("Debe proporcionar un saldo válido." + Environment.NewLine);
+                mensaje.Append("El saldo es incorrecto, verifíque." + Environment.NewLine);
             }
 
             if (mensaje.Length > 0)
@@ -660,6 +662,7 @@ namespace LiquidacionSTN
         {
             try
             {
+                CalcularSaldo();
                 Aceptar();
             }
             catch (Exception ex)
@@ -672,6 +675,21 @@ namespace LiquidacionSTN
         private void tsbCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtMonto_Leave(object sender, EventArgs e)
+        {
+            CalcularSaldo();
+        }
+
+        private void CalcularSaldo()
+        {
+            decimal.TryParse(txtMonto.Text, out _Monto);
+            if (_Monto > 0)
+            {
+                _Saldo = _Total - _Monto;
+                txtSaldo.Text = _Saldo.ToString();
+            }
         }
     }
 }
