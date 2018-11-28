@@ -2529,6 +2529,7 @@ namespace LiquidacionSTN
 
 		private void CalculaTotalesContado()
 		{
+            TotalContado = 0;
 			System.Data.DataRow [] Consulta = LiquidacionSTN.Modulo.dtLiquidacion .Select ("TipoPedido = 7 and StatusServicioTecnico = 'ATENDIDO' and PedidoReferencia='" + _PedidoReferencia + "'");
 			foreach (System.Data.DataRow drC in Consulta)
 			{

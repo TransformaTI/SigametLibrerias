@@ -780,8 +780,11 @@ namespace LiquidacionSTN
 					drM.BeginEdit();
 					drM["StatusServicioTecnico"] = "ATENDIDO";
 					drM.EndEdit ();
-					_TipoCobro = Convert.ToInt32 (drM["TipoCobro"]);
-				}
+                    if (drM["TipoCobro"] != DBNull.Value)
+                    {
+                        _TipoCobro = Convert.ToInt32(drM["TipoCobro"]);
+                    }
+                }
 				if (_TipoCobro == 6)
 				{
 
