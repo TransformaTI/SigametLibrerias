@@ -426,12 +426,19 @@ namespace LiquidacionSTN
 
 		private void frmVoucher_Load(object sender, System.EventArgs e)
 		{
-		    txtCliente.Text = Convert.ToString (_Cliente);
-		    //LlenaBanco();
-		    LlenaPedido();
-            CargarComboAfiliacion();
-            ConsultarBancoAfiliacion();
-            CargarComboTipoTarjeta();
+            try
+            {
+                txtCliente.Text = Convert.ToString(_Cliente);
+                //LlenaBanco();
+                LlenaPedido();
+                CargarComboAfiliacion();
+                ConsultarBancoAfiliacion();
+                CargarComboTipoTarjeta();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         
         private void Aceptar()
@@ -470,7 +477,7 @@ namespace LiquidacionSTN
             }
         }
 
-        private bool ValidarVoucher(int afiliacion, byte tipoCobro, string autorizacion)
+        private bool ValidarVoucher(string afiliacion, byte tipoCobro, string autorizacion)
         {
             bool valido = false;
             try
@@ -479,12 +486,13 @@ namespace LiquidacionSTN
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandTimeout = 300;
-                    //cmd.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = ;
+                    cmd.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = _BancoAfiliacion;
                     cmd.Parameters.Add("@Autorizacion", SqlDbType.Char).Value = autorizacion;
                     //cmd.Parameters.Add("@Tarjeta", SqlDbType.Char).Value = ;
                     cmd.Parameters.Add("@Afiliacion", SqlDbType.VarChar).Value = afiliacion;
                     cmd.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = tipoCobro;
 
+                    LiquidacionSTN.Modulo.CnnSigamet.Open();
                     valido = Convert.ToBoolean(cmd.ExecuteScalar());
                 }
             }
@@ -588,7 +596,7 @@ namespace LiquidacionSTN
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
