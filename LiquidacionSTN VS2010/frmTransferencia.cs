@@ -135,6 +135,13 @@ namespace LiquidacionSTN
             {
                 mensaje.Append("- Ingrese un monto válido.");
             }
+            //  Saldo
+            _Saldo = 0;
+            decimal.TryParse(txtSaldo.Text, out _Saldo);
+            if (_Saldo < 0)
+            {
+                mensaje.Append("- Ingrese un saldo válido.");
+            }
 
             if (mensaje.ToString().Length > 0)
             {
