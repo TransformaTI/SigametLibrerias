@@ -49,7 +49,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.txtObservaciones = new System.Windows.Forms.TextBox();
-            this.lblSaldo = new System.Windows.Forms.Label();
             this.txtDocumento = new System.Windows.Forms.TextBox();
             this.dtpFecha = new System.Windows.Forms.DateTimePicker();
             this.lblCliente = new System.Windows.Forms.Label();
@@ -61,6 +60,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.cCalle1 = new SigaMetClasses.cCalle();
+            this.txtSaldo = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.tsBotonera.SuspendLayout();
             this.pnlPrincipal.SuspendLayout();
             this.SuspendLayout();
@@ -108,6 +108,7 @@
             // 
             // pnlPrincipal
             // 
+            this.pnlPrincipal.Controls.Add(this.txtSaldo);
             this.pnlPrincipal.Controls.Add(this.lblAsteriscoCuenta);
             this.pnlPrincipal.Controls.Add(this.lblAsteriscoBanco);
             this.pnlPrincipal.Controls.Add(this.label15);
@@ -124,7 +125,6 @@
             this.pnlPrincipal.Controls.Add(this.label8);
             this.pnlPrincipal.Controls.Add(this.txtMonto);
             this.pnlPrincipal.Controls.Add(this.txtObservaciones);
-            this.pnlPrincipal.Controls.Add(this.lblSaldo);
             this.pnlPrincipal.Controls.Add(this.txtDocumento);
             this.pnlPrincipal.Controls.Add(this.dtpFecha);
             this.pnlPrincipal.Controls.Add(this.lblCliente);
@@ -282,6 +282,7 @@
             this.txtMonto.Name = "txtMonto";
             this.txtMonto.Size = new System.Drawing.Size(110, 20);
             this.txtMonto.TabIndex = 15;
+            this.txtMonto.Leave += new System.EventHandler(this.txtMonto_Leave);
             // 
             // txtObservaciones
             // 
@@ -292,14 +293,6 @@
             this.txtObservaciones.Name = "txtObservaciones";
             this.txtObservaciones.Size = new System.Drawing.Size(187, 69);
             this.txtObservaciones.TabIndex = 17;
-            // 
-            // lblSaldo
-            // 
-            this.lblSaldo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblSaldo.Location = new System.Drawing.Point(117, 350);
-            this.lblSaldo.Name = "lblSaldo";
-            this.lblSaldo.Size = new System.Drawing.Size(110, 23);
-            this.lblSaldo.TabIndex = 16;
             // 
             // txtDocumento
             // 
@@ -320,10 +313,12 @@
             // lblCliente
             // 
             this.lblCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblCliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCliente.Location = new System.Drawing.Point(117, 46);
             this.lblCliente.Name = "lblCliente";
             this.lblCliente.Size = new System.Drawing.Size(110, 23);
             this.lblCliente.TabIndex = 8;
+            this.lblCliente.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label7
             // 
@@ -392,6 +387,13 @@
             this.label1.Text = "Agregar una transferencia";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // txtSaldo
+            // 
+            this.txtSaldo.Location = new System.Drawing.Point(117, 348);
+            this.txtSaldo.Name = "txtSaldo";
+            this.txtSaldo.Size = new System.Drawing.Size(110, 20);
+            this.txtSaldo.TabIndex = 16;
+            // 
             // frmTransferencia
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -434,7 +436,6 @@
         private System.Windows.Forms.DateTimePicker dtpFecha;
         private System.Windows.Forms.Label lblCliente;
         private SigaMetClasses.cCalle cCalle1;
-        private System.Windows.Forms.Label lblSaldo;
         private System.Windows.Forms.TextBox txtDocumento;
         private System.Windows.Forms.TextBox txtObservaciones;
         private SigaMetClasses.Controles.txtNumeroDecimal txtMonto;
@@ -452,5 +453,6 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
+        private SigaMetClasses.Controles.txtNumeroDecimal txtSaldo;
     }
 }

@@ -2529,6 +2529,7 @@ namespace LiquidacionSTN
 
 		private void CalculaTotalesContado()
 		{
+            TotalContado = 0;
 			System.Data.DataRow [] Consulta = LiquidacionSTN.Modulo.dtLiquidacion .Select ("TipoPedido = 7 and StatusServicioTecnico = 'ATENDIDO' and PedidoReferencia='" + _PedidoReferencia + "'");
 			foreach (System.Data.DataRow drC in Consulta)
 			{
@@ -3368,7 +3369,7 @@ namespace LiquidacionSTN
                 {
                     if (_TipoPedido == 7)
                     {
-                        LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente, _TipoCobro);
+                        LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente, _TipoCobro, _PedidoReferencia);
                         if (frmTransferencia.ShowDialog() == DialogResult.OK)
                         {
                             CargarTransferencias(frmTransferencia.Transferencias);

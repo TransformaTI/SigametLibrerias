@@ -17,6 +17,7 @@ namespace LiquidacionSTN
         // Variables de clase
         private List<SigaMetClasses.sTransferencia> _Transferencias = new List<sTransferencia>();
         private DataTable _dtCuentas;
+        private string _PedidoReferencia;
         private int _Cliente;
         private decimal _Monto;
         private decimal _Saldo;
@@ -25,6 +26,7 @@ namespace LiquidacionSTN
         private string _CuentaDestino;
         private bool _SePresentoForma;
         private int _TipoCobro;
+        private decimal _Total;
 
         #region Propiedades
 
@@ -47,18 +49,20 @@ namespace LiquidacionSTN
             InitializeComponent();
         }
 
-        public frmTransferencia(int cliente, int tipoCobro)
+        public frmTransferencia(int cliente, int tipoCobro, string pedidoReferencia)
         {
             InitializeComponent();
 
             _Cliente = cliente;
             _TipoCobro = tipoCobro;
+            _PedidoReferencia = pedidoReferencia;
         }
 
         private void tsbAceptar_Click(object sender, EventArgs e)
         {
             try
             {
+                //CalcularSaldo();
                 Aceptar();
             }
             catch (Exception ex)
@@ -133,7 +137,27 @@ namespace LiquidacionSTN
             decimal.TryParse(txtMonto.Text, out _Monto);
             if (_Monto == 0)
             {
-                mensaje.Append("- Ingrese un monto válido.");
+                mensaje.Append("- Ingrese un monto válido." + Environment.NewLine);
+            }
+            //  Saldo
+            //_Saldo = 0;
+            //decimal.TryParse(txtSaldo.Text, out _Saldo);
+            //if (_Saldo < 0)
+            //{
+            //    mensaje.Append("- Ingrese un saldo válido.");
+            //}
+            _Saldo = 0;
+            try
+            {
+                _Saldo = decimal.Parse(txtSaldo.Text);
+            }
+            catch
+            {
+                _Saldo = -1;
+            }
+            if (_Saldo < 0)
+            {
+                mensaje.Append("- Ingrese un saldo válido.");
             }
 
             if (mensaje.ToString().Length > 0)
@@ -170,6 +194,7 @@ namespace LiquidacionSTN
         {
             try
             {
+                LlenarPedido();
                 CargarEtiquetas();
                 cboBancoOrigen.CargaDatos(CargaBancoCero: false);
                 cboBancoDestino.CargaDatos(CargaBancoCero: false);
@@ -178,6 +203,17 @@ namespace LiquidacionSTN
             catch (Exception ex)
             {
                 MessageBox.Show("Se produjo un error:" + Environment.NewLine + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LlenarPedido()
+        {
+            System.Data.DataRow[] C;
+            C = LiquidacionSTN.Modulo.dtLiquidacion.Select("PedidoReferencia = '" + _PedidoReferencia + "'");
+
+            foreach (System.Data.DataRow dr in C)
+            {
+                _Total = Convert.ToInt32(dr["Total"]);
             }
         }
 
@@ -281,6 +317,28 @@ namespace LiquidacionSTN
             if (cboBancoOrigen.SelectedValue != null)
             {
                 short.TryParse(cboBancoOrigen.SelectedValue.ToString(), out _BancoOrigen);
+            }
+        }
+
+        private void txtMonto_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                CalcularSaldo();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CalcularSaldo()
+        {
+            decimal.TryParse(txtMonto.Text, out _Monto);
+            if (_Monto > 0)
+            {
+                _Saldo = _Total - _Monto;
+                txtSaldo.Text = _Saldo.ToString();
             }
         }
     }
