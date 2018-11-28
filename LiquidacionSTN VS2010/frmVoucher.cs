@@ -15,7 +15,8 @@ namespace LiquidacionSTN
 	public class frmVoucher : System.Windows.Forms.Form
 	{
         // Variables de clase
-        private int _Afiliacion;
+        private int _IDAfiliacion;
+        private string _NumAfiliacion;
         private short _BancoAfiliacion;
         private byte _TipoTarjeta;
 
@@ -435,14 +436,17 @@ namespace LiquidacionSTN
         
         private void Aceptar()
         {
-            if (ValidarEntradaUsuario(_Cliente,
-                                        _Afiliacion,
+            if ( ValidarEntradaUsuario(  _Cliente,
+                                        _IDAfiliacion,
                                         _TipoTarjeta,
                                         dtpFecha.Value,
                                         txtAutorizacion.Text.Trim(),
                                         txtConfirmaAutorizacion.Text.Trim(),
                                         txtMonto.Text,
-                                        txtSaldo.Text))
+                                        txtSaldo.Text)
+                 && ValidarVoucher(     _NumAfiliacion, 
+                                        _TipoTarjeta, 
+                                        txtAutorizacion.Text.Trim()) )
             {
                 DataRow Registro;
                 Registro = LiquidacionSTN.Modulo.dtVoucher.NewRow();
@@ -464,6 +468,41 @@ namespace LiquidacionSTN
 
                 this.Close();
             }
+        }
+
+        private bool ValidarVoucher(int afiliacion, byte tipoCobro, string autorizacion)
+        {
+            bool valido = false;
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("spSTConsultaCargoTarjeta", LiquidacionSTN.Modulo.CnnSigamet))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 300;
+                    //cmd.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = ;
+                    cmd.Parameters.Add("@Autorizacion", SqlDbType.Char).Value = autorizacion;
+                    //cmd.Parameters.Add("@Tarjeta", SqlDbType.Char).Value = ;
+                    cmd.Parameters.Add("@Afiliacion", SqlDbType.VarChar).Value = afiliacion;
+                    cmd.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = tipoCobro;
+
+                    valido = Convert.ToBoolean(cmd.ExecuteScalar());
+                }
+            }
+            catch (Exception) { throw; }
+            finally
+            {
+                if (LiquidacionSTN.Modulo.CnnSigamet.State != ConnectionState.Closed)
+                {
+                    LiquidacionSTN.Modulo.CnnSigamet.Close();
+                }
+            }
+
+            if (!valido)
+            {
+                MessageBox.Show("Este Voucher ya se dió de alta, por favor verifíque.", "Información", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            return valido;
         }
 
         /// <summary>
@@ -503,7 +542,7 @@ namespace LiquidacionSTN
                     cboAfiliacion.ValueMember = "Afiliacion";
                     cboAfiliacion.SelectedIndex = 0;
 
-                    int.TryParse(cboAfiliacion.SelectedValue.ToString(), out _Afiliacion);
+                    int.TryParse(cboAfiliacion.SelectedValue.ToString(), out _IDAfiliacion);
                 }
             }
             catch (Exception ex)
@@ -520,11 +559,11 @@ namespace LiquidacionSTN
         {
             _BancoAfiliacion = 0;
 
-            if (_Afiliacion == 0) { return; }
+            if (_IDAfiliacion == 0) { return; }
 
             SqlCommand cmd = new SqlCommand("spSTBancoAfiliacion", LiquidacionSTN.Modulo.CnnSigamet);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@IDAfiliacion", SqlDbType.Int).Value = _Afiliacion;
+            cmd.Parameters.Add("@IDAfiliacion", SqlDbType.Int).Value = _IDAfiliacion;
 
             try
             {
@@ -555,8 +594,10 @@ namespace LiquidacionSTN
 
         private void ActualizarAfiliacion()
         {
-            _Afiliacion = 0;
-            int.TryParse(cboAfiliacion.SelectedValue.ToString(), out _Afiliacion);
+            _IDAfiliacion = 0;
+            _NumAfiliacion = "";
+            int.TryParse(cboAfiliacion.SelectedValue.ToString(), out _IDAfiliacion);
+            _NumAfiliacion = cboAfiliacion.GetItemText(cboAfiliacion.SelectedItem);
             ConsultarBancoAfiliacion();
         }
 
