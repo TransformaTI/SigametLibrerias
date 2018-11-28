@@ -282,6 +282,7 @@
             this.txtMonto.Name = "txtMonto";
             this.txtMonto.Size = new System.Drawing.Size(110, 20);
             this.txtMonto.TabIndex = 15;
+            this.txtMonto.Leave += new System.EventHandler(this.txtMonto_Leave);
             // 
             // txtObservaciones
             // 
@@ -312,10 +313,12 @@
             // lblCliente
             // 
             this.lblCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblCliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCliente.Location = new System.Drawing.Point(117, 46);
             this.lblCliente.Name = "lblCliente";
             this.lblCliente.Size = new System.Drawing.Size(110, 23);
             this.lblCliente.TabIndex = 8;
+            this.lblCliente.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label7
             // 
