@@ -25,6 +25,7 @@ Public Class ConsultaCheques
     Private _Titulo As String = "Consulta de Cheques"
     Private _ComboCargado As Boolean
     Private dtCheque As DataTable
+    Private _Empresa As Integer
 #End Region
 
 #Region "Eventos"
@@ -91,6 +92,7 @@ Public Class ConsultaCheques
         _Modulo = Modulo
         _Usuario = Usuario
 
+
         Dim oConfig As New SigaMetClasses.cConfig(4)
         GLOBAL_MaxRegistrosConsulta = CType(oConfig.Parametros("MaxRegistrosConsulta"), Short)
 
@@ -103,15 +105,17 @@ Public Class ConsultaCheques
     End Sub
 
     'Carga de parámetros con nombres duplicados 3/4/2008 JAGD
-    Public Sub New(ByVal Modulo As Short, _
-               ByVal Usuario As String, _
-               ByVal Corporativo As Short, _
-               ByVal Sucursal As Short)
+    Public Sub New(ByVal Modulo As Short,
+               ByVal Usuario As String,
+               ByVal Corporativo As Short,
+               ByVal Sucursal As Short, ByVal CadCon As String)
 
         MyBase.New()
         InitializeComponent()
         _Modulo = Modulo
         _Usuario = Usuario
+        _Empresa = Corporativo
+        _CadenaConexion = CadCon
 
         _Corporativo = CType(Corporativo, Byte)
         _Sucursal = CType(Sucursal, Byte)
@@ -871,10 +875,22 @@ Public Class ConsultaCheques
     Public Sub CargaListaCheques()
         Cursor = Cursors.WaitCursor
         Dim oCheque As New SigaMetClasses.Cobro()
+        Dim oConfig As New SigaMetClasses.cConfig(_Modulo, CShort(_Empresa), _Sucursal)
+
         Try
             LimpiaCajas()
             LimpiaVariables()
             dtCheque = oCheque.Consulta(dtpFCheque.Value.Date, CType(ComboBanco.SelectedValue, Short))
+
+
+
+            Try
+                _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+            Catch ex As Exception
+                If Not ex.Message.Contains("Index") Then
+                    MessageBox.Show("Error al consultar Parametro URLGateway: " + ex.Message)
+                End If
+            End Try
 
             If _URLGateway <> "" Then
                 grdCheque.DataSource = consultarDatosClienteCRM(dtCheque)
@@ -917,6 +933,7 @@ Public Class ConsultaCheques
 
                     oGateway = New RTGMGateway.RTGMGateway(CType(_Modulo, Byte), _CadenaConexion)
                     oSolicitud = New RTGMGateway.SolicitudGateway()
+
                     oGateway.GuardarLog = True
                     oGateway.URLServicio = _URLGateway
                     oSolicitud.IDCliente = CType(dr("Cliente"), Int32)
@@ -992,22 +1009,18 @@ Public Class ConsultaCheques
 
     Private Sub tbrEstandar_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles tbrEstandar.ButtonClick
 
-        Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+        Dim oConfig As New SigaMetClasses.cConfig(_Modulo, CShort(_Empresa), _Sucursal)
 
-        Dim _URLGateway As String = ""
+
         Try
             _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
         Catch ex As Exception
-			If Not ex.Message.Contains("Index") Then
-				MessageBox.Show("Error al consultar Parametro URLGateway: " + ex.Message)
-			End If
-		End Try
+            If Not ex.Message.Contains("Index") Then
+                MessageBox.Show("Error al consultar Parametro URLGateway: " + ex.Message)
+            End If
+        End Try
 
-        If (_URLGateway <> String.Empty) Then
-            Dim ConsultaCliente As New frmConsultaCliente(_Cliente, Nuevo:=0)
-        Else
-            Dim ConsultaCliente As New frmConsultaCliente(_Cliente, _URLGateway, "")
-        End If
+
 
         Select Case e.Button.Tag.ToString()
             Case Is = "Agregar"
@@ -1092,9 +1105,19 @@ Public Class ConsultaCheques
                 End If
             Case Is = "ConsultarCliente"
                 If _Cliente > 0 Then
+
                     Cursor = Cursors.WaitCursor
-                    Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0)
-                    frmConCliente.ShowDialog()
+
+                    If (_URLGateway <> String.Empty) Then
+                        Dim ConsultaCliente As New frmConsultaCliente(Cliente:=_Cliente, Nuevo:=0, URLGateway:=_URLGateway, Modulo:=CByte(_Modulo), CadenaCon:=CadenaConexion, Usuario:=_Usuario)
+                        ConsultaCliente.ShowDialog()
+                    Else
+                        Dim ConsultaCliente As New frmConsultaCliente(_Cliente, _URLGateway, "")
+                        ConsultaCliente.ShowDialog()
+                    End If
+
+                    'Dim frmConCliente As New SigaMetClasses.frmConsultaCliente(Cliente:=_Cliente, Nuevo:=0, URLGateway:=_URLGateway, Modulo:=CByte(_Modulo), CadenaCon:=CadenaConexion)
+                    'frmConCliente.ShowDialog()
                     Cursor = Cursors.Default
                 End If
             Case Is = "ConsultarCobro"
