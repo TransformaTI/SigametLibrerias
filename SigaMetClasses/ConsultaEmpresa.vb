@@ -7,6 +7,8 @@ Public Class ConsultaEmpresa
     Private _PermiteModificar As Boolean
     Private Titulo As String = "Consulta de empresas"
     Private _obDireccionEntrega As RTGMCore.DireccionEntrega
+    Private _CadCon As String
+    Private _Usuario As String = ""
 
 #Region " Windows Form Designer generated code "
 
@@ -85,7 +87,7 @@ Public Class ConsultaEmpresa
     Friend WithEvents lnkModifica As System.Windows.Forms.LinkLabel
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(ConsultaEmpresa))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ConsultaEmpresa))
         Me.btnCerrar = New System.Windows.Forms.Button()
         Me.lblRazonSocial = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -116,11 +118,11 @@ Public Class ConsultaEmpresa
         Me.lblRFC = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.lvwCliente = New System.Windows.Forms.ListView()
-        Me.colCliente = New System.Windows.Forms.ColumnHeader()
-        Me.colNombre = New System.Windows.Forms.ColumnHeader()
-        Me.colRuta = New System.Windows.Forms.ColumnHeader()
-        Me.colCelula = New System.Windows.Forms.ColumnHeader()
-        Me.colStatus = New System.Windows.Forms.ColumnHeader()
+        Me.colCliente = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colNombre = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colRuta = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colCelula = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.colStatus = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.mnuLista = New System.Windows.Forms.ContextMenu()
         Me.mnuConsultaCliente = New System.Windows.Forms.MenuItem()
         Me.imgLista16 = New System.Windows.Forms.ImageList(Me.components)
@@ -135,21 +137,23 @@ Public Class ConsultaEmpresa
         '
         'btnCerrar
         '
-        Me.btnCerrar.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.btnCerrar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnCerrar.BackColor = System.Drawing.SystemColors.Control
         Me.btnCerrar.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCerrar.Image = CType(resources.GetObject("btnCerrar.Image"), System.Drawing.Bitmap)
+        Me.btnCerrar.Image = CType(resources.GetObject("btnCerrar.Image"), System.Drawing.Image)
         Me.btnCerrar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnCerrar.Location = New System.Drawing.Point(432, 15)
         Me.btnCerrar.Name = "btnCerrar"
+        Me.btnCerrar.Size = New System.Drawing.Size(75, 23)
         Me.btnCerrar.TabIndex = 2
         Me.btnCerrar.Text = "&Cerrar"
         Me.btnCerrar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnCerrar.UseVisualStyleBackColor = False
         '
         'lblRazonSocial
         '
-        Me.lblRazonSocial.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblRazonSocial.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblRazonSocial.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblRazonSocial.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRazonSocial.ForeColor = System.Drawing.Color.MediumBlue
@@ -165,7 +169,7 @@ Public Class ConsultaEmpresa
         Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.Location = New System.Drawing.Point(16, 19)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(57, 14)
+        Me.Label2.Size = New System.Drawing.Size(59, 13)
         Me.Label2.TabIndex = 3
         Me.Label2.Text = "Empresa:"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -175,7 +179,7 @@ Public Class ConsultaEmpresa
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(16, 67)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(70, 14)
+        Me.Label3.Size = New System.Drawing.Size(70, 13)
         Me.Label3.TabIndex = 4
         Me.Label3.Text = "Razón social:"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -185,15 +189,15 @@ Public Class ConsultaEmpresa
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(16, 115)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(32, 14)
+        Me.Label4.Size = New System.Drawing.Size(34, 13)
         Me.Label4.TabIndex = 5
         Me.Label4.Text = "Calle:"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCalle
         '
-        Me.lblCalle.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblCalle.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblCalle.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblCalle.Location = New System.Drawing.Point(96, 112)
         Me.lblCalle.Name = "lblCalle"
@@ -203,8 +207,8 @@ Public Class ConsultaEmpresa
         '
         'lblColonia
         '
-        Me.lblColonia.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblColonia.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblColonia.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblColonia.Location = New System.Drawing.Point(96, 136)
         Me.lblColonia.Name = "lblColonia"
@@ -226,7 +230,7 @@ Public Class ConsultaEmpresa
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(16, 139)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(45, 14)
+        Me.Label8.Size = New System.Drawing.Size(46, 13)
         Me.Label8.TabIndex = 9
         Me.Label8.Text = "Colonia:"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -236,7 +240,7 @@ Public Class ConsultaEmpresa
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(16, 187)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(42, 14)
+        Me.Label9.Size = New System.Drawing.Size(44, 13)
         Me.Label9.TabIndex = 10
         Me.Label9.Text = "Estado:"
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -246,7 +250,7 @@ Public Class ConsultaEmpresa
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(16, 211)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(55, 14)
+        Me.Label10.Size = New System.Drawing.Size(54, 13)
         Me.Label10.TabIndex = 11
         Me.Label10.Text = "Municipio:"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -274,7 +278,7 @@ Public Class ConsultaEmpresa
         Me.Label13.AutoSize = True
         Me.Label13.Location = New System.Drawing.Point(16, 163)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(76, 14)
+        Me.Label13.Size = New System.Drawing.Size(76, 13)
         Me.Label13.TabIndex = 14
         Me.Label13.Text = "Código postal:"
         Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -293,7 +297,7 @@ Public Class ConsultaEmpresa
         Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(8, 51)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(61, 14)
+        Me.Label15.Size = New System.Drawing.Size(62, 13)
         Me.Label15.TabIndex = 17
         Me.Label15.Text = "Teléfono 2:"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -303,7 +307,7 @@ Public Class ConsultaEmpresa
         Me.Label16.AutoSize = True
         Me.Label16.Location = New System.Drawing.Point(8, 27)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(61, 14)
+        Me.Label16.Size = New System.Drawing.Size(62, 13)
         Me.Label16.TabIndex = 16
         Me.Label16.Text = "Teléfono 1:"
         Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -331,16 +335,21 @@ Public Class ConsultaEmpresa
         Me.Label19.AutoSize = True
         Me.Label19.Location = New System.Drawing.Point(8, 75)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(26, 14)
+        Me.Label19.Size = New System.Drawing.Size(29, 13)
         Me.Label19.TabIndex = 20
         Me.Label19.Text = "Fax:"
         Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'grpTelefono
         '
-        Me.grpTelefono.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
-        Me.grpTelefono.Controls.AddRange(New System.Windows.Forms.Control() {Me.Label15, Me.lblTelefono1, Me.Label16, Me.Label19, Me.lblTelefono2, Me.lblFax})
+        Me.grpTelefono.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grpTelefono.Controls.Add(Me.Label15)
+        Me.grpTelefono.Controls.Add(Me.lblTelefono1)
+        Me.grpTelefono.Controls.Add(Me.Label16)
+        Me.grpTelefono.Controls.Add(Me.Label19)
+        Me.grpTelefono.Controls.Add(Me.lblTelefono2)
+        Me.grpTelefono.Controls.Add(Me.lblFax)
         Me.grpTelefono.Location = New System.Drawing.Point(288, 160)
         Me.grpTelefono.Name = "grpTelefono"
         Me.grpTelefono.Size = New System.Drawing.Size(216, 104)
@@ -362,7 +371,7 @@ Public Class ConsultaEmpresa
         Me.Label21.AutoSize = True
         Me.Label21.Location = New System.Drawing.Point(16, 235)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(37, 14)
+        Me.Label21.Size = New System.Drawing.Size(40, 13)
         Me.Label21.TabIndex = 23
         Me.Label21.Text = "F.Alta:"
         Me.Label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -374,13 +383,13 @@ Public Class ConsultaEmpresa
         Me.txtEmpresa.Location = New System.Drawing.Point(96, 16)
         Me.txtEmpresa.MaxLength = 8
         Me.txtEmpresa.Name = "txtEmpresa"
+        Me.txtEmpresa.Size = New System.Drawing.Size(100, 21)
         Me.txtEmpresa.TabIndex = 0
-        Me.txtEmpresa.Text = ""
         '
         'btnBuscar
         '
         Me.btnBuscar.BackColor = System.Drawing.SystemColors.Control
-        Me.btnBuscar.Image = CType(resources.GetObject("btnBuscar.Image"), System.Drawing.Bitmap)
+        Me.btnBuscar.Image = CType(resources.GetObject("btnBuscar.Image"), System.Drawing.Image)
         Me.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnBuscar.Location = New System.Drawing.Point(200, 15)
         Me.btnBuscar.Name = "btnBuscar"
@@ -388,11 +397,12 @@ Public Class ConsultaEmpresa
         Me.btnBuscar.TabIndex = 1
         Me.btnBuscar.Text = "&Buscar"
         Me.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnBuscar.UseVisualStyleBackColor = False
         '
         'lblCURP
         '
-        Me.lblCURP.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblCURP.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblCURP.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblCURP.Location = New System.Drawing.Point(336, 88)
         Me.lblCURP.Name = "lblCURP"
@@ -405,7 +415,7 @@ Public Class ConsultaEmpresa
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(280, 91)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(49, 14)
+        Me.Label5.Size = New System.Drawing.Size(54, 13)
         Me.Label5.TabIndex = 27
         Me.Label5.Text = "C.U.R.P.:"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -426,7 +436,7 @@ Public Class ConsultaEmpresa
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(16, 91)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(38, 14)
+        Me.Label7.Size = New System.Drawing.Size(43, 13)
         Me.Label7.TabIndex = 29
         Me.Label7.Text = "R.F.C.:"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -434,9 +444,9 @@ Public Class ConsultaEmpresa
         'lvwCliente
         '
         Me.lvwCliente.Activation = System.Windows.Forms.ItemActivation.OneClick
-        Me.lvwCliente.Anchor = (((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lvwCliente.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lvwCliente.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colCliente, Me.colNombre, Me.colRuta, Me.colCelula, Me.colStatus})
         Me.lvwCliente.ContextMenu = Me.mnuLista
         Me.lvwCliente.FullRowSelect = True
@@ -445,6 +455,7 @@ Public Class ConsultaEmpresa
         Me.lvwCliente.Size = New System.Drawing.Size(488, 144)
         Me.lvwCliente.SmallImageList = Me.imgLista16
         Me.lvwCliente.TabIndex = 30
+        Me.lvwCliente.UseCompatibleStateImageBehavior = False
         Me.lvwCliente.View = System.Windows.Forms.View.Details
         '
         'colCliente
@@ -481,15 +492,14 @@ Public Class ConsultaEmpresa
         '
         'imgLista16
         '
-        Me.imgLista16.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
-        Me.imgLista16.ImageSize = New System.Drawing.Size(16, 16)
         Me.imgLista16.ImageStream = CType(resources.GetObject("imgLista16.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgLista16.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgLista16.Images.SetKeyName(0, "")
         '
         'lblTituloLista
         '
-        Me.lblTituloLista.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblTituloLista.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblTituloLista.BackColor = System.Drawing.Color.RoyalBlue
         Me.lblTituloLista.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblTituloLista.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -515,7 +525,7 @@ Public Class ConsultaEmpresa
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(16, 275)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(52, 14)
+        Me.Label6.Size = New System.Drawing.Size(55, 13)
         Me.Label6.TabIndex = 33
         Me.Label6.Text = "Contacto:"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -525,7 +535,7 @@ Public Class ConsultaEmpresa
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(16, 299)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(81, 14)
+        Me.Label1.Size = New System.Drawing.Size(82, 13)
         Me.Label1.TabIndex = 35
         Me.Label1.Text = "Clave bancaria:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -544,7 +554,7 @@ Public Class ConsultaEmpresa
         Me.lnkModifica.AutoSize = True
         Me.lnkModifica.Location = New System.Drawing.Point(96, 48)
         Me.lnkModifica.Name = "lnkModifica"
-        Me.lnkModifica.Size = New System.Drawing.Size(80, 14)
+        Me.lnkModifica.Size = New System.Drawing.Size(80, 13)
         Me.lnkModifica.TabIndex = 36
         Me.lnkModifica.TabStop = True
         Me.lnkModifica.Text = "Modificar datos"
@@ -556,7 +566,36 @@ Public Class ConsultaEmpresa
         Me.BackColor = System.Drawing.Color.LightSteelBlue
         Me.CancelButton = Me.btnCerrar
         Me.ClientSize = New System.Drawing.Size(514, 511)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.lnkModifica, Me.lblClaveBancaria, Me.Label6, Me.lblContacto, Me.lblTituloLista, Me.lvwCliente, Me.Label7, Me.lblRFC, Me.Label5, Me.lblCURP, Me.btnBuscar, Me.txtEmpresa, Me.Label21, Me.lblFAlta, Me.grpTelefono, Me.Label13, Me.lblCodigoPostal, Me.lblMunicipio, Me.Label10, Me.Label9, Me.Label8, Me.lblEstado, Me.lblColonia, Me.lblCalle, Me.Label4, Me.Label3, Me.Label2, Me.lblRazonSocial, Me.btnCerrar, Me.Label1})
+        Me.Controls.Add(Me.lnkModifica)
+        Me.Controls.Add(Me.lblClaveBancaria)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.lblContacto)
+        Me.Controls.Add(Me.lblTituloLista)
+        Me.Controls.Add(Me.lvwCliente)
+        Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.lblRFC)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.lblCURP)
+        Me.Controls.Add(Me.btnBuscar)
+        Me.Controls.Add(Me.txtEmpresa)
+        Me.Controls.Add(Me.Label21)
+        Me.Controls.Add(Me.lblFAlta)
+        Me.Controls.Add(Me.grpTelefono)
+        Me.Controls.Add(Me.Label13)
+        Me.Controls.Add(Me.lblCodigoPostal)
+        Me.Controls.Add(Me.lblMunicipio)
+        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.lblEstado)
+        Me.Controls.Add(Me.lblColonia)
+        Me.Controls.Add(Me.lblCalle)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.lblRazonSocial)
+        Me.Controls.Add(Me.btnCerrar)
+        Me.Controls.Add(Me.Label1)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -567,7 +606,9 @@ Public Class ConsultaEmpresa
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Consulta de empresas"
         Me.grpTelefono.ResumeLayout(False)
+        Me.grpTelefono.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -575,22 +616,47 @@ Public Class ConsultaEmpresa
 
     Public Sub New(ByVal Empresa As Integer,
                    Optional ByVal PermiteModificar As Boolean = False,
-                   Optional ByVal DireccionEntrega As RTGMCore.DireccionEntrega = Nothing)
+                   Optional ByVal DireccionEntrega As RTGMCore.DireccionEntrega = Nothing, Optional ByVal Constr As String = "", Optional ByVal Usuario As String = "")
         MyBase.New()
         InitializeComponent()
         _Empresa = Empresa
         _PermiteModificar = PermiteModificar
         _obDireccionEntrega = DireccionEntrega
+        _CadCon = Constr
+        _Usuario = Usuario
+
+
+        If Empresa = 0 Then
+            txtEmpresa.Text = String.Empty
+        Else
+            txtEmpresa.Text = _Empresa.ToString
+        End If
 
         If Not IsNothing(_obDireccionEntrega) Then
             CargarEmpresaCRM(_Empresa, _obDireccionEntrega)
-            OcultarClientesRelacionados()
-        Else
             ConsultaEmpresa(_Empresa)
+            ' OcultarClientesRelacionados()
+        Else
+            If Trim(txtEmpresa.Text) <> "" Then
+                ConsultaEmpresa(_Empresa)
+
+            Else
+                If _PermiteModificar Then
+                    txtEmpresa.Enabled = True
+                    btnBuscar.Visible = True
+                Else
+                    txtEmpresa.Enabled = False
+                    btnBuscar.Visible = False
+
+                End If
+            End If
+
         End If
-        txtEmpresa.Text = _Empresa.ToString
-        txtEmpresa.Enabled = False
-        btnBuscar.Visible = False
+
+
+
+
+
 
         lnkModifica.Visible = _PermiteModificar
     End Sub
@@ -676,6 +742,8 @@ Public Class ConsultaEmpresa
                 Exit Sub
             End If
 
+
+
             If Not IsNothing(_obDireccionEntrega.DatosFiscales) Then
                 lblRazonSocial.Text = _obDireccionEntrega.DatosFiscales.RazonSocial
                 lblRFC.Text = _obDireccionEntrega.DatosFiscales.RFC
@@ -739,8 +807,13 @@ Public Class ConsultaEmpresa
 
     Private Sub mnuConsultaCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuConsultaCliente.Click
         Cursor = Cursors.WaitCursor
-        Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(CType(lvwCliente.FocusedItem.Text, Integer), Nuevo:=0)
-        oConsultaCliente.ShowDialog()
+
+        If _PermiteModificar Then
+
+            Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(CType(lvwCliente.FocusedItem.Text, Integer), Nuevo:=0, Usuario:=_Usuario, CadenaCon:=_CadCon)
+            oConsultaCliente.ShowDialog()
+
+        End If
         Cursor = Cursors.Default
     End Sub
 
@@ -751,5 +824,9 @@ Public Class ConsultaEmpresa
             ConsultaEmpresa(_Empresa)
         End If
         Cursor = Cursors.Default
+    End Sub
+
+    Private Sub lvwCliente_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvwCliente.SelectedIndexChanged
+
     End Sub
 End Class
