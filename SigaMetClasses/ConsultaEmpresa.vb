@@ -634,7 +634,8 @@ Public Class ConsultaEmpresa
 
         If Not IsNothing(_obDireccionEntrega) Then
             CargarEmpresaCRM(_Empresa, _obDireccionEntrega)
-            OcultarClientesRelacionados()
+            ConsultaEmpresa(_Empresa)
+            ' OcultarClientesRelacionados()
         Else
             If Trim(txtEmpresa.Text) <> "" Then
                 ConsultaEmpresa(_Empresa)
@@ -741,6 +742,8 @@ Public Class ConsultaEmpresa
                 Exit Sub
             End If
 
+
+
             If Not IsNothing(_obDireccionEntrega.DatosFiscales) Then
                 lblRazonSocial.Text = _obDireccionEntrega.DatosFiscales.RazonSocial
                 lblRFC.Text = _obDireccionEntrega.DatosFiscales.RFC
@@ -804,8 +807,13 @@ Public Class ConsultaEmpresa
 
     Private Sub mnuConsultaCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuConsultaCliente.Click
         Cursor = Cursors.WaitCursor
-        Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(CType(lvwCliente.FocusedItem.Text, Integer), Nuevo:=0, Usuario:=_Usuario, CadenaCon:=_CadCon)
-        oConsultaCliente.ShowDialog()
+
+        If _PermiteModificar Then
+
+            Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(CType(lvwCliente.FocusedItem.Text, Integer), Nuevo:=0, Usuario:=_Usuario, CadenaCon:=_CadCon)
+            oConsultaCliente.ShowDialog()
+
+        End If
         Cursor = Cursors.Default
     End Sub
 
