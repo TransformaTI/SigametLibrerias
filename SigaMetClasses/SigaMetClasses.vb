@@ -5439,7 +5439,7 @@ Public Class Cobro
             End If
             If TipoCobro <> Enumeradores.enumTipoCobro.EfectivoVales Then
                 .Parameters.Add(New SqlParameter("@NumeroCheque", SqlDbType.Char, 20)).Value = strNumeroCheque
-                .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = IIf(dtmFCheque = Date.MinValue, Date.Now, Date.Now)
+                .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = dtmFCheque ' IIf(dtmFCheque = Date.MinValue, Date.Now, Date.Now)
                 If TipoCobro = Enumeradores.enumTipoCobro.Cheque Then
                     .Parameters.Add(New SqlParameter("@FechaCobro", SqlDbType.DateTime)).Value = dtmFCobro
                 Else
@@ -6188,7 +6188,7 @@ Public Class TransaccionMovimientoCaja
                         Enumeradores.enumTipoCobro.TarjetaDebito,
                         Enumeradores.enumTipoCobro.TarjetaServicio,
                         Enumeradores.enumTipoCobro.TarjetaDeDebito
-                        FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Today, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
+                        FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Cobro.FechaCheque, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
                             Cobro.TipoCobro, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia, strNumeroCuentaDestino:=Cobro.NoCuentaDestino, SaldoAFavor:=Cobro.SaldoAFavor)
 
                         'CONTROL DE SALDOS 01-04-2005
