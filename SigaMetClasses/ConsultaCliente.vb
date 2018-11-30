@@ -2365,11 +2365,11 @@ Public Class frmConsultaCliente
                         Else
                             lblHorarioAtencion.Text = ""
                         End If
-                        If oDireccionEntrega.CondicionesCredito.ObservacionesCyC IsNot Nothing Then
-                            lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ObservacionesCyC.ToString)
-                        Else
-                            lblHorarioAtencion.Text = ""
-                        End If
+                        'If oDireccionEntrega.CondicionesCredito.ObservacionesCyC IsNot Nothing Then
+                        '    lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ObservacionesCyC.ToString)
+                        'Else
+                        '    lblHorarioAtencion.Text = ""
+                        'End If
                         lblCobroDefault.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion)
 
                         'Consulta y despliegue de la dificultad de gestión asignada al cliente
@@ -2952,8 +2952,8 @@ Public Class frmConsultaCliente
                         End If
                         lblHorarioAtencion.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC), String.Empty, _oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC.ToString())
 
-                        lblHorarioAtencion.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ObservacionesCyC),
-                            String.Empty, _oDireccionEntrega.CondicionesCredito.ObservacionesCyC.Trim())
+                        'lblHorarioAtencion.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ObservacionesCyC),
+                        '    String.Empty, _oDireccionEntrega.CondicionesCredito.ObservacionesCyC.Trim())
 
                         lblCobroDefault.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion),
                             String.Empty, _oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion.Trim())
