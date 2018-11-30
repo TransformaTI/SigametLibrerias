@@ -91,14 +91,18 @@ namespace AsignacionMultiple
 
 		protected void asignaDatosGenerales()
 		{
-			_nombre = Convert.ToString(dtClientesHijo.Rows[0]["Nombre"]);
+            if (dtClientesHijo.Rows.Count>0 )
+            {
+
+                _nombre = Convert.ToString(dtClientesHijo.Rows[0]["Nombre"]);
 			_telClientePadre = Convert.ToString(dtClientesHijo.Rows[0]["TelCtePadre"]);
 			_celulaClientePadre = Convert.ToByte(dtClientesHijo.Rows[0]["CelulaCtePadre"]);
 			_rutaClientePadre = Convert.ToInt16(dtClientesHijo.Rows[0]["RutaCtePadre"]);
 			_direccion = Convert.ToString(dtClientesHijo.Rows[0]["DomicilioCtePadre"]).Trim() + " " + 
 				Convert.ToString(dtClientesHijo.Rows[0]["ColoniaCtePadre"]).Trim() + " " +
 				Convert.ToString(dtClientesHijo.Rows[0]["MunicipioCtePadre"]).Trim();
-		}
+            }
+        }
 
 		protected void consultaClientes(string ProcedureName, int ClientePadre)
 		{

@@ -63,20 +63,26 @@ namespace AsignacionMultiple
 
 		private void cargaDatos()
 		{
-			vwGrd1.DataSource = clientePadreCyC.ClientesHijo;
-			vwGrd1.AutoColumnHeader();
-			vwGrd1.DataAdd();
+            if (clientePadreCyC.ClientesHijo.Rows.Count > 0)
+            {
+                vwGrd1.DataSource = clientePadreCyC.ClientesHijo;
+			    vwGrd1.AutoColumnHeader();
+			    vwGrd1.DataAdd();
 
-			lblCliente.Text = clientePadreCyC.NClientePadre.ToString().Trim() + " - " + clientePadreCyC.Nombre.Trim();
-			lblRuta.Text = clientePadreCyC.CelulaClientePadre.ToString().Trim();
-			lblCelula.Text = clientePadreCyC.RutaClientePadre.ToString().Trim();
-			lblTelCasa.Text = clientePadreCyC.TelCtePadre.Trim();
-			lblDireccion.Text = clientePadreCyC.Direccion.ToString().Trim();
-		}
+			    lblCliente.Text = clientePadreCyC.NClientePadre.ToString().Trim() + " - " + clientePadreCyC.Nombre.Trim();
+			    lblRuta.Text = clientePadreCyC.CelulaClientePadre.ToString().Trim();
+			    lblCelula.Text = clientePadreCyC.RutaClientePadre.ToString().Trim();
+			    lblTelCasa.Text = clientePadreCyC.TelCtePadre.Trim();
+			    lblDireccion.Text = clientePadreCyC.Direccion.ToString().Trim();
+            }
+
+        }
 
 		private void cargaDatosEdificio()
 		{
-			vwGrd1.DataSource = clientePadreEdificio.ClientesHijo;
+            if (clientePadreCyC.ClientesHijo.Rows.Count>0)
+            {
+                vwGrd1.DataSource = clientePadreEdificio.ClientesHijo;
 			vwGrd1.AutoColumnHeader();
 			vwGrd1.DataAdd();
 
@@ -86,7 +92,8 @@ namespace AsignacionMultiple
 			lblCelula.Text = clientePadreEdificio.RutaClientePadre.ToString().Trim();
 			lblTelCasa.Text = clientePadreEdificio.TelCtePadre.Trim();
 			lblDireccion.Text = clientePadreEdificio.Direccion.ToString().Trim();
-		}
+            }
+        }
 
 
 		/// <summary>
