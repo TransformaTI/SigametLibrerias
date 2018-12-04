@@ -1016,7 +1016,7 @@ Public Class CapturaEmpresa
                 End If
 
                 If Not IsDBNull(dt.Rows(0).Item("FormaPagoSAT")) Then
-                    cmbMedioPagoNuevo.SelectedValue = dt.Rows(0).Item("FormaPagoSAT")                
+                    cmbMedioPagoNuevo.SelectedValue = dt.Rows(0).Item("FormaPagoSAT")
                 End If
 
                 If Not IsDBNull(dt.Rows(0).Item("NumeroCuenta")) And Not dt.Rows(0).Item("NumeroCuenta").ToString() = "" Then
@@ -1064,24 +1064,24 @@ Public Class CapturaEmpresa
     Private Function CapturaValida() As Boolean
         'VALIDAR EL NOMBRE DEL CLIENTE
         If Not ValidarNombreCliente() Then
-            MessageBox.Show("Debe capturar el nombre(es) y los apellidos por separado." & vbCrLf & _
+            MessageBox.Show("Debe capturar el nombre(es) y los apellidos por separado." & vbCrLf &
                 "Verifique" & vbCrLf, _Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         End If
 
         'VALIDAR EL RFC
         If Not ValidarRFC() Then
-            MessageBox.Show("El formato de RFC que capturó no es válido" & vbCrLf & _
-                "para el tipo de persona seleccionada" & vbCrLf & _
-                vbCrLf & _
-                "Personas físicas: ABCD123456A12" & vbCrLf & _
+            MessageBox.Show("El formato de RFC que capturó no es válido" & vbCrLf &
+                "para el tipo de persona seleccionada" & vbCrLf &
+                vbCrLf &
+                "Personas físicas: ABCD123456A12" & vbCrLf &
                 "Personas morales: ABC123456A12", _Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         End If
 
         If Not chkEstado.Checked Then
-            MessageBox.Show("Debe seleccionar la abreviatura del estado" & vbCrLf & _
-                            "que corresponda.", _Titulo, _
+            MessageBox.Show("Debe seleccionar la abreviatura del estado" & vbCrLf &
+                            "que corresponda.", _Titulo,
                             MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         End If
@@ -1105,7 +1105,7 @@ Public Class CapturaEmpresa
                 Return False
             End If
             If txtNumeroCuenta.Text.Trim.Length < 4 Then
-                MessageBox.Show("Debe capturar por lo menos los últimos" & vbCrLf & _
+                MessageBox.Show("Debe capturar por lo menos los últimos" & vbCrLf &
                     "4 dígitos del número de cuenta o de tarjeta.", _Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 txtNumeroCuenta.Focus()
                 Return False
@@ -1117,7 +1117,7 @@ Public Class CapturaEmpresa
     Private Sub txtEmail_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtEmail.Leave
         If txtEmail.Text.Trim().Length > 0 Then
             If Not RegularValidations.RegularValidations.Instance.ValidarCorreoElectronico(txtEmail.Text) Then
-                MessageBox.Show(RegularValidations.RegularValidations.Instance.MensajeValidacion, _
+                MessageBox.Show(RegularValidations.RegularValidations.Instance.MensajeValidacion,
                 "Formato de email no válido", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 txtEmail.Focus()
             End If
@@ -1180,7 +1180,7 @@ Public Class CapturaEmpresa
                     .Parameters.Add("@NuevaEmpresa", SqlDbType.Int).Direction = ParameterDirection.Output
                 End If
 
-                .Parameters.Add("@UsoCFDI", SqlDbType.Char).Value = Convert.ToString(cmbUsoCFDI.SelectedValue)                
+                .Parameters.Add("@UsoCFDI", SqlDbType.Char).Value = Convert.ToString(cmbUsoCFDI.SelectedValue)
             End With
 
             Try
@@ -1299,7 +1299,7 @@ Public Class CapturaEmpresa
     Private Function ValidarNombreCliente() As Boolean
         Dim returnVal As Boolean = False
         If rbPF.Checked Then
-            If txtNombre1.Text.Trim.Length > 0 AndAlso _
+            If txtNombre1.Text.Trim.Length > 0 AndAlso
                     txtApellido1.Text.Trim.Length > 0 Then
                 returnVal = True
             End If
@@ -1309,7 +1309,7 @@ Public Class CapturaEmpresa
         Return returnVal
     End Function
 
-    Private Sub btnCatEstado_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCatEstado.Click, _
+    Private Sub btnCatEstado_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCatEstado.Click,
         btnHideFloatPanel.Click
         pnlFloat.Visible = Not pnlFloat.Visible
     End Sub
@@ -1332,9 +1332,9 @@ Public Class CapturaEmpresa
         End If
     End Sub
 
-    Private Sub CargaComboUsoCFDI()                
+    Private Sub CargaComboUsoCFDI()
         Dim cmdUsoCFDI As New SqlCommand("spCyCc_UsoCFDI", DataLayer.Conexion)
-        Dim daUsoCFDI As new SqlDataAdapter
+        Dim daUsoCFDI As New SqlDataAdapter
         Dim dtUsoCFDI As New DataTable
 
         cmbUsoCFDI.Items.Clear()

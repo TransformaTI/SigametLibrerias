@@ -11065,6 +11065,31 @@ Namespace Combos
 #End Region
 
 
+    Public Class ComboMedioPago2
+        Inherits ComboBox
+        Public Sub CargaDatos()
+            Me.Items.Clear()
+            Dim cmd As New SqlCommand("spCyCc_FormaPago", DataLayer.Conexion)
+            da = New SqlDataAdapter(cmd)
+            dtDatos = New DataTable()
+            da.Fill(dtDatos)
+
+            Dim dr As DataRow
+            Dim source As New ArrayList()
+
+            For Each dr In dtDatos.Rows
+                source.Add(New MedioPagoSAT(Convert.ToString(dr("c_FormaPago")), Convert.ToString(dr("FormaPagoDescripcion")),
+                    Convert.ToBoolean(dr("AplicaNumeroCuenta")), ""))
+            Next
+
+            With Me
+                Me.DataSource = source
+                Me.ValueMember = "MedioPago"
+                Me.DisplayMember = "Descripcion"
+            End With
+        End Sub
+    End Class
+
 
 End Namespace
 
@@ -11251,6 +11276,9 @@ Namespace Controles
         Public Sub New()
         End Sub
     End Class
+
+
+
 
 End Namespace
 
