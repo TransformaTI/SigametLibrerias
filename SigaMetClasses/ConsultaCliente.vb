@@ -2547,8 +2547,18 @@ Public Class frmConsultaCliente
 
     Private Sub ModificaDatosCredito()
         'leer el perfil del usuario
+        Dim FuenteCRM As String = String.Empty
+        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Corporativo, Short)
+        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Sucursal, Short)
+        Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
 
         Dim securityProfiler As New cSeguridad(_Usuario, 4)
+
+        Try
+            FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
+        Catch ex As Exception
+            FuenteCRM = String.Empty
+        End Try
 
         Cursor = Cursors.WaitCursor
         Dim frmDatosCredito As New CapturaDatosCreditoCliente(_Cliente,
@@ -2559,9 +2569,9 @@ Public Class frmConsultaCliente
                                                               ModificaClientePadre:=_CambioClientePadre,
                                                               dtEjecutivoCyC:=_dsCatalogos.Tables("EjecutivosCyC"))
         If frmDatosCredito.ShowDialog() = DialogResult.OK Then
-            If (String.IsNullOrEmpty(_URLGateway)) Then
+            If (FuenteCRM = "SIGAMET") Then
                 Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
-            Else
+            ElseIf (Not String.IsNullOrEmpty(_URLGateway) And FuenteCRM = "CRM") Then
                 Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
             End If
 
