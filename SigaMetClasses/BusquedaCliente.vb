@@ -840,6 +840,8 @@ Public Class BusquedaCliente
             End If
         End If
 
+
+
         If _PuedeConsultar Then
             Cursor = Cursors.WaitCursor
 
@@ -868,7 +870,8 @@ Public Class BusquedaCliente
                     .MunicipioNombre = Municipio,
                     .Nombre = Nombre,
                     .NumeroExterior = NumExterior,
-                    .NumeroInterior = NumInterior
+                    .NumeroInterior = NumInterior,
+                    .Telefono = Telefono
                 }
 
                 _DireccionesEntrega = obGateway.buscarDireccionesEntrega(obSolicitud)
