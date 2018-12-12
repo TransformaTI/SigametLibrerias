@@ -130,7 +130,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\ImgCallCenter.dll</HintPath>
     </Reference>
-
+    <Reference Include="Microsoft.VisualBasic">
+      <Name>Microsoft.VisualBasic</Name>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\MySql.Data.dll</HintPath>
@@ -199,7 +201,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Import Include="Microsoft.VisualBasic" />
+
     <Import Include="System" />
     <Import Include="System.Collections" />
     <Import Include="System.Data" />
