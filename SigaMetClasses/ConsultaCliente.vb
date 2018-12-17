@@ -2709,14 +2709,27 @@ Public Class frmConsultaCliente
     End Sub
 
     Private Sub frmConsultaCliente_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Corporativo, Short)
+        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Sucursal, Short)
+        Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
+
         Try
             DeshabilitaBotonQuejas()
 
+            Dim FuenteCRM As String = ""
+
+            Try
+                FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
+            Catch ex As Exception
+                FuenteCRM = String.Empty
+            End Try
+
+
             If (
-                String.IsNullOrEmpty(_URLGateway)) Then
+               FuenteCRM = "SIGAMET" Or FuenteCRM = "") Then ' String.IsNullOrEmpty(_URLGateway) And 
                 Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
                 btnModificar.Enabled = PermiteModificarDatosCliente
-            Else
+            ElseIf Not String.IsNullOrEmpty(_URLGateway) Then
                 Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
                 btnModificar.Enabled = PermiteModificarDatosCliente
                 'Me.ConsultaCliente(_Cliente, _URLGateway)
