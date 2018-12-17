@@ -38,6 +38,7 @@ Public Class frmConsultaCliente
 
     ' Información del cliente consultada a través del servicio web GM
     Private _oDireccionEntrega As RTGMCore.DireccionEntrega
+    Private _PermiteModificarDatosCte As Boolean
 
 
 
@@ -1886,6 +1887,7 @@ Public Class frmConsultaCliente
         _CambioEmpleadoNomina = PermiteCambioEmpleadoNomina
         _CambioClientePadre = PermiteCambioCtePadre
         _Modulo = Modulo
+        _PermiteModificarDatosCte = PermiteModificarDatosCliente
 
 
         'If (String.IsNullOrEmpty(_URLGateway)) Then
@@ -2531,10 +2533,10 @@ Public Class frmConsultaCliente
             If Not (String.IsNullOrEmpty(_URLGateway) OrElse IsNothing(_oDireccionEntrega)) Then
                 If Not IsNothing(_oDireccionEntrega.DatosFiscales) Then
                     oConsultaEmpresa = New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer),
-                                                                          DireccionEntrega:=_oDireccionEntrega)
+                                                                          DireccionEntrega:=_oDireccionEntrega, PermiteModificar:=_PermiteModificarDatosCte, Usuario:=_Usuario)
                 End If
             Else
-                oConsultaEmpresa = New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer))
+                oConsultaEmpresa = New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer), PermiteModificar:=_PermiteModificarDatosCte, Usuario:=_Usuario)
             End If
 
             oConsultaEmpresa.ShowDialog()
@@ -2713,10 +2715,10 @@ Public Class frmConsultaCliente
             If (
                 String.IsNullOrEmpty(_URLGateway)) Then
                 Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
-                btnModificar.Enabled = True
+                btnModificar.Enabled = PermiteModificarDatosCliente
             Else
                 Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
-                btnModificar.Enabled = False
+                btnModificar.Enabled = PermiteModificarDatosCliente
                 'Me.ConsultaCliente(_Cliente, _URLGateway)
             End If
             DeshabilitaBotonModificar()
