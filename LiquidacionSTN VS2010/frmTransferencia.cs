@@ -334,12 +334,31 @@ namespace LiquidacionSTN
 
         private void CalcularSaldo()
         {
+            decimal saldo = 0;
             decimal.TryParse(txtMonto.Text, out _Monto);
             if (_Monto > 0)
             {
-                _Saldo = _Total - _Monto;
+                saldo = _Monto - _Total;
+                if (saldo < 0)
+                    saldo = 0;
+
+                if (EsCorrectoElMonto())
+                    _Saldo = saldo;
+                else
+                    _Saldo = 0;
+
                 txtSaldo.Text = _Saldo.ToString();
             }
         }
+
+        private bool EsCorrectoElMonto()
+        {
+            string strPregunta = "El monto es diferente al total del servicio técnico." + Environment.NewLine + "¿Es correcto el monto?";
+
+            bool montoCorrecto = (MessageBox.Show(strPregunta, this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes);
+
+            return montoCorrecto;
+        }
+
     }
 }
