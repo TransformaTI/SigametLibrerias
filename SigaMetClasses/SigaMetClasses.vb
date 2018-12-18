@@ -5433,7 +5433,7 @@ Public Class Cobro
             .Parameters.Add(New SqlParameter("@NumeroCuentaDestino", SqlDbType.Char, 20)).Value = strNumeroCuentaDestino
             'Se agregó para captura de transferencias bancarias
             '23-03-2005 JAG
-            If TipoCobro = Enumeradores.enumTipoCobro.Transferencia Then
+            If TipoCobro = Enumeradores.enumTipoCobro.Transferencia Or TipoCobro = Enumeradores.enumTipoCobro.TarjetaCredito Or TipoCobro = TipoCobro = Enumeradores.enumTipoCobro.TarjetaDebito Or TipoCobro = Enumeradores.enumTipoCobro.TarjetaDeDebito Then
 
                 .Parameters.Add(New SqlParameter("@BancoOrigen", SqlDbType.SmallInt)).Value = shrBancoOrigen
             End If
@@ -6189,7 +6189,7 @@ Public Class TransaccionMovimientoCaja
                         Enumeradores.enumTipoCobro.TarjetaServicio,
                         Enumeradores.enumTipoCobro.TarjetaDeDebito
                         FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Cobro.FechaCheque, Cobro.Cliente, Cobro.Banco, Cobro.Observaciones,
-                            Cobro.TipoCobro, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia, strNumeroCuentaDestino:=Cobro.NoCuentaDestino, SaldoAFavor:=Cobro.SaldoAFavor)
+                            Cobro.TipoCobro, Usuario, Cobro.Saldo, referencia:=Cobro.Referencia, strNumeroCuentaDestino:=Cobro.NoCuentaDestino, SaldoAFavor:=Cobro.SaldoAFavor, shrBancoOrigen:=Cobro.BancoOrigen)
 
                         'CONTROL DE SALDOS 01-04-2005
                     Case Enumeradores.enumTipoCobro.SaldoAFavor
