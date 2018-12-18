@@ -881,12 +881,14 @@ Public Class ConsultaCheques
     Private Sub AsignaDataSourceDatosClienteCRM()
         Dim dt As DataTable = consultarDatosClienteCRM(dtCheque)
         dtCheque = dt.Copy()
+
     End Sub
 
     Private Sub threadConsultarDatosClienteCRM()
         trd = New Thread(AddressOf AsignaDataSourceDatosClienteCRM) With {.IsBackground = True}
         trd.Start()
         grdCheque.DataSource = dtCheque
+
     End Sub
 
     Public Sub CargaListaCheques()
@@ -899,8 +901,6 @@ Public Class ConsultaCheques
             LimpiaVariables()
             dtCheque = oCheque.Consulta(dtpFCheque.Value.Date, CType(ComboBanco.SelectedValue, Short))
 
-
-
             Try
                 _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
             Catch ex As Exception
@@ -910,7 +910,7 @@ Public Class ConsultaCheques
             End Try
 
             If _URLGateway <> "" Then
-                threadConsultarDatosClienteCRM() 'grdCheque.DataSource = consultarDatosClienteCRM(dtCheque)
+                threadConsultarDatosClienteCRM()
             Else
                 grdCheque.DataSource = dtCheque
             End If
@@ -934,7 +934,7 @@ Public Class ConsultaCheques
             Cursor = Cursors.Default
         End Try
     End Sub
-    Private Function ConsultarDirecciones(IDDireccionEntrega As Integer) As RTGMCore.DireccionEntrega 'List(Of RTGMCore.DireccionEntrega)
+    Private Function ConsultarDirecciones(IDDireccionEntrega As Integer) As RTGMCore.DireccionEntrega
         Dim oGateway As RTGMGateway.RTGMGateway
         Dim oSolicitud As RTGMGateway.SolicitudGateway
         Dim oDireccionEntrega As RTGMCore.DireccionEntrega
@@ -947,17 +947,6 @@ Public Class ConsultaCheques
         oSolicitud.IDCliente = IDDireccionEntrega 'CType(dr("Cliente"), Int32)
         oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
-        'If Not IsNothing(oDireccionEntrega) And IsNothing(oDireccionEntrega.Message) Then
-        'dr("ClienteNombre") = oDireccionEntrega.Nombre
-        'Else
-        'If Not IsNothing(oDireccionEntrega.Message) And oDireccionEntrega.Message.Contains("ERROR") Then
-        'If CtesNoEncontrados = String.Empty Then
-        '    CtesNoEncontrados = CType(dr("Cliente"), String)
-        'Else
-        '    CtesNoEncontrados = CtesNoEncontrados & "," & CStr(dr("Cliente"))
-        'End If
-        'End If
-        'End If
         Return oDireccionEntrega
     End Function
 
