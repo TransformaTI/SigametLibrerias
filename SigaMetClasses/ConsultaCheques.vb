@@ -3,6 +3,10 @@ Option Strict On
 Imports System.Data.SqlClient
 Imports System.Windows.Forms
 Imports System.Drawing
+Imports System.Collections.Generic
+Imports System.Linq
+Imports System.Threading
+Imports System.Threading.Tasks
 
 Public Class ConsultaCheques
     Inherits System.Windows.Forms.Form
@@ -26,6 +30,7 @@ Public Class ConsultaCheques
     Private _ComboCargado As Boolean
     Private dtCheque As DataTable
     Private _Empresa As Integer
+    Private trd As Thread
 #End Region
 
 #Region "Eventos"
@@ -84,7 +89,7 @@ Public Class ConsultaCheques
 #End Region
 
 
-    Public Sub New(ByVal Modulo As Short, _
+    Public Sub New(ByVal Modulo As Short,
                    ByVal Usuario As String)
 
         MyBase.New()
@@ -224,7 +229,7 @@ Public Class ConsultaCheques
     Friend WithEvents btnBuscar As System.Windows.Forms.Button
     Private WithEvents tbbEspecial As System.Windows.Forms.ToolBarButton
     Friend WithEvents colUsuarioNombre As System.Windows.Forms.DataGridTextBoxColumn
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(ConsultaCheques))
@@ -872,6 +877,18 @@ Public Class ConsultaCheques
         _Estatus = String.Empty
     End Sub
 
+
+    Private Sub AsignaDataSourceDatosClienteCRM()
+        Dim dt As DataTable = consultarDatosClienteCRM(dtCheque)
+        dtCheque = dt.Copy()
+    End Sub
+
+    Private Sub threadConsultarDatosClienteCRM()
+        trd = New Thread(AddressOf AsignaDataSourceDatosClienteCRM) With {.IsBackground = True}
+        trd.Start()
+        grdCheque.DataSource = dtCheque
+    End Sub
+
     Public Sub CargaListaCheques()
         Cursor = Cursors.WaitCursor
         Dim oCheque As New SigaMetClasses.Cobro()
@@ -893,7 +910,7 @@ Public Class ConsultaCheques
             End Try
 
             If _URLGateway <> "" Then
-                grdCheque.DataSource = consultarDatosClienteCRM(dtCheque)
+                threadConsultarDatosClienteCRM() 'grdCheque.DataSource = consultarDatosClienteCRM(dtCheque)
             Else
                 grdCheque.DataSource = dtCheque
             End If
@@ -917,6 +934,32 @@ Public Class ConsultaCheques
             Cursor = Cursors.Default
         End Try
     End Sub
+    Private Function ConsultarDirecciones(IDDireccionEntrega As Integer) As RTGMCore.DireccionEntrega 'List(Of RTGMCore.DireccionEntrega)
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+
+        oGateway = New RTGMGateway.RTGMGateway(CType(_Modulo, Byte), _CadenaConexion)
+        oSolicitud = New RTGMGateway.SolicitudGateway()
+
+        oGateway.GuardarLog = True
+        oGateway.URLServicio = _URLGateway
+        oSolicitud.IDCliente = IDDireccionEntrega 'CType(dr("Cliente"), Int32)
+        oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+        'If Not IsNothing(oDireccionEntrega) And IsNothing(oDireccionEntrega.Message) Then
+        'dr("ClienteNombre") = oDireccionEntrega.Nombre
+        'Else
+        'If Not IsNothing(oDireccionEntrega.Message) And oDireccionEntrega.Message.Contains("ERROR") Then
+        'If CtesNoEncontrados = String.Empty Then
+        '    CtesNoEncontrados = CType(dr("Cliente"), String)
+        'Else
+        '    CtesNoEncontrados = CtesNoEncontrados & "," & CStr(dr("Cliente"))
+        'End If
+        'End If
+        'End If
+        Return oDireccionEntrega
+    End Function
 
     Private Function consultarDatosClienteCRM(ByVal dtCheques As DataTable) As DataTable
         Dim dtChuequesModificados As New DataTable()
@@ -926,7 +969,7 @@ Public Class ConsultaCheques
             dtChuequesModificados = dtCheques
             If dtChuequesModificados.Rows.Count() > 0 Then
                 For Each dr As DataRow In dtChuequesModificados.Rows
-                    Cursor = Cursors.WaitCursor
+                    'Cursor = Cursors.WaitCursor
                     Dim oGateway As RTGMGateway.RTGMGateway
                     Dim oSolicitud As RTGMGateway.SolicitudGateway
                     Dim oDireccionEntrega As RTGMCore.DireccionEntrega
@@ -952,6 +995,41 @@ Public Class ConsultaCheques
                             End If
                         End If
                     End If
+                Next
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            dtChuequesModificados.Clear()
+        Finally
+            'Cursor = Cursors.Default
+        End Try
+        If CtesNoEncontrados <> "" Then
+            Mensaje = Mensaje + " " + CtesNoEncontrados
+            If Mensaje.Length > 500 Then
+                Mensaje = Mensaje.Substring(0, 500) & "..."
+            End If
+            MessageBox.Show(Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+        Return dtChuequesModificados
+    End Function
+
+    Private Function consultarDatosClienteCRM_Parallel(ByVal dtCheques As DataTable) As DataTable
+        Dim dtChuequesModificados As New DataTable()
+        Dim Mensaje As String = "Los siguientes clientes no fueron encontrados en CRM." + vbCrLf
+        Dim CtesNoEncontrados As String = ""
+        Try
+            dtChuequesModificados = dtCheques
+            Dim clientes As New List(Of Integer)
+            For Each dr As DataRow In dtChuequesModificados.Rows
+                clientes.Add(CType(dr("Cliente"), Int32))
+            Next
+            Dim clientesDistintos As New List(Of Integer)
+            If (clientes.Count > 0) Then
+                clientesDistintos = clientes.Select(Function(v) v).Distinct.ToList()
+            End If
+            If clientesDistintos.Count > 0 Then
+                For indice As Integer = 0 To clientesDistintos.Count - 1
+                    Parallel.ForEach(clientesDistintos, Sub(x) ConsultarDirecciones(x))
                 Next
             End If
         Catch ex As Exception
