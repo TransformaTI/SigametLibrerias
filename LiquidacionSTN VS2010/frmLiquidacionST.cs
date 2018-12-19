@@ -2513,9 +2513,9 @@ namespace LiquidacionSTN
 
 		private void CalculaTotalesCredito()
 		{
-
-			//System.Data.DataRow [] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("TipoPedido = 10 and StatusServicioTecnico = 'ATENDIDO' and PedidoReferencia='" + _PedidoReferencia + "'");
-			System.Data.DataRow [] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select("TipoPedido = 10 and StatusServicioTecnico = 'ATENDIDO'");
+            TotalCredito = 0;
+            //System.Data.DataRow [] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("TipoPedido = 10 and StatusServicioTecnico = 'ATENDIDO' and PedidoReferencia='" + _PedidoReferencia + "'");
+            System.Data.DataRow [] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select("TipoPedido = 10 and StatusServicioTecnico = 'ATENDIDO'");
 			foreach (System.Data.DataRow dr in Query)
 			{
 				decimal _TotalCred;
@@ -2523,6 +2523,7 @@ namespace LiquidacionSTN
 				TotalCredito = _TotalCred + TotalCredito;
 				lblTotalCreditos.Text = Convert.ToString (TotalCredito);
 			}
+
 
 			//lblTotalCreditos.Text = Convert.ToString (0);
 
