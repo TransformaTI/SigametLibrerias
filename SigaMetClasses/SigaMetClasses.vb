@@ -190,6 +190,7 @@ Public Class CargoTarjeta
     Private _UsuarioAlta As String
     Private _NombreBanco As String
     Private _TipoCobroDescripcion As String
+    Private _BancoAfiliacion As Int16
 
 
 #Region "Propiedades"
@@ -418,6 +419,15 @@ Public Class CargoTarjeta
         End Set
     End Property
 
+    Public Property BancoAfiliacion() As String
+        Get
+            Return _BancoAfiliacion
+        End Get
+        Set(ByVal value As String)
+            _BancoAfiliacion = value
+        End Set
+    End Property
+
 #End Region
 
     Public Sub New()
@@ -457,6 +467,7 @@ Public Class CargoTarjeta
         _UsuarioAlta = Nothing
         _NombreBanco = Nothing
         _TipoCobroDescripcion = Nothing
+
     End Sub
 
 
@@ -687,6 +698,8 @@ Public Class CargoTarjetaDatos
                 If Not IsDBNull(dr("UsuarioAlta")) Then objCargoTarjeta.UsuarioAlta = CType(dr("UsuarioAlta"), String).Trim Else objCargoTarjeta.UsuarioAlta = " "
                 If Not IsDBNull(dr("NombreBanco")) Then objCargoTarjeta.NombreBanco = CType(dr("NombreBanco"), String).Trim Else objCargoTarjeta.NombreBanco = " "
                 If Not IsDBNull(dr("TipoCobroDescripcion")) Then objCargoTarjeta.TipoCobroDescripcion = CType(dr("TipoCobroDescripcion"), String).Trim Else objCargoTarjeta.TipoCobroDescripcion = " "
+                If Not IsDBNull(dr("BancoAfiliacion")) Then objCargoTarjeta.BancoAfiliacion = CType(dr("BancoAfiliacion"), Int16) Else objCargoTarjeta.BancoAfiliacion = Nothing
+
 
                 ListaCargoTarjeta.Add(objCargoTarjeta)
 
