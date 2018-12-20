@@ -173,5 +173,9 @@ Public Class frmConsultaPagosAreaTarjeta
     Private Sub frmConsultaPagosAreaTarjeta_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         BuscarCargosTarjetaPorFechaAlta()
     End Sub
+
+    Private Sub grdPagosTarjeta_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdPagosTarjeta.CellDoubleClick
+        SeleccionaPagoTarjeta()
+    End Sub
 End Class
 #End Region

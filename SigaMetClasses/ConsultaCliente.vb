@@ -3077,7 +3077,19 @@ Public Class frmConsultaCliente
                     '   Descuento
                     If Not IsNothing(_oDireccionEntrega.Descuentos) Then
                         If _oDireccionEntrega.Descuentos.Count > 0 Then
-                            grdClienteDescuento.DataSource = _oDireccionEntrega.Descuentos
+                            Dim dtDescuentos As New DataTable
+
+                            dtDescuentos.Columns.Add("F.Inicial", GetType(String))
+                            dtDescuentos.Columns.Add("F.Final", GetType(String))
+                            dtDescuentos.Columns.Add("Descuento", GetType(String))
+                            dtDescuentos.Columns.Add("Estatus", GetType(String))
+
+                            For Each Desc As RTGMCore.Descuento In _oDireccionEntrega.Descuentos
+                                dtDescuentos.Rows.Add(Desc.FInicial, Desc.FFinal, Desc.ImporteDescuento, Desc.Status)
+                            Next
+
+                            grdClienteDescuento.DataSource = dtDescuentos
+
                             grdClienteDescuento.CaptionText = "Histórico de descuentos del cliente"
                         Else
                             grdClienteDescuento.CaptionText = "El cliente no tiene descuento"

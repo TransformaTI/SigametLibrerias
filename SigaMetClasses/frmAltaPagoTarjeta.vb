@@ -483,6 +483,9 @@ Public Class frmAltaPagoTarjeta
                 txtAutorizacion.Text = DtPagosTarjetas.Rows(0)("Autorizacion").ToString()
                 txtRepiteAutorizacion.Text = DtPagosTarjetas.Rows(0)("Autorizacion").ToString()
                 txtObservaciones.Text = DtPagosTarjetas.Rows(0)("Observacion").ToString()
+                cboTipoTarjeta.SelectedValue = CInt(DtPagosTarjetas.Rows(0)("TipoCobro").ToString())
+                cboAutotanque.SelectedValue = CInt(DtPagosTarjetas.Rows(0)("Autotanque").ToString())
+                cboRuta.SelectedValue = CInt(DtPagosTarjetas.Rows(0)("Ruta").ToString())
 
                 If DtPagosTarjetas.Rows(0)("TipoCargo").ToString() = "1" Then
                     rdCargoPorCobranza.Checked = True
