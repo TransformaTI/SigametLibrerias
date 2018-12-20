@@ -468,6 +468,8 @@ namespace LiquidacionSTN
                 Registro["Monto"] = this.txtMonto.Text;
                 Registro["Autotanque"] = _Autotanque;
                 Registro["Saldo"] = txtSaldo.Text;
+                Registro["Autorizacion"] = txtAutorizacion.Text;
+                Registro["Afiliacion"] = _NumAfiliacion;
 
                 LiquidacionSTN.Modulo.dtVoucher.Rows.Add(Registro);
 
@@ -711,7 +713,7 @@ namespace LiquidacionSTN
         {
             try
             {
-                CalcularSaldo();
+                //CalcularSaldo();
                 Aceptar();
             }
             catch (Exception ex)
@@ -741,10 +743,17 @@ namespace LiquidacionSTN
                 if (saldo < 0)
                     saldo = 0;
 
-                if (EsCorrectoElMonto())
-                    _Saldo = saldo;
+                if (_Monto != _Total)
+                {
+                    if (EsCorrectoElMonto())
+                        _Saldo = saldo;
+                    else
+                        _Saldo = 0;
+                }
                 else
-                    _Saldo = 0;
+                {
+                    _Saldo = saldo;
+                }
 
                 txtSaldo.Text = _Saldo.ToString();
             }
