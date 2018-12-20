@@ -468,6 +468,8 @@ namespace LiquidacionSTN
                 Registro["Monto"] = this.txtMonto.Text;
                 Registro["Autotanque"] = _Autotanque;
                 Registro["Saldo"] = txtSaldo.Text;
+                Registro["Autorizacion"] = txtAutorizacion.Text;
+                Registro["Afiliacion"] = _IDAfiliacion;
 
                 LiquidacionSTN.Modulo.dtVoucher.Rows.Add(Registro);
 

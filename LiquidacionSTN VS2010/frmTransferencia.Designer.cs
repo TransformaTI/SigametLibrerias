@@ -33,6 +33,7 @@
             this.tsbAceptar = new System.Windows.Forms.ToolStripButton();
             this.tsbCerrar = new System.Windows.Forms.ToolStripButton();
             this.pnlPrincipal = new System.Windows.Forms.Panel();
+            this.txtSaldo = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.lblAsteriscoCuenta = new System.Windows.Forms.Label();
             this.lblAsteriscoBanco = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -60,7 +61,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.cCalle1 = new SigaMetClasses.cCalle();
-            this.txtSaldo = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.tsBotonera.SuspendLayout();
             this.pnlPrincipal.SuspendLayout();
             this.SuspendLayout();
@@ -140,6 +140,13 @@
             this.pnlPrincipal.Name = "pnlPrincipal";
             this.pnlPrincipal.Size = new System.Drawing.Size(332, 481);
             this.pnlPrincipal.TabIndex = 1;
+            // 
+            // txtSaldo
+            // 
+            this.txtSaldo.Location = new System.Drawing.Point(117, 348);
+            this.txtSaldo.Name = "txtSaldo";
+            this.txtSaldo.Size = new System.Drawing.Size(110, 20);
+            this.txtSaldo.TabIndex = 16;
             // 
             // lblAsteriscoCuenta
             // 
@@ -352,9 +359,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(23, 199);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 13);
+            this.label4.Size = new System.Drawing.Size(62, 13);
             this.label4.TabIndex = 4;
-            this.label4.Text = "Documento:";
+            this.label4.Text = "Referencia:";
             // 
             // label3
             // 
@@ -386,13 +393,6 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Agregar una transferencia";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtSaldo
-            // 
-            this.txtSaldo.Location = new System.Drawing.Point(117, 348);
-            this.txtSaldo.Name = "txtSaldo";
-            this.txtSaldo.Size = new System.Drawing.Size(110, 20);
-            this.txtSaldo.TabIndex = 16;
             // 
             // frmTransferencia
             // 

@@ -2413,12 +2413,10 @@ namespace LiquidacionSTN
 			ColumnaVoucher.ColumnName = "Folio";
 			LiquidacionSTN.Modulo.dtVoucher.Columns.Add (ColumnaVoucher);
 
-
 			ColumnaVoucher = new DataColumn ();
 			ColumnaVoucher.DataType = System.Type.GetType ("System.Decimal");
 			ColumnaVoucher.ColumnName = "Monto";
 			LiquidacionSTN.Modulo.dtVoucher.Columns.Add (ColumnaVoucher);
-
 
 			ColumnaVoucher = new DataColumn ();
 			ColumnaVoucher.DataType = System.Type.GetType ("System.Int32");
@@ -2430,9 +2428,19 @@ namespace LiquidacionSTN
 			ColumnaVoucher.ColumnName = "Saldo";
 			LiquidacionSTN.Modulo.dtVoucher.Columns.Add (ColumnaVoucher);
 
-		}
+            ColumnaVoucher = new DataColumn();
+            ColumnaVoucher.DataType = System.Type.GetType("System.String");
+            ColumnaVoucher.ColumnName = "Afiliacion";
+            LiquidacionSTN.Modulo.dtVoucher.Columns.Add(ColumnaVoucher);
 
-		public void LlenaGrid()
+            ColumnaVoucher = new DataColumn();
+            ColumnaVoucher.DataType = System.Type.GetType("System.String");
+            ColumnaVoucher.ColumnName = "Autorizacion";
+            LiquidacionSTN.Modulo.dtVoucher.Columns.Add(ColumnaVoucher);
+
+        }
+
+        public void LlenaGrid()
 		{
 			if (a >= 1)
 			{
@@ -2523,8 +2531,7 @@ namespace LiquidacionSTN
 				TotalCredito = _TotalCred + TotalCredito;
 				lblTotalCreditos.Text = Convert.ToString (TotalCredito);
 			}
-
-
+            
 			//lblTotalCreditos.Text = Convert.ToString (0);
 
 		}
@@ -2849,7 +2856,8 @@ namespace LiquidacionSTN
                                                     Parametro = Comando.Parameters.Add("@NumCuenta", SqlDbType.Char);
                                                     Parametro.Value = dr["NumCuentaCheque"];
                                                     Parametro = Comando.Parameters.Add("@NumChequeTarjetaCredito", SqlDbType.Char);
-                                                    Parametro.Value = drVoucher["Folio"];
+                                                    //Parametro.Value = drVoucher["Folio"];
+                                                    Parametro.Value = drVoucher["Autorizacion"];
                                                     Parametro = Comando.Parameters.Add("@TotalTarjetaCredito", SqlDbType.Money);
                                                     Parametro.Value = drVoucher["Monto"];
                                                     Parametro = Comando.Parameters.Add("@SaldoTarjetaCredito", SqlDbType.Money);
@@ -2876,6 +2884,8 @@ namespace LiquidacionSTN
                                                     Parametro.Value = dr["RutaCliente"];
                                                     Parametro = Comando.Parameters.Add("@FAtencion", SqlDbType.DateTime);
                                                     Parametro.Value = dr["FAtencion"];
+                                                    Parametro = Comando.Parameters.Add("@Referencia", SqlDbType.Char);
+                                                    Parametro.Value = drVoucher["Afiliacion"];
 
                                                     Comando.CommandType = CommandType.StoredProcedure;
                                                     Comando.CommandText = "spSTLiquidacionServiciosTecnicos";
