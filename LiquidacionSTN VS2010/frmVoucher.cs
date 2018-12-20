@@ -467,7 +467,7 @@ namespace LiquidacionSTN
                 //Registro["Folio"] = this.txtFolio.Text;
                 Registro["Monto"] = this.txtMonto.Text;
                 Registro["Autotanque"] = _Autotanque;
-                Registro["Saldo"] = txtSaldo.Text;
+                Registro["Saldo"] = _Saldo;
                 Registro["Autorizacion"] = txtAutorizacion.Text;
                 Registro["Afiliacion"] = _NumAfiliacion;
 
