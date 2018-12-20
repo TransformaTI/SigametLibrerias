@@ -5434,7 +5434,8 @@ Public Class Cobro
                             Optional ByVal SaldoAFavor As Boolean = False,
                             Optional ByVal Posfechado As Boolean = False,
                             Optional ByVal referencia As String = "",
-                            Optional ByVal dtmFCobro As Date = Nothing
+                            Optional ByVal dtmFCobro As Date = Nothing,
+                            Optional ByVal FolioMovAnt As Int64 = Nothing
                                        ) As Integer
 
         Dim cmd As New SqlCommand("spChequeTarjetaAltaModifica")
@@ -5485,6 +5486,11 @@ Public Class Cobro
             End If
 
             .Parameters.Add(New SqlParameter("@referencia", SqlDbType.VarChar)).Value = referencia
+
+            If TipoCobro = 21 Then
+                .Parameters.Add(New SqlParameter("@FolioMov", SqlDbType.BigInt)).Value = FolioMovAnt
+
+            End If
 
         End With
 
@@ -6195,7 +6201,7 @@ Public Class TransaccionMovimientoCaja
 
                         FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Cobro.FechaCheque, Cobro.Cliente, Cobro.Banco,
                             Cobro.Observaciones, Cobro.TipoCobro, Usuario, Cobro.Saldo, Cobro.NoCuentaDestino, Cobro.BancoOrigen, Cobro.SaldoAFavor,
-                            Cobro.Posfechado, Cobro.Referencia, Cobro.Fcobro)
+                            Cobro.Posfechado, Cobro.Referencia, Cobro.Fcobro, Cobro.FolioMovAnt)
 
                     Case Enumeradores.enumTipoCobro.TarjetaCredito,
                         Enumeradores.enumTipoCobro.TarjetaDebito,
@@ -8421,6 +8427,7 @@ Public Structure sCobro
     Private _Referencia As String
     Private _ListaPedidos As ArrayList
     Private _FCobro As Date
+    Private _FolioMovAnt As Int64
 
     'Se agregó para captura de transferencias bancarias
     '23-03-2005 JAG
@@ -8616,6 +8623,15 @@ Public Structure sCobro
         End Get
         Set(ByVal value As Date)
             _FCobro = value
+        End Set
+    End Property
+
+    Public Property FolioMovAnt() As Int64
+        Get
+            Return _FolioMovAnt
+        End Get
+        Set(ByVal value As Int64)
+            _FolioMovAnt = value
         End Set
     End Property
 
