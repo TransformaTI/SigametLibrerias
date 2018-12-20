@@ -1,8 +1,0 @@
-D:\TFSGM\Librerias\NombreEmpresa\bin\Debug\NombreEmpresa.dll
-D:\TFSGM\Librerias\NombreEmpresa\bin\Debug\NombreEmpresa.pdb
-D:\TFSGM\Librerias\NombreEmpresa\obj\Debug\NombreEmpresa.csprojResolveAssemblyReference.cache
-D:\TFSGM\Librerias\NombreEmpresa\obj\Debug\NombreEmpresa.LabelNombreEmpresa.resources
-D:\TFSGM\Librerias\NombreEmpresa\obj\Debug\NombreEmpresa.csproj.GenerateResource.Cache
-D:\TFSGM\Librerias\NombreEmpresa\obj\Debug\NombreEmpresa.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\NombreEmpresa\obj\Debug\NombreEmpresa.dll
-D:\TFSGM\Librerias\NombreEmpresa\obj\Debug\NombreEmpresa.pdb

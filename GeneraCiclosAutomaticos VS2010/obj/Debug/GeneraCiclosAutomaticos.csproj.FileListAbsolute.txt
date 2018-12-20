@@ -1,7 +1,0 @@
-D:\TFSGM\Librerias\GeneraCiclosAutomaticos VS2010\bin\Debug\GeneraCiclosAutomaticos.dll
-D:\TFSGM\Librerias\GeneraCiclosAutomaticos VS2010\bin\Debug\GeneraCiclosAutomaticos.pdb
-D:\TFSGM\Librerias\GeneraCiclosAutomaticos VS2010\obj\Debug\GeneraCiclosAutomaticos.frmGeneraCiclos.resources
-D:\TFSGM\Librerias\GeneraCiclosAutomaticos VS2010\obj\Debug\GeneraCiclosAutomaticos.csproj.GenerateResource.Cache
-D:\TFSGM\Librerias\GeneraCiclosAutomaticos VS2010\obj\Debug\GeneraCiclosAutomaticos.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\GeneraCiclosAutomaticos VS2010\obj\Debug\GeneraCiclosAutomaticos.dll
-D:\TFSGM\Librerias\GeneraCiclosAutomaticos VS2010\obj\Debug\GeneraCiclosAutomaticos.pdb

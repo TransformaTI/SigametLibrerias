@@ -1,9 +1,0 @@
-D:\TFSGM\Librerias\ControlDocumentosDll\bin\ControlDocumentosDll.dll
-D:\TFSGM\Librerias\ControlDocumentosDll\bin\ControlDocumentosDll.pdb
-D:\TFSGM\Librerias\ControlDocumentosDll\bin\ControlDocumentosDll.xml
-D:\TFSGM\Librerias\ControlDocumentosDll\obj\Debug\ControlDocumentosDll.ObservacionesNota.resources
-D:\TFSGM\Librerias\ControlDocumentosDll\obj\Debug\ControlDocumentosDll.vbproj.GenerateResource.Cache
-D:\TFSGM\Librerias\ControlDocumentosDll\obj\Debug\ControlDocumentosDll.vbproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\ControlDocumentosDll\obj\Debug\ControlDocumentosDll.dll
-D:\TFSGM\Librerias\ControlDocumentosDll\obj\Debug\ControlDocumentosDll.xml
-D:\TFSGM\Librerias\ControlDocumentosDll\obj\Debug\ControlDocumentosDll.pdb

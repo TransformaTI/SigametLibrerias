@@ -1,5 +1,0 @@
-D:\TFSGM\Librerias\EDFIntercambio\EDFConfiguracionConexion\bin\Debug\EDFConfiguracionConexion.dll
-D:\TFSGM\Librerias\EDFIntercambio\EDFConfiguracionConexion\bin\Debug\EDFConfiguracionConexion.pdb
-D:\TFSGM\Librerias\EDFIntercambio\EDFConfiguracionConexion\obj\Debug\EDFConfiguracionConexion.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\EDFIntercambio\EDFConfiguracionConexion\obj\Debug\EDFConfiguracionConexion.dll
-D:\TFSGM\Librerias\EDFIntercambio\EDFConfiguracionConexion\obj\Debug\EDFConfiguracionConexion.pdb

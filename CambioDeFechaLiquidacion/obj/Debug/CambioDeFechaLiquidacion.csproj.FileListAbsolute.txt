@@ -1,7 +1,0 @@
-D:\TFSGM\Librerias\CambioDeFechaLiquidacion\bin\Debug\CambioDeFechaLiquidacion.dll
-D:\TFSGM\Librerias\CambioDeFechaLiquidacion\bin\Debug\CambioDeFechaLiquidacion.pdb
-D:\TFSGM\Librerias\CambioDeFechaLiquidacion\obj\Debug\CambioDeFechaLiquidacion.FrmLiquidacionesPendientes.resources
-D:\TFSGM\Librerias\CambioDeFechaLiquidacion\obj\Debug\CambioDeFechaLiquidacion.csproj.GenerateResource.Cache
-D:\TFSGM\Librerias\CambioDeFechaLiquidacion\obj\Debug\CambioDeFechaLiquidacion.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\CambioDeFechaLiquidacion\obj\Debug\CambioDeFechaLiquidacion.dll
-D:\TFSGM\Librerias\CambioDeFechaLiquidacion\obj\Debug\CambioDeFechaLiquidacion.pdb

@@ -1,9 +1,0 @@
-D:\TFSGM\Librerias\FormsArqueo\bin\Debug\FormsArqueo.dll
-D:\TFSGM\Librerias\FormsArqueo\bin\Debug\FormsArqueo.pdb
-D:\TFSGM\Librerias\FormsArqueo\obj\Debug\FormsArqueo.csprojResolveAssemblyReference.cache
-D:\TFSGM\Librerias\FormsArqueo\obj\Debug\FormsArqueo.FrmArqueos.resources
-D:\TFSGM\Librerias\FormsArqueo\obj\Debug\FormsArqueo.FrmCapturaArqueo.resources
-D:\TFSGM\Librerias\FormsArqueo\obj\Debug\FormsArqueo.csproj.GenerateResource.Cache
-D:\TFSGM\Librerias\FormsArqueo\obj\Debug\FormsArqueo.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\FormsArqueo\obj\Debug\FormsArqueo.dll
-D:\TFSGM\Librerias\FormsArqueo\obj\Debug\FormsArqueo.pdb

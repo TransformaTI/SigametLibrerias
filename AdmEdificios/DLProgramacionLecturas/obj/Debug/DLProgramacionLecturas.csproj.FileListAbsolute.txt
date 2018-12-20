@@ -1,6 +1,0 @@
-D:\TFSGM\Librerias\AdmEdificios\DLProgramacionLecturas\bin\Debug\DLProgramacionLecturas.dll
-D:\TFSGM\Librerias\AdmEdificios\DLProgramacionLecturas\bin\Debug\DLProgramacionLecturas.pdb
-D:\TFSGM\Librerias\AdmEdificios\DLProgramacionLecturas\obj\Debug\DLProgramacionLecturas.csprojResolveAssemblyReference.cache
-D:\TFSGM\Librerias\AdmEdificios\DLProgramacionLecturas\obj\Debug\DLProgramacionLecturas.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\AdmEdificios\DLProgramacionLecturas\obj\Debug\DLProgramacionLecturas.dll
-D:\TFSGM\Librerias\AdmEdificios\DLProgramacionLecturas\obj\Debug\DLProgramacionLecturas.pdb

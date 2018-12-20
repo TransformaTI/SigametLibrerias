@@ -1,8 +1,0 @@
-D:\TFSGM\Librerias\Arqueo\bin\Debug\Arqueo.dll
-D:\TFSGM\Librerias\Arqueo\bin\Debug\Arqueo.pdb
-D:\TFSGM\Librerias\Arqueo\obj\Debug\Arqueo.Documento.resources
-D:\TFSGM\Librerias\Arqueo\obj\Debug\Arqueo.lvwArqueo.resources
-D:\TFSGM\Librerias\Arqueo\obj\Debug\Arqueo.csproj.GenerateResource.Cache
-D:\TFSGM\Librerias\Arqueo\obj\Debug\Arqueo.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\Arqueo\obj\Debug\Arqueo.dll
-D:\TFSGM\Librerias\Arqueo\obj\Debug\Arqueo.pdb

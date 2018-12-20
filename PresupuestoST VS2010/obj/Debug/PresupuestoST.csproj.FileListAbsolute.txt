@@ -1,5 +1,0 @@
-D:\TFSGM\Librerias\PresupuestoST VS2010\bin\Debug\PresupuestoST.dll
-D:\TFSGM\Librerias\PresupuestoST VS2010\bin\Debug\PresupuestoST.pdb
-D:\TFSGM\Librerias\PresupuestoST VS2010\obj\Debug\PresupuestoST.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\PresupuestoST VS2010\obj\Debug\PresupuestoST.dll
-D:\TFSGM\Librerias\PresupuestoST VS2010\obj\Debug\PresupuestoST.pdb

@@ -1,9 +1,0 @@
-D:\TFSGM\Librerias\ImporteDescuento\bin\ImporteDescuento.dll
-D:\TFSGM\Librerias\ImporteDescuento\bin\ImporteDescuento.pdb
-D:\TFSGM\Librerias\ImporteDescuento\bin\ImporteDescuento.xml
-D:\TFSGM\Librerias\ImporteDescuento\obj\Debug\ImporteDescuento.frmDiscount.resources
-D:\TFSGM\Librerias\ImporteDescuento\obj\Debug\ImporteDescuento.vbproj.GenerateResource.Cache
-D:\TFSGM\Librerias\ImporteDescuento\obj\Debug\ImporteDescuento.vbproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\ImporteDescuento\obj\Debug\ImporteDescuento.dll
-D:\TFSGM\Librerias\ImporteDescuento\obj\Debug\ImporteDescuento.xml
-D:\TFSGM\Librerias\ImporteDescuento\obj\Debug\ImporteDescuento.pdb

@@ -1,9 +1,0 @@
-D:\TFSGM\Librerias\SigametSeguridad\bin\Debug\ARRWS04I.ICO
-D:\TFSGM\Librerias\SigametSeguridad\bin\Debug\SigametSeguridad.dll
-D:\TFSGM\Librerias\SigametSeguridad\bin\Debug\SigametSeguridad.pdb
-D:\TFSGM\Librerias\SigametSeguridad\obj\Debug\SigametSeguridad.UI.Acceso.resources
-D:\TFSGM\Librerias\SigametSeguridad\obj\Debug\SigametSeguridad.UI.frmSeleccionConexion.resources
-D:\TFSGM\Librerias\SigametSeguridad\obj\Debug\SigametSeguridad.csproj.GenerateResource.Cache
-D:\TFSGM\Librerias\SigametSeguridad\obj\Debug\SigametSeguridad.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\SigametSeguridad\obj\Debug\SigametSeguridad.dll
-D:\TFSGM\Librerias\SigametSeguridad\obj\Debug\SigametSeguridad.pdb

@@ -1,8 +1,0 @@
-D:\TFSGM\Librerias\BuroDeCredito\DataLoader\obj\Debug\DataLoader.csprojResolveAssemblyReference.cache
-D:\TFSGM\Librerias\BuroDeCredito\DataLoader\obj\Debug\DataLoader.DLControlPanel.resources
-D:\TFSGM\Librerias\BuroDeCredito\DataLoader\obj\Debug\DataLoader.csproj.GenerateResource.Cache
-D:\TFSGM\Librerias\BuroDeCredito\DataLoader\obj\Debug\DataLoader.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\BuroDeCredito\DataLoader\bin\Debug\DataLoader.dll
-D:\TFSGM\Librerias\BuroDeCredito\DataLoader\bin\Debug\DataLoader.pdb
-D:\TFSGM\Librerias\BuroDeCredito\DataLoader\obj\Debug\DataLoader.dll
-D:\TFSGM\Librerias\BuroDeCredito\DataLoader\obj\Debug\DataLoader.pdb

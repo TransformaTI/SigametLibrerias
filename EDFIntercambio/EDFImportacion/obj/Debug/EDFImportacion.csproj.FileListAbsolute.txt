@@ -1,8 +1,0 @@
-D:\TFSGM\Librerias\EDFIntercambio\EDFImportacion\bin\Debug\EDFImportacion.dll
-D:\TFSGM\Librerias\EDFIntercambio\EDFImportacion\bin\Debug\EDFImportacion.pdb
-D:\TFSGM\Librerias\EDFIntercambio\EDFImportacion\bin\Debug\EDFConfiguracionConexion.dll
-D:\TFSGM\Librerias\EDFIntercambio\EDFImportacion\bin\Debug\EDFConfiguracionConexion.pdb
-D:\TFSGM\Librerias\EDFIntercambio\EDFImportacion\obj\Debug\EDFImportacion.csprojResolveAssemblyReference.cache
-D:\TFSGM\Librerias\EDFIntercambio\EDFImportacion\obj\Debug\EDFImportacion.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\EDFIntercambio\EDFImportacion\obj\Debug\EDFImportacion.dll
-D:\TFSGM\Librerias\EDFIntercambio\EDFImportacion\obj\Debug\EDFImportacion.pdb

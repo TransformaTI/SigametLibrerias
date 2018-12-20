@@ -1,9 +1,0 @@
-D:\TFSGM\Librerias\PagoReferenciado\bin\Debug\PagoReferenciado.dll
-D:\TFSGM\Librerias\PagoReferenciado\bin\Debug\PagoReferenciado.pdb
-D:\TFSGM\Librerias\PagoReferenciado\obj\Debug\PagoReferenciado.csprojResolveAssemblyReference.cache
-D:\TFSGM\Librerias\PagoReferenciado\obj\Debug\PagoReferenciado.frmRelPagoCYC.resources
-D:\TFSGM\Librerias\PagoReferenciado\obj\Debug\PagoReferenciado.PagoReferenciado.resources
-D:\TFSGM\Librerias\PagoReferenciado\obj\Debug\PagoReferenciado.csproj.GenerateResource.Cache
-D:\TFSGM\Librerias\PagoReferenciado\obj\Debug\PagoReferenciado.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\PagoReferenciado\obj\Debug\PagoReferenciado.dll
-D:\TFSGM\Librerias\PagoReferenciado\obj\Debug\PagoReferenciado.pdb

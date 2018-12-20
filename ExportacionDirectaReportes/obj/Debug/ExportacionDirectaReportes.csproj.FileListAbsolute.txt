@@ -1,9 +1,0 @@
-D:\TFSGM\Librerias\ExportacionDirectaReportes\bin\Debug\ExportacionDirectaReportes.dll
-D:\TFSGM\Librerias\ExportacionDirectaReportes\bin\Debug\ExportacionDirectaReportes.pdb
-D:\TFSGM\Librerias\ExportacionDirectaReportes\obj\Debug\ExportacionDirectaReportes.csprojResolveAssemblyReference.cache
-D:\TFSGM\Librerias\ExportacionDirectaReportes\obj\Debug\ExportacionDirectaReportes.frmConsulta.resources
-D:\TFSGM\Librerias\ExportacionDirectaReportes\obj\Debug\ExportacionDirectaReportes.frmListaReportes.resources
-D:\TFSGM\Librerias\ExportacionDirectaReportes\obj\Debug\ExportacionDirectaReportes.csproj.GenerateResource.Cache
-D:\TFSGM\Librerias\ExportacionDirectaReportes\obj\Debug\ExportacionDirectaReportes.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\ExportacionDirectaReportes\obj\Debug\ExportacionDirectaReportes.dll
-D:\TFSGM\Librerias\ExportacionDirectaReportes\obj\Debug\ExportacionDirectaReportes.pdb

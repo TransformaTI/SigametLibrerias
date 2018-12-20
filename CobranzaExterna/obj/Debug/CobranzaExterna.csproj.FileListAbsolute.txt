@@ -1,6 +1,0 @@
-D:\TFSGM\Librerias\CobranzaExterna\bin\Debug\CobranzaExterna.dll
-D:\TFSGM\Librerias\CobranzaExterna\bin\Debug\CobranzaExterna.pdb
-D:\TFSGM\Librerias\CobranzaExterna\obj\Debug\CobranzaExterna.csprojResolveAssemblyReference.cache
-D:\TFSGM\Librerias\CobranzaExterna\obj\Debug\CobranzaExterna.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\CobranzaExterna\obj\Debug\CobranzaExterna.dll
-D:\TFSGM\Librerias\CobranzaExterna\obj\Debug\CobranzaExterna.pdb

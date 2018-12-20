@@ -1,7 +1,0 @@
-D:\TFSGM\Librerias\ControlesProveedores\bin\Debug\ControlesProveedores.dll
-D:\TFSGM\Librerias\ControlesProveedores\bin\Debug\ControlesProveedores.pdb
-D:\TFSGM\Librerias\ControlesProveedores\obj\Debug\GasMetropolitano.Controls.ListViewObject.resources
-D:\TFSGM\Librerias\ControlesProveedores\obj\Debug\ControlesProveedores.csproj.GenerateResource.Cache
-D:\TFSGM\Librerias\ControlesProveedores\obj\Debug\ControlesProveedores.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\ControlesProveedores\obj\Debug\ControlesProveedores.dll
-D:\TFSGM\Librerias\ControlesProveedores\obj\Debug\ControlesProveedores.pdb

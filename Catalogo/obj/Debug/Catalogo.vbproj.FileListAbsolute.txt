@@ -1,9 +1,0 @@
-D:\TFSGM\Librerias\Catalogo\bin\Catalogo.dll
-D:\TFSGM\Librerias\Catalogo\bin\Catalogo.pdb
-D:\TFSGM\Librerias\Catalogo\bin\Catalogo.xml
-D:\TFSGM\Librerias\Catalogo\obj\Debug\Catalogo.frmCatalogo.resources
-D:\TFSGM\Librerias\Catalogo\obj\Debug\Catalogo.vbproj.GenerateResource.Cache
-D:\TFSGM\Librerias\Catalogo\obj\Debug\Catalogo.vbproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\Catalogo\obj\Debug\Catalogo.dll
-D:\TFSGM\Librerias\Catalogo\obj\Debug\Catalogo.xml
-D:\TFSGM\Librerias\Catalogo\obj\Debug\Catalogo.pdb

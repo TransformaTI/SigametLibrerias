@@ -1,8 +1,0 @@
-D:\TFSGM\Librerias\UDSUserInterface\bin\Debug\UDSUserInterface.dll
-D:\TFSGM\Librerias\UDSUserInterface\bin\Debug\UDSUserInterface.pdb
-D:\TFSGM\Librerias\UDSUserInterface\obj\Debug\UDSUserInterface.csprojResolveAssemblyReference.cache
-D:\TFSGM\Librerias\UDSUserInterface\obj\Debug\UIUDS.FrmMain.resources
-D:\TFSGM\Librerias\UDSUserInterface\obj\Debug\UDSUserInterface.csproj.GenerateResource.Cache
-D:\TFSGM\Librerias\UDSUserInterface\obj\Debug\UDSUserInterface.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\UDSUserInterface\obj\Debug\UDSUserInterface.dll
-D:\TFSGM\Librerias\UDSUserInterface\obj\Debug\UDSUserInterface.pdb

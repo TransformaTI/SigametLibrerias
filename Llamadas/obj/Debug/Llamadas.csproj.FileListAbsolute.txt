@@ -1,8 +1,0 @@
-D:\TFSGM\Librerias\Llamadas\bin\Debug\Llamadas.dll
-D:\TFSGM\Librerias\Llamadas\bin\Debug\Llamadas.pdb
-D:\TFSGM\Librerias\Llamadas\obj\Debug\Llamadas.csprojResolveAssemblyReference.cache
-D:\TFSGM\Librerias\Llamadas\obj\Debug\Llamadas.frmLlamada.resources
-D:\TFSGM\Librerias\Llamadas\obj\Debug\Llamadas.csproj.GenerateResource.Cache
-D:\TFSGM\Librerias\Llamadas\obj\Debug\Llamadas.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\Llamadas\obj\Debug\Llamadas.dll
-D:\TFSGM\Librerias\Llamadas\obj\Debug\Llamadas.pdb

@@ -1,8 +1,0 @@
-D:\TFSGM\Librerias\Filiales\bin\Debug\Filiales.dll
-D:\TFSGM\Librerias\Filiales\bin\Debug\Filiales.pdb
-D:\TFSGM\Librerias\Filiales\obj\Debug\Filiales.csprojResolveAssemblyReference.cache
-D:\TFSGM\Librerias\Filiales\obj\Debug\Filiales.frmFiliales.resources
-D:\TFSGM\Librerias\Filiales\obj\Debug\Filiales.csproj.GenerateResource.Cache
-D:\TFSGM\Librerias\Filiales\obj\Debug\Filiales.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\Filiales\obj\Debug\Filiales.dll
-D:\TFSGM\Librerias\Filiales\obj\Debug\Filiales.pdb

@@ -1,9 +1,0 @@
-D:\TFSGM\Librerias\ReasignacionDePedidos\bin\Debug\ReasignacionDePedidos.dll.config
-D:\TFSGM\Librerias\ReasignacionDePedidos\bin\Debug\ReasignacionDePedidos.dll
-D:\TFSGM\Librerias\ReasignacionDePedidos\bin\Debug\ReasignacionDePedidos.pdb
-D:\TFSGM\Librerias\ReasignacionDePedidos\obj\Debug\ReasignacionPedidos.frmReasignacion.resources
-D:\TFSGM\Librerias\ReasignacionDePedidos\obj\Debug\ReasignacionDePedidos.Properties.Resources.resources
-D:\TFSGM\Librerias\ReasignacionDePedidos\obj\Debug\ReasignacionDePedidos.csproj.GenerateResource.Cache
-D:\TFSGM\Librerias\ReasignacionDePedidos\obj\Debug\ReasignacionDePedidos.csproj.CoreCompileInputs.cache
-D:\TFSGM\Librerias\ReasignacionDePedidos\obj\Debug\ReasignacionDePedidos.dll
-D:\TFSGM\Librerias\ReasignacionDePedidos\obj\Debug\ReasignacionDePedidos.pdb
