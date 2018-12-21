@@ -1443,7 +1443,7 @@ Public Class ConsultaMovimientos
     Private Sub ConsultarDocumento()
         If _Documento <> "" Then
             Cursor = Cursors.WaitCursor
-            Dim oConsultaDocumento As New ConsultaCargo(_Documento)
+            Dim oConsultaDocumento As New ConsultaCargo(_Documento,, _URLGateway, _Modulo, _CadenaConexion)
             oConsultaDocumento.ShowDialog()
             Cursor = Cursors.Default
         End If
