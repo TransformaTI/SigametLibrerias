@@ -41,6 +41,7 @@ Public Class frmConsultaCliente
     Private _PermiteModificarDatosCte As Boolean
 
     Private _ClienteRow As New RTGMCore.DireccionEntrega
+    Private PermiteModificarDatosCte As Boolean
 
 
 

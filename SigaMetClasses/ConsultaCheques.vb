@@ -888,12 +888,12 @@ Public Class ConsultaCheques
 
     End Sub
 
-    Private Sub threadConsultarDatosClienteCRM()
-        trd = New Thread(AddressOf AsignaDataSourceDatosClienteCRM) With {.IsBackground = True}
-        trd.Start()
-        grdCheque.DataSource = dtCheque
+    'Private Sub threadConsultarDatosClienteCRM()
+    'trd = New Thread(AddressOf AsignaDataSourceDatosClienteCRM) With {.IsBackground = True}
+    'trd.Start()
+    '   grdCheque.DataSource = dtCheque
 
-    End Sub
+    'End Sub
 
     Public Sub CargaListaCheques()
         Cursor = Cursors.WaitCursor
@@ -914,7 +914,7 @@ Public Class ConsultaCheques
             End Try
 
             If _URLGateway <> "" Then
-                threadConsultarDatosClienteCRM()
+                'threadConsultarDatosClienteCRM()
             Else
                 grdCheque.DataSource = dtCheque
             End If
@@ -938,21 +938,21 @@ Public Class ConsultaCheques
             Cursor = Cursors.Default
         End Try
     End Sub
-    Private Function ConsultarDirecciones(IDDireccionEntrega As Integer) As RTGMCore.DireccionEntrega
-        Dim oGateway As RTGMGateway.RTGMGateway
-        Dim oSolicitud As RTGMGateway.SolicitudGateway
-        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+    'Private Function ConsultarDirecciones(IDDireccionEntrega As Integer) As RTGMCore.DireccionEntrega
+    '    Dim oGateway As RTGMGateway.RTGMGateway
+    '    Dim oSolicitud As RTGMGateway.SolicitudGateway
+    '    Dim oDireccionEntrega As RTGMCore.DireccionEntrega
 
-        oGateway = New RTGMGateway.RTGMGateway(CType(_Modulo, Byte), _CadenaConexion)
-        oSolicitud = New RTGMGateway.SolicitudGateway()
+    '    oGateway = New RTGMGateway.RTGMGateway(CType(_Modulo, Byte), _CadenaConexion)
+    '    oSolicitud = New RTGMGateway.SolicitudGateway()
 
-        oGateway.GuardarLog = True
-        oGateway.URLServicio = _URLGateway
-        oSolicitud.IDCliente = IDDireccionEntrega 'CType(dr("Cliente"), Int32)
-        oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+    '    oGateway.GuardarLog = True
+    '    oGateway.URLServicio = _URLGateway
+    '    oSolicitud.IDCliente = IDDireccionEntrega 'CType(dr("Cliente"), Int32)
+    '    oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
-        Return oDireccionEntrega
-    End Function
+    '    Return oDireccionEntrega
+    'End Function
 
     Public Sub MiSub(ByVal Parametro As Object)
         Try
@@ -1072,7 +1072,7 @@ Public Class ConsultaCheques
             End If
             If clientesDistintos.Count > 0 Then
                 For indice As Integer = 0 To clientesDistintos.Count - 1
-                    Parallel.ForEach(clientesDistintos, Sub(x) ConsultarDirecciones(x))
+                    System.Threading.Tasks.Parallel.ForEach(clientesDistintos, Sub(x) consultarDirecciones(x))
                 Next
             End If
         Catch ex As Exception
