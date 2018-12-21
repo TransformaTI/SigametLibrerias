@@ -1,4 +1,5 @@
 Option Strict On
+Imports System.Collections.Generic
 Imports System.Data.SqlClient
 Imports System.Drawing
 Imports System.Windows.Forms
@@ -15,7 +16,7 @@ Public Class ConsultaCargo
     Private _CadenaConexion As String
     Private Titulo As String = "Consulta de documentos"
     Public Event MovimientoSeleccionado(ByVal Clave As String)
-
+    Private _ClienteRow As New RTGMCore.DireccionEntrega
     'Para obtener la serie del folio del vale de crédito JAGD 24/02/2006
     Dim folioDocumento As DocumentosBSR.SerieDocumento
 
@@ -1465,7 +1466,8 @@ Public Class ConsultaCargo
                 Optional ByVal strURLGateway As String = "",
                 Optional ByVal Modulo As Byte = 0,
                 Optional ByVal CadenaConexion As String = "",
-                Optional ByVal Celula As Byte = 0)
+                Optional ByVal Celula As Byte = 0,
+                Optional ByVal _ClienteRow As RTGMCore.DireccionEntrega = Nothing)
 
         MyBase.New()
         InitializeComponent()
@@ -1480,6 +1482,8 @@ Public Class ConsultaCargo
         _Modulo = Modulo
         _CadenaConexion = CadenaConexion
         _Celula = Celula
+        Me._ClienteRow = _ClienteRow
+
 
         cboTipoBusqueda.Enabled = False
         ConsultaCatalogoFiltros()
@@ -1611,11 +1615,15 @@ Public Class ConsultaCargo
                 If String.IsNullOrEmpty(_URLGateway) Then
                     lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("ClienteNombre"), String)
                 Else
-                    oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
-                    oSolicitud = New RTGMGateway.SolicitudGateway()
-                    oGateway.URLServicio = _URLGateway
-                    oSolicitud.IDCliente = CInt(dr("Cliente"))
-                    oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+                    If IsNothing(_ClienteRow) Then
+                        oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+                        oSolicitud = New RTGMGateway.SolicitudGateway()
+                        oGateway.URLServicio = _URLGateway
+                        oSolicitud.IDCliente = CInt(dr("Cliente"))
+                        oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+                    Else
+                        oDireccionEntrega = _ClienteRow
+                    End If
 
                     If Not IsNothing(oDireccionEntrega) Then
                         If Not IsNothing(oDireccionEntrega.Nombre) Then
@@ -1815,25 +1823,25 @@ Public Class ConsultaCargo
                             If(lstPedidos(0).DireccionEntrega.Nombre, "").Trim
                     End If
 
-					If Not IsNothing(lstPedidos(0).RutaSuministro) Then
+                    If Not IsNothing(lstPedidos(0).RutaSuministro) Then
                         lblRutaSuministro.Text = If(lstPedidos(0).RutaSuministro.Descripcion, "").Trim
                     End If
 
-					lblFCargo.Text = lstPedidos(0).FCargo.ToString
+                    lblFCargo.Text = lstPedidos(0).FCargo.ToString
 
-					If Not IsNothing(lstPedidos(0).Importe) Then
-						lblImporte.Text = CDec(lstPedidos(0).Importe).ToString("C")
-					End If
+                    If Not IsNothing(lstPedidos(0).Importe) Then
+                        lblImporte.Text = CDec(lstPedidos(0).Importe).ToString("C")
+                    End If
 
                     If Not IsNothing(lstPedidos(0).Saldo) Then
                         lblSaldo.Text = CDec(lstPedidos(0).Saldo).ToString("C")
                     End If
                 Else
-					MessageBox.Show("No se encontró la referencia.", Me.Titulo,
-									MessageBoxButtons.OK, MessageBoxIcon.Information)
-				End If
-			Else
-				MessageBox.Show("Introduzca un número de documento válido.",
+                    MessageBox.Show("No se encontró la referencia.", Me.Titulo,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+            Else
+                MessageBox.Show("Introduzca un número de documento válido.",
                     Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         Catch ex As System.OverflowException

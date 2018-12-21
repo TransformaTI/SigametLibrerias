@@ -726,6 +726,7 @@ Public Class CargoTarjetaDatos
 End Class
 #End Region
 
+
 #Region "AutotanqueTurno"
 Public Class cAutotanqueTurno
     Inherits System.ComponentModel.Component

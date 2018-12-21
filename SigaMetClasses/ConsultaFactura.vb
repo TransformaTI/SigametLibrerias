@@ -1,5 +1,7 @@
 Option Strict On
+Imports System.Collections.Generic
 Imports System.Data.SqlClient, System.Windows.Forms
+Imports System.Linq
 Imports RTGMGateway
 
 Public Class ConsultaFactura
@@ -13,6 +15,7 @@ Public Class ConsultaFactura
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Private Titulo As String = "Consulta de facturas"
     Private _URLGateway As String
+    Private _Cliente As List(Of RTGMCore.DireccionEntrega)
     Private _Modulo As Byte
     Private _CadenaConexion As String
 
@@ -589,10 +592,11 @@ Public Class ConsultaFactura
 
 #End Region
 
-    Public Sub New(ByVal Folio As Integer, ByVal Serie As String)
+    Public Sub New(ByVal Folio As Integer, ByVal Serie As String, Optional ByVal _Cliente As List(Of RTGMCore.DireccionEntrega) = Nothing)
         MyBase.New()
         InitializeComponent()
         _Folio = Folio
+        Me._Cliente = _Cliente
         Serie = Serie
         txtFolio.Text = _Folio.ToString
         txtFolio.Enabled = False
@@ -772,9 +776,17 @@ Public Class ConsultaFactura
                                 Dim oItem As New ListViewItem(Trim(CType(drow(ParametroCrm), String)), 0)
                                 oItem.SubItems.Add(CType(drow("Factura"), String))
                                 oItem.SubItems.Add(CType(drow("Cliente"), String))
-                                objSolicitudGateway.IDCliente = (CType(drow("Cliente"), Integer))
-                                Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
-                                oItem.SubItems.Add(objRtgCore.Nombre)
+                                If IsNothing(_Cliente) Then
+                                    objSolicitudGateway.IDCliente = (CType(drow("Cliente"), Integer))
+                                    Dim objRtgCore As RTGMCore.DireccionEntrega = objGateway.buscarDireccionEntrega(objSolicitudGateway)
+                                    oItem.SubItems.Add(objRtgCore.Nombre)
+                                Else
+                                    Dim direntrega As New RTGMCore.DireccionEntrega
+                                    direntrega = _Cliente.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(drow("Cliente"), Integer))
+                                    If Not IsNothing(direntrega) Then
+                                        oItem.SubItems.Add(direntrega.Nombre)
+                                    End If
+                                End If
                                 'oItem.SubItems.Add(Trim(CType(drow("Nombre"), String)))  se reemplazo por la respuesta del WS'
                                 oItem.SubItems.Add(CType(drow("Total"), Decimal).ToString("N"))
                                 lvwFacturaPedido.Items.Add(oItem)

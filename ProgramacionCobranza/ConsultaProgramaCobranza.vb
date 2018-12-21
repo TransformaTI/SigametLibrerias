@@ -271,6 +271,9 @@ Public Class ConsultaProgramaCobranza
     Private _connection As SqlClient.SqlConnection
     Private _empleado As Integer
 
+    Private _Modulo As Byte
+    Private _CadenaConexion As String
+
     Private _ejecutivo As Integer
 
     Private _listaEmpleados As DataTable
@@ -410,10 +413,10 @@ Public Class ConsultaProgramaCobranza
         If _URLGateway <> "" Then
             Dim drow As DataRow
 
-            oGateway = New RTGMGateway.RTGMGateway()
+            oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
             oSolicitud = New RTGMGateway.SolicitudGateway()
             oGateway.URLServicio = _URLGateway
-            oSolicitud.Fuente = RTGMCore.Fuente.CRM
+            'oSolicitud.Fuente = RTGMCore.Fuente.CRM
 
             If ProgramaCobranza.Rows.Count > 0 Then
                 For Each drow In ProgramaCobranza.Rows
