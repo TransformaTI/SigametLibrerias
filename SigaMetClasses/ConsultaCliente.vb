@@ -2838,6 +2838,7 @@ Public Class frmConsultaCliente
                 Throw New Exception("No hay valor para URLParada, error de configuración")
             End If
         End Try
+
     End Sub
     Private Sub ConsultaCliente(ByVal Cliente As Integer,
                                 ByVal SoloPedidosCredito As Boolean,
