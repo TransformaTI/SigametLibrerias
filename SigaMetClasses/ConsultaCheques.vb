@@ -3,10 +3,11 @@ Option Strict On
 Imports System.Data.SqlClient
 Imports System.Windows.Forms
 Imports System.Drawing
+'Imports System.Threading
 Imports System.Collections.Generic
 Imports System.Linq
-Imports System.Threading
-Imports System.Threading.Tasks
+Imports RTGMGateway
+
 
 Public Class ConsultaCheques
     Inherits System.Windows.Forms.Form
@@ -30,7 +31,10 @@ Public Class ConsultaCheques
     Private _ComboCargado As Boolean
     Private dtCheque As DataTable
     Private _Empresa As Integer
-    Private trd As Thread
+    Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
+    Private _ChequeRow As DataRow
+    Dim _EntregaCheque As RTGMCore.DireccionEntrega
+
 #End Region
 
 #Region "Eventos"
@@ -950,41 +954,91 @@ Public Class ConsultaCheques
         Return oDireccionEntrega
     End Function
 
+    Public Sub MiSub(ByVal Parametro As Object)
+        Try
+            Randomize()
+            Do
+                Dim iDormir As Integer = CInt(3000 * Rnd()) 'Valor random entre 0 y 3000
+                Console.WriteLine("{0} sleep({1})", Parametro, iDormir)
+                System.Threading.Thread.Sleep(iDormir) 'Me bloqueo entre 0 y 3 segundos
+            Loop
+        Catch ex As System.Threading.ThreadAbortException
+            Console.WriteLine("{0} Abortado", Parametro)
+        End Try
+    End Sub
+
     Private Function consultarDatosClienteCRM(ByVal dtCheques As DataTable) As DataTable
         Dim dtChuequesModificados As New DataTable()
         Dim Mensaje As String = "Los siguientes clientes no fueron encontrados en CRM." + vbCrLf
         Dim CtesNoEncontrados As String = ""
+        Dim iteraciones As Integer = 0
+        Dim CLIENTETEMP As Integer
+        Dim direccionEntrega As RTGMCore.DireccionEntrega
+
         Try
-            dtChuequesModificados = dtCheques
+            listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+            Dim dtChequesVista As DataView = New DataView(dtCheques)
+            dtChuequesModificados = dtChequesVista.ToTable(True, "Cliente")
+
             If dtChuequesModificados.Rows.Count() > 0 Then
-                For Each dr As DataRow In dtChuequesModificados.Rows
-                    'Cursor = Cursors.WaitCursor
-                    Dim oGateway As RTGMGateway.RTGMGateway
-                    Dim oSolicitud As RTGMGateway.SolicitudGateway
-                    Dim oDireccionEntrega As RTGMCore.DireccionEntrega
 
-                    oGateway = New RTGMGateway.RTGMGateway(CType(_Modulo, Byte), _CadenaConexion)
-                    oSolicitud = New RTGMGateway.SolicitudGateway()
+                Dim listaClientesDistintos As New List(Of Integer)
 
-                    oGateway.GuardarLog = True
-                    oGateway.URLServicio = _URLGateway
-                    oSolicitud.IDCliente = CType(dr("Cliente"), Int32)
-                    oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
-
-                    If Not IsNothing(oDireccionEntrega) And IsNothing(oDireccionEntrega.Message) Then
-                        dr("ClienteNombre") = oDireccionEntrega.Nombre
-                    Else
-                        If Not IsNothing(oDireccionEntrega.Message) And oDireccionEntrega.Message.Contains("ERROR") Then
-                            'Throw New Exception(oDireccionEntrega.Message)
-                            'Mensaje = Mensaje & CType(dr("Cliente"), String) + vbCrLf
-                            If CtesNoEncontrados = String.Empty Then
-                                CtesNoEncontrados = CType(dr("Cliente"), String)
-                            Else
-                                CtesNoEncontrados = CtesNoEncontrados & "," & CStr(dr("Cliente"))
-                            End If
-                        End If
-                    End If
+                For Each fila As DataRow In dtChuequesModificados.Rows
+                    listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
                 Next
+
+                While listaClientesDistintos.Count <> listaDireccionesEntrega.Count And iteraciones < 20
+                    generaListaCLientes(listaClientesDistintos)
+                    iteraciones = iteraciones + 1
+                End While
+
+                For Each drow As DataRow In dtCheques.Rows
+                    Try
+                        drow("ClienteNombre") = ""
+                        CLIENTETEMP = (CType(drow("Cliente"), Integer))
+
+                        direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+
+                        If Not IsNothing(direccionEntrega) Then
+                            drow("ClienteNombre") = direccionEntrega.Nombre.Trim()
+                        Else
+                            drow("ClienteNombre") = "No encontrado"
+                        End If
+                    Catch ex As Exception
+                        drow("ClienteNombre") = "Error al buscar"
+                    End Try
+                Next
+
+
+                'For Each dr As DataRow In dtChuequesModificados.Rows
+                '    Cursor = Cursors.WaitCursor
+                '    Dim oGateway As RTGMGateway.RTGMGateway
+                '    Dim oSolicitud As RTGMGateway.SolicitudGateway
+                '    Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+
+                '    oGateway = New RTGMGateway.RTGMGateway(CType(_Modulo, Byte), _CadenaConexion)
+                '    oSolicitud = New RTGMGateway.SolicitudGateway()
+
+                '    oGateway.GuardarLog = True
+                '    oGateway.URLServicio = _URLGateway
+                '    oSolicitud.IDCliente = CType(dr("Cliente"), Int32)
+                '    oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+                '    If Not IsNothing(oDireccionEntrega) And IsNothing(oDireccionEntrega.Message) Then
+                '        dr("ClienteNombre") = oDireccionEntrega.Nombre
+                '    Else
+                '        If Not IsNothing(oDireccionEntrega.Message) And oDireccionEntrega.Message.Contains("ERROR") Then
+                '            'Throw New Exception(oDireccionEntrega.Message)
+                '            'Mensaje = Mensaje & CType(dr("Cliente"), String) + vbCrLf
+                '            If CtesNoEncontrados = String.Empty Then
+                '                CtesNoEncontrados = CType(dr("Cliente"), String)
+                '            Else
+                '                CtesNoEncontrados = CtesNoEncontrados & "," & CStr(dr("Cliente"))
+                '            End If
+                '        End If
+                '    End If
+                'Next
             End If
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1027,16 +1081,77 @@ Public Class ConsultaCheques
         Finally
             Cursor = Cursors.Default
         End Try
-        If CtesNoEncontrados <> "" Then
+        'If CtesNoEncontrados <> "" Then
 
-            Mensaje = Mensaje + " " + CtesNoEncontrados
-            If Mensaje.Length > 500 Then
-                Mensaje = Mensaje.Substring(0, 500) & "..."
-            End If
-            MessageBox.Show(Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End If
-        Return dtChuequesModificados
+        '    Mensaje = Mensaje + " " + CtesNoEncontrados
+        '    If Mensaje.Length > 500 Then
+        '        Mensaje = Mensaje.Substring(0, 500) & "..."
+        '    End If
+        '    MessageBox.Show(Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        'End If
+        Return dtCheques
     End Function
+
+    Private Sub generaListaCLientes(ByVal listaClientesDistintos As List(Of Integer))
+        Try
+            Dim listaClientes As New List(Of Integer)
+            Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+
+            For Each clienteTemp As Integer In listaClientesDistintos
+                direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                If IsNothing(direccionEntregaTemp) Then
+                    listaClientes.Add(clienteTemp)
+                End If
+            Next
+
+            Dim opciones As New System.Threading.Tasks.ParallelOptions()
+            opciones.MaxDegreeOfParallelism = 10
+            Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Private Sub consultarDirecciones(ByVal idCliente As Integer)
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        Try
+
+            oGateway = New RTGMGateway.RTGMGateway(CType(_Modulo, Byte), _CadenaConexion)
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            oGateway.URLServicio = _URLGateway
+
+            oSolicitud.IDCliente = idCliente
+            oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+            If Not IsNothing(oDireccionEntrega) Then
+                If Not IsNothing(oDireccionEntrega.Message) Then
+                    oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                    oDireccionEntrega.IDDireccionEntrega = idCliente
+                    oDireccionEntrega.Nombre = oDireccionEntrega.Message
+                    listaDireccionesEntrega.Add(oDireccionEntrega)
+                Else
+                    listaDireccionesEntrega.Add(oDireccionEntrega)
+                End If
+
+            Else
+                oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                oDireccionEntrega.IDDireccionEntrega = idCliente
+                oDireccionEntrega.Nombre = "No se encontró cliente"
+                listaDireccionesEntrega.Add(oDireccionEntrega)
+            End If
+
+        Catch ex As Exception
+            oDireccionEntrega = New RTGMCore.DireccionEntrega()
+            oDireccionEntrega.IDDireccionEntrega = idCliente
+            oDireccionEntrega.Nombre = ex.Message
+            listaDireccionesEntrega.Add(oDireccionEntrega)
+
+        End Try
+    End Sub
 
 
     Private Sub Devolver(ByVal DevolucionMultiple As Boolean)
@@ -1274,6 +1389,30 @@ Public Class ConsultaCheques
         If _Cobro <> 0 Then
             btnDevolver.Enabled = True
         End If
+
+        Dim dtTemp As DataTable
+        dtTemp = CType(grdCheque.DataSource, DataTable)
+        _ChequeRow = dtTemp.Rows(grdCheque.CurrentRowIndex)
+
+        _EntregaCheque = New RTGMCore.DireccionEntrega
+        _EntregaCheque.Ruta = New RTGMCore.Ruta()
+        _EntregaCheque.TipoFacturacion = New RTGMCore.TipoFacturacion()
+        _EntregaCheque.CondicionesCredito = New RTGMCore.CondicionesCredito()
+        _EntregaCheque.ZonaSuministro = New RTGMCore.Zona()
+
+        _EntregaCheque.Nombre = _ChequeRow("ClienteNombre").ToString()
+        _EntregaCheque.IDDireccionEntrega = CType(_ChequeRow("Cliente"), Integer)
+        _EntregaCheque.Ruta.IDRuta = CType(_ChequeRow("Ruta"), Integer)
+        _EntregaCheque.Ruta.Descripcion = CType(_ChequeRow("RutaDescripcion"), String)
+        _EntregaCheque.Status = CType(_ChequeRow("Status"), String)
+        _EntregaCheque.FAlta = CType(_ChequeRow("FAlta"), DateTime)
+        _EntregaCheque.Observaciones = CType(_ChequeRow("Observaciones"), String)
+        _EntregaCheque.ZonaSuministro.Descripcion = CType(_ChequeRow("CelulaDescripcion"), String)
+        _EntregaCheque.DireccionCompleta = String.Empty
+        _EntregaCheque.CondicionesCredito.Saldo = CType(_ChequeRow("Total"), Decimal)
+
+
+
     End Sub
 
     Private Sub btnCerrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCerrar.Click

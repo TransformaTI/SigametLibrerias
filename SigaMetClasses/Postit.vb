@@ -42,7 +42,7 @@ Public Class Postit
     End Property
 
 
-    Public Sub New(ByVal Postit As Integer, _
+    Public Sub New(ByVal Postit As Integer,
           Optional ByVal Contenedor As Form = Nothing)
 
         'Modificación
@@ -61,7 +61,6 @@ Public Class Postit
 
         End If
         Me.txtTexto.Focus()
-
     End Sub
 
     Public Sub New(ByVal TipoPostit As enumTipoPostit, _
