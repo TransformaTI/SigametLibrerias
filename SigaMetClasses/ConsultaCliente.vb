@@ -2550,8 +2550,9 @@ Public Class frmConsultaCliente
     Private Sub ModificaDatosCredito()
         'leer el perfil del usuario
         Dim FuenteCRM As String = String.Empty
-        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Corporativo, Short)
-        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Sucursal, Short)
+        Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
+        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
+        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
         Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
 
         Dim securityProfiler As New cSeguridad(_Usuario, 4)
@@ -2564,8 +2565,8 @@ Public Class frmConsultaCliente
 
         Cursor = Cursors.WaitCursor
         Dim frmDatosCredito As New CapturaDatosCreditoCliente(_Cliente,
-                                                              SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Corporativo,
-                                                              SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Sucursal,
+                                                              SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo,
+                                                              SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal,
                                                               ModificaTipoFactura:=securityProfiler.TieneAcceso("ModificaFacturacionCliente"),
                                                               ModificaEmpleadoNomina:=_CambioEmpleadoNomina,
                                                               ModificaClientePadre:=_CambioClientePadre,
@@ -2709,8 +2710,9 @@ Public Class frmConsultaCliente
     End Sub
 
     Private Sub frmConsultaCliente_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Corporativo, Short)
-        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Sucursal, Short)
+        Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
+        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
+        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
         Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
 
         Try
@@ -2762,8 +2764,9 @@ Public Class frmConsultaCliente
 
     Private Sub DeshabilitaBotonQuejas()
 
-        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Corporativo, Short)
-        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(_Usuario).Sucursal, Short)
+        Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
+        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
+        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
         Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
         Dim FuenteCRM As String = ""
 
