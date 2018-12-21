@@ -1610,7 +1610,7 @@ Public Class ConsultaCargo
                 lblTipoDocumento.Text = CType(dr("TipoCargoTipoPedido"), String)
                 lblStatusPedido.Text = CType(dr("StatusPedido"), String).Trim
                 lblStatusCobranza.Text = CType(dr("StatusCobranza"), String).Trim
-                lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("ClienteNombre"), String)
+                'lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("ClienteNombre"), String)
 
                 If String.IsNullOrEmpty(_URLGateway) Then
                     lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("ClienteNombre"), String)
