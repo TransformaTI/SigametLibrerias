@@ -183,10 +183,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\RTGMGateway\RTGMGateway\RTGMGateway.csproj">
-      <Project>{226853d8-23aa-4ff2-b66f-0ac17d0a66b9}</Project>
-      <Name>RTGMGateway</Name>
-    </ProjectReference>
+	<Reference Include="RTGMGateway, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Gateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
