@@ -105,6 +105,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="FormasPago, Version=1.0.6899.36748, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Caja\FormasPago\FormasPago\FormasPago\bin\Debug\FormasPago.dll</HintPath>
+    </Reference>
     <Reference Include="Interop.Excel">
       <Name>Interop.Excel</Name>
       <HintPath>bin\Debug\Interop.Excel.dll</HintPath>
