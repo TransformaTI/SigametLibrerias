@@ -490,7 +490,9 @@ namespace LiquidacionSTN
 						dr["TotalCheque"]= txtMonto.Text ;
 						dr["SaldoCheque"] = txtSaldo.Text ;
 						dr["TipoCobroCheque"] = 3;
-						dr["BancoNombre"] = this.cboBanco.Text;
+						dr["TipoCobro"] = 3;
+						dr["TipoCobroDescripcion"] = "Cheque";
+                        dr["BancoNombre"] = this.cboBanco.Text;
 						dr.EndEdit ();
 					}
 					this.Close ();

@@ -878,6 +878,8 @@ Public Class BusquedaCliente
 
                 If _DireccionesEntrega.Count = 0 Then
                     Exit Sub
+                ElseIf _DireccionesEntrega.Count > 0 AndAlso _DireccionesEntrega(0).Success = False Then
+                    Exit Sub
                 End If
 
                 Dim oItem As ListViewItem
