@@ -2,6 +2,7 @@ Option Strict On
 Imports System.Data.SqlClient, System.Windows.Forms
 Imports System.Text.RegularExpressions
 Imports RTGMGateway
+Imports System.Linq
 Public Class ConsultaMovimientos
     Inherits System.Windows.Forms.Form
 
@@ -9,6 +10,7 @@ Public Class ConsultaMovimientos
     Private oSeguridad As SigaMetClasses.cSeguridad
     Private dtMovimientoCaja As New DataTable()
     Private dtCobro As New DataTable()
+    Private dtCobroTemp As New DataTable()
     Private dtCobroPedido As New DataTable()
     Private _Caja As Byte
     Private _FOperacion As Date
@@ -25,6 +27,10 @@ Public Class ConsultaMovimientos
     Private _URLGateway As String
     Private _CadenaConexion As String
     Private _ConsultarPedidosGateway As Boolean
+    Private _MovRow As DataRow
+    Private _CobroRow As DataRow
+    Private dtCobPedEnvio As New DataTable()
+    Private dtTempMov2 As New DataTable
 #End Region
 
 #Region "Propiedades"
@@ -1194,6 +1200,11 @@ Public Class ConsultaMovimientos
         btnCancelar.Enabled = True
         btnRevivir.Enabled = True
 
+        Dim dtTempMov As DataTable
+        dtTempMov = CType(grdMovimientoCaja.DataSource, DataTable)
+        dtTempMov2 = dtTempMov.Clone
+        dtTempMov2.ImportRow(dtTempMov.Rows(grdMovimientoCaja.CurrentRowIndex))
+
         If _Status = "EMITIDO" Then
             Me.btnModificar.Enabled = True
         Else
@@ -1207,6 +1218,10 @@ Public Class ConsultaMovimientos
             _AnoCobro = CType(grdCobro.Item(grdCobro.CurrentRowIndex, 0), Short)
             _CobroCons = CType(grdCobro.Item(grdCobro.CurrentRowIndex, 1), Integer)
             _Documento = ""
+
+            Dim dtTempCobro As DataTable
+            dtTempCobro = CType(grdCobro.DataSource, DataTable)
+            _CobroRow = dtTempCobro.Rows(grdCobro.CurrentRowIndex)
 
             grdCobro.Select(grdCobro.CurrentRowIndex)
             btnConsultarCobro.Enabled = True
@@ -1228,6 +1243,7 @@ Public Class ConsultaMovimientos
                                       " AND Folio = " & Folio.ToString
 
             dtCobro.DefaultView.RowFilter = strFiltro
+
             grdCobro.DataSource = dtCobro
             grdCobro.CaptionText = "Lista de cobros en el movimiento (" & dtCobro.DefaultView.Count.ToString & ") Total: " & SumaColumnaVista(dtCobro.DefaultView, "Total").ToString("C")
         End If
@@ -1238,6 +1254,9 @@ Public Class ConsultaMovimientos
             Dim strFiltro As String = "AñoCobro = " & AnoCobro.ToString &
                                       " AND Cobro = " & Cobro.ToString
             dtCobroPedido.DefaultView.RowFilter = strFiltro
+            dtCobPedEnvio = dtCobroPedido.Copy()
+            dtCobPedEnvio.DefaultView.RowFilter = strFiltro
+
             grdCobroPedido.DataSource = dtCobroPedido
             grdCobroPedido.CaptionText = "Lista de documentos relacionados en el cobro (" & dtCobroPedido.DefaultView.Count & ") Total: " & SumaColumnaVista(dtCobroPedido.DefaultView, "CobroPedidoTotal").ToString("C")
         End If
@@ -1397,14 +1416,17 @@ Public Class ConsultaMovimientos
             'End Try
 
             If String.IsNullOrEmpty(_URLGateway) Then
-                oConsultaCobro = New ConsultaCobro(_AnoCobro, _CobroCons, _PermiteModificarCobro, _URLGateway)
+                oConsultaCobro = New ConsultaCobro(_AnoCobro, _CobroCons, _PermiteModificarCobro, _URLGateway, 0, String.Empty, dtTempMov2, _CobroRow, dtCobPedEnvio)
             Else
                 oConsultaCobro = New ConsultaCobro(_AnoCobro,
                                                     _CobroCons,
                                                     _PermiteModificarCobro,
                                                     _URLGateway,
                                                     Modulo:=4,
-                                                    CadenaConexion:=_CadenaConexion)
+                                                    CadenaConexion:=_CadenaConexion,
+                                                    dtMovRow:=dtTempMov2,
+                                                    CobroRow:=_CobroRow,
+                                                    dtCobPed:=dtCobPedEnvio)
             End If
 
             If oConsultaCobro.ShowDialog() = DialogResult.OK Then
@@ -1421,7 +1443,7 @@ Public Class ConsultaMovimientos
     Private Sub ConsultarDocumento()
         If _Documento <> "" Then
             Cursor = Cursors.WaitCursor
-            Dim oConsultaDocumento As New ConsultaCargo(_Documento)
+            Dim oConsultaDocumento As New ConsultaCargo(_Documento,, _URLGateway, _Modulo, _CadenaConexion)
             oConsultaDocumento.ShowDialog()
             Cursor = Cursors.Default
         End If

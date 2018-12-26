@@ -36,7 +36,7 @@ Public Class BusquedaCliente
 
     Private _URLGateway As String
 
-    Private _DireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
+    Public _DireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
 
     Friend WithEvents btnTelefono As System.Windows.Forms.Button
 

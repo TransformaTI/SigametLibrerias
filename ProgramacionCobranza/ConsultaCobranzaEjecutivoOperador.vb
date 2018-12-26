@@ -1,3 +1,6 @@
+Imports System.Collections.Generic
+Imports System.Linq
+
 Public Class ConsultaCobranzaEjecutivoOperador
     Inherits System.Windows.Forms.Form
 
@@ -64,8 +67,8 @@ Public Class ConsultaCobranzaEjecutivoOperador
         '
         'SqlConnection1
         '
-        Me.SqlConnection1.ConnectionString = "data source=DESARROLLO-MRM\MRM_SERVER;initial catalog=Sigamet80;integrated securi" & _
-        "ty=SSPI;persist security info=False;workstation id=DESARROLLO-MRM;packet size=40" & _
+        Me.SqlConnection1.ConnectionString = "data source=DESARROLLO-MRM\MRM_SERVER;initial catalog=Sigamet80;integrated securi" &
+        "ty=SSPI;persist security info=False;workstation id=DESARROLLO-MRM;packet size=40" &
         "96"
         '
         'Label1
@@ -263,10 +266,14 @@ Public Class ConsultaCobranzaEjecutivoOperador
     Private programaCobranza As DataAccess
     Private _connection As SqlClient.SqlConnection
     Private _empleado As Integer
+    Private _Modulo As Byte
+    Private _CadenaConexion As String
+    Private _URLGateway As String
 
     Private _listaEmpleados As DataTable
     Private _listaCelulas As DataTable
     Private _listaRutas As DataTable
+    Private _listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
 
     Public ReadOnly Property ListaDocumentos() As DataTable
         Get
@@ -274,11 +281,21 @@ Public Class ConsultaCobranzaEjecutivoOperador
         End Get
     End Property
 
-    Public Sub New(ByVal ListaCelulas As DataTable, _
-        ByVal ListaRutas As DataTable, _
-        ByVal ListaEmpleados As DataTable, _
-        ByVal Empleado As Integer, _
-        ByVal Connection As SqlClient.SqlConnection)
+    Public ReadOnly Property ListaClientes() As List(Of RTGMCore.DireccionEntrega)
+        Get
+            Return programacliente()
+        End Get
+    End Property
+
+    Public Sub New(ByVal ListaCelulas As DataTable,
+        ByVal ListaRutas As DataTable,
+        ByVal ListaEmpleados As DataTable,
+        ByVal Empleado As Integer,
+        ByVal Connection As SqlClient.SqlConnection,
+                   ByVal _Modulo As Byte,
+                   ByVal _CadenaConexion As String,
+                   ByVal __URLGateway As String,
+                   Optional ByVal _listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega) = Nothing)
         MyBase.New()
         'This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -289,10 +306,21 @@ Public Class ConsultaCobranzaEjecutivoOperador
         _listaCelulas = ListaCelulas
         _listaEmpleados = ListaEmpleados
         _listaRutas = ListaRutas
+        Me._Modulo = _Modulo
+        Me._CadenaConexion = _CadenaConexion
+        Me._URLGateway = __URLGateway
         programaCobranza = New DataAccess(_connection)
+        Me._listaDireccionesEntrega = _listaDireccionesEntrega
+        If IsNothing(Me._listaDireccionesEntrega) Then
+            Me._listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+        End If
 
         AddHandler MyBase.Load, AddressOf ConsultaProgramaCobranza_Load
     End Sub
+
+    Private Function programacliente() As List(Of RTGMCore.DireccionEntrega)
+        Return _listaDireccionesEntrega
+    End Function
 
     Private Sub ConsultaProgramaCobranza_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         cboCelula.DataSource = _listaCelulas
@@ -314,6 +342,9 @@ Public Class ConsultaCobranzaEjecutivoOperador
 
     Private Sub btnBuscar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscar.Click
         Dim params(3) As SqlClient.SqlParameter
+        Dim _cliente As String = ""
+        Dim CLIENTETEMP As Integer = 0
+        Dim direccionEntrega As RTGMCore.DireccionEntrega
 
         params(0) = New SqlClient.SqlParameter("@FCargo", SqlDbType.DateTime)
         params(1) = New SqlClient.SqlParameter("@Ejecutivo", SqlDbType.Int)
@@ -335,14 +366,53 @@ Public Class ConsultaCobranzaEjecutivoOperador
         End If
 
         If Not chkTodasRutas.Checked Then
-            params(3).Value = CType(cboRuta.ValueMember, Integer)
+            params(3).Value = CType(cboRuta.SelectedValue, Integer)
         Else
             params(3).Value = DBNull.Value
         End If
 
         programaCobranza.CargaProgramaCobranzaEjecutivoOperador(params)
 
-        dgCobranza.DataSource = programaCobranza.Programacion.Tables("ProgramaCobranza")
+        Dim dt As New DataTable
+        dt = programaCobranza.Programacion.Tables("ProgramaCobranza")
+        'listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+        Dim dtTemp As DataTable
+        Dim iteraciones As Integer = 0
+        Dim MyView As DataView = New DataView(dt)
+        dtTemp = MyView.ToTable(True, "Cliente")
+
+        Dim listaClientesDistintos As New List(Of Integer)
+
+        For Each fila As DataRow In dtTemp.Rows
+            Dim cliente As String = CType(fila("Cliente"), String)
+            Dim _Ccliente As String = cliente.Substring(0, cliente.LastIndexOf("-") - 1)
+            listaClientesDistintos.Add(CType(_Ccliente.Trim(), Integer))
+        Next
+
+        While listaClientesDistintos.Count <> _listaDireccionesEntrega.Count And iteraciones < 20
+            generaListaCLientes(listaClientesDistintos)
+            iteraciones = iteraciones + 1
+        End While
+
+        For Each drow As DataRow In dt.Rows
+            Try
+                Dim cliente As String = CType(drow("Cliente"), String)
+                _cliente = cliente.Substring(0, cliente.LastIndexOf("-") - 1)
+                CLIENTETEMP = (CType(_cliente.Trim(), Integer))
+                Dim _NCliente As String = cliente.Substring(cliente.LastIndexOf("-") + 1)
+                drow("Cliente") = ""
+                direccionEntrega = _listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+
+                If Not IsNothing(direccionEntrega) Then
+                    drow("Cliente") = _cliente & " - " & direccionEntrega.Nombre.Trim()
+                Else
+                    drow("Cliente") = _cliente & " - No encontrado"
+                End If
+            Catch ex As Exception
+                drow("Cliente") = _cliente & " - Error al buscar"
+            End Try
+        Next
+        dgCobranza.DataSource = dt
         dgCobranza.AutoColumnHeader()
         dgCobranza.DataAdd()
         Dim lvi As System.Windows.Forms.ListViewItem
@@ -351,6 +421,68 @@ Public Class ConsultaCobranzaEjecutivoOperador
         Next
     End Sub
 
+    Private Sub consultarDirecciones(ByVal idCliente As Integer)
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        Try
+
+
+            oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            oGateway.URLServicio = _URLGateway
+
+
+            oSolicitud.IDCliente = idCliente
+            oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+            If Not IsNothing(oDireccionEntrega) Then
+                If Not IsNothing(oDireccionEntrega.Message) Then
+                    oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                    oDireccionEntrega.IDDireccionEntrega = idCliente
+                    oDireccionEntrega.Nombre = oDireccionEntrega.Message
+                    _listaDireccionesEntrega.Add(oDireccionEntrega)
+                Else
+                    _listaDireccionesEntrega.Add(oDireccionEntrega)
+                End If
+
+            Else
+                oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                oDireccionEntrega.IDDireccionEntrega = idCliente
+                oDireccionEntrega.Nombre = "No se encontró cliente"
+                _listaDireccionesEntrega.Add(oDireccionEntrega)
+            End If
+
+        Catch ex As Exception
+            oDireccionEntrega = New RTGMCore.DireccionEntrega()
+            oDireccionEntrega.IDDireccionEntrega = idCliente
+            oDireccionEntrega.Nombre = ex.Message
+            _listaDireccionesEntrega.Add(oDireccionEntrega)
+
+        End Try
+    End Sub
+
+    Private Sub generaListaCLientes(ByVal listaClientesDistintos As List(Of Integer))
+        Try
+            Dim listaClientes As New List(Of Integer)
+            Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+
+            For Each clienteTemp As Integer In listaClientesDistintos
+                direccionEntregaTemp = _listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                If IsNothing(direccionEntregaTemp) Then
+                    listaClientes.Add(clienteTemp)
+                End If
+            Next
+
+            Dim opciones As New System.Threading.Tasks.ParallelOptions()
+            opciones.MaxDegreeOfParallelism = 10
+            System.Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
     Private Sub btnCancelar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancelar.Click
         Me.DialogResult = Windows.Forms.DialogResult.Cancel
         Me.Close()
@@ -385,14 +517,14 @@ Public Class ConsultaCobranzaEjecutivoOperador
         Return dt
     End Function
 
-    Private Sub chk_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkTodosEmpleados.CheckedChanged, _
-        chkTodasCelulas.CheckedChanged, _
+    Private Sub chk_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkTodosEmpleados.CheckedChanged,
+        chkTodasCelulas.CheckedChanged,
         chkTodasRutas.CheckedChanged
 
         Dim ctrl As System.Windows.Forms.Control
 
         For Each ctrl In Me.grpParametros.Controls
-            If (TypeOf ctrl Is System.Windows.Forms.ComboBox) AndAlso _
+            If (TypeOf ctrl Is System.Windows.Forms.ComboBox) AndAlso
                 (ctrl.Name.ToString = CType(DirectCast(sender, System.Windows.Forms.CheckBox).Tag, String)) Then
                 ctrl.Enabled = Not DirectCast(sender, System.Windows.Forms.CheckBox).Checked
             End If
