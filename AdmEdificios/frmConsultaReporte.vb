@@ -2,13 +2,14 @@ Imports System.Windows.Forms
 Imports CrystalDecisions.CrystalReports.Engine
 Imports CrystalDecisions.Shared
 Imports System.Data.SqlClient
+Imports CrystalDecisions.Windows.Forms
 
 Public Class frmConsultaReporte
     Inherits System.Windows.Forms.Form
 
     Private _AñoAtt As Short
     Private _Folio As Integer
-    Private rptReporte As New ReportDocument()
+    Private rptReporte As New ReportDocuments()
     Private _TablaReporte As Table
     Private _LogonInfo As TableLogOnInfo
 
@@ -52,7 +53,7 @@ Public Class frmConsultaReporte
         '
         'crvReporte
         '
-        Me.crvReporte.ActiveViewIndex = -1                
+        Me.crvReporte.ActiveViewIndex = -1
 
         'Me.crvReporte.DisplayGroupTree = False
         Me.crvReporte.Dock = System.Windows.Forms.DockStyle.Fill
