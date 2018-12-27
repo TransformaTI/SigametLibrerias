@@ -18,7 +18,7 @@ Public Class frmConTarjetaCredito
     Private _Firma As String
     Private _Status As String
     Private _Recurrente As Boolean
-
+    Private _DireccionEntrega As RTGMCore.DireccionEntrega
     Private _Usuario As String
     Public _URLGateway As String
     Private _Modulo As Byte
@@ -46,10 +46,11 @@ Public Class frmConTarjetaCredito
           Optional ByVal URLGateway As String = Nothing,
           Optional ByVal Modulo As Byte = 0,
           Optional ByVal CadCon As String = "",
-          Optional ByVal FuenteGateway As String = "")
+          Optional ByVal FuenteGateway As String = "",
+          Optional ByVal _DireccionEntrega As RTGMCore.DireccionEntrega = Nothing)
         MyBase.New()
         InitializeComponent()
-
+        Me._DireccionEntrega = _DireccionEntrega
         _Cliente = Cliente
         _Usuario = Usuario
         _URLGateway = URLGateway
@@ -69,7 +70,12 @@ Public Class frmConTarjetaCredito
         oSolicitud = New RTGMGateway.SolicitudGateway
         oGateway.URLServicio = _URLGateway
         oSolicitud.IDCliente = _Cliente
-        oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+        If (IsNothing(_DireccionEntrega)) Then
+            oDireccionEntrega = _DireccionEntrega
+        Else
+            oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+        End If
+
 
         If IsNothing(oDireccionEntrega.Message) Then
             txtCliente.Text = CType(oDireccionEntrega.IDDireccionEntrega, String)

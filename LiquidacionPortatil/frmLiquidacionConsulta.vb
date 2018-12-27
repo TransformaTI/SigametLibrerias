@@ -20,7 +20,8 @@ Public Class frmLiquidacionConsulta
     Private _SucursalUsuario As Short
     Private _CajaUsuario As Byte
     Private _FactorDensidad As Decimal
-
+    Private _Modulo As Byte
+    Private _URLGateway As String
 
     Private _Servidor As String
     Private _Database As String
@@ -375,7 +376,7 @@ Public Class frmLiquidacionConsulta
 #End Region
 
 
-	Public Sub New(ByVal Usuario As String, ByVal Empleado As Integer, ByVal CajaUsuario As Byte, ByVal FactorDensidad As Decimal, ByVal Servidor As String, ByVal DBase As String, ByVal Password As String, ByVal CorporativoUsuario As Short, ByVal SucursalUsuario As Short)
+    Public Sub New(ByVal Usuario As String, ByVal Empleado As Integer, ByVal CajaUsuario As Byte, ByVal FactorDensidad As Decimal, ByVal Servidor As String, ByVal DBase As String, ByVal Password As String, ByVal CorporativoUsuario As Short, ByVal SucursalUsuario As Short, Optional ByVal _Modulo As Byte = 0, Optional ByVal _URLGateway As String = Nothing)
         MyBase.New()
         InitializeComponent()
         _Usuario = Usuario
@@ -387,6 +388,8 @@ Public Class frmLiquidacionConsulta
         _Password = Password
         _CorporativoUsuario = CorporativoUsuario
         _SucursalUsuario = SucursalUsuario
+        Me._Modulo = _Modulo
+        Me._URLGateway = _URLGateway
 
         Dim oConfig As New SigaMetClasses.cConfig(16, _CorporativoUsuario, _SucursalUsuario)
         _EmpresaComisionista = CType(oConfig.Parametros("EmpresaComisionista"), String).Trim
@@ -426,7 +429,7 @@ Public Class frmLiquidacionConsulta
         Dim celulas As New List(Of Celula)
 
         If (CelulasUsuario) Then
-            celulas = m_metodos.ConsultaCelulasPorUsusario(SigaMetClasses.DataLayer.Conexion, Usuario)            
+            celulas = m_metodos.ConsultaCelulasPorUsusario(SigaMetClasses.DataLayer.Conexion, Usuario)
         Else
             celulas = m_metodos.ConsultaTodasLasCelulas(SigaMetClasses.DataLayer.Conexion, Usuario)
         End If
@@ -529,7 +532,7 @@ Public Class frmLiquidacionConsulta
                 End If
                 'If FechaLiq >= FechaMin And FechaLiq <= FechaMax Then
                 If FechaLiq >= CDate("01/02/2015") And FechaLiq <= FechaMax Then
-                    Dim frmLiquidacionPortatil As New frmLiquidacionPortatil(_AnoAtt, _Folio, _AlmacenGas, _Corporativo, _MovimientoAlmacen, _NDocumento, _drLiquidacionCarga, _Usuario, _Empleado, _CajaUsuario, _FactorDensidad, _Servidor, _Database, _Password, _CorporativoUsuario, _SucursalUsuario, _ReglaHoraLiquidar, _MaxHoraLiquidar)
+                    Dim frmLiquidacionPortatil As New frmLiquidacionPortatil(_AnoAtt, _Folio, _AlmacenGas, _Corporativo, _MovimientoAlmacen, _NDocumento, _drLiquidacionCarga, _Usuario, _Empleado, _CajaUsuario, _FactorDensidad, _Servidor, _Database, _Password, _CorporativoUsuario, _SucursalUsuario, _ReglaHoraLiquidar, _MaxHoraLiquidar, _Modulo:=_Modulo, _URLGatewat:=_URLGateway)
                     frmLiquidacionPortatil._Copias = CType(_Copias, Integer)
                     frmLiquidacionPortatil._FormaImprimir = _FormaImprimir
                     If frmLiquidacionPortatil.ShowDialog() = DialogResult.OK Then
