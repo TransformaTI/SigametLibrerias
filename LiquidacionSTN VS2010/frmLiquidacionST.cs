@@ -2913,13 +2913,14 @@ namespace LiquidacionSTN
                                             // RM - 28/12/2018
                                             // Si la transferencia no cubre el total del pedido, insertar el resto como efectivo.
                                             // Las transferencias se insertan en el método InsertarTransferencias()
-                                            decimal dTotalTransferencia = _Transferencias.First(x =>
-                                                                            x.AñoPed == _Añoped &&
-                                                                            x.Pedido == _Pedido &&
-                                                                            x.Celula == _Celula)
-                                                                            .Monto;
+                                            decimal dTotalTransferencias = 0;
+                                            foreach(SigaMetClasses.sTransferencia transferencia in _Transferencias)
+                                            {
+                                                dTotalTransferencias += transferencia.Monto;
+                                            }
+                                            
                                             decimal dTotalEfectivo = Convert.ToDecimal(dr["Total"]);
-                                            decimal dDiferencia = dTotalEfectivo - dTotalTransferencia;
+                                            decimal dDiferencia = dTotalEfectivo - dTotalTransferencias;
                                             
                                             if (dDiferencia > 0)
                                             {
