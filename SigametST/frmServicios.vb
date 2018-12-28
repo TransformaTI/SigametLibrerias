@@ -320,7 +320,7 @@ Public Class frmServicios
         Dim SqlComando As New SqlCommand("select pedidoreferencia,FCompromiso,Usuario,Status,TipoServicio,Puntos  from vwSTllenaprogranmacion where tipocargo = 2 and cliente =" & lblContrato.Text, cnnSigamet)
         Try
             cnnSigamet.Open()
-            Dim drHist As SqlDataReader = SqlComando.ExecuteReader
+            Dim drHist As SqlDataReader = SqlComando.ExecuteReader(CommandBehavior.CloseConnection)
             Me.lvwHistorico.Items.Clear()
             Do While drHist.Read
                 Dim oHist As ListViewItem = New ListViewItem(CType(drHist("pedidoreferencia"), String), 6)
@@ -340,6 +340,10 @@ Public Class frmServicios
             cnnSigamet.Close()
         Catch e As Exception
             MessageBox.Show(e.Message)
+        Finally
+            If cnnSigamet.State = ConnectionState.Open Then
+                cnnSigamet.Close()
+            End If
         End Try
     End Sub
 
