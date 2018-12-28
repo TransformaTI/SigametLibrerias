@@ -913,10 +913,12 @@ Public Class ConsultaCheques
                 End If
             End Try
 
+            grdCheque.DataSource = dtCheque
+
             If _URLGateway <> "" Then
                 'threadConsultarDatosClienteCRM()
             Else
-                grdCheque.DataSource = dtCheque
+
             End If
 
             If dtCheque.Rows.Count <= 0 Then
