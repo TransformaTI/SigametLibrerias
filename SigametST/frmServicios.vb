@@ -317,13 +317,16 @@ Public Class frmServicios
 
 
     Private Sub CargaDatosHistoricoS()
-        Dim SqlComando As New SqlCommand("select pedidoreferencia,FCompromiso,Usuario,Status,TipoServicio,Puntos  from vwSTllenaprogranmacion where tipocargo = 2 and cliente =" & lblContrato.Text, cnnSigamet)
+        'Dim SqlComando As New SqlCommand("select pedidoreferencia,FCompromiso,Usuario,Status,TipoServicio,Puntos  from vwSTllenaprogranmacion where tipocargo = 2 and cliente =" & lblContrato.Text, cnnSigamet)
+        Dim SqlComando As New SqlCommand("select AñoPed, Celula, Pedido,FCompromiso,Usuario,Status,TipoServicio,Puntos  from vwSTllenaprogranmacion where tipocargo = 2 and cliente =" & lblContrato.Text, cnnSigamet)
         Try
             cnnSigamet.Open()
             Dim drHist As SqlDataReader = SqlComando.ExecuteReader(CommandBehavior.CloseConnection)
             Me.lvwHistorico.Items.Clear()
             Do While drHist.Read
-                Dim oHist As ListViewItem = New ListViewItem(CType(drHist("pedidoreferencia"), String), 6)
+                Dim strPedidoReferencia As String = drHist("AñoPed").ToString() + drHist("Celula").ToString + drHist("Pedido").ToString
+                'Dim oHist As ListViewItem = New ListViewItem(CType(drHist("pedidoreferencia"), String), 6)
+                Dim oHist As ListViewItem = New ListViewItem(strPedidoReferencia, 6)
                 If Not IsDBNull(drHist("status")) Then
                     If CType(drHist("status"), String).Trim = "ATENDIDO" Then oHist.ImageIndex = 7
                     If CType(drHist("status"), String).Trim = "CANCELADO" Then oHist.ImageIndex = 8
@@ -366,9 +369,13 @@ Public Class frmServicios
                 _AñoFolioPresupuesto = CType(dr("añofoliopresupuesto"), Integer)
                 lblPedido.Text = CType(dr("Pedido"), String)
             End While
-            cnnSigamet.Close()
+            'cnnSigamet.Close()
         Catch e As Exception
             MessageBox.Show(e.Message)
+        Finally
+            If cnnSigamet.State <> ConnectionState.Closed Then
+                cnnSigamet.Close()
+            End If
         End Try
 
     End Sub
@@ -380,42 +387,65 @@ Public Class frmServicios
                     " Where celula = " & _celula &
                     " and añoped = " & _AñoPed & " And Pedido = " & _Pedido, cnnSigamet)
         Dim dt As New DataTable("ClienteServicio")
-        da.Fill(dt)
-        txtTecnico.Text = CType(dt.Rows(0).Item("chofer"), String)
-        lblCamioneta.Text = CType(dt.Rows(0).Item("autotanque"), String)
+
+        Try
+            cnnSigamet.Open()
+            da.Fill(dt)
+            If dt.Rows.Count > 0 Then
+                txtTecnico.Text = CType(dt.Rows(0).Item("chofer"), String)
+                lblCamioneta.Text = CType(dt.Rows(0).Item("autotanque"), String)
+            End If
+        Catch e As Exception
+            MessageBox.Show(e.Message)
+        Finally
+            If cnnSigamet.State <> ConnectionState.Closed Then
+                cnnSigamet.Close()
+            End If
+        End Try
 
     End Sub
 
     Private Sub LlenaObservaciones()
         Dim Status As String
         _PedidoReferencia = CType(RTrim(CType(_PedidoReferencia, String)), String)
-        Dim daObs As New SqlDataAdapter("select pedido,añoped,celula,tiposervicio,observaciones,ObservacionesServicioRealizado,FCompromiso,fcompromisoinciial,statusserviciotecnico from vwSTLlenaObservaciones where pedidoreferencia = '" & _PedidoReferencia & "'", cnnSigamet)
+        'Dim daObs As New SqlDataAdapter("select pedido,añoped,celula,tiposervicio,observaciones,ObservacionesServicioRealizado,FCompromiso,fcompromisoinciial,statusserviciotecnico from vwSTLlenaObservaciones where pedidoreferencia = '" & _PedidoReferencia & "'", cnnSigamet)
         Try
+            Using daObs As New SqlDataAdapter("select pedido,añoped,celula,tiposervicio,observaciones,ObservacionesServicioRealizado,FCompromiso,fcompromisoinciial,statusserviciotecnico from vwSTLlenaObservaciones where pedidoreferencia = '" & _PedidoReferencia & "'", cnnSigamet)
+                Dim dtObs As New DataTable("observaciones")
 
-            Dim dtObs As New DataTable("observaciones")
-            daObs.Fill(dtObs)
-            Status = RTrim(CType(dtObs.Rows(0).Item("statusserviciotecnico"), String))
-            txtObservaciones.Text = CType(dtObs.Rows(0).Item("Observaciones"), String)
+                cnnSigamet.Open()
 
-            dtpFCompromiso.Value = CType(dtObs.Rows(0).Item("FCompromiso"), Date)
-            lblcelula.Text = CType(dtObs.Rows(0).Item("celula"), String)
+                daObs.Fill(dtObs)
+
+                If dtObs.Rows.Count > 0 Then
+                    Status = RTrim(CType(dtObs.Rows(0).Item("statusserviciotecnico"), String))
+                    txtObservaciones.Text = CType(dtObs.Rows(0).Item("Observaciones"), String)
+
+                    dtpFCompromiso.Value = CType(dtObs.Rows(0).Item("FCompromiso"), Date)
+                    lblcelula.Text = CType(dtObs.Rows(0).Item("celula"), String)
 
 
-            txtTrabajoRealizado.Text = CType(dtObs.Rows(0).Item("observacionesserviciorealizado"), String)
-            cboTipoServicio.SelectedValue = dtObs.Rows(0).Item("tiposervicio")
-            lblHoraatencion.Text = CType(dtObs.Rows(0).Item("fcompromisoinciial"), String)
+                    txtTrabajoRealizado.Text = CType(dtObs.Rows(0).Item("observacionesserviciorealizado"), String)
+                    cboTipoServicio.SelectedValue = dtObs.Rows(0).Item("tiposervicio")
+                    lblHoraatencion.Text = CType(dtObs.Rows(0).Item("fcompromisoinciial"), String)
 
-            'If Status = "ACTIVO" Then
-            '    dtpFCompromiso.Value = CType(dtObs.Rows(0).Item("FCompromiso"), Date)
-            'Else
-            'End If
+                    'If Status = "ACTIVO" Then
+                    '    dtpFCompromiso.Value = CType(dtObs.Rows(0).Item("FCompromiso"), Date)
+                    'Else
+                    'End If
 
-            _Pedido = CType(dtObs.Rows(0).Item("pedido"), Integer)
-            _celula = CType(dtObs.Rows(0).Item("celula"), Integer)
-            _AñoPed = CType(dtObs.Rows(0).Item("añoped"), Integer)
+                    _Pedido = CType(dtObs.Rows(0).Item("pedido"), Integer)
+                    _celula = CType(dtObs.Rows(0).Item("celula"), Integer)
+                    _AñoPed = CType(dtObs.Rows(0).Item("añoped"), Integer)
+                End If
+            End Using
 
         Catch e As Exception
             MessageBox.Show(e.Message)
+        Finally
+            If cnnSigamet.State <> ConnectionState.Closed Then
+                cnnSigamet.Close()
+            End If
         End Try
     End Sub
 
@@ -2478,6 +2508,12 @@ Public Class frmServicios
         _StatusServicioTecnico = lvwHistorico.FocusedItem.SubItems(3).Text.Trim
         _PedidoReferencia = lvwHistorico.FocusedItem.SubItems(0).Text.Trim
         _Presupuesto = lvwHistorico.FocusedItem.SubItems(4).Text.Trim
+
+        If _PedidoReferencia.Length = 0 Then
+            MessageBox.Show("El servicio técnico no tiene un documento válido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
         LlenaObservaciones()
         LlenaPresupuesto()
         LlenaTecnicos()
