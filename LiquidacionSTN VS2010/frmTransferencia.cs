@@ -27,6 +27,9 @@ namespace LiquidacionSTN
         private bool _SePresentoForma;
         private int _TipoCobro;
         private decimal _Total;
+        private int _Pedido;
+        private byte _Celula;
+        private short _AñoPed;
 
         #region Propiedades
 
@@ -87,11 +90,29 @@ namespace LiquidacionSTN
                     _Saldo,
                     txtObservaciones.Text.Trim(),
                     _BancoDestino,
-                    _CuentaDestino
+                    _CuentaDestino,
+                    _Pedido,
+                    _Celula,
+                    _AñoPed
                 );
 
                 _Transferencias.Add(obTransferencia);
+
+                ModificarPedido();
+
                 this.DialogResult = DialogResult.OK;
+            }
+        }
+
+        private void ModificarPedido()
+        {
+            DataRow[] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select("PedidoReferencia = '" + _PedidoReferencia + "'");
+            foreach (System.Data.DataRow dr in Query)
+            {
+                dr.BeginEdit();
+                dr["TipoCobro"] = 10;
+                dr["TipoCobroDescripcion"] = "Transferencia";
+                dr.EndEdit();
             }
         }
 
@@ -214,6 +235,9 @@ namespace LiquidacionSTN
             foreach (System.Data.DataRow dr in C)
             {
                 _Total = Convert.ToInt32(dr["Total"]);
+                _Pedido = Convert.ToInt32(dr["Pedido"]);
+                _Celula = Convert.ToByte(dr["Celula"]);
+                _AñoPed = Convert.ToInt16(dr["AñoPed"]);
             }
         }
 

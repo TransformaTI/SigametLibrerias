@@ -2907,6 +2907,11 @@ namespace LiquidacionSTN
                                                 //}
                                             }
                                         }
+                                        else if (_TipoCobro == 10)
+                                        {
+                                            // Las transferencias se insertan más adelante
+                                            //InsertarTransferencias(Query[0], Conexion, Transaccion);
+                                        }
                                         else
                                         {
                                             try
@@ -3350,6 +3355,10 @@ namespace LiquidacionSTN
                 cmd.Parameters.Add("@NumeroCuentaDestino", SqlDbType.Char).Value = cuentaOrigen;
                 cmd.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = transferencia.BancoDestino;
                 cmd.Parameters.Add("@NumeroCuenta", SqlDbType.Char).Value = transferencia.CuentaDestino;
+
+                cmd.Parameters.Add("@Pedido", SqlDbType.Int).Value = transferencia.Pedido;
+                cmd.Parameters.Add("@Celula", SqlDbType.TinyInt).Value = transferencia.Celula;
+                cmd.Parameters.Add("@AñoPed", SqlDbType.SmallInt).Value = transferencia.AñoPed;
 
                 try
                 {

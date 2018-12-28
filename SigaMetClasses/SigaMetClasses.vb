@@ -4807,126 +4807,126 @@ End Class
 Public Class cCuenta
 #Region "Funciones"
 
-	Public Function ConsultarPatron(ByVal TipoCobro As Integer, Optional ByVal CadConexion As String = "") As String
-		Dim resultado As String
-		Dim cmd As SqlCommand
+    Public Function ConsultarPatron(ByVal TipoCobro As Integer, Optional ByVal CadConexion As String = "") As String
+        Dim resultado As String
+        Dim cmd As SqlCommand
 
 
-		If IsNothing(DataLayer.Conexion) And CadConexion.Length > 0 Then
-			Dim CN As SqlConnection = New SqlConnection(CadConexion)
-			cmd = New SqlCommand("uspConsultaPatronCuenta", CN)
-		Else
-			cmd = New SqlCommand("uspConsultaPatronCuenta", DataLayer.Conexion)
-		End If
+        If IsNothing(DataLayer.Conexion) And CadConexion.Length > 0 Then
+            Dim CN As SqlConnection = New SqlConnection(CadConexion)
+            cmd = New SqlCommand("uspConsultaPatronCuenta", CN)
+        Else
+            cmd = New SqlCommand("uspConsultaPatronCuenta", DataLayer.Conexion)
+        End If
 
 
-		With cmd
-			.CommandType = CommandType.StoredProcedure
-			.CommandText = "uspConsultaPatronCuenta"
-			.Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.Int)).Value = TipoCobro
-		End With
+        With cmd
+            .CommandType = CommandType.StoredProcedure
+            .CommandText = "uspConsultaPatronCuenta"
+            .Parameters.Add(New SqlParameter("@TipoCobro", SqlDbType.Int)).Value = TipoCobro
+        End With
 
-		Try
+        Try
 
-			If cmd.Connection.State = ConnectionState.Closed Then
-				cmd.Connection.Open()
-			End If
-
-
-			Dim dr As SqlDataReader
-			dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
-
-			If dr.Read() Then
-				resultado = CType(dr("PatronCuentaOrdenante"), String)
-			Else
-				Throw New Exception("vacio")
-			End If
-		Catch ex As Exception
-			Throw New Exception(ex.Message)
-		Finally
-			If cmd.Connection.State = ConnectionState.Open Then
-				cmd.Connection.Close()
-			End If
-		End Try
-
-		Return resultado
-	End Function
-
-	Public Function ConsultarEmpresaContable(ByVal Corporativo As Integer) As Integer
-		Dim resultado As Integer
-		Dim cmd As New SqlCommand("spPTLObtieneEmpresaContable", DataLayer.Conexion)
+            If cmd.Connection.State = ConnectionState.Closed Then
+                cmd.Connection.Open()
+            End If
 
 
-		With cmd
-			.CommandType = CommandType.StoredProcedure
-			.CommandText = "spPTLObtieneEmpresaContable"
-			.Parameters.Add(New SqlParameter("@Corporativo", SqlDbType.Int)).Value = Corporativo
-		End With
+            Dim dr As SqlDataReader
+            dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
 
-		Try
-			If cmd.Connection.State = ConnectionState.Closed Then
-				cmd.Connection.Open()
-			End If
+            If dr.Read() Then
+                resultado = CType(dr("PatronCuentaOrdenante"), String)
+            Else
+                Throw New Exception("vacio")
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        Finally
+            If cmd.Connection.State = ConnectionState.Open Then
+                cmd.Connection.Close()
+            End If
+        End Try
 
-			Dim dr As SqlDataReader
-			dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+        Return resultado
+    End Function
 
-			While dr.Read()
-
-				resultado = CType(dr("EmpresaContable"), Integer)
-
-			End While
-
-		Catch ex As Exception
-			Throw New Exception(ex.Message)
-		Finally
-			If cmd.Connection.State = ConnectionState.Open Then
-				cmd.Connection.Close()
-			End If
-		End Try
-
-		Return resultado
-	End Function
-
-	Public Function ConsultarCuentas(Optional ByVal corporativo As Integer = 0, Optional banco As String = "") As List(Of String)
-		Dim resultado As New List(Of String)
-		Dim cmd As New SqlCommand("spSSCuentaBanco", DataLayer.Conexion)
+    Public Function ConsultarEmpresaContable(ByVal Corporativo As Integer) As Integer
+        Dim resultado As Integer
+        Dim cmd As New SqlCommand("spPTLObtieneEmpresaContable", DataLayer.Conexion)
 
 
+        With cmd
+            .CommandType = CommandType.StoredProcedure
+            .CommandText = "spPTLObtieneEmpresaContable"
+            .Parameters.Add(New SqlParameter("@Corporativo", SqlDbType.Int)).Value = Corporativo
+        End With
+
+        Try
+            If cmd.Connection.State = ConnectionState.Closed Then
+                cmd.Connection.Open()
+            End If
+
+            Dim dr As SqlDataReader
+            dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+
+            While dr.Read()
+
+                resultado = CType(dr("EmpresaContable"), Integer)
+
+            End While
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        Finally
+            If cmd.Connection.State = ConnectionState.Open Then
+                cmd.Connection.Close()
+            End If
+        End Try
+
+        Return resultado
+    End Function
+
+    Public Function ConsultarCuentas(Optional ByVal corporativo As Integer = 0, Optional banco As String = "") As List(Of String)
+        Dim resultado As New List(Of String)
+        Dim cmd As New SqlCommand("spSSCuentaBanco", DataLayer.Conexion)
 
 
-		Try
-			Dim empresa As Integer = ConsultarEmpresaContable(corporativo)
 
-			With cmd
-				.CommandType = CommandType.StoredProcedure
-				.CommandText = "spSSCuentaBanco"
-				.Parameters.Add(New SqlParameter("@EmpresaContable", SqlDbType.Int)).Value = empresa
-			End With
 
-			If cmd.Connection.State = ConnectionState.Closed Then
-				cmd.Connection.Open()
-			End If
+        Try
+            Dim empresa As Integer = ConsultarEmpresaContable(corporativo)
 
-			Dim dr As SqlDataReader
-			dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+            With cmd
+                .CommandType = CommandType.StoredProcedure
+                .CommandText = "spSSCuentaBanco"
+                .Parameters.Add(New SqlParameter("@EmpresaContable", SqlDbType.Int)).Value = empresa
+            End With
 
-			While dr.Read()
-				If CType(dr("Descripcion"), String).Contains(banco) Then
-					resultado.Add(CType(dr("cuentaBanco"), String))
-				End If
-			End While
+            If cmd.Connection.State = ConnectionState.Closed Then
+                cmd.Connection.Open()
+            End If
 
-		Catch ex As Exception
-			Throw New Exception(ex.Message)
-		Finally
-			If cmd.Connection.State = ConnectionState.Open Then
-				cmd.Connection.Close()
-			End If
-		End Try
+            Dim dr As SqlDataReader
+            dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
 
-		Return resultado
-	End Function
+            While dr.Read()
+                If CType(dr("Descripcion"), String).Contains(banco) Then
+                    resultado.Add(CType(dr("cuentaBanco"), String))
+                End If
+            End While
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        Finally
+            If cmd.Connection.State = ConnectionState.Open Then
+                cmd.Connection.Close()
+            End If
+        End Try
+
+        Return resultado
+    End Function
 
 #End Region
 End Class
@@ -5010,64 +5010,64 @@ Public Class cMovimientoAConciliarCobro
 
     End Function
 
-	Public Sub altaMovimientoConciliarCobro(ByRef FolioMovimiento As Integer, ByRef AñoMovimiento As Integer, ByRef AñoCobro As Int16, ByRef Cobro As Integer, ByRef Monto As Decimal, ByRef Status As String)
-		Dim cmd As New SqlCommand()
-		cmd.CommandType = CommandType.StoredProcedure
-		cmd.CommandText = "spLIQ2InsertaMovimientoAConciliarCobro"
+    Public Sub altaMovimientoConciliarCobro(ByRef FolioMovimiento As Integer, ByRef AñoMovimiento As Integer, ByRef AñoCobro As Int16, ByRef Cobro As Integer, ByRef Monto As Decimal, ByRef Status As String)
+        Dim cmd As New SqlCommand()
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "spLIQ2InsertaMovimientoAConciliarCobro"
 
-		cmd.Parameters.Add("@FolioMovimiento", SqlDbType.Int).Value = FolioMovimiento
-		cmd.Parameters.Add("@AñoMovimiento", SqlDbType.Int).Value = AñoMovimiento
-		cmd.Parameters.Add("@AñoCobro", SqlDbType.SmallInt).Value = AñoCobro
-		cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
-		cmd.Parameters.Add("@Monto", SqlDbType.Money).Value = Monto
-		cmd.Parameters.Add("@Status", SqlDbType.VarChar, 20).Value = Status
-		cmd.Connection = DataLayer.Conexion
-		Try
-			If cmd.Connection.State = ConnectionState.Closed Then
-				cmd.Connection.Open()
-			End If
-			cmd.ExecuteNonQuery()
-		Catch ex As Exception
-			Throw New Exception("Error en el registro del anticipo, detalles:  " & ex.Message)
-		Finally
-			da.Dispose()
-			da = Nothing
-			If cmd.Connection.State = ConnectionState.Open Then
-				cmd.Connection.Close()
-			End If
-		End Try
-	End Sub
+        cmd.Parameters.Add("@FolioMovimiento", SqlDbType.Int).Value = FolioMovimiento
+        cmd.Parameters.Add("@AñoMovimiento", SqlDbType.Int).Value = AñoMovimiento
+        cmd.Parameters.Add("@AñoCobro", SqlDbType.SmallInt).Value = AñoCobro
+        cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
+        cmd.Parameters.Add("@Monto", SqlDbType.Money).Value = Monto
+        cmd.Parameters.Add("@Status", SqlDbType.VarChar, 20).Value = Status
+        cmd.Connection = DataLayer.Conexion
+        Try
+            If cmd.Connection.State = ConnectionState.Closed Then
+                cmd.Connection.Open()
+            End If
+            cmd.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw New Exception("Error en el registro del anticipo, detalles:  " & ex.Message)
+        Finally
+            da.Dispose()
+            da = Nothing
+            If cmd.Connection.State = ConnectionState.Open Then
+                cmd.Connection.Close()
+            End If
+        End Try
+    End Sub
 
-	Public Sub altaMovimientoConciliarCobro(ByRef FolioMovimiento As Integer, ByRef AñoMovimiento As Integer, ByRef AñoCobro As Int16, ByRef Cobro As Integer, ByRef Monto As Decimal, ByRef Status As String,
-											ByVal Connection As SqlConnection,
-											ByVal Transaction As SqlTransaction)
-		Dim cmd As New SqlCommand()
-		cmd = New SqlCommand("spLIQ2InsertaMovimientoAConciliarCobro", Connection)
-		cmd.Transaction = Transaction
-		cmd.CommandType = CommandType.StoredProcedure
-		'cmd.CommandText = "spLIQ2InsertaMovimientoAConciliarCobro"
+    Public Sub altaMovimientoConciliarCobro(ByRef FolioMovimiento As Integer, ByRef AñoMovimiento As Integer, ByRef AñoCobro As Int16, ByRef Cobro As Integer, ByRef Monto As Decimal, ByRef Status As String,
+                                            ByVal Connection As SqlConnection,
+                                            ByVal Transaction As SqlTransaction)
+        Dim cmd As New SqlCommand()
+        cmd = New SqlCommand("spLIQ2InsertaMovimientoAConciliarCobro", Connection)
+        cmd.Transaction = Transaction
+        cmd.CommandType = CommandType.StoredProcedure
+        'cmd.CommandText = "spLIQ2InsertaMovimientoAConciliarCobro"
 
-		cmd.Parameters.Add("@FolioMovimiento", SqlDbType.Int).Value = FolioMovimiento
-		cmd.Parameters.Add("@AñoMovimiento", SqlDbType.Int).Value = AñoMovimiento
-		cmd.Parameters.Add("@AñoCobro", SqlDbType.SmallInt).Value = AñoCobro
-		cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
-		cmd.Parameters.Add("@Monto", SqlDbType.Money).Value = Monto
-		cmd.Parameters.Add("@Status", SqlDbType.VarChar, 20).Value = Status
+        cmd.Parameters.Add("@FolioMovimiento", SqlDbType.Int).Value = FolioMovimiento
+        cmd.Parameters.Add("@AñoMovimiento", SqlDbType.Int).Value = AñoMovimiento
+        cmd.Parameters.Add("@AñoCobro", SqlDbType.SmallInt).Value = AñoCobro
+        cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro
+        cmd.Parameters.Add("@Monto", SqlDbType.Money).Value = Monto
+        cmd.Parameters.Add("@Status", SqlDbType.VarChar, 20).Value = Status
 
-		Try
-			If cmd.Connection.State = ConnectionState.Closed Then
-				cmd.Connection.Open()
-			End If
-			cmd.ExecuteNonQuery()
-		Catch ex As Exception
-			Throw New Exception("Error en el registro del anticipo, detalles: " & ex.Message)
-		Finally
-			cmd.Dispose()
+        Try
+            If cmd.Connection.State = ConnectionState.Closed Then
+                cmd.Connection.Open()
+            End If
+            cmd.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw New Exception("Error en el registro del anticipo, detalles: " & ex.Message)
+        Finally
+            cmd.Dispose()
 
-		End Try
-	End Sub
+        End Try
+    End Sub
 
-	Public Sub altaMovimientoConciliarCobroQ(ByRef FolioMovimiento As Integer, ByRef AñoMovimiento As Integer, ByRef AñoCobro As Int16, ByRef Cobro As Integer, ByRef Monto As Decimal, ByRef Status As String)
+    Public Sub altaMovimientoConciliarCobroQ(ByRef FolioMovimiento As Integer, ByRef AñoMovimiento As Integer, ByRef AñoCobro As Int16, ByRef Cobro As Integer, ByRef Monto As Decimal, ByRef Status As String)
         Dim cmd As New SqlCommand()
         cmd.CommandType = CommandType.Text
         cmd.CommandText = "INSERT INTO [dbo].[MovimientoAConciliarCobro] ([FolioMovimiento],[AñoMovimiento],[AñoCobro],[Cobro],[Monto],[Status])VALUES(" + CType(FolioMovimiento, String) + "," + CType(AñoMovimiento, String) + "," + CType(AñoCobro, String) + "," + CType(Cobro, String) + "," + CType(Monto, String) + ",'" + CType(Status, String) + "');"
@@ -8949,6 +8949,9 @@ Public Structure sTransferencia
     Private _Observaciones As String
     Private _BancoDestino As Short
     Private _CuentaDestino As String
+    Private _Pedido As Integer
+    Private _Celula As Byte
+    Private _AñoPed As Short
 
 #End Region
 
@@ -9044,6 +9047,33 @@ Public Structure sTransferencia
         End Set
     End Property
 
+    Public Property Pedido As Integer
+        Get
+            Return _Pedido
+        End Get
+        Set(value As Integer)
+            _Pedido = value
+        End Set
+    End Property
+
+    Public Property Celula As Byte
+        Get
+            Return _Celula
+        End Get
+        Set(value As Byte)
+            _Celula = value
+        End Set
+    End Property
+
+    Public Property AñoPed As Short
+        Get
+            Return _AñoPed
+        End Get
+        Set(value As Short)
+            _AñoPed = value
+        End Set
+    End Property
+
 #End Region
 
     Public Sub New(ByVal cliente As Integer,
@@ -9055,7 +9085,10 @@ Public Structure sTransferencia
                    ByVal saldo As Decimal,
                    ByVal observaciones As String,
                    ByVal bancoDestino As Short,
-                   ByVal cuentaDestino As String)
+                   ByVal cuentaDestino As String,
+                   ByVal pedido As Integer,
+                   ByVal celula As Byte,
+                   ByVal añoPed As Short)
 
         Me._Cliente = cliente
         Me._Fecha = fecha
@@ -9067,6 +9100,9 @@ Public Structure sTransferencia
         Me._CuentaOrigen = cuentaOrigen
         Me._BancoDestino = bancoDestino
         Me._CuentaDestino = cuentaDestino
+        Me._Pedido = pedido
+        Me._Celula = celula
+        Me._AñoPed = añoPed
     End Sub
 
 End Structure
