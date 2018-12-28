@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.IO;
 using LiquidacionSTN;
 using System.Collections.Generic;
+using System.Linq;
 using RTGMGateway;
 using RTGMCore;
 
@@ -2909,8 +2910,22 @@ namespace LiquidacionSTN
                                         }
                                         else if (_TipoCobro == 10)
                                         {
-                                            // Las transferencias se insertan más adelante
-                                            //InsertarTransferencias(Query[0], Conexion, Transaccion);
+                                            // RM - 28/12/2018
+                                            // Si la transferencia no cubre el total del pedido, insertar el resto como efectivo.
+                                            // Las transferencias se insertan en el método InsertarTransferencias()
+                                            decimal dTotalTransferencia = _Transferencias.First(x =>
+                                                                            x.AñoPed == _Añoped &&
+                                                                            x.Pedido == _Pedido &&
+                                                                            x.Celula == _Celula)
+                                                                            .Monto;
+                                            decimal dTotalEfectivo = Convert.ToDecimal(dr["Total"]);
+                                            decimal dDiferencia = dTotalEfectivo - dTotalTransferencia;
+                                            
+                                            if (dDiferencia > 0)
+                                            {
+                                                InsertarCobroEfectivo(dr, Conexion, Transaccion, dDiferencia);
+                                            }
+
                                         }
                                         else
                                         {
@@ -3324,6 +3339,103 @@ namespace LiquidacionSTN
 			Cursor = Cursors.Default ;
 			LiquidacionSTN.Modulo.CnnSigamet.Close ();
 		}
+
+        private void InsertarCobroEfectivo(DataRow dr, SqlConnection conexion, SqlTransaction transaccion, decimal parTotal)
+        {
+            try
+            {
+                int tipoCobroEfectivo = Convert.ToInt32(SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales);
+
+                using (SqlCommand cmd = new SqlCommand("spSTLiquidacionServiciosTecnicos", conexion, transaccion))
+                {
+                    //Comando.Connection = conexion;
+                    //Comando.Transaction = transaccion;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 300;
+
+                    SqlParameter Parametro;
+                    Parametro = cmd.Parameters.Add("@Pedido", System.Data.SqlDbType.Int);
+                    Parametro.Value = dr["Pedido"];
+                    Parametro = cmd.Parameters.Add("@Celula", System.Data.SqlDbType.TinyInt);
+                    Parametro.Value = dr["Celula"];
+                    Parametro = cmd.Parameters.Add("@AñoPed", System.Data.SqlDbType.SmallInt);
+                    Parametro.Value = dr["AñoPed"];
+                    Parametro = cmd.Parameters.Add("@ObservacionesServicioRealizado", System.Data.SqlDbType.VarChar);
+                    Parametro.Value = dr["ObservacionesServicioRealizado"];
+                    Parametro = cmd.Parameters.Add("@CostoServicioTecnico", SqlDbType.Money);
+                    Parametro.Value = dr["CostoServicioTecnico"];
+                    Parametro = cmd.Parameters.Add("@TipoPedido", SqlDbType.TinyInt);
+                    Parametro.Value = dr["TipoPedido"];
+                    Parametro = cmd.Parameters.Add("@TotalPedido", SqlDbType.Money);
+                    Parametro.Value = parTotal;
+                    Parametro = cmd.Parameters.Add("@StatusPresupuesto", SqlDbType.Char);
+                    Parametro.Value = dr["StatusPresupuesto"];
+                    Parametro = cmd.Parameters.Add("@TotalPresupuesto", SqlDbType.Money);
+                    Parametro.Value = dr["TotalPresupuesto"];
+                    Parametro = cmd.Parameters.Add("@DescuentoPresupuesto", SqlDbType.Money);
+                    Parametro.Value = dr["DescuentoPresupuesto"];
+                    Parametro = cmd.Parameters.Add("@SubTotalPresupuesto", SqlDbType.Money);
+                    Parametro.Value = dr["SubTotalPresupuesto"];
+                    Parametro = cmd.Parameters.Add("@ObservacionesPresupuesto", SqlDbType.VarChar);
+                    Parametro.Value = dr["ObservacionesPresupuesto"];
+                    Parametro = cmd.Parameters.Add("@Parcialidad", System.Data.SqlDbType.Money);
+                    Parametro.Value = dr["PagosDe"];
+                    Parametro = cmd.Parameters.Add("@ImporteLetra", SqlDbType.VarChar);
+                    Parametro.Value = dr["ImporteLetra"];
+                    Parametro = cmd.Parameters.Add("@NumPagos", SqlDbType.Int);
+                    Parametro.Value = dr["NumeroPagos"];
+                    Parametro = cmd.Parameters.Add("@Dias", SqlDbType.Int);
+                    Parametro.Value = dr["FrecuenciaPagos"];
+                    Parametro = cmd.Parameters.Add("@TipoServicio", SqlDbType.Int);
+                    Parametro.Value = dr["TipoServicio"];
+                    Parametro = cmd.Parameters.Add("@TipoCobro", SqlDbType.Int);
+                    Parametro.Value = tipoCobroEfectivo;
+                    Parametro = cmd.Parameters.Add("@Banco", SqlDbType.Int);
+                    Parametro.Value = dr["BancoCheque"];
+                    Parametro = cmd.Parameters.Add("@Cliente", SqlDbType.Int);
+                    Parametro.Value = dr["Cliente"];
+                    Parametro = cmd.Parameters.Add("@FCheque", SqlDbType.DateTime);
+                    Parametro.Value = dr["FCheque"];
+                    Parametro = cmd.Parameters.Add("@NumCuenta", SqlDbType.Char);
+                    Parametro.Value = dr["NumCuentaCheque"];
+                    Parametro = cmd.Parameters.Add("@NumCheque", SqlDbType.Char);
+                    Parametro.Value = dr["NumeroCheque"];
+                    Parametro = cmd.Parameters.Add("@TotalCheque", SqlDbType.Money);
+                    Parametro.Value = dr["TotalCheque"];
+                    Parametro = cmd.Parameters.Add("@Saldo", SqlDbType.Money);
+                    Parametro.Value = dr["SaldoCheque"];
+                    Parametro = cmd.Parameters.Add("@Usuario", SqlDbType.Char);
+                    Parametro.Value = _Usuario;
+                    Parametro = cmd.Parameters.Add("@Folio", SqlDbType.Int);
+                    Parametro.Value = dr["Folio"];
+                    Parametro = cmd.Parameters.Add("@AñoAtt", SqlDbType.Int);
+                    _Folio = Convert.ToInt32(dr["Folio"]);
+                    _AñoAtt = Convert.ToInt32(dr["AñoAtt"]);
+                    Parametro.Value = dr["AñoAtt"];
+                    Parametro = cmd.Parameters.Add("@ImporteContado", SqlDbType.Money);
+                    Parametro.Value = lblTotalContados.Text;
+                    Parametro = cmd.Parameters.Add("@ImporteCredito", System.Data.SqlDbType.Money);
+                    Parametro.Value = lblTotalCreditos.Text;
+                    Parametro = cmd.Parameters.Add("@KilometrajeInicial", SqlDbType.Int);
+                    Parametro.Value = txtKilometrajeInicial.Text;
+                    Parametro = cmd.Parameters.Add("@KilometrajeFinal", SqlDbType.Int);
+                    Parametro.Value = txtKilometrajeFinal.Text;
+                    Parametro = cmd.Parameters.Add("@DiferenciaKilometraje", SqlDbType.Int);
+                    Parametro.Value = _Diferencia;
+                    Parametro = cmd.Parameters.Add("@Ruta", SqlDbType.Int);
+                    Parametro.Value = dr["RutaCliente"];
+                    Parametro = cmd.Parameters.Add("@FAtencion", SqlDbType.DateTime);
+                    Parametro.Value = dr["FAtencion"];
+
+                    //cmd.CommandText = "spSTLiquidacionServiciosTecnicos";
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         private void InsertarTransferencias(DataRow drPedido, SqlConnection conexion, SqlTransaction transaccion)
         {
