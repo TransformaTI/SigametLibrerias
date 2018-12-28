@@ -1232,24 +1232,34 @@ Public Class ConsultaMovimientos
     End Sub
 
 
-    Private Sub ConsultaCobro(ByVal Caja As Byte,
-                              ByVal FOperacion As Date,
-                              ByVal Consecutivo As Byte,
-                              ByVal Folio As Integer)
-        If Consecutivo > 0 And Folio > 0 Then
-            Dim strFiltro As String = "Caja = " & Caja.ToString &
-                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" &
-                                      " AND Consecutivo = " & Consecutivo.ToString &
-                                      " AND Folio = " & Folio.ToString
+	Private Sub ConsultaCobro(ByVal Caja As Byte,
+							  ByVal FOperacion As Date,
+							  ByVal Consecutivo As Byte,
+							  ByVal Folio As Integer)
+		If Consecutivo > 0 And Folio > 0 Then
+			Dim strFiltro As String = "Caja = " & Caja.ToString &
+									  " AND FOperacion = '" & FOperacion.ToShortDateString & "'" &
+									  " AND Consecutivo = " & Consecutivo.ToString &
+									  " AND Folio = " & Folio.ToString
 
-            dtCobro.DefaultView.RowFilter = strFiltro
+			dtCobro.DefaultView.RowFilter = strFiltro
 
-            grdCobro.DataSource = dtCobro
-            grdCobro.CaptionText = "Lista de cobros en el movimiento (" & dtCobro.DefaultView.Count.ToString & ") Total: " & SumaColumnaVista(dtCobro.DefaultView, "Total").ToString("C")
-        End If
-    End Sub
+			grdCobro.DataSource = dtCobro
 
-    Private Sub ConsultaCobroPedido(ByVal AnoCobro As Short, ByVal Cobro As Integer)
+
+
+
+
+
+
+			grdCobro.CaptionText = "Lista de cobros en el movimiento (" & dtCobro.DefaultView.Count.ToString & ") Total: " & SumaColumnaVista(dtCobro.DefaultView, "Total").ToString("C")
+		End If
+	End Sub
+
+
+
+
+	Private Sub ConsultaCobroPedido(ByVal AnoCobro As Short, ByVal Cobro As Integer)
         If AnoCobro > 0 And Cobro > 0 Then
             Dim strFiltro As String = "AñoCobro = " & AnoCobro.ToString &
                                       " AND Cobro = " & Cobro.ToString
