@@ -3,6 +3,8 @@ Imports System.Data.SqlClient, System.Windows.Forms
 Imports System.Text.RegularExpressions
 Imports RTGMGateway
 Imports System.Linq
+Imports System.Collections.Generic
+
 Public Class ConsultaMovimientos
     Inherits System.Windows.Forms.Form
 
@@ -31,6 +33,7 @@ Public Class ConsultaMovimientos
     Private _CobroRow As DataRow
     Private dtCobPedEnvio As New DataTable()
     Private dtTempMov2 As New DataTable
+    Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
 #End Region
 
 #Region "Propiedades"
@@ -1169,6 +1172,7 @@ Public Class ConsultaMovimientos
         cboCelula.CargaDatos()
         dtpFOperacion.Value = Main.FechaServidor.Date
         dtpFOperacion.MaxDate = Main.FechaServidor.Date
+        listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
 
         'Seguridad
         oSeguridad = New SigaMetClasses.cSeguridad(_ModuloUsuario, _Modulo)
@@ -1232,19 +1236,67 @@ Public Class ConsultaMovimientos
     End Sub
 
 
-	Private Sub ConsultaCobro(ByVal Caja As Byte,
-							  ByVal FOperacion As Date,
-							  ByVal Consecutivo As Byte,
-							  ByVal Folio As Integer)
-		If Consecutivo > 0 And Folio > 0 Then
-			Dim strFiltro As String = "Caja = " & Caja.ToString &
-									  " AND FOperacion = '" & FOperacion.ToShortDateString & "'" &
-									  " AND Consecutivo = " & Consecutivo.ToString &
-									  " AND Folio = " & Folio.ToString
+    Private Sub ConsultaCobro(ByVal Caja As Byte,
+                              ByVal FOperacion As Date,
+                              ByVal Consecutivo As Byte,
+                              ByVal Folio As Integer)
+        If Consecutivo > 0 And Folio > 0 Then
+            Dim strFiltro As String = "Caja = " & Caja.ToString &
+                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" &
+                                      " AND Consecutivo = " & Consecutivo.ToString &
+                                      " AND Folio = " & Folio.ToString
 
-			dtCobro.DefaultView.RowFilter = strFiltro
+            dtCobro.DefaultView.RowFilter = strFiltro
+            If _URLGateway <> "" Then
+                Dim clientesDistintos As DataTable = dtCobro.DefaultView.ToTable(True, "Cliente")
+                Dim iteraciones As Integer = 0
+                Dim listaClientesDistintos As New List(Of Integer)
+                Dim listaClientesDistintos2 As New List(Of Integer)
 
-			grdCobro.DataSource = dtCobro
+                Try
+                    If clientesDistintos.Rows.Count > 0 Then
+
+                        For Each fila As DataRow In clientesDistintos.Rows
+                            If Not IsDBNull(fila("Cliente")) Then
+                                listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
+                            End If
+                        Next
+
+                        While listaClientesDistintos.Count <> listaDireccionesEntrega.Count And iteraciones < 5
+                            generaListaCLientes(listaClientesDistintos)
+                            iteraciones = iteraciones + 1
+                        End While
+
+
+
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+                Dim CLIENTETEMP As Integer
+                Dim drow As DataRow
+                Dim direccionEntrega As RTGMCore.DireccionEntrega
+                If dtCobro.Rows.Count > 0 Then
+                    For Each drow In dtCobro.Rows
+                        Try
+                            drow("ClienteNombre") = ""
+                            CLIENTETEMP = (CType(drow("Cliente"), Integer))
+
+                            direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+
+                            If Not IsNothing(direccionEntrega) Then
+                                drow("ClienteNombre") = direccionEntrega.Nombre.Trim()
+                            Else
+                                drow("ClienteNombre") = "No encontrado"
+                            End If
+                        Catch ex As Exception
+                            drow("ClienteNombre") = "Error al buscar"
+                        End Try
+                    Next
+                End If
+            End If
+
+            grdCobro.DataSource = dtCobro
 
 
 
@@ -1252,14 +1304,78 @@ Public Class ConsultaMovimientos
 
 
 
-			grdCobro.CaptionText = "Lista de cobros en el movimiento (" & dtCobro.DefaultView.Count.ToString & ") Total: " & SumaColumnaVista(dtCobro.DefaultView, "Total").ToString("C")
-		End If
-	End Sub
+            grdCobro.CaptionText = "Lista de cobros en el movimiento (" & dtCobro.DefaultView.Count.ToString & ") Total: " & SumaColumnaVista(dtCobro.DefaultView, "Total").ToString("C")
+        End If
+    End Sub
+    Private Sub consultarDirecciones(ByVal idCliente As Integer)
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        Try
+
+
+            oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            oGateway.URLServicio = _URLGateway
+
+
+            oSolicitud.IDCliente = idCliente
+            oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+            If Not IsNothing(oDireccionEntrega) Then
+                If Not IsNothing(oDireccionEntrega.Message) Then
+                    oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                    oDireccionEntrega.IDDireccionEntrega = idCliente
+                    oDireccionEntrega.Nombre = oDireccionEntrega.Message
+                    listaDireccionesEntrega.Add(oDireccionEntrega)
+                Else
+                    listaDireccionesEntrega.Add(oDireccionEntrega)
+                End If
+
+            Else
+                oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                oDireccionEntrega.IDDireccionEntrega = idCliente
+                oDireccionEntrega.Nombre = "No se encontró cliente"
+                listaDireccionesEntrega.Add(oDireccionEntrega)
+            End If
+
+        Catch ex As Exception
+            oDireccionEntrega = New RTGMCore.DireccionEntrega()
+            oDireccionEntrega.IDDireccionEntrega = idCliente
+            oDireccionEntrega.Nombre = ex.Message
+            listaDireccionesEntrega.Add(oDireccionEntrega)
+
+        End Try
 
 
 
+    End Sub
 
-	Private Sub ConsultaCobroPedido(ByVal AnoCobro As Short, ByVal Cobro As Integer)
+    Private Sub generaListaCLientes(ByVal listaClientesDistintos As List(Of Integer))
+        Try
+            Dim listaClientes As New List(Of Integer)
+            Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+
+            For Each clienteTemp As Integer In listaClientesDistintos
+                direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                If IsNothing(direccionEntregaTemp) Then
+                    listaClientes.Add(clienteTemp)
+                End If
+            Next
+
+            Dim opciones As New System.Threading.Tasks.ParallelOptions()
+            opciones.MaxDegreeOfParallelism = 10
+            System.Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+
+
+    Private Sub ConsultaCobroPedido(ByVal AnoCobro As Short, ByVal Cobro As Integer)
         If AnoCobro > 0 And Cobro > 0 Then
             Dim strFiltro As String = "AñoCobro = " & AnoCobro.ToString &
                                       " AND Cobro = " & Cobro.ToString
