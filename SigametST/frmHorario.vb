@@ -37,7 +37,7 @@ Friend Class frmhorario
     Friend WithEvents btnCancelar As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmhorario))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmhorario))
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         Me.lstHorario = New System.Windows.Forms.ListBox()
         Me.btnAceptar = New System.Windows.Forms.Button()
@@ -52,7 +52,7 @@ Friend Class frmhorario
         '
         'lstHorario
         '
-        Me.lstHorario.BackColor = System.Drawing.SystemColors.InactiveCaptionText
+        Me.lstHorario.BackColor = System.Drawing.SystemColors.Window
         Me.lstHorario.Location = New System.Drawing.Point(16, 16)
         Me.lstHorario.Name = "lstHorario"
         Me.lstHorario.Size = New System.Drawing.Size(184, 238)
@@ -60,10 +60,11 @@ Friend Class frmhorario
         '
         'btnAceptar
         '
-        Me.btnAceptar.Image = CType(resources.GetObject("btnAceptar.Image"), System.Drawing.Bitmap)
+        Me.btnAceptar.Image = CType(resources.GetObject("btnAceptar.Image"), System.Drawing.Image)
         Me.btnAceptar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnAceptar.Location = New System.Drawing.Point(224, 16)
         Me.btnAceptar.Name = "btnAceptar"
+        Me.btnAceptar.Size = New System.Drawing.Size(75, 23)
         Me.btnAceptar.TabIndex = 1
         Me.btnAceptar.Text = "&Aceptar"
         Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -71,10 +72,11 @@ Friend Class frmhorario
         'btnCancelar
         '
         Me.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancelar.Image = CType(resources.GetObject("btnCancelar.Image"), System.Drawing.Bitmap)
+        Me.btnCancelar.Image = CType(resources.GetObject("btnCancelar.Image"), System.Drawing.Image)
         Me.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnCancelar.Location = New System.Drawing.Point(224, 48)
         Me.btnCancelar.Name = "btnCancelar"
+        Me.btnCancelar.Size = New System.Drawing.Size(75, 23)
         Me.btnCancelar.TabIndex = 2
         Me.btnCancelar.Text = "&Cancelar"
         Me.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -85,7 +87,9 @@ Friend Class frmhorario
         Me.BackColor = System.Drawing.Color.LightSteelBlue
         Me.CancelButton = Me.btnCancelar
         Me.ClientSize = New System.Drawing.Size(312, 278)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.btnCancelar, Me.btnAceptar, Me.lstHorario})
+        Me.Controls.Add(Me.btnCancelar)
+        Me.Controls.Add(Me.btnAceptar)
+        Me.Controls.Add(Me.lstHorario)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
