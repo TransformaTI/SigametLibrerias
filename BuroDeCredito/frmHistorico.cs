@@ -300,14 +300,10 @@ namespace BuroDeCredito
 						this.Close();
 						break;
 					case "Cargar":
-						
-						periodo = dgFolios.SelectedItems[0].SubItems[1].Text;
-						hFolio = Convert.ToInt32(dgFolios.SelectedItems[0].SubItems[0].Text);
-						status = dgFolios.SelectedItems[0].SubItems[6].Text;
-						data.ConsultaDatosPeriodo(status,periodo,hFolio);				
-						this.DialogResult = DialogResult.OK;
-						this.Close();
-						break;
+                        CargarDatosDelPeriodo();
+
+
+                        break;
 				}
 			}
 			catch(Exception ex)
@@ -316,7 +312,21 @@ namespace BuroDeCredito
 			}
 		}
 
-		private void dgGenerar_DoubleClick(object sender, System.EventArgs e)
+        private void CargarDatosDelPeriodo()
+        {
+            if  (dgFolios.SelectedItems.Count > 0)
+            {
+                periodo = dgFolios.SelectedItems[0].SubItems[1].Text;
+						hFolio = Convert.ToInt32(dgFolios.SelectedItems[0].SubItems[0].Text);
+						status = dgFolios.SelectedItems[0].SubItems[6].Text;
+						data.ConsultaDatosPeriodo(status, periodo, hFolio);				
+						this.DialogResult = DialogResult.OK;
+						this.Close();
+
+            }
+        }
+
+        private void dgGenerar_DoubleClick(object sender, System.EventArgs e)
 		{
 			try
 			{
