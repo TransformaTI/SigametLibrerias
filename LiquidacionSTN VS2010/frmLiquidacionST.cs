@@ -2787,6 +2787,8 @@ namespace LiquidacionSTN
 
                                 Conexion.Open();
                                 Transaccion = Conexion.BeginTransaction();
+                                decimal dTotalEfectivo = 0;
+
                                 try
                                 {
                                     foreach (System.Data.DataRow dr in Query)
@@ -2919,10 +2921,9 @@ namespace LiquidacionSTN
                                                 dTotalTransferencias += transferencia.Monto;
                                             }
 
-                                            decimal dTotalEfectivo = Convert.ToDecimal(dr["Total"]);
+                                            dTotalEfectivo = Convert.ToDecimal(dr["Total"]);
                                             //decimal dTotalCheques = CalcularTotalCheques();
                                             decimal dTotalCheques = Convert.ToDecimal(dr["TotalCheque"]);
-
                                             decimal dDiferencia = dTotalEfectivo - (dTotalTransferencias + dTotalCheques);
                                             
                                             if (dDiferencia > 0)
@@ -3038,7 +3039,7 @@ namespace LiquidacionSTN
 
                                     if (Query.Length > 0)
                                     {
-                                        InsertarTransferencias(Query[0], Conexion, Transaccion);
+                                        InsertarTransferencias(Query[0], Conexion, Transaccion, dTotalEfectivo);
                                     }
 
                                     LiquidarPedidosCRM(Query);
@@ -3559,7 +3560,7 @@ namespace LiquidacionSTN
             }
         }
 
-        private void InsertarTransferencias(DataRow drPedido, SqlConnection conexion, SqlTransaction transaccion)
+        private void InsertarTransferencias(DataRow drPedido, SqlConnection conexion, SqlTransaction transaccion, decimal parTotalPedido)
         {
             object bancoOrigen;
             object cuentaOrigen;
@@ -3589,6 +3590,7 @@ namespace LiquidacionSTN
                 cmd.Parameters.Add("@NumeroCuentaDestino", SqlDbType.Char).Value = cuentaOrigen;
                 cmd.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = transferencia.BancoDestino;
                 cmd.Parameters.Add("@NumeroCuenta", SqlDbType.Char).Value = transferencia.CuentaDestino;
+                cmd.Parameters.Add("@TotalPedido", SqlDbType.Money).Value = parTotalPedido;
 
                 cmd.Parameters.Add("@Pedido", SqlDbType.Int).Value = transferencia.Pedido;
                 cmd.Parameters.Add("@Celula", SqlDbType.TinyInt).Value = transferencia.Celula;
