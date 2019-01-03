@@ -2498,7 +2498,55 @@ namespace LiquidacionSTN
 			}
 		}
 
-		private void LlenaCheque()
+        /// <summary>
+        /// Valida que no existan cheques, voucher o transferencias asociadas al pedido
+        /// </summary>
+        /// <returns></returns>
+        private bool ValidarPedidoFormaPago(int parPedido, int parCelula, int parAñoPed)
+        {
+            return ValidarPedidoCheque(parPedido, parCelula, parAñoPed) &&
+                ValidarPedidoVoucher(parPedido, parCelula, parAñoPed) &&
+                ValidarPedidoTransferencias(parPedido, parCelula, parAñoPed);
+        }
+
+        private bool ValidarPedidoCheque(int parPedido, int parCelula, int parAñoPed)
+        {
+            string cadenaFiltro = "BancoCheque <> 0 AND Autotanque = " + cboCamioneta.Text + 
+                                    " AND Pedido = " + parPedido +
+                                    " AND Celula = " + parCelula + 
+                                    " AND AñoPed = " + parAñoPed;
+            DataView vwCheque;
+            vwCheque = new DataView(LiquidacionSTN.Modulo.dtLiquidacion);
+            vwCheque.RowFilter = cadenaFiltro;
+            return vwCheque.Count == 0;
+        }
+
+        private bool ValidarPedidoVoucher(int parPedido, int parCelula, int parAñoPed)
+        {
+            string cadenaFiltro = "Autotanque = " + cboCamioneta.Text +
+                                    " AND Pedido = " + parPedido +
+                                    " AND Celula = " + parCelula +
+                                    " AND AñoPed = " + parAñoPed;
+            DataView vwVoucher;
+            vwVoucher = new DataView(LiquidacionSTN.Modulo.dtVoucher);
+            vwVoucher.RowFilter = "Autotanque = " + this.cboCamioneta.Text;
+            return vwVoucher.Count == 0;
+        }
+        
+        private bool ValidarPedidoTransferencias(int parPedido, int parCelula, int parAñoPed)
+        {
+            if (_Transferencias != null)
+            {
+                return !_Transferencias.Exists(x =>
+                                                x.Pedido == parPedido &&
+                                                x.Celula == parCelula &&
+                                                x.AñoPed == parAñoPed);
+            }
+            else
+                return true;
+        }
+
+        private void LlenaCheque()
 		{
 			//this.grdCheque.DataSource = Nothing;
 			DataView vwCheque;
@@ -3089,9 +3137,16 @@ namespace LiquidacionSTN
                         {
                             CerrarOrden = new LiquidacionSTN.frmCerrarOrden(_PedidoReferencia, _Usuario, HabilitarPresupuesto:false);
                         }
-                        else
+                        else 
                         {
-                            CerrarOrden = new LiquidacionSTN.frmCerrarOrden(_PedidoReferencia, _Usuario);
+                            if (!ValidarPedidoFormaPago(_Pedido, _Celula, _Añoped))
+                            {
+                                CerrarOrden = new LiquidacionSTN.frmCerrarOrden(_PedidoReferencia, _Usuario, HabilitarModificar: false);
+                            }
+                            else
+                            {
+                                CerrarOrden = new LiquidacionSTN.frmCerrarOrden(_PedidoReferencia, _Usuario);
+                            }
                         }
                         CerrarOrden.ShowDialog();
                         //LlenaGridFinal();
@@ -3116,7 +3171,14 @@ namespace LiquidacionSTN
 					}
 					else
 					{
-						if (_TipoPedido == 7)
+                        if (!ValidarPedidoFormaPago(_Pedido, _Celula, _Añoped))
+                        {
+                            MessageBox.Show("El pedido ya tiene asociada una forma de pago", "Adevertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					        Cursor = Cursors.Default ;
+                            break;
+                        }
+
+                        if (_TipoPedido == 7)
 						{
 							LiquidacionSTN.FrmCheque Cheque = new LiquidacionSTN.FrmCheque(_PedidoReferencia);
 							Cheque.tbbAceptar.Enabled = true;
@@ -3161,7 +3223,14 @@ namespace LiquidacionSTN
 						
 					if (_ClienteTarjeta > 0)
 					{
-						DataRow [] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("PedidoReferencia = '"+ _PedidoReferencia +"'");
+                        if (!ValidarPedidoFormaPago(_Pedido, _Celula, _Añoped))
+                        {
+                            MessageBox.Show("El pedido ya tiene asociada una forma de pago", "Adevertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            Cursor = Cursors.Default;
+                            break;
+                        }
+
+                        DataRow [] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("PedidoReferencia = '"+ _PedidoReferencia +"'");
 						foreach (System.Data.DataRow dr in Query)
 						{
 							_TipoCobro = Convert.ToInt32 (dr["TipoCobro"]);
@@ -3617,7 +3686,6 @@ namespace LiquidacionSTN
                 {
                     return;
                 }
-
                 if (_StatusST == "ATENDIDO")
                 {
                     MessageBox.Show("El servicio técnico ya ha sido ATENDIDO, no puede agregarle una transferencia.", this.Text,
@@ -3625,6 +3693,12 @@ namespace LiquidacionSTN
                 }
                 else
                 {
+
+                    if (!ValidarPedidoFormaPago(_Pedido, _Celula, _Añoped))
+                    {
+                        MessageBox.Show("El pedido ya tiene asociada una forma de pago", "Adevertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
                     if (_TipoPedido == 7)
                     {
                         LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente, _TipoCobro, _PedidoReferencia);
@@ -3889,6 +3963,10 @@ namespace LiquidacionSTN
                 _TipoPedido = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 35]);
                 _Cliente = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
                 _TipoCobro = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 39]);
+
+                _Pedido = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 12]);
+                _Celula = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 13]);
+                _Añoped = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 14]);
             }
             catch (Exception ex)
             {

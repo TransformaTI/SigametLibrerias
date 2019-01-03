@@ -58,7 +58,10 @@ namespace LiquidacionSTN
         private CheckBox chkNoSuministrar;
 		private System.ComponentModel.IContainer components;
 
-		public frmCerrarOrden(string PedidoReferencia, string Usuario, bool HabilitarPresupuesto = true)
+        public frmCerrarOrden(string PedidoReferencia,
+                                string Usuario,
+                                bool HabilitarPresupuesto = true,
+                                bool HabilitarModificar = true)
 
 		{
 
@@ -66,6 +69,7 @@ namespace LiquidacionSTN
 			//CnnSigamet = Conexion;
 			_Usuario = Usuario;
             _HabilitarPresupuesto = HabilitarPresupuesto;
+            _HabilitarModificar = HabilitarModificar;
 			//
 			// Required for Windows Form Designer support
 			//
@@ -114,13 +118,16 @@ namespace LiquidacionSTN
 
         // Variable para deshabilitar el botón Prespuesto -- RM 27/09/2018
         bool _HabilitarPresupuesto;
-       		
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
+        // Variable para deshabilitar el botón Modificar -- RM 03/01/2019
+        bool _HabilitarModificar;
+
+
+        #region Windows Form Designer generated code
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCerrarOrden));
@@ -822,11 +829,17 @@ namespace LiquidacionSTN
             txtServicioRealizado.ReadOnly = Convert.ToBoolean(Convert.ToByte(oConfig.Parametros["ModificarObsLiqST"]));                                    
             ConsultaPuedeSuministrar();
             ConmutarBotonPresupuesto();
-		}
+            ConmutarBotonModificar();
+        }
 
         private void ConmutarBotonPresupuesto()
         {
             tBBPresupuesto.Enabled = _HabilitarPresupuesto;
+        }
+
+        private void ConmutarBotonModificar()
+        {
+            tBBModificar.Enabled = _HabilitarModificar;
         }
 
         private void label13_Click(object sender, System.EventArgs e)
@@ -1033,14 +1046,15 @@ namespace LiquidacionSTN
 							{
 							    drM["CreditoServicioTecnico"] = cboFormaCredito.SelectedValue;
 							}
-							if (CboTipoPedido.Text == "S.T. sin cargo")
-							{
-								drM["TipoCobro"] = 0;
-							}
-							else
-							{
-								drM["TipoCobro"] = (cboTipoCobro.SelectedValue != null ? cboTipoCobro.SelectedValue : 0);
-							}
+
+                            if (CboTipoPedido.Text == "S.T. sin cargo")
+                            {
+                                drM["TipoCobro"] = 0;
+                            }
+                            else
+                            {
+                                drM["TipoCobro"] = (cboTipoCobro.SelectedValue != null ? cboTipoCobro.SelectedValue : 0);
+                            }
 							     
 							drM.EndEdit ();
 						}
