@@ -775,8 +775,10 @@ Public Class BusquedaCliente
         Dim NumExterior As Integer?
         Dim NumInterior As String = Nothing
         Dim obDireccion As RTGMCore.DireccionEntrega
-        btnConsultaCliente.Enabled = False
-        Dim _PuedeConsultar As Boolean = False
+		btnConsultaCliente.Enabled = False
+
+		Dim color As String
+		Dim _PuedeConsultar As Boolean = False
 
         If txtTelefono.Text.Trim <> "" Then
             Telefono = parTelefono
@@ -882,9 +884,10 @@ Public Class BusquedaCliente
                     Exit Sub
                 End If
 
-                Dim oItem As ListViewItem
+				Dim oItem As ListViewItem
+				Dim status As String
 
-                For Each obDireccion In _DireccionesEntrega
+				For Each obDireccion In _DireccionesEntrega
                     oItem = New ListViewItem(Convert.ToString(obDireccion.IDDireccionEntrega), 0) '0
                     oItem.SubItems.Add(If(obDireccion.Nombre, "").Trim) '1
                     If Not IsNothing(obDireccion.ZonaSuministro) Then
@@ -896,9 +899,22 @@ Public Class BusquedaCliente
                     oItem.SubItems.Add(If(obDireccion.NumExterior, "").Trim) '4
                     oItem.SubItems.Add(If(obDireccion.NumInterior, "").Trim) '5
                     oItem.SubItems.Add(If(obDireccion.ColoniaNombre, "").Trim) '6
-                    oItem.SubItems.Add(If(obDireccion.MunicipioNombre, "").Trim) '7
+					oItem.SubItems.Add(If(obDireccion.MunicipioNombre, "").Trim) '7
 
-                    lvwCliente.Items.Add(oItem)
+					status = If(obDireccion.Status, "").Trim.ToUpper
+
+
+					Select Case status
+						Case "INACTIVO"
+							color = "Red"
+						Case Else
+							color = "Black"
+
+					End Select
+
+					oItem.ForeColor = System.Drawing.Color.FromName(color)
+
+					lvwCliente.Items.Add(oItem)
                 Next
 
                 If lvwCliente.Items.Count = 1 Then

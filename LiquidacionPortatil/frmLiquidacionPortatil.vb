@@ -4696,18 +4696,18 @@ Public Class frmLiquidacionPortatil
                     _seccion = "Commit"
                     transaction.Commit()
 
-                    If Globals.GetInstance._URLGateway <> "" Then
-                        _seccion = "Liquidador Estacionario"
-                        Try
-                            Dim ObjLiquida As New LiquidadorEstacionario.liquidadorEstacionario()
+					If Globals.GetInstance._URLGateway <> "" And Globals.GetInstance._FuenteCRM = "CRM" Then
+						_seccion = "Liquidador Estacionario"
+						Try
+							Dim ObjLiquida As New LiquidadorEstacionario.liquidadorEstacionario()
 
-                            ObjLiquida.liquidarRuta(Globals.GetInstance._URLGateway, 0, 0, _AnoAtt, _Folio, 3, Globals.GetInstance._CadenaConexion)
-                        Catch ex As Exception
-                            'MessageBox.Show("Error al liquidar:" & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        End Try
-                    End If
+							ObjLiquida.liquidarRuta(Globals.GetInstance._URLGateway, 0, 0, _AnoAtt, _Folio, 3, Globals.GetInstance._CadenaConexion)
+						Catch ex As Exception
+							'MessageBox.Show("Error al liquidar:" & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+						End Try
+					End If
 
-                    banderaTransaccion = True
+					banderaTransaccion = True
                 Else
                     Dim Mensajes As New PortatilClasses.Mensaje(123)
                     MessageBox.Show(Mensajes.Mensaje, "Módulo de liquidación", MessageBoxButtons.OK, MessageBoxIcon.Error)

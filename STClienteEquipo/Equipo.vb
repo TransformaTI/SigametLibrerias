@@ -637,14 +637,21 @@ Public Class Equipo
     End Sub
 
     Private Sub btnAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAceptar.Click
-        'SE AGREGO PARA COMPLETAR INFORMACION DEL COMODATO
-        _FFabricacion = dtpFFabricacion.Value
-        _Serie = txtserie.Text
+		'SE AGREGO PARA COMPLETAR INFORMACION DEL COMODATO
+
+		_FFabricacion = dtpFFabricacion.Value
+		_Serie = txtserie.Text
         _FInicioComodato = dtpFInicioComodato.Value
         _FFinComodato = dtpFFinComodato.Value
-        _Status = CType(cboStatus.SelectedItem, String)
-        _Consumo = CType(txtConsumo.Text, Integer)
-        Me.DialogResult = DialogResult.OK
+		_Status = CType(cboStatus.SelectedItem, String)
+		Try
+			_Consumo = CType(txtConsumo.Text, Integer)
+		Catch ex As Exception
+			MessageBox.Show("Consumo no tiene un valor válido")
+			Return
+		End Try
+
+		Me.DialogResult = DialogResult.OK
     End Sub
 
     Private Sub lvwEquipo_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwEquipo.SelectedIndexChanged

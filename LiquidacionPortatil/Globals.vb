@@ -31,6 +31,7 @@ Public Class Globals
 	Public _Modulo As Byte
 
 	Public _URLGateway As String
+	Public _FuenteCRM As String
 
 	'Conexión
 	Public cnSigamet As New SqlClient.SqlConnection()
@@ -47,8 +48,15 @@ Public Class Globals
 		Dim lParametro As New SigaMetClasses.cConfig(_Modulo, _Corporativo, _Sucursal)
 
 		_URLGateway = ""
+		_FuenteCRM = ""
 		Try
 			_URLGateway = CType(lParametro.Parametros.Item("URLGateway"), String)
+		Catch
+
+		End Try
+
+		Try
+			_FuenteCRM = CType(lParametro.Parametros.Item("FuenteCRM"), String)
 		Catch
 
 		End Try
