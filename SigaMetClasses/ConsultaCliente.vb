@@ -2547,12 +2547,12 @@ Public Class frmConsultaCliente
 		Try
 			If Not (String.IsNullOrEmpty(_URLGateway) OrElse IsNothing(_oDireccionEntrega)) Then
 				If Not IsNothing(_oDireccionEntrega.DatosFiscales) Then
-					oConsultaEmpresa = New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer),
-																		  DireccionEntrega:=_oDireccionEntrega, PermiteModificar:=_PermiteModificarDatosCte, Usuario:=_Usuario)
-				End If
+                    oConsultaEmpresa = New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer),
+                                                                          DireccionEntrega:=_oDireccionEntrega, PermiteModificar:=PermiteModificarDatosCte, Usuario:=_Usuario)
+                End If
 			Else
-				oConsultaEmpresa = New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer), PermiteModificar:=_PermiteModificarDatosCte, Usuario:=_Usuario)
-			End If
+                oConsultaEmpresa = New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer), PermiteModificar:=PermiteModificarDatosCte, Usuario:=_Usuario)
+            End If
 
 			oConsultaEmpresa.ShowDialog()
 		Catch ex As Exception
