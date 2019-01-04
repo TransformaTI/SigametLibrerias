@@ -1309,9 +1309,8 @@ Public Class CapturaEmpresa
         Return returnVal
     End Function
 
-    Private Sub btnCatEstado_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCatEstado.Click,
-        btnHideFloatPanel.Click
-        pnlFloat.Visible = Not pnlFloat.Visible
+    Private Sub btnCatEstado_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCatEstado.Click, btnHideFloatPanel.Click
+        'pnlFloat.Visible = Not pnlFloat.Visible
     End Sub
 
     Private Sub pnlFloat_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles pnlFloat.VisibleChanged

@@ -1615,7 +1615,7 @@ Public Class ConsultaCargo
                 If String.IsNullOrEmpty(_URLGateway) Then
                     lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("ClienteNombre"), String)
                 Else
-                    If IsNothing(_ClienteRow) Then
+                    If IsNothing(_ClienteRow.Nombre) Then
                         oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
                         oSolicitud = New RTGMGateway.SolicitudGateway()
                         oGateway.URLServicio = _URLGateway

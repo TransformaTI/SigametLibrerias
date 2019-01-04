@@ -298,20 +298,25 @@ namespace BuroDeCredito
 		{			
 			try
 			{
-				dtDatosPeriodo = new DataTable();
+                DataManager.Instance.Data.OpenConnection();
+
+                dtDatosPeriodo = new DataTable();
 				SqlParameter[] param = new SqlParameter[3];
 				param[0] = new SqlParameter(@"@Status", SqlDbType.VarChar);
 				param[0].Value = Status;
 				param[1] = new SqlParameter(@"@Periodo", SqlDbType.VarChar);
 				param[1].Value = Periodo;
 				param[2] = new SqlParameter(@"@Consecutivo", SqlDbType.Int);
-				param[2].Value = Consecutivo;								
-				this._dataAccess.LoadData(dtDatosPeriodo, "spBCConsultaDatosReporte", CommandType.StoredProcedure, param, true);
+				param[2].Value = Consecutivo;
+                DataManager.Instance.Data.LoadData(dtDatosPeriodo, "spBCConsultaDatosReporte", CommandType.StoredProcedure, param, true);
 				if(dtDatosPeriodo.Rows.Count > 0)
 				{
 					CargaDatosPeriodo();							
 				}
-			}
+
+
+
+            }
 			catch (Exception ex)	
 			{
 				throw ex;

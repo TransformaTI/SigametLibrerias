@@ -543,6 +543,8 @@ namespace ResguardoCyC
 		private ReportPrint _report;
         
         private string _urlGateway;
+        private Byte _Modulo;
+        private string _CadConexion;
         #endregion
 
         #region Propiedades
@@ -562,7 +564,7 @@ namespace ResguardoCyC
         #endregion
 
         #region Constructor/Destructor
-        public ListaCobranza(bool RelacionIntermedia, string Usuario, int ResponsableResguardo, int ResponsableCyC, int ResponsableOp, string RutaReportes)
+        public ListaCobranza(bool RelacionIntermedia, string Usuario, int ResponsableResguardo, int ResponsableCyC, int ResponsableOp, string RutaReportes, byte Modulo, string CadConexion)
 		{
 			//
 			// Required for Windows Form Designer support
@@ -580,7 +582,11 @@ namespace ResguardoCyC
 			_relacionIntermedia = RelacionIntermedia;
 
 			_report = new ReportPrint(crvReporte, RutaReportes);
-		}
+            _Modulo = Modulo;
+            _CadConexion = CadConexion;
+
+
+        }
 
         public ListaCobranza(bool RelacionIntermedia, string Usuario, int ResponsableResguardo, int ResponsableCyC, 
             int ResponsableOp, string RutaReportes, string URLGateway)
@@ -713,7 +719,7 @@ namespace ResguardoCyC
 
         public void actualizarRelacionCobranzaCRM()
         {
-            RTGMPedidoGateway obGateway = new RTGMPedidoGateway();
+            RTGMPedidoGateway obGateway = new RTGMPedidoGateway(_Modulo, _CadConexion);
             SolicitudPedidoGateway obSolicitud;
             List<RTGMCore.Pedido> lsPedidos;
 
@@ -726,8 +732,8 @@ namespace ResguardoCyC
             {
                 obSolicitud = new SolicitudPedidoGateway
                 {
-                    FuenteDatos = RTGMCore.Fuente.Sigamet,
-                    IDEmpresa = 0,
+                    //FuenteDatos = RTGMCore.Fuente.Sigamet,
+                    //IDEmpresa = 0,
                     TipoConsultaPedido = RTGMCore.TipoConsultaPedido.RegistroPedido,
                     IDDireccionEntrega = null,
                     FechaCompromisoInicio = DateTime.Now.Date,
@@ -735,7 +741,7 @@ namespace ResguardoCyC
                     EstatusBoletin = null,
                     Portatil = false,
                     IDUsuario = null,
-                    IDSucursal = null,
+                    //IDSucursal = null,
                     FechaCompromisoFin = null,
                     FechaSuministroInicio = null,
                     FechaSuministroFin = null,

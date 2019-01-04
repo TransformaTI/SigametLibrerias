@@ -338,7 +338,8 @@ namespace BuroDeCredito
 		{			
 			try
 			{
-				dtDatosPeriodo = new DataTable();
+                _dataAccess.OpenConnection();
+                dtDatosPeriodo = new DataTable();
 				SqlParameter[] param = new SqlParameter[3];
 				param[0] = new SqlParameter(@"@Status", SqlDbType.VarChar);
 				param[0].Value = Status;
@@ -351,7 +352,8 @@ namespace BuroDeCredito
 				{
 					CargaDatosPeriodo();							
 				}
-			}
+                _dataAccess.CloseConnection();
+            }
 			catch (Exception ex)	
 			{
 				throw ex;
