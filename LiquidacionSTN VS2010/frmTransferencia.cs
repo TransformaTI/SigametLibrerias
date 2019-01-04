@@ -167,6 +167,7 @@ namespace LiquidacionSTN
             //{
             //    mensaje.Append("- Ingrese un saldo válido.");
             //}
+
             _Saldo = 0;
             try
             {
@@ -178,7 +179,12 @@ namespace LiquidacionSTN
             }
             if (_Saldo < 0)
             {
-                mensaje.Append("- Ingrese un saldo válido.");
+                mensaje.Append("- Ingrese un saldo válido." + Environment.NewLine);
+            }
+
+            if (_Monto < _Total)
+            {
+                mensaje.Append("- El monto no cubre el total del pedido");
             }
 
             if (mensaje.ToString().Length > 0)
@@ -348,6 +354,7 @@ namespace LiquidacionSTN
         {
             try
             {
+                decimal.TryParse(txtMonto.Text, out _Monto);
                 CalcularSaldo();
             }
             catch (Exception ex)

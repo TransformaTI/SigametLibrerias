@@ -697,6 +697,11 @@ namespace LiquidacionSTN
                 mensaje.Append("El saldo es incorrecto, verifíque." + Environment.NewLine);
             }
 
+            if (dMonto < _Total)
+            {
+                mensaje.Append("- El monto no cubre el total del pedido");
+            }
+
             if (mensaje.Length > 0)
             {
                 MessageBox.Show(mensaje.ToString(), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -730,7 +735,8 @@ namespace LiquidacionSTN
 
         private void txtMonto_Leave(object sender, EventArgs e)
         {
-            CalcularSaldo();
+            decimal.TryParse(txtMonto.Text, out _Monto);
+            //CalcularSaldo();
         }
 
         private void CalcularSaldo()

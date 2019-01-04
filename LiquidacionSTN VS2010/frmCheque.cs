@@ -478,7 +478,13 @@ namespace LiquidacionSTN
 						break;
 					}
 
-					DataRow [] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("PedidoReferencia = '"+ _PedidoReferencia +"'");
+                    if (Convert.ToDecimal(txtMonto.Text) < _TotalPedido)
+                    {
+                        MessageBox.Show("El monto no cubre el total del pedido", "Mesaje del sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        break;
+                    }
+
+                    DataRow[] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("PedidoReferencia = '"+ _PedidoReferencia +"'");
 					foreach (System.Data.DataRow dr in Query)
 					{
 						dr.BeginEdit();

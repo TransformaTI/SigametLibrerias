@@ -2960,29 +2960,33 @@ namespace LiquidacionSTN
                                         }
                                         else if (_TipoCobro == 10)
                                         {
+                                            // Las transferencias se insertan en el método InsertarTransferencias()
+
+                                            #region "RM - 28/12/2018"
                                             // RM - 28/12/2018
                                             // Si la transferencia no cubre el total del pedido, insertar el resto como efectivo.
                                             // Las transferencias se insertan en el método InsertarTransferencias()
-                                            decimal dTotalTransferencias = 0;
-                                            foreach(SigaMetClasses.sTransferencia transferencia in _Transferencias)
-                                            {
-                                                dTotalTransferencias += transferencia.Monto;
-                                            }
+                                            //decimal dTotalTransferencias = 0;
+                                            //foreach(SigaMetClasses.sTransferencia transferencia in _Transferencias)
+                                            //{
+                                            //    dTotalTransferencias += transferencia.Monto;
+                                            //}
 
-                                            dTotalEfectivo = Convert.ToDecimal(dr["Total"]);
-                                            //decimal dTotalCheques = CalcularTotalCheques();
-                                            decimal dTotalCheques = Convert.ToDecimal(dr["TotalCheque"]);
-                                            decimal dDiferencia = dTotalEfectivo - (dTotalTransferencias + dTotalCheques);
-                                            
-                                            if (dDiferencia > 0)
-                                            {
-                                                InsertarCobroEfectivo(dr, Conexion, Transaccion, dDiferencia);
-                                            }
+                                            //dTotalEfectivo = Convert.ToDecimal(dr["Total"]);
+                                            ////decimal dTotalCheques = CalcularTotalCheques();
+                                            //decimal dTotalCheques = Convert.ToDecimal(dr["TotalCheque"]);
+                                            //decimal dDiferencia = dTotalEfectivo - (dTotalTransferencias + dTotalCheques);
 
-                                            if (dTotalCheques > 0)
-                                            {
-                                                InsertarCobroCheque(dr, Conexion, Transaccion);
-                                            }
+                                            //if (dDiferencia > 0)
+                                            //{
+                                            //    InsertarCobroEfectivo(dr, Conexion, Transaccion, dDiferencia);
+                                            //}
+
+                                            //if (dTotalCheques > 0)
+                                            //{
+                                            //    InsertarCobroCheque(dr, Conexion, Transaccion);
+                                            //}
+                                            #endregion
 
                                         }
                                         else
@@ -3087,7 +3091,7 @@ namespace LiquidacionSTN
 
                                     if (Query.Length > 0)
                                     {
-                                        InsertarTransferencias(Query[0], Conexion, Transaccion, dTotalEfectivo);
+                                        InsertarTransferencias(Query[0], Conexion, Transaccion);
                                     }
 
                                     LiquidarPedidosCRM(Query);
@@ -3629,7 +3633,7 @@ namespace LiquidacionSTN
             }
         }
 
-        private void InsertarTransferencias(DataRow drPedido, SqlConnection conexion, SqlTransaction transaccion, decimal parTotalPedido)
+        private void InsertarTransferencias(DataRow drPedido, SqlConnection conexion, SqlTransaction transaccion)
         {
             object bancoOrigen;
             object cuentaOrigen;
@@ -3659,7 +3663,7 @@ namespace LiquidacionSTN
                 cmd.Parameters.Add("@NumeroCuentaDestino", SqlDbType.Char).Value = cuentaOrigen;
                 cmd.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = transferencia.BancoDestino;
                 cmd.Parameters.Add("@NumeroCuenta", SqlDbType.Char).Value = transferencia.CuentaDestino;
-                cmd.Parameters.Add("@TotalPedido", SqlDbType.Money).Value = parTotalPedido;
+                cmd.Parameters.Add("@TotalPedido", SqlDbType.Money).Value = transferencia.Monto;
 
                 cmd.Parameters.Add("@Pedido", SqlDbType.Int).Value = transferencia.Pedido;
                 cmd.Parameters.Add("@Celula", SqlDbType.TinyInt).Value = transferencia.Celula;
