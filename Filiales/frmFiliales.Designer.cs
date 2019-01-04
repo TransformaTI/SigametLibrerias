@@ -386,7 +386,7 @@ namespace Filiales
             this.tbFilial.Location = new System.Drawing.Point(0, 0);
             this.tbFilial.Name = "tbFilial";
             this.tbFilial.SelectedIndex = 0;
-            this.tbFilial.Size = new System.Drawing.Size(200, 100);
+            this.tbFilial.Size = new System.Drawing.Size(247, 100);
             this.tbFilial.TabIndex = 17;
             // 
             // Bitacora
@@ -395,7 +395,7 @@ namespace Filiales
             this.Bitacora.ImageIndex = 5;
             this.Bitacora.Location = new System.Drawing.Point(4, 4);
             this.Bitacora.Name = "Bitacora";
-            this.Bitacora.Size = new System.Drawing.Size(192, 74);
+            this.Bitacora.Size = new System.Drawing.Size(210, 74);
             this.Bitacora.TabIndex = 0;
             this.Bitacora.Text = "Bitácora";
             // 
@@ -407,7 +407,7 @@ namespace Filiales
             this.dgBitacora.Location = new System.Drawing.Point(0, 0);
             this.dgBitacora.Name = "dgBitacora";
             this.dgBitacora.ReadOnly = true;
-            this.dgBitacora.Size = new System.Drawing.Size(130, 80);
+            this.dgBitacora.Size = new System.Drawing.Size(177, 80);
             this.dgBitacora.TabIndex = 3;
             this.dgBitacora.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
             this.BitacoraB});
@@ -490,7 +490,7 @@ namespace Filiales
             this.Pedidos.ImageIndex = 6;
             this.Pedidos.Location = new System.Drawing.Point(4, 4);
             this.Pedidos.Name = "Pedidos";
-            this.Pedidos.Size = new System.Drawing.Size(192, 74);
+            this.Pedidos.Size = new System.Drawing.Size(239, 74);
             this.Pedidos.TabIndex = 1;
             this.Pedidos.Text = "Pedidos";
             // 
@@ -502,7 +502,7 @@ namespace Filiales
             this.dgPedidos.Location = new System.Drawing.Point(0, 0);
             this.dgPedidos.Name = "dgPedidos";
             this.dgPedidos.ReadOnly = true;
-            this.dgPedidos.Size = new System.Drawing.Size(130, 80);
+            this.dgPedidos.Size = new System.Drawing.Size(239, 80);
             this.dgPedidos.TabIndex = 2;
             this.dgPedidos.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
             this.Pedido});
