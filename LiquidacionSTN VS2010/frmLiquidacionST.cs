@@ -320,6 +320,8 @@ namespace LiquidacionSTN
         // Variable para deshabilitar el botón Presupuesto de la forma frmCerrarOrden -- RM 27/09/2018
         private bool _VerCerrarOrden_Presupuesto;
 
+        private List<RTGMCore.DireccionEntrega> ListaDireccionesEntrega;
+
         #region Windows Form Designer generated code
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -2361,6 +2363,11 @@ namespace LiquidacionSTN
 				daLiquidacion.SelectCommand = new SqlCommand (Query,LiquidacionSTN.Modulo.CnnSigamet);
 				Modulo.dtLiquidacion = new DataTable ("Liquidacion");
 				daLiquidacion.Fill(Modulo.dtLiquidacion);
+
+                if (_FuenteGateway=="CRM")
+                {
+                    actualizaDatosClientes();
+                }
 			}
 			catch (Exception e)
 			{
@@ -3678,6 +3685,140 @@ namespace LiquidacionSTN
                     throw;
                 }
             }
+        }
+
+        private void ConsultarDirecciones(int IDDireccionEntrega)
+        {
+            RTGMGateway.RTGMGateway obGateway = new RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion);
+            obGateway.URLServicio = _URLGateway;
+
+            RTGMGateway.SolicitudGateway objRequest = new RTGMGateway.SolicitudGateway
+            {
+                IDCliente = IDDireccionEntrega,
+                Portatil = false,
+                IDAutotanque = null,
+                FechaConsulta = null
+            };
+
+            RTGMCore.DireccionEntrega objDireccionEntrega = obGateway.buscarDireccionEntrega(objRequest);
+
+            if (objDireccionEntrega != null)
+            {
+                if (objDireccionEntrega.Message != null)
+                {
+
+                    if (objDireccionEntrega.Message.Contains("no produjo resultados"))
+                    {
+                        objDireccionEntrega = new DireccionEntrega();
+                        objDireccionEntrega.Nombre = "No encontrado en CRM";
+                        objDireccionEntrega.Ruta.IDRuta = 0;
+                        objDireccionEntrega.Success = false;
+                        ListaDireccionesEntrega.Add(objDireccionEntrega);
+                    }
+                    else
+                    {
+                        objDireccionEntrega = new DireccionEntrega();
+                        objDireccionEntrega.Nombre = objDireccionEntrega.Message;
+                        objDireccionEntrega.Ruta.IDRuta = 0;
+                        objDireccionEntrega.Success = false;
+                        ListaDireccionesEntrega.Add(objDireccionEntrega);
+                    }
+                }
+
+                ListaDireccionesEntrega.Add(objDireccionEntrega);
+            }            
+        }
+
+        private void generaListaClientes(List<int> listaClientes)
+        {
+            List<int> listaClientesDistintos2 = new List<int>();
+            RTGMCore.DireccionEntrega direccionEntregaTemp;
+
+            foreach (int clienteTemp in listaClientes)
+            {
+                direccionEntregaTemp = ListaDireccionesEntrega.FirstOrDefault(x => x.IDDireccionEntrega == clienteTemp);
+
+                if (direccionEntregaTemp == null)
+                {
+                    listaClientesDistintos2.Add(clienteTemp);
+                }
+            }
+
+            if (listaClientesDistintos2.Count > 0)
+            {
+                System.Threading.Tasks.ParallelOptions opciones = new System.Threading.Tasks.ParallelOptions();
+
+                opciones.MaxDegreeOfParallelism = 30;
+
+
+                System.Threading.Tasks.Parallel.ForEach(listaClientesDistintos2, x => ConsultarDirecciones(x));
+            }
+        }
+
+        private void actualizaDatosClientes()
+        {
+            List<int> listaClientesDistintos = new List<int>();
+            
+
+            ListaDireccionesEntrega = new List<DireccionEntrega>();
+            int iteraciones = 0;
+
+            foreach (DataRow dataRow in Modulo.dtLiquidacion.Rows)
+            {
+                int _clienteTemp = Convert.ToInt32(dataRow["Cliente"]);
+
+                if (!listaClientesDistintos.Contains(_clienteTemp))
+                {
+                    listaClientesDistintos.Add(_clienteTemp);
+                }
+            }
+
+            while (listaClientesDistintos.Count != ListaDireccionesEntrega.Count && iteraciones<10)
+            {
+
+                generaListaClientes(listaClientesDistintos);
+                iteraciones=iteraciones+1;
+            }
+            RTGMCore.DireccionEntrega direccionEntregaTemp;
+
+            foreach (DataRow dataRow in Modulo.dtLiquidacion.Rows)
+            {
+                int _clienteTemp = Convert.ToInt32(dataRow["Cliente"]);
+
+                direccionEntregaTemp = ListaDireccionesEntrega.FirstOrDefault(x => x.IDDireccionEntrega == _clienteTemp);
+
+                if (direccionEntregaTemp !=null)
+                {
+
+                    dataRow["Nombre"] = direccionEntregaTemp.Nombre;
+                    dataRow["RutaCliente"] = direccionEntregaTemp.Ruta.IDRuta;
+
+                    if (direccionEntregaTemp.Success)
+                    {
+
+                        dataRow["Calle"] = direccionEntregaTemp.CalleNombre;
+                        dataRow["NumInterior"] = direccionEntregaTemp.NumInterior;
+                        dataRow["NumExterior"] = direccionEntregaTemp.NumExterior;
+                        dataRow["Colonia"] = direccionEntregaTemp.ColoniaNombre;
+                        dataRow["cp"] = direccionEntregaTemp.CP;
+                        dataRow["Municipio"] = direccionEntregaTemp.MunicipioNombre;
+                    }
+
+                }
+                else
+                {
+                    dataRow["Nombre"] = "Cliente no encontrado";
+                    dataRow["RutaCliente"] = 0;
+
+                }
+            }
+
+
+
+
+
+
+
         }
 
         private void Transferencia()

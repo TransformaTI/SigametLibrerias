@@ -105,8 +105,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="FormasPago, Version=1.0.6899.36748, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FormasPago">
       <HintPath>..\..\Caja\FormasPago\FormasPago\FormasPago\bin\Debug\FormasPago.dll</HintPath>
     </Reference>
     <Reference Include="Interop.Excel">
@@ -144,6 +143,10 @@
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\CallCenter\CallCenter\packages\TaskParallelLibrary.1.0.2856.0\lib\Net35\System.Threading.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Services">
       <Name>System.Web.Services</Name>
@@ -286,6 +289,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
