@@ -921,7 +921,7 @@ Public Class BusquedaCliente
                     If _AutoSeleccionarRegistroUnico Then
                         _Cliente = CType(lvwCliente.Items(0).Text, Integer)
                         DialogResult = DialogResult.OK
-                        Me.Close()
+                        'Me.Close()
                     End If
                 End If
             Catch ex As Exception
