@@ -2901,9 +2901,11 @@ Public Class frmConsultaCliente
 						End If
 
 						lblDireccion.Text = _oDireccionEntrega.DireccionCompleta.Trim()
-						Dim ReemplazarCero As String = Replace(lblDireccion.Text, "0", " ")
-						lblDireccion.Text = ReemplazarCero
-						If Not IsNothing(_oDireccionEntrega.TipoCliente) Then
+                        'Dim ReemplazarCero As String = Replace(lblDireccion.Text, "0", " ")
+
+                        'lblDireccion.Text = ReemplazarCero
+
+                        If Not IsNothing(_oDireccionEntrega.TipoCliente) Then
 							lblTipoCliente.Text = _oDireccionEntrega.TipoCliente.Descripcion
 						End If
 
