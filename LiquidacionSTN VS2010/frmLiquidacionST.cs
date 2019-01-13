@@ -3962,6 +3962,7 @@ namespace LiquidacionSTN
                                 PrecioAplicable             = 0,
                                 RedondeoAnterior            = 0,
                                 TotalAplicable              = 0
+                               
                             };
                             lsDetallesPedido.Add(obDetalle);
 
@@ -3986,7 +3987,9 @@ namespace LiquidacionSTN
                                 ,Impuesto                   = impuesto
                                 ,SerieRemision              = ""
                                 ,Total                      = (decimal)dr["Total"]
-                                ,Saldo                      = (decimal)dr["SaldoCheque"]
+                                ,Saldo                      = (decimal)dr["SaldoCheque"], 
+                                FolioPresupuestoST          = (int)dr["FolioPresupuesto"]
+                                                              
                             });
                         }
                     }

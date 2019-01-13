@@ -878,11 +878,13 @@ Public Class BusquedaCliente
 
                 _DireccionesEntrega = obGateway.buscarDireccionesEntrega(obSolicitud)
 
-                If _DireccionesEntrega.Count = 0 Then
-                    Exit Sub
-                ElseIf _DireccionesEntrega.Count > 0 AndAlso _DireccionesEntrega(0).Success = False Then
-                    Exit Sub
-                End If
+				If _DireccionesEntrega.Count = 0 Then
+					Exit Sub
+				ElseIf _DireccionesEntrega.Count > 0 AndAlso _DireccionesEntrega(0).Success = False Then
+					Exit Sub
+				ElseIf _DireccionesEntrega.Count > 0 AndAlso IsNothing(_DireccionesEntrega(0).Nombre) Then
+					Exit Sub
+				End If
 
 				Dim oItem As ListViewItem
 				Dim status As String

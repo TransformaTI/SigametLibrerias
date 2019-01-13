@@ -2047,8 +2047,8 @@ Public Class frmConsultaCliente
 				lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("Nombre"), String)
 				If dr("DireccionCompleta") IsNot DBNull.Value Then
 					lblDireccion.Text = CType(dr("DireccionCompleta"), String)
-					Dim aString As String = Replace(lblDireccion.Text, "0", " ")
-					lblDireccion.Text = aString
+					'Dim aString As String = Replace(lblDireccion.Text, "0", " ")
+					'lblDireccion.Text = aString
 					lblTipoCliente.Text = CType(dr("TipoClienteDescripcion"), String)
 				End If
 				'Teléfonos
@@ -3177,8 +3177,8 @@ Public Class frmConsultaCliente
 
 
 				'lblDireccion.Text = _oDireccionEntrega.DireccionCompleta.Trim()
-				Dim ReemplazarCero As String = Replace(lblDireccion.Text, "0", " ")
-				lblDireccion.Text = ReemplazarCero
+				'Dim ReemplazarCero As String = Replace(lblDireccion.Text, "0", " ")
+				'lblDireccion.Text = ReemplazarCero
 				If Not IsNothing(_oDireccionEntrega.TipoCliente) Then
 					lblTipoCliente.Text = _oDireccionEntrega.TipoCliente.Descripcion
 				End If
