@@ -1118,6 +1118,7 @@ Public Class BusquedaCliente
         FlawBusquedaLlamada = False
 
         Consulta()
+        Me.TopMost = True
     End Sub
 
     Private Sub lvwCliente_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwCliente.SelectedIndexChanged
