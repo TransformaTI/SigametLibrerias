@@ -426,6 +426,8 @@ namespace LiquidacionSTN
 
 		private void frmVoucher_Load(object sender, System.EventArgs e)
 		{
+
+            
             try
             {
                 txtCliente.Text = Convert.ToString(_Cliente);
@@ -736,7 +738,9 @@ namespace LiquidacionSTN
         private void txtMonto_Leave(object sender, EventArgs e)
         {
             decimal.TryParse(txtMonto.Text, out _Monto);
-            //CalcularSaldo();
+
+
+            CalcularSaldo();
         }
 
         private void CalcularSaldo()
@@ -761,8 +765,9 @@ namespace LiquidacionSTN
                     _Saldo = saldo;
                 }
 
-                txtSaldo.Text = _Saldo.ToString();
+                txtSaldo.Text = _Saldo.ToString("n2");
             }
+            txtMonto.Text= _Monto.ToString("n2");
         }
 
         private bool EsCorrectoElMonto()
