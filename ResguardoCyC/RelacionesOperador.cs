@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ResguardoCyC
 {
@@ -32,7 +34,11 @@ namespace ResguardoCyC
 		private System.Windows.Forms.Button btnBuscarOperador;
 		private DatosRelacionesOperador datos;
 		private CrystalDecisions.Windows.Forms.CrystalReportViewer crvReporte;
-		private System.Windows.Forms.ToolBarButton btnImprimir; 
+		private System.Windows.Forms.ToolBarButton btnImprimir;
+        private List<RTGMCore.DireccionEntrega> listaDireccionesEntrega;
+        private short _Modulo;
+        private string _CadenaConexion;
+        private string _URLGateway;
 
 		ReportPrint _Report;
 
@@ -267,8 +273,47 @@ namespace ResguardoCyC
 
 		private void RelacionesOperador_Load(object sender, System.EventArgs e)
 		{
-		
+		    if(listaDireccionesEntrega == null)
+            {
+                listaDireccionesEntrega = new List<RTGMCore.DireccionEntrega>();
+            }
 		}
+
+        public short Modulo
+        {
+            get
+            {
+                return _Modulo;
+            }
+            set
+            {
+                _Modulo = value;
+            }
+        }
+
+        public string CadenaConexion
+        {
+            get
+            {
+                return _CadenaConexion;
+            }
+            set
+            {
+                _CadenaConexion = value;
+            }
+        }
+
+        public string  URLGateway
+        {
+            get
+            {
+                return _URLGateway;
+            }
+            set
+            {
+                _URLGateway = value;
+            }
+        }
 
 		private void toolBar1_ButtonClick(object sender, System.Windows.Forms.ToolBarButtonClickEventArgs e)
 		{
@@ -286,12 +331,80 @@ namespace ResguardoCyC
 			}
 		}
 
+        private void generarListaClientes(List<int> listaClientesDistintos)
+        {
+            List<int?> listaClientes = new List<int?>();
+            RTGMCore.DireccionEntrega direccionEntregaTemp = new RTGMCore.DireccionEntrega();
+            try
+            {
+                foreach (var clienteTemp in listaClientesDistintos)
+                {
+                    direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(x => x.IDDireccionEntrega == clienteTemp);
+                    if (direccionEntregaTemp == null)
+                    {
+                        listaClientes.Add(clienteTemp);
+                    }
+                }
+
+                RTGMGateway.SolicitudGateway solicitudGateway = new RTGMGateway.SolicitudGateway();
+                solicitudGateway.ListaCliente = listaClientes;
+                consultarDireccionesLista(solicitudGateway);
+            }
+            catch(Exception )
+            {
+                throw;
+            }
+        }
+         
+        private void consultarDireccionesLista(RTGMGateway.SolicitudGateway solicitudGateway)
+        {
+            RTGMGateway.RTGMGateway oGateway;
+            RTGMCore.DireccionEntrega oDireccionEntrega = new RTGMCore.DireccionEntrega();
+            List<RTGMCore.DireccionEntrega> oDireccionEntregaLista = new List<RTGMCore.DireccionEntrega>();
+            try
+            {
+                oGateway = new RTGMGateway.RTGMGateway(byte.Parse(_Modulo.ToString()), _CadenaConexion);
+                oGateway.URLServicio = _URLGateway;
+
+                oDireccionEntregaLista = oGateway.busquedaDireccionEntregaLista(solicitudGateway);
+
+                if(oDireccionEntregaLista != null)
+                {
+                    foreach (var direccion in oDireccionEntregaLista)
+                    {
+                        if (!listaDireccionesEntrega.Exists(x => x.IDDireccionEntrega == direccion.IDDireccionEntrega))
+                        {
+                            if(direccion.Message != null)
+                            {
+                                oDireccionEntrega = new  RTGMCore.DireccionEntrega();
+                                oDireccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega;
+                                oDireccionEntrega.Nombre = direccion.Message;
+                                listaDireccionesEntrega.Add(oDireccionEntrega);
+                            }
+                            else
+                            {
+                                oDireccionEntrega = new RTGMCore.DireccionEntrega();
+                                oDireccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega;
+                                oDireccionEntrega.Nombre = direccion.Nombre;
+                                listaDireccionesEntrega.Add(oDireccionEntrega);
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+
 		private void btnBuscar_Click(object sender, System.EventArgs e)
 		{
 			this.Cursor = Cursors.WaitCursor;
 			try
 			{
 				datos.CargaDatos(dateTimePicker1.Value.Date);
+
 				grdCobOperador.DataSource = datos.ListaRelacionesCobranza;
 				grdCobOperador.AutoColumnHeader();
 				grdCobOperador.DataAdd();
