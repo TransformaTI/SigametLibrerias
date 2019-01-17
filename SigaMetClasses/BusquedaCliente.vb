@@ -856,27 +856,27 @@ Public Class BusquedaCliente
 
             Me.Refresh()
 
-            Try
-                lvwCliente.Items.Clear()
+			Try
+				lvwCliente.Items.Clear()
 
-                Dim obGateway As New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
-                obGateway.URLServicio = _URLGateway
+				Dim obGateway As New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+				obGateway.URLServicio = _URLGateway
 
-                _DireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+				_DireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
 
-                Dim obSolicitud As New RTGMGateway.SolicitudGateway With {
-                    .IDCliente = Cliente,
-                    .Zona = Celula,
-                    .CalleNombre = Calle,
-                    .ColoniaNombre = Colonia,
-                    .MunicipioNombre = Municipio,
-                    .Nombre = Nombre,
-                    .NumeroExterior = NumExterior,
-                    .NumeroInterior = NumInterior,
-                    .Telefono = Telefono
-                }
+				Dim obSolicitud As New RTGMGateway.SolicitudGateway With {
+					.IDCliente = Cliente,
+					.Zona = Celula,
+					.CalleNombre = Calle,
+					.ColoniaNombre = Colonia,
+					.MunicipioNombre = Municipio,
+					.Nombre = Nombre,
+					.NumeroExterior = NumExterior,
+					.NumeroInterior = NumInterior,
+					.Telefono = Telefono
+				}
 
-                _DireccionesEntrega = obGateway.buscarDireccionesEntrega(obSolicitud)
+				_DireccionesEntrega = obGateway.buscarDireccionesEntrega(obSolicitud)
 
 				If _DireccionesEntrega.Count = 0 Then
 					Exit Sub
@@ -890,17 +890,17 @@ Public Class BusquedaCliente
 				Dim status As String
 
 				For Each obDireccion In _DireccionesEntrega
-                    oItem = New ListViewItem(Convert.ToString(obDireccion.IDDireccionEntrega), 0) '0
-                    oItem.SubItems.Add(If(obDireccion.Nombre, "").Trim) '1
-                    If Not IsNothing(obDireccion.ZonaSuministro) Then
-                        oItem.SubItems.Add(Convert.ToString(obDireccion.ZonaSuministro.IDZona).Trim) '2
-                    Else
-                        oItem.SubItems.Add("") '2
-                    End If
-                    oItem.SubItems.Add(If(obDireccion.CalleNombre, "").Trim) '3
-                    oItem.SubItems.Add(If(obDireccion.NumExterior, "").Trim) '4
-                    oItem.SubItems.Add(If(obDireccion.NumInterior, "").Trim) '5
-                    oItem.SubItems.Add(If(obDireccion.ColoniaNombre, "").Trim) '6
+					oItem = New ListViewItem(Convert.ToString(obDireccion.IDDireccionEntrega), 0) '0
+					oItem.SubItems.Add(If(obDireccion.Nombre, "").Trim) '1
+					If Not IsNothing(obDireccion.ZonaSuministro) Then
+						oItem.SubItems.Add(Convert.ToString(obDireccion.ZonaSuministro.IDZona).Trim) '2
+					Else
+						oItem.SubItems.Add("") '2
+					End If
+					oItem.SubItems.Add(If(obDireccion.CalleNombre, "").Trim) '3
+					oItem.SubItems.Add(If(obDireccion.NumExterior, "").Trim) '4
+					oItem.SubItems.Add(If(obDireccion.NumInterior, "").Trim) '5
+					oItem.SubItems.Add(If(obDireccion.ColoniaNombre, "").Trim) '6
 					oItem.SubItems.Add(If(obDireccion.MunicipioNombre, "").Trim) '7
 
 					status = If(obDireccion.Status, "").Trim.ToUpper
@@ -917,26 +917,31 @@ Public Class BusquedaCliente
 					oItem.ForeColor = System.Drawing.Color.FromName(color)
 
 					lvwCliente.Items.Add(oItem)
-                Next
+				Next
 
-                If lvwCliente.Items.Count = 1 Then
-                    If _AutoSeleccionarRegistroUnico Then
-                        _Cliente = CType(lvwCliente.Items(0).Text, Integer)
-                        DialogResult = DialogResult.OK
-                        'Me.Close()
-                    End If
-                End If
-            Catch ex As Exception
-                MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                lblListaCliente.Text = "Error en la búsqueda"
+				If lvwCliente.Items.Count = 1 Then
+					If _AutoSeleccionarRegistroUnico Then
+						_Cliente = CType(lvwCliente.Items(0).Text, Integer)
+						DialogResult = DialogResult.OK
+						'Me.Close()
+					End If
+				End If
+
+				oSplash.Close()
+				oSplash.Dispose()
+			Catch ex As Exception
+
+				oSplash.Close()
+				oSplash.Dispose()
+				MessageBox.Show("Se generó un error en su consulta, solicite apoyo de soporte", ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+				lblListaCliente.Text = "Error en la búsqueda"
                 lblListaCliente.ForeColor = System.Drawing.Color.Orange
 
                 FlawBusquedaLlamada = False
             Finally
-                oSplash.Close()
-                oSplash.Dispose()
 
-                If FlawBusquedaLlamada Then
+
+				If FlawBusquedaLlamada Then
                     ActualizarDatosTelefono()
                 End If
 

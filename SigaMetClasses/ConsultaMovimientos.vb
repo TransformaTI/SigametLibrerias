@@ -67,23 +67,32 @@ Public Class ConsultaMovimientos
         End Get
     End Property
 
+	Public Property ModuloUsuario As String
+		Get
+			Return _ModuloUsuario
+		End Get
+		Set(value As String)
+			_ModuloUsuario = value
+		End Set
+	End Property
+
 #End Region
 
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(Optional ByVal Modulo As Byte = 0, Optional Cadcon As String = "")
-        MyBase.New()
-        'This call is required by the Windows Form Designer.
-        InitializeComponent()
-        _Modulo = Modulo
-        _CadenaConexion = Cadcon
+	Public Sub New(Optional ByVal Modulo As Byte = 0, Optional Cadcon As String = "")
+		MyBase.New()
+		'This call is required by the Windows Form Designer.
+		InitializeComponent()
+		_Modulo = Modulo
+		_CadenaConexion = Cadcon
 
-        'Add any initialization after the InitializeComponent() call
+		'Add any initialization after the InitializeComponent() call
 
-    End Sub
+	End Sub
 
-    Public Sub New(ByVal URLGateway As String,
+	Public Sub New(ByVal URLGateway As String,
           Optional ByVal Modulo As Byte = 0,
           Optional ByVal Cadcon As String = "",
           Optional ByVal ConsultarPedidosGateway As Boolean = False)
@@ -1168,17 +1177,22 @@ Public Class ConsultaMovimientos
         End Try
     End Sub
 
-    Private Sub ConsultaCobro_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        cboCelula.CargaDatos()
-        dtpFOperacion.Value = Main.FechaServidor.Date
-        dtpFOperacion.MaxDate = Main.FechaServidor.Date
-        listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+	Private Sub ConsultaCobro_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+		cboCelula.CargaDatos()
+		dtpFOperacion.Value = Main.FechaServidor.Date
+		dtpFOperacion.MaxDate = Main.FechaServidor.Date
+		listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
 
-        'Seguridad
-        oSeguridad = New SigaMetClasses.cSeguridad(_ModuloUsuario, _Modulo)
-    End Sub
+		'Seguridad
+		oSeguridad = New SigaMetClasses.cSeguridad(_ModuloUsuario, _Modulo)
+	End Sub
 
-    Private Sub grdMovimientoCaja_CurrentCellChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles grdMovimientoCaja.CurrentCellChanged
+
+	Private Sub consultaNombres()
+
+	End Sub
+
+	Private Sub grdMovimientoCaja_CurrentCellChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles grdMovimientoCaja.CurrentCellChanged
         _Clave = CType(grdMovimientoCaja.Item(grdMovimientoCaja.CurrentRowIndex, 0), String).Trim
         _Caja = CType(grdMovimientoCaja.Item(grdMovimientoCaja.CurrentRowIndex, 5), Byte)
         _FOperacion = CType(grdMovimientoCaja.Item(grdMovimientoCaja.CurrentRowIndex, 6), Date)
@@ -1241,12 +1255,13 @@ Public Class ConsultaMovimientos
                               ByVal Consecutivo As Byte,
                               ByVal Folio As Integer)
         If Consecutivo > 0 And Folio > 0 Then
-            Dim strFiltro As String = "Caja = " & Caja.ToString &
-                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" &
-                                      " AND Consecutivo = " & Consecutivo.ToString &
-                                      " AND Folio = " & Folio.ToString
+			Dim strFiltro As String = "Caja = " & Caja.ToString &
+									  " AND FOperacion = '" & FOperacion.ToShortDateString & "'" &
+									  " AND Consecutivo = " & Consecutivo.ToString &
+									  " AND Folio = " & Folio.ToString
 
-            dtCobro.DefaultView.RowFilter = strFiltro
+
+			dtCobro.DefaultView.RowFilter = strFiltro
             If _URLGateway <> "" Then
                 Dim clientesDistintos As DataTable = dtCobro.DefaultView.ToTable(True, "Cliente")
                 Dim iteraciones As Integer = 0
@@ -1299,12 +1314,7 @@ Public Class ConsultaMovimientos
             grdCobro.DataSource = dtCobro
 
 
-
-
-
-
-
-            grdCobro.CaptionText = "Lista de cobros en el movimiento (" & dtCobro.DefaultView.Count.ToString & ") Total: " & SumaColumnaVista(dtCobro.DefaultView, "Total").ToString("C")
+			grdCobro.CaptionText = "Lista de cobros en el movimiento (" & dtCobro.DefaultView.Count.ToString & ") Total: " & SumaColumnaVista(dtCobro.DefaultView, "Total").ToString("C")
         End If
     End Sub
     Private Sub consultarDirecciones(ByVal idCliente As Integer)
