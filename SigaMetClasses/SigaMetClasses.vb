@@ -5435,8 +5435,8 @@ Public Class Cobro
                             Optional ByVal Posfechado As Boolean = False,
                             Optional ByVal referencia As String = "",
                             Optional ByVal dtmFCobro As Date = Nothing,
-                            Optional ByVal FolioMovAnt As Int64 = Nothing
-                                       ) As Integer
+                            Optional ByVal FolioMovAnt As Int64 = Nothing,
+                             Optional ByVal AñoMovAnt As Integer = Nothing) As Integer
 
         Dim cmd As New SqlCommand("spChequeTarjetaAltaModifica")
         With cmd
@@ -5489,6 +5489,7 @@ Public Class Cobro
 
             If TipoCobro = 21 Then
                 .Parameters.Add(New SqlParameter("@FolioMov", SqlDbType.BigInt)).Value = FolioMovAnt
+                .Parameters.Add(New SqlParameter("@AñoMov", SqlDbType.BigInt)).Value = AñoMovAnt
 
             End If
 
@@ -6201,7 +6202,7 @@ Public Class TransaccionMovimientoCaja
 
                         FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Cobro.FechaCheque, Cobro.Cliente, Cobro.Banco,
                             Cobro.Observaciones, Cobro.TipoCobro, Usuario, Cobro.Saldo, Cobro.NoCuentaDestino, Cobro.BancoOrigen, Cobro.SaldoAFavor,
-                            Cobro.Posfechado, Cobro.Referencia, Cobro.Fcobro, Cobro.FolioMovAnt)
+                            Cobro.Posfechado, Cobro.Referencia, Cobro.Fcobro, Cobro.FolioMovAnt, Cobro.AñoFolioMov)
 
                     Case Enumeradores.enumTipoCobro.TarjetaCredito,
                         Enumeradores.enumTipoCobro.TarjetaDebito,
@@ -8428,6 +8429,7 @@ Public Structure sCobro
     Private _ListaPedidos As ArrayList
     Private _FCobro As Date
     Private _FolioMovAnt As Int64
+    Private _AñoFolioMov As Integer
 
     'Se agregó para captura de transferencias bancarias
     '23-03-2005 JAG
@@ -8632,6 +8634,14 @@ Public Structure sCobro
         End Get
         Set(ByVal value As Int64)
             _FolioMovAnt = value
+        End Set
+    End Property
+    Public Property AñoFolioMov() As Integer
+        Get
+            Return _AñoFolioMov
+        End Get
+        Set(ByVal value As Integer)
+            _AñoFolioMov = value
         End Set
     End Property
 
