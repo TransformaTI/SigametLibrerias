@@ -839,7 +839,7 @@ namespace LiquidacionSTN
 
         private void ConmutarBotonModificar()
         {
-            tBBModificar.Enabled = _HabilitarModificar;
+            //tBBModificar.Enabled = _HabilitarModificar;
         }
 
         private void label13_Click(object sender, System.EventArgs e)

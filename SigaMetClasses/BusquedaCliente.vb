@@ -919,6 +919,9 @@ Public Class BusquedaCliente
 					lvwCliente.Items.Add(oItem)
 				Next
 
+				oSplash.Close()
+				oSplash.Dispose()
+
 				If lvwCliente.Items.Count = 1 Then
 					If _AutoSeleccionarRegistroUnico Then
 						_Cliente = CType(lvwCliente.Items(0).Text, Integer)
@@ -927,8 +930,7 @@ Public Class BusquedaCliente
 					End If
 				End If
 
-				oSplash.Close()
-				oSplash.Dispose()
+
 			Catch ex As Exception
 
 				oSplash.Close()
