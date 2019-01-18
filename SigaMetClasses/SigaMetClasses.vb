@@ -6204,6 +6204,7 @@ Public Class TransaccionMovimientoCaja
                             Cobro.Observaciones, Cobro.TipoCobro, Usuario, Cobro.Saldo, Cobro.NoCuentaDestino, Cobro.BancoOrigen, Cobro.SaldoAFavor,
                             Cobro.Posfechado, Cobro.Referencia, Cobro.Fcobro, Cobro.FolioMovAnt, Cobro.AñoFolioMov)
 
+
                     Case Enumeradores.enumTipoCobro.TarjetaCredito,
                         Enumeradores.enumTipoCobro.TarjetaDebito,
                         Enumeradores.enumTipoCobro.TarjetaServicio,
