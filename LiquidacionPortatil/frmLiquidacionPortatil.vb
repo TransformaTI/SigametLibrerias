@@ -6768,30 +6768,29 @@ Public Class frmLiquidacionPortatil
                                     listaClientesDistintos.Add(CType(colum("Cliente"), Integer))
                                 End If
                             Next
-                            Dim iteraciones As Integer
-                            iteraciones = 0
-                            While iteraciones < 5
-                                generaListaCLientes(listaClientesDistintos)
-                                iteraciones = iteraciones + 1
-                            End While
-                            Dim drow As DataRow
-                            Dim CLIENTETEMP As Integer
-                            For Each drow In dtRemisionesManuales.Rows
-                                If drow("Cliente").ToString <> Nothing Then
-                                    Try
-                                        drow("Nombre") = ""
-                                        CLIENTETEMP = (CType(drow("Cliente"), Integer))
-                                        Dim direccionentrega As RTGMCore.DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
-                                        If Not IsNothing(direccionentrega) Then
-                                            drow("Nombre") = direccionentrega.Nombre.Trim()
-                                        Else
-                                            drow("Nombre") = "No encontrado"
-                                        End If
-                                    Catch ex As Exception
-                                        drow("Nombre") = "Error al buscar"
-                                    End Try
-                                End If
-                            Next
+                            Try
+                                generaListaClientes(listaClientesDistintos)
+                                Dim drow As DataRow
+                                Dim CLIENTETEMP As Integer
+                                For Each drow In dtRemisionesManuales.Rows
+                                    If drow("Cliente").ToString <> Nothing Then
+                                        Try
+                                            drow("Nombre") = ""
+                                            CLIENTETEMP = (CType(drow("Cliente"), Integer))
+                                            Dim direccionentrega As RTGMCore.DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+                                            If Not IsNothing(direccionentrega) Then
+                                                drow("Nombre") = direccionentrega.Nombre.Trim()
+                                            Else
+                                                drow("Nombre") = "No encontrado"
+                                            End If
+                                        Catch ex As Exception
+                                            drow("Nombre") = "Error al buscar"
+                                        End Try
+                                    End If
+                                Next
+                            Catch ex As Exception
+
+                            End Try
                         End If
 
                         For Each item As DataRow In dtRemisionesManuales.Rows
@@ -6844,6 +6843,63 @@ Public Class frmLiquidacionPortatil
             Throw ex
         End Try
     End Sub
+
+    Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
+        Try
+            Dim listaClientes As New List(Of Integer?)
+            Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+
+            For Each clienteTemp As Integer In listaClientesDistintos
+                direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                If IsNothing(direccionEntregaTemp) Then
+                    listaClientes.Add(clienteTemp)
+                End If
+            Next
+
+            Dim oSolicitud As RTGMGateway.SolicitudGateway
+            oSolicitud.ListaCliente = listaClientes
+            consultarDireccionesLista(oSolicitud)
+        Catch ex As Exception
+            Throw
+        End Try
+
+    End Sub
+
+    Private Sub consultarDireccionesLista(oSolicitud As RTGMGateway.SolicitudGateway)
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oDireccionEntrega As New RTGMCore.DireccionEntrega()
+        Dim oDireccionEntregaLista As List(Of RTGMCore.DireccionEntrega)
+        Try
+
+            oGateway = New RTGMGateway.RTGMGateway(_Modulo, ConString)
+            oGateway.URLServicio = _URLGateway
+
+            oDireccionEntregaLista = oGateway.busquedaDireccionEntregaLista(oSolicitud)
+
+            If Not IsNothing(oDireccionEntregaLista) Then
+                For Each direccion As RTGMCore.DireccionEntrega In oDireccionEntregaLista
+                    If Not listaDireccionesEntrega.Exists(Function(x) x.IDDireccionEntrega = direccion.IDDireccionEntrega) Then
+                        If Not IsNothing(direccion.Message) Then
+                            oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                            oDireccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                            oDireccionEntrega.Nombre = direccion.Message
+                            listaDireccionesEntrega.Add(oDireccionEntrega)
+                        Else
+                            oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                            oDireccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                            oDireccionEntrega.Nombre = direccion.Nombre
+                            listaDireccionesEntrega.Add(oDireccionEntrega)
+                        End If
+                    End If
+                Next
+            End If
+
+        Catch ex As Exception
+            Throw
+        End Try
+    End Sub
+
     Private Sub consultarDirecciones(ByVal idCliente As Integer)
         Dim oGateway As RTGMGateway.RTGMGateway
         Dim oSolicitud As RTGMGateway.SolicitudGateway
@@ -6888,7 +6944,7 @@ Public Class frmLiquidacionPortatil
 
     End Sub
 
-    Private Sub generaListaCLientes(ByVal listaClientesDistintos As List(Of Integer))
+    Private Sub generaListaCLientess(ByVal listaClientesDistintos As List(Of Integer))
         Try
             Dim listaClientes As New List(Of Integer)
             Dim direccionEntregaTemp As RTGMCore.DireccionEntrega

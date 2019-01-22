@@ -7,6 +7,7 @@ using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data;
 
 namespace ResguardoCyC
 {
@@ -401,9 +402,51 @@ namespace ResguardoCyC
 		private void btnBuscar_Click(object sender, System.EventArgs e)
 		{
 			this.Cursor = Cursors.WaitCursor;
+            RTGMCore.DireccionEntrega direccionEntrega = new RTGMCore.DireccionEntrega();
+            DataTable dt;
+            List<int> listaClientesDistintos = new List<int>();
 			try
 			{
 				datos.CargaDatos(dateTimePicker1.Value.Date);
+                //try
+                //{
+                //    dt = datos.ListaRelacionesCobranza.DefaultView.ToTable(true, "Cliente");
+                //    if (dt.Rows.Count > 0)
+                //    {
+                //        foreach (DataRow  item in dt.Rows)
+                //        {
+                //            listaClientesDistintos.Add(int.Parse(item["Cliente"].ToString()));
+                //        }
+
+                //        generarListaClientes(listaClientesDistintos);
+                //        int CLIENTETEMP = 0;
+                //        foreach (DataRow drow in datos.ListaRelacionesCobranza.Rows)
+                //        {
+                //            try
+                //            {
+                //                drow["Nombre"] = "";
+                //                CLIENTETEMP = int.Parse(drow["Cliente"].ToString());
+                //                direccionEntrega = listaDireccionesEntrega.FirstOrDefault(x => x.IDDireccionEntrega == CLIENTETEMP);
+                //                if (direccionEntrega != null)
+                //                {
+                //                    drow["Nombre"] = direccionEntrega.Nombre.Trim();
+                //                }
+                //                else
+                //                {
+                //                    drow["Nombre"] = "No encontrado";
+                //                }
+                //            }
+                //            catch(Exception)
+                //            {
+                //                drow["Nombre"] = "Error al buscar";
+                //            }
+                //        }
+                //    }
+                //}
+                //catch(Exception ex )
+                //{
+                //    MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //}
 
 				grdCobOperador.DataSource = datos.ListaRelacionesCobranza;
 				grdCobOperador.AutoColumnHeader();
