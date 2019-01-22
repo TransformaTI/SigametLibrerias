@@ -919,7 +919,6 @@ Public Class BusquedaCliente
 					lvwCliente.Items.Add(oItem)
 				Next
 
-
 				oSplash.Close()
 				oSplash.Dispose()
 
@@ -938,7 +937,7 @@ Public Class BusquedaCliente
 					oSplash.Dispose()
 				Catch
 				End Try
-
+				Application.DoEvents()
 				Me.TopMost = True
 
 					MessageBox.Show(Me, "Se generó un error en su consulta, solicite apoyo de soporte", ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1132,7 +1131,9 @@ Public Class BusquedaCliente
 		FlawBusquedaLlamada = False
 
 		Consulta()
+		Application.DoEvents()
 		Me.TopMost = True
+		Me.Refresh()
 		Threading.Thread.Sleep(1000)
 		Me.TopMost = False
 
