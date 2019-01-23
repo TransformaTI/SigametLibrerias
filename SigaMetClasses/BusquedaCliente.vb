@@ -940,16 +940,20 @@ Public Class BusquedaCliente
 				Application.DoEvents()
 				Me.TopMost = True
 
-					MessageBox.Show(Me, "Se generó un error en su consulta, solicite apoyo de soporte", ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
-					Me.TopMost = False
-					lblListaCliente.Text = "Error en la búsqueda"
-					lblListaCliente.ForeColor = System.Drawing.Color.Orange
+				MessageBox.Show(Me, "Se generó un error en su consulta, solicite apoyo de soporte", ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+				Me.TopMost = False
+				lblListaCliente.Text = "Error en la búsqueda"
+				lblListaCliente.ForeColor = System.Drawing.Color.Orange
 
-					FlawBusquedaLlamada = False
-				Finally
+				FlawBusquedaLlamada = False
+			Finally
+				Try
+					oSplash.Close()
+					oSplash.Dispose()
+				Catch
+				End Try
 
-
-					If FlawBusquedaLlamada Then
+				If FlawBusquedaLlamada Then
 					ActualizarDatosTelefono()
 				End If
 
