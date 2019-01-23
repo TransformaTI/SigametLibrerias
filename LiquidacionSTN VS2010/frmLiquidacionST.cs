@@ -2536,7 +2536,7 @@ namespace LiquidacionSTN
                                     " AND AñoPed = " + parAñoPed;
             DataView vwVoucher;
             vwVoucher = new DataView(LiquidacionSTN.Modulo.dtVoucher);
-            vwVoucher.RowFilter = "Autotanque = " + this.cboCamioneta.Text;
+            vwVoucher.RowFilter = cadenaFiltro;
             return vwVoucher.Count == 0;
         }
         
