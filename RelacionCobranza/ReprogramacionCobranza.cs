@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
 using System.Data.SqlClient;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RelacionCobranza
 {
@@ -49,8 +51,9 @@ namespace RelacionCobranza
         private ReprogramacionPedido _datos;
         private Byte _Modulo;
         private string _CadenaConecxion;
+        private List<RTGMCore.DireccionEntrega> listaDireccionesEntrega;
 
-		public ReprogramacionCobranza(string User, string  URLGateway  = "",byte Modulo=0,string CadCon="")
+        public ReprogramacionCobranza(string User, string  URLGateway  = "",byte Modulo=0,string CadCon="")
 		{
 			//
 			// Required for Windows Form Designer support
@@ -461,12 +464,20 @@ namespace RelacionCobranza
 
             if (!string.IsNullOrEmpty(_URLGateway))
             {
-                oGateway = new RTGMGateway.RTGMGateway(_Modulo, _CadenaConecxion);
-                oSolicitud = new RTGMGateway.SolicitudGateway();
-                oGateway.URLServicio = _URLGateway;
-                //oSolicitud.Fuente = RTGMCore.Fuente.CRM;
-                oSolicitud.IDCliente = aCliente;
-                oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud);
+                if(listaDireccionesEntrega.Exists (x=>x.IDDireccionEntrega == aCliente))
+                {
+                    oDireccionEntrega = listaDireccionesEntrega.FirstOrDefault(x => x.IDDireccionEntrega == aCliente);
+                }
+                else
+                {
+                    oGateway = new RTGMGateway.RTGMGateway(_Modulo, _CadenaConecxion);
+                    oSolicitud = new RTGMGateway.SolicitudGateway();
+                    oGateway.URLServicio = _URLGateway;
+                    //oSolicitud.Fuente = RTGMCore.Fuente.CRM;
+                    oSolicitud.IDCliente = aCliente;
+                    oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud);
+                }
+                
                 if (oDireccionEntrega != null )
                 {
                     if (oDireccionEntrega.Nombre!=null)
@@ -504,6 +515,7 @@ namespace RelacionCobranza
 		private void ReprogramacionCobranza_Load(object sender, System.EventArgs e)
 		{
 			clean();
+            listaDireccionesEntrega = new List<RTGMCore.DireccionEntrega>();
 		}
 
 		private void btnAceptar_Click(object sender, System.EventArgs e)

@@ -3,6 +3,9 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.Data;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AsignacionMultiple
 {
@@ -29,6 +32,47 @@ namespace AsignacionMultiple
 		private System.Windows.Forms.Button btnSalir;
 		private System.Windows.Forms.Button btnBuscarLocal;
 		private data _data;
+
+        private string _CadenaConexion;
+        private short _Modulo;
+        private string _URLGateway;
+        private List<RTGMCore.DireccionEntrega> listaDireccionEntrega;
+
+        public string CadenaConexion
+        {
+            get
+            {
+                return _CadenaConexion;
+            }
+            set
+            {
+                _CadenaConexion = value;
+            }
+        }
+
+        public short Modulo
+        {
+            get
+            {
+                return _Modulo;
+            }
+            set
+            {
+                _Modulo = value;
+            }
+        }
+
+        public string URLGateway
+        {
+            get
+            {
+                return _URLGateway;
+            }
+            set
+            {
+                _URLGateway = value;
+            }
+        }
 		
 		public AsignacionEjecCyC(System.Data.DataTable ListaEmpleados, System.Data.SqlClient.SqlConnection Connection)
 		{
@@ -244,8 +288,8 @@ namespace AsignacionMultiple
 
 			lblStatus.DataBindings.Add("Text", dtEmpleado, "Status");
 			lblPuesto.DataBindings.Add("Text", dtEmpleado, "Puesto");
-
-			this.cboEjecutivo.SelectedIndexChanged += new System.EventHandler(this.cboEjecutivo_SelectedIndexChanged);
+            listaDireccionEntrega = new List<RTGMCore.DireccionEntrega>();
+            this.cboEjecutivo.SelectedIndexChanged += new System.EventHandler(this.cboEjecutivo_SelectedIndexChanged);
 			cargaDatos();
 		}
 
@@ -341,11 +385,123 @@ namespace AsignacionMultiple
 
 		private void cargaDatos()
 		{
-			_data.CargaDatos(Convert.ToInt32(cboEjecutivo.SelectedValue));
-			grdCliente.DataSource = _data.ClientesAsignados();
+            DataTable Clientesasignados = new DataTable();
+            List<int> listaClientesDistintos = new List<int>();
+            DataTable clientesDisitintos = new DataTable();
+            _data.CargaDatos(Convert.ToInt32(cboEjecutivo.SelectedValue));
+            Clientesasignados = _data.ClientesAsignados();
+            if (_URLGateway != string.Empty)
+            {
+                try
+                {
+                    
+                    clientesDisitintos = Clientesasignados.DefaultView.ToTable(true, "Cliente");
+                    
+                    if(clientesDisitintos.Rows.Count>0)
+                    {
+                        foreach (DataRow  item in clientesDisitintos.Rows)
+                        {
+                            listaClientesDistintos.Add(int.Parse(item["Cliente"].ToString()));
+                        }
+
+                        generarListaClientes(listaClientesDistintos);
+                        RTGMCore.DireccionEntrega direccionEntrega;
+                        foreach (DataRow  item in Clientesasignados.Rows)
+                        {
+                            try
+                            {
+                                item["Nombre"] = "";
+                                direccionEntrega = listaDireccionEntrega.FirstOrDefault(x => x.IDDireccionEntrega == int.Parse(item["Cliente"].ToString()));
+                                if(direccionEntrega != null)
+                                {
+                                    item["Nombre"] = direccionEntrega.Nombre.Trim();
+                                }
+                                else
+                                {
+                                    item["Nombre"] = "No encontrado";
+                                }
+                            }
+                            catch(Exception)
+                            {
+                                item["Nombre"] = "Error al buscar";
+                            }
+                        }
+                    }
+                }
+                catch(Exception)
+                {
+
+                }
+            }
+            grdCliente.DataSource = Clientesasignados;//_data.ClientesAsignados();
 			grdCliente.AutoColumnHeader();
 			grdCliente.DataAdd();
 		}
+
+
+        private void generarListaClientes(List<int> listaClientesDisitintos)
+        {
+            List<int?> listaclientes = new List<int?>();
+            RTGMCore.DireccionEntrega direccionEntregaTemp;
+            try
+            {
+                foreach (var item in listaClientesDisitintos)
+                {
+                    direccionEntregaTemp = listaDireccionEntrega.FirstOrDefault(x => x.IDDireccionEntrega == item);
+                    if (direccionEntregaTemp == null)
+                    {
+                        listaclientes.Add(item);
+                    }
+                }
+
+                RTGMGateway.SolicitudGateway oSolicitud = new RTGMGateway.SolicitudGateway();
+                oSolicitud.ListaCliente = listaclientes;
+                consultarDirecionesLista(oSolicitud);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+
+        private void consultarDirecionesLista(RTGMGateway.SolicitudGateway  oSolicitud)
+        {
+            RTGMGateway.RTGMGateway oGateway;
+            RTGMCore.DireccionEntrega oDireccionEntrega = new RTGMCore.DireccionEntrega();
+            List<RTGMCore.DireccionEntrega> oDireccionEntregaLista = new List<RTGMCore.DireccionEntrega>();
+            try
+            {
+                oGateway = new RTGMGateway.RTGMGateway(byte.Parse(_Modulo.ToString()), _CadenaConexion);
+                oGateway.URLServicio = _URLGateway;
+
+                oDireccionEntregaLista = oGateway.busquedaDireccionEntregaLista(oSolicitud);
+
+                if (oDireccionEntregaLista != null)
+                {
+                    foreach (var item in oDireccionEntregaLista)
+                    {
+                        if (item.Message != null)
+                        {
+                            oDireccionEntrega = new RTGMCore.DireccionEntrega();
+                            oDireccionEntrega.IDDireccionEntrega = item.IDDireccionEntrega;
+                            oDireccionEntrega.Nombre = item.Message;
+                            listaDireccionEntrega.Add(oDireccionEntrega);
+                        }
+                        else
+                        {
+                            oDireccionEntrega = new RTGMCore.DireccionEntrega();
+                            oDireccionEntrega.IDDireccionEntrega = item.IDDireccionEntrega;
+                            oDireccionEntrega.Nombre = item.Nombre;
+                            listaDireccionEntrega.Add(oDireccionEntrega);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
 		private void lblStatus_TextChanged(object sender, System.EventArgs e)
 		{
