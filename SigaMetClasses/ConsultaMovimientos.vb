@@ -1142,76 +1142,6 @@ Public Class ConsultaMovimientos
             da.Fill(dtCobroPedido)
             dtCobroPedido.TableName = "CobroPedido"
 
-            'Dim objpedidogateway As RTGMPedidoGateway = New RTGMPedidoGateway(_Modulo, _CadenaConexion)
-            'objpedidogateway.URLServicio = URLGateway
-
-            'Dim objsolicitudpedido As SolicitudPedidoGateway = New SolicitudPedidoGateway()
-            'Dim lstPedidos As New Generic.List(Of RTGMCore.Pedido)
-
-            'Dim dr As DataRow
-            'Dim I As Integer
-
-
-            'For Each dr In dtCobroPedido.Rows
-            '    objsolicitudpedido.TipoConsultaPedido = RTGMCore.TipoConsultaPedido.RegistroPedido
-            '    objsolicitudpedido.Portatil = False
-            '    objsolicitudpedido.IDUsuario = Nothing
-            '    objsolicitudpedido.IDDireccionEntrega = Nothing
-            '    objsolicitudpedido.FechaCompromisoInicio = DateTime.Now.Date
-            '    objsolicitudpedido.FechaCompromisoFin = Nothing
-            '    objsolicitudpedido.FechaSuministroInicio = Nothing
-            '    objsolicitudpedido.FechaSuministroFin = Nothing
-            '    objsolicitudpedido.IDZona = Nothing
-            '    objsolicitudpedido.IDRutaOrigen = Nothing
-            '    objsolicitudpedido.IDRutaBoletin = Nothing
-            '    objsolicitudpedido.IDRutaSuministro = Nothing
-            '    objsolicitudpedido.IDEstatusPedido = Nothing
-            '    objsolicitudpedido.EstatusPedidoDescripcion = Nothing
-            '    objsolicitudpedido.IDEstatusBoletin = Nothing
-            '    objsolicitudpedido.EstatusBoletin = Nothing
-            '    objsolicitudpedido.IDEstatusMovil = Nothing
-            '    objsolicitudpedido.EstatusMovilDescripcion = Nothing
-            '    objsolicitudpedido.IDAutotanque = Nothing
-            '    objsolicitudpedido.IDAutotanqueMovil = Nothing
-            '    objsolicitudpedido.SerieRemision = Nothing
-            '    objsolicitudpedido.FolioRemision = Nothing
-            '    objsolicitudpedido.SerieFactura = Nothing
-            '    objsolicitudpedido.FolioFactura = Nothing
-            '    objsolicitudpedido.IDZonaLecturista = Nothing
-            '    objsolicitudpedido.TipoPedido = Nothing
-            '    objsolicitudpedido.TipoServicio = Nothing
-            '    objsolicitudpedido.AñoPed = Nothing
-            '    objsolicitudpedido.IDPedido = Nothing
-            '    objsolicitudpedido.IDDireccionEntrega = CType(dr("PedidoCliente"), Integer)
-            '    objsolicitudpedido.PedidoReferencia = Trim(CType(dr("PedidoReferencia"), String))
-
-            '    lstPedidos = objpedidogateway.buscarPedidos(objsolicitudpedido)
-
-
-            '    If lstPedidos.Count > 0 Then
-            '        dr("PedidoReferencia") = lstPedidos(0).PedidoReferencia()
-            '        If lstPedidos(0).FSuministro() IsNot Nothing Then
-            '            dr("PedidoFSuministro") = lstPedidos(0).FSuministro().ToString()
-            '        End If
-            '        dr("TipoPedidoDescripcion") = lstPedidos(0).TipoPedido.Trim()
-            '        If lstPedidos(0).RutaSuministro IsNot Nothing Then
-            '            'dr("RutaCelula") = lstPedidos(0).RutaSuministro.Descripcion 
-            '            'dr("RutaCelula") = lstPedidos(0).RutaSuministro.NumeroRuta
-            '        End If
-            '        dr("Celula") = lstPedidos(0).IDZona.ToString() 'lo mismo de arriba
-            '        If lstPedidos(0).DireccionEntrega IsNot Nothing Then
-            '            dr("ClienteNombre") = lstPedidos(0).DireccionEntrega.Nombre
-            '        End If
-
-            '        If (lstPedidos(0).Importe IsNot Nothing) Then
-            '            If (lstPedidos(0).Importe.ToString() <> "") Then
-            '                dr("PedidoImporte") = CDec(lstPedidos(0).Importe.ToString())
-            '            End If
-            '        End If
-
-            '        dr("PedidoStatus") = lstPedidos(0).EstatusPedido.ToString()
-            '    End If
-            'Next
 
 
             For Each dr In dtCobroPedido.Rows
@@ -1237,9 +1167,7 @@ Public Class ConsultaMovimientos
                 For Each drPed In dtCobroPedido.Rows
 
                     pedidoTemp = listaPedidos.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(drPed("PedidoCliente"), Integer) And x.PedidoReferencia.Trim = Trim(CType(drPed("PedidoReferencia"), String)))
-                    ' (From pedido In listaPedidos Where pedido.IDDireccionEntrega = CType(drPed("PedidoCliente"), Integer) And Trim(pedido.PedidoReferencia) = Trim(CType(drPed("PedidoReferencia"), String))).ToList
 
-                    'If (listaPedidosActualiza.Count > 0) Then
                     If Not IsNothing(pedidoTemp) Then
 
                         drPed("PedidoReferencia") = pedidoTemp.PedidoReferencia()
@@ -1562,11 +1490,20 @@ Public Class ConsultaMovimientos
 
 
 
-            Dim View As New DataView(dtCobroPedido)
-            Dim distinctValues As DataTable = View.ToTable(True, "PedidoCliente")
+            'Dim View As New DataView(dtCobroPedido)
+            'Dim distinctValues As DataTable = View.ToTable(True, "PedidoCliente")
 
-            ListaCtesDetalle = (From r As DataRow In distinctValues.Rows.Cast(Of DataRow)()
-                                Select CInt(r("PedidoCliente"))).ToList
+            Dim dtTemp As DataTable = dtCobroPedido.Select(strFiltro).CopyToDataTable()
+
+            For Each item As DataRow In dtTemp.Rows
+                Dim i As Integer = ListaCtesDetalle.Find(Function(p) p = CInt(item("PedidoCliente")))
+                If Not IsNothing(i) Then
+                    ListaCtesDetalle.Add(CInt(item("PedidoCliente").ToString()))
+                End If
+            Next
+
+            'ListaCtesDetalle = (From r As DataRow In distinctValues.Rows.Cast(Of DataRow)()
+            '                    Select CInt(r("PedidoCliente"))).ToList
 
             generaListaCLientes(ListaCtesDetalle)
 
