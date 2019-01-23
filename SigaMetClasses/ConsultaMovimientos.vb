@@ -34,6 +34,7 @@ Public Class ConsultaMovimientos
     Private dtCobPedEnvio As New DataTable()
     Private dtTempMov2 As New DataTable
     Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
+    Private listaPedidos As List(Of RTGMCore.Pedido)
 #End Region
 
 #Region "Propiedades"
@@ -195,7 +196,7 @@ Public Class ConsultaMovimientos
     Friend WithEvents btnModificar As System.Windows.Forms.ToolBarButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(ConsultaMovimientos))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ConsultaMovimientos))
         Me.grdCobro = New System.Windows.Forms.DataGrid()
         Me.Cobro = New System.Windows.Forms.DataGridTableStyle()
         Me.colCobroAñoCobro = New System.Windows.Forms.DataGridTextBoxColumn()
@@ -273,8 +274,8 @@ Public Class ConsultaMovimientos
         '
         'grdCobro
         '
-        Me.grdCobro.Anchor = ((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.grdCobro.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdCobro.BackgroundColor = System.Drawing.Color.Gainsboro
         Me.grdCobro.CaptionBackColor = System.Drawing.Color.DarkSeaGreen
         Me.grdCobro.CaptionText = "Lista de cobros en el movimiento"
@@ -384,7 +385,7 @@ Public Class ConsultaMovimientos
         'tabDatos
         '
         Me.tabDatos.Alignment = System.Windows.Forms.TabAlignment.Bottom
-        Me.tabDatos.Controls.AddRange(New System.Windows.Forms.Control() {Me.tpDatos})
+        Me.tabDatos.Controls.Add(Me.tpDatos)
         Me.tabDatos.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.tabDatos.HotTrack = True
         Me.tabDatos.Location = New System.Drawing.Point(0, 349)
@@ -396,7 +397,7 @@ Public Class ConsultaMovimientos
         '
         'tpDatos
         '
-        Me.tpDatos.Controls.AddRange(New System.Windows.Forms.Control() {Me.grdCobroPedido})
+        Me.tpDatos.Controls.Add(Me.grdCobroPedido)
         Me.tpDatos.Location = New System.Drawing.Point(4, 4)
         Me.tpDatos.Name = "tpDatos"
         Me.tpDatos.Size = New System.Drawing.Size(968, 206)
@@ -405,15 +406,16 @@ Public Class ConsultaMovimientos
         '
         'grdCobroPedido
         '
-        Me.grdCobroPedido.Anchor = (((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.grdCobroPedido.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdCobroPedido.BackgroundColor = System.Drawing.Color.Gainsboro
         Me.grdCobroPedido.CaptionBackColor = System.Drawing.Color.RoyalBlue
         Me.grdCobroPedido.CaptionForeColor = System.Drawing.Color.Yellow
         Me.grdCobroPedido.CaptionText = "Lista de documentos relacionados en el cobro"
         Me.grdCobroPedido.DataMember = ""
         Me.grdCobroPedido.HeaderForeColor = System.Drawing.SystemColors.ControlText
+        Me.grdCobroPedido.Location = New System.Drawing.Point(0, 0)
         Me.grdCobroPedido.Name = "grdCobroPedido"
         Me.grdCobroPedido.ReadOnly = True
         Me.grdCobroPedido.Size = New System.Drawing.Size(968, 200)
@@ -516,9 +518,9 @@ Public Class ConsultaMovimientos
         '
         'grdMovimientoCaja
         '
-        Me.grdMovimientoCaja.Anchor = (((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.grdMovimientoCaja.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdMovimientoCaja.BackgroundColor = System.Drawing.Color.WhiteSmoke
         Me.grdMovimientoCaja.CaptionText = "Lista de movimientos"
         Me.grdMovimientoCaja.DataMember = ""
@@ -669,21 +671,28 @@ Public Class ConsultaMovimientos
         '
         'imgLista
         '
-        Me.imgLista.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
-        Me.imgLista.ImageSize = New System.Drawing.Size(16, 16)
         Me.imgLista.ImageStream = CType(resources.GetObject("imgLista.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgLista.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgLista.Images.SetKeyName(0, "")
+        Me.imgLista.Images.SetKeyName(1, "")
+        Me.imgLista.Images.SetKeyName(2, "")
+        Me.imgLista.Images.SetKeyName(3, "")
+        Me.imgLista.Images.SetKeyName(4, "")
+        Me.imgLista.Images.SetKeyName(5, "")
+        Me.imgLista.Images.SetKeyName(6, "")
+        Me.imgLista.Images.SetKeyName(7, "")
+        Me.imgLista.Images.SetKeyName(8, "")
         '
         'lnkMostrarTodos
         '
-        Me.lnkMostrarTodos.Anchor = (System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lnkMostrarTodos.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lnkMostrarTodos.AutoSize = True
         Me.lnkMostrarTodos.BackColor = System.Drawing.Color.DarkSeaGreen
         Me.lnkMostrarTodos.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lnkMostrarTodos.LinkColor = System.Drawing.Color.Blue
         Me.lnkMostrarTodos.Location = New System.Drawing.Point(744, 229)
         Me.lnkMostrarTodos.Name = "lnkMostrarTodos"
-        Me.lnkMostrarTodos.Size = New System.Drawing.Size(220, 14)
+        Me.lnkMostrarTodos.Size = New System.Drawing.Size(214, 13)
         Me.lnkMostrarTodos.TabIndex = 4
         Me.lnkMostrarTodos.TabStop = True
         Me.lnkMostrarTodos.Text = "Mostrar todos los documentos relacionados"
@@ -691,28 +700,33 @@ Public Class ConsultaMovimientos
         'btnRefrescar
         '
         Me.btnRefrescar.ImageIndex = 1
+        Me.btnRefrescar.Name = "btnRefrescar"
         Me.btnRefrescar.Tag = "Refrescar"
         Me.btnRefrescar.Text = "Refrescar"
         Me.btnRefrescar.ToolTipText = "Refrescar información"
         '
         'btnSep1
         '
+        Me.btnSep1.Name = "btnSep1"
         Me.btnSep1.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
         'btnImprimir
         '
         Me.btnImprimir.ImageIndex = 2
+        Me.btnImprimir.Name = "btnImprimir"
         Me.btnImprimir.Tag = "Imprimir"
         Me.btnImprimir.Text = "Imprimir"
         Me.btnImprimir.ToolTipText = "Imprimir"
         '
         'btnSep2
         '
+        Me.btnSep2.Name = "btnSep2"
         Me.btnSep2.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
         'btnCerrar
         '
         Me.btnCerrar.ImageIndex = 0
+        Me.btnCerrar.Name = "btnCerrar"
         Me.btnCerrar.Tag = "Cerrar"
         Me.btnCerrar.Text = "Cerrar"
         Me.btnCerrar.ToolTipText = "Cerrar"
@@ -726,6 +740,7 @@ Public Class ConsultaMovimientos
         Me.BarraBotones.DropDownArrows = True
         Me.BarraBotones.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BarraBotones.ImageList = Me.imgLista
+        Me.BarraBotones.Location = New System.Drawing.Point(0, 0)
         Me.BarraBotones.Name = "BarraBotones"
         Me.BarraBotones.ShowToolTips = True
         Me.BarraBotones.Size = New System.Drawing.Size(976, 39)
@@ -734,6 +749,7 @@ Public Class ConsultaMovimientos
         'btnCapturar
         '
         Me.btnCapturar.ImageIndex = 4
+        Me.btnCapturar.Name = "btnCapturar"
         Me.btnCapturar.Tag = "Capturar"
         Me.btnCapturar.Text = "Capturar"
         Me.btnCapturar.ToolTipText = "Captura de movimientos"
@@ -742,6 +758,7 @@ Public Class ConsultaMovimientos
         '
         Me.btnModificar.Enabled = False
         Me.btnModificar.ImageIndex = 8
+        Me.btnModificar.Name = "btnModificar"
         Me.btnModificar.Tag = "Modificar"
         Me.btnModificar.Text = "Modificar"
         Me.btnModificar.ToolTipText = "Modifica el movimiento seleccionado"
@@ -750,6 +767,7 @@ Public Class ConsultaMovimientos
         '
         Me.btnCancelar.Enabled = False
         Me.btnCancelar.ImageIndex = 3
+        Me.btnCancelar.Name = "btnCancelar"
         Me.btnCancelar.Tag = "Cancelar"
         Me.btnCancelar.Text = "Cancelar"
         Me.btnCancelar.ToolTipText = "Cancelar movimiento"
@@ -758,52 +776,58 @@ Public Class ConsultaMovimientos
         '
         Me.btnRevivir.Enabled = False
         Me.btnRevivir.ImageIndex = 7
+        Me.btnRevivir.Name = "btnRevivir"
         Me.btnRevivir.Tag = "Revivir"
         Me.btnRevivir.Text = "Revivir"
         Me.btnRevivir.ToolTipText = "Revive el movimiento seleccionado"
         '
         'btnSep3
         '
+        Me.btnSep3.Name = "btnSep3"
         Me.btnSep3.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
         'btnConsultarCobro
         '
         Me.btnConsultarCobro.Enabled = False
         Me.btnConsultarCobro.ImageIndex = 5
+        Me.btnConsultarCobro.Name = "btnConsultarCobro"
         Me.btnConsultarCobro.Tag = "ConsultarCobro"
         Me.btnConsultarCobro.Text = "Cobro"
         Me.btnConsultarCobro.ToolTipText = "Consulta el cobro seleccionado"
         '
         'btnSep5
         '
+        Me.btnSep5.Name = "btnSep5"
         Me.btnSep5.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
         'btnConsultarDocumento
         '
         Me.btnConsultarDocumento.Enabled = False
         Me.btnConsultarDocumento.ImageIndex = 6
+        Me.btnConsultarDocumento.Name = "btnConsultarDocumento"
         Me.btnConsultarDocumento.Tag = "ConsultarDocumento"
         Me.btnConsultarDocumento.Text = "Documento"
         Me.btnConsultarDocumento.ToolTipText = "Consulta el documento seleccionado"
         '
         'btnSep4
         '
+        Me.btnSep4.Name = "btnSep4"
         Me.btnSep4.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
         'Label1
         '
-        Me.Label1.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(656, 12)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(72, 14)
+        Me.Label1.Size = New System.Drawing.Size(73, 13)
         Me.Label1.TabIndex = 6
         Me.Label1.Text = "F. Operación:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'dtpFOperacion
         '
-        Me.dtpFOperacion.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.dtpFOperacion.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dtpFOperacion.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpFOperacion.Location = New System.Drawing.Point(728, 9)
         Me.dtpFOperacion.Name = "dtpFOperacion"
@@ -813,7 +837,7 @@ Public Class ConsultaMovimientos
         '
         'cboCelula
         '
-        Me.cboCelula.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.cboCelula.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cboCelula.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboCelula.ForeColor = System.Drawing.Color.MediumBlue
         Me.cboCelula.Location = New System.Drawing.Point(568, 8)
@@ -823,19 +847,19 @@ Public Class ConsultaMovimientos
         '
         'Label2
         '
-        Me.Label2.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(528, 12)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(38, 14)
+        Me.Label2.Size = New System.Drawing.Size(40, 13)
         Me.Label2.TabIndex = 9
         Me.Label2.Text = "Célula:"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblObservaciones
         '
-        Me.lblObservaciones.Anchor = ((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblObservaciones.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblObservaciones.BackColor = System.Drawing.Color.Gainsboro
         Me.lblObservaciones.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblObservaciones.ForeColor = System.Drawing.Color.MediumBlue
@@ -855,13 +879,14 @@ Public Class ConsultaMovimientos
         '
         'btnConsultar
         '
-        Me.btnConsultar.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.btnConsultar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnConsultar.BackColor = System.Drawing.SystemColors.Control
-        Me.btnConsultar.Image = CType(resources.GetObject("btnConsultar.Image"), System.Drawing.Bitmap)
+        Me.btnConsultar.Image = CType(resources.GetObject("btnConsultar.Image"), System.Drawing.Image)
         Me.btnConsultar.Location = New System.Drawing.Point(936, 8)
         Me.btnConsultar.Name = "btnConsultar"
         Me.btnConsultar.Size = New System.Drawing.Size(32, 21)
         Me.btnConsultar.TabIndex = 12
+        Me.btnConsultar.UseVisualStyleBackColor = False
         '
         'ConsultaMovimientos
         '
@@ -869,7 +894,18 @@ Public Class ConsultaMovimientos
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.CancelButton = Me.btnCerrarForm
         Me.ClientSize = New System.Drawing.Size(976, 581)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.cboCelula, Me.btnConsultar, Me.dtpFOperacion, Me.Label1, Me.Label2, Me.lnkMostrarTodos, Me.BarraBotones, Me.grdMovimientoCaja, Me.lblObservaciones, Me.grdCobro, Me.tabDatos, Me.btnCerrarForm})
+        Me.Controls.Add(Me.cboCelula)
+        Me.Controls.Add(Me.btnConsultar)
+        Me.Controls.Add(Me.dtpFOperacion)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.lnkMostrarTodos)
+        Me.Controls.Add(Me.BarraBotones)
+        Me.Controls.Add(Me.grdMovimientoCaja)
+        Me.Controls.Add(Me.lblObservaciones)
+        Me.Controls.Add(Me.grdCobro)
+        Me.Controls.Add(Me.tabDatos)
+        Me.Controls.Add(Me.btnCerrarForm)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "ConsultaMovimientos"
@@ -882,6 +918,7 @@ Public Class ConsultaMovimientos
         CType(Me.grdCobroPedido, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grdMovimientoCaja, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -1014,6 +1051,14 @@ Public Class ConsultaMovimientos
     End Sub
 
     Public Sub CargaDatos(URLGateway As String)
+        Dim dr As DataRow
+        Dim listaPedidosConsulta As New List(Of RTGMCore.Pedido)
+        Dim listaPedidosActualiza As New List(Of RTGMCore.Pedido)
+        Dim pedidoConsulta As New RTGMCore.Pedido
+        Dim pedidoActualiza As New RTGMCore.Pedido
+        Dim drPed As DataRow
+        Dim pedidoTemp As RTGMCore.Pedido
+
         Cursor = Cursors.WaitCursor
         _Documento = ""
         _Clave = ""
@@ -1025,6 +1070,8 @@ Public Class ConsultaMovimientos
         _CobroCons = 0
 
 
+
+        dtpFOperacion.Value = New Date(2018, 11, 15)
 
         lblObservaciones.Text = String.Empty
 
@@ -1043,6 +1090,7 @@ Public Class ConsultaMovimientos
         btnRevivir.Enabled = False
         btnConsultarCobro.Enabled = False
         btnConsultarDocumento.Enabled = False
+        listaPedidos.RemoveAll(AddressOf listaPedidos.Contains)
 
         Dim cn As SqlConnection = Nothing
         Dim cmd As SqlCommand = Nothing
@@ -1094,73 +1142,136 @@ Public Class ConsultaMovimientos
             da.Fill(dtCobroPedido)
             dtCobroPedido.TableName = "CobroPedido"
 
-            Dim objpedidogateway As RTGMPedidoGateway = New RTGMPedidoGateway(_Modulo, _CadenaConexion)
-            objpedidogateway.URLServicio = URLGateway
+            'Dim objpedidogateway As RTGMPedidoGateway = New RTGMPedidoGateway(_Modulo, _CadenaConexion)
+            'objpedidogateway.URLServicio = URLGateway
 
-            Dim objsolicitudpedido As SolicitudPedidoGateway = New SolicitudPedidoGateway()
-            Dim lstPedidos As New Generic.List(Of RTGMCore.Pedido)
-            Dim dr As DataRow
-            Dim I As Integer
+            'Dim objsolicitudpedido As SolicitudPedidoGateway = New SolicitudPedidoGateway()
+            'Dim lstPedidos As New Generic.List(Of RTGMCore.Pedido)
+
+            'Dim dr As DataRow
+            'Dim I As Integer
+
+
+            'For Each dr In dtCobroPedido.Rows
+            '    objsolicitudpedido.TipoConsultaPedido = RTGMCore.TipoConsultaPedido.RegistroPedido
+            '    objsolicitudpedido.Portatil = False
+            '    objsolicitudpedido.IDUsuario = Nothing
+            '    objsolicitudpedido.IDDireccionEntrega = Nothing
+            '    objsolicitudpedido.FechaCompromisoInicio = DateTime.Now.Date
+            '    objsolicitudpedido.FechaCompromisoFin = Nothing
+            '    objsolicitudpedido.FechaSuministroInicio = Nothing
+            '    objsolicitudpedido.FechaSuministroFin = Nothing
+            '    objsolicitudpedido.IDZona = Nothing
+            '    objsolicitudpedido.IDRutaOrigen = Nothing
+            '    objsolicitudpedido.IDRutaBoletin = Nothing
+            '    objsolicitudpedido.IDRutaSuministro = Nothing
+            '    objsolicitudpedido.IDEstatusPedido = Nothing
+            '    objsolicitudpedido.EstatusPedidoDescripcion = Nothing
+            '    objsolicitudpedido.IDEstatusBoletin = Nothing
+            '    objsolicitudpedido.EstatusBoletin = Nothing
+            '    objsolicitudpedido.IDEstatusMovil = Nothing
+            '    objsolicitudpedido.EstatusMovilDescripcion = Nothing
+            '    objsolicitudpedido.IDAutotanque = Nothing
+            '    objsolicitudpedido.IDAutotanqueMovil = Nothing
+            '    objsolicitudpedido.SerieRemision = Nothing
+            '    objsolicitudpedido.FolioRemision = Nothing
+            '    objsolicitudpedido.SerieFactura = Nothing
+            '    objsolicitudpedido.FolioFactura = Nothing
+            '    objsolicitudpedido.IDZonaLecturista = Nothing
+            '    objsolicitudpedido.TipoPedido = Nothing
+            '    objsolicitudpedido.TipoServicio = Nothing
+            '    objsolicitudpedido.AñoPed = Nothing
+            '    objsolicitudpedido.IDPedido = Nothing
+            '    objsolicitudpedido.IDDireccionEntrega = CType(dr("PedidoCliente"), Integer)
+            '    objsolicitudpedido.PedidoReferencia = Trim(CType(dr("PedidoReferencia"), String))
+
+            '    lstPedidos = objpedidogateway.buscarPedidos(objsolicitudpedido)
+
+
+            '    If lstPedidos.Count > 0 Then
+            '        dr("PedidoReferencia") = lstPedidos(0).PedidoReferencia()
+            '        If lstPedidos(0).FSuministro() IsNot Nothing Then
+            '            dr("PedidoFSuministro") = lstPedidos(0).FSuministro().ToString()
+            '        End If
+            '        dr("TipoPedidoDescripcion") = lstPedidos(0).TipoPedido.Trim()
+            '        If lstPedidos(0).RutaSuministro IsNot Nothing Then
+            '            'dr("RutaCelula") = lstPedidos(0).RutaSuministro.Descripcion 
+            '            'dr("RutaCelula") = lstPedidos(0).RutaSuministro.NumeroRuta
+            '        End If
+            '        dr("Celula") = lstPedidos(0).IDZona.ToString() 'lo mismo de arriba
+            '        If lstPedidos(0).DireccionEntrega IsNot Nothing Then
+            '            dr("ClienteNombre") = lstPedidos(0).DireccionEntrega.Nombre
+            '        End If
+
+            '        If (lstPedidos(0).Importe IsNot Nothing) Then
+            '            If (lstPedidos(0).Importe.ToString() <> "") Then
+            '                dr("PedidoImporte") = CDec(lstPedidos(0).Importe.ToString())
+            '            End If
+            '        End If
+
+            '        dr("PedidoStatus") = lstPedidos(0).EstatusPedido.ToString()
+            '    End If
+            'Next
+
+
             For Each dr In dtCobroPedido.Rows
-                objsolicitudpedido.TipoConsultaPedido = RTGMCore.TipoConsultaPedido.RegistroPedido
-                objsolicitudpedido.Portatil = False
-                objsolicitudpedido.IDUsuario = Nothing
-                objsolicitudpedido.IDDireccionEntrega = Nothing
-                objsolicitudpedido.FechaCompromisoInicio = DateTime.Now.Date
-                objsolicitudpedido.FechaCompromisoFin = Nothing
-                objsolicitudpedido.FechaSuministroInicio = Nothing
-                objsolicitudpedido.FechaSuministroFin = Nothing
-                objsolicitudpedido.IDZona = Nothing
-                objsolicitudpedido.IDRutaOrigen = Nothing
-                objsolicitudpedido.IDRutaBoletin = Nothing
-                objsolicitudpedido.IDRutaSuministro = Nothing
-                objsolicitudpedido.IDEstatusPedido = Nothing
-                objsolicitudpedido.EstatusPedidoDescripcion = Nothing
-                objsolicitudpedido.IDEstatusBoletin = Nothing
-                objsolicitudpedido.EstatusBoletin = Nothing
-                objsolicitudpedido.IDEstatusMovil = Nothing
-                objsolicitudpedido.EstatusMovilDescripcion = Nothing
-                objsolicitudpedido.IDAutotanque = Nothing
-                objsolicitudpedido.IDAutotanqueMovil = Nothing
-                objsolicitudpedido.SerieRemision = Nothing
-                objsolicitudpedido.FolioRemision = Nothing
-                objsolicitudpedido.SerieFactura = Nothing
-                objsolicitudpedido.FolioFactura = Nothing
-                objsolicitudpedido.IDZonaLecturista = Nothing
-                objsolicitudpedido.TipoPedido = Nothing
-                objsolicitudpedido.TipoServicio = Nothing
-                objsolicitudpedido.AñoPed = Nothing
-                objsolicitudpedido.IDPedido = Nothing
-                objsolicitudpedido.IDDireccionEntrega = CType(dr("PedidoCliente"), Integer)
-                objsolicitudpedido.PedidoReferencia = Trim(CType(dr("PedidoReferencia"), String))
+                pedidoConsulta.IDDireccionEntrega = CType(dr("PedidoCliente"), Integer)
+                pedidoConsulta.PedidoReferencia = Trim(CType(dr("PedidoReferencia"), String))
 
-                lstPedidos = objpedidogateway.buscarPedidos(objsolicitudpedido)
+                pedidoTemp = listaPedidosConsulta.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(dr("PedidoCliente"), Integer) And x.PedidoReferencia.Trim = Trim(CType(dr("PedidoReferencia"), String)))
 
+                If IsNothing(pedidoTemp) Then
 
-                If lstPedidos.Count > 0 Then
-                    dr("PedidoReferencia") = lstPedidos(0).PedidoReferencia()
-                    If lstPedidos(0).FSuministro() IsNot Nothing Then
-                        dr("PedidoFSuministro") = lstPedidos(0).FSuministro().ToString()
-                    End If
-                    dr("TipoPedidoDescripcion") = lstPedidos(0).TipoPedido.Trim()
-                    If lstPedidos(0).RutaSuministro IsNot Nothing Then
-                        'dr("RutaCelula") = lstPedidos(0).RutaSuministro.Descripcion 
-                        'dr("RutaCelula") = lstPedidos(0).RutaSuministro.NumeroRuta
-                    End If
-                    dr("Celula") = lstPedidos(0).IDZona.ToString() 'lo mismo de arriba
-                    If lstPedidos(0).DireccionEntrega IsNot Nothing Then
-                        dr("ClienteNombre") = lstPedidos(0).DireccionEntrega.Nombre
-                    End If
+                    listaPedidosConsulta.Add(pedidoConsulta)
 
-                    If (lstPedidos(0).Importe IsNot Nothing) Then
-                        If (lstPedidos(0).Importe.ToString() <> "") Then
-                            dr("PedidoImporte") = CDec(lstPedidos(0).Importe.ToString())
-                        End If
-                    End If
-
-                    dr("PedidoStatus") = lstPedidos(0).EstatusPedido.ToString()
                 End If
             Next
+
+
+            Dim opciones As New System.Threading.Tasks.ParallelOptions()
+            opciones.MaxDegreeOfParallelism = 10
+            System.Threading.Tasks.Parallel.ForEach(listaPedidosConsulta, opciones, Sub(x) ConsultaPedidos(x.IDDireccionEntrega, x.PedidoReferencia))
+
+            If listaPedidos.Count > 0 Then
+
+                For Each drPed In dtCobroPedido.Rows
+
+                    pedidoTemp = listaPedidos.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(drPed("PedidoCliente"), Integer) And x.PedidoReferencia.Trim = Trim(CType(drPed("PedidoReferencia"), String)))
+                    ' (From pedido In listaPedidos Where pedido.IDDireccionEntrega = CType(drPed("PedidoCliente"), Integer) And Trim(pedido.PedidoReferencia) = Trim(CType(drPed("PedidoReferencia"), String))).ToList
+
+                    'If (listaPedidosActualiza.Count > 0) Then
+                    If Not IsNothing(pedidoTemp) Then
+
+                        drPed("PedidoReferencia") = pedidoTemp.PedidoReferencia()
+                        If pedidoTemp.FSuministro() IsNot Nothing Then
+                            drPed("PedidoFSuministro") = pedidoTemp.FSuministro().ToString()
+                        End If
+                        drPed("TipoPedidoDescripcion") = pedidoTemp.TipoPedido.Trim()
+                        If pedidoTemp.RutaSuministro IsNot Nothing Then
+
+                        End If
+                        drPed("Celula") = pedidoTemp.IDZona.ToString()
+                        If pedidoTemp.DireccionEntrega IsNot Nothing Then
+                            drPed("ClienteNombre") = pedidoTemp.DireccionEntrega.Nombre
+                        End If
+
+                        If (pedidoTemp.Importe IsNot Nothing) Then
+                            If (pedidoTemp.Importe.ToString() <> "") Then
+                                drPed("PedidoImporte") = CDec(pedidoTemp.Importe.ToString())
+                            End If
+                        End If
+
+                        drPed("PedidoStatus") = pedidoTemp.EstatusPedido.ToString()
+                    End If
+                Next
+
+
+
+            End If
+
+
+
+
             grdMovimientoCaja.DataSource = dtMovimientoCaja
             grdMovimientoCaja.CaptionText = "Lista de movimientos del día: " & dtpFOperacion.Value.ToLongDateString & " de la célula: " & cboCelula.Celula.ToString & " (" & dtMovimientoCaja.Rows.Count.ToString & " en total)"
 
@@ -1182,6 +1293,7 @@ Public Class ConsultaMovimientos
         dtpFOperacion.Value = Main.FechaServidor.Date
         dtpFOperacion.MaxDate = Main.FechaServidor.Date
         listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+        listaPedidos = New List(Of RTGMCore.Pedido)
 
         'Seguridad
         oSeguridad = New SigaMetClasses.cSeguridad(_ModuloUsuario, _Modulo)
@@ -1361,6 +1473,57 @@ Public Class ConsultaMovimientos
 
     End Sub
 
+    Private Sub ConsultaPedidos(IDDireccionEntrega As Integer, PedidoReferencia As String)
+        Dim objpedidogateway As RTGMPedidoGateway = New RTGMPedidoGateway(_Modulo, _CadenaConexion)
+        objpedidogateway.URLServicio = _URLGateway
+
+        Dim objsolicitudpedido As SolicitudPedidoGateway = New SolicitudPedidoGateway()
+        Dim lstPedidos As New Generic.List(Of RTGMCore.Pedido)
+
+
+        objsolicitudpedido.TipoConsultaPedido = RTGMCore.TipoConsultaPedido.RegistroPedido
+        objsolicitudpedido.Portatil = False
+        objsolicitudpedido.IDUsuario = Nothing
+        objsolicitudpedido.IDDireccionEntrega = Nothing
+        objsolicitudpedido.FechaCompromisoInicio = DateTime.Now.Date
+        objsolicitudpedido.FechaCompromisoFin = Nothing
+        objsolicitudpedido.FechaSuministroInicio = Nothing
+        objsolicitudpedido.FechaSuministroFin = Nothing
+        objsolicitudpedido.IDZona = Nothing
+        objsolicitudpedido.IDRutaOrigen = Nothing
+        objsolicitudpedido.IDRutaBoletin = Nothing
+        objsolicitudpedido.IDRutaSuministro = Nothing
+        objsolicitudpedido.IDEstatusPedido = Nothing
+        objsolicitudpedido.EstatusPedidoDescripcion = Nothing
+        objsolicitudpedido.IDEstatusBoletin = Nothing
+        objsolicitudpedido.EstatusBoletin = Nothing
+        objsolicitudpedido.IDEstatusMovil = Nothing
+        objsolicitudpedido.EstatusMovilDescripcion = Nothing
+        objsolicitudpedido.IDAutotanque = Nothing
+        objsolicitudpedido.IDAutotanqueMovil = Nothing
+        objsolicitudpedido.SerieRemision = Nothing
+        objsolicitudpedido.FolioRemision = Nothing
+        objsolicitudpedido.SerieFactura = Nothing
+        objsolicitudpedido.FolioFactura = Nothing
+        objsolicitudpedido.IDZonaLecturista = Nothing
+        objsolicitudpedido.TipoPedido = Nothing
+        objsolicitudpedido.TipoServicio = Nothing
+        objsolicitudpedido.AñoPed = Nothing
+        objsolicitudpedido.IDPedido = Nothing
+        objsolicitudpedido.IDDireccionEntrega = IDDireccionEntrega
+        objsolicitudpedido.PedidoReferencia = PedidoReferencia
+
+        lstPedidos = objpedidogateway.buscarPedidos(objsolicitudpedido)
+
+        For Each pedido As RTGMCore.Pedido In lstPedidos
+            listaPedidos.Add(pedido)
+        Next
+
+
+    End Sub
+
+
+
     Private Sub generaListaCLientes(ByVal listaClientesDistintos As List(Of Integer))
         Try
             Dim listaClientes As New List(Of Integer)
@@ -1396,6 +1559,7 @@ Public Class ConsultaMovimientos
             dtCobroPedido.DefaultView.RowFilter = strFiltro
             dtCobPedEnvio = dtCobroPedido.Copy()
             dtCobPedEnvio.DefaultView.RowFilter = strFiltro
+
 
 
             Dim View As New DataView(dtCobroPedido)
@@ -1661,6 +1825,10 @@ Public Class ConsultaMovimientos
 
     Public Overridable Sub Modificar()
 
+
+    End Sub
+
+    Private Sub grdCobro_Navigate(sender As Object, ne As NavigateEventArgs) Handles grdCobro.Navigate
 
     End Sub
 
