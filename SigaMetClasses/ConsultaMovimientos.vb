@@ -1071,8 +1071,6 @@ Public Class ConsultaMovimientos
 
 
 
-        dtpFOperacion.Value = New Date(2018, 11, 15)
-
         lblObservaciones.Text = String.Empty
 
         dtMovimientoCaja.Clear()
