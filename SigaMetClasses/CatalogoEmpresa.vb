@@ -443,8 +443,8 @@ Public Class CatalogoEmpresa
 
     Private Sub Consultar()
         Cursor = Cursors.WaitCursor
-        Dim oConsultaEmpresa As New ConsultaEmpresa(_Empresa)
-        oConsultaEmpresa.ShowDialog()
+		Dim oConsultaEmpresa As New ConsultaEmpresa(_Empresa, PermiteModificar:=True)
+		oConsultaEmpresa.ShowDialog()
         Cursor = Cursors.Default
     End Sub
 
