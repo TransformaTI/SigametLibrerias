@@ -2465,8 +2465,18 @@ Public Class frmLiquidacionPortatil
             dcColumna = New DataColumn()
             dcColumna.DataType = System.Type.GetType("System.String")
             dcColumna.ColumnName = "CuentaDestino"
-            dtPedidoCobro.Columns.Add(dcColumna)
-        End If
+			dtPedidoCobro.Columns.Add(dcColumna)
+			'Columna 024
+			dcColumna = New DataColumn()
+			dcColumna.DataType = System.Type.GetType("System.String")
+			dcColumna.ColumnName = "Referencia"
+			dtPedidoCobro.Columns.Add(dcColumna)
+			'Columna 025
+			dcColumna = New DataColumn()
+			dcColumna.DataType = System.Type.GetType("System.String")
+			dcColumna.ColumnName = "Observaciones"
+			dtPedidoCobro.Columns.Add(dcColumna)
+		End If
     End Sub
 
     'Inicializa una tabla de uso interno donde se va guardando la informacion de 
@@ -6213,9 +6223,11 @@ Public Class frmLiquidacionPortatil
                 drPedidoCobro(20) = cobroTemp.FolioMovimiento
                 drPedidoCobro(21) = cobroTemp.FDeposito
                 drPedidoCobro(22) = cobroTemp.BancoOrigen
-                drPedidoCobro(23) = cobroTemp.NumeroCuentaDestino
+				drPedidoCobro(23) = cobroTemp.NumeroCuentaDestino
+				drPedidoCobro(24) = cobroTemp.Referencia
+				drPedidoCobro(25) = cobroTemp.Observaciones
 
-                dtPedidoCobro.Rows.Add(drPedidoCobro)
+				dtPedidoCobro.Rows.Add(drPedidoCobro)
             Next
             i = i + 1
         End While
@@ -6328,11 +6340,11 @@ Public Class frmLiquidacionPortatil
             Select Case tipoCobro
                 Case 3 'Cheque
                     _seccion = "Liquidacion Cobro Cheques"
-                    oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), 0, Connection, Transaction, CType(dtPedidoCobro.DefaultView.Item(k).Item(21), DateTime))
-                Case 6, 19, 22 'Tarjeta
+					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), 0, Connection, Transaction, CType(dtPedidoCobro.DefaultView.Item(k).Item(21), DateTime))
+				Case 6, 19, 22 'Tarjeta
                     _seccion = "Liquidacion Cobro Tarjeta"
-                    oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, Now, 1, Connection, Transaction, DateTime.MinValue.Date)
-                Case 5 'Efectivo
+					oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, CType(dtPedidoCobro.DefaultView.Item(k).Item(24), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(25), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, Now, 1, Connection, Transaction, DateTime.MinValue.Date)
+				Case 5 'Efectivo
                     _seccion = "Liquidacion Cobro Efectivo"
                     oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, Nothing, 0, Connection, Transaction, DateTime.MinValue.Date)
                 Case 10 'Transferencia
