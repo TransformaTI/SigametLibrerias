@@ -1679,8 +1679,8 @@ Public Class frmCatEdificios
         For Each item In lvwLecturas.Items
             If item.Selected Then
                 cliente = CInt(lvwLecturas.Items(item.Index).SubItems(0).Text)
-                Dim consultacliente As New SigaMetClasses.frmConsultaCliente(cliente)
-                consultacliente.ShowDialog()
+				Dim consultacliente As New SigaMetClasses.frmConsultaCliente(cliente, Nuevo:=0)
+				consultacliente.ShowDialog()
                 Exit For
             End If
         Next

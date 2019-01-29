@@ -468,8 +468,8 @@ Public Class ConsultaClientesHijos
         End Try
 
         If _Cliente <> 0 Then
-            oConsulta = New SigaMetClasses.frmConsultaCliente(_Cliente)
-            oConsulta.ShowDialog()
+			oConsulta = New SigaMetClasses.frmConsultaCliente(_Cliente, Nuevo:=0)
+			oConsulta.ShowDialog()
         End If
 
         Cursor = Cursors.Default

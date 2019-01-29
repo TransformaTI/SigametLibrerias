@@ -611,8 +611,8 @@ Public Class frmCapturaDatosClienteHijo
             If cnSigamet.State = ConnectionState.Open Then
                 cnSigamet.Close()
             End If
-            cnSigamet.Dispose()
-            cmdSelect.Dispose()
+
+			cmdSelect.Dispose()
         End Try
     End Function
 
