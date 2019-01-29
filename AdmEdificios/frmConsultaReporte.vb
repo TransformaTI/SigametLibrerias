@@ -9,8 +9,8 @@ Public Class frmConsultaReporte
 
     Private _AñoAtt As Short
     Private _Folio As Integer
-    Private rptReporte As New ReportDocuments()
-    Private _TablaReporte As Table
+	Private rptReporte As New ReportDocument()
+	Private _TablaReporte As Table
     Private _LogonInfo As TableLogOnInfo
 
     Dim crConnectionInfo As New ConnectionInfo()
@@ -92,14 +92,16 @@ Public Class frmConsultaReporte
         Try
             Cursor = Cursors.WaitCursor
 
-            'rptReporte.Load(Application.StartupPath & "\rptLecturasEnMedidores.rpt")
+			'rptReporte.Load(Application.StartupPath & "\rptLecturasEnMedidores.rpt")
 
-            rptReporte.Load(rutaReportes & "\rptLecturasEnMedidores.rpt")
-
-            'Me.Text = "Impresión de la liquidación [AñoAtt:" & _AñoAtt.ToString & " Folio: " & _Folio.ToString & "]"
+			rptReporte.Load(rutaReportes & "\rptLecturasEnMedidores.rpt")
 
 
-            Try
+
+			'Me.Text = "Impresión de la liquidación [AñoAtt:" & _AñoAtt.ToString & " Folio: " & _Folio.ToString & "]"
+
+
+			Try
                 AplicaInfoConexion()
             Catch ex As Exception
                 MessageBox.Show("No se puede asignar la información de seguridad al reporte.", "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Error)
