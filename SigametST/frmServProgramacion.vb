@@ -725,6 +725,20 @@ Public Class frmServProgramacion
         oUsuarioReportes.ConsultaDatosUsuarioReportes(GLOBAL_UsuarioReporte)
         GLOBAL_PasswordReporte = oUsuarioReportes.Password
 
+        'Pago exceso TPV
+        Dim oConfigCC As New SigaMetClasses.cConfig(1, GLOBAL_Corporativo, GLOBAL_Sucursal)
+
+        Try
+            Global_PagoExcesoTPV = CType(oConfigCC.Parametros("PagoExcesoTPV"), Decimal)
+        Catch ex As Exception
+            Global_PagoExcesoTPV = 0
+        End Try
+
+        Try
+            Global_ReglaTPVActiva = CType(oConfigCC.Parametros("ReglaTPVActiva"), Integer) = 1
+        Catch ex As Exception
+            Global_ReglaTPVActiva = False
+        End Try
 
 
         'Add any initialization after the InitializeComponent() call
@@ -1817,9 +1831,9 @@ Public Class frmServProgramacion
         'cboCelula
         '
         Me.cboCelula.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboCelula.Location = New System.Drawing.Point(808, 8)
+        Me.cboCelula.Location = New System.Drawing.Point(970, 9)
         Me.cboCelula.Name = "cboCelula"
-        Me.cboCelula.Size = New System.Drawing.Size(104, 21)
+        Me.cboCelula.Size = New System.Drawing.Size(124, 24)
         Me.cboCelula.TabIndex = 17
         '
         'Label1
@@ -1827,9 +1841,9 @@ Public Class frmServProgramacion
         Me.Label1.BackColor = System.Drawing.Color.YellowGreen
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.Label1.Location = New System.Drawing.Point(512, 8)
+        Me.Label1.Location = New System.Drawing.Point(614, 9)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(88, 24)
+        Me.Label1.Size = New System.Drawing.Size(106, 28)
         Me.Label1.TabIndex = 15
         Me.Label1.Text = "FProgramación:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -1837,9 +1851,9 @@ Public Class frmServProgramacion
         'dtpFecha
         '
         Me.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpFecha.Location = New System.Drawing.Point(616, 8)
+        Me.dtpFecha.Location = New System.Drawing.Point(739, 9)
         Me.dtpFecha.Name = "dtpFecha"
-        Me.dtpFecha.Size = New System.Drawing.Size(88, 20)
+        Me.dtpFecha.Size = New System.Drawing.Size(106, 22)
         Me.dtpFecha.TabIndex = 14
         '
         'Label3
@@ -1850,9 +1864,9 @@ Public Class frmServProgramacion
         Me.Label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Label3.Font = New System.Drawing.Font("Tahoma", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.White
-        Me.Label3.Location = New System.Drawing.Point(0, 32)
+        Me.Label3.Location = New System.Drawing.Point(0, 37)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(944, 32)
+        Me.Label3.Size = New System.Drawing.Size(928, 37)
         Me.Label3.TabIndex = 19
         Me.Label3.Text = "Ordenes de servicio incluidas en la programación de servicios técnicos:"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1868,9 +1882,9 @@ Public Class frmServProgramacion
         Me.lvwProgramaciones.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.lvwProgramaciones.HoverSelection = True
         Me.lvwProgramaciones.LargeImageList = Me.ImageList1
-        Me.lvwProgramaciones.Location = New System.Drawing.Point(0, 64)
+        Me.lvwProgramaciones.Location = New System.Drawing.Point(0, 74)
         Me.lvwProgramaciones.Name = "lvwProgramaciones"
-        Me.lvwProgramaciones.Size = New System.Drawing.Size(944, 192)
+        Me.lvwProgramaciones.Size = New System.Drawing.Size(1133, 221)
         Me.lvwProgramaciones.SmallImageList = Me.ImageList1
         Me.lvwProgramaciones.TabIndex = 282
         Me.lvwProgramaciones.UseCompatibleStateImageBehavior = False
@@ -1940,9 +1954,9 @@ Public Class frmServProgramacion
         Me.Label4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Label4.Font = New System.Drawing.Font("Tahoma", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.Color.White
-        Me.Label4.Location = New System.Drawing.Point(0, 256)
+        Me.Label4.Location = New System.Drawing.Point(0, 295)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(944, 32)
+        Me.Label4.Size = New System.Drawing.Size(928, 37)
         Me.Label4.TabIndex = 21
         Me.Label4.Text = "Datos de la orden de servicio técnico"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1952,9 +1966,9 @@ Public Class frmServProgramacion
         Me.Label5.BackColor = System.Drawing.Color.ForestGreen
         Me.Label5.Font = New System.Drawing.Font("Tahoma", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.Label5.Location = New System.Drawing.Point(576, 320)
+        Me.Label5.Location = New System.Drawing.Point(691, 369)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(112, 16)
+        Me.Label5.Size = New System.Drawing.Size(135, 19)
         Me.Label5.TabIndex = 22
         Me.Label5.Text = "Total Puntos:"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1964,9 +1978,9 @@ Public Class frmServProgramacion
         Me.lblPuntos.BackColor = System.Drawing.Color.ForestGreen
         Me.lblPuntos.Font = New System.Drawing.Font("Tahoma", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPuntos.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.lblPuntos.Location = New System.Drawing.Point(704, 320)
+        Me.lblPuntos.Location = New System.Drawing.Point(845, 369)
         Me.lblPuntos.Name = "lblPuntos"
-        Me.lblPuntos.Size = New System.Drawing.Size(40, 16)
+        Me.lblPuntos.Size = New System.Drawing.Size(48, 19)
         Me.lblPuntos.TabIndex = 23
         Me.lblPuntos.Text = "0"
         Me.lblPuntos.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -1976,9 +1990,9 @@ Public Class frmServProgramacion
         Me.lblTotalServicios.BackColor = System.Drawing.Color.ForestGreen
         Me.lblTotalServicios.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotalServicios.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.lblTotalServicios.Location = New System.Drawing.Point(552, 40)
+        Me.lblTotalServicios.Location = New System.Drawing.Point(662, 46)
         Me.lblTotalServicios.Name = "lblTotalServicios"
-        Me.lblTotalServicios.Size = New System.Drawing.Size(72, 16)
+        Me.lblTotalServicios.Size = New System.Drawing.Size(87, 19)
         Me.lblTotalServicios.TabIndex = 26
         Me.lblTotalServicios.Text = "0"
         Me.lblTotalServicios.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1990,10 +2004,10 @@ Public Class frmServProgramacion
         Me.tbLlenaServicioTecnico.Controls.Add(Me.tpServicioTecnico)
         Me.tbLlenaServicioTecnico.Controls.Add(Me.tpEquipoCliente)
         Me.tbLlenaServicioTecnico.Controls.Add(Me.tpOrdenAutomatica)
-        Me.tbLlenaServicioTecnico.Location = New System.Drawing.Point(0, 376)
+        Me.tbLlenaServicioTecnico.Location = New System.Drawing.Point(0, 434)
         Me.tbLlenaServicioTecnico.Name = "tbLlenaServicioTecnico"
         Me.tbLlenaServicioTecnico.SelectedIndex = 0
-        Me.tbLlenaServicioTecnico.Size = New System.Drawing.Size(944, 208)
+        Me.tbLlenaServicioTecnico.Size = New System.Drawing.Size(1133, 240)
         Me.tbLlenaServicioTecnico.TabIndex = 27
         '
         'tpCliente
@@ -2001,9 +2015,9 @@ Public Class frmServProgramacion
         Me.tpCliente.BackColor = System.Drawing.Color.YellowGreen
         Me.tpCliente.Controls.Add(Me.GroupBox3)
         Me.tpCliente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tpCliente.Location = New System.Drawing.Point(4, 22)
+        Me.tpCliente.Location = New System.Drawing.Point(4, 25)
         Me.tpCliente.Name = "tpCliente"
-        Me.tpCliente.Size = New System.Drawing.Size(936, 182)
+        Me.tpCliente.Size = New System.Drawing.Size(1125, 211)
         Me.tpCliente.TabIndex = 1
         Me.tpCliente.Text = "Cliente"
         '
@@ -2037,9 +2051,9 @@ Public Class frmServProgramacion
         Me.GroupBox3.Controls.Add(Me.Label60)
         Me.GroupBox3.Controls.Add(Me.Label61)
         Me.GroupBox3.Controls.Add(Me.Label62)
-        Me.GroupBox3.Location = New System.Drawing.Point(8, 8)
+        Me.GroupBox3.Location = New System.Drawing.Point(10, 9)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(1000, 168)
+        Me.GroupBox3.Size = New System.Drawing.Size(1200, 194)
         Me.GroupBox3.TabIndex = 235
         Me.GroupBox3.TabStop = False
         '
@@ -2049,9 +2063,9 @@ Public Class frmServProgramacion
         Me.lblNumeroInterior.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblNumeroInterior.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblNumeroInterior.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblNumeroInterior.Location = New System.Drawing.Point(280, 138)
+        Me.lblNumeroInterior.Location = New System.Drawing.Point(336, 159)
         Me.lblNumeroInterior.Name = "lblNumeroInterior"
-        Me.lblNumeroInterior.Size = New System.Drawing.Size(112, 21)
+        Me.lblNumeroInterior.Size = New System.Drawing.Size(134, 24)
         Me.lblNumeroInterior.TabIndex = 274
         '
         'lblNumeroExterior
@@ -2060,9 +2074,9 @@ Public Class frmServProgramacion
         Me.lblNumeroExterior.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblNumeroExterior.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblNumeroExterior.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblNumeroExterior.Location = New System.Drawing.Point(88, 138)
+        Me.lblNumeroExterior.Location = New System.Drawing.Point(106, 159)
         Me.lblNumeroExterior.Name = "lblNumeroExterior"
-        Me.lblNumeroExterior.Size = New System.Drawing.Size(112, 21)
+        Me.lblNumeroExterior.Size = New System.Drawing.Size(134, 24)
         Me.lblNumeroExterior.TabIndex = 273
         '
         'lblCalle
@@ -2071,9 +2085,9 @@ Public Class frmServProgramacion
         Me.lblCalle.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblCalle.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCalle.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblCalle.Location = New System.Drawing.Point(88, 106)
+        Me.lblCalle.Location = New System.Drawing.Point(106, 122)
         Me.lblCalle.Name = "lblCalle"
-        Me.lblCalle.Size = New System.Drawing.Size(304, 21)
+        Me.lblCalle.Size = New System.Drawing.Size(364, 25)
         Me.lblCalle.TabIndex = 272
         '
         'Label64
@@ -2081,9 +2095,9 @@ Public Class frmServProgramacion
         Me.Label64.AutoSize = True
         Me.Label64.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label64.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label64.Location = New System.Drawing.Point(208, 141)
+        Me.Label64.Location = New System.Drawing.Point(250, 163)
         Me.Label64.Name = "Label64"
-        Me.Label64.Size = New System.Drawing.Size(55, 13)
+        Me.Label64.Size = New System.Drawing.Size(67, 17)
         Me.Label64.TabIndex = 271
         Me.Label64.Text = "#Interior:"
         Me.Label64.TextAlign = System.Drawing.ContentAlignment.TopCenter
@@ -2093,9 +2107,9 @@ Public Class frmServProgramacion
         Me.Label65.AutoSize = True
         Me.Label65.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label65.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label65.Location = New System.Drawing.Point(24, 141)
+        Me.Label65.Location = New System.Drawing.Point(29, 163)
         Me.Label65.Name = "Label65"
-        Me.Label65.Size = New System.Drawing.Size(57, 13)
+        Me.Label65.Size = New System.Drawing.Size(71, 17)
         Me.Label65.TabIndex = 270
         Me.Label65.Text = "#Exterior:"
         Me.Label65.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2105,9 +2119,9 @@ Public Class frmServProgramacion
         Me.Label66.AutoSize = True
         Me.Label66.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label66.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label66.Location = New System.Drawing.Point(24, 109)
+        Me.Label66.Location = New System.Drawing.Point(29, 126)
         Me.Label66.Name = "Label66"
-        Me.Label66.Size = New System.Drawing.Size(34, 13)
+        Me.Label66.Size = New System.Drawing.Size(40, 17)
         Me.Label66.TabIndex = 269
         Me.Label66.Text = "Calle:"
         Me.Label66.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2118,9 +2132,9 @@ Public Class frmServProgramacion
         Me.lblCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblCliente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCliente.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblCliente.Location = New System.Drawing.Point(88, 10)
+        Me.lblCliente.Location = New System.Drawing.Point(106, 12)
         Me.lblCliente.Name = "lblCliente"
-        Me.lblCliente.Size = New System.Drawing.Size(88, 21)
+        Me.lblCliente.Size = New System.Drawing.Size(105, 24)
         Me.lblCliente.TabIndex = 268
         '
         'lblCelula
@@ -2129,9 +2143,9 @@ Public Class frmServProgramacion
         Me.lblCelula.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblCelula.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCelula.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblCelula.Location = New System.Drawing.Point(240, 10)
+        Me.lblCelula.Location = New System.Drawing.Point(288, 12)
         Me.lblCelula.Name = "lblCelula"
-        Me.lblCelula.Size = New System.Drawing.Size(48, 21)
+        Me.lblCelula.Size = New System.Drawing.Size(58, 24)
         Me.lblCelula.TabIndex = 267
         '
         'lblRuta
@@ -2140,9 +2154,9 @@ Public Class frmServProgramacion
         Me.lblRuta.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblRuta.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRuta.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblRuta.Location = New System.Drawing.Point(344, 10)
+        Me.lblRuta.Location = New System.Drawing.Point(413, 12)
         Me.lblRuta.Name = "lblRuta"
-        Me.lblRuta.Size = New System.Drawing.Size(48, 21)
+        Me.lblRuta.Size = New System.Drawing.Size(57, 24)
         Me.lblRuta.TabIndex = 266
         '
         'lblEmpresa
@@ -2151,9 +2165,9 @@ Public Class frmServProgramacion
         Me.lblEmpresa.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblEmpresa.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEmpresa.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblEmpresa.Location = New System.Drawing.Point(88, 74)
+        Me.lblEmpresa.Location = New System.Drawing.Point(106, 85)
         Me.lblEmpresa.Name = "lblEmpresa"
-        Me.lblEmpresa.Size = New System.Drawing.Size(304, 21)
+        Me.lblEmpresa.Size = New System.Drawing.Size(364, 25)
         Me.lblEmpresa.TabIndex = 265
         '
         'lblNombre
@@ -2162,9 +2176,9 @@ Public Class frmServProgramacion
         Me.lblNombre.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblNombre.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblNombre.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblNombre.Location = New System.Drawing.Point(88, 42)
+        Me.lblNombre.Location = New System.Drawing.Point(106, 48)
         Me.lblNombre.Name = "lblNombre"
-        Me.lblNombre.Size = New System.Drawing.Size(304, 21)
+        Me.lblNombre.Size = New System.Drawing.Size(364, 25)
         Me.lblNombre.TabIndex = 264
         '
         'Label67
@@ -2172,9 +2186,9 @@ Public Class frmServProgramacion
         Me.Label67.AutoSize = True
         Me.Label67.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label67.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label67.Location = New System.Drawing.Point(24, 77)
+        Me.Label67.Location = New System.Drawing.Point(29, 89)
         Me.Label67.Name = "Label67"
-        Me.Label67.Size = New System.Drawing.Size(52, 13)
+        Me.Label67.Size = New System.Drawing.Size(66, 17)
         Me.Label67.TabIndex = 263
         Me.Label67.Text = "Empresa:"
         Me.Label67.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2184,9 +2198,9 @@ Public Class frmServProgramacion
         Me.Label68.AutoSize = True
         Me.Label68.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label68.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label68.Location = New System.Drawing.Point(24, 45)
+        Me.Label68.Location = New System.Drawing.Point(29, 52)
         Me.Label68.Name = "Label68"
-        Me.Label68.Size = New System.Drawing.Size(48, 13)
+        Me.Label68.Size = New System.Drawing.Size(62, 17)
         Me.Label68.TabIndex = 262
         Me.Label68.Text = "Nombre:"
         Me.Label68.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2196,9 +2210,9 @@ Public Class frmServProgramacion
         Me.Label69.AutoSize = True
         Me.Label69.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label69.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label69.Location = New System.Drawing.Point(192, 13)
+        Me.Label69.Location = New System.Drawing.Point(230, 15)
         Me.Label69.Name = "Label69"
-        Me.Label69.Size = New System.Drawing.Size(40, 13)
+        Me.Label69.Size = New System.Drawing.Size(48, 17)
         Me.Label69.TabIndex = 261
         Me.Label69.Text = "Celula:"
         '
@@ -2207,9 +2221,9 @@ Public Class frmServProgramacion
         Me.Label70.AutoSize = True
         Me.Label70.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label70.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label70.Location = New System.Drawing.Point(296, 13)
+        Me.Label70.Location = New System.Drawing.Point(355, 15)
         Me.Label70.Name = "Label70"
-        Me.Label70.Size = New System.Drawing.Size(34, 13)
+        Me.Label70.Size = New System.Drawing.Size(42, 17)
         Me.Label70.TabIndex = 260
         Me.Label70.Text = "Ruta:"
         Me.Label70.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2219,9 +2233,9 @@ Public Class frmServProgramacion
         Me.Label71.AutoSize = True
         Me.Label71.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label71.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label71.Location = New System.Drawing.Point(24, 13)
+        Me.Label71.Location = New System.Drawing.Point(29, 15)
         Me.Label71.Name = "Label71"
-        Me.Label71.Size = New System.Drawing.Size(54, 13)
+        Me.Label71.Size = New System.Drawing.Size(68, 17)
         Me.Label71.TabIndex = 259
         Me.Label71.Text = "Contrato:"
         Me.Label71.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2232,9 +2246,9 @@ Public Class frmServProgramacion
         Me.lblClasificacionCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblClasificacionCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblClasificacionCliente.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblClasificacionCliente.Location = New System.Drawing.Point(544, 122)
+        Me.lblClasificacionCliente.Location = New System.Drawing.Point(653, 141)
         Me.lblClasificacionCliente.Name = "lblClasificacionCliente"
-        Me.lblClasificacionCliente.Size = New System.Drawing.Size(368, 21)
+        Me.lblClasificacionCliente.Size = New System.Drawing.Size(441, 24)
         Me.lblClasificacionCliente.TabIndex = 258
         Me.lblClasificacionCliente.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2243,9 +2257,9 @@ Public Class frmServProgramacion
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label6.Location = New System.Drawing.Point(432, 125)
+        Me.Label6.Location = New System.Drawing.Point(518, 144)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(108, 13)
+        Me.Label6.Size = New System.Drawing.Size(132, 17)
         Me.Label6.TabIndex = 257
         Me.Label6.Text = "Clasificación Cliente :"
         '
@@ -2255,9 +2269,9 @@ Public Class frmServProgramacion
         Me.lblStatusCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblStatusCliente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStatusCliente.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblStatusCliente.Location = New System.Drawing.Point(712, 90)
+        Me.lblStatusCliente.Location = New System.Drawing.Point(854, 104)
         Me.lblStatusCliente.Name = "lblStatusCliente"
-        Me.lblStatusCliente.Size = New System.Drawing.Size(200, 21)
+        Me.lblStatusCliente.Size = New System.Drawing.Size(240, 24)
         Me.lblStatusCliente.TabIndex = 256
         '
         'Label14
@@ -2265,9 +2279,9 @@ Public Class frmServProgramacion
         Me.Label14.AutoSize = True
         Me.Label14.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label14.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label14.Location = New System.Drawing.Point(656, 94)
+        Me.Label14.Location = New System.Drawing.Point(787, 108)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(42, 13)
+        Me.Label14.Size = New System.Drawing.Size(52, 17)
         Me.Label14.TabIndex = 255
         Me.Label14.Text = "Status:"
         Me.Label14.TextAlign = System.Drawing.ContentAlignment.TopCenter
@@ -2278,9 +2292,9 @@ Public Class frmServProgramacion
         Me.lblTelefono.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblTelefono.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTelefono.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblTelefono.Location = New System.Drawing.Point(544, 90)
+        Me.lblTelefono.Location = New System.Drawing.Point(653, 104)
         Me.lblTelefono.Name = "lblTelefono"
-        Me.lblTelefono.Size = New System.Drawing.Size(104, 21)
+        Me.lblTelefono.Size = New System.Drawing.Size(125, 24)
         Me.lblTelefono.TabIndex = 254
         '
         'lblMunicipio
@@ -2289,9 +2303,9 @@ Public Class frmServProgramacion
         Me.lblMunicipio.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblMunicipio.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblMunicipio.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblMunicipio.Location = New System.Drawing.Point(712, 58)
+        Me.lblMunicipio.Location = New System.Drawing.Point(854, 67)
         Me.lblMunicipio.Name = "lblMunicipio"
-        Me.lblMunicipio.Size = New System.Drawing.Size(200, 21)
+        Me.lblMunicipio.Size = New System.Drawing.Size(240, 24)
         Me.lblMunicipio.TabIndex = 253
         '
         'lblCP
@@ -2300,9 +2314,9 @@ Public Class frmServProgramacion
         Me.lblCP.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblCP.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCP.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblCP.Location = New System.Drawing.Point(544, 58)
+        Me.lblCP.Location = New System.Drawing.Point(653, 67)
         Me.lblCP.Name = "lblCP"
-        Me.lblCP.Size = New System.Drawing.Size(104, 21)
+        Me.lblCP.Size = New System.Drawing.Size(125, 24)
         Me.lblCP.TabIndex = 252
         '
         'lblColonia
@@ -2311,9 +2325,9 @@ Public Class frmServProgramacion
         Me.lblColonia.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblColonia.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblColonia.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblColonia.Location = New System.Drawing.Point(544, 26)
+        Me.lblColonia.Location = New System.Drawing.Point(653, 30)
         Me.lblColonia.Name = "lblColonia"
-        Me.lblColonia.Size = New System.Drawing.Size(368, 21)
+        Me.lblColonia.Size = New System.Drawing.Size(441, 24)
         Me.lblColonia.TabIndex = 251
         '
         'Label59
@@ -2321,9 +2335,9 @@ Public Class frmServProgramacion
         Me.Label59.AutoSize = True
         Me.Label59.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label59.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label59.Location = New System.Drawing.Point(656, 62)
+        Me.Label59.Location = New System.Drawing.Point(787, 72)
         Me.Label59.Name = "Label59"
-        Me.Label59.Size = New System.Drawing.Size(54, 13)
+        Me.Label59.Size = New System.Drawing.Size(68, 17)
         Me.Label59.TabIndex = 250
         Me.Label59.Text = "Municipio:"
         Me.Label59.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2333,9 +2347,9 @@ Public Class frmServProgramacion
         Me.Label60.AutoSize = True
         Me.Label60.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label60.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label60.Location = New System.Drawing.Point(432, 93)
+        Me.Label60.Location = New System.Drawing.Point(518, 107)
         Me.Label60.Name = "Label60"
-        Me.Label60.Size = New System.Drawing.Size(53, 13)
+        Me.Label60.Size = New System.Drawing.Size(65, 17)
         Me.Label60.TabIndex = 249
         Me.Label60.Text = "Telefono:"
         Me.Label60.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2345,9 +2359,9 @@ Public Class frmServProgramacion
         Me.Label61.AutoSize = True
         Me.Label61.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label61.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label61.Location = New System.Drawing.Point(432, 61)
+        Me.Label61.Location = New System.Drawing.Point(518, 70)
         Me.Label61.Name = "Label61"
-        Me.Label61.Size = New System.Drawing.Size(24, 13)
+        Me.Label61.Size = New System.Drawing.Size(30, 17)
         Me.Label61.TabIndex = 248
         Me.Label61.Text = "CP:"
         Me.Label61.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2357,9 +2371,9 @@ Public Class frmServProgramacion
         Me.Label62.AutoSize = True
         Me.Label62.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label62.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label62.Location = New System.Drawing.Point(432, 29)
+        Me.Label62.Location = New System.Drawing.Point(518, 33)
         Me.Label62.Name = "Label62"
-        Me.Label62.Size = New System.Drawing.Size(46, 13)
+        Me.Label62.Size = New System.Drawing.Size(57, 17)
         Me.Label62.TabIndex = 247
         Me.Label62.Text = "Colonia:"
         Me.Label62.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2369,9 +2383,9 @@ Public Class frmServProgramacion
         Me.tpOrdenServicio.BackColor = System.Drawing.SystemColors.Control
         Me.tpOrdenServicio.Controls.Add(Me.GroupBox5)
         Me.tpOrdenServicio.Controls.Add(Me.GroupBox4)
-        Me.tpOrdenServicio.Location = New System.Drawing.Point(4, 22)
+        Me.tpOrdenServicio.Location = New System.Drawing.Point(4, 25)
         Me.tpOrdenServicio.Name = "tpOrdenServicio"
-        Me.tpOrdenServicio.Size = New System.Drawing.Size(936, 182)
+        Me.tpOrdenServicio.Size = New System.Drawing.Size(1125, 211)
         Me.tpOrdenServicio.TabIndex = 3
         Me.tpOrdenServicio.Text = "Observaciones"
         Me.tpOrdenServicio.Visible = False
@@ -2381,9 +2395,9 @@ Public Class frmServProgramacion
         Me.GroupBox5.Controls.Add(Me.txtTrabajoRealizado)
         Me.GroupBox5.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox5.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.GroupBox5.Location = New System.Drawing.Point(488, 8)
+        Me.GroupBox5.Location = New System.Drawing.Point(586, 9)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(528, 168)
+        Me.GroupBox5.Size = New System.Drawing.Size(633, 194)
         Me.GroupBox5.TabIndex = 224
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Trabajo Realizado"
@@ -2394,12 +2408,12 @@ Public Class frmServProgramacion
         Me.txtTrabajoRealizado.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtTrabajoRealizado.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTrabajoRealizado.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.txtTrabajoRealizado.Location = New System.Drawing.Point(8, 16)
+        Me.txtTrabajoRealizado.Location = New System.Drawing.Point(10, 18)
         Me.txtTrabajoRealizado.Multiline = True
         Me.txtTrabajoRealizado.Name = "txtTrabajoRealizado"
         Me.txtTrabajoRealizado.ReadOnly = True
         Me.txtTrabajoRealizado.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtTrabajoRealizado.Size = New System.Drawing.Size(432, 144)
+        Me.txtTrabajoRealizado.Size = New System.Drawing.Size(518, 167)
         Me.txtTrabajoRealizado.TabIndex = 223
         '
         'GroupBox4
@@ -2408,9 +2422,9 @@ Public Class frmServProgramacion
         Me.GroupBox4.Controls.Add(Me.txtObserv)
         Me.GroupBox4.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox4.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.GroupBox4.Location = New System.Drawing.Point(8, 8)
+        Me.GroupBox4.Location = New System.Drawing.Point(10, 9)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(472, 168)
+        Me.GroupBox4.Size = New System.Drawing.Size(566, 194)
         Me.GroupBox4.TabIndex = 223
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Trabajo Solicitado"
@@ -2421,12 +2435,12 @@ Public Class frmServProgramacion
         Me.txtObserv.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtObserv.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtObserv.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.txtObserv.Location = New System.Drawing.Point(12, 16)
+        Me.txtObserv.Location = New System.Drawing.Point(14, 18)
         Me.txtObserv.Multiline = True
         Me.txtObserv.Name = "txtObserv"
         Me.txtObserv.ReadOnly = True
         Me.txtObserv.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtObserv.Size = New System.Drawing.Size(452, 144)
+        Me.txtObserv.Size = New System.Drawing.Size(543, 167)
         Me.txtObserv.TabIndex = 221
         '
         'tpServicioTecnico
@@ -2460,9 +2474,9 @@ Public Class frmServProgramacion
         Me.tpServicioTecnico.Controls.Add(Me.Label40)
         Me.tpServicioTecnico.Controls.Add(Me.Label28)
         Me.tpServicioTecnico.Controls.Add(Me.Label26)
-        Me.tpServicioTecnico.Location = New System.Drawing.Point(4, 22)
+        Me.tpServicioTecnico.Location = New System.Drawing.Point(4, 25)
         Me.tpServicioTecnico.Name = "tpServicioTecnico"
-        Me.tpServicioTecnico.Size = New System.Drawing.Size(936, 182)
+        Me.tpServicioTecnico.Size = New System.Drawing.Size(1125, 211)
         Me.tpServicioTecnico.TabIndex = 2
         Me.tpServicioTecnico.Text = "Servicio Técnico"
         Me.tpServicioTecnico.Visible = False
@@ -2472,9 +2486,9 @@ Public Class frmServProgramacion
         Me.lblUsuarioCambio.BackColor = System.Drawing.SystemColors.Control
         Me.lblUsuarioCambio.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblUsuarioCambio.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblUsuarioCambio.Location = New System.Drawing.Point(80, 157)
+        Me.lblUsuarioCambio.Location = New System.Drawing.Point(96, 181)
         Me.lblUsuarioCambio.Name = "lblUsuarioCambio"
-        Me.lblUsuarioCambio.Size = New System.Drawing.Size(304, 21)
+        Me.lblUsuarioCambio.Size = New System.Drawing.Size(365, 24)
         Me.lblUsuarioCambio.TabIndex = 336
         Me.lblUsuarioCambio.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2483,9 +2497,9 @@ Public Class frmServProgramacion
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label2.Location = New System.Drawing.Point(8, 160)
+        Me.Label2.Location = New System.Drawing.Point(10, 185)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(70, 13)
+        Me.Label2.Size = New System.Drawing.Size(90, 17)
         Me.Label2.TabIndex = 335
         Me.Label2.Text = "Reprogramo:"
         '
@@ -2505,9 +2519,9 @@ Public Class frmServProgramacion
         Me.GroupBox2.Controls.Add(Me.Label13)
         Me.GroupBox2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox2.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.GroupBox2.Location = New System.Drawing.Point(624, 8)
+        Me.GroupBox2.Location = New System.Drawing.Point(749, 9)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(360, 168)
+        Me.GroupBox2.Size = New System.Drawing.Size(432, 194)
         Me.GroupBox2.TabIndex = 334
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Presupuesto"
@@ -2518,21 +2532,21 @@ Public Class frmServProgramacion
         Me.txtObservacionesPresupuesto.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtObservacionesPresupuesto.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtObservacionesPresupuesto.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.txtObservacionesPresupuesto.Location = New System.Drawing.Point(168, 40)
+        Me.txtObservacionesPresupuesto.Location = New System.Drawing.Point(202, 46)
         Me.txtObservacionesPresupuesto.Multiline = True
         Me.txtObservacionesPresupuesto.Name = "txtObservacionesPresupuesto"
         Me.txtObservacionesPresupuesto.ReadOnly = True
         Me.txtObservacionesPresupuesto.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtObservacionesPresupuesto.Size = New System.Drawing.Size(136, 120)
+        Me.txtObservacionesPresupuesto.Size = New System.Drawing.Size(163, 139)
         Me.txtObservacionesPresupuesto.TabIndex = 334
         '
         'Label17
         '
         Me.Label17.AutoSize = True
         Me.Label17.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label17.Location = New System.Drawing.Point(168, 16)
+        Me.Label17.Location = New System.Drawing.Point(202, 18)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(141, 13)
+        Me.Label17.Size = New System.Drawing.Size(177, 17)
         Me.Label17.TabIndex = 333
         Me.Label17.Text = "Observaciones Presupuesto"
         Me.Label17.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2541,9 +2555,9 @@ Public Class frmServProgramacion
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(8, 115)
+        Me.Label7.Location = New System.Drawing.Point(10, 133)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(62, 13)
+        Me.Label7.Size = New System.Drawing.Size(79, 17)
         Me.Label7.TabIndex = 332
         Me.Label7.Text = "Descuento:"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2552,9 +2566,9 @@ Public Class frmServProgramacion
         '
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(8, 139)
+        Me.Label10.Location = New System.Drawing.Point(10, 160)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(35, 13)
+        Me.Label10.Size = New System.Drawing.Size(43, 17)
         Me.Label10.TabIndex = 331
         Me.Label10.Text = "Total:"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2564,9 +2578,9 @@ Public Class frmServProgramacion
         Me.lblTotal.BackColor = System.Drawing.SystemColors.Control
         Me.lblTotal.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotal.Location = New System.Drawing.Point(80, 136)
+        Me.lblTotal.Location = New System.Drawing.Point(96, 157)
         Me.lblTotal.Name = "lblTotal"
-        Me.lblTotal.Size = New System.Drawing.Size(80, 21)
+        Me.lblTotal.Size = New System.Drawing.Size(96, 24)
         Me.lblTotal.TabIndex = 330
         Me.lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2575,9 +2589,9 @@ Public Class frmServProgramacion
         Me.lblDescuento.BackColor = System.Drawing.SystemColors.Control
         Me.lblDescuento.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblDescuento.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDescuento.Location = New System.Drawing.Point(80, 112)
+        Me.lblDescuento.Location = New System.Drawing.Point(96, 129)
         Me.lblDescuento.Name = "lblDescuento"
-        Me.lblDescuento.Size = New System.Drawing.Size(80, 21)
+        Me.lblDescuento.Size = New System.Drawing.Size(96, 24)
         Me.lblDescuento.TabIndex = 329
         Me.lblDescuento.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2585,9 +2599,9 @@ Public Class frmServProgramacion
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(8, 67)
+        Me.Label9.Location = New System.Drawing.Point(10, 77)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(42, 13)
+        Me.Label9.Size = New System.Drawing.Size(52, 17)
         Me.Label9.TabIndex = 328
         Me.Label9.Text = "Status:"
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2596,9 +2610,9 @@ Public Class frmServProgramacion
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(8, 43)
+        Me.Label11.Location = New System.Drawing.Point(10, 50)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(36, 13)
+        Me.Label11.Size = New System.Drawing.Size(44, 17)
         Me.Label11.TabIndex = 327
         Me.Label11.Text = " Folio:"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2608,9 +2622,9 @@ Public Class frmServProgramacion
         Me.lblNPresupuesto.BackColor = System.Drawing.SystemColors.Control
         Me.lblNPresupuesto.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblNPresupuesto.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNPresupuesto.Location = New System.Drawing.Point(80, 40)
+        Me.lblNPresupuesto.Location = New System.Drawing.Point(96, 46)
         Me.lblNPresupuesto.Name = "lblNPresupuesto"
-        Me.lblNPresupuesto.Size = New System.Drawing.Size(80, 21)
+        Me.lblNPresupuesto.Size = New System.Drawing.Size(96, 24)
         Me.lblNPresupuesto.TabIndex = 326
         Me.lblNPresupuesto.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2619,9 +2633,9 @@ Public Class frmServProgramacion
         Me.lblStatusPre.BackColor = System.Drawing.SystemColors.Control
         Me.lblStatusPre.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblStatusPre.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblStatusPre.Location = New System.Drawing.Point(80, 64)
+        Me.lblStatusPre.Location = New System.Drawing.Point(96, 74)
         Me.lblStatusPre.Name = "lblStatusPre"
-        Me.lblStatusPre.Size = New System.Drawing.Size(80, 21)
+        Me.lblStatusPre.Size = New System.Drawing.Size(96, 24)
         Me.lblStatusPre.TabIndex = 325
         Me.lblStatusPre.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2630,9 +2644,9 @@ Public Class frmServProgramacion
         Me.lblSubTotal.BackColor = System.Drawing.SystemColors.Control
         Me.lblSubTotal.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblSubTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSubTotal.Location = New System.Drawing.Point(80, 88)
+        Me.lblSubTotal.Location = New System.Drawing.Point(96, 102)
         Me.lblSubTotal.Name = "lblSubTotal"
-        Me.lblSubTotal.Size = New System.Drawing.Size(80, 21)
+        Me.lblSubTotal.Size = New System.Drawing.Size(96, 24)
         Me.lblSubTotal.TabIndex = 324
         Me.lblSubTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2640,9 +2654,9 @@ Public Class frmServProgramacion
         '
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(8, 91)
+        Me.Label13.Location = New System.Drawing.Point(10, 105)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(53, 13)
+        Me.Label13.Size = New System.Drawing.Size(67, 17)
         Me.Label13.TabIndex = 323
         Me.Label13.Text = "SubTotal:"
         Me.Label13.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2663,9 +2677,9 @@ Public Class frmServProgramacion
         Me.GroupBox1.Controls.Add(Me.lblFolio)
         Me.GroupBox1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.GroupBox1.Location = New System.Drawing.Point(392, 8)
+        Me.GroupBox1.Location = New System.Drawing.Point(470, 9)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(224, 168)
+        Me.GroupBox1.Size = New System.Drawing.Size(269, 194)
         Me.GroupBox1.TabIndex = 333
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Pagaré"
@@ -2674,9 +2688,9 @@ Public Class frmServProgramacion
         '
         Me.Label23.AutoSize = True
         Me.Label23.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label23.Location = New System.Drawing.Point(8, 51)
+        Me.Label23.Location = New System.Drawing.Point(10, 59)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(63, 13)
+        Me.Label23.Size = New System.Drawing.Size(82, 17)
         Me.Label23.TabIndex = 347
         Me.Label23.Text = " Comodato:"
         Me.Label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2685,9 +2699,9 @@ Public Class frmServProgramacion
         '
         Me.lblComodato.BackColor = System.Drawing.SystemColors.Control
         Me.lblComodato.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblComodato.Location = New System.Drawing.Point(88, 48)
+        Me.lblComodato.Location = New System.Drawing.Point(106, 55)
         Me.lblComodato.Name = "lblComodato"
-        Me.lblComodato.Size = New System.Drawing.Size(124, 21)
+        Me.lblComodato.Size = New System.Drawing.Size(148, 25)
         Me.lblComodato.TabIndex = 346
         Me.lblComodato.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2695,9 +2709,9 @@ Public Class frmServProgramacion
         '
         Me.lblDias.BackColor = System.Drawing.SystemColors.Control
         Me.lblDias.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblDias.Location = New System.Drawing.Point(88, 144)
+        Me.lblDias.Location = New System.Drawing.Point(106, 166)
         Me.lblDias.Name = "lblDias"
-        Me.lblDias.Size = New System.Drawing.Size(64, 21)
+        Me.lblDias.Size = New System.Drawing.Size(76, 24)
         Me.lblDias.TabIndex = 345
         Me.lblDias.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2705,9 +2719,9 @@ Public Class frmServProgramacion
         '
         Me.lblParcialidad.BackColor = System.Drawing.SystemColors.Control
         Me.lblParcialidad.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblParcialidad.Location = New System.Drawing.Point(88, 112)
+        Me.lblParcialidad.Location = New System.Drawing.Point(106, 129)
         Me.lblParcialidad.Name = "lblParcialidad"
-        Me.lblParcialidad.Size = New System.Drawing.Size(120, 21)
+        Me.lblParcialidad.Size = New System.Drawing.Size(144, 24)
         Me.lblParcialidad.TabIndex = 344
         Me.lblParcialidad.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2715,9 +2729,9 @@ Public Class frmServProgramacion
         '
         Me.lblNumPagos.BackColor = System.Drawing.SystemColors.Control
         Me.lblNumPagos.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblNumPagos.Location = New System.Drawing.Point(88, 80)
+        Me.lblNumPagos.Location = New System.Drawing.Point(106, 92)
         Me.lblNumPagos.Name = "lblNumPagos"
-        Me.lblNumPagos.Size = New System.Drawing.Size(124, 21)
+        Me.lblNumPagos.Size = New System.Drawing.Size(148, 25)
         Me.lblNumPagos.TabIndex = 343
         Me.lblNumPagos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2725,9 +2739,9 @@ Public Class frmServProgramacion
         '
         Me.lblTipoPedido.BackColor = System.Drawing.SystemColors.Control
         Me.lblTipoPedido.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblTipoPedido.Location = New System.Drawing.Point(88, 16)
+        Me.lblTipoPedido.Location = New System.Drawing.Point(106, 18)
         Me.lblTipoPedido.Name = "lblTipoPedido"
-        Me.lblTipoPedido.Size = New System.Drawing.Size(120, 21)
+        Me.lblTipoPedido.Size = New System.Drawing.Size(144, 25)
         Me.lblTipoPedido.TabIndex = 342
         Me.lblTipoPedido.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2735,9 +2749,9 @@ Public Class frmServProgramacion
         '
         Me.Label38.AutoSize = True
         Me.Label38.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label38.Location = New System.Drawing.Point(8, 147)
+        Me.Label38.Location = New System.Drawing.Point(10, 170)
         Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(39, 13)
+        Me.Label38.Size = New System.Drawing.Size(48, 17)
         Me.Label38.TabIndex = 341
         Me.Label38.Text = " Cada:"
         Me.Label38.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2746,9 +2760,9 @@ Public Class frmServProgramacion
         '
         Me.Label31.AutoSize = True
         Me.Label31.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label31.Location = New System.Drawing.Point(8, 115)
+        Me.Label31.Location = New System.Drawing.Point(10, 133)
         Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(76, 13)
+        Me.Label31.Size = New System.Drawing.Size(93, 17)
         Me.Label31.TabIndex = 340
         Me.Label31.Text = " Parcialidades:"
         Me.Label31.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2757,9 +2771,9 @@ Public Class frmServProgramacion
         '
         Me.Label27.AutoSize = True
         Me.Label27.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label27.Location = New System.Drawing.Point(4, 83)
+        Me.Label27.Location = New System.Drawing.Point(5, 96)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(64, 13)
+        Me.Label27.Size = New System.Drawing.Size(83, 17)
         Me.Label27.TabIndex = 339
         Me.Label27.Text = " NúmPagos:"
         Me.Label27.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2768,9 +2782,9 @@ Public Class frmServProgramacion
         '
         Me.Label25.AutoSize = True
         Me.Label25.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label25.Location = New System.Drawing.Point(4, 19)
+        Me.Label25.Location = New System.Drawing.Point(5, 22)
         Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(66, 13)
+        Me.Label25.Size = New System.Drawing.Size(84, 17)
         Me.Label25.TabIndex = 338
         Me.Label25.Text = " TipoPedido:"
         Me.Label25.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2779,9 +2793,9 @@ Public Class frmServProgramacion
         '
         Me.Label43.AutoSize = True
         Me.Label43.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label43.Location = New System.Drawing.Point(168, 147)
+        Me.Label43.Location = New System.Drawing.Point(202, 170)
         Me.Label43.Name = "Label43"
-        Me.Label43.Size = New System.Drawing.Size(30, 13)
+        Me.Label43.Size = New System.Drawing.Size(37, 17)
         Me.Label43.TabIndex = 332
         Me.Label43.Text = " Días"
         Me.Label43.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2791,9 +2805,9 @@ Public Class frmServProgramacion
         Me.lblFolio.BackColor = System.Drawing.SystemColors.InactiveCaptionText
         Me.lblFolio.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblFolio.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblFolio.Location = New System.Drawing.Point(200, 152)
+        Me.lblFolio.Location = New System.Drawing.Point(240, 175)
         Me.lblFolio.Name = "lblFolio"
-        Me.lblFolio.Size = New System.Drawing.Size(8, 8)
+        Me.lblFolio.Size = New System.Drawing.Size(10, 10)
         Me.lblFolio.TabIndex = 316
         Me.lblFolio.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2803,9 +2817,9 @@ Public Class frmServProgramacion
         Me.lblPedidoReferencia.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblPedidoReferencia.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPedidoReferencia.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblPedidoReferencia.Location = New System.Drawing.Point(80, 64)
+        Me.lblPedidoReferencia.Location = New System.Drawing.Point(96, 74)
         Me.lblPedidoReferencia.Name = "lblPedidoReferencia"
-        Me.lblPedidoReferencia.Size = New System.Drawing.Size(80, 21)
+        Me.lblPedidoReferencia.Size = New System.Drawing.Size(96, 24)
         Me.lblPedidoReferencia.TabIndex = 327
         Me.lblPedidoReferencia.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2814,9 +2828,9 @@ Public Class frmServProgramacion
         Me.Label20.AutoSize = True
         Me.Label20.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label20.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label20.Location = New System.Drawing.Point(8, 32)
+        Me.Label20.Location = New System.Drawing.Point(10, 37)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(48, 13)
+        Me.Label20.Size = New System.Drawing.Size(60, 17)
         Me.Label20.TabIndex = 326
         Me.Label20.Text = "AñoPed:"
         Me.Label20.TextAlign = System.Drawing.ContentAlignment.TopCenter
@@ -2827,9 +2841,9 @@ Public Class frmServProgramacion
         Me.lblAñoPed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblAñoPed.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAñoPed.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblAñoPed.Location = New System.Drawing.Point(80, 32)
+        Me.lblAñoPed.Location = New System.Drawing.Point(96, 37)
         Me.lblAñoPed.Name = "lblAñoPed"
-        Me.lblAñoPed.Size = New System.Drawing.Size(80, 21)
+        Me.lblAñoPed.Size = New System.Drawing.Size(96, 24)
         Me.lblAñoPed.TabIndex = 325
         Me.lblAñoPed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2839,9 +2853,9 @@ Public Class frmServProgramacion
         Me.lblHorario.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblHorario.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblHorario.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblHorario.Location = New System.Drawing.Point(232, 5)
+        Me.lblHorario.Location = New System.Drawing.Point(278, 6)
         Me.lblHorario.Name = "lblHorario"
-        Me.lblHorario.Size = New System.Drawing.Size(152, 21)
+        Me.lblHorario.Size = New System.Drawing.Size(183, 24)
         Me.lblHorario.TabIndex = 324
         Me.lblHorario.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2850,9 +2864,9 @@ Public Class frmServProgramacion
         Me.Label18.AutoSize = True
         Me.Label18.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label18.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label18.Location = New System.Drawing.Point(176, 8)
+        Me.Label18.Location = New System.Drawing.Point(211, 9)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(49, 13)
+        Me.Label18.Size = New System.Drawing.Size(61, 17)
         Me.Label18.TabIndex = 323
         Me.Label18.Text = "Horario :"
         Me.Label18.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2861,9 +2875,9 @@ Public Class frmServProgramacion
         '
         Me.Label12.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label12.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label12.Location = New System.Drawing.Point(8, 8)
+        Me.Label12.Location = New System.Drawing.Point(10, 9)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(51, 14)
+        Me.Label12.Size = New System.Drawing.Size(61, 16)
         Me.Label12.TabIndex = 318
         Me.Label12.Text = "Cliente :"
         Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2874,9 +2888,9 @@ Public Class frmServProgramacion
         Me.lblContrato.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblContrato.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblContrato.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblContrato.Location = New System.Drawing.Point(80, 5)
+        Me.lblContrato.Location = New System.Drawing.Point(96, 6)
         Me.lblContrato.Name = "lblContrato"
-        Me.lblContrato.Size = New System.Drawing.Size(80, 21)
+        Me.lblContrato.Size = New System.Drawing.Size(96, 24)
         Me.lblContrato.TabIndex = 317
         Me.lblContrato.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2886,9 +2900,9 @@ Public Class frmServProgramacion
         Me.lblStatus.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStatus.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblStatus.Location = New System.Drawing.Point(80, 128)
+        Me.lblStatus.Location = New System.Drawing.Point(96, 148)
         Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(80, 21)
+        Me.lblStatus.Size = New System.Drawing.Size(96, 24)
         Me.lblStatus.TabIndex = 314
         Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -2897,9 +2911,9 @@ Public Class frmServProgramacion
         Me.Label15.AutoSize = True
         Me.Label15.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label15.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label15.Location = New System.Drawing.Point(8, 128)
+        Me.Label15.Location = New System.Drawing.Point(10, 148)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(45, 13)
+        Me.Label15.Size = New System.Drawing.Size(56, 17)
         Me.Label15.TabIndex = 315
         Me.Label15.Text = "Status :"
         '
@@ -2908,9 +2922,9 @@ Public Class frmServProgramacion
         Me.Label16.AutoSize = True
         Me.Label16.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label16.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label16.Location = New System.Drawing.Point(8, 64)
+        Me.Label16.Location = New System.Drawing.Point(10, 74)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(33, 13)
+        Me.Label16.Size = New System.Drawing.Size(40, 17)
         Me.Label16.TabIndex = 313
         Me.Label16.Text = "Folio:"
         Me.Label16.TextAlign = System.Drawing.ContentAlignment.TopCenter
@@ -2918,9 +2932,9 @@ Public Class frmServProgramacion
         'Label19
         '
         Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(1424, 616)
+        Me.Label19.Location = New System.Drawing.Point(1709, 711)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(78, 13)
+        Me.Label19.Size = New System.Drawing.Size(103, 17)
         Me.Label19.TabIndex = 308
         Me.Label19.Text = "Mano de Obra:"
         Me.Label19.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2928,9 +2942,9 @@ Public Class frmServProgramacion
         'Label21
         '
         Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(1424, 648)
+        Me.Label21.Location = New System.Drawing.Point(1709, 748)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(40, 13)
+        Me.Label21.Size = New System.Drawing.Size(51, 17)
         Me.Label21.TabIndex = 307
         Me.Label21.Text = "Monto:"
         Me.Label21.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2938,9 +2952,9 @@ Public Class frmServProgramacion
         'Label22
         '
         Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(1424, 552)
+        Me.Label22.Location = New System.Drawing.Point(1709, 637)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(40, 13)
+        Me.Label22.Size = New System.Drawing.Size(52, 17)
         Me.Label22.TabIndex = 301
         Me.Label22.Text = "Status:"
         Me.Label22.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2948,9 +2962,9 @@ Public Class frmServProgramacion
         'Label30
         '
         Me.Label30.AutoSize = True
-        Me.Label30.Location = New System.Drawing.Point(1424, 520)
+        Me.Label30.Location = New System.Drawing.Point(1709, 600)
         Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(97, 13)
+        Me.Label30.Size = New System.Drawing.Size(129, 17)
         Me.Label30.TabIndex = 299
         Me.Label30.Text = "Num. Presupuesto:"
         Me.Label30.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2961,9 +2975,9 @@ Public Class frmServProgramacion
         Me.lblAyudante.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblAyudante.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAyudante.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblAyudante.Location = New System.Drawing.Point(176, 128)
+        Me.lblAyudante.Location = New System.Drawing.Point(211, 148)
         Me.lblAyudante.Name = "lblAyudante"
-        Me.lblAyudante.Size = New System.Drawing.Size(208, 21)
+        Me.lblAyudante.Size = New System.Drawing.Size(250, 24)
         Me.lblAyudante.TabIndex = 298
         Me.lblAyudante.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -2973,9 +2987,9 @@ Public Class frmServProgramacion
         Me.lblTecnico.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblTecnico.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTecnico.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblTecnico.Location = New System.Drawing.Point(176, 72)
+        Me.lblTecnico.Location = New System.Drawing.Point(211, 83)
         Me.lblTecnico.Name = "lblTecnico"
-        Me.lblTecnico.Size = New System.Drawing.Size(208, 21)
+        Me.lblTecnico.Size = New System.Drawing.Size(250, 24)
         Me.lblTecnico.TabIndex = 297
         Me.lblTecnico.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -2984,9 +2998,9 @@ Public Class frmServProgramacion
         Me.Label42.AutoSize = True
         Me.Label42.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label42.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label42.Location = New System.Drawing.Point(176, 104)
+        Me.Label42.Location = New System.Drawing.Point(211, 120)
         Me.Label42.Name = "Label42"
-        Me.Label42.Size = New System.Drawing.Size(54, 13)
+        Me.Label42.Size = New System.Drawing.Size(67, 17)
         Me.Label42.TabIndex = 296
         Me.Label42.Text = "Ayudante"
         Me.Label42.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -2996,9 +3010,9 @@ Public Class frmServProgramacion
         Me.Label39.AutoSize = True
         Me.Label39.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label39.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label39.Location = New System.Drawing.Point(176, 56)
+        Me.Label39.Location = New System.Drawing.Point(211, 65)
         Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(43, 13)
+        Me.Label39.Size = New System.Drawing.Size(55, 17)
         Me.Label39.TabIndex = 295
         Me.Label39.Text = "Técnico"
         Me.Label39.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3009,9 +3023,9 @@ Public Class frmServProgramacion
         Me.lblUnidad.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblUnidad.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblUnidad.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblUnidad.Location = New System.Drawing.Point(232, 32)
+        Me.lblUnidad.Location = New System.Drawing.Point(278, 37)
         Me.lblUnidad.Name = "lblUnidad"
-        Me.lblUnidad.Size = New System.Drawing.Size(152, 21)
+        Me.lblUnidad.Size = New System.Drawing.Size(183, 24)
         Me.lblUnidad.TabIndex = 292
         Me.lblUnidad.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -3021,9 +3035,9 @@ Public Class frmServProgramacion
         Me.lblFAtencion.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblFAtencion.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblFAtencion.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblFAtencion.Location = New System.Drawing.Point(80, 96)
+        Me.lblFAtencion.Location = New System.Drawing.Point(96, 111)
         Me.lblFAtencion.Name = "lblFAtencion"
-        Me.lblFAtencion.Size = New System.Drawing.Size(80, 21)
+        Me.lblFAtencion.Size = New System.Drawing.Size(96, 24)
         Me.lblFAtencion.TabIndex = 290
         Me.lblFAtencion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -3032,9 +3046,9 @@ Public Class frmServProgramacion
         Me.Label41.AutoSize = True
         Me.Label41.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label41.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label41.Location = New System.Drawing.Point(176, 35)
+        Me.Label41.Location = New System.Drawing.Point(211, 40)
         Me.Label41.Name = "Label41"
-        Me.Label41.Size = New System.Drawing.Size(40, 13)
+        Me.Label41.Size = New System.Drawing.Size(50, 17)
         Me.Label41.TabIndex = 288
         Me.Label41.Text = "Unidad"
         Me.Label41.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3044,9 +3058,9 @@ Public Class frmServProgramacion
         Me.Label40.AutoSize = True
         Me.Label40.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label40.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label40.Location = New System.Drawing.Point(8, 96)
+        Me.Label40.Location = New System.Drawing.Point(10, 111)
         Me.Label40.Name = "Label40"
-        Me.Label40.Size = New System.Drawing.Size(62, 13)
+        Me.Label40.Size = New System.Drawing.Size(77, 17)
         Me.Label40.TabIndex = 287
         Me.Label40.Text = "F Atención:"
         Me.Label40.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3055,9 +3069,9 @@ Public Class frmServProgramacion
         '
         Me.Label28.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Label28.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.Location = New System.Drawing.Point(452, -25)
+        Me.Label28.Location = New System.Drawing.Point(542, -29)
         Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(80, 25)
+        Me.Label28.Size = New System.Drawing.Size(96, 29)
         Me.Label28.TabIndex = 281
         Me.Label28.Text = "M3568791"
         Me.Label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -3066,9 +3080,9 @@ Public Class frmServProgramacion
         '
         Me.Label26.AutoSize = True
         Me.Label26.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label26.Location = New System.Drawing.Point(324, -25)
+        Me.Label26.Location = New System.Drawing.Point(389, -29)
         Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(35, 13)
+        Me.Label26.Size = New System.Drawing.Size(42, 17)
         Me.Label26.TabIndex = 273
         Me.Label26.Text = "Serie:"
         Me.Label26.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3077,9 +3091,9 @@ Public Class frmServProgramacion
         '
         Me.tpEquipoCliente.BackColor = System.Drawing.Color.LightSteelBlue
         Me.tpEquipoCliente.Controls.Add(Me.lvwEquipo)
-        Me.tpEquipoCliente.Location = New System.Drawing.Point(4, 22)
+        Me.tpEquipoCliente.Location = New System.Drawing.Point(4, 25)
         Me.tpEquipoCliente.Name = "tpEquipoCliente"
-        Me.tpEquipoCliente.Size = New System.Drawing.Size(936, 182)
+        Me.tpEquipoCliente.Size = New System.Drawing.Size(1125, 211)
         Me.tpEquipoCliente.TabIndex = 0
         Me.tpEquipoCliente.Text = "Equipo Cliente"
         Me.tpEquipoCliente.Visible = False
@@ -3091,7 +3105,7 @@ Public Class frmServProgramacion
         Me.lvwEquipo.LargeImageList = Me.ImageList1
         Me.lvwEquipo.Location = New System.Drawing.Point(0, 0)
         Me.lvwEquipo.Name = "lvwEquipo"
-        Me.lvwEquipo.Size = New System.Drawing.Size(1024, 176)
+        Me.lvwEquipo.Size = New System.Drawing.Size(1229, 203)
         Me.lvwEquipo.SmallImageList = Me.ImageList1
         Me.lvwEquipo.TabIndex = 0
         Me.lvwEquipo.UseCompatibleStateImageBehavior = False
@@ -3118,9 +3132,9 @@ Public Class frmServProgramacion
         Me.tpOrdenAutomatica.Controls.Add(Me.GroupBox8)
         Me.tpOrdenAutomatica.Controls.Add(Me.GroupBox7)
         Me.tpOrdenAutomatica.Controls.Add(Me.GroupBox6)
-        Me.tpOrdenAutomatica.Location = New System.Drawing.Point(4, 22)
+        Me.tpOrdenAutomatica.Location = New System.Drawing.Point(4, 25)
         Me.tpOrdenAutomatica.Name = "tpOrdenAutomatica"
-        Me.tpOrdenAutomatica.Size = New System.Drawing.Size(936, 182)
+        Me.tpOrdenAutomatica.Size = New System.Drawing.Size(1125, 211)
         Me.tpOrdenAutomatica.TabIndex = 5
         Me.tpOrdenAutomatica.Text = "Orden Automática"
         Me.tpOrdenAutomatica.Visible = False
@@ -3135,9 +3149,9 @@ Public Class frmServProgramacion
         Me.GroupBox8.Controls.Add(Me.Label48)
         Me.GroupBox8.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox8.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.GroupBox8.Location = New System.Drawing.Point(8, 8)
+        Me.GroupBox8.Location = New System.Drawing.Point(10, 9)
         Me.GroupBox8.Name = "GroupBox8"
-        Me.GroupBox8.Size = New System.Drawing.Size(224, 168)
+        Me.GroupBox8.Size = New System.Drawing.Size(268, 194)
         Me.GroupBox8.TabIndex = 371
         Me.GroupBox8.TabStop = False
         Me.GroupBox8.Text = "1era. Orden "
@@ -3148,12 +3162,12 @@ Public Class frmServProgramacion
         Me.lblTrabajoRealizado.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.lblTrabajoRealizado.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTrabajoRealizado.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblTrabajoRealizado.Location = New System.Drawing.Point(4, 120)
+        Me.lblTrabajoRealizado.Location = New System.Drawing.Point(5, 138)
         Me.lblTrabajoRealizado.Multiline = True
         Me.lblTrabajoRealizado.Name = "lblTrabajoRealizado"
         Me.lblTrabajoRealizado.ReadOnly = True
         Me.lblTrabajoRealizado.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.lblTrabajoRealizado.Size = New System.Drawing.Size(216, 40)
+        Me.lblTrabajoRealizado.Size = New System.Drawing.Size(259, 47)
         Me.lblTrabajoRealizado.TabIndex = 372
         '
         'Label32
@@ -3161,9 +3175,9 @@ Public Class frmServProgramacion
         Me.Label32.AutoSize = True
         Me.Label32.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label32.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label32.Location = New System.Drawing.Point(4, 104)
+        Me.Label32.Location = New System.Drawing.Point(5, 120)
         Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(93, 13)
+        Me.Label32.Size = New System.Drawing.Size(115, 17)
         Me.Label32.TabIndex = 371
         Me.Label32.Text = "Trabajo Realizado"
         Me.Label32.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3174,12 +3188,12 @@ Public Class frmServProgramacion
         Me.txtTrabajoSolicitado.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtTrabajoSolicitado.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTrabajoSolicitado.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.txtTrabajoSolicitado.Location = New System.Drawing.Point(4, 56)
+        Me.txtTrabajoSolicitado.Location = New System.Drawing.Point(5, 65)
         Me.txtTrabajoSolicitado.Multiline = True
         Me.txtTrabajoSolicitado.Name = "txtTrabajoSolicitado"
         Me.txtTrabajoSolicitado.ReadOnly = True
         Me.txtTrabajoSolicitado.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtTrabajoSolicitado.Size = New System.Drawing.Size(216, 40)
+        Me.txtTrabajoSolicitado.Size = New System.Drawing.Size(259, 46)
         Me.txtTrabajoSolicitado.TabIndex = 370
         '
         'Label36
@@ -3187,9 +3201,9 @@ Public Class frmServProgramacion
         Me.Label36.AutoSize = True
         Me.Label36.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label36.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label36.Location = New System.Drawing.Point(4, 40)
+        Me.Label36.Location = New System.Drawing.Point(5, 46)
         Me.Label36.Name = "Label36"
-        Me.Label36.Size = New System.Drawing.Size(89, 13)
+        Me.Label36.Size = New System.Drawing.Size(112, 17)
         Me.Label36.TabIndex = 369
         Me.Label36.Text = "TrabajoSolicitado"
         Me.Label36.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3200,9 +3214,9 @@ Public Class frmServProgramacion
         Me.lblPedido.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblPedido.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPedido.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblPedido.Location = New System.Drawing.Point(76, 16)
+        Me.lblPedido.Location = New System.Drawing.Point(91, 18)
         Me.lblPedido.Name = "lblPedido"
-        Me.lblPedido.Size = New System.Drawing.Size(144, 21)
+        Me.lblPedido.Size = New System.Drawing.Size(173, 25)
         Me.lblPedido.TabIndex = 368
         Me.lblPedido.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -3211,9 +3225,9 @@ Public Class frmServProgramacion
         Me.Label48.AutoSize = True
         Me.Label48.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label48.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label48.Location = New System.Drawing.Point(8, 19)
+        Me.Label48.Location = New System.Drawing.Point(10, 22)
         Me.Label48.Name = "Label48"
-        Me.Label48.Size = New System.Drawing.Size(33, 13)
+        Me.Label48.Size = New System.Drawing.Size(40, 17)
         Me.Label48.TabIndex = 367
         Me.Label48.Text = "Folio:"
         Me.Label48.TextAlign = System.Drawing.ContentAlignment.TopCenter
@@ -3234,9 +3248,9 @@ Public Class frmServProgramacion
         Me.GroupBox7.Controls.Add(Me.Label49)
         Me.GroupBox7.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox7.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.GroupBox7.Location = New System.Drawing.Point(232, 8)
+        Me.GroupBox7.Location = New System.Drawing.Point(278, 9)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(344, 168)
+        Me.GroupBox7.Size = New System.Drawing.Size(413, 194)
         Me.GroupBox7.TabIndex = 370
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Presupuesto 1er Oden"
@@ -3247,9 +3261,9 @@ Public Class frmServProgramacion
         Me.lblFolioPresupuesto.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblFolioPresupuesto.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblFolioPresupuesto.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblFolioPresupuesto.Location = New System.Drawing.Point(84, 32)
+        Me.lblFolioPresupuesto.Location = New System.Drawing.Point(101, 37)
         Me.lblFolioPresupuesto.Name = "lblFolioPresupuesto"
-        Me.lblFolioPresupuesto.Size = New System.Drawing.Size(80, 19)
+        Me.lblFolioPresupuesto.Size = New System.Drawing.Size(96, 22)
         Me.lblFolioPresupuesto.TabIndex = 380
         Me.lblFolioPresupuesto.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -3259,9 +3273,9 @@ Public Class frmServProgramacion
         Me.lblStatusPresupuesto.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblStatusPresupuesto.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStatusPresupuesto.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblStatusPresupuesto.Location = New System.Drawing.Point(84, 56)
+        Me.lblStatusPresupuesto.Location = New System.Drawing.Point(101, 65)
         Me.lblStatusPresupuesto.Name = "lblStatusPresupuesto"
-        Me.lblStatusPresupuesto.Size = New System.Drawing.Size(80, 19)
+        Me.lblStatusPresupuesto.Size = New System.Drawing.Size(96, 22)
         Me.lblStatusPresupuesto.TabIndex = 379
         Me.lblStatusPresupuesto.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -3271,12 +3285,12 @@ Public Class frmServProgramacion
         Me.txtObservacionesPres.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtObservacionesPres.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtObservacionesPres.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.txtObservacionesPres.Location = New System.Drawing.Point(180, 48)
+        Me.txtObservacionesPres.Location = New System.Drawing.Point(216, 55)
         Me.txtObservacionesPres.Multiline = True
         Me.txtObservacionesPres.Name = "txtObservacionesPres"
         Me.txtObservacionesPres.ReadOnly = True
         Me.txtObservacionesPres.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtObservacionesPres.Size = New System.Drawing.Size(152, 104)
+        Me.txtObservacionesPres.Size = New System.Drawing.Size(182, 120)
         Me.txtObservacionesPres.TabIndex = 378
         '
         'Label37
@@ -3284,9 +3298,9 @@ Public Class frmServProgramacion
         Me.Label37.AutoSize = True
         Me.Label37.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label37.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label37.Location = New System.Drawing.Point(180, 24)
+        Me.Label37.Location = New System.Drawing.Point(216, 28)
         Me.Label37.Name = "Label37"
-        Me.Label37.Size = New System.Drawing.Size(141, 13)
+        Me.Label37.Size = New System.Drawing.Size(177, 17)
         Me.Label37.TabIndex = 377
         Me.Label37.Text = "Observaciones Presupuesto"
         Me.Label37.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3296,9 +3310,9 @@ Public Class frmServProgramacion
         Me.Label44.AutoSize = True
         Me.Label44.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label44.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label44.Location = New System.Drawing.Point(4, 106)
+        Me.Label44.Location = New System.Drawing.Point(5, 122)
         Me.Label44.Name = "Label44"
-        Me.Label44.Size = New System.Drawing.Size(62, 13)
+        Me.Label44.Size = New System.Drawing.Size(79, 17)
         Me.Label44.TabIndex = 376
         Me.Label44.Text = "Descuento:"
         Me.Label44.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3308,9 +3322,9 @@ Public Class frmServProgramacion
         Me.Label45.AutoSize = True
         Me.Label45.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label45.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label45.Location = New System.Drawing.Point(4, 130)
+        Me.Label45.Location = New System.Drawing.Point(5, 150)
         Me.Label45.Name = "Label45"
-        Me.Label45.Size = New System.Drawing.Size(35, 13)
+        Me.Label45.Size = New System.Drawing.Size(43, 17)
         Me.Label45.TabIndex = 375
         Me.Label45.Text = "Total:"
         Me.Label45.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3321,9 +3335,9 @@ Public Class frmServProgramacion
         Me.lblTot.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblTot.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTot.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblTot.Location = New System.Drawing.Point(84, 128)
+        Me.lblTot.Location = New System.Drawing.Point(101, 148)
         Me.lblTot.Name = "lblTot"
-        Me.lblTot.Size = New System.Drawing.Size(80, 19)
+        Me.lblTot.Size = New System.Drawing.Size(96, 22)
         Me.lblTot.TabIndex = 374
         Me.lblTot.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -3333,9 +3347,9 @@ Public Class frmServProgramacion
         Me.lblDesc.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblDesc.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDesc.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblDesc.Location = New System.Drawing.Point(84, 104)
+        Me.lblDesc.Location = New System.Drawing.Point(101, 120)
         Me.lblDesc.Name = "lblDesc"
-        Me.lblDesc.Size = New System.Drawing.Size(80, 19)
+        Me.lblDesc.Size = New System.Drawing.Size(96, 22)
         Me.lblDesc.TabIndex = 373
         Me.lblDesc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -3344,9 +3358,9 @@ Public Class frmServProgramacion
         Me.Label46.AutoSize = True
         Me.Label46.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label46.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label46.Location = New System.Drawing.Point(4, 58)
+        Me.Label46.Location = New System.Drawing.Point(5, 67)
         Me.Label46.Name = "Label46"
-        Me.Label46.Size = New System.Drawing.Size(45, 13)
+        Me.Label46.Size = New System.Drawing.Size(56, 17)
         Me.Label46.TabIndex = 372
         Me.Label46.Text = "Status :"
         Me.Label46.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3356,9 +3370,9 @@ Public Class frmServProgramacion
         Me.Label47.AutoSize = True
         Me.Label47.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label47.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label47.Location = New System.Drawing.Point(4, 34)
+        Me.Label47.Location = New System.Drawing.Point(5, 39)
         Me.Label47.Name = "Label47"
-        Me.Label47.Size = New System.Drawing.Size(70, 13)
+        Me.Label47.Size = New System.Drawing.Size(88, 17)
         Me.Label47.TabIndex = 371
         Me.Label47.Text = "Num. Presp.:"
         Me.Label47.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3369,9 +3383,9 @@ Public Class frmServProgramacion
         Me.lblSubT.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblSubT.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblSubT.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblSubT.Location = New System.Drawing.Point(84, 80)
+        Me.lblSubT.Location = New System.Drawing.Point(101, 92)
         Me.lblSubT.Name = "lblSubT"
-        Me.lblSubT.Size = New System.Drawing.Size(80, 19)
+        Me.lblSubT.Size = New System.Drawing.Size(96, 22)
         Me.lblSubT.TabIndex = 370
         Me.lblSubT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -3380,9 +3394,9 @@ Public Class frmServProgramacion
         Me.Label49.AutoSize = True
         Me.Label49.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label49.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label49.Location = New System.Drawing.Point(4, 82)
+        Me.Label49.Location = New System.Drawing.Point(5, 95)
         Me.Label49.Name = "Label49"
-        Me.Label49.Size = New System.Drawing.Size(53, 13)
+        Me.Label49.Size = New System.Drawing.Size(67, 17)
         Me.Label49.TabIndex = 369
         Me.Label49.Text = "SubTotal:"
         Me.Label49.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3401,9 +3415,9 @@ Public Class frmServProgramacion
         Me.GroupBox6.Controls.Add(Me.Label53)
         Me.GroupBox6.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox6.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.GroupBox6.Location = New System.Drawing.Point(584, 8)
+        Me.GroupBox6.Location = New System.Drawing.Point(701, 9)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(384, 168)
+        Me.GroupBox6.Size = New System.Drawing.Size(461, 194)
         Me.GroupBox6.TabIndex = 369
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "Orden Automática"
@@ -3414,9 +3428,9 @@ Public Class frmServProgramacion
         Me.lblFormaPago.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblFormaPago.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblFormaPago.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblFormaPago.Location = New System.Drawing.Point(248, 16)
+        Me.lblFormaPago.Location = New System.Drawing.Point(298, 18)
         Me.lblFormaPago.Name = "lblFormaPago"
-        Me.lblFormaPago.Size = New System.Drawing.Size(96, 21)
+        Me.lblFormaPago.Size = New System.Drawing.Size(115, 25)
         Me.lblFormaPago.TabIndex = 380
         Me.lblFormaPago.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -3425,9 +3439,9 @@ Public Class frmServProgramacion
         Me.Label29.AutoSize = True
         Me.Label29.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label29.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label29.Location = New System.Drawing.Point(176, 19)
+        Me.Label29.Location = New System.Drawing.Point(211, 22)
         Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(68, 13)
+        Me.Label29.Size = New System.Drawing.Size(87, 17)
         Me.Label29.TabIndex = 379
         Me.Label29.Text = "Forma Pago:"
         Me.Label29.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3438,9 +3452,9 @@ Public Class frmServProgramacion
         Me.lblTipoServicio.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblTipoServicio.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTipoServicio.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblTipoServicio.Location = New System.Drawing.Point(96, 80)
+        Me.lblTipoServicio.Location = New System.Drawing.Point(115, 92)
         Me.lblTipoServicio.Name = "lblTipoServicio"
-        Me.lblTipoServicio.Size = New System.Drawing.Size(248, 21)
+        Me.lblTipoServicio.Size = New System.Drawing.Size(298, 25)
         Me.lblTipoServicio.TabIndex = 378
         Me.lblTipoServicio.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -3450,9 +3464,9 @@ Public Class frmServProgramacion
         Me.lblUsuario.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblUsuario.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblUsuario.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblUsuario.Location = New System.Drawing.Point(96, 48)
+        Me.lblUsuario.Location = New System.Drawing.Point(115, 55)
         Me.lblUsuario.Name = "lblUsuario"
-        Me.lblUsuario.Size = New System.Drawing.Size(248, 21)
+        Me.lblUsuario.Size = New System.Drawing.Size(298, 25)
         Me.lblUsuario.TabIndex = 377
         Me.lblUsuario.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -3462,12 +3476,12 @@ Public Class frmServProgramacion
         Me.txtTrabSolc.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtTrabSolc.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTrabSolc.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.txtTrabSolc.Location = New System.Drawing.Point(16, 128)
+        Me.txtTrabSolc.Location = New System.Drawing.Point(19, 148)
         Me.txtTrabSolc.Multiline = True
         Me.txtTrabSolc.Name = "txtTrabSolc"
         Me.txtTrabSolc.ReadOnly = True
         Me.txtTrabSolc.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtTrabSolc.Size = New System.Drawing.Size(328, 32)
+        Me.txtTrabSolc.Size = New System.Drawing.Size(394, 37)
         Me.txtTrabSolc.TabIndex = 376
         '
         'Label33
@@ -3475,9 +3489,9 @@ Public Class frmServProgramacion
         Me.Label33.AutoSize = True
         Me.Label33.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label33.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label33.Location = New System.Drawing.Point(8, 112)
+        Me.Label33.Location = New System.Drawing.Point(10, 129)
         Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(92, 13)
+        Me.Label33.Size = New System.Drawing.Size(116, 17)
         Me.Label33.TabIndex = 375
         Me.Label33.Text = "Trabajo Solicitado"
         Me.Label33.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3487,9 +3501,9 @@ Public Class frmServProgramacion
         Me.Label34.AutoSize = True
         Me.Label34.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label34.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label34.Location = New System.Drawing.Point(16, 51)
+        Me.Label34.Location = New System.Drawing.Point(19, 59)
         Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(47, 13)
+        Me.Label34.Size = New System.Drawing.Size(58, 17)
         Me.Label34.TabIndex = 374
         Me.Label34.Text = "Usuario:"
         Me.Label34.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3499,9 +3513,9 @@ Public Class frmServProgramacion
         Me.Label35.AutoSize = True
         Me.Label35.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label35.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label35.Location = New System.Drawing.Point(16, 19)
+        Me.Label35.Location = New System.Drawing.Point(19, 22)
         Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(43, 13)
+        Me.Label35.Size = New System.Drawing.Size(54, 17)
         Me.Label35.TabIndex = 373
         Me.Label35.Text = "Pedido:"
         Me.Label35.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3512,9 +3526,9 @@ Public Class frmServProgramacion
         Me.lblAutoPedido.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblAutoPedido.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAutoPedido.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.lblAutoPedido.Location = New System.Drawing.Point(96, 16)
+        Me.lblAutoPedido.Location = New System.Drawing.Point(115, 18)
         Me.lblAutoPedido.Name = "lblAutoPedido"
-        Me.lblAutoPedido.Size = New System.Drawing.Size(72, 21)
+        Me.lblAutoPedido.Size = New System.Drawing.Size(87, 25)
         Me.lblAutoPedido.TabIndex = 372
         Me.lblAutoPedido.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -3523,9 +3537,9 @@ Public Class frmServProgramacion
         Me.Label53.AutoSize = True
         Me.Label53.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label53.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label53.Location = New System.Drawing.Point(16, 83)
+        Me.Label53.Location = New System.Drawing.Point(19, 96)
         Me.Label53.Name = "Label53"
-        Me.Label53.Size = New System.Drawing.Size(71, 13)
+        Me.Label53.Size = New System.Drawing.Size(90, 17)
         Me.Label53.TabIndex = 371
         Me.Label53.Text = "Tipo Servicio:"
         Me.Label53.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -3535,9 +3549,9 @@ Public Class frmServProgramacion
         Me.Label8.BackColor = System.Drawing.Color.YellowGreen
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.Label8.Location = New System.Drawing.Point(736, 8)
+        Me.Label8.Location = New System.Drawing.Point(883, 9)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(48, 24)
+        Me.Label8.Size = New System.Drawing.Size(58, 28)
         Me.Label8.TabIndex = 283
         Me.Label8.Text = "Célula:"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -3551,10 +3565,10 @@ Public Class frmServProgramacion
         Me.cboBitacora.CaptionText = "Bitacora Reprogramación"
         Me.cboBitacora.DataMember = ""
         Me.cboBitacora.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.cboBitacora.Location = New System.Drawing.Point(0, 288)
+        Me.cboBitacora.Location = New System.Drawing.Point(0, 332)
         Me.cboBitacora.Name = "cboBitacora"
         Me.cboBitacora.ReadOnly = True
-        Me.cboBitacora.Size = New System.Drawing.Size(944, 88)
+        Me.cboBitacora.Size = New System.Drawing.Size(1133, 102)
         Me.cboBitacora.TabIndex = 284
         Me.cboBitacora.TableStyles.AddRange(New System.Windows.Forms.DataGridTableStyle() {Me.DataGridTableStyle1})
         '
@@ -3641,9 +3655,9 @@ Public Class frmServProgramacion
         '
         Me.rbAsignados.AutoSize = True
         Me.rbAsignados.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbAsignados.Location = New System.Drawing.Point(6, 13)
+        Me.rbAsignados.Location = New System.Drawing.Point(7, 15)
         Me.rbAsignados.Name = "rbAsignados"
-        Me.rbAsignados.Size = New System.Drawing.Size(74, 17)
+        Me.rbAsignados.Size = New System.Drawing.Size(95, 21)
         Me.rbAsignados.TabIndex = 285
         Me.rbAsignados.Text = "Asignados"
         Me.rbAsignados.UseVisualStyleBackColor = True
@@ -3653,9 +3667,9 @@ Public Class frmServProgramacion
         Me.rbNoAsignados.AutoSize = True
         Me.rbNoAsignados.Checked = True
         Me.rbNoAsignados.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbNoAsignados.Location = New System.Drawing.Point(100, 13)
+        Me.rbNoAsignados.Location = New System.Drawing.Point(120, 15)
         Me.rbNoAsignados.Name = "rbNoAsignados"
-        Me.rbNoAsignados.Size = New System.Drawing.Size(90, 17)
+        Me.rbNoAsignados.Size = New System.Drawing.Size(116, 21)
         Me.rbNoAsignados.TabIndex = 286
         Me.rbNoAsignados.TabStop = True
         Me.rbNoAsignados.Text = "No asignados"
@@ -3666,9 +3680,9 @@ Public Class frmServProgramacion
         Me.gbPedidos.Controls.Add(Me.rbAsignados)
         Me.gbPedidos.Controls.Add(Me.rbNoAsignados)
         Me.gbPedidos.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbPedidos.Location = New System.Drawing.Point(292, 0)
+        Me.gbPedidos.Location = New System.Drawing.Point(350, 0)
         Me.gbPedidos.Name = "gbPedidos"
-        Me.gbPedidos.Size = New System.Drawing.Size(203, 32)
+        Me.gbPedidos.Size = New System.Drawing.Size(244, 37)
         Me.gbPedidos.TabIndex = 287
         Me.gbPedidos.TabStop = False
         Me.gbPedidos.Text = "Pedidos:"
@@ -3676,7 +3690,7 @@ Public Class frmServProgramacion
         '
         'frmServProgramacion
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
         Me.BackColor = System.Drawing.Color.YellowGreen
         Me.ClientSize = New System.Drawing.Size(1026, 562)
         Me.Controls.Add(Me.gbPedidos)
@@ -3996,7 +4010,7 @@ Public Class frmServProgramacion
                                                                    GLOBAL_UsuarioReporte,
                                                                    GLOBAL_PasswordReporte)
                 End If
-
+                Liq.CfgPagoTPV(Global_PagoExcesoTPV, Global_ReglaTPVActiva)
                 Liq.ShowDialog()
                 RecargarVista()
                 Cursor = Cursors.Default
