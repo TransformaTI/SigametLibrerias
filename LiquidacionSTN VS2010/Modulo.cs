@@ -46,8 +46,11 @@ namespace LiquidacionSTN
         public static string CnSigamet;
 		public static SqlConnection cn = new SqlConnection(CnSigamet);
 		
+        //Pago exceso TPV
+        public static decimal Global_PagoExcesoTPV;
+        public static bool Global_ReglaTPVActiva;
 
-	}
+    }
 
 	
 	
