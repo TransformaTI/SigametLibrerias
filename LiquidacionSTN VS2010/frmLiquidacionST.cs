@@ -3209,40 +3209,42 @@ namespace LiquidacionSTN
                                             System.Data.DataRow[] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select("Pedido = " + _Pedido + " and Celula = " + _Celula + "and AñoPed = " + _Añoped);
                                             foreach (System.Data.DataRow drVoucher in Consulta)
                                             {
-                                                
-                                                short FCobro = 0;
-                                                int FAñoCobro = 0;
-                                                string QueryCobro = "SELECT AÑOCOBRO,COBRO FROM COBRO " +
-                                                "WHERE total = " + Convert.ToString(drVoucher["Monto"]) + " and banco = " + Convert.ToString(drVoucher["Banco"]) +
-                                                " and NumeroCheque = " + Convert.ToString(drVoucher["Autorizacion"]) +
-                                                " and status = 'EMITIDO' and tipocobro in (6, 19, 22) and cliente = " + Convert.ToString(dr["Cliente"]) +
-                                                " and folioatt = " + Convert.ToString(_Folio) + " and añoatt = " + Convert.ToString(_AñoAtt);
-                                                SqlCommand ComandoCobro = new SqlCommand(QueryCobro, LiquidacionSTN.Modulo.CnnSigamet);
-                                                ComandoCobro.Transaction = Transaccion;
-                                                //LiquidacionSTN.Modulo.CnnSigamet.Open();
-                                                try
+                                                if (Convert.ToDecimal(drVoucher["Monto"]) > Convert.ToDecimal(dr["Total"]))
                                                 {
-                                                    SqlDataReader drEquipo;
-                                                    drEquipo = ComandoCobro.ExecuteReader();
-                                                    while (drEquipo.Read())
+                                                    short FCobro = 0;
+                                                    int FAñoCobro = 0;
+                                                    string QueryCobro = "SELECT AÑOCOBRO,COBRO FROM COBRO " +
+                                                    "WHERE total = " + Convert.ToString(drVoucher["Monto"]) + " and banco = " + Convert.ToString(drVoucher["Banco"]) +
+                                                    " and NumeroCheque = " + Convert.ToString(drVoucher["Autorizacion"]) +
+                                                    " and status = 'EMITIDO' and tipocobro in (6, 19, 22) and cliente = " + Convert.ToString(dr["Cliente"]) +
+                                                    " and folioatt = " + Convert.ToString(_Folio) + " and añoatt = " + Convert.ToString(_AñoAtt);
+                                                    SqlCommand ComandoCobro = new SqlCommand(QueryCobro, LiquidacionSTN.Modulo.CnnSigamet);
+                                                    ComandoCobro.Transaction = Transaccion;
+                                                    //LiquidacionSTN.Modulo.CnnSigamet.Open();
+                                                    try
                                                     {
-                                                        FAñoCobro = Convert.ToInt16(drEquipo.GetValue(0));
-                                                        FCobro = Convert.ToInt16(drEquipo.GetValue(1));
+                                                        SqlDataReader drEquipo;
+                                                        drEquipo = ComandoCobro.ExecuteReader();
+                                                        while (drEquipo.Read())
+                                                        {
+                                                            FAñoCobro = Convert.ToInt16(drEquipo.GetValue(0));
+                                                            FCobro = Convert.ToInt16(drEquipo.GetValue(1));
+                                                        }
+                                                        drEquipo.Close();
                                                     }
-                                                    drEquipo.Close();
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    MessageBox.Show(ex.Message);
-                                                }
-                                                finally
-                                                {
+                                                    catch (Exception ex)
+                                                    {
+                                                        MessageBox.Show(ex.Message);
+                                                    }
+                                                    finally
+                                                    {
 
-                                                    //LiquidacionSTN.Modulo.CnnSigamet.Close();
-                                                }
+                                                        //LiquidacionSTN.Modulo.CnnSigamet.Close();
+                                                    }
 
-                                                insertaMovimientoConciliar(4, 0, 0, DateTime.Now, 0, 0, 0, 0, 0, (Int16)FAñoCobro, FCobro, Convert.ToDecimal(drVoucher["Saldo"]),
-                                                "REGISTRADO", DateTime.Now, "CONCILIADA", DateTime.Now, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, Convert.ToInt16(dr["Cliente"]), Conexion, Transaccion);
+                                                    insertaMovimientoConciliar(4, 0, 0, DateTime.Now, 0, 0, 0, 0, 0, (Int16)FAñoCobro, FCobro, Convert.ToDecimal(drVoucher["Saldo"]),
+                                                    "REGISTRADO", DateTime.Now, "CONCILIADA", DateTime.Now, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, Convert.ToInt16(dr["Cliente"]), Conexion, Transaccion);
+                                                }
                                             }
                                             
                                         }
