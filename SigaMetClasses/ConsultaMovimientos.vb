@@ -1464,8 +1464,8 @@ Public Class ConsultaMovimientos
             Next
 
             Dim opciones As New System.Threading.Tasks.ParallelOptions()
-            opciones.MaxDegreeOfParallelism = 10
-            System.Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
+			opciones.MaxDegreeOfParallelism = 10
+			System.Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
         Catch ex As Exception
 
         End Try
@@ -1488,43 +1488,54 @@ Public Class ConsultaMovimientos
 
 
 
-            'Dim View As New DataView(dtCobroPedido)
-            'Dim distinctValues As DataTable = View.ToTable(True, "PedidoCliente")
+			'Dim View As New DataView(dtCobroPedido)
+			'Dim distinctValues As DataTable = View.ToTable(True, "PedidoCliente")
 
-            Dim dtTemp As DataTable = dtCobroPedido.Select(strFiltro).CopyToDataTable()
 
-            For Each item As DataRow In dtTemp.Rows
-                Dim i As Integer = ListaCtesDetalle.Find(Function(p) p = CInt(item("PedidoCliente")))
-                If Not IsNothing(i) Then
-                    ListaCtesDetalle.Add(CInt(item("PedidoCliente").ToString()))
-                End If
-            Next
+			Dim no As Integer = dtCobroPedido.Select(strFiltro).Count
+			Dim dtTemp As DataTable
 
-            'ListaCtesDetalle = (From r As DataRow In distinctValues.Rows.Cast(Of DataRow)()
-            '                    Select CInt(r("PedidoCliente"))).ToList
+			If no > 0 Then
 
-            generaListaCLientes(ListaCtesDetalle)
 
-            For Each r As DataRow In dtCobroPedido.Rows
+				dtTemp = dtCobroPedido.Select(strFiltro).CopyToDataTable()
+			Else
+				dtTemp = New DataTable()
 
-                direccionEntregaTemp = listaDireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(r("PedidoCliente")))
+			End If
 
-                If Not IsNothing(direccionEntregaTemp) Then
-                    If Not IsNothing(direccionEntregaTemp.Nombre) Then
-                        If Not direccionEntregaTemp.Nombre.Contains("error") Then
+			For Each item As DataRow In dtTemp.Rows
+					Dim i As Integer = ListaCtesDetalle.Find(Function(p) p = CInt(item("PedidoCliente")))
+					If Not IsNothing(i) Then
+						ListaCtesDetalle.Add(CInt(item("PedidoCliente").ToString()))
+					End If
+				Next
 
-                            r("ClienteNombre") = direccionEntregaTemp.Nombre.Trim
+				'ListaCtesDetalle = (From r As DataRow In distinctValues.Rows.Cast(Of DataRow)()
+				'                    Select CInt(r("PedidoCliente"))).ToList
 
-                        End If
-                    End If
+				generaListaCLientes(ListaCtesDetalle)
 
-                End If
-            Next
+				For Each r As DataRow In dtCobroPedido.Rows
 
-            grdCobroPedido.DataSource = dtCobroPedido
-            grdCobroPedido.CaptionText = "Lista de documentos relacionados en el cobro (" & dtCobroPedido.DefaultView.Count & ") Total: " & SumaColumnaVista(dtCobroPedido.DefaultView, "CobroPedidoTotal").ToString("C")
+					direccionEntregaTemp = listaDireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(r("PedidoCliente")))
 
-        End If
+					If Not IsNothing(direccionEntregaTemp) Then
+						If Not IsNothing(direccionEntregaTemp.Nombre) Then
+							If Not direccionEntregaTemp.Nombre.Contains("error") Then
+
+								r("ClienteNombre") = direccionEntregaTemp.Nombre.Trim
+
+							End If
+						End If
+
+					End If
+				Next
+
+				grdCobroPedido.DataSource = dtCobroPedido
+				grdCobroPedido.CaptionText = "Lista de documentos relacionados en el cobro (" & dtCobroPedido.DefaultView.Count & ") Total: " & SumaColumnaVista(dtCobroPedido.DefaultView, "CobroPedidoTotal").ToString("C")
+
+			End If
     End Sub
 
     Private Sub ConsultaCobroPedido(ByVal Caja As Byte,
