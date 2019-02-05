@@ -6467,24 +6467,24 @@ Public Class frmLiquidacionPortatil
             _seccion = "Asignación datos cobros no credito"
             Dim TipoCobro As Integer = CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Integer)
 
-            'If TipoCobro = 3 Or TipoCobro = 5 Or TipoCobro = 15 Then
-            If TipoCobro = 3 Or TipoCobro = 5 Or TipoCobro = 16 Or TipoCobro = 6 Or TipoCobro = 21 Or TipoCobro = 10 Or TipoCobro = 2 Then
-                Dim Total As Decimal
-                Dim Importe As Decimal
-                Dim Impuesto As Decimal
+			'If TipoCobro = 3 Or TipoCobro = 5 Or TipoCobro = 15 Then
+			If TipoCobro = 3 Or TipoCobro = 5 Or TipoCobro = 16 Or TipoCobro = 6 Or TipoCobro = 19 Or TipoCobro = 22 Or TipoCobro = 2 Or TipoCobro = 21 Or TipoCobro = 10 Or TipoCobro = 2 Then
+				Dim Total As Decimal
+				Dim Importe As Decimal
+				Dim Impuesto As Decimal
 
-                Total = CType(dtPedidoCobro.DefaultView.Item(k).Item(5), Decimal)
-                Importe = Total / ((CType(dtPedidoCobro.DefaultView.Item(k).Item(3), Decimal) / 100) + 1)
-                Impuesto = Total - Importe
+				Total = CType(dtPedidoCobro.DefaultView.Item(k).Item(5), Decimal)
+				Importe = Total / ((CType(dtPedidoCobro.DefaultView.Item(k).Item(3), Decimal) / 100) + 1)
+				Impuesto = Total - Importe
 
-                If Not dtPedidoCobro.DefaultView.Item(k).Item(7) Is System.DBNull.Value Then
-                    'If Importe > 0 And Impuesto > 0 And Total > 0 Then
-                    Dim oLiquidacionCobroPedido As New LiquidacionTransaccionada.cLiquidacion(1, CType(_drLiquidacion(0).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(7), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(8), Integer))
-                    oLiquidacionCobroPedido.LiquidacionPedidoyCobroPedido(0, Now, 0, 0, Importe, Impuesto, Total, "", 0, Now, 0, "", 0, 0, 0, CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer), "", 0, 0, 0, 0, "", 0, Now, Now, 0, 0, 0, 0, 0, 0, 0, 0, Connection, Transaction)
-                    'End If
-                End If
-            End If
-            k = k + 1
+				If Not dtPedidoCobro.DefaultView.Item(k).Item(7) Is System.DBNull.Value Then
+					'If Importe > 0 And Impuesto > 0 And Total > 0 Then
+					Dim oLiquidacionCobroPedido As New LiquidacionTransaccionada.cLiquidacion(1, CType(_drLiquidacion(0).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(7), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(8), Integer))
+					oLiquidacionCobroPedido.LiquidacionPedidoyCobroPedido(0, Now, 0, 0, Importe, Impuesto, Total, "", 0, Now, 0, "", 0, 0, 0, CType(dtPedidoCobro.DefaultView.Item(k).Item(16), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer), "", 0, 0, 0, 0, "", 0, Now, Now, 0, 0, 0, 0, 0, 0, 0, 0, Connection, Transaction)
+					'End If
+				End If
+			End If
+			k = k + 1
         End While
         dtPedidoCobro.DefaultView.RowFilter = ""
 
