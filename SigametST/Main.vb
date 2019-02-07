@@ -101,6 +101,9 @@ Module Main
 
     Public GLOBAL_Modulo As Byte = 11
 
+    'Pago exceso TPV
+    Public Global_PagoExcesoTPV As Decimal
+    Public Global_ReglaTPVActiva As Boolean
 
 End Module
 

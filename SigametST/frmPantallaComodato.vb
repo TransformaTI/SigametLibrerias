@@ -107,7 +107,7 @@ Public Class frmPantallaComodato
     Friend WithEvents TBBRechazar As System.Windows.Forms.ToolBarButton
     Friend WithEvents tbbAutorizar As System.Windows.Forms.ToolBarButton
     Friend WithEvents DGTBCFAutorizacion As System.Windows.Forms.DataGridTextBoxColumn
-    Friend WithEvents crvGrafica As CrystalDecisions.Windows.Forms.CrystalReportViewer
+    Private WithEvents crvGrafica As CrystalDecisions.Windows.Forms.CrystalReportViewer
     Friend WithEvents Label15 As System.Windows.Forms.Label
     Friend WithEvents grdHistoricoLitros As System.Windows.Forms.DataGrid
     Friend WithEvents DataGridTableStyle2 As System.Windows.Forms.DataGridTableStyle
@@ -117,10 +117,11 @@ Public Class frmPantallaComodato
     Friend WithEvents tbbImagenes As System.Windows.Forms.ToolBarButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmPantallaComodato))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPantallaComodato))
         Me.ToolBar1 = New System.Windows.Forms.ToolBar()
         Me.tbbAutorizar = New System.Windows.Forms.ToolBarButton()
         Me.TBBRechazar = New System.Windows.Forms.ToolBarButton()
+        Me.tbbImagenes = New System.Windows.Forms.ToolBarButton()
         Me.tbbCerrar = New System.Windows.Forms.ToolBarButton()
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         Me.grdComodatos = New System.Windows.Forms.DataGrid()
@@ -177,7 +178,6 @@ Public Class frmPantallaComodato
         Me.DataGridTableStyle2 = New System.Windows.Forms.DataGridTableStyle()
         Me.DGTBCMes = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.DGTBCLitros = New System.Windows.Forms.DataGridTextBoxColumn()
-        Me.tbbImagenes = New System.Windows.Forms.ToolBarButton()
         CType(Me.grdComodatos, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.grdHistoricoLitros, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -189,32 +189,44 @@ Public Class frmPantallaComodato
         Me.ToolBar1.ButtonSize = New System.Drawing.Size(50, 36)
         Me.ToolBar1.DropDownArrows = True
         Me.ToolBar1.ImageList = Me.ImageList1
+        Me.ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.ToolBar1.Name = "ToolBar1"
         Me.ToolBar1.ShowToolTips = True
-        Me.ToolBar1.Size = New System.Drawing.Size(946, 40)
+        Me.ToolBar1.Size = New System.Drawing.Size(946, 46)
         Me.ToolBar1.TabIndex = 0
         '
         'tbbAutorizar
         '
         Me.tbbAutorizar.ImageIndex = 0
+        Me.tbbAutorizar.Name = "tbbAutorizar"
         Me.tbbAutorizar.Text = "Autorizar"
         '
         'TBBRechazar
         '
         Me.TBBRechazar.ImageIndex = 2
+        Me.TBBRechazar.Name = "TBBRechazar"
         Me.TBBRechazar.Text = "Rechazar"
+        '
+        'tbbImagenes
+        '
+        Me.tbbImagenes.ImageIndex = 3
+        Me.tbbImagenes.Name = "tbbImagenes"
+        Me.tbbImagenes.Text = "Imagenes"
         '
         'tbbCerrar
         '
         Me.tbbCerrar.ImageIndex = 1
+        Me.tbbCerrar.Name = "tbbCerrar"
         Me.tbbCerrar.Text = "Cerrar"
         '
         'ImageList1
         '
-        Me.ImageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
-        Me.ImageList1.ImageSize = New System.Drawing.Size(16, 16)
         Me.ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageList1.TransparentColor = System.Drawing.Color.Transparent
+        Me.ImageList1.Images.SetKeyName(0, "")
+        Me.ImageList1.Images.SetKeyName(1, "")
+        Me.ImageList1.Images.SetKeyName(2, "")
+        Me.ImageList1.Images.SetKeyName(3, "")
         '
         'grdComodatos
         '
@@ -222,10 +234,10 @@ Public Class frmPantallaComodato
         Me.grdComodatos.CaptionText = "Lista de Servicios Técnicos en comodato"
         Me.grdComodatos.DataMember = ""
         Me.grdComodatos.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.grdComodatos.Location = New System.Drawing.Point(0, 40)
+        Me.grdComodatos.Location = New System.Drawing.Point(0, 46)
         Me.grdComodatos.Name = "grdComodatos"
         Me.grdComodatos.ReadOnly = True
-        Me.grdComodatos.Size = New System.Drawing.Size(952, 168)
+        Me.grdComodatos.Size = New System.Drawing.Size(1142, 194)
         Me.grdComodatos.TabIndex = 2
         Me.grdComodatos.TableStyles.AddRange(New System.Windows.Forms.DataGridTableStyle() {Me.DataGridTableStyle1})
         '
@@ -369,9 +381,9 @@ Public Class frmPantallaComodato
         '
         Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label1.Location = New System.Drawing.Point(16, 240)
+        Me.Label1.Location = New System.Drawing.Point(19, 277)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(48, 23)
+        Me.Label1.Size = New System.Drawing.Size(58, 26)
         Me.Label1.TabIndex = 3
         Me.Label1.Text = "Cliente:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -380,9 +392,9 @@ Public Class frmPantallaComodato
         '
         Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label2.Location = New System.Drawing.Point(16, 272)
+        Me.Label2.Location = New System.Drawing.Point(19, 314)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(64, 23)
+        Me.Label2.Size = New System.Drawing.Size(77, 26)
         Me.Label2.TabIndex = 4
         Me.Label2.Text = "Nombre:"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -391,9 +403,9 @@ Public Class frmPantallaComodato
         '
         Me.Label3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label3.Location = New System.Drawing.Point(16, 304)
+        Me.Label3.Location = New System.Drawing.Point(19, 351)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(48, 23)
+        Me.Label3.Size = New System.Drawing.Size(58, 26)
         Me.Label3.TabIndex = 5
         Me.Label3.Text = "Calle:"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -403,9 +415,9 @@ Public Class frmPantallaComodato
         Me.lblCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCliente.ForeColor = System.Drawing.Color.RoyalBlue
-        Me.lblCliente.Location = New System.Drawing.Point(88, 240)
+        Me.lblCliente.Location = New System.Drawing.Point(106, 277)
         Me.lblCliente.Name = "lblCliente"
-        Me.lblCliente.Size = New System.Drawing.Size(112, 21)
+        Me.lblCliente.Size = New System.Drawing.Size(134, 24)
         Me.lblCliente.TabIndex = 6
         Me.lblCliente.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -413,9 +425,9 @@ Public Class frmPantallaComodato
         '
         Me.Label5.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label5.Location = New System.Drawing.Point(352, 304)
+        Me.Label5.Location = New System.Drawing.Point(422, 351)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(88, 23)
+        Me.Label5.Size = New System.Drawing.Size(106, 26)
         Me.Label5.TabIndex = 7
         Me.Label5.Text = "Núm Interior:"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -424,9 +436,9 @@ Public Class frmPantallaComodato
         '
         Me.Label6.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label6.Location = New System.Drawing.Point(664, 304)
+        Me.Label6.Location = New System.Drawing.Point(797, 351)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(88, 23)
+        Me.Label6.Size = New System.Drawing.Size(105, 26)
         Me.Label6.TabIndex = 8
         Me.Label6.Text = "Núm Exterior:"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -435,9 +447,9 @@ Public Class frmPantallaComodato
         '
         Me.Label7.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label7.Location = New System.Drawing.Point(352, 336)
+        Me.Label7.Location = New System.Drawing.Point(422, 388)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(56, 23)
+        Me.Label7.Size = New System.Drawing.Size(68, 26)
         Me.Label7.TabIndex = 9
         Me.Label7.Text = "Colonia:"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -446,9 +458,9 @@ Public Class frmPantallaComodato
         '
         Me.Label8.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label8.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label8.Location = New System.Drawing.Point(200, 240)
+        Me.Label8.Location = New System.Drawing.Point(240, 277)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(48, 23)
+        Me.Label8.Size = New System.Drawing.Size(58, 26)
         Me.Label8.TabIndex = 10
         Me.Label8.Text = "Célula:"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -457,9 +469,9 @@ Public Class frmPantallaComodato
         '
         Me.Label9.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label9.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label9.Location = New System.Drawing.Point(352, 240)
+        Me.Label9.Location = New System.Drawing.Point(422, 277)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(48, 23)
+        Me.Label9.Size = New System.Drawing.Size(58, 26)
         Me.Label9.TabIndex = 11
         Me.Label9.Text = "Ruta:"
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -468,9 +480,9 @@ Public Class frmPantallaComodato
         '
         Me.Label10.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label10.Location = New System.Drawing.Point(352, 272)
+        Me.Label10.Location = New System.Drawing.Point(422, 314)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(88, 23)
+        Me.Label10.Size = New System.Drawing.Size(106, 26)
         Me.Label10.TabIndex = 12
         Me.Label10.Text = "Ramo Cliente:"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -479,9 +491,9 @@ Public Class frmPantallaComodato
         '
         Me.Label11.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label11.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label11.Location = New System.Drawing.Point(664, 272)
+        Me.Label11.Location = New System.Drawing.Point(797, 314)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(112, 23)
+        Me.Label11.Size = New System.Drawing.Size(134, 26)
         Me.Label11.TabIndex = 13
         Me.Label11.Text = "Clasifiacion Cliente:"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -491,9 +503,9 @@ Public Class frmPantallaComodato
         Me.lblNombre.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblNombre.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblNombre.ForeColor = System.Drawing.Color.RoyalBlue
-        Me.lblNombre.Location = New System.Drawing.Point(88, 272)
+        Me.lblNombre.Location = New System.Drawing.Point(106, 314)
         Me.lblNombre.Name = "lblNombre"
-        Me.lblNombre.Size = New System.Drawing.Size(248, 21)
+        Me.lblNombre.Size = New System.Drawing.Size(297, 24)
         Me.lblNombre.TabIndex = 14
         Me.lblNombre.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -502,9 +514,9 @@ Public Class frmPantallaComodato
         Me.lblCalle.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblCalle.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCalle.ForeColor = System.Drawing.Color.RoyalBlue
-        Me.lblCalle.Location = New System.Drawing.Point(88, 304)
+        Me.lblCalle.Location = New System.Drawing.Point(106, 351)
         Me.lblCalle.Name = "lblCalle"
-        Me.lblCalle.Size = New System.Drawing.Size(248, 24)
+        Me.lblCalle.Size = New System.Drawing.Size(297, 27)
         Me.lblCalle.TabIndex = 15
         Me.lblCalle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -513,9 +525,9 @@ Public Class frmPantallaComodato
         Me.lblNumInterior.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblNumInterior.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblNumInterior.ForeColor = System.Drawing.Color.RoyalBlue
-        Me.lblNumInterior.Location = New System.Drawing.Point(448, 304)
+        Me.lblNumInterior.Location = New System.Drawing.Point(538, 351)
         Me.lblNumInterior.Name = "lblNumInterior"
-        Me.lblNumInterior.Size = New System.Drawing.Size(192, 24)
+        Me.lblNumInterior.Size = New System.Drawing.Size(230, 27)
         Me.lblNumInterior.TabIndex = 16
         Me.lblNumInterior.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -524,9 +536,9 @@ Public Class frmPantallaComodato
         Me.lblCelula.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblCelula.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCelula.ForeColor = System.Drawing.Color.RoyalBlue
-        Me.lblCelula.Location = New System.Drawing.Point(256, 240)
+        Me.lblCelula.Location = New System.Drawing.Point(307, 277)
         Me.lblCelula.Name = "lblCelula"
-        Me.lblCelula.Size = New System.Drawing.Size(80, 24)
+        Me.lblCelula.Size = New System.Drawing.Size(96, 28)
         Me.lblCelula.TabIndex = 17
         Me.lblCelula.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -535,9 +547,9 @@ Public Class frmPantallaComodato
         Me.lblRuta.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblRuta.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRuta.ForeColor = System.Drawing.Color.RoyalBlue
-        Me.lblRuta.Location = New System.Drawing.Point(448, 240)
+        Me.lblRuta.Location = New System.Drawing.Point(538, 277)
         Me.lblRuta.Name = "lblRuta"
-        Me.lblRuta.Size = New System.Drawing.Size(192, 24)
+        Me.lblRuta.Size = New System.Drawing.Size(230, 28)
         Me.lblRuta.TabIndex = 18
         Me.lblRuta.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -546,9 +558,9 @@ Public Class frmPantallaComodato
         Me.lblNumExterior.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblNumExterior.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblNumExterior.ForeColor = System.Drawing.Color.RoyalBlue
-        Me.lblNumExterior.Location = New System.Drawing.Point(792, 304)
+        Me.lblNumExterior.Location = New System.Drawing.Point(950, 351)
         Me.lblNumExterior.Name = "lblNumExterior"
-        Me.lblNumExterior.Size = New System.Drawing.Size(136, 24)
+        Me.lblNumExterior.Size = New System.Drawing.Size(164, 27)
         Me.lblNumExterior.TabIndex = 19
         Me.lblNumExterior.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -557,9 +569,9 @@ Public Class frmPantallaComodato
         Me.lblColonia.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblColonia.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblColonia.ForeColor = System.Drawing.Color.RoyalBlue
-        Me.lblColonia.Location = New System.Drawing.Point(448, 336)
+        Me.lblColonia.Location = New System.Drawing.Point(538, 388)
         Me.lblColonia.Name = "lblColonia"
-        Me.lblColonia.Size = New System.Drawing.Size(192, 24)
+        Me.lblColonia.Size = New System.Drawing.Size(230, 27)
         Me.lblColonia.TabIndex = 20
         Me.lblColonia.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -568,9 +580,9 @@ Public Class frmPantallaComodato
         Me.lblRamoCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblRamoCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRamoCliente.ForeColor = System.Drawing.Color.RoyalBlue
-        Me.lblRamoCliente.Location = New System.Drawing.Point(448, 272)
+        Me.lblRamoCliente.Location = New System.Drawing.Point(538, 314)
         Me.lblRamoCliente.Name = "lblRamoCliente"
-        Me.lblRamoCliente.Size = New System.Drawing.Size(192, 21)
+        Me.lblRamoCliente.Size = New System.Drawing.Size(230, 24)
         Me.lblRamoCliente.TabIndex = 21
         Me.lblRamoCliente.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -579,9 +591,9 @@ Public Class frmPantallaComodato
         Me.lblClasificacionCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblClasificacionCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblClasificacionCliente.ForeColor = System.Drawing.Color.RoyalBlue
-        Me.lblClasificacionCliente.Location = New System.Drawing.Point(792, 272)
+        Me.lblClasificacionCliente.Location = New System.Drawing.Point(950, 314)
         Me.lblClasificacionCliente.Name = "lblClasificacionCliente"
-        Me.lblClasificacionCliente.Size = New System.Drawing.Size(136, 21)
+        Me.lblClasificacionCliente.Size = New System.Drawing.Size(164, 24)
         Me.lblClasificacionCliente.TabIndex = 22
         Me.lblClasificacionCliente.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -589,9 +601,9 @@ Public Class frmPantallaComodato
         '
         Me.Label21.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label21.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label21.Location = New System.Drawing.Point(16, 336)
+        Me.Label21.Location = New System.Drawing.Point(19, 388)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(64, 23)
+        Me.Label21.Size = New System.Drawing.Size(77, 26)
         Me.Label21.TabIndex = 23
         Me.Label21.Text = "Municipio:"
         Me.Label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -601,9 +613,9 @@ Public Class frmPantallaComodato
         Me.lblMunicipio.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblMunicipio.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblMunicipio.ForeColor = System.Drawing.Color.RoyalBlue
-        Me.lblMunicipio.Location = New System.Drawing.Point(88, 336)
+        Me.lblMunicipio.Location = New System.Drawing.Point(106, 388)
         Me.lblMunicipio.Name = "lblMunicipio"
-        Me.lblMunicipio.Size = New System.Drawing.Size(248, 24)
+        Me.lblMunicipio.Size = New System.Drawing.Size(297, 27)
         Me.lblMunicipio.TabIndex = 24
         Me.lblMunicipio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -611,9 +623,9 @@ Public Class frmPantallaComodato
         '
         Me.Label4.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label4.Location = New System.Drawing.Point(664, 336)
+        Me.Label4.Location = New System.Drawing.Point(797, 388)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(48, 23)
+        Me.Label4.Size = New System.Drawing.Size(57, 26)
         Me.Label4.TabIndex = 25
         Me.Label4.Text = "CP:"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -623,9 +635,9 @@ Public Class frmPantallaComodato
         Me.lblCP.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblCP.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCP.ForeColor = System.Drawing.Color.RoyalBlue
-        Me.lblCP.Location = New System.Drawing.Point(792, 336)
+        Me.lblCP.Location = New System.Drawing.Point(950, 388)
         Me.lblCP.Name = "lblCP"
-        Me.lblCP.Size = New System.Drawing.Size(136, 24)
+        Me.lblCP.Size = New System.Drawing.Size(164, 27)
         Me.lblCP.TabIndex = 26
         Me.lblCP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -634,9 +646,9 @@ Public Class frmPantallaComodato
         Me.lblsaldo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblsaldo.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblsaldo.ForeColor = System.Drawing.Color.Red
-        Me.lblsaldo.Location = New System.Drawing.Point(792, 240)
+        Me.lblsaldo.Location = New System.Drawing.Point(950, 277)
         Me.lblsaldo.Name = "lblsaldo"
-        Me.lblsaldo.Size = New System.Drawing.Size(136, 24)
+        Me.lblsaldo.Size = New System.Drawing.Size(164, 28)
         Me.lblsaldo.TabIndex = 27
         Me.lblsaldo.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -644,71 +656,72 @@ Public Class frmPantallaComodato
         '
         Me.Label13.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label13.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label13.Location = New System.Drawing.Point(664, 240)
+        Me.Label13.Location = New System.Drawing.Point(797, 277)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(40, 23)
+        Me.Label13.Size = New System.Drawing.Size(48, 26)
         Me.Label13.TabIndex = 28
         Me.Label13.Text = "Saldo:"
         Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Label12
         '
-        Me.Label12.Location = New System.Drawing.Point(352, 10)
+        Me.Label12.Location = New System.Drawing.Point(422, 12)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(48, 16)
+        Me.Label12.Size = New System.Drawing.Size(58, 18)
         Me.Label12.TabIndex = 29
         Me.Label12.Text = "Status:"
         '
         'cboStatus
         '
         Me.cboStatus.Items.AddRange(New Object() {"ACEPTADO", "PENDIENTE", "RECHAZADO", "CANCELADO"})
-        Me.cboStatus.Location = New System.Drawing.Point(408, 8)
+        Me.cboStatus.Location = New System.Drawing.Point(490, 9)
         Me.cboStatus.Name = "cboStatus"
-        Me.cboStatus.Size = New System.Drawing.Size(112, 21)
+        Me.cboStatus.Size = New System.Drawing.Size(134, 24)
         Me.cboStatus.TabIndex = 300
         Me.cboStatus.Text = "PENDIENTE"
         '
         'Label14
         '
-        Me.Label14.Location = New System.Drawing.Point(608, 10)
+        Me.Label14.Location = New System.Drawing.Point(730, 12)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(32, 16)
+        Me.Label14.Size = New System.Drawing.Size(38, 18)
         Me.Label14.TabIndex = 301
         Me.Label14.Text = "Año:"
         '
         'CboAño
         '
-        Me.CboAño.Items.AddRange(New Object() {"2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"})
-        Me.CboAño.Location = New System.Drawing.Point(648, 8)
+        Me.CboAño.Items.AddRange(New Object() {"2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025 "})
+        Me.CboAño.Location = New System.Drawing.Point(778, 9)
         Me.CboAño.Name = "CboAño"
-        Me.CboAño.Size = New System.Drawing.Size(64, 21)
+        Me.CboAño.Size = New System.Drawing.Size(76, 24)
         Me.CboAño.TabIndex = 302
         Me.CboAño.Text = "2005"
         '
         'crvGrafica
         '
         Me.crvGrafica.ActiveViewIndex = -1
-        'Me.crvGrafica.DisplayGroupTree = False
+        Me.crvGrafica.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.crvGrafica.Cursor = System.Windows.Forms.Cursors.Default
         Me.crvGrafica.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.crvGrafica.Location = New System.Drawing.Point(0, 368)
+        Me.crvGrafica.Location = New System.Drawing.Point(0, 425)
         Me.crvGrafica.Name = "crvGrafica"
-        Me.crvGrafica.ReportSource = Nothing
         Me.crvGrafica.ShowCloseButton = False
         Me.crvGrafica.ShowGroupTreeButton = False
         Me.crvGrafica.ShowRefreshButton = False
         Me.crvGrafica.ShowTextSearchButton = False
         Me.crvGrafica.ShowZoomButton = False
-        Me.crvGrafica.Size = New System.Drawing.Size(808, 240)
+        Me.crvGrafica.Size = New System.Drawing.Size(970, 277)
         Me.crvGrafica.TabIndex = 303
+        Me.crvGrafica.ToolPanelWidth = 240
         '
         'Label15
         '
         Me.Label15.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label15.Font = New System.Drawing.Font("Tahoma", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label15.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.Label15.Location = New System.Drawing.Point(0, 208)
+        Me.Label15.Location = New System.Drawing.Point(0, 240)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(952, 23)
+        Me.Label15.Size = New System.Drawing.Size(1142, 27)
         Me.Label15.TabIndex = 304
         Me.Label15.Text = "Datos del cliente"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -719,10 +732,10 @@ Public Class frmPantallaComodato
         Me.grdHistoricoLitros.CaptionText = "Histórico Litros"
         Me.grdHistoricoLitros.DataMember = ""
         Me.grdHistoricoLitros.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.grdHistoricoLitros.Location = New System.Drawing.Point(808, 392)
+        Me.grdHistoricoLitros.Location = New System.Drawing.Point(970, 452)
         Me.grdHistoricoLitros.Name = "grdHistoricoLitros"
         Me.grdHistoricoLitros.ReadOnly = True
-        Me.grdHistoricoLitros.Size = New System.Drawing.Size(136, 216)
+        Me.grdHistoricoLitros.Size = New System.Drawing.Size(163, 250)
         Me.grdHistoricoLitros.TabIndex = 305
         Me.grdHistoricoLitros.TableStyles.AddRange(New System.Windows.Forms.DataGridTableStyle() {Me.DataGridTableStyle2})
         '
@@ -749,16 +762,45 @@ Public Class frmPantallaComodato
         Me.DGTBCLitros.MappingName = "LitrosMensual"
         Me.DGTBCLitros.Width = 65
         '
-        'tbbImagenes
-        '
-        Me.tbbImagenes.ImageIndex = 3
-        Me.tbbImagenes.Text = "Imagenes"
-        '
         'frmPantallaComodato
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
         Me.ClientSize = New System.Drawing.Size(946, 608)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.grdHistoricoLitros, Me.Label15, Me.crvGrafica, Me.CboAño, Me.Label14, Me.cboStatus, Me.Label12, Me.Label13, Me.lblsaldo, Me.lblCP, Me.Label4, Me.lblMunicipio, Me.Label21, Me.lblClasificacionCliente, Me.lblRamoCliente, Me.lblColonia, Me.lblNumExterior, Me.lblRuta, Me.lblCelula, Me.lblNumInterior, Me.lblCalle, Me.lblNombre, Me.Label11, Me.Label10, Me.Label9, Me.Label8, Me.Label7, Me.Label6, Me.Label5, Me.lblCliente, Me.Label3, Me.Label2, Me.Label1, Me.grdComodatos, Me.ToolBar1})
+        Me.Controls.Add(Me.grdHistoricoLitros)
+        Me.Controls.Add(Me.Label15)
+        Me.Controls.Add(Me.crvGrafica)
+        Me.Controls.Add(Me.CboAño)
+        Me.Controls.Add(Me.Label14)
+        Me.Controls.Add(Me.cboStatus)
+        Me.Controls.Add(Me.Label12)
+        Me.Controls.Add(Me.Label13)
+        Me.Controls.Add(Me.lblsaldo)
+        Me.Controls.Add(Me.lblCP)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.lblMunicipio)
+        Me.Controls.Add(Me.Label21)
+        Me.Controls.Add(Me.lblClasificacionCliente)
+        Me.Controls.Add(Me.lblRamoCliente)
+        Me.Controls.Add(Me.lblColonia)
+        Me.Controls.Add(Me.lblNumExterior)
+        Me.Controls.Add(Me.lblRuta)
+        Me.Controls.Add(Me.lblCelula)
+        Me.Controls.Add(Me.lblNumInterior)
+        Me.Controls.Add(Me.lblCalle)
+        Me.Controls.Add(Me.lblNombre)
+        Me.Controls.Add(Me.Label11)
+        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.lblCliente)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.grdComodatos)
+        Me.Controls.Add(Me.ToolBar1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmPantallaComodato"
@@ -767,6 +809,7 @@ Public Class frmPantallaComodato
         CType(Me.grdComodatos, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grdHistoricoLitros, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
