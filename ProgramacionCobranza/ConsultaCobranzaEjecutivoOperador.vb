@@ -350,6 +350,7 @@ Public Class ConsultaCobranzaEjecutivoOperador
         Dim _cliente As String = ""
         Dim CLIENTETEMP As Integer = 0
         Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+        listaClientesEnviados = New List(Of Integer)
 
         params(0) = New SqlClient.SqlParameter("@FCargo", SqlDbType.DateTime)
         params(1) = New SqlClient.SqlParameter("@Ejecutivo", SqlDbType.Int)
@@ -519,7 +520,7 @@ Public Class ConsultaCobranzaEjecutivoOperador
                             _listaDireccionesEntrega.Add(direccionEntrega)
                         ElseIf direccion.IDDireccionEntrega = -1 Then
                             errorConsulta = True
-                        ElseIf direccion.IDDireccionEntrega > 0 Then
+                        ElseIf direccion.IDDireccionEntrega >= 0 Then
                             _listaDireccionesEntrega.Add(direccion)
                         End If
                     Else
@@ -559,7 +560,7 @@ Public Class ConsultaCobranzaEjecutivoOperador
                 llenarListaEntrega()
             End If
         Catch ex As Exception
-
+            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -592,7 +593,7 @@ Public Class ConsultaCobranzaEjecutivoOperador
 
             dgCobranza.DataSource = dtCobranza
         Catch ex As Exception
-
+            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
 
         End Try
@@ -614,7 +615,7 @@ Public Class ConsultaCobranzaEjecutivoOperador
                 oGateway.busquedaDireccionEntregaAsync(oSolicitud)
             Next
         Catch ex As Exception
-
+            Throw
         End Try
     End Sub
 

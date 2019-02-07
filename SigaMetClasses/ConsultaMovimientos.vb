@@ -1301,7 +1301,7 @@ Public Class ConsultaMovimientos
                                       " AND Consecutivo = " & Consecutivo.ToString &
                                       " AND Folio = " & Folio.ToString
             Dim direccionEntregaTemp As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega
-
+            listaClientesEnviados = New List(Of Integer)
             dtCobro.DefaultView.RowFilter = strFiltro
             If _URLGateway <> "" Then
                 Dim clientesDistintos As DataTable = dtCobro.DefaultView.ToTable(True, "Cliente")
@@ -1320,7 +1320,7 @@ Public Class ConsultaMovimientos
                     If clientesDistintos.Rows.Count > 0 Then
                         If listaClientesDistintos.Count > 0 Then
                             validarPeticion = True
-                            generaListaCLientes(listaClientesDistintos)
+                            generaListaClientes(listaClientesDistintos)
                         Else
                             llenarListaEntrega()
                         End If
@@ -1398,7 +1398,7 @@ Public Class ConsultaMovimientos
                             listaDireccionesEntrega.Add(direccionEntrega)
                         ElseIf direccion.IDDireccionEntrega = -1 Then
                             errorConsulta = True
-                        ElseIf direccion.IDDireccionEntrega > 0 Then
+                        ElseIf direccion.IDDireccionEntrega >= 0 Then
                             listaDireccionesEntrega.Add(direccion)
                         End If
                     Else
@@ -1438,7 +1438,7 @@ Public Class ConsultaMovimientos
                 llenarListaEntrega()
             End If
         Catch ex As Exception
-
+            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -1489,7 +1489,7 @@ Public Class ConsultaMovimientos
                 oGateway.busquedaDireccionEntregaAsync(oSolicitud)
             Next
         Catch ex As Exception
-
+            Throw
         End Try
     End Sub
 
