@@ -1615,15 +1615,15 @@ Public Class ConsultaCargo
                 If String.IsNullOrEmpty(_URLGateway) Then
                     lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("ClienteNombre"), String)
                 Else
-					If IsNothing(_ClienteRow) Then
-						oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+                    'If IsNothing(_ClienteRow) Then
+                    oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
 						oSolicitud = New RTGMGateway.SolicitudGateway()
 						oGateway.URLServicio = _URLGateway
 						oSolicitud.IDCliente = CInt(dr("Cliente"))
 						oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
-					Else
-						oDireccionEntrega = _ClienteRow
-                    End If
+                    'Else
+                    '	oDireccionEntrega = _ClienteRow
+                    '               End If
 
                     If Not IsNothing(oDireccionEntrega) Then
                         If Not IsNothing(oDireccionEntrega.Nombre) Then

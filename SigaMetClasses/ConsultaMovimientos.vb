@@ -141,7 +141,7 @@ Public Class ConsultaMovimientos
     Friend WithEvents colMCRutaDescripcion As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents colMCEmpleadoNombre As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents Cobro As System.Windows.Forms.DataGridTableStyle
-    Friend WithEvents colCobroAñoCobro As System.Windows.Forms.DataGridTextBoxColumn
+    Friend WithEvents colCobroAÃ±oCobro As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents colCobroCobro As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents colCobroTipoCobroDescripcion As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents colCobroTotal As System.Windows.Forms.DataGridTextBoxColumn
@@ -202,7 +202,7 @@ Public Class ConsultaMovimientos
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ConsultaMovimientos))
         Me.grdCobro = New System.Windows.Forms.DataGrid()
         Me.Cobro = New System.Windows.Forms.DataGridTableStyle()
-        Me.colCobroAñoCobro = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.colCobroAÃ±oCobro = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.colCobroCobro = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.colCobroTipoCobroDescripcion = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.colCobroTotal = New System.Windows.Forms.DataGridTextBoxColumn()
@@ -294,18 +294,18 @@ Public Class ConsultaMovimientos
         'Cobro
         '
         Me.Cobro.DataGrid = Me.grdCobro
-        Me.Cobro.GridColumnStyles.AddRange(New System.Windows.Forms.DataGridColumnStyle() {Me.colCobroAñoCobro, Me.colCobroCobro, Me.colCobroTipoCobroDescripcion, Me.colCobroTotal, Me.colCobroStatus, Me.colCobroBancoNombre, Me.colCobroNumeroCheque, Me.colCobroNumeroCuenta, Me.colCobroCliente, Me.colCobroClienteNombre})
+        Me.Cobro.GridColumnStyles.AddRange(New System.Windows.Forms.DataGridColumnStyle() {Me.colCobroAÃ±oCobro, Me.colCobroCobro, Me.colCobroTipoCobroDescripcion, Me.colCobroTotal, Me.colCobroStatus, Me.colCobroBancoNombre, Me.colCobroNumeroCheque, Me.colCobroNumeroCuenta, Me.colCobroCliente, Me.colCobroClienteNombre})
         Me.Cobro.HeaderForeColor = System.Drawing.SystemColors.ControlText
         Me.Cobro.MappingName = "Cobro"
         Me.Cobro.RowHeadersVisible = False
         '
-        'colCobroAñoCobro
+        'colCobroAÃ±oCobro
         '
-        Me.colCobroAñoCobro.Format = ""
-        Me.colCobroAñoCobro.FormatInfo = Nothing
-        Me.colCobroAñoCobro.HeaderText = "Año"
-        Me.colCobroAñoCobro.MappingName = "AñoCobro"
-        Me.colCobroAñoCobro.Width = 75
+        Me.colCobroAÃ±oCobro.Format = ""
+        Me.colCobroAÃ±oCobro.FormatInfo = Nothing
+        Me.colCobroAÃ±oCobro.HeaderText = "AÃ±o"
+        Me.colCobroAÃ±oCobro.MappingName = "AÃ±oCobro"
+        Me.colCobroAÃ±oCobro.Width = 75
         '
         'colCobroCobro
         '
@@ -465,7 +465,7 @@ Public Class ConsultaMovimientos
         '
         Me.colCPCelula.Format = ""
         Me.colCPCelula.FormatInfo = Nothing
-        Me.colCPCelula.HeaderText = "Célula"
+        Me.colCPCelula.HeaderText = "CÃ©lula"
         Me.colCPCelula.MappingName = "RutaCelula"
         Me.colCPCelula.Width = 75
         '
@@ -571,7 +571,7 @@ Public Class ConsultaMovimientos
         '
         Me.colMCRutaCelula.Format = ""
         Me.colMCRutaCelula.FormatInfo = Nothing
-        Me.colMCRutaCelula.HeaderText = "Célula"
+        Me.colMCRutaCelula.HeaderText = "CÃ©lula"
         Me.colMCRutaCelula.MappingName = "RutaCelula"
         Me.colMCRutaCelula.Width = 50
         '
@@ -594,7 +594,7 @@ Public Class ConsultaMovimientos
         '
         Me.colMCFOperacion.Format = ""
         Me.colMCFOperacion.FormatInfo = Nothing
-        Me.colMCFOperacion.HeaderText = "F.Operación"
+        Me.colMCFOperacion.HeaderText = "F.OperaciÃ³n"
         Me.colMCFOperacion.MappingName = "FOperacion"
         Me.colMCFOperacion.Width = 75
         '
@@ -634,7 +634,7 @@ Public Class ConsultaMovimientos
         '
         Me.colMCEmpleadoNombre.Format = ""
         Me.colMCEmpleadoNombre.FormatInfo = Nothing
-        Me.colMCEmpleadoNombre.HeaderText = "Capturó"
+        Me.colMCEmpleadoNombre.HeaderText = "CapturÃ³"
         Me.colMCEmpleadoNombre.MappingName = "EmpleadoNombre"
         Me.colMCEmpleadoNombre.Width = 160
         '
@@ -706,7 +706,7 @@ Public Class ConsultaMovimientos
         Me.btnRefrescar.Name = "btnRefrescar"
         Me.btnRefrescar.Tag = "Refrescar"
         Me.btnRefrescar.Text = "Refrescar"
-        Me.btnRefrescar.ToolTipText = "Refrescar información"
+        Me.btnRefrescar.ToolTipText = "Refrescar informaciÃ³n"
         '
         'btnSep1
         '
@@ -825,7 +825,7 @@ Public Class ConsultaMovimientos
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(73, 13)
         Me.Label1.TabIndex = 6
-        Me.Label1.Text = "F. Operación:"
+        Me.Label1.Text = "F. OperaciÃ³n:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'dtpFOperacion
@@ -856,7 +856,7 @@ Public Class ConsultaMovimientos
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(40, 13)
         Me.Label2.TabIndex = 9
-        Me.Label2.Text = "Célula:"
+        Me.Label2.Text = "CÃ©lula:"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblObservaciones
@@ -999,7 +999,7 @@ Public Class ConsultaMovimientos
             Dim strFiltroCargaDatos As String =
             " WHERE FOperacion = '" & dtpFOperacion.Value.ToShortDateString & "'"
 
-            'Así estaba:
+            'AsÃ­ estaba:
             'strInicioQuery = "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED "
 
             'strQuery = strInicioQuery & _
@@ -1023,14 +1023,14 @@ Public Class ConsultaMovimientos
             da.Fill(dtMovimientoCaja)
             dtMovimientoCaja.TableName = "MovimientoCaja"
 
-            'Así estaba:
+            'AsÃ­ estaba:
             'cmd.CommandText = "SET transaction isolation level read uncommitted SELECT * FROM vwConsultaCobro" & strFiltroCargaDatos
             cmd.CommandText = "EXECUTE spCyCConsultaVwConsultaCobro '" & dtpFOperacion.Value.ToShortDateString & "'"
             dtCobro.Clear()
             da.Fill(dtCobro)
             dtCobro.TableName = "Cobro"
 
-            'Así estaba:
+            'AsÃ­ estaba:
             'cmd.CommandText = "SET transaction isolation level read uncommitted SELECT * FROM vwConsultaCobroDetalle" & strFiltroCargaDatos
             cmd.CommandText = "EXECUTE spCyCConsultaVwConsultaCobroDetalle '" & dtpFOperacion.Value.ToShortDateString & "'"
             dtCobroPedido.Clear()
@@ -1038,7 +1038,7 @@ Public Class ConsultaMovimientos
             dtCobroPedido.TableName = "CobroPedido"
 
             grdMovimientoCaja.DataSource = dtMovimientoCaja
-            grdMovimientoCaja.CaptionText = "Lista de movimientos del día: " & dtpFOperacion.Value.ToLongDateString & " de la célula: " & cboCelula.Celula.ToString & " (" & dtMovimientoCaja.Rows.Count.ToString & " en total)"
+            grdMovimientoCaja.CaptionText = "Lista de movimientos del dÃ­a: " & dtpFOperacion.Value.ToLongDateString & " de la cÃ©lula: " & cboCelula.Celula.ToString & " (" & dtMovimientoCaja.Rows.Count.ToString & " en total)"
 
         Catch ex As Exception
             MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1107,7 +1107,7 @@ Public Class ConsultaMovimientos
             Dim strFiltroCargaDatos As String =
             " WHERE FOperacion = '" & dtpFOperacion.Value.ToShortDateString & "'"
 
-            'Así estaba:
+            'AsÃ­ estaba:
             'strInicioQuery = "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED "
 
             'strQuery = strInicioQuery & _
@@ -1130,13 +1130,13 @@ Public Class ConsultaMovimientos
             da.Fill(dtMovimientoCaja)
             dtMovimientoCaja.TableName = "MovimientoCaja"
 
-            'Así estaba:
+            'AsÃ­ estaba:
             'cmd.CommandText = "SET transaction isolation level read uncommitted SELECT * FROM vwConsultaCobro" & strFiltroCargaDatos
             cmd.CommandText = "EXECUTE spCyCConsultaVwConsultaCobro '" & dtpFOperacion.Value.ToShortDateString & "'"
             dtCobro.Clear()
             da.Fill(dtCobro)
             dtCobro.TableName = "Cobro"
-            'Así estaba:
+            'AsÃ­ estaba:
             'cmd.CommandText = "SET transaction isolation level read uncommitted SELECT * FROM vwConsultaCobroDetalle" & strFiltroCargaDatos
             cmd.CommandText = "EXECUTE spCyCConsultaVwConsultaCobroDetalle '" & dtpFOperacion.Value.ToShortDateString & "'"
             dtCobroPedido.Clear()
@@ -1202,7 +1202,7 @@ Public Class ConsultaMovimientos
 
 
             grdMovimientoCaja.DataSource = dtMovimientoCaja
-            grdMovimientoCaja.CaptionText = "Lista de movimientos del día: " & dtpFOperacion.Value.ToLongDateString & " de la célula: " & cboCelula.Celula.ToString & " (" & dtMovimientoCaja.Rows.Count.ToString & " en total)"
+            grdMovimientoCaja.CaptionText = "Lista de movimientos del dÃ­a: " & dtpFOperacion.Value.ToLongDateString & " de la cÃ©lula: " & cboCelula.Celula.ToString & " (" & dtMovimientoCaja.Rows.Count.ToString & " en total)"
 
         Catch ex As Exception
             MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1404,7 +1404,7 @@ Public Class ConsultaMovimientos
                     Else
                         direccionEntrega = New RTGMCore.DireccionEntrega()
                         direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
-                        direccionEntrega.Nombre = "No se encontró cliente"
+                        direccionEntrega.Nombre = "No se encontrÃ³ cliente"
                         listaDireccionesEntrega.Add(direccionEntrega)
                     End If
 
@@ -1427,7 +1427,7 @@ Public Class ConsultaMovimientos
                     End If
                 Next
 
-                Dim result As Integer = MessageBox.Show("No fue posible encontrar información para " & listaClientes.Count & " clientes de la solicitud ¿desea reintentar?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
+                Dim result As Integer = MessageBox.Show("No fue posible encontrar informaciÃ³n para " & listaClientes.Count & " clientes de la solicitud Â¿desea reintentar?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
 
                 If result = DialogResult.Yes Then
                     generaListaClientes(listaClientes)
@@ -1521,7 +1521,7 @@ Public Class ConsultaMovimientos
             Else
                 oDireccionEntrega = New RTGMCore.DireccionEntrega()
                 oDireccionEntrega.IDDireccionEntrega = idCliente
-                oDireccionEntrega.Nombre = "No se encontró cliente"
+                oDireccionEntrega.Nombre = "No se encontrÃ³ cliente"
                 listaDireccionesEntrega.Add(oDireccionEntrega)
             End If
 
@@ -1569,7 +1569,7 @@ Public Class ConsultaMovimientos
         objsolicitudpedido.IDZonaLecturista = Nothing
         objsolicitudpedido.TipoPedido = Nothing
         objsolicitudpedido.TipoServicio = Nothing
-        objsolicitudpedido.AñoPed = Nothing
+        objsolicitudpedido.AÃ±oPed = Nothing
         objsolicitudpedido.IDPedido = Nothing
         objsolicitudpedido.IDDireccionEntrega = IDDireccionEntrega
         objsolicitudpedido.PedidoReferencia = PedidoReferencia
@@ -1589,50 +1589,29 @@ Public Class ConsultaMovimientos
         Dim direccionEntregaTemp As New RTGMCore.DireccionEntrega
 
         If AnoCobro > 0 And Cobro > 0 Then
-            Dim strFiltro As String = "AñoCobro = " & AnoCobro.ToString &
+            Dim strFiltro As String = "AÃ±oCobro = " & AnoCobro.ToString &
                                       " AND Cobro = " & Cobro.ToString
             dtCobroPedido.DefaultView.RowFilter = strFiltro
             dtCobPedEnvio = dtCobroPedido.Copy()
             dtCobPedEnvio.DefaultView.RowFilter = strFiltro
 
 
-
-            'Dim View As New DataView(dtCobroPedido)
-            'Dim distinctValues As DataTable = View.ToTable(True, "PedidoCliente")
-
-            'Dim dtTemp As DataTable = dtCobroPedido.Select(strFiltro).CopyToDataTable()
-
-            'For Each item As DataRow In dtTemp.Rows
-            '    Dim i As Integer = ListaCtesDetalle.Find(Function(p) p = CInt(item("PedidoCliente")))
-            '    If Not IsNothing(i) Then
-            '        ListaCtesDetalle.Add(CInt(item("PedidoCliente").ToString()))
-            '    End If
-            'Next
-
-            'ListaCtesDetalle = (From r As DataRow In distinctValues.Rows.Cast(Of DataRow)()
-            '                    Select CInt(r("PedidoCliente"))).ToList
-
-            'generaListaCLientes(ListaCtesDetalle)
-
-            For Each r As DataRow In dtCobroPedido.Rows
-
-                direccionEntregaTemp = listaDireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(r("PedidoCliente")))
+				For Each r As DataRow In dtCobroPedido.Rows
+            direccionEntregaTemp = listaDireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(r("PedidoCliente")))
                 If Not IsNothing(direccionEntregaTemp) Then
                     If Not IsNothing(direccionEntregaTemp.Nombre) Then
                         If Not direccionEntregaTemp.Nombre.Contains("error") Then
-
                             r("ClienteNombre") = direccionEntregaTemp.Nombre.Trim
                             tempDireccionEntrega = listaDireccionesEntrega.Find(Function(x) x.IDDireccionEntrega = CInt(r("PedidoCliente")))
                         End If
                     End If
-
                 End If
-            Next
+				Next
 
-            grdCobroPedido.DataSource = dtCobroPedido
-            grdCobroPedido.CaptionText = "Lista de documentos relacionados en el cobro (" & dtCobroPedido.DefaultView.Count & ") Total: " & SumaColumnaVista(dtCobroPedido.DefaultView, "CobroPedidoTotal").ToString("C")
+				grdCobroPedido.DataSource = dtCobroPedido
+				grdCobroPedido.CaptionText = "Lista de documentos relacionados en el cobro (" & dtCobroPedido.DefaultView.Count & ") Total: " & SumaColumnaVista(dtCobroPedido.DefaultView, "CobroPedidoTotal").ToString("C")
 
-        End If
+			End If
     End Sub
 
     Private Sub ConsultaCobroPedido(ByVal Caja As Byte,
@@ -1666,8 +1645,8 @@ Public Class ConsultaMovimientos
     End Sub
 
     Private Sub CancelaMovimiento()
-        strMensaje = "¿Desea cancelar el movimiento: " & _Clave & " con estatus: " & _Status & "?"
-        If MessageBox.Show(strMensaje, "Cancelación de movimiento", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+        strMensaje = "Â¿Desea cancelar el movimiento: " & _Clave & " con estatus: " & _Status & "?"
+        If MessageBox.Show(strMensaje, "CancelaciÃ³n de movimiento", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
             Dim frmMotivoCancelacion As New MotivoCancelacion(_Clave, Enumeradores.enumDestinoCancelacion.MovimientoCaja)
             If frmMotivoCancelacion.ShowDialog = DialogResult.OK Then
                 Dim oMovCaja As New SigaMetClasses.TransaccionMovimientoCaja()
@@ -1688,9 +1667,9 @@ Public Class ConsultaMovimientos
     End Sub
 
     Private Sub BotonCancelar()
-        strTitulo = "Cancelación de movimientos"
+        strTitulo = "CancelaciÃ³n de movimientos"
         If _Caja <> 0 And _Consecutivo <> 0 And _Folio <> 0 Then
-            'Si ya está cancelado termina el procedimiento
+            'Si ya estÃ¡ cancelado termina el procedimiento
             If _Status = "CANCELADO" Or _Status = "CANCELAUTO" Then
                 strMensaje = "El movimiento " & _Clave & " no puede ser cancelado porque tiene estatus " & _Status
                 MessageBox.Show(strMensaje, strTitulo, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -1733,7 +1712,7 @@ Public Class ConsultaMovimientos
         If _Clave <> "" Then
             If _Status = "CANCELADO" Or _Status = "CANCELAUTO" Then
                 If oSeguridad.TieneAcceso("MOVIMIENTOS_REVIVE") Then
-                    strMensaje = "¿Desea revivir el movimiento: " & _Clave & " con estatus: " & _Status & "?"
+                    strMensaje = "Â¿Desea revivir el movimiento: " & _Clave & " con estatus: " & _Status & "?"
                     If MessageBox.Show(strMensaje, strTitulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
                         Cursor = Cursors.WaitCursor
                         Dim oMovCaja As New SigaMetClasses.TransaccionMovimientoCaja()
@@ -1782,7 +1761,7 @@ Public Class ConsultaMovimientos
             '                RegexOptions.IgnoreCase)
             '    Dim m As Match = re.Match(strURLGateway)
             '    If m.Captures.Count = 0 Then
-            '        MessageBox.Show("El valor configurado al parámetro URLGateway no es correcto.")
+            '        MessageBox.Show("El valor configurado al parÃ¡metro URLGateway no es correcto.")
             '    End If
             'Catch ex As Exception
             '    strURLGateway = ""
