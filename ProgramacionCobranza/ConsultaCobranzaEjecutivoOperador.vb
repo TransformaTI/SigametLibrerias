@@ -1,5 +1,6 @@
 Imports System.Collections.Generic
 Imports System.Linq
+Imports System.Windows.Forms
 
 Public Class ConsultaCobranzaEjecutivoOperador
     Inherits System.Windows.Forms.Form
@@ -274,6 +275,8 @@ Public Class ConsultaCobranzaEjecutivoOperador
     Private _listaCelulas As DataTable
     Private _listaRutas As DataTable
     Private _listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
+    Private validarPeticion As Boolean
+    Private listaClientesEnviados As List(Of Integer)
 
     Public ReadOnly Property ListaDocumentos() As DataTable
         Get
@@ -334,7 +337,9 @@ Public Class ConsultaCobranzaEjecutivoOperador
         cboEmpleado.DataSource = _listaEmpleados
         cboEmpleado.ValueMember = "Empleado"
         cboEmpleado.DisplayMember = "NombreCompuesto"
-
+        If IsNothing(_listaDireccionesEntrega) Then
+            _listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+        End If
         cboEmpleado.SelectedValue = _empleado
 
         dtpFechaCobranza.Value = DateAdd(DateInterval.Day, -1, dtpFechaCobranza.Value)
@@ -344,7 +349,8 @@ Public Class ConsultaCobranzaEjecutivoOperador
         Dim params(3) As SqlClient.SqlParameter
         Dim _cliente As String = ""
         Dim CLIENTETEMP As Integer = 0
-        Dim direccionEntrega As RTGMCore.DireccionEntrega
+        Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+        listaClientesEnviados = New List(Of Integer)
 
         params(0) = New SqlClient.SqlParameter("@FCargo", SqlDbType.DateTime)
         params(1) = New SqlClient.SqlParameter("@Ejecutivo", SqlDbType.Int)
@@ -375,44 +381,81 @@ Public Class ConsultaCobranzaEjecutivoOperador
 
         Dim dt As New DataTable
         dt = programaCobranza.Programacion.Tables("ProgramaCobranza")
-        'listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
-        Dim dtTemp As DataTable
-        Dim iteraciones As Integer = 0
-        Dim MyView As DataView = New DataView(dt)
-        dtTemp = MyView.ToTable(True, "Cliente")
+        If _URLGateway <> "" Then
+            Dim clientesDistintos As DataTable = programaCobranza.Programacion.Tables("ProgramaCobranza").DefaultView.ToTable(True, "Cliente")
+            Dim listaClientesDistintos As New List(Of Integer)
+            Dim templistaClientesDistintos As New List(Of Integer)
 
-        Dim listaClientesDistintos As New List(Of Integer)
+            For Each fila As DataRow In clientesDistintos.Rows
+                Dim cliente As String = CType(fila("Cliente"), String)
+                Dim _Ccliente As String = cliente.Substring(0, cliente.LastIndexOf("-") - 1)
+                templistaClientesDistintos.Add(CType(_Ccliente.Trim(), Integer))
+            Next
 
-        For Each fila As DataRow In dtTemp.Rows
-            Dim cliente As String = CType(fila("Cliente"), String)
-            Dim _Ccliente As String = cliente.Substring(0, cliente.LastIndexOf("-") - 1)
-            listaClientesDistintos.Add(CType(_Ccliente.Trim(), Integer))
-        Next
+            For Each clienteTemps As Integer In templistaClientesDistintos
+                direccionEntregaTemp = _listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemps)
 
-        While listaClientesDistintos.Count <> _listaDireccionesEntrega.Count And iteraciones < 20
-            generaListaCLientes(listaClientesDistintos)
-            iteraciones = iteraciones + 1
-        End While
+                If IsNothing(direccionEntregaTemp) Then
+                    listaClientesDistintos.Add(clienteTemps)
+                End If
+            Next
 
-        For Each drow As DataRow In dt.Rows
             Try
-                Dim cliente As String = CType(drow("Cliente"), String)
-                _cliente = cliente.Substring(0, cliente.LastIndexOf("-") - 1)
-                CLIENTETEMP = (CType(_cliente.Trim(), Integer))
-                Dim _NCliente As String = cliente.Substring(cliente.LastIndexOf("-") + 1)
-                drow("Cliente") = ""
-                direccionEntrega = _listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
-
-                If Not IsNothing(direccionEntrega) Then
-                    drow("Cliente") = _cliente & " - " & direccionEntrega.Nombre.Trim()
+                If clientesDistintos.Rows.Count > 0 Then
+                    If listaClientesDistintos.Count > 0 Then
+                        validarPeticion = True
+                        generaListaClientes(listaClientesDistintos)
+                    Else
+                        llenarListaEntrega()
+                    End If
                 Else
-                    drow("Cliente") = _cliente & " - No encontrado"
+                    dgCobranza.DataSource = dt
                 End If
             Catch ex As Exception
-                drow("Cliente") = _cliente & " - Error al buscar"
+                MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
-        Next
-        dgCobranza.DataSource = dt
+        Else
+            dgCobranza.DataSource = dt
+        End If
+
+        'listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+        'Dim dtTemp As DataTable
+        'Dim iteraciones As Integer = 0
+        'Dim MyView As DataView = New DataView(dt)
+        'dtTemp = MyView.ToTable(True, "Cliente")
+
+        'Dim listaClientesDistintos As New List(Of Integer)
+
+        'For Each fila As DataRow In dtTemp.Rows
+        '    Dim cliente As String = CType(fila("Cliente"), String)
+        '    Dim _Ccliente As String = cliente.Substring(0, cliente.LastIndexOf("-") - 1)
+        '    listaClientesDistintos.Add(CType(_Ccliente.Trim(), Integer))
+        'Next
+
+        'While listaClientesDistintos.Count <> _listaDireccionesEntrega.Count And iteraciones < 20
+        '    generaListaClientes(listaClientesDistintos)
+        '    iteraciones = iteraciones + 1
+        'End While
+
+        'For Each drow As DataRow In dt.Rows
+        '    Try
+        '        Dim cliente As String = CType(drow("Cliente"), String)
+        '        _cliente = cliente.Substring(0, cliente.LastIndexOf("-") - 1)
+        '        CLIENTETEMP = (CType(_cliente.Trim(), Integer))
+        '        Dim _NCliente As String = cliente.Substring(cliente.LastIndexOf("-") + 1)
+        '        drow("Cliente") = ""
+        '        direccionEntrega = _listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+
+        '        If Not IsNothing(direccionEntrega) Then
+        '            drow("Cliente") = _cliente & " - " & direccionEntrega.Nombre.Trim()
+        '        Else
+        '            drow("Cliente") = _cliente & " - No encontrado"
+        '        End If
+        '    Catch ex As Exception
+        '        drow("Cliente") = _cliente & " - Error al buscar"
+        '    End Try
+        'Next
+
         dgCobranza.AutoColumnHeader()
         dgCobranza.DataAdd()
         Dim lvi As System.Windows.Forms.ListViewItem
@@ -462,27 +505,120 @@ Public Class ConsultaCobranzaEjecutivoOperador
         End Try
     End Sub
 
-    Private Sub generaListaCLientes(ByVal listaClientesDistintos As List(Of Integer))
+    Public Sub completarListaEntregas(lista As List(Of RTGMCore.DireccionEntrega))
+        Dim direccionEntrega As RTGMCore.DireccionEntrega
+        Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+        Dim errorConsulta As Boolean
         Try
-            Dim listaClientes As New List(Of Integer)
-            Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+            For Each direccion As RTGMCore.DireccionEntrega In lista
+                Try
+                    If Not IsNothing(direccion) Then
+                        If Not IsNothing(direccion.Message) Then
+                            direccionEntrega = New RTGMCore.DireccionEntrega()
+                            direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                            direccionEntrega.Nombre = direccion.Message
+                            _listaDireccionesEntrega.Add(direccionEntrega)
+                        ElseIf direccion.IDDireccionEntrega = -1 Then
+                            errorConsulta = True
+                        ElseIf direccion.IDDireccionEntrega >= 0 Then
+                            _listaDireccionesEntrega.Add(direccion)
+                        End If
+                    Else
+                        direccionEntrega = New RTGMCore.DireccionEntrega()
+                        direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                        direccionEntrega.Nombre = "No se encontró cliente"
+                        _listaDireccionesEntrega.Add(direccionEntrega)
+                    End If
 
-            For Each clienteTemp As Integer In listaClientesDistintos
-                direccionEntregaTemp = _listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
-
-                If IsNothing(direccionEntregaTemp) Then
-                    listaClientes.Add(clienteTemp)
-                End If
+                Catch ex As Exception
+                    direccionEntrega = New RTGMCore.DireccionEntrega()
+                    direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                    direccionEntrega.Nombre = ex.Message
+                    _listaDireccionesEntrega.Add(direccionEntrega)
+                End Try
             Next
 
-            Dim opciones As New System.Threading.Tasks.ParallelOptions()
-            opciones.MaxDegreeOfParallelism = 10
-            System.Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
+            If validarPeticion And errorConsulta Then
+                validarPeticion = False
+                Dim listaClientes As List(Of Integer) = New List(Of Integer)
+                For Each clienteTemp As Integer In listaClientesEnviados
+                    direccionEntregaTemp = _listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                    If IsNothing(direccionEntregaTemp) Then
+                        listaClientes.Add(clienteTemp)
+                    End If
+                Next
+
+                Dim result As Integer = MessageBox.Show("No fue posible encontrar información para " & listaClientes.Count & " clientes de la solicitud ¿desea reintentar?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
+
+                If result = DialogResult.Yes Then
+                    generaListaClientes(listaClientes)
+                Else
+                    llenarListaEntrega()
+                End If
+            Else
+                llenarListaEntrega()
+            End If
         Catch ex As Exception
+            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub llenarListaEntrega()
+        Dim drow As DataRow
+        Dim direccionEntrega As RTGMCore.DireccionEntrega
+        Dim CLIENTETEMP As Integer
+        Dim _cliente As String = ""
+        Try
+            Dim dtCobranza As DataTable = programaCobranza.Programacion.Tables("ProgramaCobranza")
+            direccionEntrega = New RTGMCore.DireccionEntrega
+            For Each drow In dtCobranza.Rows
+                Try
+                    Dim cliente As String = CType(drow("Cliente"), String)
+                    _cliente = cliente.Substring(0, cliente.LastIndexOf("-") - 1)
+                    CLIENTETEMP = (CType(_cliente.Trim(), Integer))
+                    Dim _NCliente As String = cliente.Substring(cliente.LastIndexOf("-") + 1)
+                    drow("Cliente") = ""
+                    direccionEntrega = _listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+
+                    If Not IsNothing(direccionEntrega) Then
+                        drow("Cliente") = _cliente & " - " & direccionEntrega.Nombre.Trim()
+                    Else
+                        drow("Cliente") = _cliente & " - No encontrado"
+                    End If
+                Catch ex As Exception
+                    drow("Cliente") = _cliente & " - Error al buscar"
+                End Try
+            Next
+
+            dgCobranza.DataSource = dtCobranza
+        Catch ex As Exception
+            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
 
         End Try
-
     End Sub
+
+    Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Try
+
+            oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion) ', _UrlGateway)
+            oGateway.ListaCliente = listaClientesDistintos
+            oGateway.URLServicio = _URLGateway
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            AddHandler oGateway.eListaEntregas, AddressOf completarListaEntregas
+            listaClientesEnviados = listaClientesDistintos
+            For Each CLIENTETEMP As Integer In listaClientesDistintos
+                oSolicitud.IDCliente = CLIENTETEMP
+                oGateway.busquedaDireccionEntregaAsync(oSolicitud)
+            Next
+        Catch ex As Exception
+            Throw
+        End Try
+    End Sub
+
     Private Sub btnCancelar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancelar.Click
         Me.DialogResult = Windows.Forms.DialogResult.Cancel
         Me.Close()
