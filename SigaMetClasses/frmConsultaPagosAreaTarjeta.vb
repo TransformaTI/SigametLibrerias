@@ -1,4 +1,6 @@
-﻿Imports System.Windows.Forms
+﻿Imports System.Collections.Generic
+Imports System.Linq
+Imports System.Windows.Forms
 
 Public Class frmConsultaPagosAreaTarjeta
 #Region "Variables"
@@ -8,16 +10,57 @@ Public Class frmConsultaPagosAreaTarjeta
     Private _ConnectionString As String
     Private _Anio As Integer
     Private _Folio As Integer
+    Private _Modulo As Short
+    Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
+    Private _Empresa As Integer
+    Private _Sucursal As Byte
 #End Region
 #Region "Constructor"
 
 
-    Public Sub New(Usuario As String, ConnectionString As String)
+    Public Sub New(ByVal Usuario As String, ByVal ConnectionString As String, ByVal modulo As Short, ByVal sucursal As Byte, ByVal Corporativo As Short)
         InitializeComponent()
         _Usuario = Usuario
         _ConnectionString = ConnectionString
-
+        _CadenaConexion = ConnectionString
+        _Modulo = modulo
+        _Sucursal = sucursal
+        listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
     End Sub
+
+#Region "Propiedades"
+
+    Private _CadenaConexion As String
+    Public Property CadenaConexion() As String
+        Get
+            Return _CadenaConexion
+        End Get
+        Set(ByVal value As String)
+            _CadenaConexion = value
+        End Set
+    End Property
+
+    Private _URLGateway As String
+    Public Property URLGateway() As String
+        Get
+            Return _URLGateway
+        End Get
+        Set(ByVal value As String)
+            _URLGateway = value
+        End Set
+    End Property
+    Public Property Sucursal() As Byte
+        Get
+            Return _Sucursal
+        End Get
+        Set(ByVal value As Byte)
+            _Sucursal = value
+        End Set
+    End Property
+
+#End Region
+
+
 
 #End Region
 
@@ -25,6 +68,7 @@ Public Class frmConsultaPagosAreaTarjeta
 #Region "Metodos"
     Private Sub MuestraAltaPagoTarjeta(ByVal sTipoLlamado As Byte)
         Dim frmAlta As frmAltaPagoTarjeta
+
 
         If _Anio = 0 And sTipoLlamado = 1 Then
             MessageBox.Show("Seleccione un pago con tarjeta.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -60,13 +104,48 @@ Public Class frmConsultaPagosAreaTarjeta
     Private Sub BuscarCargosTarjetaPorFechaAlta()
         Dim oPagoTarjeta As New AltaPagoTarjeta
         Dim NumCliente As Int64 = 0
+        Dim oConfig As New SigaMetClasses.cConfig(_Modulo, CShort(_Empresa), _Sucursal)
+        Dim dtCargoTarjeta As DataTable
+        Dim dtCargoTarjetaTmp As DataTable
+        Dim direccionEntregaTemp As New RTGMCore.DireccionEntrega
 
         If TxtNumCliente.Text <> String.Empty Then
             NumCliente = Convert.ToUInt64(TxtNumCliente.Text)
         End If
         CierraConexion()
 
-        grdPagosTarjeta.DataSource = oPagoTarjeta.ConsultaCargoTarjeta(dtpFInicio.Value, dtpFfinal.Value, NumCliente)
+        dtCargoTarjeta = oPagoTarjeta.ConsultaCargoTarjeta(dtpFInicio.Value, dtpFfinal.Value, NumCliente)
+
+
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            If Not ex.Message.Contains("Index") Then
+                MessageBox.Show("Error al consultar Parametro URLGateway: " + ex.Message)
+            End If
+        End Try
+
+
+        If _URLGateway <> "" Then
+            consultarDatosClienteCRM_Parallel(dtCargoTarjeta)
+            dtCargoTarjetaTmp = dtCargoTarjeta
+            For Each row As DataRow In dtCargoTarjetaTmp.Rows
+                direccionEntregaTemp = listaDireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(row("Cliente")))
+                If Not IsNothing(direccionEntregaTemp) Then
+                    If Not IsNothing(direccionEntregaTemp.Nombre) Then
+                        If Not direccionEntregaTemp.Nombre.Contains("error") Then
+                            dtCargoTarjetaTmp.Columns("nombre").ReadOnly = False
+                            row("Nombre") = direccionEntregaTemp.Nombre.Trim
+                        End If
+                    End If
+                End If
+            Next
+
+            grdPagosTarjeta.DataSource = dtCargoTarjetaTmp
+        Else
+            grdPagosTarjeta.DataSource = dtCargoTarjeta
+        End If
+
 
         If grdPagosTarjeta.Rows.Count > 0 Then
             grdPagosTarjeta.Rows(0).Selected = True
@@ -76,6 +155,92 @@ Public Class frmConsultaPagosAreaTarjeta
 
         oPagoTarjeta = Nothing
     End Sub
+
+    Private Function consultarDatosClienteCRM_Parallel(ByVal dtPagosTarjeta As DataTable) As DataTable
+        Dim dtPagosTarjetasModificados As New DataTable()
+        Dim Mensaje As String = "Los siguientes clientes no fueron encontrados en CRM." + vbCrLf
+        Dim CtesNoEncontrados As String = ""
+        Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+
+
+        Try
+
+
+            dtPagosTarjetasModificados = dtPagosTarjeta
+            Dim clientes As New List(Of Integer)
+
+
+
+            For Each dr As DataRow In dtPagosTarjetasModificados.Rows
+                direccionEntregaTemp = listaDireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(dr("Cliente")))
+                If IsNothing(direccionEntregaTemp) Then
+                    clientes.Add(CType(dr("Cliente"), Int32))
+                End If
+            Next
+            Dim clientesDistintos As New List(Of Integer)
+            If (clientes.Count > 0) Then
+                clientesDistintos = clientes.Select(Function(v) v).Distinct.ToList()
+            End If
+            If clientesDistintos.Count > 0 Then
+                For indice As Integer = 0 To clientesDistintos.Count - 1
+                    System.Threading.Tasks.Parallel.ForEach(clientesDistintos, Sub(x) consultarDirecciones(x))
+                Next
+            End If
+
+
+
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            dtPagosTarjetasModificados.Clear()
+        Finally
+            Cursor = Cursors.Default
+        End Try
+
+        Return dtPagosTarjeta
+    End Function
+
+
+    Private Sub consultarDirecciones(ByVal idCliente As Integer)
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        Try
+
+            oGateway = New RTGMGateway.RTGMGateway(CType(_Modulo, Byte), _CadenaConexion)
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            oGateway.URLServicio = _URLGateway
+
+            oSolicitud.IDCliente = idCliente
+            oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+            If Not IsNothing(oDireccionEntrega) Then
+                If Not IsNothing(oDireccionEntrega.Message) Then
+                    oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                    oDireccionEntrega.IDDireccionEntrega = idCliente
+                    oDireccionEntrega.Nombre = oDireccionEntrega.Message
+                    listaDireccionesEntrega.Add(oDireccionEntrega)
+                Else
+                    listaDireccionesEntrega.Add(oDireccionEntrega)
+                End If
+
+            Else
+                oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                oDireccionEntrega.IDDireccionEntrega = idCliente
+                oDireccionEntrega.Nombre = "No se encontró cliente"
+                listaDireccionesEntrega.Add(oDireccionEntrega)
+            End If
+
+        Catch ex As Exception
+            oDireccionEntrega = New RTGMCore.DireccionEntrega()
+            oDireccionEntrega.IDDireccionEntrega = idCliente
+            oDireccionEntrega.Nombre = ex.Message
+            listaDireccionesEntrega.Add(oDireccionEntrega)
+
+        End Try
+    End Sub
+
 
     Private Sub CancelaCargoTarjeta()
         Dim oPagoTarjeta As New AltaPagoTarjeta
