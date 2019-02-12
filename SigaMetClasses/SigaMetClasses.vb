@@ -5453,16 +5453,23 @@ Public Class Cobro
             End If
             If TipoCobro <> Enumeradores.enumTipoCobro.EfectivoVales Then
                 .Parameters.Add(New SqlParameter("@NumeroCheque", SqlDbType.Char, 20)).Value = strNumeroCheque
-                .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = dtmFCheque ' IIf(dtmFCheque = Date.MinValue, Date.Now, Date.Now)
-                If TipoCobro = Enumeradores.enumTipoCobro.Cheque Then
-                    .Parameters.Add(New SqlParameter("@FechaCobro", SqlDbType.DateTime)).Value = dtmFCobro
-                Else
-                    .Parameters.Add(New SqlParameter("@FechaCobro", SqlDbType.DateTime)).Value = DBNull.Value
 
+
+                If Not IsNothing(dtmFCheque) Then
+                    .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = dtmFCheque ' IIf(dtmFCheque = Date.MinValue, Date.Now, Date.Now)
+                Else
+                    .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = DBNull.Value
                 End If
 
-            End If
-            .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = intCliente
+                If TipoCobro = Enumeradores.enumTipoCobro.Cheque Then
+                        .Parameters.Add(New SqlParameter("@FechaCobro", SqlDbType.DateTime)).Value = dtmFCobro
+                    Else
+                        .Parameters.Add(New SqlParameter("@FechaCobro", SqlDbType.DateTime)).Value = DBNull.Value
+
+                    End If
+
+                End If
+                .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = intCliente
             .Parameters.Add(New SqlParameter("@Banco", SqlDbType.SmallInt)).Value = shrBanco
             .Parameters.Add(New SqlParameter("@Observaciones", SqlDbType.VarChar, 250)).Value = strObservaciones
 
