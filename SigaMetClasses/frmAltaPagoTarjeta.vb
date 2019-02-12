@@ -15,6 +15,8 @@ Public Class frmAltaPagoTarjeta
     Private _zonaEconomica As Integer
     Private _modoOperacion As Byte
     Private _Anio As Integer
+    Private _listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
+    Dim direccionEntregaTemp As New RTGMCore.DireccionEntrega
 #End Region
 
     Public Sub New()
@@ -28,7 +30,7 @@ Public Class frmAltaPagoTarjeta
 
 
 
-    Public Sub New(Usuario As String)
+    Public Sub New(Usuario As String, listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega))
         MyBase.New()
         ' This call is required by the designer.
         InitializeComponent()
@@ -36,6 +38,7 @@ Public Class frmAltaPagoTarjeta
         Lbl_fechaCargo.Visible = False
         ' Add any initialization after the InitializeComponent() call.
         ChkCalculo.Checked = True
+        _listaDireccionesEntrega = listaDireccionesEntrega
     End Sub
 #Region "Propiedades"
 
@@ -526,9 +529,20 @@ Public Class frmAltaPagoTarjeta
 
         For Each dr In dtCliente.Rows
             txtcliente.Text = CType(dr("Cliente"), String)
-            txtNombre.Text = CType(dr("Nombre"), String)
+
+            direccionEntregaTemp = _listaDireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(dr("Cliente")))
+            If Not IsNothing(direccionEntregaTemp) Then
+                If Not IsNothing(direccionEntregaTemp.Nombre) Then
+                    If Not direccionEntregaTemp.Nombre.Contains("error") Then
+                        dtCliente.Columns("nombre").ReadOnly = False
+                        txtNombre.Text = CType(dr("Nombre"), String)
+                    End If
+                End If
+            End If
+
+
             txtCalle.Text = CType(dr("CalleNombre"), String)
-            txtColonia.Text = CType(dr("ColoniaNombre"), String)
+                        txtColonia.Text = CType(dr("ColoniaNombre"), String)
             txtMunicipio.Text = CType(dr("Nombre"), String)
             txtRuta.Text = CType(dr("RutaDescripcion"), String)
             _zonaEconomica = CType(dr("ZonaEconomica"), Integer)

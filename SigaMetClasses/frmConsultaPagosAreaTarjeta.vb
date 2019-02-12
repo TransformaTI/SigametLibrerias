@@ -86,7 +86,7 @@ Public Class frmConsultaPagosAreaTarjeta
 
         CierraConexion()
         Cursor = Cursors.WaitCursor
-        frmAlta = New frmAltaPagoTarjeta(_Usuario)
+        frmAlta = New frmAltaPagoTarjeta(_Usuario, listaDireccionesEntrega)
         frmAlta.modoOperacion = sTipoLlamado
         frmAlta.Folio = _Folio
         frmAlta.Anio = _Anio
