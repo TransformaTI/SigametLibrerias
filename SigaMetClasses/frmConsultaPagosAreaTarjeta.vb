@@ -135,7 +135,8 @@ Public Class frmConsultaPagosAreaTarjeta
                     If Not IsNothing(direccionEntregaTemp.Nombre) Then
                         If Not direccionEntregaTemp.Nombre.Contains("error") Then
                             dtCargoTarjetaTmp.Columns("nombre").ReadOnly = False
-                            row("Nombre") = direccionEntregaTemp.Nombre.Trim
+                            dtCargoTarjetaTmp.Columns("nombre").MaxLength = 200
+                            row("Nombre") = direccionEntregaTemp.Nombre.Trim()
                         End If
                     End If
                 End If
