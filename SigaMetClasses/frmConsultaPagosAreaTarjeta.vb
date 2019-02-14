@@ -109,6 +109,9 @@ Public Class frmConsultaPagosAreaTarjeta
         Dim dtCargoTarjetaTmp As DataTable
         Dim direccionEntregaTemp As New RTGMCore.DireccionEntrega
 
+        Cursor = Cursors.WaitCursor
+
+
         If TxtNumCliente.Text <> String.Empty Then
             NumCliente = Convert.ToUInt64(TxtNumCliente.Text)
         End If
@@ -153,7 +156,7 @@ Public Class frmConsultaPagosAreaTarjeta
             SeleccionaPagoTarjeta()
         End If
 
-
+        Cursor = Cursors.Default
         oPagoTarjeta = Nothing
     End Sub
 

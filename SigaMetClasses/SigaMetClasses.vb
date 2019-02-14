@@ -4747,10 +4747,10 @@ Public Class AltaPagoTarjeta
     Public Function ConsultaCargoTarjeta(ByVal FechaIni As Date, ByVal FechaFin As Date, ByVal NumCliente As Int64) As DataTable
         Dim DtCargoTarjeta As New DataTable
         Dim cmd As New SqlCommand("spCyCConsultaPagosTarjetaPorFechaAlta")
-
         Dim dr As SqlDataReader
 
         Try
+
             AbreConexion()
 
             cmd.Connection = DataLayer.Conexion
@@ -4761,14 +4761,21 @@ Public Class AltaPagoTarjeta
                 cmd.Parameters.Add("@NumCliente", SqlDbType.BigInt).Value = NumCliente
             End If
 
-
             dr = cmd.ExecuteReader()
 
             DtCargoTarjeta.Load(dr)
+
+
         Catch ex As Exception
             EventLog.WriteEntry("SigametClasses " & ex.Source, ex.Message, EventLogEntryType.Error)
             Throw ex
+        Finally
+            cmd = Nothing
+            da.Dispose()
         End Try
+
+
+
 
         Return DtCargoTarjeta
     End Function
