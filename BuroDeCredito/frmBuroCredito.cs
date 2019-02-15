@@ -853,28 +853,28 @@ namespace BuroDeCredito
 
 		private void grdEmpresas_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
-			grdEmpresas.Columns.Clear();
-			grdEmpresas.Items.Clear();
+			//grdEmpresas.Columns.Clear();
+			//grdEmpresas.Items.Clear();
 
-			grdEmpresas.DataSource = _reporte.Acreditados;
-			grdEmpresas.AutoColumnHeader();
-			grdEmpresas.DataAdd();
+			//grdEmpresas.DataSource = _reporte.Acreditados;
+			//grdEmpresas.AutoColumnHeader();
+			//grdEmpresas.DataAdd();
 
-			foreach (ListViewItem item in this.grdEmpresas.Items)
-			{
-				switch (item.SubItems[5].Text)
-				{
-					case "NUEVO" :
-						item.ForeColor = Color.DarkGreen;
-						break;
-					case "EXCLUIDO" :
-						item.ForeColor = Color.DarkRed;
-						break;
-					case "ENVIADO" :
-						item.ForeColor = Color.DarkGray;
-						break;
-				}
-			}
+			//foreach (ListViewItem item in this.grdEmpresas.Items)
+			//{
+			//	switch (item.SubItems[5].Text)
+			//	{
+			//		case "NUEVO" :
+			//			item.ForeColor = Color.DarkGreen;
+			//			break;
+			//		case "EXCLUIDO" :
+			//			item.ForeColor = Color.DarkRed;
+			//			break;
+			//		case "ENVIADO" :
+			//			item.ForeColor = Color.DarkGray;
+			//			break;
+			//	}
+			//}
 
 			if (grdEmpresas.Items.Count > 0)
 			{
@@ -916,13 +916,11 @@ namespace BuroDeCredito
 								data.AsignarAccion(empresa.ToString(), accion, data.pa.Consecutivo, data.pa.Periodo);
 							
 							}						
-						}
-					
+						}					
 					
 						ejecutivo = Convert.ToInt32(cboEjecutivo.SelectedValue);
 
 						data.RegistraAprobado(data.pa.Consecutivo, data.pa.Periodo, ejecutivo);
-						//CargaEncabezado(data.pa.Periodo, "", _empleado, "", data.pa.Consecutivo);
 						cboAccion.SelectedIndex = 0;
 					}
 					else
@@ -1093,7 +1091,7 @@ namespace BuroDeCredito
 			{
 				
 
-                if (data.pa.Periodo != null )
+                if (data.pa != null )
                 {
                     data.ConsultaEjecutivoAprobado(data.pa.Periodo, data.pa.Consecutivo, _empleado);
                     if (data.EjecutivoAprobado.Rows[0][2].ToString() == "PENDIENTE")
@@ -1102,22 +1100,27 @@ namespace BuroDeCredito
 					    {
 						    int empresa = Convert.ToInt32(grdEmpresas.SelectedItems[0].SubItems[0].Text);
 						    data.AsignarVigente(empresa, data.pa.Consecutivo, data.pa.Periodo, 0, 0, _usuario);
-						    //CargaEncabezado(data.pa.Periodo, "", _empleado,"", data.pa.Consecutivo);
 						    GetSelected(empresa);
 					    }
 					    else
 					    {
 						    MessageBox.Show(this,"Seleccione el cliente que desea modificar","BC", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
 					    }
-                    }
+                    }               
+				    else
+				    {
+					    MessageBox.Show(this,"Los datos del periodo han sido aprobados y no se pueden modificar","BC", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+				    }
+
                 }
-				else
-				{
-					MessageBox.Show(this,"Los datos del periodo han sido aprobados y no se pueden modificar","BC", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
-				}
+                else
+
+                {
+                    MessageBox.Show(this, "Se requiere información del periodo", "BC", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
 
 
-			}
+            }
 			catch (Exception ex)
 			{
 				throw ex;
@@ -1126,18 +1129,26 @@ namespace BuroDeCredito
 		private void ActualizaAcreditadoBuro()
 		{
 			try
-			{			
-				data.ConsultaEjecutivoAprobado(data.pa.Periodo, data.pa.Consecutivo, _empleado);
-				if(data.EjecutivoAprobado.Rows[0][2].ToString() == "PENDIENTE")
-				{
-					data.ActualizarAcreditado(data.pa.Consecutivo, data.pa.Periodo);
-					//CargaEncabezado(data.pa.Periodo, "", _empleado,"", data.pa.Consecutivo);
-				}
-				else
-				{
-					MessageBox.Show(this,"Los datos del periodo han sido aprobados y no se pueden modificar","BC", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
-				}
-			}
+			{		
+                if (data.pa!=null)
+                {
+                        data.ConsultaEjecutivoAprobado(data.pa.Periodo, data.pa.Consecutivo, _empleado);
+				        if(data.EjecutivoAprobado.Rows[0][2].ToString() == "PENDIENTE")
+				        {
+					        data.ActualizarAcreditado(data.pa.Consecutivo, data.pa.Periodo);
+				        }
+				        else
+				        {
+					        MessageBox.Show(this,"Los datos del periodo han sido aprobados y no se pueden modificar","BC", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+				        }
+                }
+                else
+             
+                 {
+                    MessageBox.Show(this, "Se requiere información del periodo", "BC", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+
+            }
 			catch (Exception ex)
 			{
 				throw ex;
@@ -1146,32 +1157,66 @@ namespace BuroDeCredito
 
 		private void ExportarArchivo()
 		{
-			ExportaArchivo exp = new ExportaArchivo();
-			saveFileDialog1.FileName = "BC" + data.pa.Periodo.ToString();
-			saveFileDialog1.Filter = "(*.xls) |*.xls";
+            if (data.pa!=null)
+            {
+                ExportaArchivo exp = new ExportaArchivo();
+			    saveFileDialog1.FileName = "BC" + data.pa.Periodo.ToString();
+			    saveFileDialog1.Filter = "(*.xls) |*.xls";
 			
-			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-			{
-				exp.ExportaArchivoPlano(data.Encabezado, saveFileDialog1.FileName.ToString(), Convert.ToChar("	"), true);				
-			}
-		}
+			    if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+			    {
+				    exp.ExportaArchivoPlano(data.Encabezado, saveFileDialog1.FileName.ToString(), Convert.ToChar("	"), true);				
+			    }
+            }
 
-		private void AsignaCalculo(int empresa)
+            else
+
+            {
+                MessageBox.Show(this, "Se requiere información del periodo", "BC", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+
+        }
+
+        
+
+		private void AsignaCalculo()
 		{
-			try
+            int empresa = 0;
+
+            try
 			{
-				data.ConsultaEjecutivoAprobado(data.pa.Periodo, data.pa.Consecutivo, _empleado);
-				if(data.EjecutivoAprobado.Rows[0][2].ToString() == "PENDIENTE")
-				{
-					data.AsignarCalculo(empresa,0, data.pa.Consecutivo, data.pa.Periodo, "", _usuario);
-					//CargaEncabezado(data.pa.Periodo, "", _empleado,"", data.pa.Consecutivo);
-					GetSelected(empresa);
-				}
-				else
-				{
-					MessageBox.Show(this,"Los datos del periodo han sido aprobados y no se pueden modificar","BC", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
-				}
-			}
+
+
+                if (grdEmpresas.SelectedItems.Count > 0)
+                {
+                      empresa = Convert.ToInt32(grdEmpresas.SelectedItems[0].SubItems[0].Text);                
+
+                    if (data.pa!=null)
+                    {
+                        data.ConsultaEjecutivoAprobado(data.pa.Periodo, data.pa.Consecutivo, _empleado);
+				        if(data.EjecutivoAprobado.Rows[0][2].ToString() == "PENDIENTE")
+				        {
+					        data.AsignarCalculo(empresa,0, data.pa.Consecutivo, data.pa.Periodo, "", _usuario);
+					        GetSelected(empresa);
+				        }
+				        else
+				        {
+					        MessageBox.Show(this,"Los datos del periodo han sido aprobados y no se pueden modificar","BC", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+				        }
+                    }
+
+                    {
+                        MessageBox.Show(this, "Se requiere información del periodo", "BC", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+
+                else
+                {
+                    MessageBox.Show(this, "Seleccione una empresa", "BC", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                }
+            }
 			catch
 			{
 				throw;
@@ -1237,18 +1282,17 @@ namespace BuroDeCredito
 						CargaActual();
 						break;
 					case("Detalle"): 
-						//CargaDetalles();
 						break;
 					case ("Aprobar"):
 						AsignaAccion();					
 						break;
 					case("Reporte"):
+
 						GeneraReporte();
 						break;
 					case ("Autorización"):
 						if(oSeguridad.TieneAcceso("BCAdministracionExclusiones"))
 						{
-							//ConsultaPeriodoActual();
                             if (data.DatosPeriodo!=null)
                             {
                                     if (data.DatosPeriodo.Rows.Count > 0)
@@ -1290,7 +1334,7 @@ namespace BuroDeCredito
 						ExportarArchivo();
 						break;
 					case ("Calcular"):
-						AsignaCalculo(Convert.ToInt32(grdEmpresas.SelectedItems[0].SubItems[0].Text));
+						AsignaCalculo();
 						break;
 				}
 			}
@@ -1410,7 +1454,7 @@ namespace BuroDeCredito
 		{
 			try
 			{
-				AsignaCalculo(Convert.ToInt32(grdEmpresas.SelectedItems[0].SubItems[0].Text));
+				AsignaCalculo();
 			}
 			catch (Exception ex)
 			{
