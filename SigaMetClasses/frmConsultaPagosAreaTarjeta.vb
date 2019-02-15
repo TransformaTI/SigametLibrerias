@@ -14,6 +14,7 @@ Public Class frmConsultaPagosAreaTarjeta
     Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
     Private _Empresa As Integer
     Private _Sucursal As Byte
+    Dim oConfig As SigaMetClasses.cConfig
 #End Region
 #Region "Constructor"
 
@@ -26,6 +27,7 @@ Public Class frmConsultaPagosAreaTarjeta
         _Modulo = modulo
         _Sucursal = sucursal
         listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+        oConfig = New SigaMetClasses.cConfig(_Modulo, CShort(_Empresa), _Sucursal)
     End Sub
 
 #Region "Propiedades"
@@ -104,7 +106,6 @@ Public Class frmConsultaPagosAreaTarjeta
     Private Sub BuscarCargosTarjetaPorFechaAlta()
         Dim oPagoTarjeta As New AltaPagoTarjeta
         Dim NumCliente As Int64 = 0
-        Dim oConfig As New SigaMetClasses.cConfig(_Modulo, CShort(_Empresa), _Sucursal)
         Dim dtCargoTarjeta As DataTable
         Dim dtCargoTarjetaTmp As DataTable
         Dim direccionEntregaTemp As New RTGMCore.DireccionEntrega
@@ -140,6 +141,7 @@ Public Class frmConsultaPagosAreaTarjeta
                             dtCargoTarjetaTmp.Columns("nombre").ReadOnly = False
                             dtCargoTarjetaTmp.Columns("nombre").MaxLength = 200
                             row("Nombre") = direccionEntregaTemp.Nombre.Trim()
+                            dtCargoTarjetaTmp.Columns("nombre").ReadOnly = True
                         End If
                     End If
                 End If

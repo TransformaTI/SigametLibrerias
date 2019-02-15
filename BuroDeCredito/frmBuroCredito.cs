@@ -74,523 +74,553 @@ namespace BuroDeCredito
 
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(frmBuroCredito));
-			this.tbBuro = new System.Windows.Forms.ToolBar();
-			this.Detalle = new System.Windows.Forms.ToolBarButton();
-			this.Histórico = new System.Windows.Forms.ToolBarButton();
-			this.Eliminar = new System.Windows.Forms.ToolBarButton();
-			this.Generar = new System.Windows.Forms.ToolBarButton();
-			this.Guardar = new System.Windows.Forms.ToolBarButton();
-			this.Actual = new System.Windows.Forms.ToolBarButton();
-			this.Reporte = new System.Windows.Forms.ToolBarButton();
-			this.Aprobar = new System.Windows.Forms.ToolBarButton();
-			this.Autorización = new System.Windows.Forms.ToolBarButton();
-			this.Quitar = new System.Windows.Forms.ToolBarButton();
-			this.Vigente = new System.Windows.Forms.ToolBarButton();
-			this.Calcular = new System.Windows.Forms.ToolBarButton();
-			this.Actualizar = new System.Windows.Forms.ToolBarButton();
-			this.Exportar = new System.Windows.Forms.ToolBarButton();
-			this.Cerrar = new System.Windows.Forms.ToolBarButton();
-			this.ilBuro = new System.Windows.Forms.ImageList(this.components);
-			this.conMenu = new System.Windows.Forms.ContextMenu();
-			this.itemVigente = new System.Windows.Forms.MenuItem();
-			this.itemCalcular = new System.Windows.Forms.MenuItem();
-			this.ilTabs = new System.Windows.Forms.ImageList(this.components);
-			this.MenuPrincipal = new System.Windows.Forms.MainMenu();
-			this.menuItem = new System.Windows.Forms.MenuItem();
-			this.menuArchivo = new System.Windows.Forms.MenuItem();
-			this.menuDetalle = new System.Windows.Forms.MenuItem();
-			this.menuCerrar = new System.Windows.Forms.MenuItem();
-			this.dgA = new CustGrd.vwGrd();
-			this.lblVencimiento = new System.Windows.Forms.Label();
-			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-			this.panel2 = new System.Windows.Forms.Panel();
-			this.cboAccion = new System.Windows.Forms.ComboBox();
-			this.lblMostrar = new System.Windows.Forms.Label();
-			this.cboCelula = new System.Windows.Forms.ComboBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.cboEjecutivo = new System.Windows.Forms.ComboBox();
-			this.lblEjecutivo = new System.Windows.Forms.Label();
-			this.btnConsultar = new System.Windows.Forms.Button();
-			this.chkTodosEjecutivos = new System.Windows.Forms.CheckBox();
-			this.lblFecha = new System.Windows.Forms.Label();
-			this.chkTodasCelulas = new System.Windows.Forms.CheckBox();
-			this.lblFecha2 = new System.Windows.Forms.Label();
-			this.grdEmpresas = new CustGrd.vwGrd();
-			this.grdCargos = new CustGrd.vwGrd();
-			this.lblIndicador = new System.Windows.Forms.Label();
-			this.lblEnviados = new System.Windows.Forms.Label();
-			this.lblExcluidos = new System.Windows.Forms.Label();
-			this.panel3 = new System.Windows.Forms.Panel();
-			this.label2 = new System.Windows.Forms.Label();
-			this.panel2.SuspendLayout();
-			this.panel3.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// tbBuro
-			// 
-			this.tbBuro.Appearance = System.Windows.Forms.ToolBarAppearance.Flat;
-			this.tbBuro.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
-																					  this.Detalle,
-																					  this.Histórico,
-																					  this.Eliminar,
-																					  this.Generar,
-																					  this.Guardar,
-																					  this.Actual,
-																					  this.Reporte,
-																					  this.Aprobar,
-																					  this.Autorización,
-																					  this.Quitar,
-																					  this.Vigente,
-																					  this.Calcular,
-																					  this.Actualizar,
-																					  this.Exportar,
-																					  this.Cerrar});
-			this.tbBuro.DropDownArrows = true;
-			this.tbBuro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
-			this.tbBuro.ImageList = this.ilBuro;
-			this.tbBuro.Name = "tbBuro";
-			this.tbBuro.ShowToolTips = true;
-			this.tbBuro.Size = new System.Drawing.Size(792, 39);
-			this.tbBuro.TabIndex = 0;
-			this.tbBuro.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.tbBuro_ButtonClick);
-			// 
-			// Detalle
-			// 
-			this.Detalle.ImageIndex = 3;
-			this.Detalle.Text = "Detalle";
-			// 
-			// Histórico
-			// 
-			this.Histórico.ImageIndex = 4;
-			this.Histórico.Text = "Histórico";
-			// 
-			// Eliminar
-			// 
-			this.Eliminar.ImageIndex = 5;
-			this.Eliminar.Text = "Eliminar";
-			this.Eliminar.Visible = false;
-			// 
-			// Generar
-			// 
-			this.Generar.ImageIndex = 0;
-			this.Generar.Text = "Generar";
-			this.Generar.Visible = false;
-			// 
-			// Guardar
-			// 
-			this.Guardar.ImageIndex = 6;
-			this.Guardar.Text = "Guardar";
-			this.Guardar.Visible = false;
-			// 
-			// Actual
-			// 
-			this.Actual.ImageIndex = 7;
-			this.Actual.Text = "Actual";
-			this.Actual.Visible = false;
-			// 
-			// Reporte
-			// 
-			this.Reporte.ImageIndex = 8;
-			this.Reporte.Text = "Reporte";
-			this.Reporte.Visible = false;
-			// 
-			// Aprobar
-			// 
-			this.Aprobar.ImageIndex = 9;
-			this.Aprobar.Text = "Aprobar";
-			this.Aprobar.Visible = false;
-			// 
-			// Autorización
-			// 
-			this.Autorización.ImageIndex = 11;
-			this.Autorización.Text = "Autorización";
-			// 
-			// Quitar
-			// 
-			this.Quitar.ImageIndex = 5;
-			this.Quitar.Text = "Quitar";
-			this.Quitar.Visible = false;
-			// 
-			// Vigente
-			// 
-			this.Vigente.ImageIndex = 8;
-			this.Vigente.Text = "Vigente";
-			// 
-			// Calcular
-			// 
-			this.Calcular.ImageIndex = 7;
-			this.Calcular.Text = "Calcular";
-			// 
-			// Actualizar
-			// 
-			this.Actualizar.ImageIndex = 12;
-			this.Actualizar.Text = "Actualizar";
-			// 
-			// Exportar
-			// 
-			this.Exportar.ImageIndex = 0;
-			this.Exportar.Text = "Exportar";
-			// 
-			// Cerrar
-			// 
-			this.Cerrar.ImageIndex = 1;
-			this.Cerrar.Text = "Cerrar";
-			// 
-			// ilBuro
-			// 
-			this.ilBuro.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-			this.ilBuro.ImageSize = new System.Drawing.Size(16, 16);
-			this.ilBuro.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilBuro.ImageStream")));
-			this.ilBuro.TransparentColor = System.Drawing.Color.Transparent;
-			// 
-			// conMenu
-			// 
-			this.conMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					this.itemVigente,
-																					this.itemCalcular});
-			// 
-			// itemVigente
-			// 
-			this.itemVigente.Index = 0;
-			this.itemVigente.Text = "Vigente";
-			this.itemVigente.Click += new System.EventHandler(this.itemVigente_Click);
-			// 
-			// itemCalcular
-			// 
-			this.itemCalcular.Index = 1;
-			this.itemCalcular.Text = "Calcular";
-			this.itemCalcular.Click += new System.EventHandler(this.itemCalcular_Click);
-			// 
-			// ilTabs
-			// 
-			this.ilTabs.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-			this.ilTabs.ImageSize = new System.Drawing.Size(16, 16);
-			this.ilTabs.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilTabs.ImageStream")));
-			this.ilTabs.TransparentColor = System.Drawing.Color.Transparent;
-			// 
-			// MenuPrincipal
-			// 
-			this.MenuPrincipal.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																						  this.menuItem});
-			// 
-			// menuItem
-			// 
-			this.menuItem.Index = 0;
-			this.menuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					 this.menuArchivo,
-																					 this.menuDetalle,
-																					 this.menuCerrar});
-			this.menuItem.Text = "Archivo";
-			// 
-			// menuArchivo
-			// 
-			this.menuArchivo.Index = 0;
-			this.menuArchivo.Text = "Abrir Archivo";
-			this.menuArchivo.Click += new System.EventHandler(this.menuArchivo_Click);
-			// 
-			// menuDetalle
-			// 
-			this.menuDetalle.Index = 1;
-			this.menuDetalle.Text = "Consultar Detalle";
-			this.menuDetalle.Click += new System.EventHandler(this.menuDetalle_Click);
-			// 
-			// menuCerrar
-			// 
-			this.menuCerrar.Index = 2;
-			this.menuCerrar.Text = "Cerrar";
-			this.menuCerrar.Click += new System.EventHandler(this.menuCerrar_Click);
-			// 
-			// dgA
-			// 
-			this.dgA.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-				| System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
-			this.dgA.ColumnMargin = 1;
-			this.dgA.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.dgA.FullRowSelect = true;
-			this.dgA.Location = new System.Drawing.Point(0, 32);
-			this.dgA.Name = "dgA";
-			this.dgA.Size = new System.Drawing.Size(750, 2);
-			this.dgA.TabIndex = 3;
-			this.dgA.View = System.Windows.Forms.View.Details;
-			this.dgA.Visible = false;
-			this.dgA.DoubleClick += new System.EventHandler(this.dg_DoubleClick);
-			// 
-			// lblVencimiento
-			// 
-			this.lblVencimiento.Location = new System.Drawing.Point(30, 6);
-			this.lblVencimiento.Name = "lblVencimiento";
-			this.lblVencimiento.Size = new System.Drawing.Size(180, 23);
-			this.lblVencimiento.TabIndex = 2;
-			this.lblVencimiento.Visible = false;
-			// 
-			// saveFileDialog1
-			// 
-			this.saveFileDialog1.FileName = "doc1";
-			// 
-			// panel2
-			// 
-			this.panel2.Controls.AddRange(new System.Windows.Forms.Control[] {
-																				 this.cboAccion,
-																				 this.lblMostrar,
-																				 this.cboCelula,
-																				 this.label1,
-																				 this.cboEjecutivo,
-																				 this.lblEjecutivo,
-																				 this.btnConsultar,
-																				 this.chkTodosEjecutivos,
-																				 this.lblFecha,
-																				 this.chkTodasCelulas,
-																				 this.lblFecha2});
-			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel2.Location = new System.Drawing.Point(0, 39);
-			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(792, 78);
-			this.panel2.TabIndex = 1;
-			// 
-			// cboAccion
-			// 
-			this.cboAccion.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
-			this.cboAccion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboAccion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.cboAccion.ItemHeight = 13;
-			this.cboAccion.Items.AddRange(new object[] {
-														   "Todos",
-														   "Nuevos",
-														   "Exclusiones"});
-			this.cboAccion.Location = new System.Drawing.Point(453, 51);
-			this.cboAccion.Name = "cboAccion";
-			this.cboAccion.Size = new System.Drawing.Size(233, 21);
-			this.cboAccion.TabIndex = 17;
-			// 
-			// lblMostrar
-			// 
-			this.lblMostrar.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
-			this.lblMostrar.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.lblMostrar.Location = new System.Drawing.Point(384, 53);
-			this.lblMostrar.Name = "lblMostrar";
-			this.lblMostrar.Size = new System.Drawing.Size(48, 16);
-			this.lblMostrar.TabIndex = 18;
-			this.lblMostrar.Text = "Status:";
-			// 
-			// cboCelula
-			// 
-			this.cboCelula.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
-			this.cboCelula.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboCelula.Enabled = false;
-			this.cboCelula.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.cboCelula.ItemHeight = 13;
-			this.cboCelula.Location = new System.Drawing.Point(453, 3);
-			this.cboCelula.Name = "cboCelula";
-			this.cboCelula.Size = new System.Drawing.Size(233, 21);
-			this.cboCelula.TabIndex = 6;
-			// 
-			// label1
-			// 
-			this.label1.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
-			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.label1.Location = new System.Drawing.Point(384, 6);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(43, 14);
-			this.label1.TabIndex = 5;
-			this.label1.Text = "Célula:";
-			// 
-			// cboEjecutivo
-			// 
-			this.cboEjecutivo.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
-			this.cboEjecutivo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboEjecutivo.Enabled = false;
-			this.cboEjecutivo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.cboEjecutivo.ItemHeight = 13;
-			this.cboEjecutivo.Location = new System.Drawing.Point(453, 27);
-			this.cboEjecutivo.Name = "cboEjecutivo";
-			this.cboEjecutivo.Size = new System.Drawing.Size(233, 21);
-			this.cboEjecutivo.TabIndex = 3;
-			// 
-			// lblEjecutivo
-			// 
-			this.lblEjecutivo.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
-			this.lblEjecutivo.AutoSize = true;
-			this.lblEjecutivo.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.lblEjecutivo.Location = new System.Drawing.Point(384, 30);
-			this.lblEjecutivo.Name = "lblEjecutivo";
-			this.lblEjecutivo.Size = new System.Drawing.Size(61, 14);
-			this.lblEjecutivo.TabIndex = 2;
-			this.lblEjecutivo.Text = "Ejecutivo:";
-			// 
-			// btnConsultar
-			// 
-			this.btnConsultar.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
-			this.btnConsultar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.btnConsultar.Image = ((System.Drawing.Bitmap)(resources.GetObject("btnConsultar.Image")));
-			this.btnConsultar.ImageIndex = 10;
-			this.btnConsultar.ImageList = this.ilBuro;
-			this.btnConsultar.Location = new System.Drawing.Point(762, 4);
-			this.btnConsultar.Name = "btnConsultar";
-			this.btnConsultar.Size = new System.Drawing.Size(24, 23);
-			this.btnConsultar.TabIndex = 16;
-			this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
-			// 
-			// chkTodosEjecutivos
-			// 
-			this.chkTodosEjecutivos.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
-			this.chkTodosEjecutivos.Checked = true;
-			this.chkTodosEjecutivos.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkTodosEjecutivos.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.chkTodosEjecutivos.Location = new System.Drawing.Point(693, 28);
-			this.chkTodosEjecutivos.Name = "chkTodosEjecutivos";
-			this.chkTodosEjecutivos.Size = new System.Drawing.Size(60, 18);
-			this.chkTodosEjecutivos.TabIndex = 15;
-			this.chkTodosEjecutivos.Text = "Todos";
-			this.chkTodosEjecutivos.CheckedChanged += new System.EventHandler(this.chkTodosEjecutivos_CheckedChanged_1);
-			// 
-			// lblFecha
-			// 
-			this.lblFecha.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
-			this.lblFecha.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.lblFecha.Location = new System.Drawing.Point(6, 8);
-			this.lblFecha.Name = "lblFecha";
-			this.lblFecha.Size = new System.Drawing.Size(144, 16);
-			this.lblFecha.TabIndex = 8;
-			this.lblFecha.Text = "Fecha del último envio :  ";
-			// 
-			// chkTodasCelulas
-			// 
-			this.chkTodasCelulas.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
-			this.chkTodasCelulas.Checked = true;
-			this.chkTodasCelulas.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkTodasCelulas.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.chkTodasCelulas.Location = new System.Drawing.Point(693, 4);
-			this.chkTodasCelulas.Name = "chkTodasCelulas";
-			this.chkTodasCelulas.Size = new System.Drawing.Size(60, 18);
-			this.chkTodasCelulas.TabIndex = 13;
-			this.chkTodasCelulas.Text = "Todos";
-			this.chkTodasCelulas.CheckedChanged += new System.EventHandler(this.chkTodasCelulas_CheckedChanged);
-			// 
-			// lblFecha2
-			// 
-			this.lblFecha2.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
-			this.lblFecha2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.lblFecha2.Location = new System.Drawing.Point(159, 8);
-			this.lblFecha2.Name = "lblFecha2";
-			this.lblFecha2.Size = new System.Drawing.Size(138, 16);
-			this.lblFecha2.TabIndex = 10;
-			// 
-			// grdEmpresas
-			// 
-			this.grdEmpresas.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-				| System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
-			this.grdEmpresas.ColumnMargin = 6;
-			this.grdEmpresas.ContextMenu = this.conMenu;
-			this.grdEmpresas.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.grdEmpresas.FullRowSelect = true;
-			this.grdEmpresas.Location = new System.Drawing.Point(0, 147);
-			this.grdEmpresas.MultiSelect = false;
-			this.grdEmpresas.Name = "grdEmpresas";
-			this.grdEmpresas.Size = new System.Drawing.Size(792, 276);
-			this.grdEmpresas.TabIndex = 3;
-			this.grdEmpresas.View = System.Windows.Forms.View.Details;
-			this.grdEmpresas.SelectedIndexChanged += new System.EventHandler(this.grdEmpresas_SelectedIndexChanged);
-			// 
-			// grdCargos
-			// 
-			this.grdCargos.ColumnMargin = 1;
-			this.grdCargos.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.grdCargos.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.grdCargos.FullRowSelect = true;
-			this.grdCargos.Location = new System.Drawing.Point(0, 454);
-			this.grdCargos.Name = "grdCargos";
-			this.grdCargos.Size = new System.Drawing.Size(792, 99);
-			this.grdCargos.TabIndex = 5;
-			this.grdCargos.View = System.Windows.Forms.View.Details;
-			// 
-			// lblIndicador
-			// 
-			this.lblIndicador.BackColor = System.Drawing.SystemColors.Window;
-			this.lblIndicador.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.lblIndicador.ForeColor = System.Drawing.Color.LightBlue;
-			this.lblIndicador.Location = new System.Drawing.Point(6, 3);
-			this.lblIndicador.Name = "lblIndicador";
-			this.lblIndicador.Size = new System.Drawing.Size(126, 21);
-			this.lblIndicador.TabIndex = 12;
-			this.lblIndicador.Visible = false;
-			// 
-			// lblEnviados
-			// 
-			this.lblEnviados.BackColor = System.Drawing.SystemColors.Window;
-			this.lblEnviados.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.lblEnviados.ForeColor = System.Drawing.Color.LightGreen;
-			this.lblEnviados.Location = new System.Drawing.Point(138, 3);
-			this.lblEnviados.Name = "lblEnviados";
-			this.lblEnviados.Size = new System.Drawing.Size(126, 21);
-			this.lblEnviados.TabIndex = 17;
-			this.lblEnviados.Visible = false;
-			// 
-			// lblExcluidos
-			// 
-			this.lblExcluidos.BackColor = System.Drawing.SystemColors.Window;
-			this.lblExcluidos.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.lblExcluidos.ForeColor = System.Drawing.Color.LightSalmon;
-			this.lblExcluidos.Location = new System.Drawing.Point(270, 3);
-			this.lblExcluidos.Name = "lblExcluidos";
-			this.lblExcluidos.Size = new System.Drawing.Size(126, 21);
-			this.lblExcluidos.TabIndex = 18;
-			this.lblExcluidos.Visible = false;
-			// 
-			// panel3
-			// 
-			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel3.Controls.AddRange(new System.Windows.Forms.Control[] {
-																				 this.lblIndicador,
-																				 this.lblEnviados,
-																				 this.lblExcluidos});
-			this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel3.Location = new System.Drawing.Point(0, 117);
-			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(792, 30);
-			this.panel3.TabIndex = 2;
-			// 
-			// label2
-			// 
-			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
-			this.label2.BackColor = System.Drawing.SystemColors.Window;
-			this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.label2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.label2.ForeColor = System.Drawing.Color.LightSalmon;
-			this.label2.Location = new System.Drawing.Point(0, 426);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(792, 24);
-			this.label2.TabIndex = 4;
-			this.label2.Visible = false;
-			// 
-			// frmBuroCredito
-			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(792, 553);
-			this.Controls.AddRange(new System.Windows.Forms.Control[] {
-																		  this.panel3,
-																		  this.panel2,
-																		  this.tbBuro,
-																		  this.grdEmpresas,
-																		  this.grdCargos,
-																		  this.label2});
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Location = new System.Drawing.Point(800, 618);
-			this.Menu = this.MenuPrincipal;
-			this.MinimizeBox = false;
-			this.Name = "frmBuroCredito";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Buró de Crédito";
-			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-			this.Load += new System.EventHandler(this.frmBuroCredito_Load);
-			this.panel2.ResumeLayout(false);
-			this.panel3.ResumeLayout(false);
-			this.ResumeLayout(false);
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmBuroCredito));
+            this.tbBuro = new System.Windows.Forms.ToolBar();
+            this.Detalle = new System.Windows.Forms.ToolBarButton();
+            this.Histórico = new System.Windows.Forms.ToolBarButton();
+            this.Eliminar = new System.Windows.Forms.ToolBarButton();
+            this.Generar = new System.Windows.Forms.ToolBarButton();
+            this.Guardar = new System.Windows.Forms.ToolBarButton();
+            this.Actual = new System.Windows.Forms.ToolBarButton();
+            this.Reporte = new System.Windows.Forms.ToolBarButton();
+            this.Aprobar = new System.Windows.Forms.ToolBarButton();
+            this.Autorización = new System.Windows.Forms.ToolBarButton();
+            this.Quitar = new System.Windows.Forms.ToolBarButton();
+            this.Vigente = new System.Windows.Forms.ToolBarButton();
+            this.Calcular = new System.Windows.Forms.ToolBarButton();
+            this.Actualizar = new System.Windows.Forms.ToolBarButton();
+            this.Exportar = new System.Windows.Forms.ToolBarButton();
+            this.Cerrar = new System.Windows.Forms.ToolBarButton();
+            this.ilBuro = new System.Windows.Forms.ImageList(this.components);
+            this.conMenu = new System.Windows.Forms.ContextMenu();
+            this.itemVigente = new System.Windows.Forms.MenuItem();
+            this.itemCalcular = new System.Windows.Forms.MenuItem();
+            this.ilTabs = new System.Windows.Forms.ImageList(this.components);
+            this.MenuPrincipal = new System.Windows.Forms.MainMenu(this.components);
+            this.menuItem = new System.Windows.Forms.MenuItem();
+            this.menuArchivo = new System.Windows.Forms.MenuItem();
+            this.menuDetalle = new System.Windows.Forms.MenuItem();
+            this.menuCerrar = new System.Windows.Forms.MenuItem();
+            this.dgA = new CustGrd.vwGrd();
+            this.lblVencimiento = new System.Windows.Forms.Label();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.cboAccion = new System.Windows.Forms.ComboBox();
+            this.lblMostrar = new System.Windows.Forms.Label();
+            this.cboCelula = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cboEjecutivo = new System.Windows.Forms.ComboBox();
+            this.lblEjecutivo = new System.Windows.Forms.Label();
+            this.btnConsultar = new System.Windows.Forms.Button();
+            this.chkTodosEjecutivos = new System.Windows.Forms.CheckBox();
+            this.lblFecha = new System.Windows.Forms.Label();
+            this.chkTodasCelulas = new System.Windows.Forms.CheckBox();
+            this.lblFecha2 = new System.Windows.Forms.Label();
+            this.grdEmpresas = new CustGrd.vwGrd();
+            this.grdCargos = new CustGrd.vwGrd();
+            this.lblIndicador = new System.Windows.Forms.Label();
+            this.lblEnviados = new System.Windows.Forms.Label();
+            this.lblExcluidos = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // tbBuro
+            // 
+            this.tbBuro.Appearance = System.Windows.Forms.ToolBarAppearance.Flat;
+            this.tbBuro.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
+            this.Detalle,
+            this.Histórico,
+            this.Eliminar,
+            this.Generar,
+            this.Guardar,
+            this.Actual,
+            this.Reporte,
+            this.Aprobar,
+            this.Autorización,
+            this.Quitar,
+            this.Vigente,
+            this.Calcular,
+            this.Actualizar,
+            this.Exportar,
+            this.Cerrar});
+            this.tbBuro.DropDownArrows = true;
+            this.tbBuro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
+            this.tbBuro.ImageList = this.ilBuro;
+            this.tbBuro.Location = new System.Drawing.Point(0, 0);
+            this.tbBuro.Name = "tbBuro";
+            this.tbBuro.ShowToolTips = true;
+            this.tbBuro.Size = new System.Drawing.Size(792, 42);
+            this.tbBuro.TabIndex = 0;
+            this.tbBuro.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.tbBuro_ButtonClick);
+            // 
+            // Detalle
+            // 
+            this.Detalle.ImageIndex = 3;
+            this.Detalle.Name = "Detalle";
+            this.Detalle.Text = "Detalle";
+            // 
+            // Histórico
+            // 
+            this.Histórico.ImageIndex = 4;
+            this.Histórico.Name = "Histórico";
+            this.Histórico.Text = "Histórico";
+            // 
+            // Eliminar
+            // 
+            this.Eliminar.ImageIndex = 5;
+            this.Eliminar.Name = "Eliminar";
+            this.Eliminar.Text = "Eliminar";
+            this.Eliminar.Visible = false;
+            // 
+            // Generar
+            // 
+            this.Generar.ImageIndex = 0;
+            this.Generar.Name = "Generar";
+            this.Generar.Text = "Generar";
+            this.Generar.Visible = false;
+            // 
+            // Guardar
+            // 
+            this.Guardar.ImageIndex = 6;
+            this.Guardar.Name = "Guardar";
+            this.Guardar.Text = "Guardar";
+            this.Guardar.Visible = false;
+            // 
+            // Actual
+            // 
+            this.Actual.ImageIndex = 7;
+            this.Actual.Name = "Actual";
+            this.Actual.Text = "Actual";
+            this.Actual.Visible = false;
+            // 
+            // Reporte
+            // 
+            this.Reporte.ImageIndex = 8;
+            this.Reporte.Name = "Reporte";
+            this.Reporte.Text = "Reporte";
+            this.Reporte.Visible = false;
+            // 
+            // Aprobar
+            // 
+            this.Aprobar.ImageIndex = 9;
+            this.Aprobar.Name = "Aprobar";
+            this.Aprobar.Text = "Aprobar";
+            this.Aprobar.Visible = false;
+            // 
+            // Autorización
+            // 
+            this.Autorización.ImageIndex = 11;
+            this.Autorización.Name = "Autorización";
+            this.Autorización.Text = "Autorización";
+            // 
+            // Quitar
+            // 
+            this.Quitar.ImageIndex = 5;
+            this.Quitar.Name = "Quitar";
+            this.Quitar.Text = "Quitar";
+            this.Quitar.Visible = false;
+            // 
+            // Vigente
+            // 
+            this.Vigente.ImageIndex = 8;
+            this.Vigente.Name = "Vigente";
+            this.Vigente.Text = "Vigente";
+            // 
+            // Calcular
+            // 
+            this.Calcular.ImageIndex = 7;
+            this.Calcular.Name = "Calcular";
+            this.Calcular.Text = "Calcular";
+            // 
+            // Actualizar
+            // 
+            this.Actualizar.ImageIndex = 12;
+            this.Actualizar.Name = "Actualizar";
+            this.Actualizar.Text = "Actualizar";
+            // 
+            // Exportar
+            // 
+            this.Exportar.ImageIndex = 0;
+            this.Exportar.Name = "Exportar";
+            this.Exportar.Text = "Exportar";
+            // 
+            // Cerrar
+            // 
+            this.Cerrar.ImageIndex = 1;
+            this.Cerrar.Name = "Cerrar";
+            this.Cerrar.Text = "Cerrar";
+            // 
+            // ilBuro
+            // 
+            this.ilBuro.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilBuro.ImageStream")));
+            this.ilBuro.TransparentColor = System.Drawing.Color.Transparent;
+            this.ilBuro.Images.SetKeyName(0, "");
+            this.ilBuro.Images.SetKeyName(1, "");
+            this.ilBuro.Images.SetKeyName(2, "");
+            this.ilBuro.Images.SetKeyName(3, "");
+            this.ilBuro.Images.SetKeyName(4, "");
+            this.ilBuro.Images.SetKeyName(5, "");
+            this.ilBuro.Images.SetKeyName(6, "");
+            this.ilBuro.Images.SetKeyName(7, "");
+            this.ilBuro.Images.SetKeyName(8, "");
+            this.ilBuro.Images.SetKeyName(9, "");
+            this.ilBuro.Images.SetKeyName(10, "");
+            this.ilBuro.Images.SetKeyName(11, "");
+            this.ilBuro.Images.SetKeyName(12, "");
+            // 
+            // conMenu
+            // 
+            this.conMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.itemVigente,
+            this.itemCalcular});
+            // 
+            // itemVigente
+            // 
+            this.itemVigente.Index = 0;
+            this.itemVigente.Text = "Vigente";
+            this.itemVigente.Click += new System.EventHandler(this.itemVigente_Click);
+            // 
+            // itemCalcular
+            // 
+            this.itemCalcular.Index = 1;
+            this.itemCalcular.Text = "Calcular";
+            this.itemCalcular.Click += new System.EventHandler(this.itemCalcular_Click);
+            // 
+            // ilTabs
+            // 
+            this.ilTabs.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilTabs.ImageStream")));
+            this.ilTabs.TransparentColor = System.Drawing.Color.Transparent;
+            this.ilTabs.Images.SetKeyName(0, "");
+            this.ilTabs.Images.SetKeyName(1, "");
+            this.ilTabs.Images.SetKeyName(2, "");
+            // 
+            // MenuPrincipal
+            // 
+            this.MenuPrincipal.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItem});
+            // 
+            // menuItem
+            // 
+            this.menuItem.Index = 0;
+            this.menuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuArchivo,
+            this.menuDetalle,
+            this.menuCerrar});
+            this.menuItem.Text = "Archivo";
+            // 
+            // menuArchivo
+            // 
+            this.menuArchivo.Index = 0;
+            this.menuArchivo.Text = "Abrir Archivo";
+            this.menuArchivo.Click += new System.EventHandler(this.menuArchivo_Click);
+            // 
+            // menuDetalle
+            // 
+            this.menuDetalle.Index = 1;
+            this.menuDetalle.Text = "Consultar Detalle";
+            this.menuDetalle.Click += new System.EventHandler(this.menuDetalle_Click);
+            // 
+            // menuCerrar
+            // 
+            this.menuCerrar.Index = 2;
+            this.menuCerrar.Text = "Cerrar";
+            this.menuCerrar.Click += new System.EventHandler(this.menuCerrar_Click);
+            // 
+            // dgA
+            // 
+            this.dgA.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgA.ColumnMargin = 1;
+            this.dgA.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgA.FullRowSelect = true;
+            this.dgA.Location = new System.Drawing.Point(0, 32);
+            this.dgA.Name = "dgA";
+            this.dgA.Size = new System.Drawing.Size(750, 2);
+            this.dgA.TabIndex = 3;
+            this.dgA.UseCompatibleStateImageBehavior = false;
+            this.dgA.View = System.Windows.Forms.View.Details;
+            this.dgA.Visible = false;
+            this.dgA.DoubleClick += new System.EventHandler(this.dg_DoubleClick);
+            // 
+            // lblVencimiento
+            // 
+            this.lblVencimiento.Location = new System.Drawing.Point(30, 6);
+            this.lblVencimiento.Name = "lblVencimiento";
+            this.lblVencimiento.Size = new System.Drawing.Size(180, 23);
+            this.lblVencimiento.TabIndex = 2;
+            this.lblVencimiento.Visible = false;
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.FileName = "doc1";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.cboAccion);
+            this.panel2.Controls.Add(this.lblMostrar);
+            this.panel2.Controls.Add(this.cboCelula);
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.cboEjecutivo);
+            this.panel2.Controls.Add(this.lblEjecutivo);
+            this.panel2.Controls.Add(this.btnConsultar);
+            this.panel2.Controls.Add(this.chkTodosEjecutivos);
+            this.panel2.Controls.Add(this.lblFecha);
+            this.panel2.Controls.Add(this.chkTodasCelulas);
+            this.panel2.Controls.Add(this.lblFecha2);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 42);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(792, 78);
+            this.panel2.TabIndex = 1;
+            // 
+            // cboAccion
+            // 
+            this.cboAccion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboAccion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboAccion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboAccion.ItemHeight = 13;
+            this.cboAccion.Items.AddRange(new object[] {
+            "Todos",
+            "Nuevos",
+            "Exclusiones"});
+            this.cboAccion.Location = new System.Drawing.Point(453, 51);
+            this.cboAccion.Name = "cboAccion";
+            this.cboAccion.Size = new System.Drawing.Size(233, 21);
+            this.cboAccion.TabIndex = 17;
+            // 
+            // lblMostrar
+            // 
+            this.lblMostrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblMostrar.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMostrar.Location = new System.Drawing.Point(384, 53);
+            this.lblMostrar.Name = "lblMostrar";
+            this.lblMostrar.Size = new System.Drawing.Size(48, 16);
+            this.lblMostrar.TabIndex = 18;
+            this.lblMostrar.Text = "Status:";
+            // 
+            // cboCelula
+            // 
+            this.cboCelula.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboCelula.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCelula.Enabled = false;
+            this.cboCelula.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboCelula.ItemHeight = 13;
+            this.cboCelula.Location = new System.Drawing.Point(453, 3);
+            this.cboCelula.Name = "cboCelula";
+            this.cboCelula.Size = new System.Drawing.Size(233, 21);
+            this.cboCelula.TabIndex = 6;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(384, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Célula:";
+            // 
+            // cboEjecutivo
+            // 
+            this.cboEjecutivo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboEjecutivo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboEjecutivo.Enabled = false;
+            this.cboEjecutivo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboEjecutivo.ItemHeight = 13;
+            this.cboEjecutivo.Location = new System.Drawing.Point(453, 27);
+            this.cboEjecutivo.Name = "cboEjecutivo";
+            this.cboEjecutivo.Size = new System.Drawing.Size(233, 21);
+            this.cboEjecutivo.TabIndex = 3;
+            // 
+            // lblEjecutivo
+            // 
+            this.lblEjecutivo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblEjecutivo.AutoSize = true;
+            this.lblEjecutivo.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEjecutivo.Location = new System.Drawing.Point(384, 30);
+            this.lblEjecutivo.Name = "lblEjecutivo";
+            this.lblEjecutivo.Size = new System.Drawing.Size(62, 13);
+            this.lblEjecutivo.TabIndex = 2;
+            this.lblEjecutivo.Text = "Ejecutivo:";
+            // 
+            // btnConsultar
+            // 
+            this.btnConsultar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnConsultar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConsultar.ImageIndex = 10;
+            this.btnConsultar.ImageList = this.ilBuro;
+            this.btnConsultar.Location = new System.Drawing.Point(762, 4);
+            this.btnConsultar.Name = "btnConsultar";
+            this.btnConsultar.Size = new System.Drawing.Size(24, 23);
+            this.btnConsultar.TabIndex = 16;
+            this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
+            // 
+            // chkTodosEjecutivos
+            // 
+            this.chkTodosEjecutivos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkTodosEjecutivos.Checked = true;
+            this.chkTodosEjecutivos.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkTodosEjecutivos.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkTodosEjecutivos.Location = new System.Drawing.Point(693, 28);
+            this.chkTodosEjecutivos.Name = "chkTodosEjecutivos";
+            this.chkTodosEjecutivos.Size = new System.Drawing.Size(60, 18);
+            this.chkTodosEjecutivos.TabIndex = 15;
+            this.chkTodosEjecutivos.Text = "Todos";
+            this.chkTodosEjecutivos.CheckedChanged += new System.EventHandler(this.chkTodosEjecutivos_CheckedChanged_1);
+            // 
+            // lblFecha
+            // 
+            this.lblFecha.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblFecha.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFecha.Location = new System.Drawing.Point(6, 8);
+            this.lblFecha.Name = "lblFecha";
+            this.lblFecha.Size = new System.Drawing.Size(144, 16);
+            this.lblFecha.TabIndex = 8;
+            this.lblFecha.Text = "Fecha del último envio :  ";
+            // 
+            // chkTodasCelulas
+            // 
+            this.chkTodasCelulas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkTodasCelulas.Checked = true;
+            this.chkTodasCelulas.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkTodasCelulas.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkTodasCelulas.Location = new System.Drawing.Point(693, 4);
+            this.chkTodasCelulas.Name = "chkTodasCelulas";
+            this.chkTodasCelulas.Size = new System.Drawing.Size(60, 18);
+            this.chkTodasCelulas.TabIndex = 13;
+            this.chkTodasCelulas.Text = "Todos";
+            this.chkTodasCelulas.CheckedChanged += new System.EventHandler(this.chkTodasCelulas_CheckedChanged);
+            // 
+            // lblFecha2
+            // 
+            this.lblFecha2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblFecha2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFecha2.Location = new System.Drawing.Point(159, 8);
+            this.lblFecha2.Name = "lblFecha2";
+            this.lblFecha2.Size = new System.Drawing.Size(138, 16);
+            this.lblFecha2.TabIndex = 10;
+            // 
+            // grdEmpresas
+            // 
+            this.grdEmpresas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grdEmpresas.ColumnMargin = 6;
+            this.grdEmpresas.ContextMenu = this.conMenu;
+            this.grdEmpresas.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grdEmpresas.FullRowSelect = true;
+            this.grdEmpresas.Location = new System.Drawing.Point(0, 147);
+            this.grdEmpresas.MultiSelect = false;
+            this.grdEmpresas.Name = "grdEmpresas";
+            this.grdEmpresas.Size = new System.Drawing.Size(792, 276);
+            this.grdEmpresas.TabIndex = 3;
+            this.grdEmpresas.UseCompatibleStateImageBehavior = false;
+            this.grdEmpresas.View = System.Windows.Forms.View.Details;
+            this.grdEmpresas.ListViewContentChanged += new CustGrd._listViewContentChanged(this.grdEmpresas_ListViewContentChanged);
+            this.grdEmpresas.SelectedIndexChanged += new System.EventHandler(this.grdEmpresas_SelectedIndexChanged);
+            // 
+            // grdCargos
+            // 
+            this.grdCargos.ColumnMargin = 1;
+            this.grdCargos.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.grdCargos.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grdCargos.FullRowSelect = true;
+            this.grdCargos.Location = new System.Drawing.Point(0, 454);
+            this.grdCargos.Name = "grdCargos";
+            this.grdCargos.Size = new System.Drawing.Size(792, 99);
+            this.grdCargos.TabIndex = 5;
+            this.grdCargos.UseCompatibleStateImageBehavior = false;
+            this.grdCargos.View = System.Windows.Forms.View.Details;
+            // 
+            // lblIndicador
+            // 
+            this.lblIndicador.BackColor = System.Drawing.SystemColors.Window;
+            this.lblIndicador.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIndicador.ForeColor = System.Drawing.Color.LightBlue;
+            this.lblIndicador.Location = new System.Drawing.Point(6, 3);
+            this.lblIndicador.Name = "lblIndicador";
+            this.lblIndicador.Size = new System.Drawing.Size(126, 21);
+            this.lblIndicador.TabIndex = 12;
+            this.lblIndicador.Visible = false;
+            // 
+            // lblEnviados
+            // 
+            this.lblEnviados.BackColor = System.Drawing.SystemColors.Window;
+            this.lblEnviados.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEnviados.ForeColor = System.Drawing.Color.LightGreen;
+            this.lblEnviados.Location = new System.Drawing.Point(138, 3);
+            this.lblEnviados.Name = "lblEnviados";
+            this.lblEnviados.Size = new System.Drawing.Size(126, 21);
+            this.lblEnviados.TabIndex = 17;
+            this.lblEnviados.Visible = false;
+            // 
+            // lblExcluidos
+            // 
+            this.lblExcluidos.BackColor = System.Drawing.SystemColors.Window;
+            this.lblExcluidos.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblExcluidos.ForeColor = System.Drawing.Color.LightSalmon;
+            this.lblExcluidos.Location = new System.Drawing.Point(270, 3);
+            this.lblExcluidos.Name = "lblExcluidos";
+            this.lblExcluidos.Size = new System.Drawing.Size(126, 21);
+            this.lblExcluidos.TabIndex = 18;
+            this.lblExcluidos.Visible = false;
+            // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.lblIndicador);
+            this.panel3.Controls.Add(this.lblEnviados);
+            this.panel3.Controls.Add(this.lblExcluidos);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(0, 120);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(792, 30);
+            this.panel3.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.BackColor = System.Drawing.SystemColors.Window;
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.LightSalmon;
+            this.label2.Location = new System.Drawing.Point(0, 426);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(792, 24);
+            this.label2.TabIndex = 4;
+            this.label2.Visible = false;
+            // 
+            // frmBuroCredito
+            // 
+            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+            this.ClientSize = new System.Drawing.Size(792, 553);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.tbBuro);
+            this.Controls.Add(this.grdEmpresas);
+            this.Controls.Add(this.grdCargos);
+            this.Controls.Add(this.label2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Location = new System.Drawing.Point(800, 618);
+            this.Menu = this.MenuPrincipal;
+            this.MinimizeBox = false;
+            this.Name = "frmBuroCredito";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Buró de Crédito";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.frmBuroCredito_Load);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 
@@ -1061,25 +1091,32 @@ namespace BuroDeCredito
 		{
 			try
 			{
-				data.ConsultaEjecutivoAprobado(data.pa.Periodo, data.pa.Consecutivo, _empleado);
-				if(data.EjecutivoAprobado.Rows[0][2].ToString() == "PENDIENTE")
-				{
-					if(grdEmpresas.SelectedItems.Count > 0)
-					{
-						int empresa = Convert.ToInt32(grdEmpresas.SelectedItems[0].SubItems[0].Text);
-						data.AsignarVigente(empresa, data.pa.Consecutivo, data.pa.Periodo, 0, 0, _usuario);
-						//CargaEncabezado(data.pa.Periodo, "", _empleado,"", data.pa.Consecutivo);
-						GetSelected(empresa);
-					}
-					else
-					{
-						MessageBox.Show(this,"Seleccione el cliente que desea modificar","BC", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
-					}
-				}
+				
+
+                if (data.pa.Periodo != null )
+                {
+                    data.ConsultaEjecutivoAprobado(data.pa.Periodo, data.pa.Consecutivo, _empleado);
+                    if (data.EjecutivoAprobado.Rows[0][2].ToString() == "PENDIENTE")
+				    {
+					    if(grdEmpresas.SelectedItems.Count > 0)
+					    {
+						    int empresa = Convert.ToInt32(grdEmpresas.SelectedItems[0].SubItems[0].Text);
+						    data.AsignarVigente(empresa, data.pa.Consecutivo, data.pa.Periodo, 0, 0, _usuario);
+						    //CargaEncabezado(data.pa.Periodo, "", _empleado,"", data.pa.Consecutivo);
+						    GetSelected(empresa);
+					    }
+					    else
+					    {
+						    MessageBox.Show(this,"Seleccione el cliente que desea modificar","BC", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+					    }
+                    }
+                }
 				else
 				{
 					MessageBox.Show(this,"Los datos del periodo han sido aprobados y no se pueden modificar","BC", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
 				}
+
+
 			}
 			catch (Exception ex)
 			{
@@ -1212,12 +1249,19 @@ namespace BuroDeCredito
 						if(oSeguridad.TieneAcceso("BCAdministracionExclusiones"))
 						{
 							//ConsultaPeriodoActual();
-							if(data.DatosPeriodo.Rows.Count > 0)
-							{
-								frmAutorizacion aut = new frmAutorizacion(_usuario,_password, data.pa.Periodo,data.pa.Consecutivo);
-								aut.ShowDialog(this);
-							}
-							else
+                            if (data.DatosPeriodo!=null)
+                            {
+                                    if (data.DatosPeriodo.Rows.Count > 0)
+							    {
+								    frmAutorizacion aut = new frmAutorizacion(_usuario,_password, data.pa.Periodo,data.pa.Consecutivo);
+								    aut.ShowDialog(this);
+							    }
+                                    else
+                                {
+                                    MessageBox.Show(this, "No hay Periodos por Autorizar", "BC", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
+                            else
 							{
 								MessageBox.Show(this,"No hay Periodos por Autorizar","BC", MessageBoxButtons.OK,MessageBoxIcon.Information);
 							}
@@ -1374,8 +1418,11 @@ namespace BuroDeCredito
 			}
 		}
 
+        private void grdEmpresas_ListViewContentChanged(object sender, EventArgs e)
+        {
 
-	}
+        }
+    }
 }	
 
 #region Respaldo código

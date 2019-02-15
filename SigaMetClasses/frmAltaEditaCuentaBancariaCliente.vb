@@ -211,7 +211,15 @@ Public Class frmAltaEditaCuentaBancariaCliente
                 Txtb_Clave.Text = CType(dr("clabe"), String)
                 Txtb_Sucursal.Text = CType(dr("Sucursal"), String)
                 Txtb_Referencia.Text = CType(dr("ReferenciaPago"), String)
-                Cbb_Estatus.Text = CType(dr("Status"), String)
+                Cbb_Estatus.SelectedIndex = Cbb_Estatus.FindString(CType(dr("Status"), String).Trim())
+
+                If Trim(CType(dr("Status"), String)).Trim() = "INACTIVO" Then
+                    _statusCliente = False
+                Else
+                    _statusCliente = True
+                End If
+
+
             Next
 
         Catch ex As Exception

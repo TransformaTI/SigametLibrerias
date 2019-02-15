@@ -4749,6 +4749,7 @@ Public Class AltaPagoTarjeta
         Dim cmd As New SqlCommand("spCyCConsultaPagosTarjetaPorFechaAlta")
         Dim dr As SqlDataReader
 
+
         Try
 
             AbreConexion()
@@ -4765,18 +4766,11 @@ Public Class AltaPagoTarjeta
 
             DtCargoTarjeta.Load(dr)
 
-
         Catch ex As Exception
             EventLog.WriteEntry("SigametClasses " & ex.Source, ex.Message, EventLogEntryType.Error)
             Throw ex
-        Finally
-            cmd = Nothing
-            da.Dispose()
+
         End Try
-
-
-
-
         Return DtCargoTarjeta
     End Function
 

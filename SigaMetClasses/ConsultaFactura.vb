@@ -847,7 +847,7 @@ Public Class ConsultaFactura
 
     Private Sub btnConsultaEmpresa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultaEmpresa.Click
         Cursor = Cursors.WaitCursor
-        Dim oConsultaEmpresa As New SigaMetClasses.ConsultaEmpresa(_Empresa)
+        Dim oConsultaEmpresa As New SigaMetClasses.ConsultaEmpresa(_Empresa, PermiteModificar:=True)
         oConsultaEmpresa.ShowDialog()
         Cursor = Cursors.Default
     End Sub
