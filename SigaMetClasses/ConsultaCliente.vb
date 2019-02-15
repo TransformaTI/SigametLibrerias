@@ -2730,100 +2730,99 @@ Public Class frmConsultaCliente
 		Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
 		Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
 
-		Try
-			DeshabilitaBotonQuejas()
+        Try
+            DeshabilitaBotonQuejas()
 
-			Dim FuenteCRM As String = ""
+            Dim FuenteCRM As String = ""
 
-			Try
-				FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
-			Catch ex As Exception
-				FuenteCRM = String.Empty
-			End Try
+            Try
+                FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
+            Catch ex As Exception
+                FuenteCRM = String.Empty
+            End Try
 
 
-			If (
-			   FuenteCRM = "SIGAMET" Or FuenteCRM = "") Then ' String.IsNullOrEmpty(_URLGateway) And 
-				Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
-				btnModificar.Enabled = PermiteModificarDatosCliente
-			ElseIf Not String.IsNullOrEmpty(_URLGateway) Then
-				Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
-				btnModificar.Enabled = PermiteModificarDatosCliente
-				'Me.ConsultaCliente(_Cliente, _URLGateway)
-			End If
-			DeshabilitaBotonModificar()
-		Catch EX As Exception
-			MessageBox.Show(EX.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-		End Try
+            If (String.IsNullOrEmpty(_URLGateway)) Then
+                Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+                btnModificar.Enabled = PermiteModificarDatosCliente
+            ElseIf Not String.IsNullOrEmpty(_URLGateway) Then
+                Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
+                btnModificar.Enabled = PermiteModificarDatosCliente
+                'Me.ConsultaCliente(_Cliente, _URLGateway)
+            End If
+            DeshabilitaBotonModificar()
+        Catch EX As Exception
+            MessageBox.Show(EX.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
-	End Sub
+    End Sub
 #End Region
 
-	Private Sub tabDatos_TabIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabDatos.TabIndexChanged
-		If tabDatos.SelectedTab.Name = "tpDatosCredito" Then
-			btnSeguimiento.Visible = True
-		Else
-			btnSeguimiento.Visible = False
-		End If
-	End Sub
+    Private Sub tabDatos_TabIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabDatos.TabIndexChanged
+        If tabDatos.SelectedTab.Name = "tpDatosCredito" Then
+            btnSeguimiento.Visible = True
+        Else
+            btnSeguimiento.Visible = False
+        End If
+    End Sub
 
-	Private Sub btnSeguimiento_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSeguimiento.Click
-		Dim frmSeguimiento As New SeguimientoCliente.ListaSeguimiento(_Cliente, lblCliente.Text, _Usuario, SigaMetClasses.DataLayer.Conexion)
-		frmSeguimiento.StartPosition = FormStartPosition.CenterScreen
-		frmSeguimiento.ShowDialog()
-	End Sub
+    Private Sub btnSeguimiento_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSeguimiento.Click
+        Dim frmSeguimiento As New SeguimientoCliente.ListaSeguimiento(_Cliente, lblCliente.Text, _Usuario, SigaMetClasses.DataLayer.Conexion)
+        frmSeguimiento.StartPosition = FormStartPosition.CenterScreen
+        frmSeguimiento.ShowDialog()
+    End Sub
 
-	Private Sub grdDocumento_Navigate(sender As Object, ne As NavigateEventArgs) Handles grdDocumento.Navigate
+    Private Sub grdDocumento_Navigate(sender As Object, ne As NavigateEventArgs) Handles grdDocumento.Navigate
 
-	End Sub
+    End Sub
 
-	Private Sub DeshabilitaBotonQuejas()
+    Private Sub DeshabilitaBotonQuejas()
 
-		Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
-		Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
-		Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
-		Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
-		Dim FuenteCRM As String = ""
+        Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
+        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
+        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
+        Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
+        Dim FuenteCRM As String = ""
 
-		Try
-			FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
-		Catch ex As Exception
-			FuenteCRM = String.Empty
-		End Try
-
-
-
-		'If (Not String.IsNullOrEmpty(_URLGateway)) Then
-		If FuenteCRM = "CRM" Then
-			btnQuejas.Enabled = False
-
-		Else
-			btnQuejas.Enabled = True
-		End If
+        Try
+            FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
+        Catch ex As Exception
+            FuenteCRM = String.Empty
+        End Try
 
 
-	End Sub
-	Private Function ObtenerUsuario() As String
 
-		'Variables declaradas para obetener el usuario
-		Dim StrCadenaConexion As String
-		Dim Usuario As String
+        'If (Not String.IsNullOrEmpty(_URLGateway)) Then
+        If FuenteCRM = "CRM" Then
+            btnQuejas.Enabled = False
 
-		Dim ValorInicial As Integer
-		Dim ValorFinal As Integer
+        Else
+            btnQuejas.Enabled = True
+        End If
 
 
-		StrCadenaConexion = DataLayer.Conexion.ConnectionString
-		ValorInicial = (StrCadenaConexion.IndexOf("User ID = ")) + 10
-		ValorFinal = (StrCadenaConexion.Length - ValorInicial) - 1
+    End Sub
+    Private Function ObtenerUsuario() As String
 
-		Usuario = StrCadenaConexion.Substring(ValorInicial, ValorFinal)
+        'Variables declaradas para obetener el usuario
+        Dim StrCadenaConexion As String
+        Dim Usuario As String
 
-		Return Usuario
+        Dim ValorInicial As Integer
+        Dim ValorFinal As Integer
 
-	End Function
 
-	Private Sub DeshabilitaBotonModificar()
+        StrCadenaConexion = DataLayer.Conexion.ConnectionString
+        ValorInicial = (StrCadenaConexion.IndexOf("User ID = ")) + 10
+        ValorFinal = (StrCadenaConexion.Length - ValorInicial) - 1
+
+        Usuario = StrCadenaConexion.Substring(ValorInicial, ValorFinal)
+
+        Return Usuario
+
+    End Function
+
+    Private Sub DeshabilitaBotonModificar()
 
 		Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
 		Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)

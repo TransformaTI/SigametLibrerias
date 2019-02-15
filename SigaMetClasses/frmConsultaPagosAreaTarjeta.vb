@@ -15,6 +15,7 @@ Public Class frmConsultaPagosAreaTarjeta
     Private _Empresa As Integer
     Private _Sucursal As Byte
     Dim oConfig As SigaMetClasses.cConfig
+
 #End Region
 #Region "Constructor"
 
@@ -28,6 +29,9 @@ Public Class frmConsultaPagosAreaTarjeta
         _Sucursal = sucursal
         listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
         oConfig = New SigaMetClasses.cConfig(_Modulo, CShort(_Empresa), _Sucursal)
+        _Modulo = modulo
+        _Sucursal = sucursal
+
     End Sub
 
 #Region "Propiedades"
@@ -88,7 +92,7 @@ Public Class frmConsultaPagosAreaTarjeta
 
         CierraConexion()
         Cursor = Cursors.WaitCursor
-        frmAlta = New frmAltaPagoTarjeta(_Usuario, listaDireccionesEntrega)
+        frmAlta = New frmAltaPagoTarjeta(_Usuario, listaDireccionesEntrega, _ConnectionString, _Modulo, _Empresa, _Sucursal)
         frmAlta.modoOperacion = sTipoLlamado
         frmAlta.Folio = _Folio
         frmAlta.Anio = _Anio

@@ -17,6 +17,13 @@ Public Class frmAltaPagoTarjeta
     Private _Anio As Integer
     Private _listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
     Dim direccionEntregaTemp As New RTGMCore.DireccionEntrega
+    Private _URLGateway As String
+    Dim oConfig As SigaMetClasses.cConfig
+    Private _ConnectionString As String
+
+    Private _Modulo As Short
+    Private _Empresa As Short
+    Private _Sucursal As Short
 #End Region
 
     Public Sub New()
@@ -30,7 +37,7 @@ Public Class frmAltaPagoTarjeta
 
 
 
-    Public Sub New(Usuario As String, listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega))
+    Public Sub New(Usuario As String, listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega), ConnectionString As String, modulo As Short, empresa As Short, sucursal As Short)
         MyBase.New()
         ' This call is required by the designer.
         InitializeComponent()
@@ -39,6 +46,12 @@ Public Class frmAltaPagoTarjeta
         ' Add any initialization after the InitializeComponent() call.
         ChkCalculo.Checked = True
         _listaDireccionesEntrega = listaDireccionesEntrega
+        _ConnectionString = ConnectionString
+        oConfig = New SigaMetClasses.cConfig(modulo, empresa, sucursal)
+        _Modulo = modulo
+        _Sucursal = sucursal
+        _Empresa = empresa
+
     End Sub
 #Region "Propiedades"
 
@@ -83,6 +96,16 @@ Public Class frmAltaPagoTarjeta
         limpiaCargo()
         Lbl_fechaCargo.Text = ""
         _zonaEconomica = 0
+    End Sub
+
+    Private Sub ObtieneUrl()
+        Try
+            _URLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+        Catch ex As Exception
+            If Not ex.Message.Contains("Index") Then
+                MessageBox.Show("Error al consultar Parametro URLGateway: " + ex.Message)
+            End If
+        End Try
     End Sub
 
     Private Sub limpiaCargo()
@@ -271,8 +294,9 @@ Public Class frmAltaPagoTarjeta
 
 
     Private Sub btnConsultaCliente_Click(sender As Object, e As EventArgs) Handles btnConsultaCliente.Click
-        Dim frmConsultaCliente As New frmConsultaCliente(idCliente, Nuevo:=0, Usuario:=_UsuarioAlta)
         Dim pedidoreferencia As String
+        ObtieneUrl()
+        Dim frmConsultaCliente As New frmConsultaCliente(Cliente:=idCliente, Nuevo:=0, Usuario:=_UsuarioAlta, URLGateway:=_URLGateway, Modulo:=_Modulo, CadenaCon:=_ConnectionString)
 
         frmConsultaCliente.ShowDialog()
         pedidoreferencia = frmConsultaCliente.PedidoReferenciaSeleccionado()
