@@ -192,13 +192,9 @@ Public Class frmConsultaPagosAreaTarjeta
                 clientesDistintos = clientes.Select(Function(v) v).Distinct.ToList()
             End If
             If clientesDistintos.Count > 0 Then
-                For indice As Integer = 0 To clientesDistintos.Count - 1
-                    System.Threading.Tasks.Parallel.ForEach(clientesDistintos, Sub(x) consultarDirecciones(x))
-                Next
+                System.Threading.Tasks.Parallel.ForEach(clientesDistintos, Sub(x) consultarDirecciones(x))
+
             End If
-
-
-
 
 
         Catch ex As Exception
