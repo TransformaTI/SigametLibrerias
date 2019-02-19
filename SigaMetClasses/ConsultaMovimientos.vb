@@ -1585,26 +1585,46 @@ Public Class ConsultaMovimientos
 
 
 
-    Private Sub generaListaCLientes(ByVal listaClientesDistintos As List(Of Integer))
+    'Private Sub generaListaCLientes(ByVal listaClientesDistintos As List(Of Integer))
+    '    Try
+    '        Dim listaClientes As New List(Of Integer)
+    '        Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+
+    '        For Each clienteTemp As Integer In listaClientesDistintos
+    '            direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+    '            If IsNothing(direccionEntregaTemp) Then
+    '                listaClientes.Add(clienteTemp)
+    '            End If
+    '        Next
+
+    '        Dim opciones As New System.Threading.Tasks.ParallelOptions()
+    '        opciones.MaxDegreeOfParallelism = 10
+    '        System.Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
+    '    Catch ex As Exception
+
+    '    End Try
+
+    'End Sub
+
+    Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
         Try
-            Dim listaClientes As New List(Of Integer)
-            Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
 
-            For Each clienteTemp As Integer In listaClientesDistintos
-                direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
-
-                If IsNothing(direccionEntregaTemp) Then
-                    listaClientes.Add(clienteTemp)
-                End If
+            oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion) ', _UrlGateway)
+            oGateway.ListaCliente = listaClientesDistintos
+            oGateway.URLServicio = _URLGateway
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            AddHandler oGateway.eListaEntregas, AddressOf completarListaEntregas
+            listaClientesEnviados = listaClientesDistintos
+            For Each CLIENTETEMP As Integer In listaClientesDistintos
+                oSolicitud.IDCliente = CLIENTETEMP
+                oGateway.busquedaDireccionEntregaAsync(oSolicitud)
             Next
-
-            Dim opciones As New System.Threading.Tasks.ParallelOptions()
-			opciones.MaxDegreeOfParallelism = 10
-			System.Threading.Tasks.Parallel.ForEach(listaClientes, opciones, Sub(x) consultarDirecciones(x))
         Catch ex As Exception
-
+            Throw
         End Try
-
     End Sub
 
 
