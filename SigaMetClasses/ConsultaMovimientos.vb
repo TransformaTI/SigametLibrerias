@@ -1473,25 +1473,25 @@ Public Class ConsultaMovimientos
         End Try
     End Sub
 
-    Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
-        Dim oGateway As RTGMGateway.RTGMGateway
-        Dim oSolicitud As RTGMGateway.SolicitudGateway
-        Try
+    'Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
+    '    Dim oGateway As RTGMGateway.RTGMGateway
+    '    Dim oSolicitud As RTGMGateway.SolicitudGateway
+    '    Try
 
-            oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion) ', _UrlGateway)
-            oGateway.ListaCliente = listaClientesDistintos
-            oGateway.URLServicio = _URLGateway
-            oSolicitud = New RTGMGateway.SolicitudGateway()
-            AddHandler oGateway.eListaEntregas, AddressOf completarListaEntregas
-            listaClientesEnviados = listaClientesDistintos
-            For Each CLIENTETEMP As Integer In listaClientesDistintos
-                oSolicitud.IDCliente = CLIENTETEMP
-                oGateway.busquedaDireccionEntregaAsync(oSolicitud)
-            Next
-        Catch ex As Exception
-            Throw
-        End Try
-    End Sub
+    '        oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion) ', _UrlGateway)
+    '        oGateway.ListaCliente = listaClientesDistintos
+    '        oGateway.URLServicio = _URLGateway
+    '        oSolicitud = New RTGMGateway.SolicitudGateway()
+    '        AddHandler oGateway.eListaEntregas, AddressOf completarListaEntregas
+    '        listaClientesEnviados = listaClientesDistintos
+    '        For Each CLIENTETEMP As Integer In listaClientesDistintos
+    '            oSolicitud.IDCliente = CLIENTETEMP
+    '            oGateway.busquedaDireccionEntregaAsync(oSolicitud)
+    '        Next
+    '    Catch ex As Exception
+    '        Throw
+    '    End Try
+    'End Sub
 
     Private Sub consultarDirecciones(ByVal idCliente As Integer)
         Dim oGateway As RTGMGateway.RTGMGateway
