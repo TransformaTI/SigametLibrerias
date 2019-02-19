@@ -241,7 +241,8 @@ Public Class frmAltaPagoTarjeta
     End Function
     Private Sub btnBuscar_Click(sender As Object, e As EventArgs) Handles btnBuscar.Click
         CierraConexion()
-        Dim frmBusquedaCliente As New BusquedaCliente()
+        ObtieneUrl()
+        Dim frmBusquedaCliente As New BusquedaCliente(CadCon:=_ConnectionString, Modulo:=_Modulo, PermiteModificarDatosCliente:=True, URLGateway:=_URLGateway)
         frmBusquedaCliente.ShowDialog()
         If frmBusquedaCliente.DialogResult = DialogResult.OK Then
             idCliente = frmBusquedaCliente.Cliente()
