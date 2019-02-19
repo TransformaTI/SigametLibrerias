@@ -11455,8 +11455,11 @@ Public Module Main
     Public Function SumaColumna(ByVal NombreTabla As DataTable, ByVal NombreColumna As String) As Decimal
         Dim _row As DataRow, decTotalSuma As Decimal = 0
         For Each _row In NombreTabla.Rows
-            decTotalSuma += CType(_row(NombreColumna), Decimal)
+            If Not _row(NombreColumna) Is DBNull.Value Then
+                decTotalSuma += CType(_row(NombreColumna), Decimal)
+            End If
         Next
+
         Return decTotalSuma
     End Function
 
