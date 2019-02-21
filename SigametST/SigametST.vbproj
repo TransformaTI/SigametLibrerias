@@ -143,6 +143,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\SigametSeguridad.dll</HintPath>
     </Reference>
+    <Reference Include="SigametST, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\SigametST.dll</HintPath>
+    </Reference>
     <Reference Include="STClienteEquipo, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\STClienteEquipo\bin\STClienteEquipo.dll</HintPath>
