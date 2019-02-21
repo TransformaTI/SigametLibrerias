@@ -28,7 +28,7 @@ namespace CRMContactos
 		private System.ComponentModel.IContainer components;
         private string _cadenaConexion;
         private string _urlGateway;
-
+        private byte _modulo;
 		MainDataLayer mainDL;
 		ContactosDL.Contactos contactos;
 
@@ -54,6 +54,18 @@ namespace CRMContactos
             }
         }
 
+        public byte Modulo
+        {
+            get
+            {
+                return _modulo;
+            }
+
+            set
+            {
+                _modulo = value;
+            }
+        }
 
         public ListaContactos(SqlConnection Connection)
 		{
@@ -72,6 +84,26 @@ namespace CRMContactos
 
 			cargaDatos();
 		}
+
+        public ListaContactos(SqlConnection Connection, string urlgateway, byte modulo, string cadenaConexion)
+        {
+            //
+            // Required for Windows Form Designer support
+            //
+            InitializeComponent();
+            //
+            // TODO: Add any constructor code after InitializeComponent call
+            //
+            mainDL = MainDataLayer.GetInstance();
+            mainDL.Connection = Connection;
+            mainDL.CargaCatalogos();
+
+            contactos = new ContactosDL.Contactos();
+            _urlGateway = urlgateway;
+            _cadenaConexion = cadenaConexion;
+            _modulo = modulo;
+            cargaDatos();
+        }
 
 		public ListaContactos(SqlConnection Connection, int Cliente, string cadenaConexion,string urlgateway)
 		{
@@ -239,12 +271,18 @@ namespace CRMContactos
 			{
 				case "Agregar" :
 					frmContacto = new Contacto(MainDataLayer.GetInstance().Catalogos);
+                    frmContacto.UrlGateway = _urlGateway;
+                    frmContacto.Modulo = _modulo;
+                    frmContacto.CadenaConexion = _cadenaConexion;
 					if (frmContacto.ShowDialog() == DialogResult.OK)
 						cargaDatos();
 					break;
 				case "Consultar" :
 					frmContacto = new Contacto(MainDataLayer.GetInstance().Catalogos, _contacto);
-					if (frmContacto.ShowDialog() == DialogResult.OK)
+                    frmContacto.UrlGateway = _urlGateway;
+                    frmContacto.Modulo = _modulo;
+                    frmContacto.CadenaConexion = _cadenaConexion;
+                    if (frmContacto.ShowDialog() == DialogResult.OK)
 						cargaDatos();
 					break;
 				case "Buscar" :

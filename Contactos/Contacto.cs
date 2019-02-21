@@ -58,7 +58,48 @@ namespace CRMContactos
 		
 		private cContacto _contacto;
 		private bool _editable = false;
-		
+        private string _urlGateway;
+        private byte _modulo;
+        private string _cadenaConexion;
+
+        public string UrlGateway
+        {
+            get
+            {
+                return _urlGateway;
+            }
+
+            set
+            {
+                _urlGateway = value;
+            }
+        }
+
+        public byte Modulo
+        {
+            get
+            {
+                return _modulo;
+            }
+
+            set
+            {
+                _modulo = value;
+            }
+        }
+
+        public string CadenaConexion
+        {
+            get
+            {
+                return _cadenaConexion;
+            }
+
+            set
+            {
+                _cadenaConexion = value;
+            }
+        }
 		//Nuevos contactos
 		public Contacto(System.Data.DataSet Catalogo)
 		{
@@ -618,7 +659,7 @@ namespace CRMContactos
 		private void btnClientesAsociados_Click(object sender, System.EventArgs e)
 		{
 			SigaMetClasses.BusquedaCliente frmCliente = new SigaMetClasses.BusquedaCliente(true, true, false, false, string.Empty,
-				0, false, false, false, dsCatalogos);
+				0, false, false, false, dsCatalogos, URLGateway:_urlGateway, Modulo:_modulo, CadCon:_cadenaConexion);
 			if (frmCliente.ShowDialog() == DialogResult.OK)
 			{
 				try
