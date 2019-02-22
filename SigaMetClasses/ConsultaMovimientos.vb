@@ -1273,14 +1273,17 @@ Public Class ConsultaMovimientos
     End Sub
 
     Private Sub grdCobro_CurrentCellChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles grdCobro.CurrentCellChanged
+        Dim dtTempCobro As DataTable
+
         Try
             _AnoCobro = CType(grdCobro.Item(grdCobro.CurrentRowIndex, 0), Short)
             _CobroCons = CType(grdCobro.Item(grdCobro.CurrentRowIndex, 1), Integer)
             _Documento = ""
 
-            Dim dtTempCobro As DataTable
+
             dtTempCobro = CType(grdCobro.DataSource, DataTable)
-            _CobroRow = dtTempCobro.Rows(grdCobro.CurrentRowIndex)
+            _CobroRow = dtTempCobro.Select("cobro='" + CType(_CobroCons, String) + "'").FirstOrDefault
+
 
             grdCobro.Select(grdCobro.CurrentRowIndex)
             btnConsultarCobro.Enabled = True
