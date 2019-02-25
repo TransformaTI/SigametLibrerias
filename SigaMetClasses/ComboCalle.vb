@@ -103,8 +103,9 @@ Public Class ComboCalle
         Next
         Me.EndUpdate()
         Me.SelectionStart = Me.Text.Length
-        XDoc = Nothing
-        System.GC.Collect()
+		XDoc = Nothing
+		sr.Dispose()
+		System.GC.Collect()
     End Sub
 
     Public Sub CargaCallesFromDoc(ByVal XMLDoc As XmlDocument)

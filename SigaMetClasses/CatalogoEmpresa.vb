@@ -25,19 +25,21 @@ Public Class CatalogoEmpresa
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(Optional ByVal PermiteAgregar As Boolean = True, _
-                   Optional ByVal PermiteModificar As Boolean = True, _
-                   Optional ByVal PermiteConsultar As Boolean = True, _
-                   Optional ByVal PermiteSeleccionar As Boolean = False)
+    Public Sub New(Optional ByVal PermiteAgregar As Boolean = True,
+                   Optional ByVal PermiteModificar As Boolean = True,
+                   Optional ByVal PermiteConsultar As Boolean = True,
+                   Optional ByVal PermiteSeleccionar As Boolean = False,
+                   Optional ByVal PermiteBuscar As Boolean = True)
 
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
-        btnAgregar.Visible = PermiteAgregar
-        btnModificar.Visible = PermiteModificar
-        btnConsultar.Visible = PermiteConsultar
+        btnAgregar.Enabled = PermiteAgregar
+        btnModificar.Enabled = PermiteModificar
+        btnConsultar.Enabled = PermiteConsultar
+        btnBuscar.Enabled = PermiteBuscar
 
         _PermiteSeleccionar = PermiteSeleccionar
 
@@ -441,8 +443,8 @@ Public Class CatalogoEmpresa
 
     Private Sub Consultar()
         Cursor = Cursors.WaitCursor
-        Dim oConsultaEmpresa As New ConsultaEmpresa(_Empresa)
-        oConsultaEmpresa.ShowDialog()
+		Dim oConsultaEmpresa As New ConsultaEmpresa(_Empresa, PermiteModificar:=True)
+		oConsultaEmpresa.ShowDialog()
         Cursor = Cursors.Default
     End Sub
 

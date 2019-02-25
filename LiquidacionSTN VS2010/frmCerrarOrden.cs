@@ -58,13 +58,18 @@ namespace LiquidacionSTN
         private CheckBox chkNoSuministrar;
 		private System.ComponentModel.IContainer components;
 
-		public frmCerrarOrden(string PedidoReferencia,string Usuario)
+        public frmCerrarOrden(string PedidoReferencia,
+                                string Usuario,
+                                bool HabilitarPresupuesto = true,
+                                bool HabilitarModificar = true)
 
 		{
 
 			_PedidoReferencia = PedidoReferencia;
 			//CnnSigamet = Conexion;
 			_Usuario = Usuario;
+            _HabilitarPresupuesto = HabilitarPresupuesto;
+            _HabilitarModificar = HabilitarModificar;
 			//
 			// Required for Windows Form Designer support
 			//
@@ -109,15 +114,20 @@ namespace LiquidacionSTN
 		string Importe;
 		decimal Contado;
 		int _ClienteTarjeta;
-		int _TipoCobro;       
+		int _TipoCobro;
 
-       		
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
+        // Variable para deshabilitar el botón Prespuesto -- RM 27/09/2018
+        bool _HabilitarPresupuesto;
+        // Variable para deshabilitar el botón Modificar -- RM 03/01/2019
+        bool _HabilitarModificar;
+
+
+        #region Windows Form Designer generated code
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCerrarOrden));
@@ -639,15 +649,17 @@ namespace LiquidacionSTN
 				string Query = "select TipoCobro,Descripcion from tipocobro where TipoCobro in (5,6,7,8)";
 				SqlDataAdapter daTipoCobro = new SqlDataAdapter ();
 				DataTable dtTipoCobro;
+                DataRow drRow;
 				dtTipoCobro = new DataTable ("TipoCobro");
 				LiquidacionSTN.Modulo.CnnSigamet.Open ();
 				daTipoCobro.SelectCommand = new SqlCommand (Query,LiquidacionSTN.Modulo.CnnSigamet);
 				daTipoCobro.Fill (dtTipoCobro);
-				cboTipoCobro.DataSource = dtTipoCobro;
-				cboTipoCobro.DisplayMember = "Descripcion";
+                
+                cboTipoCobro.DataSource = dtTipoCobro;
+                cboTipoCobro.DisplayMember = "Descripcion";
 				cboTipoCobro.ValueMember = "TipoCobro";
-			}
-			catch (Exception e)
+            }
+            catch (Exception e)
 			{
 				MessageBox.Show (e.Message );
 			}
@@ -686,6 +698,8 @@ namespace LiquidacionSTN
 
 		private void LlenaDatos()
 		{
+            int tipoCobro = 0;
+            int formaCredito = 0;
 			System.Data.DataRow[] Consulta;
 			Consulta = Modulo.dtLiquidacion.Select("PedidoReferencia = '"+_PedidoReferencia+"'");
 			foreach(System.Data.DataRow dr in Consulta)
@@ -697,28 +711,33 @@ namespace LiquidacionSTN
 				lblDias.Text = Convert.ToString (dr["FrecuenciaPagos"]);
 				_TipoPedido = Convert.ToInt32 (dr["TipoPedido"]);
 				CboTipoPedido.SelectedValue = _TipoPedido;
-				
-				cboFormaCredito.SelectedValue = dr["CreditoServicioTecnico"];
-				cboTipoCobro.SelectedValue = dr["TipoCobro"];
-				_Pedido = Convert.ToInt32 (dr["Pedido"]);
+
+                formaCredito = Convert.ToInt32(dr["CreditoServicioTecnico"]);
+                tipoCobro = Convert.ToInt32(dr["TipoCobro"]);
+
+                cboFormaCredito.SelectedValue = dr["CreditoServicioTecnico"];
+                cboTipoCobro.SelectedValue = dr["TipoCobro"];
+                _Pedido = Convert.ToInt32 (dr["Pedido"]);
 				_Celula = Convert.ToInt32 (dr["Celula"]);
 				_AñoPed = Convert.ToInt32 (dr["AñoPed"]);
 				_TotalCheque = Convert.ToDecimal (dr["TotalCheque"]);
+
+                txtServicioRealizado.Text = (string)dr["ObservacionesServicioRealizado"];
 			}
-		// Texis se agrego el codigo para consultar  observaciones y que sea visible para su consulta
-			System.Data.DataRow [] Query;
-			if(_Pedido != 0 && _Celula != 0 && _AñoPed != 0)
-			{
-				Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + "and AñoPed =" + _AñoPed);
-				if(Query.Length > 0)
-				{
-					foreach(System.Data.DataRow drA in Query)
-					{
-						txtServicioRealizado.Text = drA["ObservacionesServicioRealizado"].ToString();
-					}
-				}
-			}
-		//
+		    // Texis se agrego el codigo para consultar  observaciones y que sea visible para su consulta
+            // Se comenta para leer el valor de memoria. RM 27/09/2018
+			//System.Data.DataRow [] Query;
+			//if(_Pedido != 0 && _Celula != 0 && _AñoPed != 0)
+			//{
+			//	Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + "and AñoPed =" + _AñoPed);
+			//	if(Query.Length > 0)
+			//	{
+			//		foreach(System.Data.DataRow drA in Query)
+			//		{
+			//			txtServicioRealizado.Text = drA["ObservacionesServicioRealizado"].ToString();
+			//		}
+			//	}
+			//}
 		}
 
 		private void LlenaEquipo ()
@@ -768,8 +787,11 @@ namespace LiquidacionSTN
 					drM.BeginEdit();
 					drM["StatusServicioTecnico"] = "ATENDIDO";
 					drM.EndEdit ();
-					_TipoCobro = Convert.ToInt32 (drM["TipoCobro"]);
-				}
+                    if (drM["TipoCobro"] != DBNull.Value)
+                    {
+                        _TipoCobro = Convert.ToInt32(drM["TipoCobro"]);
+                    }
+                }
 				if (_TipoCobro == 6)
 				{
 
@@ -806,9 +828,21 @@ namespace LiquidacionSTN
             SigaMetClasses.cConfig oConfig = new SigaMetClasses.cConfig(11,Modulo.GLOBAL_Corporativo,Modulo.GLOBAL_Sucursal);
             txtServicioRealizado.ReadOnly = Convert.ToBoolean(Convert.ToByte(oConfig.Parametros["ModificarObsLiqST"]));                                    
             ConsultaPuedeSuministrar();
-		}
+            ConmutarBotonPresupuesto();
+            ConmutarBotonModificar();
+        }
 
-		private void label13_Click(object sender, System.EventArgs e)
+        private void ConmutarBotonPresupuesto()
+        {
+            tBBPresupuesto.Enabled = _HabilitarPresupuesto;
+        }
+
+        private void ConmutarBotonModificar()
+        {
+            //tBBModificar.Enabled = _HabilitarModificar;
+        }
+
+        private void label13_Click(object sender, System.EventArgs e)
 		{
 		
 		}
@@ -914,42 +948,41 @@ namespace LiquidacionSTN
 					}
 					else
 					{
-											if (txtCostoServicio.Text == "")
-											{
-												MessageBox.Show("Debe de capturar un costo a este servicio técnico", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-												break;
-											}
-						//Texis inhabilito estas lineas para que no sea forzozo el campo de servicio realizado
-//											if (txtServicioRealizado.Text == "")
-//											{
-//												MessageBox.Show("Debe de capturar el servicio realizado.", "Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
-//												break;
-//											}
-//						
-											if (MessageBox.Show("¿Esta seguro de cerrar la orden de servicio?", "Servicio Tecnico", MessageBoxButtons.YesNo) == DialogResult.Yes)
-											{
-												System.Data.DataRow [] Query;
-												Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + "and AñoPed =" + _AñoPed);
-												foreach(System.Data.DataRow drA in Query)
-												{
-													drA.BeginEdit ();
-													drA["CostoServicioTecnico"] = txtCostoServicio.Text;
-													drA["ObservacionesServicioRealizado"] = txtServicioRealizado.Text;
-													drA["StatusServicioTecnico"] = "ATENDIDO";
-													drA["FAtencion"] = dtpFAtencion.Value;
-													drA.EndEdit ();
-												}
-												RevisaTotal();
-                                                RegistraPuedeSuministrar();
-												this.Close ();
-											}
-											else
-											{
-											}
+					    if (txtCostoServicio.Text == "")
+					    {
+						    MessageBox.Show("Debe de capturar un costo a este servicio técnico", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						    break;
+					    }
+                        //Texis inhabilito estas lineas para que no sea forzozo el campo de servicio realizado
+                        //if (txtServicioRealizado.Text == "")
+                        //{
+                        //    MessageBox.Show("Debe de capturar el servicio realizado.", "Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //    break;
+                        //}
+
+                        if (MessageBox.Show("¿Esta seguro de cerrar la orden de servicio?", "Servicio Tecnico", MessageBoxButtons.YesNo) == DialogResult.Yes)
+					    {
+						    System.Data.DataRow [] Query;
+						    Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + "and AñoPed =" + _AñoPed);
+						    foreach(System.Data.DataRow drA in Query)
+						    {
+							    drA.BeginEdit ();
+							    drA["CostoServicioTecnico"] = txtCostoServicio.Text;
+							    drA["ObservacionesServicioRealizado"] = txtServicioRealizado.Text;
+							    drA["StatusServicioTecnico"] = "ATENDIDO";
+							    drA["FAtencion"] = dtpFAtencion.Value;
+							    drA.EndEdit ();
+						    }
+						    RevisaTotal();
+                            RegistraPuedeSuministrar();
+						    this.Close ();
+					    }
+					    else
+					    {
+					    }
 					}
-
-
 					break;
+
 				case "Modificar":
 					if (FormaPago == 7) 
 					{
@@ -975,7 +1008,7 @@ namespace LiquidacionSTN
 							break;
 						}
 					}
-
+                    
 					if (MessageBox.Show ("¿Esta usted seguro de modificar el servicio técnico?", "Servicios Técnicos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 					{
 						System.Data.DataRow [] Consulta;
@@ -983,37 +1016,46 @@ namespace LiquidacionSTN
 						foreach(System.Data.DataRow drM in Consulta)
 						{
 							drM.BeginEdit ();
-							       decimal Pagos;
-							      drM["NumeroPagos"] = lblNumPagos.Text;
-							      Pagos = Convert.ToDecimal (lblPagosDe.Text);
+							decimal Pagos;
+							drM["NumeroPagos"] = lblNumPagos.Text;
+							Pagos = Convert.ToDecimal (lblPagosDe.Text);
 
-							      drM["Pagosde"] = Convert.ToDecimal (lblPagosDe.Text);
-							      drM["FrecuenciaPagos"] = lblDias.Text;
-							      drM["TipoPedidoDescripcion"] = CboTipoPedido.Text;
-							      if (cboFormaCredito.SelectedValue == null)
-									 {
-									   drM["CreditoServicioTecnico"] = 0;
-									 }
-							      else
-								     {
-									  drM["CreditoServicioTecnico"] = cboFormaCredito.SelectedValue;
-									  }
-							      
-							
-							      drM["Total"] = txtTotal.Text;
-							      if (CboTipoPedido.Text == "S.T. sin cargo")
-								  {
-									  drM["TipoCobro"] = 0;
-								  }
-							      else
-								  {
-									  drM["TipoCobro"] = cboTipoCobro.SelectedValue;
-								  }
+							drM["Pagosde"] = Convert.ToDecimal (lblPagosDe.Text);
+							drM["FrecuenciaPagos"] = lblDias.Text;
+							drM["TipoPedidoDescripcion"] = CboTipoPedido.Text;
+                            drM["Total"] = txtTotal.Text;
+                            drM["ImporteLetra"] = Importe;
+                            if (this.CboTipoPedido.SelectedValue == null)
+                            {
+                                MessageBox.Show("Por favor seleccione un tipo de pedido.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                drM.CancelEdit();
+                                return;
+                            }
+                            else
+                            {
+                                drM["TipoPedido"] = this.CboTipoPedido.SelectedValue;
+                            }
+                            //drM["TipoPedido"] = this.CboTipoPedido.SelectedValue;
+                            drM["TipoCobroDescripcion"] = cboTipoCobro.Text;
+
+                            if (cboFormaCredito.SelectedValue == null)
+							{
+							    drM["CreditoServicioTecnico"] = 0;
+							}
+							else
+							{
+							    drM["CreditoServicioTecnico"] = cboFormaCredito.SelectedValue;
+							}
+
+                            if (CboTipoPedido.Text == "S.T. sin cargo")
+                            {
+                                drM["TipoCobro"] = 0;
+                            }
+                            else
+                            {
+                                drM["TipoCobro"] = (cboTipoCobro.SelectedValue != null ? cboTipoCobro.SelectedValue : 0);
+                            }
 							     
-							      drM["ImporteLetra"] = Importe;
-							      drM["TipoPedido"] = this.CboTipoPedido.SelectedValue ;
-							      drM["TipoCobroDescripcion"] = cboTipoCobro.Text;
-							
 							drM.EndEdit ();
 						}
 						this.Close ();
@@ -1186,7 +1228,7 @@ namespace LiquidacionSTN
 		{
 			if (txtServicioRealizado.Text.Trim ().Length > 1000 )
 			{
-				MessageBox.Show ("Usted sobrepaso el numero permitido de caracteres, por favor recorte su mensaje.","Liquidación Servicios Técnicos",MessageBoxButtons.OK, MessageBoxIcon.Information );
+				MessageBox.Show ("Usted sobrepasó el número permitido de carácteres, por favor recorte su mensaje.","Liquidación Servicios Técnicos",MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
 		}
 
@@ -1227,7 +1269,10 @@ namespace LiquidacionSTN
 
             try
             {
-              this.chkNoSuministrar.Checked =  (Boolean)cmd.ExecuteScalar();              
+                if (cmd.ExecuteScalar() != null)
+                {
+                    this.chkNoSuministrar.Checked = (Boolean)cmd.ExecuteScalar();
+                }
             }
             catch (Exception e)
             {

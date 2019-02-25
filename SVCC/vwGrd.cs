@@ -164,12 +164,13 @@ namespace CustGrd
 					bool rowLocated = false;
 					foreach (System.Windows.Forms.ListViewItem lwi in this.Items)
 					{
-						if (lwi.SubItems[frmSearch.SearchColumn].Text == frmSearch.SearchString.Trim())
+						if (lwi.SubItems[frmSearch.SearchColumn].Text.Trim() == frmSearch.SearchString.Trim())
 						{
 							this.Focus();
 							lwi.Focused = true;
 							lwi.Selected = true;
 							rowLocated = true;
+                           
 							lwi.EnsureVisible();
 							break;
 						}

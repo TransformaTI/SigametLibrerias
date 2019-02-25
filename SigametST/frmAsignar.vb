@@ -2,15 +2,41 @@ Imports System.Data.SqlClient
 Public Class frmAsignar
     Inherits System.Windows.Forms.Form
 
+    Public Guarda As Integer
+    Public _Pedido As Integer
+    Public _Celula As Integer
+    Public _AñoPed As Integer
+    Public _AñoAtt As Integer
+    Public _Folio As Integer
+    Public _StatusLogistica As String
+    Public _FCompromiso As Date
+    Public _FAsignacion As Date
+    Public _Usuario As String
+    Public Llena As Integer
+    Dim _Chofer As String
+    ' Pedido del CRM que se dará de alta en Sigamet
+    Private _PedidoCRM As RTGMCore.Pedido
+    Private _PedidoServicioTecnicoAlta As PedidoServiciotecnicoAlta
+    Private _FuenteGateway As String
+
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(ByVal Pedido As Integer, ByVal Celula As Integer, ByVal AñoPed As Integer, ByVal FCompromiso As DateTime, ByVal Usuario As String)
+    Public Sub New(ByVal Pedido As Integer,
+                   ByVal Celula As Integer,
+                   ByVal AñoPed As Integer,
+                   ByVal FCompromiso As DateTime,
+                   ByVal Usuario As String,
+          Optional ByVal PedidoCRM As RTGMCore.Pedido = Nothing,
+          Optional ByVal FuenteGateway As String = "")
         MyBase.New()
         _Pedido = Pedido
         _Celula = Celula
         _AñoPed = AñoPed
         _FCompromiso = FCompromiso
         _Usuario = Usuario
+        _PedidoCRM = PedidoCRM
+        _FuenteGateway = FuenteGateway
+
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
@@ -211,19 +237,6 @@ Public Class frmAsignar
 
 #End Region
 
-    Public Guarda As Integer
-    Public _Pedido As Integer
-    Public _Celula As Integer
-    Public _AñoPed As Integer
-    Public _AñoAtt As Integer
-    Public _Folio As Integer
-    Public _StatusLogistica As String
-    Public _FCompromiso As Date
-    Public _FAsignacion As Date
-    Public _Usuario As String
-    Public Llena As Integer
-    Dim _Chofer As String
-
 
     Private Sub llenacombo()
         Dim da As New SqlDataAdapter("select autotanque,folio from autotanqueturno where TIPOPRODUCTO = 2 and FInicioRuta >= ' " & dtpFAsignacion.Value.ToShortDateString & " 00:00:00 ' " _
@@ -283,36 +296,50 @@ Public Class frmAsignar
                         'Instancia de la transaccion
                         Dim SQLTransaccion As SqlTransaction
 
-                        'Anexamos los parametros del comando
-
-                        sqlcommandtransac.Parameters.Add("@Pedido", SqlDbType.Int).Value = _Pedido
-                        sqlcommandtransac.Parameters.Add("@AñoAtt", SqlDbType.Int).Value = _AñoAtt
-                        sqlcommandtransac.Parameters.Add("@AñoPed", SqlDbType.Int).Value = _AñoPed
-
-                        sqlcommandtransac.Parameters.Add("@Celula", SqlDbType.Int).Value = _Celula
-                        If cboUnidad.SelectedValue Is Nothing Then
-                            sqlcommandtransac.Parameters.Add("@Unidad", SqlDbType.Int).Value = 0
-                        Else
-                            sqlcommandtransac.Parameters.Add("@Unidad", SqlDbType.Int).Value = cboUnidad.SelectedValue
-                        End If
-                        If _Folio = 0 Then
-                            sqlcommandtransac.Parameters.Add("@Folio", SqlDbType.Int).Value = 0
-                        Else
-                            sqlcommandtransac.Parameters.Add("@Folio", SqlDbType.Int).Value = _Folio
-                        End If
-
-                        sqlcommandtransac.Parameters.Add("@Tipo", SqlDbType.Int).Value = Guarda
-                        sqlcommandtransac.Parameters.Add("@Usuario", SqlDbType.Char).Value = _Usuario
-
-
-
                         'Asigna el comando de inicio de transaccion 
                         SQLTransaccion = ConexionTransaccion.BeginTransaction
-                        'Arma la conexion para la transaccion
-                        sqlcommandtransac.Connection = ConexionTransaccion
-                        'Inicio de la transaccion
-                        sqlcommandtransac.Transaction = SQLTransaccion
+
+                        Cursor = Cursors.WaitCursor
+
                         Try
+                            If _FuenteGateway.Equals("CRM") Then
+                                If ExistePedidoCRMEnSigamet(_Pedido, ConexionTransaccion, SQLTransaccion) Then
+                                    MessageBox.Show("El pedido ya se dió de alta en Sigamet.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                    Exit Sub
+                                End If
+
+                                ' Insertar pedido de CRM en Sigamet
+                                InsertarPedidoServicioTecnico(ConexionTransaccion, SQLTransaccion)
+                            End If
+
+                            'Anexamos los parametros del comando
+                            sqlcommandtransac.Parameters.Add("@Pedido", SqlDbType.Int).Value = _Pedido
+                            sqlcommandtransac.Parameters.Add("@AñoAtt", SqlDbType.Int).Value = _AñoAtt
+                            sqlcommandtransac.Parameters.Add("@AñoPed", SqlDbType.Int).Value = _AñoPed
+
+                            sqlcommandtransac.Parameters.Add("@Celula", SqlDbType.Int).Value = _Celula
+                            If cboUnidad.SelectedValue Is Nothing Then
+                                sqlcommandtransac.Parameters.Add("@Unidad", SqlDbType.Int).Value = 0
+                            Else
+                                sqlcommandtransac.Parameters.Add("@Unidad", SqlDbType.Int).Value = cboUnidad.SelectedValue
+                            End If
+                            If _Folio = 0 Then
+                                sqlcommandtransac.Parameters.Add("@Folio", SqlDbType.Int).Value = 0
+                            Else
+                                sqlcommandtransac.Parameters.Add("@Folio", SqlDbType.Int).Value = _Folio
+                            End If
+
+                            sqlcommandtransac.Parameters.Add("@Tipo", SqlDbType.Int).Value = Guarda
+                            sqlcommandtransac.Parameters.Add("@Usuario", SqlDbType.Char).Value = _Usuario
+
+
+                            'Asigna el comando de inicio de transaccion 
+                            'SQLTransaccion = ConexionTransaccion.BeginTransaction
+                            'Arma la conexion para la transaccion
+                            sqlcommandtransac.Connection = ConexionTransaccion
+                            'Inicio de la transaccion
+                            sqlcommandtransac.Transaction = SQLTransaccion
+                            'Try
                             'Construccion del comando
                             sqlcommandtransac.CommandType = CommandType.StoredProcedure
                             sqlcommandtransac.CommandTimeout = 300
@@ -330,6 +357,7 @@ Public Class frmAsignar
                             'Fin de la transaccion
                             ConexionTransaccion.Close()
                             'ConexionTransaccion.Dispose()
+                            Cursor = Cursors.Default
                             Me.Close()
                         End Try
                     End If
@@ -345,12 +373,71 @@ Public Class frmAsignar
         End Select
     End Sub
 
+    Private Sub InsertarPedidoServicioTecnico(ByVal conexion As SqlConnection, ByVal transaccion As SqlTransaction)
+        Dim drDatos As SqlDataReader
+        Dim ruta As Integer = 0
+        Dim numExterior As String = ""
+        Dim numInterior As String = ""
+        Dim calle As Integer = 0
+        Dim colonia As Integer = 0
+
+        If IsNothing(_PedidoCRM) Then
+            Exit Sub
+        Else
+            If Not IsNothing(_PedidoCRM.RutaOrigen) Then ruta = If(_PedidoCRM.RutaOrigen.IDRuta, 0)
+
+            If Not IsNothing(_PedidoCRM.DireccionEntrega) Then
+                numExterior = _PedidoCRM.DireccionEntrega.NumExterior
+                numInterior = _PedidoCRM.DireccionEntrega.NumInterior
+                calle = _PedidoCRM.DireccionEntrega.IDCalle
+                colonia = _PedidoCRM.DireccionEntrega.IDColonia
+            End If
+
+            _PedidoServicioTecnicoAlta = New PedidoServiciotecnicoAlta(conexion, transaccion)
+            drDatos = _PedidoServicioTecnicoAlta.PedidoServiciotecnico(_PedidoCRM.Observaciones,
+                                                             If(_PedidoCRM.IDTipoPedido, 0),
+                                                             If(_PedidoCRM.FCompromiso, Date.MinValue),
+                                                             If(_PedidoCRM.FCompromiso, Date.MinValue),
+                                                             _PedidoCRM.IDDireccionEntrega,
+                                                             If(_PedidoCRM.IDZona, _Celula),
+                                                             ruta,
+                                                             _PedidoCRM.IDUsuarioAlta,
+                                                             If(_PedidoCRM.IDTipoServicio, 0),
+                                                             numExterior,
+                                                             numInterior,
+                                                             calle,
+                                                             colonia,
+                                                             If(_PedidoCRM.IDPedido, _Pedido))
+            ' Recuperar el pedido que se insertó
+            While drDatos.Read
+                _Pedido = CType(drDatos("Pedido"), Integer)
+                _Celula = CType(drDatos("Celula"), Byte)
+                _AñoPed = CType(drDatos("AñoPed"), Short)
+            End While
+
+            drDatos.Close()
+        End If
+    End Sub
+
+    Private Function ExistePedidoCRMEnSigamet(ByVal pedido As Integer,
+                                              ByVal conexion As SqlConnection,
+                                              ByVal transaccion As SqlTransaction) As Boolean
+        If pedido <= 0 Then
+            Return True
+        End If
+
+        _PedidoServicioTecnicoAlta = New PedidoServiciotecnicoAlta(conexion, transaccion)
+
+        Return _PedidoServicioTecnicoAlta.ExistePedidoCRMEnSigamet(pedido)
+
+    End Function
+
     Private Sub frmAsignar_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         SigametST.cnnSigamet.Close()
         dtpFAsignacion.Value = Now.Date
-        'llenacombo()
-        'llenaFolioAutotanque()
+        llenacombo()
+        llenaFolioAutotanque()
         lblcelula.Text = CType(_Celula, String)
         lblPedidoReferencia.Text = CType(_Pedido, String)
     End Sub

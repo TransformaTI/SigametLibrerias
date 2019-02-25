@@ -3,6 +3,9 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using RTGMGateway;
+using System.Data;
 
 namespace ResguardoCyC
 {
@@ -538,10 +541,30 @@ namespace ResguardoCyC
 		private bool _relacionIntermedia;
 
 		private ReportPrint _report;
-		#endregion
+        
+        private string _urlGateway;
+        private Byte _Modulo;
+        private string _CadConexion;
+        #endregion
 
-		#region Constructor/Destructor
-		public ListaCobranza(bool RelacionIntermedia, string Usuario, int ResponsableResguardo, int ResponsableCyC, int ResponsableOp, string RutaReportes)
+        #region Propiedades
+
+        public string URLGateway
+        {
+            get
+            {
+                return _urlGateway;
+            }
+            set
+            {
+                _urlGateway = value;
+            }
+        }
+
+        #endregion
+
+        #region Constructor/Destructor
+        public ListaCobranza(bool RelacionIntermedia, string Usuario, int ResponsableResguardo, int ResponsableCyC, int ResponsableOp, string RutaReportes, byte Modulo, string CadConexion)
 		{
 			//
 			// Required for Windows Form Designer support
@@ -559,12 +582,39 @@ namespace ResguardoCyC
 			_relacionIntermedia = RelacionIntermedia;
 
 			_report = new ReportPrint(crvReporte, RutaReportes);
-		}
+            _Modulo = Modulo;
+            _CadConexion = CadConexion;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
+
+        }
+
+        public ListaCobranza(bool RelacionIntermedia, string Usuario, int ResponsableResguardo, int ResponsableCyC, 
+            int ResponsableOp, string RutaReportes, string URLGateway)
+        {
+            //
+            // Required for Windows Form Designer support
+            //
+            InitializeComponent();
+
+            //
+            // TODO: Add any constructor code after InitializeComponent call
+            //
+            _usuario = Usuario;
+            _responsableResguardo = ResponsableResguardo;
+            _responsableCyC = ResponsableCyC;
+            _responsableOp = ResponsableOp;
+
+            _relacionIntermedia = RelacionIntermedia;
+
+            _urlGateway = URLGateway;
+
+            _report = new ReportPrint(crvReporte, RutaReportes);
+        }
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose( bool disposing )
 		{
 			if( disposing )
 			{
@@ -629,6 +679,12 @@ namespace ResguardoCyC
 
 					btnProcesar.Enabled = (_datos.ListaCobranza.Rows.Count > 0);
 
+                    if (!string.IsNullOrEmpty(_urlGateway))
+                    {
+                        // Por verificar funcionamiento
+                        actualizarRelacionCobranzaCRM();
+                    }
+
 					cargarListaDocumentos();
 					cargarListaResponsables();	
 
@@ -659,11 +715,78 @@ namespace ResguardoCyC
 					cargarListaResponsables();
 				}
 			}
-		}
-		#endregion
+        }
 
-		#region Despliegue de datos
-		private void cargarListaDocumentos()
+        public void actualizarRelacionCobranzaCRM()
+        {
+            RTGMPedidoGateway obGateway = new RTGMPedidoGateway(_Modulo, _CadConexion);
+            SolicitudPedidoGateway obSolicitud;
+            List<RTGMCore.Pedido> lsPedidos;
+
+            if (string.IsNullOrEmpty(URLGateway))
+                return;
+
+            obGateway.URLServicio = URLGateway;
+
+            foreach (DataRow dr in _datos.ListaCobranza.Rows)
+            {
+                obSolicitud = new SolicitudPedidoGateway
+                {
+                    //FuenteDatos = RTGMCore.Fuente.Sigamet,
+                    //IDEmpresa = 0,
+                    TipoConsultaPedido = RTGMCore.TipoConsultaPedido.RegistroPedido,
+                    IDDireccionEntrega = null,
+                    FechaCompromisoInicio = DateTime.Now.Date,
+                    IDZona = null,
+                    EstatusBoletin = null,
+                    Portatil = false,
+                    IDUsuario = null,
+                    //IDSucursal = null,
+                    FechaCompromisoFin = null,
+                    FechaSuministroInicio = null,
+                    FechaSuministroFin = null,
+                    IDRutaOrigen = null,
+                    IDRutaBoletin = null,
+                    IDRutaSuministro = null,
+                    IDEstatusPedido = null,
+                    EstatusPedidoDescripcion = null,
+                    IDEstatusBoletin = null,
+                    IDEstatusMovil = null,
+                    EstatusMovilDescripcion = null,
+                    IDAutotanque = null,
+                    IDAutotanqueMovil = null,
+                    SerieRemision = null,
+                    FolioRemision = null,
+                    SerieFactura = null,
+                    FolioFactura = null,
+                    IDZonaLecturista = null,
+                    TipoPedido = null,
+                    TipoServicio = null,
+                    AñoPed = null,
+                    IDPedido = null,
+                    PedidoReferencia = (string)dr["PEDIDO"]
+                };
+
+                lsPedidos = obGateway.buscarPedidos(obSolicitud);
+
+                if (lsPedidos.Count > 0)
+                {
+                    dr["PedidoReferencia"] = lsPedidos[0].PedidoReferencia;
+                    dr["Saldo"] = lsPedidos[0].Saldo;
+                    dr["ClasificacionCartera"] = lsPedidos[0].CarteraDescripcion;
+
+                    if (lsPedidos[0].DireccionEntrega != null && lsPedidos[0].DireccionEntrega.SupervisorComercial != null)
+                    {
+                        dr["Responsable"] = lsPedidos[0].DireccionEntrega.SupervisorComercial.IDEmpleado;
+                        dr["ResponsableNombre"] = lsPedidos[0].DireccionEntrega.SupervisorComercial.NombreCompleto;
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region Despliegue de datos
+        private void cargarListaDocumentos()
 		{
 			vwGrd1.DataSource = _datos.ListaCobranza;
 			vwGrd1.AutoColumnHeader();
@@ -729,9 +852,9 @@ namespace ResguardoCyC
 			lblDocumentosCyC.Text = DocumentosCyC;
 			lblTotalCyC.Text = TotalDocumentosCyC;
 		}
-		#endregion
+        #endregion
 
-		private void test_Click(object sender, System.EventArgs e)
+        private void test_Click(object sender, System.EventArgs e)
 		{
 			_datos = null;
 

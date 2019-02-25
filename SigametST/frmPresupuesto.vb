@@ -6,6 +6,7 @@ Public Class frmPresupuesto
     Private _Celula As Integer
     Private _AñoPed As Integer
     Private _UsaLiquidacion As Boolean
+    Private _FuenteGateway As String
 
     'Private Sub CargadatosTabla()
     '    Dim Consulta As DataRow() = dtLiquidacion.Select("pedido = " & _Pedido & "and Celula = " & _Celula & " and AñoPed = " & _AñoPed)
@@ -27,8 +28,19 @@ Public Class frmPresupuesto
     'End Sub
 
     Private Sub CargaDatos()
-        Dim carga As New SqlCommand("Select Cliente,Celula,Ruta,PedidoReferencia from pedido Where pedido = " & _Pedido & "and Celula = " & _Celula & " and Añoped = " & _AñoPed, cnnSigamet)
+        'Dim carga As New SqlCommand("Select Cliente,Celula,Ruta,PedidoReferencia from pedido Where pedido = " & _Pedido & "and Celula = " & _Celula & " and Añoped = " & _AñoPed, cnnSigamet)
+        Dim carga As SqlCommand
+
+        If (_FuenteGateway.Equals("CRM")) Then
+            carga = New SqlCommand("Select Cliente,Celula,Ruta, ISNULL(IdCRM, 0) As PedidoReferencia " +
+                                   "from pedido Where IdCRM = " & _Pedido, cnnSigamet)
+        Else
+            carga = New SqlCommand("Select Cliente, Celula, Ruta, PedidoReferencia " +
+                                   "from pedido Where pedido = " & _Pedido & "and Celula = " & _Celula & " and Añoped = " & _AñoPed, cnnSigamet)
+        End If
+
         Try
+            carga.CommandTimeout = 180
             cnnSigamet.Open()
             Dim drcarga As SqlDataReader = carga.ExecuteReader
             While drcarga.Read
@@ -46,9 +58,21 @@ Public Class frmPresupuesto
     End Sub
 
     Private Sub Presupuesto()
+        'Dim Pres As New SqlCommand("Select AñoFolioPresupuesto,FolioPresupuesto,Celula,Pedido,SubTotal,StatusPresupuesto,Observaciones,Total,Descuento from vwSTPedidoPresupuestoServicioTecnico Where Pedido = " & _Pedido & "And AñoPed = " & _AñoPed & " And Celula = " & _Celula, cnnSigamet)
+        Dim Pres As SqlCommand
 
-        Dim Pres As New SqlCommand("Select AñoFolioPresupuesto,FolioPresupuesto,Celula,Pedido,SubTotal,StatusPresupuesto,Observaciones,Total,Descuento from vwSTPedidoPresupuestoServicioTecnico Where Pedido = " & _Pedido & "and AñoPed = " & _AñoPed & " and Celula = " & _Celula, cnnSigamet)
+        If (_FuenteGateway.Equals("CRM")) Then
+            Pres = New SqlCommand("Select AñoFolioPresupuesto, FolioPresupuesto, Celula, " +
+                                        "Pedido, SubTotal, StatusPresupuesto, Observaciones, Total, Descuento " +
+                                  "from vwSTPedidoPresupuestoServicioTecnico Where IdCRM = " & _Pedido, cnnSigamet)
+        Else
+            Pres = New SqlCommand("Select AñoFolioPresupuesto, FolioPresupuesto, Celula, " +
+                                        "Pedido, SubTotal, StatusPresupuesto, Observaciones, Total, Descuento " +
+                                  "from vwSTPedidoPresupuestoServicioTecnico Where Pedido = " & _Pedido & "And AñoPed = " & _AñoPed & " And Celula = " & _Celula, cnnSigamet)
+        End If
+
         Try
+            Pres.CommandTimeout = 180
             cnnSigamet.Open()
             Dim drPres As SqlDataReader = Pres.ExecuteReader
             With drPres.Read
@@ -89,12 +113,17 @@ Public Class frmPresupuesto
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(ByVal Pedido As Integer, ByVal celula As Integer, ByVal Añoped As Integer, ByVal UsaLiquidacion As Boolean)
+    Public Sub New(ByVal Pedido As Integer,
+                   ByVal celula As Integer,
+                   ByVal Añoped As Integer,
+                   ByVal UsaLiquidacion As Boolean,
+          Optional ByVal FuenteGateway As String = "")
         MyBase.New()
         _Pedido = Pedido
         _Celula = celula
         _AñoPed = Añoped
         _UsaLiquidacion = UsaLiquidacion
+        _FuenteGateway = FuenteGateway
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
@@ -594,9 +623,7 @@ Public Class frmPresupuesto
                 Else
                     If CType(lblNumeroPresupuesto.Text, Double) > 0 Then
 
-
                         'Conexion para Modificar un presupuesto 
-
                         Dim ConexionTransaccion2 As SqlConnection = SigaMetClasses.DataLayer.Conexion
                         'Conexion para la Transaccion
                         ConexionTransaccion2.Open()
@@ -614,8 +641,9 @@ Public Class frmPresupuesto
                         SQlCommandTransac2.Parameters.Add("@descuento", SqlDbType.Money).Value = txtDescuento.Text
                         SQlCommandTransac2.Parameters.Add("@Status", SqlDbType.Char).Value = cboStatusPresupuesto.SelectedItem
                         SQlCommandTransac2.Parameters.Add("@ObservacionesPresupuesto", SqlDbType.Text).Value = txtObservacionesPresupuesto.Text
-
-
+                        If (_FuenteGateway.Equals("CRM")) Then
+                            SQlCommandTransac2.Parameters.Add("@IDCRM", SqlDbType.Int).Value = _Pedido
+                        End If
 
                         'Asigna el comando de inicio de transaccion
                         SQLTransac = ConexionTransaccion2.BeginTransaction

@@ -1,5 +1,10 @@
 Option Strict On
 Imports System.Data.SqlClient, System.Windows.Forms
+Imports System.Text.RegularExpressions
+Imports RTGMGateway
+Imports System.Linq
+Imports System.Collections.Generic
+
 Public Class ConsultaMovimientos
     Inherits System.Windows.Forms.Form
 
@@ -7,6 +12,7 @@ Public Class ConsultaMovimientos
     Private oSeguridad As SigaMetClasses.cSeguridad
     Private dtMovimientoCaja As New DataTable()
     Private dtCobro As New DataTable()
+    Private dtCobroTemp As New DataTable()
     Private dtCobroPedido As New DataTable()
     Private _Caja As Byte
     Private _FOperacion As Date
@@ -14,12 +20,24 @@ Public Class ConsultaMovimientos
     Private _Folio As Integer
     Private _AnoCobro As Short
     Private _CobroCons As Integer
-    Private _Modulo As Short
+    Private _Modulo As Byte
     Private _ModuloUsuario As String
     Private _ModuloEmpleado As Integer
     Private n As Integer
     Private _Clave, _Documento, _Status, strMensaje, strTitulo As String
     Private _Empleado As Integer
+    Private _URLGateway As String
+    Private _CadenaConexion As String
+    Private _ConsultarPedidosGateway As Boolean
+    Private _MovRow As DataRow
+    Private _CobroRow As DataRow
+    Private dtCobPedEnvio As New DataTable()
+    Private dtTempMov2 As New DataTable
+    Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
+    Private listaPedidos As List(Of RTGMCore.Pedido)
+    Private validarPeticion As Boolean
+    Private listaClientesEnviados As List(Of Integer)
+    Private tempDireccionEntrega As RTGMCore.DireccionEntrega
 #End Region
 
 #Region "Propiedades"
@@ -53,19 +71,47 @@ Public Class ConsultaMovimientos
         End Get
     End Property
 
+    Public Property ModuloUsuario As String
+        Get
+            Return _ModuloUsuario
+        End Get
+        Set(value As String)
+            _ModuloUsuario = value
+        End Set
+    End Property
+
 #End Region
+
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New()
+    Public Sub New(Optional ByVal Modulo As Byte = 0, Optional Cadcon As String = "")
         MyBase.New()
-
         'This call is required by the Windows Form Designer.
         InitializeComponent()
+        _Modulo = Modulo
+        _CadenaConexion = Cadcon
 
         'Add any initialization after the InitializeComponent() call
 
     End Sub
+
+    Public Sub New(ByVal URLGateway As String,
+          Optional ByVal Modulo As Byte = 0,
+          Optional ByVal Cadcon As String = "",
+          Optional ByVal ConsultarPedidosGateway As Boolean = False)
+        MyBase.New()
+
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
+        'Add any initialization after the InitializeComponent() call
+        _URLGateway = URLGateway
+        _Modulo = Modulo
+        _CadenaConexion = Cadcon
+        _ConsultarPedidosGateway = ConsultarPedidosGateway
+    End Sub
+
+
 
     'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
@@ -95,7 +141,7 @@ Public Class ConsultaMovimientos
     Friend WithEvents colMCRutaDescripcion As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents colMCEmpleadoNombre As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents Cobro As System.Windows.Forms.DataGridTableStyle
-    Friend WithEvents colCobroAñoCobro As System.Windows.Forms.DataGridTextBoxColumn
+    Friend WithEvents colCobroAÃ±oCobro As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents colCobroCobro As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents colCobroTipoCobroDescripcion As System.Windows.Forms.DataGridTextBoxColumn
     Friend WithEvents colCobroTotal As System.Windows.Forms.DataGridTextBoxColumn
@@ -153,10 +199,10 @@ Public Class ConsultaMovimientos
     Friend WithEvents btnModificar As System.Windows.Forms.ToolBarButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(ConsultaMovimientos))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ConsultaMovimientos))
         Me.grdCobro = New System.Windows.Forms.DataGrid()
         Me.Cobro = New System.Windows.Forms.DataGridTableStyle()
-        Me.colCobroAñoCobro = New System.Windows.Forms.DataGridTextBoxColumn()
+        Me.colCobroAÃ±oCobro = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.colCobroCobro = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.colCobroTipoCobroDescripcion = New System.Windows.Forms.DataGridTextBoxColumn()
         Me.colCobroTotal = New System.Windows.Forms.DataGridTextBoxColumn()
@@ -231,8 +277,8 @@ Public Class ConsultaMovimientos
         '
         'grdCobro
         '
-        Me.grdCobro.Anchor = ((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.grdCobro.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdCobro.BackgroundColor = System.Drawing.Color.Gainsboro
         Me.grdCobro.CaptionBackColor = System.Drawing.Color.DarkSeaGreen
         Me.grdCobro.CaptionText = "Lista de cobros en el movimiento"
@@ -248,18 +294,18 @@ Public Class ConsultaMovimientos
         'Cobro
         '
         Me.Cobro.DataGrid = Me.grdCobro
-        Me.Cobro.GridColumnStyles.AddRange(New System.Windows.Forms.DataGridColumnStyle() {Me.colCobroAñoCobro, Me.colCobroCobro, Me.colCobroTipoCobroDescripcion, Me.colCobroTotal, Me.colCobroStatus, Me.colCobroBancoNombre, Me.colCobroNumeroCheque, Me.colCobroNumeroCuenta, Me.colCobroCliente, Me.colCobroClienteNombre})
+        Me.Cobro.GridColumnStyles.AddRange(New System.Windows.Forms.DataGridColumnStyle() {Me.colCobroAÃ±oCobro, Me.colCobroCobro, Me.colCobroTipoCobroDescripcion, Me.colCobroTotal, Me.colCobroStatus, Me.colCobroBancoNombre, Me.colCobroNumeroCheque, Me.colCobroNumeroCuenta, Me.colCobroCliente, Me.colCobroClienteNombre})
         Me.Cobro.HeaderForeColor = System.Drawing.SystemColors.ControlText
         Me.Cobro.MappingName = "Cobro"
         Me.Cobro.RowHeadersVisible = False
         '
-        'colCobroAñoCobro
+        'colCobroAÃ±oCobro
         '
-        Me.colCobroAñoCobro.Format = ""
-        Me.colCobroAñoCobro.FormatInfo = Nothing
-        Me.colCobroAñoCobro.HeaderText = "Año"
-        Me.colCobroAñoCobro.MappingName = "AñoCobro"
-        Me.colCobroAñoCobro.Width = 75
+        Me.colCobroAÃ±oCobro.Format = ""
+        Me.colCobroAÃ±oCobro.FormatInfo = Nothing
+        Me.colCobroAÃ±oCobro.HeaderText = "AÃ±o"
+        Me.colCobroAÃ±oCobro.MappingName = "AÃ±oCobro"
+        Me.colCobroAÃ±oCobro.Width = 75
         '
         'colCobroCobro
         '
@@ -342,7 +388,7 @@ Public Class ConsultaMovimientos
         'tabDatos
         '
         Me.tabDatos.Alignment = System.Windows.Forms.TabAlignment.Bottom
-        Me.tabDatos.Controls.AddRange(New System.Windows.Forms.Control() {Me.tpDatos})
+        Me.tabDatos.Controls.Add(Me.tpDatos)
         Me.tabDatos.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.tabDatos.HotTrack = True
         Me.tabDatos.Location = New System.Drawing.Point(0, 349)
@@ -354,7 +400,7 @@ Public Class ConsultaMovimientos
         '
         'tpDatos
         '
-        Me.tpDatos.Controls.AddRange(New System.Windows.Forms.Control() {Me.grdCobroPedido})
+        Me.tpDatos.Controls.Add(Me.grdCobroPedido)
         Me.tpDatos.Location = New System.Drawing.Point(4, 4)
         Me.tpDatos.Name = "tpDatos"
         Me.tpDatos.Size = New System.Drawing.Size(968, 206)
@@ -363,15 +409,16 @@ Public Class ConsultaMovimientos
         '
         'grdCobroPedido
         '
-        Me.grdCobroPedido.Anchor = (((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.grdCobroPedido.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdCobroPedido.BackgroundColor = System.Drawing.Color.Gainsboro
         Me.grdCobroPedido.CaptionBackColor = System.Drawing.Color.RoyalBlue
         Me.grdCobroPedido.CaptionForeColor = System.Drawing.Color.Yellow
         Me.grdCobroPedido.CaptionText = "Lista de documentos relacionados en el cobro"
         Me.grdCobroPedido.DataMember = ""
         Me.grdCobroPedido.HeaderForeColor = System.Drawing.SystemColors.ControlText
+        Me.grdCobroPedido.Location = New System.Drawing.Point(0, 0)
         Me.grdCobroPedido.Name = "grdCobroPedido"
         Me.grdCobroPedido.ReadOnly = True
         Me.grdCobroPedido.Size = New System.Drawing.Size(968, 200)
@@ -418,7 +465,7 @@ Public Class ConsultaMovimientos
         '
         Me.colCPCelula.Format = ""
         Me.colCPCelula.FormatInfo = Nothing
-        Me.colCPCelula.HeaderText = "Célula"
+        Me.colCPCelula.HeaderText = "CÃ©lula"
         Me.colCPCelula.MappingName = "RutaCelula"
         Me.colCPCelula.Width = 75
         '
@@ -474,9 +521,9 @@ Public Class ConsultaMovimientos
         '
         'grdMovimientoCaja
         '
-        Me.grdMovimientoCaja.Anchor = (((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.grdMovimientoCaja.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdMovimientoCaja.BackgroundColor = System.Drawing.Color.WhiteSmoke
         Me.grdMovimientoCaja.CaptionText = "Lista de movimientos"
         Me.grdMovimientoCaja.DataMember = ""
@@ -524,7 +571,7 @@ Public Class ConsultaMovimientos
         '
         Me.colMCRutaCelula.Format = ""
         Me.colMCRutaCelula.FormatInfo = Nothing
-        Me.colMCRutaCelula.HeaderText = "Célula"
+        Me.colMCRutaCelula.HeaderText = "CÃ©lula"
         Me.colMCRutaCelula.MappingName = "RutaCelula"
         Me.colMCRutaCelula.Width = 50
         '
@@ -547,7 +594,7 @@ Public Class ConsultaMovimientos
         '
         Me.colMCFOperacion.Format = ""
         Me.colMCFOperacion.FormatInfo = Nothing
-        Me.colMCFOperacion.HeaderText = "F.Operación"
+        Me.colMCFOperacion.HeaderText = "F.OperaciÃ³n"
         Me.colMCFOperacion.MappingName = "FOperacion"
         Me.colMCFOperacion.Width = 75
         '
@@ -587,7 +634,7 @@ Public Class ConsultaMovimientos
         '
         Me.colMCEmpleadoNombre.Format = ""
         Me.colMCEmpleadoNombre.FormatInfo = Nothing
-        Me.colMCEmpleadoNombre.HeaderText = "Capturó"
+        Me.colMCEmpleadoNombre.HeaderText = "CapturÃ³"
         Me.colMCEmpleadoNombre.MappingName = "EmpleadoNombre"
         Me.colMCEmpleadoNombre.Width = 160
         '
@@ -627,21 +674,28 @@ Public Class ConsultaMovimientos
         '
         'imgLista
         '
-        Me.imgLista.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
-        Me.imgLista.ImageSize = New System.Drawing.Size(16, 16)
         Me.imgLista.ImageStream = CType(resources.GetObject("imgLista.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgLista.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgLista.Images.SetKeyName(0, "")
+        Me.imgLista.Images.SetKeyName(1, "")
+        Me.imgLista.Images.SetKeyName(2, "")
+        Me.imgLista.Images.SetKeyName(3, "")
+        Me.imgLista.Images.SetKeyName(4, "")
+        Me.imgLista.Images.SetKeyName(5, "")
+        Me.imgLista.Images.SetKeyName(6, "")
+        Me.imgLista.Images.SetKeyName(7, "")
+        Me.imgLista.Images.SetKeyName(8, "")
         '
         'lnkMostrarTodos
         '
-        Me.lnkMostrarTodos.Anchor = (System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lnkMostrarTodos.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lnkMostrarTodos.AutoSize = True
         Me.lnkMostrarTodos.BackColor = System.Drawing.Color.DarkSeaGreen
         Me.lnkMostrarTodos.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lnkMostrarTodos.LinkColor = System.Drawing.Color.Blue
         Me.lnkMostrarTodos.Location = New System.Drawing.Point(744, 229)
         Me.lnkMostrarTodos.Name = "lnkMostrarTodos"
-        Me.lnkMostrarTodos.Size = New System.Drawing.Size(220, 14)
+        Me.lnkMostrarTodos.Size = New System.Drawing.Size(214, 13)
         Me.lnkMostrarTodos.TabIndex = 4
         Me.lnkMostrarTodos.TabStop = True
         Me.lnkMostrarTodos.Text = "Mostrar todos los documentos relacionados"
@@ -649,28 +703,33 @@ Public Class ConsultaMovimientos
         'btnRefrescar
         '
         Me.btnRefrescar.ImageIndex = 1
+        Me.btnRefrescar.Name = "btnRefrescar"
         Me.btnRefrescar.Tag = "Refrescar"
         Me.btnRefrescar.Text = "Refrescar"
-        Me.btnRefrescar.ToolTipText = "Refrescar información"
+        Me.btnRefrescar.ToolTipText = "Refrescar informaciÃ³n"
         '
         'btnSep1
         '
+        Me.btnSep1.Name = "btnSep1"
         Me.btnSep1.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
         'btnImprimir
         '
         Me.btnImprimir.ImageIndex = 2
+        Me.btnImprimir.Name = "btnImprimir"
         Me.btnImprimir.Tag = "Imprimir"
         Me.btnImprimir.Text = "Imprimir"
         Me.btnImprimir.ToolTipText = "Imprimir"
         '
         'btnSep2
         '
+        Me.btnSep2.Name = "btnSep2"
         Me.btnSep2.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
         'btnCerrar
         '
         Me.btnCerrar.ImageIndex = 0
+        Me.btnCerrar.Name = "btnCerrar"
         Me.btnCerrar.Tag = "Cerrar"
         Me.btnCerrar.Text = "Cerrar"
         Me.btnCerrar.ToolTipText = "Cerrar"
@@ -684,6 +743,7 @@ Public Class ConsultaMovimientos
         Me.BarraBotones.DropDownArrows = True
         Me.BarraBotones.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BarraBotones.ImageList = Me.imgLista
+        Me.BarraBotones.Location = New System.Drawing.Point(0, 0)
         Me.BarraBotones.Name = "BarraBotones"
         Me.BarraBotones.ShowToolTips = True
         Me.BarraBotones.Size = New System.Drawing.Size(976, 39)
@@ -692,6 +752,7 @@ Public Class ConsultaMovimientos
         'btnCapturar
         '
         Me.btnCapturar.ImageIndex = 4
+        Me.btnCapturar.Name = "btnCapturar"
         Me.btnCapturar.Tag = "Capturar"
         Me.btnCapturar.Text = "Capturar"
         Me.btnCapturar.ToolTipText = "Captura de movimientos"
@@ -700,6 +761,7 @@ Public Class ConsultaMovimientos
         '
         Me.btnModificar.Enabled = False
         Me.btnModificar.ImageIndex = 8
+        Me.btnModificar.Name = "btnModificar"
         Me.btnModificar.Tag = "Modificar"
         Me.btnModificar.Text = "Modificar"
         Me.btnModificar.ToolTipText = "Modifica el movimiento seleccionado"
@@ -708,6 +770,7 @@ Public Class ConsultaMovimientos
         '
         Me.btnCancelar.Enabled = False
         Me.btnCancelar.ImageIndex = 3
+        Me.btnCancelar.Name = "btnCancelar"
         Me.btnCancelar.Tag = "Cancelar"
         Me.btnCancelar.Text = "Cancelar"
         Me.btnCancelar.ToolTipText = "Cancelar movimiento"
@@ -716,52 +779,58 @@ Public Class ConsultaMovimientos
         '
         Me.btnRevivir.Enabled = False
         Me.btnRevivir.ImageIndex = 7
+        Me.btnRevivir.Name = "btnRevivir"
         Me.btnRevivir.Tag = "Revivir"
         Me.btnRevivir.Text = "Revivir"
         Me.btnRevivir.ToolTipText = "Revive el movimiento seleccionado"
         '
         'btnSep3
         '
+        Me.btnSep3.Name = "btnSep3"
         Me.btnSep3.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
         'btnConsultarCobro
         '
         Me.btnConsultarCobro.Enabled = False
         Me.btnConsultarCobro.ImageIndex = 5
+        Me.btnConsultarCobro.Name = "btnConsultarCobro"
         Me.btnConsultarCobro.Tag = "ConsultarCobro"
         Me.btnConsultarCobro.Text = "Cobro"
         Me.btnConsultarCobro.ToolTipText = "Consulta el cobro seleccionado"
         '
         'btnSep5
         '
+        Me.btnSep5.Name = "btnSep5"
         Me.btnSep5.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
         'btnConsultarDocumento
         '
         Me.btnConsultarDocumento.Enabled = False
         Me.btnConsultarDocumento.ImageIndex = 6
+        Me.btnConsultarDocumento.Name = "btnConsultarDocumento"
         Me.btnConsultarDocumento.Tag = "ConsultarDocumento"
         Me.btnConsultarDocumento.Text = "Documento"
         Me.btnConsultarDocumento.ToolTipText = "Consulta el documento seleccionado"
         '
         'btnSep4
         '
+        Me.btnSep4.Name = "btnSep4"
         Me.btnSep4.Style = System.Windows.Forms.ToolBarButtonStyle.Separator
         '
         'Label1
         '
-        Me.Label1.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(656, 12)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(72, 14)
+        Me.Label1.Size = New System.Drawing.Size(73, 13)
         Me.Label1.TabIndex = 6
-        Me.Label1.Text = "F. Operación:"
+        Me.Label1.Text = "F. OperaciÃ³n:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'dtpFOperacion
         '
-        Me.dtpFOperacion.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.dtpFOperacion.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dtpFOperacion.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpFOperacion.Location = New System.Drawing.Point(728, 9)
         Me.dtpFOperacion.Name = "dtpFOperacion"
@@ -771,7 +840,7 @@ Public Class ConsultaMovimientos
         '
         'cboCelula
         '
-        Me.cboCelula.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.cboCelula.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cboCelula.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboCelula.ForeColor = System.Drawing.Color.MediumBlue
         Me.cboCelula.Location = New System.Drawing.Point(568, 8)
@@ -781,19 +850,19 @@ Public Class ConsultaMovimientos
         '
         'Label2
         '
-        Me.Label2.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(528, 12)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(38, 14)
+        Me.Label2.Size = New System.Drawing.Size(40, 13)
         Me.Label2.TabIndex = 9
-        Me.Label2.Text = "Célula:"
+        Me.Label2.Text = "CÃ©lula:"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblObservaciones
         '
-        Me.lblObservaciones.Anchor = ((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblObservaciones.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblObservaciones.BackColor = System.Drawing.Color.Gainsboro
         Me.lblObservaciones.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblObservaciones.ForeColor = System.Drawing.Color.MediumBlue
@@ -813,13 +882,14 @@ Public Class ConsultaMovimientos
         '
         'btnConsultar
         '
-        Me.btnConsultar.Anchor = (System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right)
+        Me.btnConsultar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnConsultar.BackColor = System.Drawing.SystemColors.Control
-        Me.btnConsultar.Image = CType(resources.GetObject("btnConsultar.Image"), System.Drawing.Bitmap)
+        Me.btnConsultar.Image = CType(resources.GetObject("btnConsultar.Image"), System.Drawing.Image)
         Me.btnConsultar.Location = New System.Drawing.Point(936, 8)
         Me.btnConsultar.Name = "btnConsultar"
         Me.btnConsultar.Size = New System.Drawing.Size(32, 21)
         Me.btnConsultar.TabIndex = 12
+        Me.btnConsultar.UseVisualStyleBackColor = False
         '
         'ConsultaMovimientos
         '
@@ -827,7 +897,18 @@ Public Class ConsultaMovimientos
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.CancelButton = Me.btnCerrarForm
         Me.ClientSize = New System.Drawing.Size(976, 581)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.cboCelula, Me.btnConsultar, Me.dtpFOperacion, Me.Label1, Me.Label2, Me.lnkMostrarTodos, Me.BarraBotones, Me.grdMovimientoCaja, Me.lblObservaciones, Me.grdCobro, Me.tabDatos, Me.btnCerrarForm})
+        Me.Controls.Add(Me.cboCelula)
+        Me.Controls.Add(Me.btnConsultar)
+        Me.Controls.Add(Me.dtpFOperacion)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.lnkMostrarTodos)
+        Me.Controls.Add(Me.BarraBotones)
+        Me.Controls.Add(Me.grdMovimientoCaja)
+        Me.Controls.Add(Me.lblObservaciones)
+        Me.Controls.Add(Me.grdCobro)
+        Me.Controls.Add(Me.tabDatos)
+        Me.Controls.Add(Me.btnCerrarForm)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "ConsultaMovimientos"
@@ -840,20 +921,39 @@ Public Class ConsultaMovimientos
         CType(Me.grdCobroPedido, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grdMovimientoCaja, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
 #End Region
 
-    Public Sub New(ByVal Modulo As Short, _
-                   ByVal ModuloUsuario As String, _
-                   ByVal ModuloEmpleado As Integer)
+    Public Sub New(ByVal Modulo As Short,
+                   ByVal ModuloUsuario As String,
+                   ByVal ModuloEmpleado As Integer, Optional CadCon As String = "")
 
         MyBase.New()
         InitializeComponent()
-        _Modulo = Modulo
+        _Modulo = CByte(Modulo)
         _ModuloUsuario = ModuloUsuario
         _ModuloEmpleado = ModuloEmpleado
+        _CadenaConexion = CadCon
+    End Sub
+
+    Public Sub New(ByVal Modulo As Short,
+                   ByVal ModuloUsuario As String,
+                   ByVal ModuloEmpleado As Integer,
+                   ByVal URLGateway As String,
+          Optional ByVal CadCon As String = "",
+          Optional ByVal ConsultarPedidosGateway As Boolean = False)
+
+        MyBase.New()
+        InitializeComponent()
+        _Modulo = CByte(Modulo)
+        _ModuloUsuario = ModuloUsuario
+        _ModuloEmpleado = ModuloEmpleado
+        _URLGateway = URLGateway
+        _CadenaConexion = CadCon
+        _ConsultarPedidosGateway = ConsultarPedidosGateway
     End Sub
 
     Public Sub CargaDatos()
@@ -896,10 +996,10 @@ Public Class ConsultaMovimientos
             grdCobro.DataSource = Nothing
             grdCobroPedido.DataSource = Nothing
 
-            Dim strFiltroCargaDatos As String = _
+            Dim strFiltroCargaDatos As String =
             " WHERE FOperacion = '" & dtpFOperacion.Value.ToShortDateString & "'"
 
-            'Así estaba:
+            'AsÃ­ estaba:
             'strInicioQuery = "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED "
 
             'strQuery = strInicioQuery & _
@@ -923,14 +1023,14 @@ Public Class ConsultaMovimientos
             da.Fill(dtMovimientoCaja)
             dtMovimientoCaja.TableName = "MovimientoCaja"
 
-            'Así estaba:
+            'AsÃ­ estaba:
             'cmd.CommandText = "SET transaction isolation level read uncommitted SELECT * FROM vwConsultaCobro" & strFiltroCargaDatos
             cmd.CommandText = "EXECUTE spCyCConsultaVwConsultaCobro '" & dtpFOperacion.Value.ToShortDateString & "'"
             dtCobro.Clear()
             da.Fill(dtCobro)
             dtCobro.TableName = "Cobro"
 
-            'Así estaba:
+            'AsÃ­ estaba:
             'cmd.CommandText = "SET transaction isolation level read uncommitted SELECT * FROM vwConsultaCobroDetalle" & strFiltroCargaDatos
             cmd.CommandText = "EXECUTE spCyCConsultaVwConsultaCobroDetalle '" & dtpFOperacion.Value.ToShortDateString & "'"
             dtCobroPedido.Clear()
@@ -938,7 +1038,171 @@ Public Class ConsultaMovimientos
             dtCobroPedido.TableName = "CobroPedido"
 
             grdMovimientoCaja.DataSource = dtMovimientoCaja
-            grdMovimientoCaja.CaptionText = "Lista de movimientos del día: " & dtpFOperacion.Value.ToLongDateString & " de la célula: " & cboCelula.Celula.ToString & " (" & dtMovimientoCaja.Rows.Count.ToString & " en total)"
+            grdMovimientoCaja.CaptionText = "Lista de movimientos del dÃ­a: " & dtpFOperacion.Value.ToLongDateString & " de la cÃ©lula: " & cboCelula.Celula.ToString & " (" & dtMovimientoCaja.Rows.Count.ToString & " en total)"
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            cmd.Dispose()
+            da.Dispose()
+            If cn.State = ConnectionState.Open Then
+                cn.Close()
+            End If
+            'cn.Dispose()
+            Cursor = Cursors.Default
+        End Try
+    End Sub
+
+    Public Sub CargaDatos(URLGateway As String)
+        Dim dr As DataRow
+        Dim listaPedidosConsulta As New List(Of RTGMCore.Pedido)
+        Dim listaPedidosActualiza As New List(Of RTGMCore.Pedido)
+        Dim pedidoConsulta As New RTGMCore.Pedido
+        Dim pedidoActualiza As New RTGMCore.Pedido
+        Dim drPed As DataRow
+        Dim pedidoTemp As RTGMCore.Pedido
+
+        Cursor = Cursors.WaitCursor
+        _Documento = ""
+        _Clave = ""
+        _Status = ""
+        _Caja = 0
+        _Consecutivo = 0
+        _Folio = 0
+        _AnoCobro = 0
+        _CobroCons = 0
+
+
+
+        lblObservaciones.Text = String.Empty
+
+        dtMovimientoCaja.Clear()
+        dtCobro.Clear()
+        dtCobroPedido.Clear()
+        dtMovimientoCaja.DefaultView.RowFilter = ""
+        dtCobro.DefaultView.RowFilter = ""
+        dtCobroPedido.DefaultView.RowFilter = ""
+        grdMovimientoCaja.DataSource = Nothing
+        grdCobro.DataSource = Nothing
+        grdCobroPedido.DataSource = Nothing
+
+
+        btnCancelar.Enabled = False
+        btnRevivir.Enabled = False
+        btnConsultarCobro.Enabled = False
+        btnConsultarDocumento.Enabled = False
+        listaPedidos.RemoveAll(AddressOf listaPedidos.Contains)
+
+        Dim cn As SqlConnection = Nothing
+        Dim cmd As SqlCommand = Nothing
+        Dim da As SqlDataAdapter = Nothing
+        Dim strInicioQuery As String = Nothing
+        Dim strQuery As String
+
+        Try
+            grdMovimientoCaja.DataSource = Nothing
+            grdCobro.DataSource = Nothing
+            grdCobroPedido.DataSource = Nothing
+
+            Dim strFiltroCargaDatos As String =
+            " WHERE FOperacion = '" & dtpFOperacion.Value.ToShortDateString & "'"
+
+            'AsÃ­ estaba:
+            'strInicioQuery = "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED "
+
+            'strQuery = strInicioQuery & _
+            '"SELECT " & _
+            '"Clave, FMovimiento, CajaDescripcion, RutaCelula, " & _
+            '"RutaDescripcion, Caja, FOperacion, Consecutivo, Folio, " & _
+            '"TipoMovimientoCajaDescripcion, MovimientoCajaStatus, " & _
+            '"Empleado, EmpleadoNombre, Total, Observaciones, CobroPedidoTotal " & _
+            '"FROM vwMovimientoCaja1"
+
+            'strQuery &= strFiltroCargaDatos & " AND RutaCelula = " & cboCelula.Celula.ToString & " ORDER BY Clave"
+
+            strQuery = "EXECUTE spCyCConsultaVwMovimientoCaja1 '" & dtpFOperacion.Value.ToShortDateString & "', " & cboCelula.Celula.ToString
+            cn = DataLayer.Conexion
+            cmd = New SqlCommand(strQuery, cn)
+            da = New SqlDataAdapter(cmd)
+
+            grdCobro.CaptionText = "Lista de cobros en el movimiento"
+            dtMovimientoCaja.Clear()
+            da.Fill(dtMovimientoCaja)
+            dtMovimientoCaja.TableName = "MovimientoCaja"
+
+            'AsÃ­ estaba:
+            'cmd.CommandText = "SET transaction isolation level read uncommitted SELECT * FROM vwConsultaCobro" & strFiltroCargaDatos
+            cmd.CommandText = "EXECUTE spCyCConsultaVwConsultaCobro '" & dtpFOperacion.Value.ToShortDateString & "'"
+            dtCobro.Clear()
+            da.Fill(dtCobro)
+            dtCobro.TableName = "Cobro"
+            'AsÃ­ estaba:
+            'cmd.CommandText = "SET transaction isolation level read uncommitted SELECT * FROM vwConsultaCobroDetalle" & strFiltroCargaDatos
+            cmd.CommandText = "EXECUTE spCyCConsultaVwConsultaCobroDetalle '" & dtpFOperacion.Value.ToShortDateString & "'"
+            dtCobroPedido.Clear()
+            da.Fill(dtCobroPedido)
+            dtCobroPedido.TableName = "CobroPedido"
+
+
+
+            For Each dr In dtCobroPedido.Rows
+                pedidoConsulta.IDDireccionEntrega = CType(dr("PedidoCliente"), Integer)
+                pedidoConsulta.PedidoReferencia = Trim(CType(dr("PedidoReferencia"), String))
+
+                pedidoTemp = listaPedidosConsulta.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(dr("PedidoCliente"), Integer) And x.PedidoReferencia.Trim = Trim(CType(dr("PedidoReferencia"), String)))
+
+                If IsNothing(pedidoTemp) Then
+
+                    listaPedidosConsulta.Add(pedidoConsulta)
+
+                End If
+            Next
+
+
+            Dim opciones As New System.Threading.Tasks.ParallelOptions()
+            opciones.MaxDegreeOfParallelism = 10
+            System.Threading.Tasks.Parallel.ForEach(listaPedidosConsulta, opciones, Sub(x) ConsultaPedidos(x.IDDireccionEntrega, x.PedidoReferencia))
+
+            If listaPedidos.Count > 0 Then
+
+                For Each drPed In dtCobroPedido.Rows
+
+                    pedidoTemp = listaPedidos.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(drPed("PedidoCliente"), Integer) And x.PedidoReferencia.Trim = Trim(CType(drPed("PedidoReferencia"), String)))
+
+                    If Not IsNothing(pedidoTemp) Then
+
+                        drPed("PedidoReferencia") = pedidoTemp.PedidoReferencia()
+                        If pedidoTemp.FSuministro() IsNot Nothing Then
+                            drPed("PedidoFSuministro") = pedidoTemp.FSuministro().ToString()
+                        End If
+                        drPed("TipoPedidoDescripcion") = pedidoTemp.TipoPedido.Trim()
+                        If pedidoTemp.RutaSuministro IsNot Nothing Then
+
+                        End If
+                        drPed("Celula") = pedidoTemp.IDZona.ToString()
+                        If pedidoTemp.DireccionEntrega IsNot Nothing Then
+                            drPed("ClienteNombre") = pedidoTemp.DireccionEntrega.Nombre
+                        End If
+
+                        If (pedidoTemp.Importe IsNot Nothing) Then
+                            If (pedidoTemp.Importe.ToString() <> "") Then
+                                drPed("PedidoImporte") = CDec(pedidoTemp.Importe.ToString())
+                            End If
+                        End If
+
+                        drPed("PedidoStatus") = pedidoTemp.EstatusPedido.ToString()
+                    End If
+                Next
+
+
+
+            End If
+
+
+
+
+            grdMovimientoCaja.DataSource = dtMovimientoCaja
+            grdMovimientoCaja.CaptionText = "Lista de movimientos del dÃ­a: " & dtpFOperacion.Value.ToLongDateString & " de la cÃ©lula: " & cboCelula.Celula.ToString & " (" & dtMovimientoCaja.Rows.Count.ToString & " en total)"
 
         Catch ex As Exception
             MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -957,9 +1221,16 @@ Public Class ConsultaMovimientos
         cboCelula.CargaDatos()
         dtpFOperacion.Value = Main.FechaServidor.Date
         dtpFOperacion.MaxDate = Main.FechaServidor.Date
+        listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+        listaPedidos = New List(Of RTGMCore.Pedido)
 
         'Seguridad
         oSeguridad = New SigaMetClasses.cSeguridad(_ModuloUsuario, _Modulo)
+    End Sub
+
+
+    Private Sub consultaNombres()
+
     End Sub
 
     Private Sub grdMovimientoCaja_CurrentCellChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles grdMovimientoCaja.CurrentCellChanged
@@ -988,6 +1259,11 @@ Public Class ConsultaMovimientos
         btnCancelar.Enabled = True
         btnRevivir.Enabled = True
 
+        Dim dtTempMov As DataTable
+        dtTempMov = CType(grdMovimientoCaja.DataSource, DataTable)
+        dtTempMov2 = dtTempMov.Clone
+        dtTempMov2.ImportRow(dtTempMov.Rows(grdMovimientoCaja.CurrentRowIndex))
+
         If _Status = "EMITIDO" Then
             Me.btnModificar.Enabled = True
         Else
@@ -1002,6 +1278,10 @@ Public Class ConsultaMovimientos
             _CobroCons = CType(grdCobro.Item(grdCobro.CurrentRowIndex, 1), Integer)
             _Documento = ""
 
+            Dim dtTempCobro As DataTable
+            dtTempCobro = CType(grdCobro.DataSource, DataTable)
+            _CobroRow = dtTempCobro.Rows(grdCobro.CurrentRowIndex)
+
             grdCobro.Select(grdCobro.CurrentRowIndex)
             btnConsultarCobro.Enabled = True
             ConsultaCobroPedido(_AnoCobro, _CobroCons)
@@ -1011,40 +1291,337 @@ Public Class ConsultaMovimientos
     End Sub
 
 
-    Private Sub ConsultaCobro(ByVal Caja As Byte, _
-                              ByVal FOperacion As Date, _
-                              ByVal Consecutivo As Byte, _
+    Private Sub ConsultaCobro(ByVal Caja As Byte,
+                              ByVal FOperacion As Date,
+                              ByVal Consecutivo As Byte,
                               ByVal Folio As Integer)
         If Consecutivo > 0 And Folio > 0 Then
-            Dim strFiltro As String = "Caja = " & Caja.ToString & _
-                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" & _
-                                      " AND Consecutivo = " & Consecutivo.ToString & _
+            Dim strFiltro As String = "Caja = " & Caja.ToString &
+                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" &
+                                      " AND Consecutivo = " & Consecutivo.ToString &
                                       " AND Folio = " & Folio.ToString
-
+            Dim direccionEntregaTemp As RTGMCore.DireccionEntrega = New RTGMCore.DireccionEntrega
+            listaClientesEnviados = New List(Of Integer)
             dtCobro.DefaultView.RowFilter = strFiltro
-            grdCobro.DataSource = dtCobro
+            If _URLGateway <> "" Then
+                Dim clientesDistintos As DataTable = dtCobro.DefaultView.ToTable(True, "Cliente")
+                Dim listaClientesDistintos As New List(Of Integer)
+
+                For Each clienteTemp As DataRow In clientesDistintos.Rows
+                    direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(clienteTemp("Cliente"), Integer))
+                    If Not IsDBNull(clienteTemp("Cliente")) Then
+                        If IsNothing(direccionEntregaTemp) Then
+                            listaClientesDistintos.Add(CType(clienteTemp("Cliente"), Integer))
+                        End If
+                    End If
+                Next
+
+                Try
+                    If clientesDistintos.Rows.Count > 0 Then
+                        If listaClientesDistintos.Count > 0 Then
+                            validarPeticion = True
+                            generaListaClientes(listaClientesDistintos)
+                        Else
+                            llenarListaEntrega()
+                        End If
+                    Else
+                        grdCobro.DataSource = dtCobro
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+                'Dim clientesDistintos As DataTable = dtCobro.DefaultView.ToTable(True, "Cliente")
+                'Dim iteraciones As Integer = 0
+                'Dim listaClientesDistintos As New List(Of Integer)
+                'Dim listaClientesDistintos2 As New List(Of Integer)
+
+                'Try
+                '    If clientesDistintos.Rows.Count > 0 Then
+
+                '        For Each fila As DataRow In clientesDistintos.Rows
+                '            If Not IsDBNull(fila("Cliente")) Then
+                '                listaClientesDistintos.Add(CType(fila("Cliente"), Integer))
+                '            End If
+                '        Next
+
+                '        While listaClientesDistintos.Count <> listaDireccionesEntrega.Count And iteraciones < 5
+                '            generaListaCLientes(listaClientesDistintos)
+                '            iteraciones = iteraciones + 1
+                '        End While
+
+
+
+                '    End If
+                'Catch ex As Exception
+                '    MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                'End Try
+                'Dim CLIENTETEMP As Integer
+                'Dim drow As DataRow
+                'Dim direccionEntrega As RTGMCore.DireccionEntrega
+                'If dtCobro.Rows.Count > 0 Then
+                '    For Each drow In dtCobro.Rows
+                '        Try
+                '            drow("ClienteNombre") = ""
+                '            CLIENTETEMP = (CType(drow("Cliente"), Integer))
+
+                '            direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+
+                '            If Not IsNothing(direccionEntrega) Then
+                '                drow("ClienteNombre") = direccionEntrega.Nombre.Trim()
+                '            Else
+                '                drow("ClienteNombre") = "No encontrado"
+                '            End If
+                '        Catch ex As Exception
+                '            drow("ClienteNombre") = "Error al buscar"
+                '        End Try
+                '    Next
+                'End If
+            Else
+                grdCobro.DataSource = dtCobro
+            End If
             grdCobro.CaptionText = "Lista de cobros en el movimiento (" & dtCobro.DefaultView.Count.ToString & ") Total: " & SumaColumnaVista(dtCobro.DefaultView, "Total").ToString("C")
         End If
     End Sub
 
-    Private Sub ConsultaCobroPedido(ByVal AnoCobro As Short, ByVal Cobro As Integer)
-        If AnoCobro > 0 And Cobro > 0 Then
-            Dim strFiltro As String = "AñoCobro = " & AnoCobro.ToString & _
-                                      " AND Cobro = " & Cobro.ToString
-            dtCobroPedido.DefaultView.RowFilter = strFiltro
-            grdCobroPedido.DataSource = dtCobroPedido
-            grdCobroPedido.CaptionText = "Lista de documentos relacionados en el cobro (" & dtCobroPedido.DefaultView.Count & ") Total: " & SumaColumnaVista(dtCobroPedido.DefaultView, "CobroPedidoTotal").ToString("C")
-        End If
+    Public Sub completarListaEntregas(lista As List(Of RTGMCore.DireccionEntrega))
+        Dim direccionEntrega As RTGMCore.DireccionEntrega
+        Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+        Dim errorConsulta As Boolean
+        Try
+            For Each direccion As RTGMCore.DireccionEntrega In lista
+                Try
+                    If Not IsNothing(direccion) Then
+                        If Not IsNothing(direccion.Message) Then
+                            direccionEntrega = New RTGMCore.DireccionEntrega()
+                            direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                            direccionEntrega.Nombre = direccion.Message
+                            listaDireccionesEntrega.Add(direccionEntrega)
+                        ElseIf direccion.IDDireccionEntrega = -1 Then
+                            errorConsulta = True
+                        ElseIf direccion.IDDireccionEntrega >= 0 Then
+                            listaDireccionesEntrega.Add(direccion)
+                        End If
+                    Else
+                        direccionEntrega = New RTGMCore.DireccionEntrega()
+                        direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                        direccionEntrega.Nombre = "No se encontrÃ³ cliente"
+                        listaDireccionesEntrega.Add(direccionEntrega)
+                    End If
+
+                Catch ex As Exception
+                    direccionEntrega = New RTGMCore.DireccionEntrega()
+                    direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+                    direccionEntrega.Nombre = ex.Message
+                    listaDireccionesEntrega.Add(direccionEntrega)
+                End Try
+            Next
+
+            If validarPeticion And errorConsulta Then
+                validarPeticion = False
+                Dim listaClientes As List(Of Integer) = New List(Of Integer)
+                For Each clienteTemp As Integer In listaClientesEnviados
+                    direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+
+                    If IsNothing(direccionEntregaTemp) Then
+                        listaClientes.Add(clienteTemp)
+                    End If
+                Next
+
+                Dim result As Integer = MessageBox.Show("No fue posible encontrar informaciÃ³n para " & listaClientes.Count & " clientes de la solicitud Â¿desea reintentar?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
+
+                If result = DialogResult.Yes Then
+                    generaListaClientes(listaClientes)
+                Else
+                    llenarListaEntrega()
+                End If
+            Else
+                llenarListaEntrega()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
-    Private Sub ConsultaCobroPedido(ByVal Caja As Byte, _
-                                    ByVal FOperacion As Date, _
-                                    ByVal Consecutivo As Byte, _
+    Private Sub llenarListaEntrega()
+        Dim drow As DataRow
+        Dim direccionEntrega As RTGMCore.DireccionEntrega
+        Dim CLIENTETEMP As Integer
+        Try
+            direccionEntrega = New RTGMCore.DireccionEntrega
+            For Each drow In dtCobro.Rows
+                Try
+                    drow("ClienteNombre") = ""
+                    CLIENTETEMP = (CType(drow("Cliente"), Integer))
+
+                    direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+
+                    If Not IsNothing(direccionEntrega) Then
+                        drow("ClienteNombre") = direccionEntrega.Nombre.Trim()
+                    Else
+                        drow("ClienteNombre") = "No encontrado"
+                    End If
+                Catch ex As Exception
+                    drow("ClienteNombre") = "Error al buscar"
+                End Try
+            Next
+
+            grdCobro.DataSource = dtCobro
+
+        Catch ex As Exception
+            MessageBox.Show("Error" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+        End Try
+    End Sub
+
+    Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Try
+
+            oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion) ', _UrlGateway)
+            oGateway.ListaCliente = listaClientesDistintos
+            oGateway.URLServicio = _URLGateway
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            AddHandler oGateway.eListaEntregas, AddressOf completarListaEntregas
+            listaClientesEnviados = listaClientesDistintos
+            For Each CLIENTETEMP As Integer In listaClientesDistintos
+                oSolicitud.IDCliente = CLIENTETEMP
+                oGateway.busquedaDireccionEntregaAsync(oSolicitud)
+            Next
+        Catch ex As Exception
+            Throw
+        End Try
+    End Sub
+
+    Private Sub consultarDirecciones(ByVal idCliente As Integer)
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        Try
+
+
+            oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+            oSolicitud = New RTGMGateway.SolicitudGateway()
+            oGateway.URLServicio = _URLGateway
+
+
+            oSolicitud.IDCliente = idCliente
+            oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+            If Not IsNothing(oDireccionEntrega) Then
+                If Not IsNothing(oDireccionEntrega.Message) Then
+                    oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                    oDireccionEntrega.IDDireccionEntrega = idCliente
+                    oDireccionEntrega.Nombre = oDireccionEntrega.Message
+                    listaDireccionesEntrega.Add(oDireccionEntrega)
+                Else
+                    listaDireccionesEntrega.Add(oDireccionEntrega)
+                End If
+
+            Else
+                oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                oDireccionEntrega.IDDireccionEntrega = idCliente
+                oDireccionEntrega.Nombre = "No se encontrÃ³ cliente"
+                listaDireccionesEntrega.Add(oDireccionEntrega)
+            End If
+
+        Catch ex As Exception
+            oDireccionEntrega = New RTGMCore.DireccionEntrega()
+            oDireccionEntrega.IDDireccionEntrega = idCliente
+            oDireccionEntrega.Nombre = ex.Message
+            listaDireccionesEntrega.Add(oDireccionEntrega)
+
+        End Try
+    End Sub
+
+    Private Sub ConsultaPedidos(IDDireccionEntrega As Integer, PedidoReferencia As String)
+        Dim objpedidogateway As RTGMPedidoGateway = New RTGMPedidoGateway(_Modulo, _CadenaConexion)
+        objpedidogateway.URLServicio = _URLGateway
+
+        Dim objsolicitudpedido As SolicitudPedidoGateway = New SolicitudPedidoGateway()
+        Dim lstPedidos As New Generic.List(Of RTGMCore.Pedido)
+
+
+        objsolicitudpedido.TipoConsultaPedido = RTGMCore.TipoConsultaPedido.RegistroPedido
+        objsolicitudpedido.Portatil = False
+        objsolicitudpedido.IDUsuario = Nothing
+        objsolicitudpedido.IDDireccionEntrega = Nothing
+        objsolicitudpedido.FechaCompromisoInicio = DateTime.Now.Date
+        objsolicitudpedido.FechaCompromisoFin = Nothing
+        objsolicitudpedido.FechaSuministroInicio = Nothing
+        objsolicitudpedido.FechaSuministroFin = Nothing
+        objsolicitudpedido.IDZona = Nothing
+        objsolicitudpedido.IDRutaOrigen = Nothing
+        objsolicitudpedido.IDRutaBoletin = Nothing
+        objsolicitudpedido.IDRutaSuministro = Nothing
+        objsolicitudpedido.IDEstatusPedido = Nothing
+        objsolicitudpedido.EstatusPedidoDescripcion = Nothing
+        objsolicitudpedido.IDEstatusBoletin = Nothing
+        objsolicitudpedido.EstatusBoletin = Nothing
+        objsolicitudpedido.IDEstatusMovil = Nothing
+        objsolicitudpedido.EstatusMovilDescripcion = Nothing
+        objsolicitudpedido.IDAutotanque = Nothing
+        objsolicitudpedido.IDAutotanqueMovil = Nothing
+        objsolicitudpedido.SerieRemision = Nothing
+        objsolicitudpedido.FolioRemision = Nothing
+        objsolicitudpedido.SerieFactura = Nothing
+        objsolicitudpedido.FolioFactura = Nothing
+        objsolicitudpedido.IDZonaLecturista = Nothing
+        objsolicitudpedido.TipoPedido = Nothing
+        objsolicitudpedido.TipoServicio = Nothing
+        objsolicitudpedido.AÃ±oPed = Nothing
+        objsolicitudpedido.IDPedido = Nothing
+        objsolicitudpedido.IDDireccionEntrega = IDDireccionEntrega
+        objsolicitudpedido.PedidoReferencia = PedidoReferencia
+
+        lstPedidos = objpedidogateway.buscarPedidos(objsolicitudpedido)
+
+        For Each pedido As RTGMCore.Pedido In lstPedidos
+            listaPedidos.Add(pedido)
+        Next
+
+
+    End Sub
+
+    Private Sub ConsultaCobroPedido(ByVal AnoCobro As Short, ByVal Cobro As Integer)
+        Dim ListaCtesDetalle As New List(Of Integer)
+        Dim DtCtesDetalle As New DataTable
+        Dim direccionEntregaTemp As New RTGMCore.DireccionEntrega
+
+        If AnoCobro > 0 And Cobro > 0 Then
+            Dim strFiltro As String = "AÃ±oCobro = " & AnoCobro.ToString &
+                                      " AND Cobro = " & Cobro.ToString
+            dtCobroPedido.DefaultView.RowFilter = strFiltro
+            dtCobPedEnvio = dtCobroPedido.Copy()
+            dtCobPedEnvio.DefaultView.RowFilter = strFiltro
+
+
+				For Each r As DataRow In dtCobroPedido.Rows
+            direccionEntregaTemp = listaDireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(r("PedidoCliente")))
+                If Not IsNothing(direccionEntregaTemp) Then
+                    If Not IsNothing(direccionEntregaTemp.Nombre) Then
+                        If Not direccionEntregaTemp.Nombre.Contains("error") Then
+                            r("ClienteNombre") = direccionEntregaTemp.Nombre.Trim
+                            tempDireccionEntrega = listaDireccionesEntrega.Find(Function(x) x.IDDireccionEntrega = CInt(r("PedidoCliente")))
+                        End If
+                    End If
+                End If
+				Next
+
+				grdCobroPedido.DataSource = dtCobroPedido
+				grdCobroPedido.CaptionText = "Lista de documentos relacionados en el cobro (" & dtCobroPedido.DefaultView.Count & ") Total: " & SumaColumnaVista(dtCobroPedido.DefaultView, "CobroPedidoTotal").ToString("C")
+
+			End If
+    End Sub
+
+    Private Sub ConsultaCobroPedido(ByVal Caja As Byte,
+                                    ByVal FOperacion As Date,
+                                    ByVal Consecutivo As Byte,
                                     ByVal Folio As Integer)
         If Consecutivo > 0 And Folio > 0 Then
-            Dim strFiltro As String = "Caja = " & Caja.ToString & _
-                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" & _
-                                      " AND Consecutivo = " & Consecutivo.ToString & _
+            Dim strFiltro As String = "Caja = " & Caja.ToString &
+                                      " AND FOperacion = '" & FOperacion.ToShortDateString & "'" &
+                                      " AND Consecutivo = " & Consecutivo.ToString &
                                       " AND Folio = " & Folio.ToString
             dtCobroPedido.DefaultView.RowFilter = strFiltro
             grdCobroPedido.DataSource = dtCobroPedido
@@ -1068,14 +1645,18 @@ Public Class ConsultaMovimientos
     End Sub
 
     Private Sub CancelaMovimiento()
-        strMensaje = "¿Desea cancelar el movimiento: " & _Clave & " con estatus: " & _Status & "?"
-        If MessageBox.Show(strMensaje, "Cancelación de movimiento", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+        strMensaje = "Â¿Desea cancelar el movimiento: " & _Clave & " con estatus: " & _Status & "?"
+        If MessageBox.Show(strMensaje, "CancelaciÃ³n de movimiento", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
             Dim frmMotivoCancelacion As New MotivoCancelacion(_Clave, Enumeradores.enumDestinoCancelacion.MovimientoCaja)
             If frmMotivoCancelacion.ShowDialog = DialogResult.OK Then
                 Dim oMovCaja As New SigaMetClasses.TransaccionMovimientoCaja()
                 Try
                     oMovCaja.Cancela(_Caja, _FOperacion, _Consecutivo, _Folio, frmMotivoCancelacion.MotivoCancelacion, _ModuloUsuario)
-                    CargaDatos()
+                    If Not String.IsNullOrEmpty(_URLGateway) AndAlso _ConsultarPedidosGateway Then
+                        CargaDatos(_URLGateway)
+                    Else
+                        CargaDatos()
+                    End If
                 Catch ex As Exception
                     MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Finally
@@ -1086,9 +1667,9 @@ Public Class ConsultaMovimientos
     End Sub
 
     Private Sub BotonCancelar()
-        strTitulo = "Cancelación de movimientos"
+        strTitulo = "CancelaciÃ³n de movimientos"
         If _Caja <> 0 And _Consecutivo <> 0 And _Folio <> 0 Then
-            'Si ya está cancelado termina el procedimiento
+            'Si ya estÃ¡ cancelado termina el procedimiento
             If _Status = "CANCELADO" Or _Status = "CANCELAUTO" Then
                 strMensaje = "El movimiento " & _Clave & " no puede ser cancelado porque tiene estatus " & _Status
                 MessageBox.Show(strMensaje, strTitulo, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -1131,13 +1712,17 @@ Public Class ConsultaMovimientos
         If _Clave <> "" Then
             If _Status = "CANCELADO" Or _Status = "CANCELAUTO" Then
                 If oSeguridad.TieneAcceso("MOVIMIENTOS_REVIVE") Then
-                    strMensaje = "¿Desea revivir el movimiento: " & _Clave & " con estatus: " & _Status & "?"
+                    strMensaje = "Â¿Desea revivir el movimiento: " & _Clave & " con estatus: " & _Status & "?"
                     If MessageBox.Show(strMensaje, strTitulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
                         Cursor = Cursors.WaitCursor
                         Dim oMovCaja As New SigaMetClasses.TransaccionMovimientoCaja()
                         Try
                             oMovCaja.Revive(_Clave)
-                            CargaDatos()
+                            If Not String.IsNullOrEmpty(_URLGateway) AndAlso _ConsultarPedidosGateway Then
+                                CargaDatos(_URLGateway)
+                            Else
+                                CargaDatos()
+                            End If
                         Catch ex As Exception
                             MessageBox.Show(ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
                         Finally
@@ -1159,15 +1744,49 @@ Public Class ConsultaMovimientos
     Private Sub ConsultarCobro()
         If _AnoCobro <> 0 And _CobroCons <> 0 Then
             Cursor = Cursors.WaitCursor
+            Dim oConsultaCobro As ConsultaCobro
             Dim _PermiteModificarCobro As Boolean
             If _Empleado = _ModuloEmpleado Then
                 _PermiteModificarCobro = oSeguridad.TieneAcceso("MOVIMIENTOS_COBROMODIFICA_OWN")
             Else
                 _PermiteModificarCobro = oSeguridad.TieneAcceso("MOVIMIENTOS_COBROMODIFICA_FULL")
             End If
-            Dim oConsultaCobro As New ConsultaCobro(_AnoCobro, _CobroCons, _PermiteModificarCobro)
+
+            'Dim strURLGateway As String = ""
+            'Dim oConfig As New SigaMetClasses.cConfig(GLOBAL_Modulo, CShort(GLOBAL_Empresa), GLOBAL_Sucursal)
+            'Try
+            '    strURLGateway = CType(oConfig.Parametros("URLGateway"), String).Trim()
+            '    Dim re As Regex = New Regex(
+            '                "^(https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|]",
+            '                RegexOptions.IgnoreCase)
+            '    Dim m As Match = re.Match(strURLGateway)
+            '    If m.Captures.Count = 0 Then
+            '        MessageBox.Show("El valor configurado al parÃ¡metro URLGateway no es correcto.")
+            '    End If
+            'Catch ex As Exception
+            '    strURLGateway = ""
+            'End Try
+
+            If String.IsNullOrEmpty(_URLGateway) Then
+                oConsultaCobro = New ConsultaCobro(_AnoCobro, _CobroCons, _PermiteModificarCobro, _URLGateway, 0, String.Empty, dtTempMov2, _CobroRow, dtCobPedEnvio)
+            Else
+                oConsultaCobro = New ConsultaCobro(_AnoCobro,
+                                                    _CobroCons,
+                                                    _PermiteModificarCobro,
+                                                    _URLGateway,
+                                                    Modulo:=4,
+                                                    CadenaConexion:=_CadenaConexion,
+                                                    dtMovRow:=dtTempMov2,
+                                                    CobroRow:=_CobroRow,
+                                                    dtCobPed:=dtCobPedEnvio)
+            End If
+
             If oConsultaCobro.ShowDialog() = DialogResult.OK Then
-                Me.CargaDatos()
+                If Not String.IsNullOrEmpty(_URLGateway) AndAlso _ConsultarPedidosGateway Then
+                    Me.CargaDatos(_URLGateway)
+                Else
+                    Me.CargaDatos()
+                End If
             End If
             Cursor = Cursors.Default
         End If
@@ -1176,7 +1795,7 @@ Public Class ConsultaMovimientos
     Private Sub ConsultarDocumento()
         If _Documento <> "" Then
             Cursor = Cursors.WaitCursor
-            Dim oConsultaDocumento As New ConsultaCargo(_Documento)
+            Dim oConsultaDocumento As New ConsultaCargo(_Documento,, _URLGateway, _Modulo, _CadenaConexion, _ClienteRow:=tempDireccionEntrega)
             oConsultaDocumento.ShowDialog()
             Cursor = Cursors.Default
         End If
@@ -1208,7 +1827,11 @@ Public Class ConsultaMovimientos
             Case Is = "ConsultarDocumento"
                 ConsultarDocumento()
             Case Is = "Refrescar"
-                CargaDatos()
+                If Not String.IsNullOrEmpty(_URLGateway) AndAlso _ConsultarPedidosGateway Then
+                    CargaDatos(_URLGateway)
+                Else
+                    CargaDatos()
+                End If
             Case Is = "Imprimir"
                 ImprimirFormato()
             Case Is = "Cerrar"
@@ -1216,14 +1839,18 @@ Public Class ConsultaMovimientos
         End Select
     End Sub
 
-    Public Overridable Sub Imprimir(ByVal Caja As Byte, _
-                                    ByVal FOperacion As Date, _
-                                    ByVal Folio As Integer, _
+    Public Overridable Sub Imprimir(ByVal Caja As Byte,
+                                    ByVal FOperacion As Date,
+                                    ByVal Folio As Integer,
                                     ByVal Consecutivo As Integer)
     End Sub
 
     Public Overridable Sub Modificar()
 
+
+    End Sub
+
+    Private Sub grdCobro_Navigate(sender As Object, ne As NavigateEventArgs) Handles grdCobro.Navigate
 
     End Sub
 
@@ -1242,7 +1869,11 @@ Public Class ConsultaMovimientos
     End Sub
 
     Private Sub btnConsultar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultar.Click
-        CargaDatos()
+        If Not String.IsNullOrEmpty(_URLGateway) AndAlso _ConsultarPedidosGateway Then
+            CargaDatos(_URLGateway)
+        Else
+            CargaDatos()
+        End If
     End Sub
 
 End Class

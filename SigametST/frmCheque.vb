@@ -11,20 +11,22 @@ Public Class frmCheque
     Dim _TotalPedido As Decimal
     'Public _Usuario As String
     Dim Monto As Decimal
-    Dim Saldo As Decimal
-    'Public NumCobro As Integer
-    'Public _AñoCobro As Integer
-    'Public TipoCobro As Integer
-    'Public disponible As Integer
-    'Public CobroContado As Integer
-    'Public AñoCobroContado As Integer
-    'Public SaldoCheque As Integer
-    'Public Cobrocomplemento As Integer
-    'Public AñoCobroComplemento As Integer
-    'Public TotalComplemento As Decimal
+	Friend WithEvents Label8 As Label
+	Friend WithEvents dtpFCobro As DateTimePicker
+	Dim Saldo As Decimal
+	'Public NumCobro As Integer
+	'Public _AñoCobro As Integer
+	'Public TipoCobro As Integer
+	'Public disponible As Integer
+	'Public CobroContado As Integer
+	'Public AñoCobroContado As Integer
+	'Public SaldoCheque As Integer
+	'Public Cobrocomplemento As Integer
+	'Public AñoCobroComplemento As Integer
+	'Public TotalComplemento As Decimal
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(ByVal PedidoReferencia As String)
+	Public Sub New(ByVal PedidoReferencia As String)
         MyBase.New()
         _PedidoReferencia = PedidoReferencia
         '_Pedido = Pedido
@@ -83,259 +85,299 @@ Public Class frmCheque
     Friend WithEvents btnleer As System.Windows.Forms.Button
     Friend WithEvents btnAcepta As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmCheque))
-        Me.txtCliente = New System.Windows.Forms.TextBox()
-        Me.txtMonto = New System.Windows.Forms.TextBox()
-        Me.dtpFCheque = New System.Windows.Forms.DateTimePicker()
-        Me.txtCuenta = New System.Windows.Forms.TextBox()
-        Me.txtCheque = New System.Windows.Forms.TextBox()
-        Me.cboBanco = New System.Windows.Forms.ComboBox()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.txtSaldo = New System.Windows.Forms.TextBox()
-        Me.ToolBar1 = New System.Windows.Forms.ToolBar()
-        Me.btnAceptar = New System.Windows.Forms.ToolBarButton()
-        Me.btnCancelarCheque = New System.Windows.Forms.ToolBarButton()
-        Me.btnCerrar = New System.Windows.Forms.ToolBarButton()
-        Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
-        Me.lblCliente = New System.Windows.Forms.Label()
-        Me.txtcodigo = New System.Windows.Forms.TextBox()
-        Me.btnleer = New System.Windows.Forms.Button()
-        Me.btnAcepta = New System.Windows.Forms.Button()
-        Me.SuspendLayout()
-        '
-        'txtCliente
-        '
-        Me.txtCliente.BackColor = System.Drawing.SystemColors.Control
-        Me.txtCliente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCliente.Location = New System.Drawing.Point(112, 56)
-        Me.txtCliente.MaxLength = 20
-        Me.txtCliente.Name = "txtCliente"
-        Me.txtCliente.Size = New System.Drawing.Size(104, 21)
-        Me.txtCliente.TabIndex = 12
-        Me.txtCliente.Text = ""
-        Me.txtCliente.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'txtMonto
-        '
-        Me.txtMonto.BackColor = System.Drawing.SystemColors.Control
-        Me.txtMonto.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMonto.Location = New System.Drawing.Point(112, 208)
-        Me.txtMonto.MaxLength = 20
-        Me.txtMonto.Name = "txtMonto"
-        Me.txtMonto.Size = New System.Drawing.Size(104, 21)
-        Me.txtMonto.TabIndex = 4
-        Me.txtMonto.Text = ""
-        Me.txtMonto.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'dtpFCheque
-        '
-        Me.dtpFCheque.Location = New System.Drawing.Point(112, 144)
-        Me.dtpFCheque.Name = "dtpFCheque"
-        Me.dtpFCheque.Size = New System.Drawing.Size(213, 20)
-        Me.dtpFCheque.TabIndex = 2
-        '
-        'txtCuenta
-        '
-        Me.txtCuenta.BackColor = System.Drawing.SystemColors.Control
-        Me.txtCuenta.Location = New System.Drawing.Point(112, 176)
-        Me.txtCuenta.MaxLength = 20
-        Me.txtCuenta.Name = "txtCuenta"
-        Me.txtCuenta.Size = New System.Drawing.Size(213, 20)
-        Me.txtCuenta.TabIndex = 3
-        Me.txtCuenta.Text = ""
-        '
-        'txtCheque
-        '
-        Me.txtCheque.BackColor = System.Drawing.SystemColors.Control
-        Me.txtCheque.Location = New System.Drawing.Point(112, 112)
-        Me.txtCheque.MaxLength = 20
-        Me.txtCheque.Name = "txtCheque"
-        Me.txtCheque.Size = New System.Drawing.Size(213, 20)
-        Me.txtCheque.TabIndex = 1
-        Me.txtCheque.Text = ""
-        '
-        'cboBanco
-        '
-        Me.cboBanco.BackColor = System.Drawing.SystemColors.Control
-        Me.cboBanco.DisplayMember = "Nombre"
-        Me.cboBanco.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboBanco.Location = New System.Drawing.Point(112, 80)
-        Me.cboBanco.Name = "cboBanco"
-        Me.cboBanco.Size = New System.Drawing.Size(216, 21)
-        Me.cboBanco.TabIndex = 6
-        Me.cboBanco.ValueMember = "Banco"
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(16, 208)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(42, 13)
-        Me.Label5.TabIndex = 22
-        Me.Label5.Text = "Monto :"
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(16, 176)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(88, 13)
-        Me.Label4.TabIndex = 19
-        Me.Label4.Text = "Numero cuenta :"
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(16, 144)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(82, 13)
-        Me.Label3.TabIndex = 18
-        Me.Label3.Text = "Fecha cheque :"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(16, 112)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(91, 13)
-        Me.Label2.TabIndex = 15
-        Me.Label2.Text = "Numero cheque :"
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(16, 88)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(42, 13)
-        Me.Label1.TabIndex = 13
-        Me.Label1.Text = "Banco :"
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(16, 56)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(46, 13)
-        Me.Label6.TabIndex = 23
-        Me.Label6.Text = "Cliente :"
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(16, 240)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(39, 13)
-        Me.Label7.TabIndex = 24
-        Me.Label7.Text = "Saldo :"
-        '
-        'txtSaldo
-        '
-        Me.txtSaldo.BackColor = System.Drawing.SystemColors.Control
-        Me.txtSaldo.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSaldo.Location = New System.Drawing.Point(112, 240)
-        Me.txtSaldo.MaxLength = 20
-        Me.txtSaldo.Name = "txtSaldo"
-        Me.txtSaldo.ReadOnly = True
-        Me.txtSaldo.Size = New System.Drawing.Size(104, 21)
-        Me.txtSaldo.TabIndex = 5
-        Me.txtSaldo.Text = "0"
-        Me.txtSaldo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'ToolBar1
-        '
-        Me.ToolBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.ToolBar1.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.btnAceptar, Me.btnCancelarCheque, Me.btnCerrar})
-        Me.ToolBar1.ButtonSize = New System.Drawing.Size(67, 36)
-        Me.ToolBar1.DropDownArrows = True
-        Me.ToolBar1.ImageList = Me.ImageList1
-        Me.ToolBar1.Name = "ToolBar1"
-        Me.ToolBar1.ShowToolTips = True
-        Me.ToolBar1.Size = New System.Drawing.Size(464, 40)
-        Me.ToolBar1.TabIndex = 26
-        '
-        'btnAceptar
-        '
-        Me.btnAceptar.Enabled = False
-        Me.btnAceptar.ImageIndex = 0
-        Me.btnAceptar.Text = "Aceptar"
-        '
-        'btnCancelarCheque
-        '
-        Me.btnCancelarCheque.ImageIndex = 2
-        Me.btnCancelarCheque.Text = "Cancelar"
-        '
-        'btnCerrar
-        '
-        Me.btnCerrar.ImageIndex = 3
-        Me.btnCerrar.Text = "Salir"
-        '
-        'ImageList1
-        '
-        Me.ImageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
-        Me.ImageList1.ImageSize = New System.Drawing.Size(16, 16)
-        Me.ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.ImageList1.TransparentColor = System.Drawing.Color.Transparent
-        '
-        'lblCliente
-        '
-        Me.lblCliente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCliente.Location = New System.Drawing.Point(232, 56)
-        Me.lblCliente.Name = "lblCliente"
-        Me.lblCliente.Size = New System.Drawing.Size(224, 16)
-        Me.lblCliente.TabIndex = 27
-        Me.lblCliente.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'txtcodigo
-        '
-        Me.txtcodigo.BackColor = System.Drawing.SystemColors.Control
-        Me.txtcodigo.Location = New System.Drawing.Point(232, 240)
-        Me.txtcodigo.Name = "txtcodigo"
-        Me.txtcodigo.Size = New System.Drawing.Size(224, 20)
-        Me.txtcodigo.TabIndex = 0
-        Me.txtcodigo.Text = ""
-        '
-        'btnleer
-        '
-        Me.btnleer.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnleer.Location = New System.Drawing.Point(432, 224)
-        Me.btnleer.Name = "btnleer"
-        Me.btnleer.Size = New System.Drawing.Size(24, 16)
-        Me.btnleer.TabIndex = 29
-        '
-        'btnAcepta
-        '
-        Me.btnAcepta.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnAcepta.Location = New System.Drawing.Point(400, 224)
-        Me.btnAcepta.Name = "btnAcepta"
-        Me.btnAcepta.Size = New System.Drawing.Size(24, 16)
-        Me.btnAcepta.TabIndex = 30
-        '
-        'frmCheque
-        '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(464, 272)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.btnAcepta, Me.btnleer, Me.txtcodigo, Me.lblCliente, Me.ToolBar1, Me.txtSaldo, Me.Label7, Me.Label5, Me.Label4, Me.Label3, Me.Label2, Me.Label1, Me.Label6, Me.txtCliente, Me.txtMonto, Me.dtpFCheque, Me.txtCuenta, Me.txtCheque, Me.cboBanco})
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.Name = "frmCheque"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Cheque"
-        Me.ResumeLayout(False)
+		Me.components = New System.ComponentModel.Container()
+		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCheque))
+		Me.txtCliente = New System.Windows.Forms.TextBox()
+		Me.txtMonto = New System.Windows.Forms.TextBox()
+		Me.dtpFCheque = New System.Windows.Forms.DateTimePicker()
+		Me.txtCuenta = New System.Windows.Forms.TextBox()
+		Me.txtCheque = New System.Windows.Forms.TextBox()
+		Me.cboBanco = New System.Windows.Forms.ComboBox()
+		Me.Label5 = New System.Windows.Forms.Label()
+		Me.Label4 = New System.Windows.Forms.Label()
+		Me.Label3 = New System.Windows.Forms.Label()
+		Me.Label2 = New System.Windows.Forms.Label()
+		Me.Label1 = New System.Windows.Forms.Label()
+		Me.Label6 = New System.Windows.Forms.Label()
+		Me.Label7 = New System.Windows.Forms.Label()
+		Me.txtSaldo = New System.Windows.Forms.TextBox()
+		Me.ToolBar1 = New System.Windows.Forms.ToolBar()
+		Me.btnAceptar = New System.Windows.Forms.ToolBarButton()
+		Me.btnCancelarCheque = New System.Windows.Forms.ToolBarButton()
+		Me.btnCerrar = New System.Windows.Forms.ToolBarButton()
+		Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
+		Me.lblCliente = New System.Windows.Forms.Label()
+		Me.txtcodigo = New System.Windows.Forms.TextBox()
+		Me.btnleer = New System.Windows.Forms.Button()
+		Me.btnAcepta = New System.Windows.Forms.Button()
+		Me.Label8 = New System.Windows.Forms.Label()
+		Me.dtpFCobro = New System.Windows.Forms.DateTimePicker()
+		Me.SuspendLayout()
+		'
+		'txtCliente
+		'
+		Me.txtCliente.BackColor = System.Drawing.SystemColors.Control
+		Me.txtCliente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.txtCliente.Location = New System.Drawing.Point(112, 56)
+		Me.txtCliente.MaxLength = 20
+		Me.txtCliente.Name = "txtCliente"
+		Me.txtCliente.Size = New System.Drawing.Size(104, 21)
+		Me.txtCliente.TabIndex = 12
+		Me.txtCliente.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+		'
+		'txtMonto
+		'
+		Me.txtMonto.BackColor = System.Drawing.SystemColors.Control
+		Me.txtMonto.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.txtMonto.Location = New System.Drawing.Point(112, 238)
+		Me.txtMonto.MaxLength = 20
+		Me.txtMonto.Name = "txtMonto"
+		Me.txtMonto.Size = New System.Drawing.Size(104, 21)
+		Me.txtMonto.TabIndex = 4
+		Me.txtMonto.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+		'
+		'dtpFCheque
+		'
+		Me.dtpFCheque.Location = New System.Drawing.Point(112, 144)
+		Me.dtpFCheque.Name = "dtpFCheque"
+		Me.dtpFCheque.Size = New System.Drawing.Size(213, 20)
+		Me.dtpFCheque.TabIndex = 2
+		'
+		'txtCuenta
+		'
+		Me.txtCuenta.BackColor = System.Drawing.SystemColors.Control
+		Me.txtCuenta.Location = New System.Drawing.Point(112, 206)
+		Me.txtCuenta.MaxLength = 20
+		Me.txtCuenta.Name = "txtCuenta"
+		Me.txtCuenta.Size = New System.Drawing.Size(213, 20)
+		Me.txtCuenta.TabIndex = 3
+		'
+		'txtCheque
+		'
+		Me.txtCheque.BackColor = System.Drawing.SystemColors.Control
+		Me.txtCheque.Location = New System.Drawing.Point(112, 112)
+		Me.txtCheque.MaxLength = 20
+		Me.txtCheque.Name = "txtCheque"
+		Me.txtCheque.Size = New System.Drawing.Size(213, 20)
+		Me.txtCheque.TabIndex = 1
+		'
+		'cboBanco
+		'
+		Me.cboBanco.BackColor = System.Drawing.SystemColors.Control
+		Me.cboBanco.DisplayMember = "Nombre"
+		Me.cboBanco.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.cboBanco.Location = New System.Drawing.Point(112, 80)
+		Me.cboBanco.Name = "cboBanco"
+		Me.cboBanco.Size = New System.Drawing.Size(216, 21)
+		Me.cboBanco.TabIndex = 6
+		Me.cboBanco.ValueMember = "Banco"
+		'
+		'Label5
+		'
+		Me.Label5.AutoSize = True
+		Me.Label5.Location = New System.Drawing.Point(16, 238)
+		Me.Label5.Name = "Label5"
+		Me.Label5.Size = New System.Drawing.Size(43, 13)
+		Me.Label5.TabIndex = 22
+		Me.Label5.Text = "Monto :"
+		'
+		'Label4
+		'
+		Me.Label4.AutoSize = True
+		Me.Label4.Location = New System.Drawing.Point(16, 206)
+		Me.Label4.Name = "Label4"
+		Me.Label4.Size = New System.Drawing.Size(86, 13)
+		Me.Label4.TabIndex = 19
+		Me.Label4.Text = "Numero cuenta :"
+		'
+		'Label3
+		'
+		Me.Label3.AutoSize = True
+		Me.Label3.Location = New System.Drawing.Point(16, 144)
+		Me.Label3.Name = "Label3"
+		Me.Label3.Size = New System.Drawing.Size(82, 13)
+		Me.Label3.TabIndex = 18
+		Me.Label3.Text = "Fecha cheque :"
+		'
+		'Label2
+		'
+		Me.Label2.AutoSize = True
+		Me.Label2.Location = New System.Drawing.Point(16, 112)
+		Me.Label2.Name = "Label2"
+		Me.Label2.Size = New System.Drawing.Size(89, 13)
+		Me.Label2.TabIndex = 15
+		Me.Label2.Text = "Numero cheque :"
+		'
+		'Label1
+		'
+		Me.Label1.AutoSize = True
+		Me.Label1.Location = New System.Drawing.Point(16, 88)
+		Me.Label1.Name = "Label1"
+		Me.Label1.Size = New System.Drawing.Size(44, 13)
+		Me.Label1.TabIndex = 13
+		Me.Label1.Text = "Banco :"
+		'
+		'Label6
+		'
+		Me.Label6.AutoSize = True
+		Me.Label6.Location = New System.Drawing.Point(16, 56)
+		Me.Label6.Name = "Label6"
+		Me.Label6.Size = New System.Drawing.Size(45, 13)
+		Me.Label6.TabIndex = 23
+		Me.Label6.Text = "Cliente :"
+		'
+		'Label7
+		'
+		Me.Label7.AutoSize = True
+		Me.Label7.Location = New System.Drawing.Point(16, 270)
+		Me.Label7.Name = "Label7"
+		Me.Label7.Size = New System.Drawing.Size(40, 13)
+		Me.Label7.TabIndex = 24
+		Me.Label7.Text = "Saldo :"
+		'
+		'txtSaldo
+		'
+		Me.txtSaldo.BackColor = System.Drawing.SystemColors.Control
+		Me.txtSaldo.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.txtSaldo.Location = New System.Drawing.Point(112, 270)
+		Me.txtSaldo.MaxLength = 20
+		Me.txtSaldo.Name = "txtSaldo"
+		Me.txtSaldo.ReadOnly = True
+		Me.txtSaldo.Size = New System.Drawing.Size(104, 21)
+		Me.txtSaldo.TabIndex = 5
+		Me.txtSaldo.Text = "0"
+		Me.txtSaldo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+		'
+		'ToolBar1
+		'
+		Me.ToolBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+		Me.ToolBar1.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.btnAceptar, Me.btnCancelarCheque, Me.btnCerrar})
+		Me.ToolBar1.ButtonSize = New System.Drawing.Size(67, 36)
+		Me.ToolBar1.DropDownArrows = True
+		Me.ToolBar1.ImageList = Me.ImageList1
+		Me.ToolBar1.Location = New System.Drawing.Point(0, 0)
+		Me.ToolBar1.Name = "ToolBar1"
+		Me.ToolBar1.ShowToolTips = True
+		Me.ToolBar1.Size = New System.Drawing.Size(464, 43)
+		Me.ToolBar1.TabIndex = 26
+		'
+		'btnAceptar
+		'
+		Me.btnAceptar.Enabled = False
+		Me.btnAceptar.ImageIndex = 0
+		Me.btnAceptar.Name = "btnAceptar"
+		Me.btnAceptar.Text = "Aceptar"
+		'
+		'btnCancelarCheque
+		'
+		Me.btnCancelarCheque.ImageIndex = 2
+		Me.btnCancelarCheque.Name = "btnCancelarCheque"
+		Me.btnCancelarCheque.Text = "Cancelar"
+		'
+		'btnCerrar
+		'
+		Me.btnCerrar.ImageIndex = 3
+		Me.btnCerrar.Name = "btnCerrar"
+		Me.btnCerrar.Text = "Salir"
+		'
+		'ImageList1
+		'
+		Me.ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), System.Windows.Forms.ImageListStreamer)
+		Me.ImageList1.TransparentColor = System.Drawing.Color.Transparent
+		Me.ImageList1.Images.SetKeyName(0, "")
+		Me.ImageList1.Images.SetKeyName(1, "")
+		Me.ImageList1.Images.SetKeyName(2, "")
+		Me.ImageList1.Images.SetKeyName(3, "")
+		'
+		'lblCliente
+		'
+		Me.lblCliente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.lblCliente.Location = New System.Drawing.Point(232, 56)
+		Me.lblCliente.Name = "lblCliente"
+		Me.lblCliente.Size = New System.Drawing.Size(224, 16)
+		Me.lblCliente.TabIndex = 27
+		Me.lblCliente.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+		'
+		'txtcodigo
+		'
+		Me.txtcodigo.BackColor = System.Drawing.SystemColors.Control
+		Me.txtcodigo.Location = New System.Drawing.Point(232, 270)
+		Me.txtcodigo.Name = "txtcodigo"
+		Me.txtcodigo.Size = New System.Drawing.Size(224, 20)
+		Me.txtcodigo.TabIndex = 0
+		'
+		'btnleer
+		'
+		Me.btnleer.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+		Me.btnleer.Location = New System.Drawing.Point(432, 254)
+		Me.btnleer.Name = "btnleer"
+		Me.btnleer.Size = New System.Drawing.Size(24, 16)
+		Me.btnleer.TabIndex = 29
+		'
+		'btnAcepta
+		'
+		Me.btnAcepta.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+		Me.btnAcepta.Location = New System.Drawing.Point(400, 254)
+		Me.btnAcepta.Name = "btnAcepta"
+		Me.btnAcepta.Size = New System.Drawing.Size(24, 16)
+		Me.btnAcepta.TabIndex = 30
+		'
+		'Label8
+		'
+		Me.Label8.AutoSize = True
+		Me.Label8.Location = New System.Drawing.Point(16, 176)
+		Me.Label8.Name = "Label8"
+		Me.Label8.Size = New System.Drawing.Size(73, 13)
+		Me.Label8.TabIndex = 32
+		Me.Label8.Text = "Fecha cobro :"
+		'
+		'dtpFCobro
+		'
+		Me.dtpFCobro.Location = New System.Drawing.Point(112, 176)
+		Me.dtpFCobro.Name = "dtpFCobro"
+		Me.dtpFCobro.Size = New System.Drawing.Size(213, 20)
+		Me.dtpFCobro.TabIndex = 31
+		'
+		'frmCheque
+		'
+		Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+		Me.ClientSize = New System.Drawing.Size(464, 332)
+		Me.Controls.Add(Me.Label8)
+		Me.Controls.Add(Me.dtpFCobro)
+		Me.Controls.Add(Me.btnAcepta)
+		Me.Controls.Add(Me.btnleer)
+		Me.Controls.Add(Me.txtcodigo)
+		Me.Controls.Add(Me.lblCliente)
+		Me.Controls.Add(Me.ToolBar1)
+		Me.Controls.Add(Me.txtSaldo)
+		Me.Controls.Add(Me.Label7)
+		Me.Controls.Add(Me.Label5)
+		Me.Controls.Add(Me.Label4)
+		Me.Controls.Add(Me.Label3)
+		Me.Controls.Add(Me.Label2)
+		Me.Controls.Add(Me.Label1)
+		Me.Controls.Add(Me.Label6)
+		Me.Controls.Add(Me.txtCliente)
+		Me.Controls.Add(Me.txtMonto)
+		Me.Controls.Add(Me.dtpFCheque)
+		Me.Controls.Add(Me.txtCuenta)
+		Me.Controls.Add(Me.txtCheque)
+		Me.Controls.Add(Me.cboBanco)
+		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+		Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+		Me.MaximizeBox = False
+		Me.MinimizeBox = False
+		Me.Name = "frmCheque"
+		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+		Me.Text = "Cheque"
+		Me.ResumeLayout(False)
+		Me.PerformLayout()
 
-    End Sub
+	End Sub
 
 #End Region
 
-    Private Sub LlenaCombo()
+	Private Sub LlenaCombo()
         Dim da As New SqlDataAdapter("Select Banco,Nombre from Banco Where Status = 'Activo'", cnnSigamet)
         Dim dt As New DataTable("FormaPago")
         da.Fill(dt)
@@ -613,8 +655,9 @@ Public Class frmCheque
                     dr.BeginEdit()
                     dr("BancoCheque") = cboBanco.SelectedValue
                     dr("NumeroCheque") = txtCheque.Text
-                    dr("FCheque") = dtpFCheque.Value
-                    dr("NumCuentaCheque") = txtCuenta.Text
+					dr("FCheque") = dtpFCheque.Value
+					dr("FCobro") = dtpFCobro.Value
+					dr("NumCuentaCheque") = txtCuenta.Text
                     dr("TotalCheque") = txtMonto.Text
                     dr("SaldoCheque") = txtSaldo.Text
                     dr("TipoCobroCheque") = 3

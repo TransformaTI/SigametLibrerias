@@ -336,13 +336,13 @@ Public Class CapturaCheque
                     Cursor = Cursors.WaitCursor
 
                     If _TipoAccion = enumTipoAccion.Agregar Then
-                        objCheque.ChequeTarjetaAlta(Trim(txtNumeroCheque.Text), _
-                        CType(Trim(txtTotal.Text), Decimal), _
-                        Trim(txtNumeroCuenta.Text), _
-                        CType(dtpFCheque.Value.ToShortDateString, Date), _
-                        CType(Trim(txtCliente.Text), Integer), _
-                        CType(cboBanco.SelectedValue, Short), _
-                        txtObservaciones.Text, , _Usuario)
+                        objCheque.ChequeTarjetaAlta(Trim(txtNumeroCheque.Text),
+                        CType(Trim(txtTotal.Text), Decimal),
+                        Trim(txtNumeroCuenta.Text),
+                        CType(dtpFCheque.Value.ToShortDateString, Date),
+                        CType(Trim(txtCliente.Text), Integer),
+                        CType(cboBanco.SelectedValue, Short),
+                        txtObservaciones.Text, , _Usuario, dtmFCobro:=CType(dtpFCheque.Value.ToShortDateString, Date))
                     End If
 
                     If _TipoAccion = enumTipoAccion.Modificar Then

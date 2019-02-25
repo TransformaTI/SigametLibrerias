@@ -8,11 +8,17 @@ Imports GeneracionAsignacion
 'Imports UIEDFAsignacion
 Imports SGDAC
 Imports EDFUIImportacion
+Imports System.Collections.Generic
+Imports RTGMGateway
 
 Public Class frmCatEdificios
     Inherits System.Windows.Forms.Form
 
 #Region " Windows Form Designer generated code "
+
+    Private _URLGateway As String
+    Private _CadenaConexion As String
+    Private _DireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
 
     Public Sub New()
         MyBase.New()
@@ -1272,13 +1278,16 @@ Public Class frmCatEdificios
 #End Region
 
 #Region "Constructores"
-    Public Sub New(ByVal celula As Byte, ByVal conexión As SqlConnection, ByVal usuario As String, _
-        ByVal Corporativo As Short, ByVal Sucursal As Short)
+    Public Sub New(ByVal celula As Byte, ByVal conexión As SqlConnection, ByVal usuario As String,
+        ByVal Corporativo As Short, ByVal Sucursal As Short, Optional ByVal URLGateway As String = "",
+                   Optional ByVal CadenaConexion As String = "")
         MyBase.New()
         InitializeComponent()
         _celula = celula
         _usuario = usuario
         connection = conexión
+        _URLGateway = URLGateway
+        _CadenaConexion = CadenaConexion
 
         'Carga de parámetros duplicados 07/04/2008
         _corporativo = Corporativo
@@ -1333,45 +1342,121 @@ Public Class frmCatEdificios
 
     Private Sub llenaTablaLecturas(Optional ByVal celula As Short = Nothing)
         dtEdificios.Rows.Clear()
-        Dim cmdSelect As New SqlCommand()
-        cmdSelect.CommandText = "spCCCatalogoEdificiosAdministrados"
-        cmdSelect.CommandType = CommandType.StoredProcedure
-        cmdSelect.Connection = connection
-        If celula <> Nothing Then
-            cmdSelect.Parameters.Add("@Celula", SqlDbType.Int).Value = celula
-        End If
-        Dim da As New SqlDataAdapter(cmdSelect)
-        Try
-            connection.Open()
-            da.Fill(dtEdificios)
-        Catch ex As Exception
-            Windows.Forms.MessageBox.Show(ex.Message)
-        Finally
-            If connection.State = ConnectionState.Open Then
-                connection.Close()
+
+        If Not String.IsNullOrEmpty(_URLGateway) Then
+            llenaTablaLecturas_CRM(celula)
+        Else
+
+            Dim cmdSelect As New SqlCommand()
+            cmdSelect.CommandText = "spCCCatalogoEdificiosAdministrados"
+            cmdSelect.CommandType = CommandType.StoredProcedure
+            cmdSelect.Connection = connection
+            If celula <> Nothing Then
+                cmdSelect.Parameters.Add("@Celula", SqlDbType.Int).Value = celula
             End If
+            Dim da As New SqlDataAdapter(cmdSelect)
+            Try
+                connection.Open()
+                da.Fill(dtEdificios)
+            Catch ex As Exception
+                Windows.Forms.MessageBox.Show(ex.Message)
+            Finally
+                If connection.State = ConnectionState.Open Then
+                    connection.Close()
+                End If
+            End Try
+        End If
+    End Sub
+
+    Private Sub llenaTablaLecturas_CRM(Optional ByVal celula As Short = Nothing)
+        Cursor = Cursors.WaitCursor
+
+        Try
+            Dim obGateway As New RTGMGateway.RTGMGateway(24, _CadenaConexion)
+            obGateway.URLServicio = _URLGateway
+
+            _DireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+
+            Dim obSolicitud As New RTGMGateway.SolicitudGateway With
+            {
+                .Zona = celula,
+                .Portatil = False
+            }
+
+            _DireccionesEntrega = obGateway.buscarClientesPorZona(obSolicitud)
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
         End Try
     End Sub
 
     Private Sub llenaListView()
         ResetDatos()
-        Dim row As DataRow
-        For Each row In dtEdificios.Rows
-            btnConsultarCapt.Enabled = True
-            Dim item As New Windows.Forms.ListViewItem(CType(row.Item("Celula"), String), 0)
-            item.SubItems.Add(CType(row.Item("Cliente"), String))
-            item.SubItems.Add(CType(row.Item("Nombre"), String))
-            item.SubItems.Add(CType(row.Item("CalleNombre"), String))
-            item.SubItems.Add(CType(row.Item("NumExterior"), String))
-            item.SubItems.Add(CType(row.Item("ColoniaNombre"), String))
-            item.SubItems.Add(CType(row.Item("MunicipioNombre"), String))
-            item.SubItems.Add(CType(row.Item("Departamentos"), String))
-            item.SubItems.Add(CType(row.Item("TelCasa"), String))
-            item.SubItems.Add(CType(row.Item("Saldo"), String))
-            item.SubItems.Add(CType(row.Item("FUltimoSurtido"), String))
-            lvwLecturas.Items.Add(item)
-            item.EnsureVisible()
-        Next
+
+        If Not String.IsNullOrEmpty(_URLGateway) Then
+            llenaListView_CRM()
+        Else
+            Dim row As DataRow
+            For Each row In dtEdificios.Rows
+                btnConsultarCapt.Enabled = True
+                Dim item As New Windows.Forms.ListViewItem(CType(row.Item("Celula"), String), 0)
+                item.SubItems.Add(CType(row.Item("Cliente"), String))
+                item.SubItems.Add(CType(row.Item("Nombre"), String))
+                item.SubItems.Add(CType(row.Item("CalleNombre"), String))
+                item.SubItems.Add(CType(row.Item("NumExterior"), String))
+                item.SubItems.Add(CType(row.Item("ColoniaNombre"), String))
+                item.SubItems.Add(CType(row.Item("MunicipioNombre"), String))
+                item.SubItems.Add(CType(row.Item("Departamentos"), String))
+                item.SubItems.Add(CType(row.Item("TelCasa"), String))
+                item.SubItems.Add(CType(row.Item("Saldo"), String))
+                item.SubItems.Add(CType(row.Item("FUltimoSurtido"), String))
+                lvwLecturas.Items.Add(item)
+                item.EnsureVisible()
+            Next
+        End If
+    End Sub
+
+    Private Sub llenaListView_CRM()
+        Dim direccion As RTGMCore.DireccionEntrega
+
+        If IsNothing(_DireccionesEntrega) OrElse _DireccionesEntrega.Count = 0 Then
+            Exit Sub
+        End If
+
+        Cursor = Cursors.WaitCursor
+        Try
+            For Each direccion In _DireccionesEntrega
+                btnConsultarCapt.Enabled = True
+                Dim item As Windows.Forms.ListViewItem
+                If Not IsNothing(direccion.ZonaSuministro) Then
+                    'item.SubItems.Add(Convert.ToString(direccion.ZonaSuministro.IDZona))
+                    item = New Windows.Forms.ListViewItem(Convert.ToString(direccion.ZonaSuministro.IDZona), 0)
+                Else
+                    item = New Windows.Forms.ListViewItem("", 0)
+                End If
+                item.SubItems.Add(Convert.ToString(direccion.IDDireccionEntrega)) '0
+                item.SubItems.Add(direccion.Nombre) '1
+                item.SubItems.Add(direccion.CalleNombre) '2
+                item.SubItems.Add(direccion.NumExterior) '3
+                item.SubItems.Add(direccion.ColoniaNombre) '4
+                item.SubItems.Add(direccion.MunicipioNombre) '5
+                'item.SubItems.Add(CType(Row.Item("Departamentos"), String)) '6
+                item.SubItems.Add("") '6
+                item.SubItems.Add(direccion.Telefono1) '7
+                'item.SubItems.Add(CType(Row.Item("Saldo"), String)) '8
+                item.SubItems.Add("") '8
+                'item.SubItems.Add(CType(Row.Item("FUltimoSurtido"), String)) '9
+                item.SubItems.Add("") '9
+                lvwLecturas.Items.Add(item)
+                item.EnsureVisible()
+            Next
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+        End Try
     End Sub
 
     Private Sub cargaAlmacen(ByVal cliente As Integer)
@@ -1594,8 +1679,8 @@ Public Class frmCatEdificios
         For Each item In lvwLecturas.Items
             If item.Selected Then
                 cliente = CInt(lvwLecturas.Items(item.Index).SubItems(0).Text)
-                Dim consultacliente As New SigaMetClasses.frmConsultaCliente(cliente)
-                consultacliente.ShowDialog()
+				Dim consultacliente As New SigaMetClasses.frmConsultaCliente(cliente, Nuevo:=0)
+				consultacliente.ShowDialog()
                 Exit For
             End If
         Next

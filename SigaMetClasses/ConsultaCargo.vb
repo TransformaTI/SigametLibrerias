@@ -1,4 +1,5 @@
 Option Strict On
+Imports System.Collections.Generic
 Imports System.Data.SqlClient
 Imports System.Drawing
 Imports System.Windows.Forms
@@ -8,9 +9,14 @@ Imports Microsoft.VisualBasic.ControlChars
 Public Class ConsultaCargo
     Inherits System.Windows.Forms.Form
     Private _PedidoReferencia As String
+    Private _Celula As Byte
+    Private _URLGateway As String
+    Private _Empresa As Short
+    Private _Modulo As Byte
+    Private _CadenaConexion As String
     Private Titulo As String = "Consulta de documentos"
     Public Event MovimientoSeleccionado(ByVal Clave As String)
-
+    Private _ClienteRow As New RTGMCore.DireccionEntrega
     'Para obtener la serie del folio del vale de crédito JAGD 24/02/2006
     Dim folioDocumento As DocumentosBSR.SerieDocumento
 
@@ -151,12 +157,14 @@ Public Class ConsultaCargo
     Friend WithEvents lblReferencia As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(ConsultaCargo))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ConsultaCargo))
         Me.txtPedidoReferencia = New System.Windows.Forms.TextBox()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.btnCerrar = New System.Windows.Forms.Button()
         Me.btnBuscar = New System.Windows.Forms.Button()
         Me.grpDatosGenerales = New System.Windows.Forms.GroupBox()
+        Me.lblReferencia = New System.Windows.Forms.Label()
+        Me.Label34 = New System.Windows.Forms.Label()
         Me.lblRemision = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.lblStatusCobranza = New SigaMetClasses.Controles.LabelStatus()
@@ -255,10 +263,9 @@ Public Class ConsultaCargo
         Me.imgLista16 = New System.Windows.Forms.ImageList(Me.components)
         Me.lblPedidoReferencia = New System.Windows.Forms.Label()
         Me.cboTipoBusqueda = New System.Windows.Forms.ComboBox()
-        Me.Label34 = New System.Windows.Forms.Label()
-        Me.lblReferencia = New System.Windows.Forms.Label()
         Me.grpDatosGenerales.SuspendLayout()
         Me.grpATT.SuspendLayout()
+        CType(Me.picWarning, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabDatos.SuspendLayout()
         Me.tpPedido.SuspendLayout()
         Me.tpCancelacion.SuspendLayout()
@@ -277,7 +284,6 @@ Public Class ConsultaCargo
         Me.txtPedidoReferencia.Name = "txtPedidoReferencia"
         Me.txtPedidoReferencia.Size = New System.Drawing.Size(164, 21)
         Me.txtPedidoReferencia.TabIndex = 0
-        Me.txtPedidoReferencia.Text = ""
         '
         'Label20
         '
@@ -285,7 +291,7 @@ Public Class ConsultaCargo
         Me.Label20.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label20.Location = New System.Drawing.Point(16, 16)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(74, 14)
+        Me.Label20.Size = New System.Drawing.Size(75, 13)
         Me.Label20.TabIndex = 1
         Me.Label20.Text = "Documento:"
         Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -294,7 +300,7 @@ Public Class ConsultaCargo
         '
         Me.btnCerrar.BackColor = System.Drawing.SystemColors.Control
         Me.btnCerrar.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCerrar.Image = CType(resources.GetObject("btnCerrar.Image"), System.Drawing.Bitmap)
+        Me.btnCerrar.Image = CType(resources.GetObject("btnCerrar.Image"), System.Drawing.Image)
         Me.btnCerrar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnCerrar.Location = New System.Drawing.Point(492, 10)
         Me.btnCerrar.Name = "btnCerrar"
@@ -302,11 +308,12 @@ Public Class ConsultaCargo
         Me.btnCerrar.TabIndex = 3
         Me.btnCerrar.Text = "&Cerrar"
         Me.btnCerrar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnCerrar.UseVisualStyleBackColor = False
         '
         'btnBuscar
         '
         Me.btnBuscar.BackColor = System.Drawing.SystemColors.Control
-        Me.btnBuscar.Image = CType(resources.GetObject("btnBuscar.Image"), System.Drawing.Bitmap)
+        Me.btnBuscar.Image = CType(resources.GetObject("btnBuscar.Image"), System.Drawing.Image)
         Me.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnBuscar.Location = New System.Drawing.Point(412, 10)
         Me.btnBuscar.Name = "btnBuscar"
@@ -314,20 +321,75 @@ Public Class ConsultaCargo
         Me.btnBuscar.TabIndex = 1
         Me.btnBuscar.Text = "&Buscar"
         Me.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnBuscar.UseVisualStyleBackColor = False
         '
         'grpDatosGenerales
         '
-        Me.grpDatosGenerales.Anchor = (((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.grpDatosGenerales.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grpDatosGenerales.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.grpDatosGenerales.Controls.AddRange(New System.Windows.Forms.Control() {Me.lblReferencia, Me.Label34, Me.lblRemision, Me.Label4, Me.lblStatusCobranza, Me.lblStatusPedido, Me.lblTipoCobro, Me.grpATT, Me.Label25, Me.lblFactura, Me.Label24, Me.lblFCargo, Me.picWarning, Me.lblWarning, Me.Label23, Me.lblRutaSuministro, Me.chkCyC, Me.Label22, Me.Label21, Me.lblCartera, Me.Label17, Me.Label6, Me.lblCelula, Me.Label2, Me.lblAnoPed, Me.Label3, Me.lblPedido, Me.Label1, Me.lblTipoDocumento, Me.Label14, Me.lblSaldo, Me.lblImporte, Me.Label10, Me.Label9, Me.Label5, Me.lblCliente})
+        Me.grpDatosGenerales.Controls.Add(Me.lblReferencia)
+        Me.grpDatosGenerales.Controls.Add(Me.Label34)
+        Me.grpDatosGenerales.Controls.Add(Me.lblRemision)
+        Me.grpDatosGenerales.Controls.Add(Me.Label4)
+        Me.grpDatosGenerales.Controls.Add(Me.lblStatusCobranza)
+        Me.grpDatosGenerales.Controls.Add(Me.lblStatusPedido)
+        Me.grpDatosGenerales.Controls.Add(Me.lblTipoCobro)
+        Me.grpDatosGenerales.Controls.Add(Me.grpATT)
+        Me.grpDatosGenerales.Controls.Add(Me.Label25)
+        Me.grpDatosGenerales.Controls.Add(Me.lblFactura)
+        Me.grpDatosGenerales.Controls.Add(Me.Label24)
+        Me.grpDatosGenerales.Controls.Add(Me.lblFCargo)
+        Me.grpDatosGenerales.Controls.Add(Me.picWarning)
+        Me.grpDatosGenerales.Controls.Add(Me.lblWarning)
+        Me.grpDatosGenerales.Controls.Add(Me.Label23)
+        Me.grpDatosGenerales.Controls.Add(Me.lblRutaSuministro)
+        Me.grpDatosGenerales.Controls.Add(Me.chkCyC)
+        Me.grpDatosGenerales.Controls.Add(Me.Label22)
+        Me.grpDatosGenerales.Controls.Add(Me.Label21)
+        Me.grpDatosGenerales.Controls.Add(Me.lblCartera)
+        Me.grpDatosGenerales.Controls.Add(Me.Label17)
+        Me.grpDatosGenerales.Controls.Add(Me.Label6)
+        Me.grpDatosGenerales.Controls.Add(Me.lblCelula)
+        Me.grpDatosGenerales.Controls.Add(Me.Label2)
+        Me.grpDatosGenerales.Controls.Add(Me.lblAnoPed)
+        Me.grpDatosGenerales.Controls.Add(Me.Label3)
+        Me.grpDatosGenerales.Controls.Add(Me.lblPedido)
+        Me.grpDatosGenerales.Controls.Add(Me.Label1)
+        Me.grpDatosGenerales.Controls.Add(Me.lblTipoDocumento)
+        Me.grpDatosGenerales.Controls.Add(Me.Label14)
+        Me.grpDatosGenerales.Controls.Add(Me.lblSaldo)
+        Me.grpDatosGenerales.Controls.Add(Me.lblImporte)
+        Me.grpDatosGenerales.Controls.Add(Me.Label10)
+        Me.grpDatosGenerales.Controls.Add(Me.Label9)
+        Me.grpDatosGenerales.Controls.Add(Me.Label5)
+        Me.grpDatosGenerales.Controls.Add(Me.lblCliente)
         Me.grpDatosGenerales.Location = New System.Drawing.Point(5, 40)
         Me.grpDatosGenerales.Name = "grpDatosGenerales"
         Me.grpDatosGenerales.Size = New System.Drawing.Size(560, 348)
         Me.grpDatosGenerales.TabIndex = 16
         Me.grpDatosGenerales.TabStop = False
         Me.grpDatosGenerales.Text = "Datos generales del documento"
+        '
+        'lblReferencia
+        '
+        Me.lblReferencia.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblReferencia.Location = New System.Drawing.Point(112, 53)
+        Me.lblReferencia.Name = "lblReferencia"
+        Me.lblReferencia.Size = New System.Drawing.Size(256, 21)
+        Me.lblReferencia.TabIndex = 64
+        Me.lblReferencia.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Location = New System.Drawing.Point(16, 56)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(77, 13)
+        Me.Label34.TabIndex = 63
+        Me.Label34.Text = "D. Referencia:"
+        Me.Label34.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblRemision
         '
@@ -343,7 +405,7 @@ Public Class ConsultaCargo
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(376, 56)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(53, 14)
+        Me.Label4.Size = New System.Drawing.Size(53, 13)
         Me.Label4.TabIndex = 61
         Me.Label4.Text = "Remision:"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -378,7 +440,12 @@ Public Class ConsultaCargo
         'grpATT
         '
         Me.grpATT.ContextMenu = Me.mnuctxtConsultaFolioAtt
-        Me.grpATT.Controls.AddRange(New System.Windows.Forms.Control() {Me.Label27, Me.lblStatusLogistica, Me.Label28, Me.lblAñoAtt, Me.Label26, Me.lblFolio})
+        Me.grpATT.Controls.Add(Me.Label27)
+        Me.grpATT.Controls.Add(Me.lblStatusLogistica)
+        Me.grpATT.Controls.Add(Me.Label28)
+        Me.grpATT.Controls.Add(Me.lblAñoAtt)
+        Me.grpATT.Controls.Add(Me.Label26)
+        Me.grpATT.Controls.Add(Me.lblFolio)
         Me.grpATT.Location = New System.Drawing.Point(8, 284)
         Me.grpATT.Name = "grpATT"
         Me.grpATT.Size = New System.Drawing.Size(544, 56)
@@ -400,15 +467,15 @@ Public Class ConsultaCargo
         Me.Label27.AutoSize = True
         Me.Label27.Location = New System.Drawing.Point(328, 28)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(44, 14)
+        Me.Label27.Size = New System.Drawing.Size(47, 13)
         Me.Label27.TabIndex = 59
         Me.Label27.Text = "Estatus:"
         Me.Label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblStatusLogistica
         '
-        Me.lblStatusLogistica.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblStatusLogistica.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblStatusLogistica.ContextMenu = Me.mnuctxtConsultaFolioAtt
         Me.lblStatusLogistica.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStatusLogistica.ForeColor = System.Drawing.Color.MediumBlue
@@ -423,15 +490,15 @@ Public Class ConsultaCargo
         Me.Label28.AutoSize = True
         Me.Label28.Location = New System.Drawing.Point(144, 28)
         Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(32, 14)
+        Me.Label28.Size = New System.Drawing.Size(33, 13)
         Me.Label28.TabIndex = 57
         Me.Label28.Text = "Folio:"
         Me.Label28.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblAñoAtt
         '
-        Me.lblAñoAtt.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblAñoAtt.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblAñoAtt.ContextMenu = Me.mnuctxtConsultaFolioAtt
         Me.lblAñoAtt.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAñoAtt.Location = New System.Drawing.Point(40, 26)
@@ -445,15 +512,15 @@ Public Class ConsultaCargo
         Me.Label26.AutoSize = True
         Me.Label26.Location = New System.Drawing.Point(8, 28)
         Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(27, 14)
+        Me.Label26.Size = New System.Drawing.Size(30, 13)
         Me.Label26.TabIndex = 55
         Me.Label26.Text = "Año:"
         Me.Label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblFolio
         '
-        Me.lblFolio.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblFolio.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblFolio.ContextMenu = Me.mnuctxtConsultaFolioAtt
         Me.lblFolio.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblFolio.Location = New System.Drawing.Point(184, 26)
@@ -467,15 +534,15 @@ Public Class ConsultaCargo
         Me.Label25.AutoSize = True
         Me.Label25.Location = New System.Drawing.Point(296, 260)
         Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(45, 14)
+        Me.Label25.Size = New System.Drawing.Size(48, 13)
         Me.Label25.TabIndex = 53
         Me.Label25.Text = "Factura:"
         Me.Label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblFactura
         '
-        Me.lblFactura.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblFactura.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblFactura.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblFactura.Location = New System.Drawing.Point(384, 256)
         Me.lblFactura.Name = "lblFactura"
@@ -488,7 +555,7 @@ Public Class ConsultaCargo
         Me.Label24.AutoSize = True
         Me.Label24.Location = New System.Drawing.Point(296, 188)
         Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(70, 14)
+        Me.Label24.Size = New System.Drawing.Size(72, 13)
         Me.Label24.TabIndex = 51
         Me.Label24.Text = "Fecha Cargo:"
         Me.Label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -505,7 +572,7 @@ Public Class ConsultaCargo
         'picWarning
         '
         Me.picWarning.BackColor = System.Drawing.Color.LemonChiffon
-        Me.picWarning.Image = CType(resources.GetObject("picWarning.Image"), System.Drawing.Bitmap)
+        Me.picWarning.Image = CType(resources.GetObject("picWarning.Image"), System.Drawing.Image)
         Me.picWarning.Location = New System.Drawing.Point(24, 232)
         Me.picWarning.Name = "picWarning"
         Me.picWarning.Size = New System.Drawing.Size(16, 16)
@@ -530,7 +597,7 @@ Public Class ConsultaCargo
         Me.Label23.AutoSize = True
         Me.Label23.Location = New System.Drawing.Point(16, 188)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(86, 14)
+        Me.Label23.Size = New System.Drawing.Size(85, 13)
         Me.Label23.TabIndex = 48
         Me.Label23.Text = "Ruta suministro:"
         Me.Label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -560,7 +627,7 @@ Public Class ConsultaCargo
         Me.Label22.AutoSize = True
         Me.Label22.Location = New System.Drawing.Point(16, 260)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(77, 14)
+        Me.Label22.Size = New System.Drawing.Size(76, 13)
         Me.Label22.TabIndex = 45
         Me.Label22.Text = "Tipo de cobro:"
         Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -570,15 +637,15 @@ Public Class ConsultaCargo
         Me.Label21.AutoSize = True
         Me.Label21.Location = New System.Drawing.Point(296, 236)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(84, 14)
+        Me.Label21.Size = New System.Drawing.Size(84, 13)
         Me.Label21.TabIndex = 43
         Me.Label21.Text = "Tipo de cartera:"
         Me.Label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCartera
         '
-        Me.lblCartera.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblCartera.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblCartera.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCartera.Location = New System.Drawing.Point(384, 232)
         Me.lblCartera.Name = "lblCartera"
@@ -591,7 +658,7 @@ Public Class ConsultaCargo
         Me.Label17.AutoSize = True
         Me.Label17.Location = New System.Drawing.Point(16, 140)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(93, 14)
+        Me.Label17.Size = New System.Drawing.Size(94, 13)
         Me.Label17.TabIndex = 40
         Me.Label17.Text = "Estatus cobranza:"
         Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -601,15 +668,15 @@ Public Class ConsultaCargo
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(224, 24)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(38, 14)
+        Me.Label6.Size = New System.Drawing.Size(40, 13)
         Me.Label6.TabIndex = 39
         Me.Label6.Text = "Célula:"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCelula
         '
-        Me.lblCelula.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblCelula.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblCelula.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCelula.Location = New System.Drawing.Point(272, 21)
         Me.lblCelula.Name = "lblCelula"
@@ -622,7 +689,7 @@ Public Class ConsultaCargo
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(16, 24)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(27, 14)
+        Me.Label2.Size = New System.Drawing.Size(30, 13)
         Me.Label2.TabIndex = 37
         Me.Label2.Text = "Año:"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -641,7 +708,7 @@ Public Class ConsultaCargo
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(376, 24)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(68, 14)
+        Me.Label3.Size = New System.Drawing.Size(70, 13)
         Me.Label3.TabIndex = 35
         Me.Label3.Text = "Consecutivo:"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -660,15 +727,15 @@ Public Class ConsultaCargo
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(16, 92)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(89, 14)
+        Me.Label1.Size = New System.Drawing.Size(87, 13)
         Me.Label1.TabIndex = 33
         Me.Label1.Text = "Tipo documento:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblTipoDocumento
         '
-        Me.lblTipoDocumento.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblTipoDocumento.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblTipoDocumento.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTipoDocumento.ForeColor = System.Drawing.SystemColors.ControlText
         Me.lblTipoDocumento.Location = New System.Drawing.Point(112, 88)
@@ -682,15 +749,15 @@ Public Class ConsultaCargo
         Me.Label14.AutoSize = True
         Me.Label14.Location = New System.Drawing.Point(16, 116)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(82, 14)
+        Me.Label14.Size = New System.Drawing.Size(82, 13)
         Me.Label14.TabIndex = 30
         Me.Label14.Text = "Estatus pedido:"
         Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblSaldo
         '
-        Me.lblSaldo.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblSaldo.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblSaldo.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblSaldo.Location = New System.Drawing.Point(384, 208)
         Me.lblSaldo.Name = "lblSaldo"
@@ -712,7 +779,7 @@ Public Class ConsultaCargo
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(296, 212)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(35, 14)
+        Me.Label10.Size = New System.Drawing.Size(37, 13)
         Me.Label10.TabIndex = 27
         Me.Label10.Text = "Saldo:"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -722,7 +789,7 @@ Public Class ConsultaCargo
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(16, 212)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(48, 14)
+        Me.Label9.Size = New System.Drawing.Size(49, 13)
         Me.Label9.TabIndex = 26
         Me.Label9.Text = "Importe:"
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -732,15 +799,15 @@ Public Class ConsultaCargo
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(16, 164)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(42, 14)
+        Me.Label5.Size = New System.Drawing.Size(44, 13)
         Me.Label5.TabIndex = 23
         Me.Label5.Text = "Cliente:"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCliente
         '
-        Me.lblCliente.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblCliente.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblCliente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCliente.Location = New System.Drawing.Point(112, 160)
         Me.lblCliente.Name = "lblCliente"
@@ -751,7 +818,11 @@ Public Class ConsultaCargo
         'tabDatos
         '
         Me.tabDatos.Alignment = System.Windows.Forms.TabAlignment.Bottom
-        Me.tabDatos.Controls.AddRange(New System.Windows.Forms.Control() {Me.tpPedido, Me.tpCancelacion, Me.tpCheque, Me.tpHistoricoAbono, Me.tpHistoricoGestion})
+        Me.tabDatos.Controls.Add(Me.tpPedido)
+        Me.tabDatos.Controls.Add(Me.tpCancelacion)
+        Me.tabDatos.Controls.Add(Me.tpCheque)
+        Me.tabDatos.Controls.Add(Me.tpHistoricoAbono)
+        Me.tabDatos.Controls.Add(Me.tpHistoricoGestion)
         Me.tabDatos.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.tabDatos.HotTrack = True
         Me.tabDatos.ImageList = Me.imgLista16
@@ -764,7 +835,14 @@ Public Class ConsultaCargo
         'tpPedido
         '
         Me.tpPedido.BackColor = System.Drawing.Color.Gainsboro
-        Me.tpPedido.Controls.AddRange(New System.Windows.Forms.Control() {Me.Label33, Me.lblObservaciones, Me.lblFCompromiso, Me.Label11, Me.Label8, Me.lblLitros, Me.lblFSuministro, Me.Label7})
+        Me.tpPedido.Controls.Add(Me.Label33)
+        Me.tpPedido.Controls.Add(Me.lblObservaciones)
+        Me.tpPedido.Controls.Add(Me.lblFCompromiso)
+        Me.tpPedido.Controls.Add(Me.Label11)
+        Me.tpPedido.Controls.Add(Me.Label8)
+        Me.tpPedido.Controls.Add(Me.lblLitros)
+        Me.tpPedido.Controls.Add(Me.lblFSuministro)
+        Me.tpPedido.Controls.Add(Me.Label7)
         Me.tpPedido.ImageIndex = 0
         Me.tpPedido.Location = New System.Drawing.Point(4, 4)
         Me.tpPedido.Name = "tpPedido"
@@ -777,7 +855,7 @@ Public Class ConsultaCargo
         Me.Label33.AutoSize = True
         Me.Label33.Location = New System.Drawing.Point(16, 96)
         Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(80, 14)
+        Me.Label33.Size = New System.Drawing.Size(82, 13)
         Me.Label33.TabIndex = 41
         Me.Label33.Text = "Observaciones:"
         Me.Label33.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -806,7 +884,7 @@ Public Class ConsultaCargo
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(16, 51)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(102, 14)
+        Me.Label11.Size = New System.Drawing.Size(99, 13)
         Me.Label11.TabIndex = 31
         Me.Label11.Text = "Fecha compromiso:"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -816,7 +894,7 @@ Public Class ConsultaCargo
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(16, 75)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(35, 14)
+        Me.Label8.Size = New System.Drawing.Size(37, 13)
         Me.Label8.TabIndex = 29
         Me.Label8.Text = "Litros:"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -846,7 +924,7 @@ Public Class ConsultaCargo
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(16, 27)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(93, 14)
+        Me.Label7.Size = New System.Drawing.Size(91, 13)
         Me.Label7.TabIndex = 28
         Me.Label7.Text = "Fecha suministro:"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -854,7 +932,14 @@ Public Class ConsultaCargo
         'tpCancelacion
         '
         Me.tpCancelacion.BackColor = System.Drawing.Color.LightGray
-        Me.tpCancelacion.Controls.AddRange(New System.Windows.Forms.Control() {Me.Label32, Me.lblUsuarioCancelacion, Me.Label29, Me.lblFCancelacion, Me.Label31, Me.Label30, Me.lblObservacionesMotivoCancelacion, Me.lblMotivoCancelacion})
+        Me.tpCancelacion.Controls.Add(Me.Label32)
+        Me.tpCancelacion.Controls.Add(Me.lblUsuarioCancelacion)
+        Me.tpCancelacion.Controls.Add(Me.Label29)
+        Me.tpCancelacion.Controls.Add(Me.lblFCancelacion)
+        Me.tpCancelacion.Controls.Add(Me.Label31)
+        Me.tpCancelacion.Controls.Add(Me.Label30)
+        Me.tpCancelacion.Controls.Add(Me.lblObservacionesMotivoCancelacion)
+        Me.tpCancelacion.Controls.Add(Me.lblMotivoCancelacion)
         Me.tpCancelacion.ImageIndex = 4
         Me.tpCancelacion.Location = New System.Drawing.Point(4, 4)
         Me.tpCancelacion.Name = "tpCancelacion"
@@ -868,7 +953,7 @@ Public Class ConsultaCargo
         Me.Label32.AutoSize = True
         Me.Label32.Location = New System.Drawing.Point(13, 51)
         Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(107, 14)
+        Me.Label32.Size = New System.Drawing.Size(105, 13)
         Me.Label32.TabIndex = 47
         Me.Label32.Text = "Usuario cancelación:"
         Me.Label32.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -889,7 +974,7 @@ Public Class ConsultaCargo
         Me.Label29.AutoSize = True
         Me.Label29.Location = New System.Drawing.Point(13, 27)
         Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(114, 14)
+        Me.Label29.Size = New System.Drawing.Size(113, 13)
         Me.Label29.TabIndex = 45
         Me.Label29.Text = "Fecha de cancelación:"
         Me.Label29.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -910,7 +995,7 @@ Public Class ConsultaCargo
         Me.Label31.AutoSize = True
         Me.Label31.Location = New System.Drawing.Point(13, 96)
         Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(169, 14)
+        Me.Label31.Size = New System.Drawing.Size(166, 13)
         Me.Label31.TabIndex = 43
         Me.Label31.Text = "Observaciones de la cancelación:"
         Me.Label31.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -920,7 +1005,7 @@ Public Class ConsultaCargo
         Me.Label30.AutoSize = True
         Me.Label30.Location = New System.Drawing.Point(13, 75)
         Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(118, 14)
+        Me.Label30.Size = New System.Drawing.Size(116, 13)
         Me.Label30.TabIndex = 42
         Me.Label30.Text = "Motivo de cancelación:"
         Me.Label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -948,7 +1033,18 @@ Public Class ConsultaCargo
         'tpCheque
         '
         Me.tpCheque.BackColor = System.Drawing.Color.Gainsboro
-        Me.tpCheque.Controls.AddRange(New System.Windows.Forms.Control() {Me.lblRazonDevCheque, Me.Label19, Me.lblObservacionesRazonDevCheque, Me.Label12, Me.lblFDevolucion, Me.Label16, Me.lblNumeroCuenta, Me.Label13, Me.Label15, Me.lblBanco, Me.lblNumeroCheque, Me.Label18})
+        Me.tpCheque.Controls.Add(Me.lblRazonDevCheque)
+        Me.tpCheque.Controls.Add(Me.Label19)
+        Me.tpCheque.Controls.Add(Me.lblObservacionesRazonDevCheque)
+        Me.tpCheque.Controls.Add(Me.Label12)
+        Me.tpCheque.Controls.Add(Me.lblFDevolucion)
+        Me.tpCheque.Controls.Add(Me.Label16)
+        Me.tpCheque.Controls.Add(Me.lblNumeroCuenta)
+        Me.tpCheque.Controls.Add(Me.Label13)
+        Me.tpCheque.Controls.Add(Me.Label15)
+        Me.tpCheque.Controls.Add(Me.lblBanco)
+        Me.tpCheque.Controls.Add(Me.lblNumeroCheque)
+        Me.tpCheque.Controls.Add(Me.Label18)
         Me.tpCheque.ImageIndex = 1
         Me.tpCheque.Location = New System.Drawing.Point(4, 4)
         Me.tpCheque.Name = "tpCheque"
@@ -971,7 +1067,7 @@ Public Class ConsultaCargo
         Me.Label19.AutoSize = True
         Me.Label19.Location = New System.Drawing.Point(16, 115)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(91, 14)
+        Me.Label19.Size = New System.Drawing.Size(92, 13)
         Me.Label19.TabIndex = 43
         Me.Label19.Text = "Razón de la dev.:"
         Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -990,7 +1086,7 @@ Public Class ConsultaCargo
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(304, 16)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(76, 14)
+        Me.Label12.Size = New System.Drawing.Size(78, 13)
         Me.Label12.TabIndex = 41
         Me.Label12.Text = "Observaciones"
         Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1010,7 +1106,7 @@ Public Class ConsultaCargo
         Me.Label16.AutoSize = True
         Me.Label16.Location = New System.Drawing.Point(16, 91)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(90, 14)
+        Me.Label16.Size = New System.Drawing.Size(91, 13)
         Me.Label16.TabIndex = 39
         Me.Label16.Text = "Fecha de la dev.:"
         Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1030,7 +1126,7 @@ Public Class ConsultaCargo
         Me.Label13.AutoSize = True
         Me.Label13.Location = New System.Drawing.Point(16, 43)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(64, 14)
+        Me.Label13.Size = New System.Drawing.Size(66, 13)
         Me.Label13.TabIndex = 37
         Me.Label13.Text = "No. Cuenta:"
         Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1040,7 +1136,7 @@ Public Class ConsultaCargo
         Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(16, 67)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(38, 14)
+        Me.Label15.Size = New System.Drawing.Size(40, 13)
         Me.Label15.TabIndex = 35
         Me.Label15.Text = "Banco:"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1070,14 +1166,14 @@ Public Class ConsultaCargo
         Me.Label18.AutoSize = True
         Me.Label18.Location = New System.Drawing.Point(16, 19)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(66, 14)
+        Me.Label18.Size = New System.Drawing.Size(68, 13)
         Me.Label18.TabIndex = 34
         Me.Label18.Text = "No. Cheque:"
         Me.Label18.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'tpHistoricoAbono
         '
-        Me.tpHistoricoAbono.Controls.AddRange(New System.Windows.Forms.Control() {Me.grdHistoricoAbono})
+        Me.tpHistoricoAbono.Controls.Add(Me.grdHistoricoAbono)
         Me.tpHistoricoAbono.ImageIndex = 2
         Me.tpHistoricoAbono.Location = New System.Drawing.Point(4, 4)
         Me.tpHistoricoAbono.Name = "tpHistoricoAbono"
@@ -1093,6 +1189,7 @@ Public Class ConsultaCargo
         Me.grdHistoricoAbono.DataMember = ""
         Me.grdHistoricoAbono.Dock = System.Windows.Forms.DockStyle.Fill
         Me.grdHistoricoAbono.HeaderForeColor = System.Drawing.SystemColors.ControlText
+        Me.grdHistoricoAbono.Location = New System.Drawing.Point(0, 0)
         Me.grdHistoricoAbono.Name = "grdHistoricoAbono"
         Me.grdHistoricoAbono.ReadOnly = True
         Me.grdHistoricoAbono.Size = New System.Drawing.Size(562, 165)
@@ -1151,7 +1248,7 @@ Public Class ConsultaCargo
         'tpHistoricoGestion
         '
         Me.tpHistoricoGestion.BackColor = System.Drawing.Color.LightGray
-        Me.tpHistoricoGestion.Controls.AddRange(New System.Windows.Forms.Control() {Me.grdHistoricoGestion})
+        Me.tpHistoricoGestion.Controls.Add(Me.grdHistoricoGestion)
         Me.tpHistoricoGestion.ImageIndex = 3
         Me.tpHistoricoGestion.Location = New System.Drawing.Point(4, 4)
         Me.tpHistoricoGestion.Name = "tpHistoricoGestion"
@@ -1167,6 +1264,7 @@ Public Class ConsultaCargo
         Me.grdHistoricoGestion.DataMember = ""
         Me.grdHistoricoGestion.Dock = System.Windows.Forms.DockStyle.Fill
         Me.grdHistoricoGestion.HeaderForeColor = System.Drawing.SystemColors.ControlText
+        Me.grdHistoricoGestion.Location = New System.Drawing.Point(0, 0)
         Me.grdHistoricoGestion.Name = "grdHistoricoGestion"
         Me.grdHistoricoGestion.ReadOnly = True
         Me.grdHistoricoGestion.Size = New System.Drawing.Size(562, 165)
@@ -1267,15 +1365,18 @@ Public Class ConsultaCargo
         '
         'imgLista16
         '
-        Me.imgLista16.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
-        Me.imgLista16.ImageSize = New System.Drawing.Size(16, 16)
         Me.imgLista16.ImageStream = CType(resources.GetObject("imgLista16.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgLista16.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgLista16.Images.SetKeyName(0, "")
+        Me.imgLista16.Images.SetKeyName(1, "")
+        Me.imgLista16.Images.SetKeyName(2, "")
+        Me.imgLista16.Images.SetKeyName(3, "")
+        Me.imgLista16.Images.SetKeyName(4, "")
         '
         'lblPedidoReferencia
         '
-        Me.lblPedidoReferencia.Anchor = ((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right)
+        Me.lblPedidoReferencia.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblPedidoReferencia.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblPedidoReferencia.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPedidoReferencia.ForeColor = System.Drawing.Color.Blue
@@ -1293,25 +1394,6 @@ Public Class ConsultaCargo
         Me.cboTipoBusqueda.Size = New System.Drawing.Size(128, 21)
         Me.cboTipoBusqueda.TabIndex = 55
         '
-        'Label34
-        '
-        Me.Label34.AutoSize = True
-        Me.Label34.Location = New System.Drawing.Point(16, 56)
-        Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(76, 14)
-        Me.Label34.TabIndex = 63
-        Me.Label34.Text = "D. Referencia:"
-        Me.Label34.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblReferencia
-        '
-        Me.lblReferencia.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblReferencia.Location = New System.Drawing.Point(112, 53)
-        Me.lblReferencia.Name = "lblReferencia"
-        Me.lblReferencia.Size = New System.Drawing.Size(256, 21)
-        Me.lblReferencia.TabIndex = 64
-        Me.lblReferencia.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
         'ConsultaCargo
         '
         Me.AcceptButton = Me.btnBuscar
@@ -1319,7 +1401,14 @@ Public Class ConsultaCargo
         Me.BackColor = System.Drawing.Color.WhiteSmoke
         Me.CancelButton = Me.btnCerrar
         Me.ClientSize = New System.Drawing.Size(570, 583)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.cboTipoBusqueda, Me.tabDatos, Me.grpDatosGenerales, Me.btnBuscar, Me.btnCerrar, Me.Label20, Me.txtPedidoReferencia, Me.lblPedidoReferencia})
+        Me.Controls.Add(Me.cboTipoBusqueda)
+        Me.Controls.Add(Me.tabDatos)
+        Me.Controls.Add(Me.grpDatosGenerales)
+        Me.Controls.Add(Me.btnBuscar)
+        Me.Controls.Add(Me.btnCerrar)
+        Me.Controls.Add(Me.Label20)
+        Me.Controls.Add(Me.txtPedidoReferencia)
+        Me.Controls.Add(Me.lblPedidoReferencia)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -1329,16 +1418,23 @@ Public Class ConsultaCargo
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Consulta de documentos"
         Me.grpDatosGenerales.ResumeLayout(False)
+        Me.grpDatosGenerales.PerformLayout()
         Me.grpATT.ResumeLayout(False)
+        Me.grpATT.PerformLayout()
+        CType(Me.picWarning, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabDatos.ResumeLayout(False)
         Me.tpPedido.ResumeLayout(False)
+        Me.tpPedido.PerformLayout()
         Me.tpCancelacion.ResumeLayout(False)
+        Me.tpCancelacion.PerformLayout()
         Me.tpCheque.ResumeLayout(False)
+        Me.tpCheque.PerformLayout()
         Me.tpHistoricoAbono.ResumeLayout(False)
         CType(Me.grdHistoricoAbono, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tpHistoricoGestion.ResumeLayout(False)
         CType(Me.grdHistoricoGestion, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -1349,10 +1445,29 @@ Public Class ConsultaCargo
         InitializeComponent()
 
         ConsultaCatalogoFiltros()
+
     End Sub
 
-    Public Sub New(ByVal strPedidoReferencia As String, _
-          Optional ByVal VentanaDefault As enumConsultaCargo = enumConsultaCargo.DatosPedido)
+    Public Sub New(ByVal strURLGateway As String, ByVal Empresa As Short, Optional ByVal Modulo As Byte = 0,
+                Optional ByVal CadenaConexion As String = "")
+        MyBase.New()
+        InitializeComponent()
+        _URLGateway = strURLGateway
+
+        ConsultaCatalogoFiltros()
+        _CadenaConexion = CadenaConexion
+        _Modulo = Modulo
+        _Empresa = Empresa
+
+    End Sub
+
+    Public Sub New(ByVal strPedidoReferencia As String,
+                Optional ByVal VentanaDefault As enumConsultaCargo = enumConsultaCargo.DatosPedido,
+                Optional ByVal strURLGateway As String = "",
+                Optional ByVal Modulo As Byte = 0,
+                Optional ByVal CadenaConexion As String = "",
+                Optional ByVal Celula As Byte = 0,
+                Optional ByVal _ClienteRow As RTGMCore.DireccionEntrega = Nothing)
 
         MyBase.New()
         InitializeComponent()
@@ -1363,11 +1478,24 @@ Public Class ConsultaCargo
         txtPedidoReferencia.Enabled = False
         lblPedidoReferencia.BorderStyle = BorderStyle.None
         btnBuscar.Visible = False
+        _URLGateway = strURLGateway
+        _Modulo = Modulo
+        _CadenaConexion = CadenaConexion
+        _Celula = Celula
+        Me._ClienteRow = _ClienteRow
+
 
         cboTipoBusqueda.Enabled = False
         ConsultaCatalogoFiltros()
 
+        'If String.IsNullOrEmpty(_URLGateway) Then
+        '    ConsultaDocumento(strPedidoReferencia)
+        'Else
+        '    ConsultaDocumento(strPedidoReferencia, _URLGateway)
+        'End If
+
         ConsultaDocumento(strPedidoReferencia)
+
         'Mejorar
         If VentanaDefault = enumConsultaCargo.DatosCheque Then
             Me.tabDatos.SelectedTab = Me.tpCheque
@@ -1380,6 +1508,9 @@ Public Class ConsultaCargo
         If VentanaDefault = enumConsultaCargo.HistoricoGestiones Then
             Me.tabDatos.SelectedTab = Me.tpHistoricoGestion
         End If
+
+
+
 
     End Sub
 
@@ -1415,6 +1546,9 @@ Public Class ConsultaCargo
         Dim serie As String = Nothing
         Dim documento As Integer
         Dim numeroPedidoReferencia As String = Nothing
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
 
         Dim cargarComplemento As Boolean
 
@@ -1437,8 +1571,8 @@ Public Class ConsultaCargo
                 'documento = folioDocumento.FolioNota
                 documento = DocumentosBSR.SerieDocumento.FolioNota
             Catch ex As System.OverflowException
-                MessageBox.Show("El número de documento no corresponde" & CrLf & "a un(a)" & _
-                    Convert.ToString(cboTipoBusqueda.SelectedValue) & ". Verifique", _
+                MessageBox.Show("El número de documento no corresponde" & CrLf & "a un(a)" &
+                    Convert.ToString(cboTipoBusqueda.SelectedValue) & ". Verifique",
                  Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             Catch ex As Exception
@@ -1476,7 +1610,29 @@ Public Class ConsultaCargo
                 lblTipoDocumento.Text = CType(dr("TipoCargoTipoPedido"), String)
                 lblStatusPedido.Text = CType(dr("StatusPedido"), String).Trim
                 lblStatusCobranza.Text = CType(dr("StatusCobranza"), String).Trim
-                lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("ClienteNombre"), String)
+                'lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("ClienteNombre"), String)
+
+                If String.IsNullOrEmpty(_URLGateway) Then
+                    lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("ClienteNombre"), String)
+                Else
+                    'If IsNothing(_ClienteRow) Then
+                    oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+						oSolicitud = New RTGMGateway.SolicitudGateway()
+						oGateway.URLServicio = _URLGateway
+						oSolicitud.IDCliente = CInt(dr("Cliente"))
+						oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+                    'Else
+                    '	oDireccionEntrega = _ClienteRow
+                    '               End If
+
+                    If Not IsNothing(oDireccionEntrega) Then
+                        If Not IsNothing(oDireccionEntrega.Nombre) Then
+                            lblCliente.Text = oDireccionEntrega.IDDireccionEntrega & " " & oDireccionEntrega.Nombre.Trim()
+                        End If
+                    End If
+
+                End If
+
                 If IsDBNull(dr("RutaSuministro")) Then
                     lblRutaSuministro.Text = "Sin ruta suministro"
                 Else
@@ -1604,6 +1760,12 @@ Public Class ConsultaCargo
                 lblReferencia.Text = Convert.ToString(dr("PedidoReferencia"))
 
                 txtPedidoReferencia.Focus()
+
+
+
+
+
+
             Loop
             If lblPedido.Text = "" Then
                 MessageBox.Show("No se encontró el documento especificado.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -1622,6 +1784,75 @@ Public Class ConsultaCargo
             ConsultaHistoricoAbonos(numeroPedidoReferencia)
             ConsultaHistoricoGestiones(numeroPedidoReferencia)
         End If
+    End Sub
+
+    Private Sub ConsultaDocumento(ByVal PedidoReferencia As String, ByVal URLGateway As String)
+
+        Dim objGateway As RTGMGateway.RTGMPedidoGateway
+        Dim objSolicitud As RTGMGateway.SolicitudPedidoGateway
+        Dim lstPedidos As New Generic.List(Of RTGMCore.Pedido)
+        'Dim Referencia As Integer
+
+        Try
+            LimpiaCajas()
+            'Referencia = Convert.ToInt32(PedidoReferencia)
+
+            If (Not String.IsNullOrEmpty(PedidoReferencia)) Then
+                objGateway = New RTGMGateway.RTGMPedidoGateway(_Modulo, _CadenaConexion)
+                objGateway.URLServicio = URLGateway
+
+                objSolicitud = New RTGMGateway.SolicitudPedidoGateway
+                objSolicitud.TipoConsultaPedido = RTGMCore.TipoConsultaPedido.Boletin
+                objSolicitud.PedidoReferencia = PedidoReferencia
+
+                lstPedidos = objGateway.buscarPedidos(objSolicitud)
+
+                If lstPedidos.Count > 0 Then
+                    lblPedido.Text = If(lstPedidos(0).PedidoReferencia, "").Trim
+
+                    lblAnoPed.Text = lstPedidos(0).AnioPed.ToString
+
+                    lblTipoDocumento.Text = If(lstPedidos(0).TipoCargo, "").Trim
+
+                    lblStatusPedido.Text = If(lstPedidos(0).EstatusPedido, "").Trim
+
+                    lblStatusCobranza.Text = If(lstPedidos(0).EstatusPedido, "").Trim
+
+                    If Not IsNothing(lstPedidos(0).DireccionEntrega) Then
+                        lblCliente.Text = lstPedidos(0).DireccionEntrega.IDDireccionEntrega & " " &
+                            If(lstPedidos(0).DireccionEntrega.Nombre, "").Trim
+                    End If
+
+                    If Not IsNothing(lstPedidos(0).RutaSuministro) Then
+                        lblRutaSuministro.Text = If(lstPedidos(0).RutaSuministro.Descripcion, "").Trim
+                    End If
+
+                    lblFCargo.Text = lstPedidos(0).FCargo.ToString
+
+                    If Not IsNothing(lstPedidos(0).Importe) Then
+                        lblImporte.Text = CDec(lstPedidos(0).Importe).ToString("C")
+                    End If
+
+                    If Not IsNothing(lstPedidos(0).Saldo) Then
+                        lblSaldo.Text = CDec(lstPedidos(0).Saldo).ToString("C")
+                    End If
+                Else
+                    MessageBox.Show("No se encontró la referencia.", Me.Titulo,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+            Else
+                MessageBox.Show("Introduzca un número de documento válido.",
+                    Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+        Catch ex As System.OverflowException
+            MessageBox.Show("Introduzca un número de documento válido.",
+             Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        Catch ex As Exception
+            MessageBox.Show("Ha ocurrido un error:" & CrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End Try
+
     End Sub
 
     Private Sub ConsultaHistoricoAbonos(ByVal PedidoReferencia As String)
@@ -1913,6 +2144,13 @@ Public Class ConsultaCargo
     Private Sub btnBuscar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscar.Click
         If Trim(txtPedidoReferencia.Text) <> "" Then
             _PedidoReferencia = Replace(UCase(Trim(txtPedidoReferencia.Text)), "'", "")
+
+            'If (String.IsNullOrEmpty(_URLGateway)) Then
+            '    ConsultaDocumento(_PedidoReferencia)
+            'Else
+            '    ConsultaDocumento(_PedidoReferencia, _URLGateway)
+            'End If
+
             ConsultaDocumento(_PedidoReferencia)
         End If
     End Sub
