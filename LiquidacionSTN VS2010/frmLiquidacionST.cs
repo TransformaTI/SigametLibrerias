@@ -549,7 +549,7 @@ namespace LiquidacionSTN
             this.toolBar1.Location = new System.Drawing.Point(0, 0);
             this.toolBar1.Name = "toolBar1";
             this.toolBar1.ShowToolTips = true;
-            this.toolBar1.Size = new System.Drawing.Size(1215, 46);
+            this.toolBar1.Size = new System.Drawing.Size(1215, 40);
             this.toolBar1.TabIndex = 0;
             this.toolBar1.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.toolBar1_ButtonClick);
             // 
@@ -639,34 +639,34 @@ namespace LiquidacionSTN
             // 
             // cboCamioneta
             // 
-            this.cboCamioneta.Location = new System.Drawing.Point(809, 9);
+            this.cboCamioneta.Location = new System.Drawing.Point(674, 8);
             this.cboCamioneta.Name = "cboCamioneta";
-            this.cboCamioneta.Size = new System.Drawing.Size(115, 24);
+            this.cboCamioneta.Size = new System.Drawing.Size(96, 21);
             this.cboCamioneta.TabIndex = 1;
             this.cboCamioneta.SelectedIndexChanged += new System.EventHandler(this.cboCamioneta_SelectedIndexChanged);
             // 
             // dtpFLiquidacion
             // 
             this.dtpFLiquidacion.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFLiquidacion.Location = new System.Drawing.Point(1030, 9);
+            this.dtpFLiquidacion.Location = new System.Drawing.Point(858, 8);
             this.dtpFLiquidacion.Name = "dtpFLiquidacion";
-            this.dtpFLiquidacion.Size = new System.Drawing.Size(115, 22);
+            this.dtpFLiquidacion.Size = new System.Drawing.Size(96, 20);
             this.dtpFLiquidacion.TabIndex = 2;
             this.dtpFLiquidacion.ValueChanged += new System.EventHandler(this.dtpFLiquidacion_ValueChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(732, 12);
+            this.label1.Location = new System.Drawing.Point(610, 10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 18);
+            this.label1.Size = new System.Drawing.Size(64, 16);
             this.label1.TabIndex = 3;
             this.label1.Text = "Camioneta:";
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(934, 12);
+            this.label2.Location = new System.Drawing.Point(778, 10);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(86, 18);
+            this.label2.Size = new System.Drawing.Size(72, 16);
             this.label2.TabIndex = 4;
             this.label2.Text = "FLiquidación:";
             // 
@@ -692,9 +692,9 @@ namespace LiquidacionSTN
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.lblCliente);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(10, 286);
+            this.groupBox1.Location = new System.Drawing.Point(8, 248);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(546, 259);
+            this.groupBox1.Size = new System.Drawing.Size(455, 224);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos del Cliente";
@@ -704,17 +704,17 @@ namespace LiquidacionSTN
             this.lblMunicipio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblMunicipio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblMunicipio.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMunicipio.Location = new System.Drawing.Point(341, 217);
+            this.lblMunicipio.Location = new System.Drawing.Point(284, 188);
             this.lblMunicipio.Name = "lblMunicipio";
-            this.lblMunicipio.Size = new System.Drawing.Size(182, 28);
+            this.lblMunicipio.Size = new System.Drawing.Size(152, 24);
             this.lblMunicipio.TabIndex = 19;
             this.lblMunicipio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label18
             // 
-            this.label18.Location = new System.Drawing.Point(274, 222);
+            this.label18.Location = new System.Drawing.Point(228, 192);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(67, 18);
+            this.label18.Size = new System.Drawing.Size(56, 16);
             this.label18.TabIndex = 18;
             this.label18.Text = "Municipio:";
             // 
@@ -723,17 +723,17 @@ namespace LiquidacionSTN
             this.lblCP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblCP.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCP.Location = new System.Drawing.Point(77, 217);
+            this.lblCP.Location = new System.Drawing.Point(64, 188);
             this.lblCP.Name = "lblCP";
-            this.lblCP.Size = new System.Drawing.Size(182, 28);
+            this.lblCP.Size = new System.Drawing.Size(152, 24);
             this.lblCP.TabIndex = 17;
             this.lblCP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label20
             // 
-            this.label20.Location = new System.Drawing.Point(10, 222);
+            this.label20.Location = new System.Drawing.Point(8, 192);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(67, 18);
+            this.label20.Size = new System.Drawing.Size(56, 16);
             this.label20.TabIndex = 16;
             this.label20.Text = "CP:";
             // 
@@ -742,17 +742,17 @@ namespace LiquidacionSTN
             this.lblColonia.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblColonia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblColonia.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColonia.Location = new System.Drawing.Point(77, 180);
+            this.lblColonia.Location = new System.Drawing.Point(64, 156);
             this.lblColonia.Name = "lblColonia";
-            this.lblColonia.Size = new System.Drawing.Size(446, 28);
+            this.lblColonia.Size = new System.Drawing.Size(372, 24);
             this.lblColonia.TabIndex = 15;
             this.lblColonia.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label16
             // 
-            this.label16.Location = new System.Drawing.Point(10, 185);
+            this.label16.Location = new System.Drawing.Point(8, 160);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(57, 18);
+            this.label16.Size = new System.Drawing.Size(48, 16);
             this.label16.TabIndex = 14;
             this.label16.Text = "Colonia:";
             // 
@@ -761,17 +761,17 @@ namespace LiquidacionSTN
             this.lblNumInterior.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblNumInterior.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblNumInterior.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNumInterior.Location = new System.Drawing.Point(341, 143);
+            this.lblNumInterior.Location = new System.Drawing.Point(284, 124);
             this.lblNumInterior.Name = "lblNumInterior";
-            this.lblNumInterior.Size = new System.Drawing.Size(182, 28);
+            this.lblNumInterior.Size = new System.Drawing.Size(152, 24);
             this.lblNumInterior.TabIndex = 13;
             this.lblNumInterior.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label14
             // 
-            this.label14.Location = new System.Drawing.Point(274, 148);
+            this.label14.Location = new System.Drawing.Point(228, 128);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(67, 18);
+            this.label14.Size = new System.Drawing.Size(56, 16);
             this.label14.TabIndex = 12;
             this.label14.Text = "#Interior:";
             // 
@@ -780,18 +780,18 @@ namespace LiquidacionSTN
             this.lblNumExterior.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblNumExterior.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblNumExterior.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNumExterior.Location = new System.Drawing.Point(77, 143);
+            this.lblNumExterior.Location = new System.Drawing.Point(64, 124);
             this.lblNumExterior.Name = "lblNumExterior";
-            this.lblNumExterior.Size = new System.Drawing.Size(182, 28);
+            this.lblNumExterior.Size = new System.Drawing.Size(152, 24);
             this.lblNumExterior.TabIndex = 11;
             this.lblNumExterior.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblNumExterior.Click += new System.EventHandler(this.lblNumExterior_Click);
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(10, 148);
+            this.label12.Location = new System.Drawing.Point(8, 128);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(67, 18);
+            this.label12.Size = new System.Drawing.Size(56, 16);
             this.label12.TabIndex = 10;
             this.label12.Text = "#Exterior:";
             // 
@@ -800,18 +800,18 @@ namespace LiquidacionSTN
             this.lblCalle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCalle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblCalle.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCalle.Location = new System.Drawing.Point(77, 102);
+            this.lblCalle.Location = new System.Drawing.Point(64, 88);
             this.lblCalle.Name = "lblCalle";
-            this.lblCalle.Size = new System.Drawing.Size(446, 27);
+            this.lblCalle.Size = new System.Drawing.Size(372, 24);
             this.lblCalle.TabIndex = 9;
             this.lblCalle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblCalle.Click += new System.EventHandler(this.label9_Click);
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(10, 106);
+            this.label10.Location = new System.Drawing.Point(8, 92);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(57, 19);
+            this.label10.Size = new System.Drawing.Size(48, 16);
             this.label10.TabIndex = 8;
             this.label10.Text = "Calle:";
             // 
@@ -820,17 +820,17 @@ namespace LiquidacionSTN
             this.lblNombre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblNombre.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblNombre.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNombre.Location = new System.Drawing.Point(77, 65);
+            this.lblNombre.Location = new System.Drawing.Point(64, 56);
             this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(446, 27);
+            this.lblNombre.Size = new System.Drawing.Size(372, 24);
             this.lblNombre.TabIndex = 7;
             this.lblNombre.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(10, 69);
+            this.label8.Location = new System.Drawing.Point(8, 60);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(57, 19);
+            this.label8.Size = new System.Drawing.Size(48, 16);
             this.label8.TabIndex = 6;
             this.label8.Text = "Nombre:";
             // 
@@ -839,17 +839,17 @@ namespace LiquidacionSTN
             this.lblRuta.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblRuta.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblRuta.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRuta.Location = new System.Drawing.Point(456, 23);
+            this.lblRuta.Location = new System.Drawing.Point(380, 20);
             this.lblRuta.Name = "lblRuta";
-            this.lblRuta.Size = new System.Drawing.Size(67, 28);
+            this.lblRuta.Size = new System.Drawing.Size(56, 24);
             this.lblRuta.TabIndex = 5;
             this.lblRuta.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(401, 28);
+            this.label7.Location = new System.Drawing.Point(334, 24);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(48, 18);
+            this.label7.Size = new System.Drawing.Size(40, 16);
             this.label7.TabIndex = 4;
             this.label7.Text = "Ruta:";
             // 
@@ -858,17 +858,17 @@ namespace LiquidacionSTN
             this.lblCelula.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCelula.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblCelula.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCelula.Location = new System.Drawing.Point(296, 23);
+            this.lblCelula.Location = new System.Drawing.Point(247, 20);
             this.lblCelula.Name = "lblCelula";
-            this.lblCelula.Size = new System.Drawing.Size(68, 28);
+            this.lblCelula.Size = new System.Drawing.Size(56, 24);
             this.lblCelula.TabIndex = 3;
             this.lblCelula.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(241, 28);
+            this.label4.Location = new System.Drawing.Point(201, 24);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(48, 18);
+            this.label4.Size = new System.Drawing.Size(40, 16);
             this.label4.TabIndex = 2;
             this.label4.Text = "Célula:";
             // 
@@ -877,17 +877,17 @@ namespace LiquidacionSTN
             this.lblCliente.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCliente.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblCliente.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCliente.Location = new System.Drawing.Point(77, 23);
+            this.lblCliente.Location = new System.Drawing.Point(64, 20);
             this.lblCliente.Name = "lblCliente";
-            this.lblCliente.Size = new System.Drawing.Size(125, 28);
+            this.lblCliente.Size = new System.Drawing.Size(104, 24);
             this.lblCliente.TabIndex = 1;
             this.lblCliente.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(10, 28);
+            this.label3.Location = new System.Drawing.Point(8, 24);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(57, 18);
+            this.label3.Size = new System.Drawing.Size(48, 16);
             this.label3.TabIndex = 0;
             this.label3.Text = "Cliente:";
             // 
@@ -896,9 +896,9 @@ namespace LiquidacionSTN
             this.label5.BackColor = System.Drawing.Color.YellowGreen;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label5.Location = new System.Drawing.Point(0, 249);
+            this.label5.Location = new System.Drawing.Point(0, 216);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(1162, 28);
+            this.label5.Size = new System.Drawing.Size(968, 24);
             this.label5.TabIndex = 7;
             this.label5.Text = "Datos del Servicio Técnico";
             // 
@@ -912,9 +912,9 @@ namespace LiquidacionSTN
             this.groupBox2.Controls.Add(this.label22);
             this.groupBox2.Controls.Add(this.lblTrabajoSolicitado);
             this.groupBox2.Controls.Add(this.label24);
-            this.groupBox2.Location = new System.Drawing.Point(570, 286);
+            this.groupBox2.Location = new System.Drawing.Point(475, 248);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(582, 259);
+            this.groupBox2.Size = new System.Drawing.Size(485, 224);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos del Servicio";
@@ -924,17 +924,17 @@ namespace LiquidacionSTN
             this.lblAyudante.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblAyudante.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblAyudante.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAyudante.Location = new System.Drawing.Point(86, 222);
+            this.lblAyudante.Location = new System.Drawing.Point(72, 192);
             this.lblAyudante.Name = "lblAyudante";
-            this.lblAyudante.Size = new System.Drawing.Size(477, 27);
+            this.lblAyudante.Size = new System.Drawing.Size(397, 24);
             this.lblAyudante.TabIndex = 21;
             this.lblAyudante.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label26
             // 
-            this.label26.Location = new System.Drawing.Point(10, 231);
+            this.label26.Location = new System.Drawing.Point(8, 200);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(67, 18);
+            this.label26.Size = new System.Drawing.Size(56, 16);
             this.label26.TabIndex = 20;
             this.label26.Text = "Ayudante:";
             // 
@@ -943,17 +943,17 @@ namespace LiquidacionSTN
             this.lblTecnico.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblTecnico.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblTecnico.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTecnico.Location = new System.Drawing.Point(86, 185);
+            this.lblTecnico.Location = new System.Drawing.Point(72, 160);
             this.lblTecnico.Name = "lblTecnico";
-            this.lblTecnico.Size = new System.Drawing.Size(477, 27);
+            this.lblTecnico.Size = new System.Drawing.Size(397, 24);
             this.lblTecnico.TabIndex = 19;
             this.lblTecnico.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label28
             // 
-            this.label28.Location = new System.Drawing.Point(10, 194);
+            this.label28.Location = new System.Drawing.Point(8, 168);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(57, 18);
+            this.label28.Size = new System.Drawing.Size(48, 16);
             this.label28.TabIndex = 18;
             this.label28.Text = "Técnico:";
             // 
@@ -962,17 +962,17 @@ namespace LiquidacionSTN
             this.lblUnidad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblUnidad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblUnidad.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUnidad.Location = new System.Drawing.Point(86, 148);
+            this.lblUnidad.Location = new System.Drawing.Point(72, 128);
             this.lblUnidad.Name = "lblUnidad";
-            this.lblUnidad.Size = new System.Drawing.Size(183, 27);
+            this.lblUnidad.Size = new System.Drawing.Size(152, 24);
             this.lblUnidad.TabIndex = 17;
             this.lblUnidad.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label22
             // 
-            this.label22.Location = new System.Drawing.Point(10, 152);
+            this.label22.Location = new System.Drawing.Point(8, 132);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(67, 19);
+            this.label22.Size = new System.Drawing.Size(56, 16);
             this.label22.TabIndex = 16;
             this.label22.Text = "Unidad:";
             // 
@@ -981,16 +981,16 @@ namespace LiquidacionSTN
             this.lblTrabajoSolicitado.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblTrabajoSolicitado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblTrabajoSolicitado.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTrabajoSolicitado.Location = new System.Drawing.Point(10, 55);
+            this.lblTrabajoSolicitado.Location = new System.Drawing.Point(8, 48);
             this.lblTrabajoSolicitado.Name = "lblTrabajoSolicitado";
-            this.lblTrabajoSolicitado.Size = new System.Drawing.Size(553, 83);
+            this.lblTrabajoSolicitado.Size = new System.Drawing.Size(461, 72);
             this.lblTrabajoSolicitado.TabIndex = 15;
             // 
             // label24
             // 
-            this.label24.Location = new System.Drawing.Point(19, 28);
+            this.label24.Location = new System.Drawing.Point(16, 24);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(125, 18);
+            this.label24.Size = new System.Drawing.Size(104, 16);
             this.label24.TabIndex = 14;
             this.label24.Text = "Trabajo Solicitado";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1003,10 +1003,10 @@ namespace LiquidacionSTN
             this.grdCheque.CaptionText = "Cheques Incluidos en la liquidación";
             this.grdCheque.DataMember = "";
             this.grdCheque.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.grdCheque.Location = new System.Drawing.Point(10, 545);
+            this.grdCheque.Location = new System.Drawing.Point(8, 472);
             this.grdCheque.Name = "grdCheque";
             this.grdCheque.ReadOnly = true;
-            this.grdCheque.Size = new System.Drawing.Size(546, 92);
+            this.grdCheque.Size = new System.Drawing.Size(455, 80);
             this.grdCheque.TabIndex = 9;
             this.grdCheque.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
             this.dataGridTableStyle2});
@@ -1511,9 +1511,9 @@ namespace LiquidacionSTN
             this.groupBox3.Controls.Add(this.txtKilometrajeInicial);
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Location = new System.Drawing.Point(570, 554);
+            this.groupBox3.Location = new System.Drawing.Point(475, 480);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(221, 157);
+            this.groupBox3.Size = new System.Drawing.Size(184, 136);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Kilometraje";
@@ -1521,25 +1521,25 @@ namespace LiquidacionSTN
             // 
             // txtKilometrajeFinal
             // 
-            this.txtKilometrajeFinal.Location = new System.Drawing.Point(10, 120);
+            this.txtKilometrajeFinal.Location = new System.Drawing.Point(8, 104);
             this.txtKilometrajeFinal.Name = "txtKilometrajeFinal";
-            this.txtKilometrajeFinal.Size = new System.Drawing.Size(172, 22);
+            this.txtKilometrajeFinal.Size = new System.Drawing.Size(144, 20);
             this.txtKilometrajeFinal.TabIndex = 17;
             // 
             // txtKilometrajeInicial
             // 
-            this.txtKilometrajeInicial.Location = new System.Drawing.Point(10, 55);
+            this.txtKilometrajeInicial.Location = new System.Drawing.Point(8, 48);
             this.txtKilometrajeInicial.Name = "txtKilometrajeInicial";
-            this.txtKilometrajeInicial.Size = new System.Drawing.Size(172, 22);
+            this.txtKilometrajeInicial.Size = new System.Drawing.Size(144, 20);
             this.txtKilometrajeInicial.TabIndex = 16;
             this.txtKilometrajeInicial.TextChanged += new System.EventHandler(this.txtKilometrajeInicial_TextChanged);
             // 
             // label13
             // 
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(10, 92);
+            this.label13.Location = new System.Drawing.Point(8, 80);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(120, 19);
+            this.label13.Size = new System.Drawing.Size(100, 16);
             this.label13.TabIndex = 14;
             this.label13.Text = "Kilometraje Final";
             this.label13.Click += new System.EventHandler(this.label13_Click);
@@ -1547,9 +1547,9 @@ namespace LiquidacionSTN
             // label9
             // 
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(10, 28);
+            this.label9.Location = new System.Drawing.Point(8, 24);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(124, 18);
+            this.label9.Size = new System.Drawing.Size(104, 16);
             this.label9.TabIndex = 12;
             this.label9.Text = "Kilometraje Inicial";
             // 
@@ -1565,9 +1565,9 @@ namespace LiquidacionSTN
             this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.label15);
-            this.groupBox4.Location = new System.Drawing.Point(798, 554);
+            this.groupBox4.Location = new System.Drawing.Point(665, 480);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(354, 157);
+            this.groupBox4.Size = new System.Drawing.Size(295, 136);
             this.groupBox4.TabIndex = 11;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Totales";
@@ -1577,9 +1577,9 @@ namespace LiquidacionSTN
             this.lblTotalLiquidacion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblTotalLiquidacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalLiquidacion.ForeColor = System.Drawing.Color.DarkGreen;
-            this.lblTotalLiquidacion.Location = new System.Drawing.Point(163, 120);
+            this.lblTotalLiquidacion.Location = new System.Drawing.Point(136, 104);
             this.lblTotalLiquidacion.Name = "lblTotalLiquidacion";
-            this.lblTotalLiquidacion.Size = new System.Drawing.Size(172, 28);
+            this.lblTotalLiquidacion.Size = new System.Drawing.Size(143, 24);
             this.lblTotalLiquidacion.TabIndex = 21;
             this.lblTotalLiquidacion.Text = "0.0";
             this.lblTotalLiquidacion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1589,9 +1589,9 @@ namespace LiquidacionSTN
             this.lblTotalContados.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblTotalContados.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalContados.ForeColor = System.Drawing.Color.ForestGreen;
-            this.lblTotalContados.Location = new System.Drawing.Point(163, 74);
+            this.lblTotalContados.Location = new System.Drawing.Point(136, 64);
             this.lblTotalContados.Name = "lblTotalContados";
-            this.lblTotalContados.Size = new System.Drawing.Size(172, 28);
+            this.lblTotalContados.Size = new System.Drawing.Size(143, 24);
             this.lblTotalContados.TabIndex = 20;
             this.lblTotalContados.Text = "0.0";
             this.lblTotalContados.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1601,9 +1601,9 @@ namespace LiquidacionSTN
             this.lblTotalCreditos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblTotalCreditos.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalCreditos.ForeColor = System.Drawing.Color.LimeGreen;
-            this.lblTotalCreditos.Location = new System.Drawing.Point(163, 28);
+            this.lblTotalCreditos.Location = new System.Drawing.Point(136, 24);
             this.lblTotalCreditos.Name = "lblTotalCreditos";
-            this.lblTotalCreditos.Size = new System.Drawing.Size(172, 27);
+            this.lblTotalCreditos.Size = new System.Drawing.Size(143, 24);
             this.lblTotalCreditos.TabIndex = 19;
             this.lblTotalCreditos.Text = "0.0";
             this.lblTotalCreditos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1612,9 +1612,9 @@ namespace LiquidacionSTN
             // 
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label25.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label25.Location = new System.Drawing.Point(125, 120);
+            this.label25.Location = new System.Drawing.Point(104, 104);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(38, 28);
+            this.label25.Size = new System.Drawing.Size(32, 24);
             this.label25.TabIndex = 18;
             this.label25.Text = "$";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1623,9 +1623,9 @@ namespace LiquidacionSTN
             // 
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label23.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label23.Location = new System.Drawing.Point(125, 74);
+            this.label23.Location = new System.Drawing.Point(104, 64);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(38, 28);
+            this.label23.Size = new System.Drawing.Size(32, 24);
             this.label23.TabIndex = 17;
             this.label23.Text = "$";
             this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1634,9 +1634,9 @@ namespace LiquidacionSTN
             // 
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label21.Location = new System.Drawing.Point(125, 28);
+            this.label21.Location = new System.Drawing.Point(104, 24);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(38, 27);
+            this.label21.Size = new System.Drawing.Size(32, 24);
             this.label21.TabIndex = 16;
             this.label21.Text = "$";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1645,9 +1645,9 @@ namespace LiquidacionSTN
             // 
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label19.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label19.Location = new System.Drawing.Point(10, 120);
+            this.label19.Location = new System.Drawing.Point(8, 104);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(105, 28);
+            this.label19.Size = new System.Drawing.Size(88, 24);
             this.label19.TabIndex = 15;
             this.label19.Text = "Total:";
             this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1656,9 +1656,9 @@ namespace LiquidacionSTN
             // 
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label17.Location = new System.Drawing.Point(10, 74);
+            this.label17.Location = new System.Drawing.Point(8, 64);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(115, 28);
+            this.label17.Size = new System.Drawing.Size(96, 24);
             this.label17.TabIndex = 14;
             this.label17.Text = "Contados:";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1667,9 +1667,9 @@ namespace LiquidacionSTN
             // 
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label15.Location = new System.Drawing.Point(10, 28);
+            this.label15.Location = new System.Drawing.Point(8, 24);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(105, 27);
+            this.label15.Size = new System.Drawing.Size(88, 24);
             this.label15.TabIndex = 13;
             this.label15.Text = "Créditos:";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1685,11 +1685,11 @@ namespace LiquidacionSTN
             this.grdLiquidacion.DataMember = "";
             this.grdLiquidacion.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grdLiquidacion.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.grdLiquidacion.Location = new System.Drawing.Point(0, 46);
+            this.grdLiquidacion.Location = new System.Drawing.Point(0, 40);
             this.grdLiquidacion.Name = "grdLiquidacion";
             this.grdLiquidacion.ReadOnly = true;
             this.grdLiquidacion.SelectionBackColor = System.Drawing.Color.YellowGreen;
-            this.grdLiquidacion.Size = new System.Drawing.Size(1162, 203);
+            this.grdLiquidacion.Size = new System.Drawing.Size(968, 176);
             this.grdLiquidacion.TabIndex = 12;
             this.grdLiquidacion.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
             this.dataGridTableStyle1});
@@ -2190,10 +2190,10 @@ namespace LiquidacionSTN
             this.grdTarjerta.CaptionText = "Voucher incluidos en la liquidación";
             this.grdTarjerta.DataMember = "";
             this.grdTarjerta.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.grdTarjerta.Location = new System.Drawing.Point(10, 637);
+            this.grdTarjerta.Location = new System.Drawing.Point(8, 552);
             this.grdTarjerta.Name = "grdTarjerta";
             this.grdTarjerta.ReadOnly = true;
-            this.grdTarjerta.Size = new System.Drawing.Size(546, 92);
+            this.grdTarjerta.Size = new System.Drawing.Size(455, 80);
             this.grdTarjerta.TabIndex = 14;
             // 
             // lblTotalALiquidar
@@ -2201,9 +2201,9 @@ namespace LiquidacionSTN
             this.lblTotalALiquidar.BackColor = System.Drawing.Color.YellowGreen;
             this.lblTotalALiquidar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalALiquidar.ForeColor = System.Drawing.Color.ForestGreen;
-            this.lblTotalALiquidar.Location = new System.Drawing.Point(534, 53);
+            this.lblTotalALiquidar.Location = new System.Drawing.Point(445, 46);
             this.lblTotalALiquidar.Name = "lblTotalALiquidar";
-            this.lblTotalALiquidar.Size = new System.Drawing.Size(48, 19);
+            this.lblTotalALiquidar.Size = new System.Drawing.Size(40, 16);
             this.lblTotalALiquidar.TabIndex = 15;
             this.lblTotalALiquidar.Text = "0";
             this.lblTotalALiquidar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2222,9 +2222,9 @@ namespace LiquidacionSTN
             this.colMonto,
             this.colSaldo,
             this.colObservaciones});
-            this.grdTransferencias.Location = new System.Drawing.Point(-2, 23);
+            this.grdTransferencias.Location = new System.Drawing.Point(-2, 20);
             this.grdTransferencias.Name = "grdTransferencias";
-            this.grdTransferencias.Size = new System.Drawing.Size(543, 67);
+            this.grdTransferencias.Size = new System.Drawing.Size(453, 58);
             this.grdTransferencias.TabIndex = 16;
             // 
             // colCliente
@@ -2281,9 +2281,9 @@ namespace LiquidacionSTN
             this.pnlTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pnlTransferencias.Controls.Add(this.label6);
             this.pnlTransferencias.Controls.Add(this.grdTransferencias);
-            this.pnlTransferencias.Location = new System.Drawing.Point(10, 729);
+            this.pnlTransferencias.Location = new System.Drawing.Point(8, 632);
             this.pnlTransferencias.Name = "pnlTransferencias";
-            this.pnlTransferencias.Size = new System.Drawing.Size(546, 93);
+            this.pnlTransferencias.Size = new System.Drawing.Size(455, 80);
             this.pnlTransferencias.TabIndex = 17;
             // 
             // label6
@@ -2294,14 +2294,14 @@ namespace LiquidacionSTN
             this.label6.ForeColor = System.Drawing.Color.DarkOliveGreen;
             this.label6.Location = new System.Drawing.Point(0, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(542, 22);
+            this.label6.Size = new System.Drawing.Size(451, 19);
             this.label6.TabIndex = 0;
             this.label6.Text = "Transferencias incluidas en la liquidación";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // frmLiquidacionST
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
+            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.ClientSize = new System.Drawing.Size(1215, 719);
             this.Controls.Add(this.pnlTransferencias);
             this.Controls.Add(this.lblTotalALiquidar);
