@@ -1022,7 +1022,6 @@ Public Class CapturaDatosCreditoCliente
     End Sub
 
     Private Sub btnAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAceptar.Click
-        Dim NumCte As Integer
         'If Not chkDiaRevision.Checked And cboDiaRevision.Dia <= 0 Then Modificado 09/09/2004 por Jorge A. Guerrero
         '    MessageBox.Show("Debe seleccionar el día de revisión.", Titulo, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         '    Exit Sub
@@ -1101,7 +1100,9 @@ Public Class CapturaDatosCreditoCliente
             If chkClientePadre.Checked = True Then
                 _ClientePadreInt = _Cliente
             Else
-                _ClientePadreInt = CType(txtClientePadre.Text, Integer)
+                If Not String.IsNullOrEmpty(txtClientePadre.Text) Then
+                    _ClientePadreInt = CType(txtClientePadre.Text, Integer)
+                End If
             End If
 
             'Cambio de ejecutivo responsable
