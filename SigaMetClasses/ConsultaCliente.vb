@@ -3106,27 +3106,27 @@ Public Class frmConsultaCliente
 
                         '   Descuento
                         If Not IsNothing(_oDireccionEntrega.Descuentos) Then
-							If _oDireccionEntrega.Descuentos.Count > 0 Then
-								Dim dtDescuentos As New DataTable
+                            If _oDireccionEntrega.Descuentos.Count > 0 Then
+                                Dim dtDescuentos As New DataTable
 
-								dtDescuentos.Columns.Add("F.Inicial", GetType(String))
-								dtDescuentos.Columns.Add("F.Final", GetType(String))
-								dtDescuentos.Columns.Add("Descuento", GetType(String))
-								dtDescuentos.Columns.Add("Estatus", GetType(String))
+                                dtDescuentos.Columns.Add("F.Inicial", GetType(String))
+                                dtDescuentos.Columns.Add("F.Final", GetType(String))
+                                dtDescuentos.Columns.Add("Descuento", GetType(String))
+                                dtDescuentos.Columns.Add("Estatus", GetType(String))
 
-								For Each Desc As RTGMCore.Descuento In _oDireccionEntrega.Descuentos
-									dtDescuentos.Rows.Add(Desc.FInicial, Desc.FFinal, Desc.ImporteDescuento, Desc.Status)
-								Next
+                                For Each Desc As RTGMCore.Descuento In _oDireccionEntrega.Descuentos
+                                    dtDescuentos.Rows.Add(Desc.FInicial, Desc.FFinal, Desc.ImporteDescuento, Desc.Status)
+                                Next
 
-								grdClienteDescuento.DataSource = dtDescuentos
+                                grdClienteDescuento.DataSource = dtDescuentos
 
-								grdClienteDescuento.CaptionText = "Histórico de descuentos del cliente"
-							Else
-								grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
-							End If
-						Else
-							grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
-						End If
+                                grdClienteDescuento.CaptionText = "Histórico de descuentos del cliente"
+                            Else
+                                grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
+                            End If
+                        Else
+                            grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
+                        End If
 
 						lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
 						lblSaldoTotal.Text = _TotalSaldo.ToString("C")
