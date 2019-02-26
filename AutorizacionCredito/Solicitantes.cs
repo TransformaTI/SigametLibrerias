@@ -47,12 +47,16 @@ namespace AutorizacionCredito
 
 		private bool _filtroEjecutivo = false;
 		private System.Windows.Forms.Panel pnlParametros;
+        private string _UrlGateway=string.Empty;
+        private string _CadCon = string.Empty;
+        private byte _Modulo=0;
 
-		ComboBox cboEjecutivo = new ComboBox();
+
+        ComboBox cboEjecutivo = new ComboBox();
 		
 		//Consulta para cyc: edición de datos
 		public Solicitantes(string UsuarioAutorizacion, decimal MaxImporteCredito, 
-			byte ClaveCreditoAutorizado, SqlConnection Connection)
+			byte ClaveCreditoAutorizado, SqlConnection Connection,string UrlGateway="", string CadCon ="",byte Modulo=0)
 		{
 			//
 			// Required for Windows Form Designer support
@@ -81,7 +85,13 @@ namespace AutorizacionCredito
 			//Cargar la lista de ejecutivos
 			layOutEdicionDeDatos();
 
-			try
+
+            _UrlGateway = UrlGateway;
+            _CadCon = CadCon;
+            _Modulo = Modulo;
+
+
+            try
 			{
 				cboEjecutivo.DataSource = _solicitantes.ListaEjecutivos;
 				cboEjecutivo.DisplayMember = "NombreCompuesto";
@@ -451,7 +461,8 @@ namespace AutorizacionCredito
 		private void buscar()
 		{
 			SigaMetClasses.BusquedaCliente oBuscaCliente = new SigaMetClasses.BusquedaCliente(true, true,
-				false, false, _usuarioAutorizacion, 0, false, false, false, null);
+				false, false, _usuarioAutorizacion, 0, false, false, false, null,false,_UrlGateway,_CadCon,_Modulo);
+
 			if ((oBuscaCliente.ShowDialog() == DialogResult.OK) && (oBuscaCliente.Cliente > 0))
 			{
 				AutorizacionCreditoCliente autorizacion = new AutorizacionCreditoCliente(_claveCreditoAutorizado,
