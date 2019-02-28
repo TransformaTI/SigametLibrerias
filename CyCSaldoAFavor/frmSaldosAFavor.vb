@@ -182,24 +182,26 @@ Public Class frmSaldosAFavor
 
 #End Region
 
-    Public Sub New(ByVal Connection As System.Data.SqlClient.SqlConnection, _
-    Optional ByVal Clave As String = Nothing, _
-    Optional ByVal Cliente As Integer = Nothing, _
-    Optional ByVal AñoAtt As Integer = Nothing, _
-    Optional ByVal Folio As Integer = Nothing)
+    Public Sub New(ByVal Connection As System.Data.SqlClient.SqlConnection,
+    Optional ByVal Clave As String = Nothing,
+    Optional ByVal Cliente As Integer = Nothing,
+    Optional ByVal AñoAtt As Integer = Nothing,
+    Optional ByVal Folio As Integer = Nothing, Optional ByVal URLGateway As String = "", Optional ByVal Modulo As Byte = 0, Optional CadCon As String = "")
         InitializeComponent()
 
         _clave = Clave
         _cliente = Cliente
         _añoAtt = AñoAtt
         _folio = Folio
-
+        _URLGateway = URLGateway
         _connection = Connection
+        _Modulo = Modulo
+        _CadCon = CadCon
     End Sub
 
-    Private _clave As String, _
-            _cliente As Integer, _
-            _añoAtt As Integer, _
+    Private _clave As String,
+            _cliente As Integer,
+            _añoAtt As Integer,
             _folio As Integer
 
     Private _nombre As String
@@ -210,6 +212,9 @@ Public Class frmSaldosAFavor
     Private _connection As SqlClient.SqlConnection
     Private dtSaldoAFavor As DataTable
     Private objSaldo As saldoAFavor
+    Private _URLGateway As String
+    Private _Modulo As Byte = 0
+    Private _CadCon As String = String.Empty
 
     Public ReadOnly Property Cobro() As Integer
         Get
@@ -254,9 +259,29 @@ Public Class frmSaldosAFavor
     End Property
 
     Private Sub frmSaldosAFavor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim oCliente As New SigaMetClasses.cCliente
         objSaldo = New saldoAFavor(_connection, _clave, _cliente, _añoAtt, _folio)
         dtSaldoAFavor = objSaldo.SaldosAFavor
+
+        If Not String.IsNullOrEmpty(_URLGateway) Then
+            oCliente.Modulo = _Modulo
+            oCliente.CadenaConexion = _CadCon
+            oCliente.Consulta(CType(_cliente, Integer), _URLGateway)
+        End If
+
+        If Not IsNothing(oCliente.Nombre) Then
+
+            For Each row As DataRow In dtSaldoAFavor.Rows
+
+                row("Nombre") = oCliente.Nombre
+            Next
+
+        End If
+
+
         grdSaldoAFavor.DataSource = dtSaldoAFavor
+
+
 
         'lblCliente.Text = CStr(_cliente) & CrLf & _nombre
     End Sub
