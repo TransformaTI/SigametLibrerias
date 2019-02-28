@@ -407,7 +407,7 @@ namespace LiquidacionSTN
 				_Celula = Convert.ToInt32 (dr["Celula"]);
 				_AñoPed = Convert.ToInt32 (dr["AñoPEd"]);
 				_Autotanque = Convert.ToInt32 (dr["Autotanque"]);
-				_Total = Convert.ToInt32 (dr["Total"]);
+				_Total = Convert.ToDecimal(dr["Total"]);
 			}
 
 		}

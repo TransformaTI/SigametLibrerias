@@ -240,7 +240,7 @@ namespace LiquidacionSTN
 
             foreach (System.Data.DataRow dr in C)
             {
-                _Total = Convert.ToInt32(dr["Total"]);
+                _Total = Convert.ToDecimal(dr["Total"]);
                 _Pedido = Convert.ToInt32(dr["Pedido"]);
                 _Celula = Convert.ToByte(dr["Celula"]);
                 _AñoPed = Convert.ToInt16(dr["AñoPed"]);
