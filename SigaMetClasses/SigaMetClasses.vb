@@ -3600,6 +3600,27 @@ Public Class cCliente
 
     End Function
 
+    Public Function ConsultaClientesAnticipos(Cliente As Integer) As DataTable
+        Dim cmd As New SqlCommand()
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "spCyCConsultaClientesAnticipo"
+        cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+        cmd.Connection = DataLayer.Conexion
+        Dim da As New SqlDataAdapter(cmd)
+        Dim ds As New DataSet()
+
+        Try
+            da.Fill(ds, "Clientes")
+            Return ds.Tables(0)
+        Catch ex As Exception
+            Throw ex
+        Finally
+            da.Dispose()
+            da = Nothing
+        End Try
+
+    End Function
+
     Public Sub Consulta(ByVal intCliente As Integer)
         Dim cmd As New SqlCommand("spCCClienteConsulta2", DataLayer.Conexion)
         With cmd
@@ -5437,7 +5458,9 @@ Public Class Cobro
                             Optional ByVal referencia As String = "",
                             Optional ByVal dtmFCobro As Date = Nothing,
                             Optional ByVal FolioMovAnt As Int64 = Nothing,
-                             Optional ByVal AñoMovAnt As Integer = Nothing) As Integer
+                            Optional ByVal AñoMovAnt As Integer = Nothing,
+                            Optional ByVal AnioCobroOrigen As Short = Nothing,
+                            Optional ByVal CobroOrigen As Integer = Nothing) As Integer
 
         Dim cmd As New SqlCommand("spChequeTarjetaAltaModifica")
         With cmd
@@ -5463,14 +5486,14 @@ Public Class Cobro
                 End If
 
                 If TipoCobro = Enumeradores.enumTipoCobro.Cheque Then
-                        .Parameters.Add(New SqlParameter("@FechaCobro", SqlDbType.DateTime)).Value = dtmFCobro
-                    Else
-                        .Parameters.Add(New SqlParameter("@FechaCobro", SqlDbType.DateTime)).Value = DBNull.Value
-
-                    End If
+                    .Parameters.Add(New SqlParameter("@FechaCobro", SqlDbType.DateTime)).Value = dtmFCobro
+                Else
+                    .Parameters.Add(New SqlParameter("@FechaCobro", SqlDbType.DateTime)).Value = DBNull.Value
 
                 End If
-                .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = intCliente
+
+            End If
+            .Parameters.Add(New SqlParameter("@Cliente", SqlDbType.Int)).Value = intCliente
             .Parameters.Add(New SqlParameter("@Banco", SqlDbType.SmallInt)).Value = shrBanco
             .Parameters.Add(New SqlParameter("@Observaciones", SqlDbType.VarChar, 250)).Value = strObservaciones
 
@@ -5498,6 +5521,8 @@ Public Class Cobro
             If TipoCobro = 21 Then
                 .Parameters.Add(New SqlParameter("@FolioMov", SqlDbType.BigInt)).Value = FolioMovAnt
                 .Parameters.Add(New SqlParameter("@AñoMov", SqlDbType.BigInt)).Value = AñoMovAnt
+                .Parameters.Add(New SqlParameter("@AnioCobroOrigen", SqlDbType.BigInt)).Value = AnioCobroOrigen
+                .Parameters.Add(New SqlParameter("@CobroOrigen", SqlDbType.BigInt)).Value = CobroOrigen
 
             End If
 
@@ -6210,7 +6235,7 @@ Public Class TransaccionMovimientoCaja
 
                         FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Cobro.FechaCheque, Cobro.Cliente, Cobro.Banco,
                             Cobro.Observaciones, Cobro.TipoCobro, Usuario, Cobro.Saldo, Cobro.NoCuentaDestino, Cobro.BancoOrigen, Cobro.SaldoAFavor,
-                            Cobro.Posfechado, Cobro.Referencia, Cobro.Fcobro, Cobro.FolioMovAnt, Cobro.AñoFolioMov)
+                            Cobro.Posfechado, Cobro.Referencia, Cobro.Fcobro, Cobro.FolioMovAnt, Cobro.AñoFolioMov, Cobro.AnioCobroOrigen, Cobro.CobroOrigen)
 
 
                     Case Enumeradores.enumTipoCobro.TarjetaCredito,
