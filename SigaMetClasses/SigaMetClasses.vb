@@ -5521,9 +5521,19 @@ Public Class Cobro
             If TipoCobro = 21 Then
                 .Parameters.Add(New SqlParameter("@FolioMov", SqlDbType.BigInt)).Value = FolioMovAnt
                 .Parameters.Add(New SqlParameter("@AñoMov", SqlDbType.BigInt)).Value = AñoMovAnt
-                .Parameters.Add(New SqlParameter("@AnioCobroOrigen", SqlDbType.BigInt)).Value = AnioCobroOrigen
-                .Parameters.Add(New SqlParameter("@CobroOrigen", SqlDbType.BigInt)).Value = CobroOrigen
 
+                If AnioCobroOrigen > 0 Then
+                    .Parameters.Add(New SqlParameter("@AnioCobroOrigen", SqlDbType.BigInt)).Value = AnioCobroOrigen
+                Else
+                    .Parameters.Add(New SqlParameter("@AnioCobroOrigen", SqlDbType.BigInt)).Value = DBNull.Value
+                End If
+
+                If CobroOrigen > 0 Then
+                    .Parameters.Add(New SqlParameter("@CobroOrigen", SqlDbType.BigInt)).Value = CobroOrigen
+                Else
+                    .Parameters.Add(New SqlParameter("@CobroOrigen", SqlDbType.BigInt)).Value = DBNull.Value
+
+                End If
             End If
 
         End With
