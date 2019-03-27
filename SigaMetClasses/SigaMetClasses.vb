@@ -8103,9 +8103,10 @@ Public Class CobroRemisiones
     Private _Serie As String
     Private _Remision As String
     Private _Pago As Integer
-    Private _MontoAbonado As Decimal
+	Private _MontoAbonado As Decimal
+	Private _Producto As String
 
-    Public Property Pago() As Integer
+	Public Property Pago() As Integer
         Get
             Return _Pago
         End Get
@@ -8143,7 +8144,14 @@ Public Class CobroRemisiones
         End Set
     End Property
 
-
+	Public Property Producto As String
+		Get
+			Return _Producto
+		End Get
+		Set(value As String)
+			_Producto = value
+		End Set
+	End Property
 End Class
 
 
