@@ -48,9 +48,15 @@ namespace NombreEmpresa
 				{
 					SqlCommand cmd = new SqlCommand();
 
+                    
+
 					cmd.Connection = SigaMetClasses.DataLayer.Conexion;
 					cmd.CommandText = "SELECT dbo.NombreEmpresa() AS Empresa, dbo.ColorEmpresa() AS Color";
-					cmd.Connection.Open();
+                    if (cmd.Connection.State==ConnectionState.Closed)
+                    {
+                        cmd.Connection.Open();
+                    }
+                    
 
 					SqlDataReader _reader = cmd.ExecuteReader();
 
