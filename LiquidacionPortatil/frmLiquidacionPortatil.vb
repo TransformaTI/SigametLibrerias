@@ -6811,10 +6811,10 @@ Public Class frmLiquidacionPortatil
 	'Actualiza la etiqueta de efectivo a cobrar
 	Private Sub capEfectivo_TotalActualizado() Handles capEfectivo.TotalActualizado
 
-		If (CType(capEfectivo.TotalEfectivo, Decimal) > 0) Then
-			lblEfectivo.Text = CType(capEfectivo.TotalEfectivo, Decimal).ToString("N2")
-			Validacion()
-		End If
+		'If (CType(capEfectivo.TotalEfectivo, Decimal) > 0) Then
+		'	lblEfectivo.Text = CType(capEfectivo.TotalEfectivo, Decimal).ToString("N2")
+		'	Validacion()
+		'End If
 
 
 	End Sub
