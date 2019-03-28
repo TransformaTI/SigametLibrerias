@@ -1669,31 +1669,33 @@ Public Class ConsultaMovimientos
                 End If
             Next
 
-				'ListaCtesDetalle = (From r As DataRow In distinctValues.Rows.Cast(Of DataRow)()
-				'                    Select CInt(r("PedidoCliente"))).ToList
+            'ListaCtesDetalle = (From r As DataRow In distinctValues.Rows.Cast(Of DataRow)()
+            '                    Select CInt(r("PedidoCliente"))).ToList
 
-				generaListaCLientes(ListaCtesDetalle)
+            If Not String.IsNullOrEmpty(_URLGateway) Then
+                generaListaClientes(ListaCtesDetalle)
 
-				For Each r As DataRow In dtCobroPedido.Rows
+                For Each r As DataRow In dtCobroPedido.Rows
 
-					direccionEntregaTemp = listaDireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(r("PedidoCliente")))
+                    direccionEntregaTemp = listaDireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(r("PedidoCliente")))
 
-					If Not IsNothing(direccionEntregaTemp) Then
-						If Not IsNothing(direccionEntregaTemp.Nombre) Then
-							If Not direccionEntregaTemp.Nombre.Contains("error") Then
+                    If Not IsNothing(direccionEntregaTemp) Then
+                        If Not IsNothing(direccionEntregaTemp.Nombre) Then
+                            If Not direccionEntregaTemp.Nombre.Contains("error") Then
 
-                            r("ClienteNombre") = direccionEntregaTemp.Nombre.Trim
+                                r("ClienteNombre") = direccionEntregaTemp.Nombre.Trim
 
+                            End If
                         End If
+
                     End If
+                Next
+            End If
 
-					End If
-				Next
+            grdCobroPedido.DataSource = dtCobroPedido
+                grdCobroPedido.CaptionText = "Lista de documentos relacionados en el cobro (" & dtCobroPedido.DefaultView.Count & ") Total: " & SumaColumnaVista(dtCobroPedido.DefaultView, "CobroPedidoTotal").ToString("C")
 
-				grdCobroPedido.DataSource = dtCobroPedido
-				grdCobroPedido.CaptionText = "Lista de documentos relacionados en el cobro (" & dtCobroPedido.DefaultView.Count & ") Total: " & SumaColumnaVista(dtCobroPedido.DefaultView, "CobroPedidoTotal").ToString("C")
-
-			End If
+            End If
     End Sub
 
     Private Sub ConsultaCobroPedido(ByVal Caja As Byte,
