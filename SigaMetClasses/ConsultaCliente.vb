@@ -2419,12 +2419,14 @@ Public Class frmConsultaCliente
 						End If
 					End If
 
-					'agregado el 01/03/2004
-					If Not IsNothing(oDireccionEntrega.TipoFacturacion) Then
-						If Not IsNothing(oDireccionEntrega.TipoFacturacion.Descripcion) Then
-							lblTipoFacturacion.Text = recuperarCadenaCRM(oDireccionEntrega.TipoFacturacion.Descripcion.Trim)
-						End If
-					End If
+                    'agregado el 01/03/2004
+                    If Not IsNothing(oDireccionEntrega.TipoFacturacion) Then
+                        If Not IsNothing(oDireccionEntrega.TipoFacturacion.Descripcion) Then
+                            lblTipoFacturacion.Text = recuperarCadenaCRM(oDireccionEntrega.TipoFacturacion.Descripcion.Trim)
+                        End If
+                    End If
+
+
                     '       FALTA
                     'If Not IsDBNull(dr("TipoNotaCreditoDescripcion")) Then lblTipoNotaCredito.Text = CType(dr("TipoNotaCreditoDescripcion"), String)
                     'lblTipoNotaCredito.Text = oDireccionEntrega.
@@ -2441,8 +2443,18 @@ Public Class frmConsultaCliente
                     'Else
                     '    lblClientePadre.Text = "NO ASIGNADO"
                     'End If
+
+
+
                     If Not IsNothing(oDireccionEntrega.IDDireccionEntregaPadre) Then
-                        lblClientePadre.Text = oDireccionEntrega.IDDireccionEntregaPadre.Value.ToString()
+                        _ClientePadreCyC = CType(oDireccionEntrega.IDDireccionEntregaPadre, Integer)
+
+                        If _Cliente <> _ClientePadreCyC Then
+                            lblClientePadre.Text = oDireccionEntrega.IDDireccionEntregaPadre.Value.ToString()
+                        Else
+                            lblClientePadre.Text = oDireccionEntrega.IDDireccionEntregaPadre.Value.ToString() & " (SIN ASIGNAR)"
+                        End If
+
                     Else
                         lblClientePadre.Text = "NO ASIGNADO"
                     End If
@@ -3063,11 +3075,24 @@ Public Class frmConsultaCliente
 
 
 
+                        'If Not IsNothing(_oDireccionEntrega.IDDireccionEntregaPadre) Then
+                        '    lblClientePadre.Text = _oDireccionEntrega.IDDireccionEntregaPadre.Value.ToString()
+                        'Else
+                        '    lblClientePadre.Text = "NO ASIGNADO"
+                        'End If
+
                         If Not IsNothing(_oDireccionEntrega.IDDireccionEntregaPadre) Then
-                            lblClientePadre.Text = _oDireccionEntrega.IDDireccionEntregaPadre.Value.ToString()
+                            _ClientePadreCyC = CType(_oDireccionEntrega.IDDireccionEntregaPadre, Integer)
+
+                            If _Cliente <> _ClientePadreCyC Then
+                                lblClientePadre.Text = _oDireccionEntrega.IDDireccionEntregaPadre.Value.ToString()
+                            Else
+                                lblClientePadre.Text = _oDireccionEntrega.IDDireccionEntregaPadre.Value.ToString() & " (SIN ASIGNAR)"
+                            End If
                         Else
                             lblClientePadre.Text = "NO ASIGNADO"
                         End If
+
 
                         'Muestra el dígito verificador asignado al cliente
                         lblDigitoVerificador.Text = _oDireccionEntrega.DigitoVerificador.ToString
