@@ -6986,8 +6986,196 @@ Public Class frmLiquidacionPortatil
 	End Function
 
 	Private Sub InsertaRemisiones()
+		Dim oLiquidacionPedido As Liquidacion.cLiquidacion
+		oLiquidacionPedido = New Liquidacion.cLiquidacion(0, 0, 0, 0)
+		Dim row As DataRow
+		Dim Cliente As Integer
+		If TxtCliente.Text.Length > 0 Then
+			Cliente = Convert.ToInt32(TxtCliente.Text)
+		Else
+			Cliente = _ClienteVentasPublico
+		End If
+		Try
+			dtRemisiones = oLiquidacionPedido.ConsultaPedidoPortatilCapturaManual(cboZEconomica.Identificador, _AnoAtt, _Folio, Cliente, cboTipoCobro.Identificador)
+			Dim oRemisionManual As New frmRemisionManual(_Folio, _AnoAtt, 1, dtCantidades, dtRemisiones, Cliente, _BoletinEnLineaCamion, _dtProductos.Copy, _cargarProductosPadre)
+			_cargarProductosPadre = True
+			oRemisionManual.RutamovilGas = _BoletinEnLineaCamion
+			oRemisionManual.ClienteVentasPublico = _ClienteVentasPublico
+			oRemisionManual.ClienteNormal = _ClienteNormal
+			'oRemisionManual.ZonaEconomicaClienteNormal = _ZonaEconomicaClienteNormal
+			oRemisionManual.TipoCobroClienteVentasPublico = _TipoCobroClienteVentasPublico
+			oRemisionManual.TipoCobroClienteNormal = _TipoCobroClienteNormal
+			oRemisionManual.Usuario = _Usuario
+			oRemisionManual.DatosCliente = _DatosCliente
+			oRemisionManual.DetalleGrid = _DetalleGrid
+			oRemisionManual.FechaLiquidacion = dtpFLiquidacion.Value
+			oRemisionManual.LiqPrecioVigente = _LiqPrecioVigente
+			oRemisionManual.IdCelula = _IdCelula
 
+
+
+			If _DetalleGrid.Rows.Count > 0 Then
+				oRemisionManual.ZonaEconomicaActual = cboZEconomica.Identificador
+				oRemisionManual.ZonaEconomica = cboZEconomica.Text
+			Else
+				oRemisionManual.ZonaEconomicaActual = -1
+			End If
+
+
+			'oRemisionManual.ProductosPadre = _dtProductos.Copy()
+			'grdDetalle.DataSource = Nothing
+
+			oRemisionManual.ShowDialog()
+
+			If oRemisionManual.DialogResult = DialogResult.OK Then
+				dtCantidades.Clear()
+				dtCantidades = CType(oRemisionManual.Tag, DataTable)
+				Dim dataView As New DataView(dtCantidades)
+				dataView.Sort = "IdProducto ASC"
+				Dim dataTable As DataTable = dataView.ToTable()
+				dtCantidades = dataTable
+
+				_dtProductos.Clear()
+				_dtProductos = oRemisionManual.ProductosPadre
+				ActualizarProductos()
+
+				Dim i As Integer
+
+				For Each p As DataRow In dtCantidades.Rows
+					While i < pdtoLista.Count
+						If Convert.ToInt32(pdtoLista.Item(i)) = Convert.ToInt32(p("IdProducto")) Then
+							CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text = p("Cantidad").ToString()
+							CType(lblLista.Item(i), System.Windows.Forms.Label).Text = CType(CType(CType(lblLista.Item(i), System.Windows.Forms.Label).Text, Integer) - CType(p("Cantidad"), Integer), String)
+							Exit While
+						End If
+						i = i + 1
+					End While
+				Next
+				banderaRemisionManual = True
+				_addRemisiones = oRemisionManual.addRemision
+				dtRemisionesManuales = oRemisionManual.Remisiones
+				If dtRemisionesManuales.Rows.Count > 0 Then
+					'_DetalleGrid.Rows.Clear()
+
+					If oRemisionManual.ZonaEconomica <> Nothing Then
+						cboZEconomica.SelectedIndex = cboZEconomica.FindString(oRemisionManual.ZonaEconomica)
+					End If
+
+
+					If dtRemisionesManuales.TableName = "LiquidacionTotal" Then
+						If _URLGateway <> "" Then
+							Dim dtTemp As DataTable
+							dtTemp = dtRemisionesManuales.DefaultView.ToTable(True, "Cliente")
+							Dim listaClientesDistintos As New List(Of Integer)
+							Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+							listaClientesEnviados = New List(Of Integer)
+							For Each clienteTemp As DataRow In dtTemp.Rows
+								direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(clienteTemp("Cliente"), Integer))
+
+								If IsNothing(direccionEntregaTemp) Then
+									listaClientesDistintos.Add(CType(clienteTemp("Cliente"), Integer))
+								End If
+							Next
+
+							Try
+								If dtTemp.Rows.Count > 0 Then
+									If listaClientesDistintos.Count > 0 Then
+										validarPeticion = True
+										generaListaClientes(listaClientesDistintos)
+									Else
+										llenarListaEntrega()
+									End If
+								Else
+									grdDetalle.DataSource = Nothing
+									grdDetalle.DataSource = _DetalleGrid
+								End If
+							Catch ex As Exception
+								MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+							End Try
+							'For Each colum As DataRow In dtTemp.Rows
+							'    If colum("Cliente").ToString <> Nothing Then
+							'        listaClientesDistintos.Add(CType(colum("Cliente"), Integer))
+							'    End If
+							'Next
+							'Dim iteraciones As Integer
+							'iteraciones = 0
+							'While iteraciones < 5
+							'    generaListaCLientes(listaClientesDistintos)
+							'    iteraciones = iteraciones + 1
+							'End While
+							'Dim drow As DataRow
+							'Dim CLIENTETEMP As Integer
+							'For Each drow In dtRemisionesManuales.Rows
+							'    If drow("Cliente").ToString <> Nothing Then
+							'        Try
+							'            drow("Nombre") = ""
+							'            CLIENTETEMP = (CType(drow("Cliente"), Integer))
+							'            Dim direccionentrega As RTGMCore.DireccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+							'            If Not IsNothing(direccionentrega) Then
+							'                drow("Nombre") = direccionentrega.Nombre.Trim()
+							'            Else
+							'                drow("Nombre") = "No encontrado"
+							'            End If
+							'        Catch ex As Exception
+							'            drow("Nombre") = "Error al buscar"
+							'        End Try
+							'    End If
+							'Next
+						Else
+
+							For Each item As DataRow In dtRemisionesManuales.Rows
+								'               Dim dr() As DataRow = oProductoRemManuales.Select("producto=" + item("producto").ToString())
+
+
+								row = _DetalleGrid.NewRow()
+								row("Serie") = item("Serie")
+								row("Remision") = item("Remision")
+								If item("Cliente").ToString = Nothing Then
+									row("Cliente") = _ClienteVentasPublico
+									row("Nombre") = "Cliente Ventas Publico"
+								Else
+									row("Cliente") = item("Cliente")
+									row("Nombre") = item("Nombre")
+								End If
+
+								row("Kilos") = Convert.ToInt64(item("Valor"))
+								row("descuento") = Convert.ToDecimal(item("descuento"))
+								row("Importe") = item("TotalNeto")
+								row("Saldo") = item("TotalNeto")
+								row("Descripcion") = item("ProductoDescripcion")
+								row("Cantidad") = item("Cantidad")
+								row("producto") = item("producto")
+								row("zonaeconomica") = cboZEconomica.Text
+								row("FormaPago") = item("FormaPago")
+								If item("FormaPago").ToString.Trim.ToUpper = "OBSEQUIO" Then
+									row("TipoCobro") = 15
+								End If
+								If item("FormaPago").ToString.Trim = "Crédito Portátil" Then
+									row("TipoCobro") = 18
+								End If
+
+								_DetalleGrid.Rows.Add(row)
+							Next
+						End If
+
+					End If
+
+				End If
+			Else
+				grdDetalle.DataSource = Nothing
+				grdDetalle.DataSource = _DetalleGrid
+				If _DetalleGrid.Rows.Count = 0 Then
+					_cargarProductosPadre = False
+				End If
+
+			End If
+
+				Totalizador()
+		Catch ex As Exception
+			Throw ex
+		End Try
 	End Sub
+
 	Private Sub consultarDirecciones(ByVal idCliente As Integer)
         Dim oGateway As RTGMGateway.RTGMGateway
         Dim oSolicitud As RTGMGateway.SolicitudGateway
@@ -7096,67 +7284,78 @@ Public Class frmLiquidacionPortatil
         Dim row As DataRow
         Dim CLIENTETEMP As Integer
         Dim direccionEntrega As RTGMCore.DireccionEntrega
-        Try
-            direccionEntrega = New RTGMCore.DireccionEntrega
-            For Each drow In dtRemisionesManuales.Rows
-                Try
-                    If drow("Cliente").ToString <> Nothing Then
-                        drow("Nombre") = ""
-                        CLIENTETEMP = (CType(drow("Cliente"), Integer))
+		Try
+			direccionEntrega = New RTGMCore.DireccionEntrega
+			For Each drow In dtRemisionesManuales.Rows
+				Try
+					If drow("Cliente").ToString <> Nothing Then
+						drow("Nombre") = ""
+						CLIENTETEMP = (CType(drow("Cliente"), Integer))
 
-                        direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
+						direccionEntrega = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = CLIENTETEMP)
 
-                        If Not IsNothing(direccionEntrega) Then
-                            drow("Nombre") = direccionEntrega.Nombre.Trim()
-                        Else
-                            drow("Nombre") = "No encontrado"
-                        End If
-                    End If
+						If Not IsNothing(direccionEntrega) Then
+							drow("Nombre") = direccionEntrega.Nombre.Trim()
+						Else
+							drow("Nombre") = "No encontrado"
+						End If
+					End If
 
-                Catch ex As Exception
-                    drow("Nombre") = "Error al buscar"
-                End Try
-            Next
+				Catch ex As Exception
+					drow("Nombre") = "Error al buscar"
+				End Try
+			Next
 
-            For Each item As DataRow In dtRemisionesManuales.Rows
-                '               Dim dr() As DataRow = oProductoRemManuales.Select("producto=" + item("producto").ToString())
+			For Each item As DataRow In dtRemisionesManuales.Rows
+				'               Dim dr() As DataRow = oProductoRemManuales.Select("producto=" + item("producto").ToString())
 
 
-                Row = _DetalleGrid.NewRow()
-                Row("Serie") = item("Serie")
-                Row("Remision") = item("Remision")
-                If item("Cliente").ToString = Nothing Then
-                    Row("Cliente") = _ClienteVentasPublico
-                    Row("Nombre") = "Cliente Ventas Publico"
-                Else
-                    Row("Cliente") = item("Cliente")
-                    Row("Nombre") = item("Nombre")
-                End If
+				Row = _DetalleGrid.NewRow()
+				Row("Serie") = item("Serie")
+				Row("Remision") = item("Remision")
+				If item("Cliente").ToString = Nothing Then
+					Row("Cliente") = _ClienteVentasPublico
+					Row("Nombre") = "Cliente Ventas Publico"
+				Else
+					If item("Cliente").ToString = _ClienteVentasPublico.ToString() Then
+						row("Cliente") = _ClienteVentasPublico
+						row("Nombre") = "Cliente Ventas Publico"
+					Else
+						row("Cliente") = item("Cliente")
+						row("Nombre") = item("Nombre")
+					End If
+				End If
 
-                Row("Kilos") = Convert.ToInt64(item("Valor"))
-                Row("descuento") = Convert.ToDecimal(item("descuento"))
-                Row("Importe") = item("TotalNeto")
-                Row("Saldo") = item("TotalNeto")
-                Row("Descripcion") = item("ProductoDescripcion")
-                Row("Cantidad") = item("Cantidad")
-                Row("producto") = item("producto")
-                Row("zonaeconomica") = cboZEconomica.Text
-                Row("FormaPago") = item("FormaPago")
-                If item("FormaPago").ToString.Trim.ToUpper = "OBSEQUIO" Then
-                    Row("TipoCobro") = 15
-                End If
-                If item("FormaPago").ToString.Trim = "Crédito Portátil" Then
-                    Row("TipoCobro") = 18
-                End If
 
-                _DetalleGrid.Rows.Add(Row)
-            Next
-        Catch ex As Exception
-            MessageBox.Show("Error" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Finally
 
-        End Try
-    End Sub
+
+				row("Kilos") = Convert.ToInt64(item("Valor"))
+				Row("descuento") = Convert.ToDecimal(item("descuento"))
+				Row("Importe") = item("TotalNeto")
+				Row("Saldo") = item("TotalNeto")
+				Row("Descripcion") = item("ProductoDescripcion")
+				Row("Cantidad") = item("Cantidad")
+				Row("producto") = item("producto")
+				Row("zonaeconomica") = cboZEconomica.Text
+				Row("FormaPago") = item("FormaPago")
+				If item("FormaPago").ToString.Trim.ToUpper = "OBSEQUIO" Then
+					Row("TipoCobro") = 15
+				End If
+				If item("FormaPago").ToString.Trim = "Crédito Portátil" Then
+					Row("TipoCobro") = 18
+				End If
+
+				_DetalleGrid.Rows.Add(Row)
+			Next
+		Catch ex As Exception
+			MessageBox.Show("Error" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+		Finally
+
+		End Try
+		validarFormasPago()
+		'Totalizador()
+		ActualizarTotalizadorFormasDePago(_listaCobros)
+	End Sub
 
     Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
         Dim oGateway As RTGMGateway.RTGMGateway
@@ -7973,8 +8172,9 @@ Public Class frmLiquidacionPortatil
             Movilgas()
             cargarRemisiones()
             validarFormasPago()
-            ActualizarTotalizadorFormasDePago(_listaCobros)
-        Catch ex As Exception
+			ActualizarTotalizadorFormasDePago(_listaCobros)
+			listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+		Catch ex As Exception
             MessageBox.Show("Error al cargar " & ex.Message)
             Me.Close()
         End Try

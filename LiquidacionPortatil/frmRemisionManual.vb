@@ -12,10 +12,11 @@ Public Class frmRemisionManual
 
     'Variables para el constructor
     Private _FolioAtt As Integer
-    Private _AñoAtt As Short
+	Private _AñoAtt As Short
+	Private _actualizaProductos As Boolean
 
-    'Variables para componentes dinamicos
-    Private NumProductos As Integer
+	'Variables para componentes dinamicos
+	Private NumProductos As Integer
     Private lblListaExistencia As New ArrayList()
     Private txtListaCantidad As New ArrayList()
     Private dtCantidades As New DataTable
@@ -1309,11 +1310,21 @@ Public Class frmRemisionManual
 		End If
 
 		NumProductos = 0
+
 		Dim i As Integer = 0
-		While i < _dtProductos.Rows.Count
-			InicializarComponentes(CType(_dtProductos.Rows(i).Item(1), String), CType(_dtProductos.Rows(i).Item(3), Integer))
-			i = i + 1
-		End While
+		If Not _actualizaProductos Then
+			While i < _dtProductos.Rows.Count
+				InicializarComponentes(CType(_dtProductos.Rows(i).Item(1), String), CType(_dtProductos.Rows(i).Item(3), Integer))
+				i = i + 1
+			End While
+			_actualizaProductos = True
+		Else
+			While i < _dtProductos.Rows.Count
+				ActualizaComponentes(CType(_dtProductos.Rows(i).Item(1), String), CType(_dtProductos.Rows(i).Item(3), Integer), i)
+				i = i + 1
+			End While
+		End If
+
 		oLiquidacion = Nothing
 
 		i = 0
@@ -1383,6 +1394,23 @@ Public Class frmRemisionManual
 			AddControls(Descripcion, Existencia, lblProducto1.Location.Y + y, lblExistencia1.Location.Y + y, txtCantidad1.Location.Y + y, Not _BoletinEnLineaCamion)
 		End If
 		NumProductos = NumProductos + 1
+	End Sub
+
+	Private Sub ActualizaComponentes(ByVal Descripcion As String,
+									   ByVal Existencia As Integer, ByVal numero As Integer)
+		'If NumProductos = 0 Then
+		'	lblProducto1.Text = Descripcion
+		'	lblExistencia1.Text = CType(Existencia, String)
+		'	txtListaCantidad.Add(txtCantidad1)
+		'	lblListaExistencia.Add(lblExistencia1)
+		'	txtCantidad1.Enabled = Not _BoletinEnLineaCamion
+		'Else
+		'	Dim y As Integer
+		'	y = NumProductos * 28
+		'	AddControls(Descripcion, Existencia, lblProducto1.Location.Y + y, lblExistencia1.Location.Y + y, txtCantidad1.Location.Y + y, Not _BoletinEnLineaCamion)
+		'End If
+		'NumProductos = NumProductos + 1
+		CType(lblListaExistencia.Item(numero), Label).Text = Existencia.ToString()
 	End Sub
 
 
@@ -1846,6 +1874,8 @@ Public Class frmRemisionManual
 			If producto = CType(_dtProductos.Rows(i).Item(0), Integer) Then
 				lblExistenciaProducto = CType(lblListaExistencia.Item(i), System.Windows.Forms.Label)
 				lblExistenciaProducto.Text = CType(CType(lblExistenciaProducto.Text, Integer) + cantidad, String)
+				_dtProductos.Rows(i).Item(3) = CType(_dtProductos.Rows(i).Item(3), Integer) + cantidad
+				_dtProductosPadre.Rows(i).Item(3) = CType(_dtProductosPadre.Rows(i).Item(3), Integer) + cantidad
 
 				'_Kilos = _Kilos - cantidad * KILOS
 				'_TotalLiquidarPedido = _TotalLiquidarPedido - total
@@ -1901,6 +1931,7 @@ Public Class frmRemisionManual
 	Private Sub btnAgregar_Click(sender As Object, e As EventArgs) Handles btnAgregar.Click
 		'Validamos los datos capturados pertenecientes a la remision
 		Dim encontrado As Boolean = False
+		Dim encontradoCero As Boolean = False
 		Try
 			i = 0
 			While i < txtListaCantidad.Count
@@ -1911,9 +1942,25 @@ Public Class frmRemisionManual
 				i = i + 1
 			End While
 
+
+
 			If Not encontrado Then
 				Throw New Exception("Por favor escriba una cantidad válida")
 			End If
+			i = 0
+			While i < txtListaCantidad.Count
+
+				If CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text.Trim() = "0" Then
+					encontradoCero = True
+				End If
+				i = i + 1
+			End While
+
+			If encontradoCero Then
+				Throw New Exception("La cantidad debe ser diferente de cero.")
+			End If
+
+
 
 			If cboTipoCobro.SelectedItem Is Nothing Then
 				Throw New Exception("Por favor elija un tipo de cobro.")
@@ -2221,6 +2268,7 @@ Public Class frmRemisionManual
 	End Sub
 
 	Private Sub btnCancelar_Click(sender As System.Object, e As System.EventArgs) Handles btnCancelar.Click
+
 		_dtProductos.Dispose()
 		Me.DialogResult() = Windows.Forms.DialogResult.Cancel
 		Me.Close()
@@ -2309,6 +2357,7 @@ Public Class frmRemisionManual
 	End Sub
 
 	Private Sub frmRemisionManual_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+		_actualizaProductos = False
 		cboTipoCobro.CargaDatosBase("spPTLCargaComboTipoCobro", 0, "ROPIMA") '_Usuario)
 		Me.cboZEconomica.CargaDatos(0, _Usuario)
 		Me.cboZEconomica.SelectedIndex = 0
@@ -2910,6 +2959,7 @@ Public Class frmRemisionManual
 	Private Sub cboZEconomica_Leave(sender As Object, e As EventArgs) Handles cboZEconomica.Leave
 
 		If _ZonaEconomicaActual = -1 Then
+			_actualizaProductos = False
 			CargarProductosVarios()
 		End If
 
