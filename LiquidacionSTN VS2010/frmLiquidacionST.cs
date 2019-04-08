@@ -4004,7 +4004,7 @@ namespace LiquidacionSTN
                     }
                     if (_TipoPedido == 7)
                     {
-                        LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente, _TipoCobro, _PedidoReferencia,int.Parse(cboCamioneta.SelectedValue.ToString()));
+                        LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente, _TipoCobro, _PedidoReferencia);
                         if (frmTransferencia.ShowDialog() == DialogResult.OK)
                         {
                             CargarTransferencias(frmTransferencia.Transferencias);
