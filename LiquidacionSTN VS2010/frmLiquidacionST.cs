@@ -3009,7 +3009,7 @@ namespace LiquidacionSTN
                                                     Parametro = Comando.Parameters.Add("@TotalTarjetaCredito", SqlDbType.Money);
                                                     Parametro.Value = drVoucher["Monto"];
                                                     Parametro = Comando.Parameters.Add("@SaldoTarjetaCredito", SqlDbType.Money);
-                                                    Parametro.Value = drVoucher["Saldo"];
+                                                    Parametro.Value = drVoucher["Saldo"]!=null? drVoucher["Saldo"]:0;
                                                     Parametro = Comando.Parameters.Add("@Usuario", SqlDbType.Char);
                                                     Parametro.Value = _Usuario;
                                                     Parametro = Comando.Parameters.Add("@Folio", SqlDbType.Int);
@@ -3058,6 +3058,7 @@ namespace LiquidacionSTN
                                         }
                                         else if (_TipoCobro == 10)
                                         {
+                                          
                                             // Las transferencias se insertan en el método InsertarTransferencias()
 
                                             #region "RM - 28/12/2018"
@@ -3083,10 +3084,10 @@ namespace LiquidacionSTN
                                             //if (dTotalCheques > 0)
                                             //{
                                             //    InsertarCobroCheque(dr, Conexion, Transaccion);
-                                            //}
+                                            }
                                             #endregion
 
-                                        }
+                                        
                                         else
                                         {
                                             try
@@ -3825,6 +3826,14 @@ namespace LiquidacionSTN
                 cmd.Parameters.Add("@Celula", SqlDbType.TinyInt).Value = transferencia.Celula;
                 cmd.Parameters.Add("@AñoPed", SqlDbType.SmallInt).Value = transferencia.AñoPed;
 
+                cmd.Parameters.Add("@ImporteContado", SqlDbType.Money).Value= lblTotalContados.Text;
+                cmd.Parameters.Add("@ImporteCredito", SqlDbType.Money).Value = lblTotalCreditos.Text;
+
+                cmd.Parameters.Add("@KilometrajeInicial", SqlDbType.Int).Value= txtKilometrajeInicial.Text;
+
+                cmd.Parameters.Add("@KilometrajeFinal", SqlDbType.Int).Value= txtKilometrajeFinal.Text;
+                cmd.Parameters.Add("@DiferenciaKilometraje", SqlDbType.Int).Value= _Diferencia;
+
                 try
                 {
                     cmd.ExecuteNonQuery();
@@ -3995,7 +4004,7 @@ namespace LiquidacionSTN
                     }
                     if (_TipoPedido == 7)
                     {
-                        LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente, _TipoCobro, _PedidoReferencia);
+                        LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente, _TipoCobro, _PedidoReferencia,int.Parse(cboCamioneta.SelectedValue.ToString()));
                         if (frmTransferencia.ShowDialog() == DialogResult.OK)
                         {
                             CargarTransferencias(frmTransferencia.Transferencias);
