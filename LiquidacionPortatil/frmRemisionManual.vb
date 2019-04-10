@@ -1264,6 +1264,8 @@ Public Class frmRemisionManual
 			Me.pnlProducto.Controls.Add(Me.lbltckProducto)
 			lblListaExistencia.Clear()
 			txtListaCantidad.Clear()
+			_actualizaProductos = False
+
 		End If
 
 		If _dtProductos Is Nothing Then
