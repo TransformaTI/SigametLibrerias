@@ -53,213 +53,231 @@ Public Class frmModificaMaterial
     Friend WithEvents lblStatus1 As System.Windows.Forms.Label
     Friend WithEvents lblActiva As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(frmModificaMaterial))
-        Me.btnCancelar = New System.Windows.Forms.Button()
-        Me.btnAceptar = New System.Windows.Forms.Button()
-        Me.lblNumMaterial = New System.Windows.Forms.Label()
-        Me.txtNumMaterial = New System.Windows.Forms.TextBox()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.txtDescripcion = New System.Windows.Forms.TextBox()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.txtClaveMaterial = New System.Windows.Forms.TextBox()
-        Me.lblStatus = New System.Windows.Forms.Label()
-        Me.cboStatus = New System.Windows.Forms.ComboBox()
-        Me.lblFStatus = New System.Windows.Forms.Label()
-        Me.dtpFStatus = New System.Windows.Forms.DateTimePicker()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.cboUnidadMedida = New System.Windows.Forms.ComboBox()
-        Me.TxtPrecio = New SigaMetClasses.Controles.txtNumeroDecimal()
-        Me.lblStatus1 = New System.Windows.Forms.Label()
-        Me.lblActiva = New System.Windows.Forms.Label()
-        Me.SuspendLayout()
-        '
-        'btnCancelar
-        '
-        Me.btnCancelar.BackColor = System.Drawing.SystemColors.Control
-        Me.btnCancelar.Image = CType(resources.GetObject("btnCancelar.Image"), System.Drawing.Bitmap)
-        Me.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnCancelar.Location = New System.Drawing.Point(480, 48)
-        Me.btnCancelar.Name = "btnCancelar"
-        Me.btnCancelar.TabIndex = 8
-        Me.btnCancelar.Text = "&Cancelar"
-        Me.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'btnAceptar
-        '
-        Me.btnAceptar.BackColor = System.Drawing.SystemColors.Control
-        Me.btnAceptar.Image = CType(resources.GetObject("btnAceptar.Image"), System.Drawing.Bitmap)
-        Me.btnAceptar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAceptar.Location = New System.Drawing.Point(480, 16)
-        Me.btnAceptar.Name = "btnAceptar"
-        Me.btnAceptar.TabIndex = 7
-        Me.btnAceptar.Text = "&Aceptar"
-        Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'lblNumMaterial
-        '
-        Me.lblNumMaterial.AutoSize = True
-        Me.lblNumMaterial.Location = New System.Drawing.Point(16, 20)
-        Me.lblNumMaterial.Name = "lblNumMaterial"
-        Me.lblNumMaterial.Size = New System.Drawing.Size(78, 14)
-        Me.lblNumMaterial.TabIndex = 9
-        Me.lblNumMaterial.Text = "Núm. Material:"
-        '
-        'txtNumMaterial
-        '
-        Me.txtNumMaterial.BackColor = System.Drawing.SystemColors.InactiveCaptionText
-        Me.txtNumMaterial.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtNumMaterial.Location = New System.Drawing.Point(96, 16)
-        Me.txtNumMaterial.Name = "txtNumMaterial"
-        Me.txtNumMaterial.ReadOnly = True
-        Me.txtNumMaterial.Size = New System.Drawing.Size(120, 22)
-        Me.txtNumMaterial.TabIndex = 10
-        Me.txtNumMaterial.Text = ""
-        Me.txtNumMaterial.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(16, 56)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(104, 14)
-        Me.Label2.TabIndex = 11
-        Me.Label2.Text = "Descripción Material"
-        '
-        'txtDescripcion
-        '
-        Me.txtDescripcion.BackColor = System.Drawing.SystemColors.InactiveCaptionText
-        Me.txtDescripcion.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtDescripcion.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDescripcion.Location = New System.Drawing.Point(16, 72)
-        Me.txtDescripcion.Multiline = True
-        Me.txtDescripcion.Name = "txtDescripcion"
-        Me.txtDescripcion.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtDescripcion.Size = New System.Drawing.Size(416, 48)
-        Me.txtDescripcion.TabIndex = 12
-        Me.txtDescripcion.Text = ""
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(16, 131)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(78, 14)
-        Me.Label3.TabIndex = 13
-        Me.Label3.Text = "Clave Material:"
-        '
-        'txtClaveMaterial
-        '
-        Me.txtClaveMaterial.BackColor = System.Drawing.SystemColors.InactiveCaptionText
-        Me.txtClaveMaterial.Location = New System.Drawing.Point(120, 128)
-        Me.txtClaveMaterial.Name = "txtClaveMaterial"
-        Me.txtClaveMaterial.Size = New System.Drawing.Size(104, 21)
-        Me.txtClaveMaterial.TabIndex = 14
-        Me.txtClaveMaterial.Text = ""
-        '
-        'lblStatus
-        '
-        Me.lblStatus.AutoSize = True
-        Me.lblStatus.Location = New System.Drawing.Point(240, 165)
-        Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(39, 14)
-        Me.lblStatus.TabIndex = 15
-        Me.lblStatus.Text = "Status:"
-        '
-        'cboStatus
-        '
-        Me.cboStatus.Items.AddRange(New Object() {"ACTIVO", "INACTIVO"})
-        Me.cboStatus.Location = New System.Drawing.Point(328, 160)
-        Me.cboStatus.Name = "cboStatus"
-        Me.cboStatus.Size = New System.Drawing.Size(104, 21)
-        Me.cboStatus.TabIndex = 16
-        Me.cboStatus.Text = "ACTIVO"
-        '
-        'lblFStatus
-        '
-        Me.lblFStatus.AutoSize = True
-        Me.lblFStatus.Location = New System.Drawing.Point(16, 163)
-        Me.lblFStatus.Name = "lblFStatus"
-        Me.lblFStatus.Size = New System.Drawing.Size(72, 14)
-        Me.lblFStatus.TabIndex = 17
-        Me.lblFStatus.Text = "Fecha Status:"
-        '
-        'dtpFStatus
-        '
-        Me.dtpFStatus.Format = System.Windows.Forms.DateTimePickerFormat.Short
-        Me.dtpFStatus.Location = New System.Drawing.Point(120, 160)
-        Me.dtpFStatus.Name = "dtpFStatus"
-        Me.dtpFStatus.Size = New System.Drawing.Size(104, 21)
-        Me.dtpFStatus.TabIndex = 18
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(232, 131)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(82, 14)
-        Me.Label6.TabIndex = 19
-        Me.Label6.Text = "Unidad Medida:"
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(232, 19)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(38, 14)
-        Me.Label7.TabIndex = 21
-        Me.Label7.Text = "Precio:"
-        '
-        'cboUnidadMedida
-        '
-        Me.cboUnidadMedida.Location = New System.Drawing.Point(328, 128)
-        Me.cboUnidadMedida.Name = "cboUnidadMedida"
-        Me.cboUnidadMedida.Size = New System.Drawing.Size(104, 21)
-        Me.cboUnidadMedida.TabIndex = 23
-        '
-        'TxtPrecio
-        '
-        Me.TxtPrecio.BackColor = System.Drawing.SystemColors.InactiveCaptionText
-        Me.TxtPrecio.Location = New System.Drawing.Point(272, 16)
-        Me.TxtPrecio.Name = "TxtPrecio"
-        Me.TxtPrecio.Size = New System.Drawing.Size(160, 21)
-        Me.TxtPrecio.TabIndex = 24
-        Me.TxtPrecio.Text = ""
-        '
-        'lblStatus1
-        '
-        Me.lblStatus1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblStatus1.Location = New System.Drawing.Point(328, 160)
-        Me.lblStatus1.Name = "lblStatus1"
-        Me.lblStatus1.Size = New System.Drawing.Size(104, 24)
-        Me.lblStatus1.TabIndex = 25
-        Me.lblStatus1.Text = "Activo"
-        Me.lblStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'lblActiva
-        '
-        Me.lblActiva.Location = New System.Drawing.Point(448, 120)
-        Me.lblActiva.Name = "lblActiva"
-        Me.lblActiva.Size = New System.Drawing.Size(32, 24)
-        Me.lblActiva.TabIndex = 26
-        '
-        'frmModificaMaterial
-        '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
-        Me.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.ClientSize = New System.Drawing.Size(560, 190)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.lblActiva, Me.lblStatus1, Me.TxtPrecio, Me.cboUnidadMedida, Me.Label7, Me.Label6, Me.lblFStatus, Me.lblStatus, Me.Label3, Me.Label2, Me.lblNumMaterial, Me.dtpFStatus, Me.cboStatus, Me.txtClaveMaterial, Me.txtDescripcion, Me.txtNumMaterial, Me.btnCancelar, Me.btnAceptar})
-        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Name = "frmModificaMaterial"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "ModificaMaterial"
-        Me.ResumeLayout(False)
+		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmModificaMaterial))
+		Me.btnCancelar = New System.Windows.Forms.Button()
+		Me.btnAceptar = New System.Windows.Forms.Button()
+		Me.lblNumMaterial = New System.Windows.Forms.Label()
+		Me.txtNumMaterial = New System.Windows.Forms.TextBox()
+		Me.Label2 = New System.Windows.Forms.Label()
+		Me.txtDescripcion = New System.Windows.Forms.TextBox()
+		Me.Label3 = New System.Windows.Forms.Label()
+		Me.txtClaveMaterial = New System.Windows.Forms.TextBox()
+		Me.lblStatus = New System.Windows.Forms.Label()
+		Me.cboStatus = New System.Windows.Forms.ComboBox()
+		Me.lblFStatus = New System.Windows.Forms.Label()
+		Me.dtpFStatus = New System.Windows.Forms.DateTimePicker()
+		Me.Label6 = New System.Windows.Forms.Label()
+		Me.Label7 = New System.Windows.Forms.Label()
+		Me.cboUnidadMedida = New System.Windows.Forms.ComboBox()
+		Me.TxtPrecio = New SigaMetClasses.Controles.txtNumeroDecimal()
+		Me.lblStatus1 = New System.Windows.Forms.Label()
+		Me.lblActiva = New System.Windows.Forms.Label()
+		Me.SuspendLayout()
+		'
+		'btnCancelar
+		'
+		Me.btnCancelar.BackColor = System.Drawing.SystemColors.Control
+		Me.btnCancelar.Image = CType(resources.GetObject("btnCancelar.Image"), System.Drawing.Image)
+		Me.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+		Me.btnCancelar.Location = New System.Drawing.Point(480, 48)
+		Me.btnCancelar.Name = "btnCancelar"
+		Me.btnCancelar.Size = New System.Drawing.Size(75, 23)
+		Me.btnCancelar.TabIndex = 8
+		Me.btnCancelar.Text = "&Cancelar"
+		Me.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+		Me.btnCancelar.UseVisualStyleBackColor = False
+		'
+		'btnAceptar
+		'
+		Me.btnAceptar.BackColor = System.Drawing.SystemColors.Control
+		Me.btnAceptar.Image = CType(resources.GetObject("btnAceptar.Image"), System.Drawing.Image)
+		Me.btnAceptar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+		Me.btnAceptar.Location = New System.Drawing.Point(480, 16)
+		Me.btnAceptar.Name = "btnAceptar"
+		Me.btnAceptar.Size = New System.Drawing.Size(75, 23)
+		Me.btnAceptar.TabIndex = 7
+		Me.btnAceptar.Text = "&Aceptar"
+		Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+		Me.btnAceptar.UseVisualStyleBackColor = False
+		'
+		'lblNumMaterial
+		'
+		Me.lblNumMaterial.AutoSize = True
+		Me.lblNumMaterial.Location = New System.Drawing.Point(16, 20)
+		Me.lblNumMaterial.Name = "lblNumMaterial"
+		Me.lblNumMaterial.Size = New System.Drawing.Size(77, 13)
+		Me.lblNumMaterial.TabIndex = 9
+		Me.lblNumMaterial.Text = "Núm. Material:"
+		'
+		'txtNumMaterial
+		'
+		Me.txtNumMaterial.BackColor = System.Drawing.SystemColors.Window
+		Me.txtNumMaterial.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.txtNumMaterial.Location = New System.Drawing.Point(96, 16)
+		Me.txtNumMaterial.Name = "txtNumMaterial"
+		Me.txtNumMaterial.ReadOnly = True
+		Me.txtNumMaterial.Size = New System.Drawing.Size(120, 22)
+		Me.txtNumMaterial.TabIndex = 10
+		Me.txtNumMaterial.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+		'
+		'Label2
+		'
+		Me.Label2.AutoSize = True
+		Me.Label2.Location = New System.Drawing.Point(16, 56)
+		Me.Label2.Name = "Label2"
+		Me.Label2.Size = New System.Drawing.Size(102, 13)
+		Me.Label2.TabIndex = 11
+		Me.Label2.Text = "Descripción Material"
+		'
+		'txtDescripcion
+		'
+		Me.txtDescripcion.BackColor = System.Drawing.SystemColors.Window
+		Me.txtDescripcion.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+		Me.txtDescripcion.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.txtDescripcion.Location = New System.Drawing.Point(16, 72)
+		Me.txtDescripcion.Multiline = True
+		Me.txtDescripcion.Name = "txtDescripcion"
+		Me.txtDescripcion.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+		Me.txtDescripcion.Size = New System.Drawing.Size(416, 48)
+		Me.txtDescripcion.TabIndex = 12
+		'
+		'Label3
+		'
+		Me.Label3.AutoSize = True
+		Me.Label3.Location = New System.Drawing.Point(16, 131)
+		Me.Label3.Name = "Label3"
+		Me.Label3.Size = New System.Drawing.Size(79, 13)
+		Me.Label3.TabIndex = 13
+		Me.Label3.Text = "Clave Material:"
+		'
+		'txtClaveMaterial
+		'
+		Me.txtClaveMaterial.BackColor = System.Drawing.SystemColors.Window
+		Me.txtClaveMaterial.Location = New System.Drawing.Point(120, 128)
+		Me.txtClaveMaterial.Name = "txtClaveMaterial"
+		Me.txtClaveMaterial.Size = New System.Drawing.Size(104, 21)
+		Me.txtClaveMaterial.TabIndex = 14
+		'
+		'lblStatus
+		'
+		Me.lblStatus.AutoSize = True
+		Me.lblStatus.Location = New System.Drawing.Point(240, 165)
+		Me.lblStatus.Name = "lblStatus"
+		Me.lblStatus.Size = New System.Drawing.Size(42, 13)
+		Me.lblStatus.TabIndex = 15
+		Me.lblStatus.Text = "Status:"
+		'
+		'cboStatus
+		'
+		Me.cboStatus.Items.AddRange(New Object() {"ACTIVO", "INACTIVO"})
+		Me.cboStatus.Location = New System.Drawing.Point(328, 160)
+		Me.cboStatus.Name = "cboStatus"
+		Me.cboStatus.Size = New System.Drawing.Size(104, 21)
+		Me.cboStatus.TabIndex = 16
+		Me.cboStatus.Text = "ACTIVO"
+		'
+		'lblFStatus
+		'
+		Me.lblFStatus.AutoSize = True
+		Me.lblFStatus.Location = New System.Drawing.Point(16, 163)
+		Me.lblFStatus.Name = "lblFStatus"
+		Me.lblFStatus.Size = New System.Drawing.Size(74, 13)
+		Me.lblFStatus.TabIndex = 17
+		Me.lblFStatus.Text = "Fecha Status:"
+		'
+		'dtpFStatus
+		'
+		Me.dtpFStatus.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+		Me.dtpFStatus.Location = New System.Drawing.Point(120, 160)
+		Me.dtpFStatus.Name = "dtpFStatus"
+		Me.dtpFStatus.Size = New System.Drawing.Size(104, 21)
+		Me.dtpFStatus.TabIndex = 18
+		'
+		'Label6
+		'
+		Me.Label6.AutoSize = True
+		Me.Label6.Location = New System.Drawing.Point(232, 131)
+		Me.Label6.Name = "Label6"
+		Me.Label6.Size = New System.Drawing.Size(81, 13)
+		Me.Label6.TabIndex = 19
+		Me.Label6.Text = "Unidad Medida:"
+		'
+		'Label7
+		'
+		Me.Label7.AutoSize = True
+		Me.Label7.Location = New System.Drawing.Point(232, 19)
+		Me.Label7.Name = "Label7"
+		Me.Label7.Size = New System.Drawing.Size(40, 13)
+		Me.Label7.TabIndex = 21
+		Me.Label7.Text = "Precio:"
+		'
+		'cboUnidadMedida
+		'
+		Me.cboUnidadMedida.Location = New System.Drawing.Point(328, 128)
+		Me.cboUnidadMedida.Name = "cboUnidadMedida"
+		Me.cboUnidadMedida.Size = New System.Drawing.Size(104, 21)
+		Me.cboUnidadMedida.TabIndex = 23
+		'
+		'TxtPrecio
+		'
+		Me.TxtPrecio.BackColor = System.Drawing.SystemColors.Window
+		Me.TxtPrecio.Location = New System.Drawing.Point(272, 16)
+		Me.TxtPrecio.Name = "TxtPrecio"
+		Me.TxtPrecio.Size = New System.Drawing.Size(160, 21)
+		Me.TxtPrecio.TabIndex = 24
+		'
+		'lblStatus1
+		'
+		Me.lblStatus1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.lblStatus1.Location = New System.Drawing.Point(328, 160)
+		Me.lblStatus1.Name = "lblStatus1"
+		Me.lblStatus1.Size = New System.Drawing.Size(104, 24)
+		Me.lblStatus1.TabIndex = 25
+		Me.lblStatus1.Text = "Activo"
+		Me.lblStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+		'
+		'lblActiva
+		'
+		Me.lblActiva.Location = New System.Drawing.Point(448, 120)
+		Me.lblActiva.Name = "lblActiva"
+		Me.lblActiva.Size = New System.Drawing.Size(32, 24)
+		Me.lblActiva.TabIndex = 26
+		'
+		'frmModificaMaterial
+		'
+		Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
+		Me.BackColor = System.Drawing.Color.LightSteelBlue
+		Me.ClientSize = New System.Drawing.Size(560, 190)
+		Me.Controls.Add(Me.lblActiva)
+		Me.Controls.Add(Me.lblStatus1)
+		Me.Controls.Add(Me.TxtPrecio)
+		Me.Controls.Add(Me.cboUnidadMedida)
+		Me.Controls.Add(Me.Label7)
+		Me.Controls.Add(Me.Label6)
+		Me.Controls.Add(Me.lblFStatus)
+		Me.Controls.Add(Me.lblStatus)
+		Me.Controls.Add(Me.Label3)
+		Me.Controls.Add(Me.Label2)
+		Me.Controls.Add(Me.lblNumMaterial)
+		Me.Controls.Add(Me.dtpFStatus)
+		Me.Controls.Add(Me.cboStatus)
+		Me.Controls.Add(Me.txtClaveMaterial)
+		Me.Controls.Add(Me.txtDescripcion)
+		Me.Controls.Add(Me.txtNumMaterial)
+		Me.Controls.Add(Me.btnCancelar)
+		Me.Controls.Add(Me.btnAceptar)
+		Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+		Me.Name = "frmModificaMaterial"
+		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+		Me.Text = "ModificaMaterial"
+		Me.ResumeLayout(False)
+		Me.PerformLayout()
 
-    End Sub
+	End Sub
 
 #End Region
 
-    Private Sub LlenaUnidadMedida()
+	Private Sub LlenaUnidadMedida()
         Dim LlenaCombo As String = "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED " _
                           & " Select UnidadMedida,CAST(UnidadMedida as VarChar(3)) +' '+Descripción as Descripcion From UnidadMedida" _
                           & " SET TRANSACTION ISOLATION LEVEL READ COMMITTED "
