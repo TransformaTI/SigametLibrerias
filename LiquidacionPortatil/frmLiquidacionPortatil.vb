@@ -8391,7 +8391,7 @@ Public Class frmLiquidacionPortatil
 		Dim Saldo As Decimal
 		Dim formapago As String
 		Dim insertaCobro As New SigaMetClasses.CobroDetalladoDatos()
-		Dim TotalRemisiones As Decimal = Convert.ToDecimal(_DetalleGrid.Compute("SUM(saldo)", String.Empty))
+		Dim TotalRemisiones As Decimal = Convert.ToDecimal(_DetalleGrid.Compute("SUM(saldo)", "FormaPago <> 'Crédito Portátil'"))
 		Dim insertacobroRemision As New SigaMetClasses.CobroRemisiones
 		If TotalRemisiones > 0 Then
 			With insertaCobro
