@@ -283,6 +283,8 @@ namespace LiquidacionSTN
 		string _StatusServicio;
 		int _TIpoCobro;
 
+        string _numeroTarjeta;
+
         // 22-10-2018 RM. Variable local para guardar el cliente
         int _Cliente;
 
@@ -316,7 +318,7 @@ namespace LiquidacionSTN
         private byte _Modulo;
         private string _CadenaConexion;
         private string _FuenteGateway;
-
+        
         // Variable para deshabilitar el botón Presupuesto de la forma frmCerrarOrden -- RM 27/09/2018
         private bool _VerCerrarOrden_Presupuesto;
 
@@ -2746,7 +2748,8 @@ namespace LiquidacionSTN
 				foreach (System.Data.DataRow dr in ConsultaC)
 				{
 					_ClienteTarjeta = Convert.ToInt32 (dr["cliente"]);
-				}
+                    _numeroTarjeta= Convert.ToString(dr["TarjetaCredito"]);
+                }
 
 			}
 			catch (Exception exc)
@@ -3002,7 +3005,7 @@ namespace LiquidacionSTN
                                                     Parametro = Comando.Parameters.Add("@FChequeTarjetaCredito", SqlDbType.DateTime);
                                                     Parametro.Value = drVoucher["Fecha"];
                                                     Parametro = Comando.Parameters.Add("@NumCuenta", SqlDbType.Char);
-                                                    Parametro.Value = dr["NumCuentaCheque"];
+                                                    Parametro.Value = drVoucher["Folio"];
                                                     Parametro = Comando.Parameters.Add("@NumChequeTarjetaCredito", SqlDbType.Char);
                                                     //Parametro.Value = drVoucher["Folio"];
                                                     Parametro.Value = drVoucher["Autorizacion"];
@@ -3402,6 +3405,7 @@ namespace LiquidacionSTN
 							//LiquidacionSTN.frmBaucher Baucher = new LiquidacionSTN.frmBaucher (Convert.ToInt32 (lblCliente.Text) ,_PedidoReferencia);
 							//Baucher.ShowDialog ();
                             LiquidacionSTN.frmVoucher frmVoucher = new LiquidacionSTN.frmVoucher(Convert.ToInt32(lblCliente.Text), _PedidoReferencia);
+                            frmVoucher.NumeroTarjeta = _numeroTarjeta;
                             frmVoucher.ShowDialog();
                             LlenaVoucher();
 							Cursor = Cursors.Default ;

@@ -19,6 +19,7 @@ namespace LiquidacionSTN
         private string _NumAfiliacion;
         private short _BancoAfiliacion;
         private byte _TipoTarjeta;
+        private string _numeroTarjeta;
 
         int _Pedido;
         int _Celula;
@@ -59,7 +60,20 @@ namespace LiquidacionSTN
         /// </summary>
         private System.ComponentModel.Container components = null;
 
-		public frmVoucher(int Cliente,string PedidoReferencia)
+        public string NumeroTarjeta
+        {
+            get
+            {
+                return _numeroTarjeta;
+            }
+
+            set
+            {
+                _numeroTarjeta = value;
+            }
+        }
+
+        public frmVoucher(int Cliente,string PedidoReferencia)
 		{
 			
 			_PedidoReferencia = PedidoReferencia;
@@ -467,7 +481,7 @@ namespace LiquidacionSTN
                 //Registro["Banco"] = this.cboBanco.SelectedValue;
                 Registro["Banco"] = _BancoAfiliacion;
                 Registro["Fecha"] = this.dtpFecha.Value.Date;
-                //Registro["Folio"] = this.txtFolio.Text;
+                Registro["Folio"] = _numeroTarjeta;
                 Registro["Monto"] = this.txtMonto.Text;
                 Registro["Autotanque"] = _Autotanque;
                 Registro["Saldo"] = _Saldo;
