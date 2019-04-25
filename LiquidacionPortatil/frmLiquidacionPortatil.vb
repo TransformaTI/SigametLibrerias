@@ -8390,9 +8390,20 @@ Public Class frmLiquidacionPortatil
 	Public Function AltaPagoEfectivo(PagoNum As Integer) As SigaMetClasses.CobroDetalladoDatos
 		Dim Saldo As Decimal
 		Dim formapago As String
+		Dim Total As Decimal = 0
 		Dim insertaCobro As New SigaMetClasses.CobroDetalladoDatos()
-		Dim TotalRemisiones As Decimal = Convert.ToDecimal(_DetalleGrid.Compute("SUM(saldo)", "FormaPago <> 'Crédito Portátil'"))
+		'Dim TotalRemisiones2 As Decimal = Convert.ToDecimal(_DetalleGrid.Compute("SUM(saldo)", "FormaPago <> 'Crédito Portátil'"))
+		Dim TotalRemisiones As Decimal = 0
 		Dim insertacobroRemision As New SigaMetClasses.CobroRemisiones
+
+		For Each row As DataRow In _DetalleGrid.Rows
+			Saldo = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"), Decimal)
+			formapago = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago"), String).Trim
+			If Saldo > 0 And formapago <> "Crédito Portátil" Then
+				TotalRemisiones = TotalRemisiones + Saldo
+			End If
+		Next
+
 		If TotalRemisiones > 0 Then
 			With insertaCobro
 				.Pago = PagoNum
@@ -8442,6 +8453,7 @@ Public Class frmLiquidacionPortatil
 					insertacobroRemision.Serie = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Serie"), String)
 					insertacobroRemision.Producto = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Producto"), String)
 					_ListaCobroRemisiones.Add(insertacobroRemision)
+					Total = Total + Saldo
 				End If
 			Next
 		Else
