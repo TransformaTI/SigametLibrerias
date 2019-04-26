@@ -7275,8 +7275,8 @@ Public Class frmLiquidacionPortatil
                 llenarListaEntrega()
             End If
         Catch ex As Exception
-            MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+			MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
+		End Try
     End Sub
 
     Private Sub llenarListaEntrega()
@@ -8713,14 +8713,14 @@ Public Class frmLiquidacionPortatil
 
     Private Function obtenerRegistroProducto(ByVal _Clave As Integer) As Integer
 
-        For i As Integer = 0 To _dtListaProductos.Rows.Count
-            If CType(_dtListaProductos.Rows(i).Item(0), Integer) = _Clave Then
-                Return i
-            End If
-        Next
-        Return 0
+		For i As Integer = 0 To _dtListaProductos.Rows.Count - 1
+			If CType(_dtListaProductos.Rows(i).Item(0), Integer) = _Clave Then
+				Return i
+			End If
+		Next
+		Return -1
 
-    End Function
+	End Function
 
     Public Sub Totalizador()
 
@@ -8732,10 +8732,9 @@ Public Class frmLiquidacionPortatil
         Dim totalcobro As Decimal = 0
         Dim cantidad As Decimal = 0
         Dim Kilos As Decimal = 0
-        Dim fila As Integer = 0
+		Dim fila As Integer = 0
 
-
-        ObtenProductos()
+		ObtenProductos()
         If _DetalleGrid.Rows.Count <> 0 Then
             While i < _DetalleGrid.Rows.Count  'txtLista.Count
 
@@ -8752,10 +8751,12 @@ Public Class frmLiquidacionPortatil
                 Kilos = Kilos + Kilostotal
 
                 If CType(_DetalleGrid.Rows(i).Item(8), String).ToUpper.Trim = "OBSEQUIO" Then
-                    fila = obtenerRegistroProducto(CType(grdDetalle.Item(i, 11), Integer))
+					fila = obtenerRegistroProducto(CType(_DetalleGrid.Rows(i).Item(11), Integer))
+					If (fila > -1) Then
+						TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) 'Total
+					End If
 
-                    TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) 'Total
-                End If
+				End If
 
                 i = i + 1
             End While
