@@ -7353,7 +7353,7 @@ Public Class frmLiquidacionPortatil
 
 		End Try
 		validarFormasPago()
-		'Totalizador()
+		Totalizador()
 		ActualizarTotalizadorFormasDePago(_listaCobros)
 	End Sub
 

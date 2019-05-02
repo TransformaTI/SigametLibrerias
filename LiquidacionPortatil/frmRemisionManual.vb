@@ -2333,6 +2333,10 @@ Public Class frmRemisionManual
 						lblNombreCliente.Text = oCliente.Cliente
 						cboTipoCobro.PosicionaCombo(_TipoCobroClienteNormal)
 						cboZEconomica.PosicionaCombo(_ZonaEconomicaClienteNormal)
+						If _ZonaEconomicaActual = -1 Then
+							_actualizaProductos = False
+							CargarProductosVarios()
+						End If
 					End If
 				Else
 					TxtCliente.Text = ""
