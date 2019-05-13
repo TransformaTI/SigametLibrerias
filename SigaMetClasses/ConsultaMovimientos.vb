@@ -38,6 +38,7 @@ Public Class ConsultaMovimientos
     Private validarPeticion As Boolean
     Private listaClientesEnviados As List(Of Integer)
     Private tempDireccionEntrega As RTGMCore.DireccionEntrega
+    Private _MovCaja As String
 #End Region
 
 #Region "Propiedades"
@@ -1242,6 +1243,7 @@ Public Class ConsultaMovimientos
         _Status = CType(grdMovimientoCaja.Item(grdMovimientoCaja.CurrentRowIndex, 10), String).Trim
         lblObservaciones.Text = CType(grdMovimientoCaja.Item(grdMovimientoCaja.CurrentRowIndex, 13), String)
         _Empleado = CType(grdMovimientoCaja.Item(grdMovimientoCaja.CurrentRowIndex, 15), Integer)
+        _MovCaja = CType(grdMovimientoCaja.Item(grdMovimientoCaja.CurrentRowIndex, 0), String)
 
         grdMovimientoCaja.Select(grdMovimientoCaja.CurrentRowIndex)
         btnConsultarCobro.Enabled = False
@@ -1262,7 +1264,10 @@ Public Class ConsultaMovimientos
         Dim dtTempMov As DataTable
         dtTempMov = CType(grdMovimientoCaja.DataSource, DataTable)
         dtTempMov2 = dtTempMov.Clone
-        dtTempMov2.ImportRow(dtTempMov.Rows(grdMovimientoCaja.CurrentRowIndex))
+        'dtTempMov2.ImportRow(dtTempMov.Rows(grdMovimientoCaja.CurrentRowIndex))
+        dtTempMov2 = dtTempMov.Select("clave='" + CType(_MovCaja, String) + "'").CopyToDataTable()
+        ' dtTempCobro.Select("cobro='" + CType(_CobroCons, String) + "'").FirstOrDefault
+
 
         If _Status = "EMITIDO" Then
             Me.btnModificar.Enabled = True
@@ -1467,6 +1472,8 @@ Public Class ConsultaMovimientos
                     drow("ClienteNombre") = "Error al buscar"
                 End Try
             Next
+
+
 
             grdCobro.DataSource = dtCobro
 
