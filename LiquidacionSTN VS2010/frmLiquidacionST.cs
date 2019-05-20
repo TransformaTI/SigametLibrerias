@@ -2424,7 +2424,7 @@ namespace LiquidacionSTN
 			LiquidacionSTN.Modulo.dtVoucher.Columns.Add (ColumnaVoucher);
 
 			ColumnaVoucher = new DataColumn ();
-			ColumnaVoucher.DataType = System.Type.GetType ("System.Int32");
+			ColumnaVoucher.DataType = System.Type.GetType ("System.String");
 			ColumnaVoucher.ColumnName = "Folio";
 			LiquidacionSTN.Modulo.dtVoucher.Columns.Add (ColumnaVoucher);
 
