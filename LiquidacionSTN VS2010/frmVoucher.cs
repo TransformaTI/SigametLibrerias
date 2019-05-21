@@ -20,6 +20,7 @@ namespace LiquidacionSTN
         private short _BancoAfiliacion;
         private byte _TipoTarjeta;
         private string _numeroTarjeta;
+        private int _BancoTarjeta;
 
         int _Pedido;
         int _Celula;
@@ -70,6 +71,19 @@ namespace LiquidacionSTN
             set
             {
                 _numeroTarjeta = value;
+            }
+        }
+
+        public int BancoTarjeta
+        {
+            get
+            {
+                return _BancoTarjeta;
+            }
+
+            set
+            {
+                _BancoTarjeta = value;
             }
         }
 
@@ -487,6 +501,7 @@ namespace LiquidacionSTN
                 Registro["Saldo"] = _Saldo;
                 Registro["Autorizacion"] = txtAutorizacion.Text;
                 Registro["Afiliacion"] = _NumAfiliacion;
+                Registro["BancoTarjeta"] = _BancoTarjeta;
 
                 LiquidacionSTN.Modulo.dtVoucher.Rows.Add(Registro);
 

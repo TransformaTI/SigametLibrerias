@@ -303,6 +303,7 @@ namespace LiquidacionSTN
 		int PedBD;
 		decimal _Saldo;
 		int _ClienteTarjeta;
+        int _bancoTarjeta;
 		
 		int _Pedido;
 		int _Celula;
@@ -2453,6 +2454,11 @@ namespace LiquidacionSTN
             ColumnaVoucher.ColumnName = "Autorizacion";
             LiquidacionSTN.Modulo.dtVoucher.Columns.Add(ColumnaVoucher);
 
+            ColumnaVoucher = new DataColumn();
+            ColumnaVoucher.DataType = System.Type.GetType("System.Int32");
+            ColumnaVoucher.ColumnName = "BancoTarjeta";
+            LiquidacionSTN.Modulo.dtVoucher.Columns.Add(ColumnaVoucher);
+
         }
 
         public void LlenaGrid()
@@ -2749,6 +2755,7 @@ namespace LiquidacionSTN
 				{
 					_ClienteTarjeta = Convert.ToInt32 (dr["cliente"]);
                     _numeroTarjeta= Convert.ToString(dr["TarjetaCredito"]);
+                    _bancoTarjeta= Convert.ToInt32(dr["banco"]);
                 }
 
 			}
@@ -2998,8 +3005,10 @@ namespace LiquidacionSTN
                                                     Parametro.Value = dr["TipoServicio"];
                                                     Parametro = Comando.Parameters.Add("@TipoCobro", SqlDbType.Int);
                                                     Parametro.Value = dr["TipoCobro"];
-                                                    Parametro = Comando.Parameters.Add("@BancoTarjetaCredito", SqlDbType.Int);
+                                                    Parametro = Comando.Parameters.Add("@Banco", SqlDbType.Int);
                                                     Parametro.Value = drVoucher["Banco"];
+                                                    Parametro = Comando.Parameters.Add("@BancoTarjetaCredito", SqlDbType.Int);
+                                                    Parametro.Value = drVoucher["BancoTarjeta"];
                                                     Parametro = Comando.Parameters.Add("@Cliente", SqlDbType.Int);
                                                     Parametro.Value = dr["Cliente"];
                                                     Parametro = Comando.Parameters.Add("@FChequeTarjetaCredito", SqlDbType.DateTime);
@@ -3406,6 +3415,7 @@ namespace LiquidacionSTN
 							//Baucher.ShowDialog ();
                             LiquidacionSTN.frmVoucher frmVoucher = new LiquidacionSTN.frmVoucher(Convert.ToInt32(lblCliente.Text), _PedidoReferencia);
                             frmVoucher.NumeroTarjeta = _numeroTarjeta;
+                            frmVoucher.BancoTarjeta = _bancoTarjeta;
                             frmVoucher.ShowDialog();
                             LlenaVoucher();
 							Cursor = Cursors.Default ;
