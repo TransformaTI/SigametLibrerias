@@ -736,7 +736,10 @@ Public Class ConsultaCobro
                 lblCobro.Text = CType(dtCobro.Rows(0).Item("Cobro"), Integer).ToString
                 lblTipoCobroDescripcion.Text = CType(dtCobro.Rows(0).Item("TipoCobroDescripcion"), String)
                 If Not IsDBNull(dtCobro.Rows(0).Item("Cliente")) Then
-                    lblClienteNombre.Text = CType(dtCobro.Rows(0).Item("Cliente"), String) & " " & CType(dtCobro.Rows(0).Item("ClienteNombre"), String)
+                    lblClienteNombre.Text = CType(dtCobro.Rows(0).Item("Cliente"), String) & " "
+                    If Not IsDBNull(dtCobro.Rows(0).Item("ClienteNombre")) Then
+                        lblClienteNombre.Text = lblClienteNombre.Text & CType(dtCobro.Rows(0).Item("ClienteNombre"), String)
+                    End If
                 End If
                 lblTotal.Text = CType(dtCobro.Rows(0).Item("Total"), Decimal).ToString("N")
                 lblSaldo.Text = CType(dtCobro.Rows(0).Item("Saldo"), Decimal).ToString("N")
@@ -834,15 +837,21 @@ Public Class ConsultaCobro
 			If _CobroRow IsNot Nothing Then
 				lblAnoCobro.Text = CType(_CobroRow("AñoCobro"), Short).ToString
 				lblCobro.Text = CType(_CobroRow("Cobro"), Integer).ToString
-				lblTipoCobroDescripcion.Text = CType(_CobroRow("TipoCobroDescripcion"), String)
-				If Not IsDBNull(_CobroRow("Cliente")) Then
-					lblClienteNombre.Text = CType(_CobroRow("Cliente"), String) & " " & CType(_CobroRow("ClienteNombre"), String)
-				End If
-				lblTotal.Text = CType(_CobroRow("Total"), Decimal).ToString("N")
-				lblSaldo.Text = CType(_CobroRow("Saldo"), Decimal).ToString("N")
-				lblFAlta.Text = CType(_CobroRow("FAlta"), Date).ToString
-				lblStatus.Text = CType(_CobroRow("Status"), String)
-				If Not IsDBNull(_CobroRow("FCheque")) Then
+                lblTipoCobroDescripcion.Text = CType(_CobroRow("TipoCobroDescripcion"), String)
+
+                If Not IsDBNull(_CobroRow("Cliente")) Then
+                    lblClienteNombre.Text = CType(_CobroRow("Cliente"), String) & " "
+                    If Not IsDBNull(_CobroRow("ClienteNombre")) Then
+                        lblClienteNombre.Text = lblClienteNombre.Text & CType(_CobroRow("ClienteNombre"), String)
+                    End If
+                End If
+
+
+                lblTotal.Text = CType(_CobroRow("Total"), Decimal).ToString("N")
+                lblSaldo.Text = CType(_CobroRow("Saldo"), Decimal).ToString("N")
+                lblFAlta.Text = CType(_CobroRow("FAlta"), Date).ToString
+                lblStatus.Text = CType(_CobroRow("Status"), String)
+                If Not IsDBNull(_CobroRow("FCheque")) Then
 					lblFCheque.Text = CType(_CobroRow("FCheque"), Date).ToShortDateString
 				End If
 				lblNumeroCheque.Text = CType(_CobroRow("NumeroCheque"), String)
