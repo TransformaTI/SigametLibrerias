@@ -1571,7 +1571,7 @@ Public Class frmRemisionManual
 
 									Dim descuentoGrupal As Decimal
 									descuentoGrupal = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * Descuento
-									drow(9) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
+									drow(9) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) '- descuentoGrupal  'Total
 									drow("Descuento") = descuentoGrupal
 								Catch ex As Exception
 									Descuento = 0
@@ -1659,7 +1659,9 @@ Public Class frmRemisionManual
 									drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) - descuentoGrupal 'Importe
 									drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) - descuentoGrupal 'Saldo
 									drow("TipoCobro") = CType(cboTipoCobro.SelectedValue, Integer)
-									drow("Descuento") = descuentoGrupal
+									drow("Descuento") = descuentoGrupal.ToString("N4")
+									drow("Saldo") = (CType(drow("Importe"), Decimal) - descuentoGrupal).ToString("N4")
+
 									'drow(7) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'SALDO
 									'drow(6) = (CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_dtProductos.Rows(i).Item(2), Decimal)) - descuentoGrupal  'Total
 								Catch ex As Exception
@@ -2601,6 +2603,12 @@ Public Class frmRemisionManual
 			Dim fila As Integer
 			Dim campoTipoCobro As Integer
 			Dim campoDescuento As Integer
+			Dim campoCantidad As Integer
+			Dim campoImporte As Integer
+			Dim campoSaldo As Integer
+			Dim campoClaveTipoCobro As Integer
+
+
 
 			Dim Descuento As Decimal = 0
 
@@ -2735,10 +2743,21 @@ Public Class frmRemisionManual
 						fila = obtenerRegistroProducto(CType(grdDetalle.Item(i, 11), Integer))
 						campoTipoCobro = 8
 						campoDescuento = 5
+						campoCantidad = 10
+						campoImporte = 6
+						campoSaldo = 7
+						campoClaveTipoCobro = 13
+
 					Else
 						fila = obtenerRegistroProducto(CType(grdDetalle.Item(i, 3), Integer))
 						campoTipoCobro = 12
 						campoDescuento = 13
+						campoCantidad = 6
+						campoImporte = 9
+						campoSaldo = -1
+						campoClaveTipoCobro = -1
+
+
 					End If
 
 					grdDetalle.Item(i, campoDescuento) = 0
@@ -2818,11 +2837,26 @@ Public Class frmRemisionManual
 										If cbxAplicaDescuento.Checked Then
 											Try
 												Descuento = CDec(_DatosCliente.GetValue(7))
-												grdDetalle.Item(i, 13) = Descuento ' FALTA AGRAGAR COLUMNA DESCUENTO
+												'grdDetalle.Item(i, 13) = Descuento ' FALTA AGRAGAR COLUMNA DESCUENTO
 
-												descuentoGrupal = CType(grdDetalle.Item(i, 6), Decimal) * Descuento
-												grdDetalle.Item(i, 9) = CType(grdDetalle.Item(i, 9), Decimal) - descuentoGrupal  'Total
-												grdDetalle.Item(i, campoDescuento) = descuentoGrupal
+
+												'descuentoGrupal = CType(grdDetalle.Item(i, 6), Decimal) * Descuento
+
+												TipoDescuento = CInt(_DatosCliente.GetValue(6))
+												descuentoGrupal = calculaDescuento(TipoDescuento, Descuento, CType(grdDetalle.Item(i, campoCantidad), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal))
+
+												grdDetalle.Item(i, campoImporte) = (CType(grdDetalle.Item(i, campoCantidad), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal)).ToString("N4") 'CType(grdDetalle.Item(i, 9), Decimal) - descuentoGrupal  'Total
+												grdDetalle.Item(i, campoDescuento) = descuentoGrupal.ToString("N4")
+
+												If (campoSaldo > 0) Then
+													grdDetalle.Item(i, campoSaldo) = (CType(grdDetalle.Item(i, campoImporte), Decimal) - descuentoGrupal).ToString("N4")
+
+												End If
+												If (campoClaveTipoCobro > 0) Then
+													grdDetalle.Item(i, campoClaveTipoCobro) = 17
+
+												End If
+
 											Catch ex As Exception
 												Descuento = 0
 											End Try
