@@ -7860,9 +7860,10 @@ Public Class frmLiquidacionPortatil
 		Dim VentaTotal As Decimal = 0
 		Dim DescuentoTotal As Decimal = 0
 
+
 		If Not dt Is Nothing Then
 			For Each dr As DataRow In dt.Rows
-				VentaTotal = VentaTotal + Convert.ToDecimal(dr("importe").ToString())
+				VentaTotal = VentaTotal + (Convert.ToDecimal(dr("importe").ToString()) - Convert.ToDecimal(dr("descuento").ToString()))
 			Next
 		End If
 		Return VentaTotal
@@ -8092,38 +8093,47 @@ Public Class frmLiquidacionPortatil
 
 				Dim cobro As SigaMetClasses.CobroDetalladoDatos = AltaPagoEfectivo(Pago)
 					_listaCobros.Add(cobro)
+				Dim Saldo As Decimal
+				Dim formapago As String
 
 
-					'_listaCobros.AddRange(TodoPagoEfectivo(Pago))
-
-					For Each row As DataRow In _DetalleGrid.Rows
-						If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim = "CONTADO" Or CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim.ToUpper = "EFECTIVO" Then
-							_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo") = 0
-						Else
-							If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim = "Crédito Portátil" Then
-								Credito = Credito + CDec(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"))
-							End If
 
 
+
+				'_listaCobros.AddRange(TodoPagoEfectivo(Pago))
+
+				For Each row As DataRow In _DetalleGrid.Rows
+					Saldo = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"), Decimal)
+					formapago = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago"), String).Trim
+
+					'If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim = "CONTADO" Or CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim.ToUpper = "EFECTIVO" Then
+					If Saldo > 0 And formapago <> "Crédito Portátil" Then
+						_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo") = 0
+					Else
+						If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim = "Crédito Portátil" Then
+							Credito = Credito + CDec(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"))
 						End If
 
 
-						If Not _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row)) Is Nothing Then
-							If Not _BoletinEnLineaCamion Then
-								'SIN MOVILGAS
-								If _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") Is DBNull.Value Then
-									_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
-								End If
-							Else
-								'CON MOVILGAS
-								If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro")).Trim = "" Then
-									_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
-								End If
+					End If
+
+
+					If Not _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row)) Is Nothing Then
+						If Not _BoletinEnLineaCamion Then
+							'SIN MOVILGAS
+							If _DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") Is DBNull.Value Then
+								_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
 							End If
 						Else
+							'CON MOVILGAS
+							If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro")).Trim = "" Then
+								_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Tipocobro") = 5
+							End If
 						End If
-					Next
-					ActualizarTotalizadorFormasDePago(_listaCobros)
+					Else
+					End If
+				Next
+				ActualizarTotalizadorFormasDePago(_listaCobros)
 					MessageBox.Show("Cobro de remisiones concluída.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 				End If
 				Validacion()
