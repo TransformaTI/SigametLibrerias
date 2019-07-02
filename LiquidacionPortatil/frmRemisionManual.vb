@@ -2645,10 +2645,8 @@ Public Class frmRemisionManual
 								'grdDetalle.Item(i, 13) = Descuento ' FALTA AGRAGAR COLUMNA DESCUENTO
 								If nombreTabla = "Remision" Then
 									descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
-
 								Else
 									descuentoGrupal = CType(grdDetalle.Item(i, 6), Decimal) * Descuento
-
 								End If
 
 							Catch ex As Exception
@@ -2656,12 +2654,12 @@ Public Class frmRemisionManual
 							End Try
 						End If
 
-						grdDetalle.Item(i, campoDescuento) = descuentoGrupal
+						grdDetalle.Item(i, campoDescuento) = descuentoGrupal.ToString("N4")
 						If nombreTabla = "Remision" Then
 							descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
 							'Control de OBSEQUIO
-							grdDetalle.Item(i, 6) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) - descuentoGrupal 'Total
-							grdDetalle.Item(i, 7) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) - descuentoGrupal 'Total
+							grdDetalle.Item(i, 6) = (CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) - descuentoGrupal).ToString("N4") 'Total
+							grdDetalle.Item(i, 7) = (CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) - descuentoGrupal).ToString("N4") 'Total
 						Else
 							descuentoGrupal = CType(grdDetalle.Item(i, 6), Decimal) * Descuento
 							grdDetalle.Item(i, 7) = ((CType(grdDetalle.Item(i, 6), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal)) - descuentoGrupal) / ((CType((_dtListaProductos.Rows(fila).Item(4)), Decimal) / 100) + 1)
@@ -2680,10 +2678,19 @@ Public Class frmRemisionManual
 								If cbxAplicaDescuento.Checked Then
 									Try
 										Descuento = CDec(_DatosCliente.GetValue(7))
+										TipoDescuento = CInt(_DatosCliente.GetValue(6))
 										grdDetalle.Item(i, 5) = Descuento
 
-										descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
-										grdDetalle.Item(i, 7) = CType(grdDetalle.Item(i, 6), Decimal) - descuentoGrupal  'Total
+										'descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
+										Descuento = calculaDescuento(TipoDescuento, Descuento, CType(grdDetalle.Item(i, 4), Decimal))
+
+										If nombreTabla = "Remision" Then
+											descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
+										Else
+											descuentoGrupal = CType(grdDetalle.Item(i, 6), Decimal) * Descuento
+										End If
+										grdDetalle.Item(i, campoDescuento) = descuentoGrupal.ToString("N4")
+										grdDetalle.Item(i, 7) = (CType(grdDetalle.Item(i, 6), Decimal) - descuentoGrupal).ToString("N4")  'Total
 									Catch ex As Exception
 										Descuento = 0
 									End Try
@@ -2959,8 +2966,6 @@ Public Class frmRemisionManual
 		End Try
 
 	End Sub
-
-
 
 	Private Sub cboZEconomica_Leave(sender As Object, e As EventArgs) Handles cboZEconomica.Leave
 
