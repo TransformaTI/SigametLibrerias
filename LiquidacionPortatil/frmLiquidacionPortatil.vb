@@ -7139,9 +7139,9 @@ Public Class frmLiquidacionPortatil
 								End If
 
 								row("Kilos") = Convert.ToInt64(item("Valor"))
-								row("descuento") = Convert.ToDecimal(item("descuento"))
-								row("Importe") = item("TotalNeto")
-								row("Saldo") = item("TotalNeto")
+								row("descuento") = Convert.ToDecimal(item("descuento")).ToString("N4")
+								row("Importe") = Convert.ToDecimal(item("TotalNeto")).ToString("N4")
+								row("Saldo") = (Convert.ToDecimal(item("TotalNeto")) - Convert.ToDecimal(item("descuento"))).ToString("N4")
 								row("Descripcion") = item("ProductoDescripcion")
 								row("Cantidad") = item("Cantidad")
 								row("producto") = item("producto")
