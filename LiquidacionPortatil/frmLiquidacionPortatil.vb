@@ -4413,14 +4413,17 @@ Public Class frmLiquidacionPortatil
 							Dim Total As Decimal
 							Dim Importe As Decimal
 							Dim Impuesto As Decimal
+							Dim Precio As Decimal
 
 
 
 							If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) <> 15 Then
 								If _RutaMovil Then
-									Total = CType(dtLiquidacionTotal.Rows(i).Item(5), Decimal)
+									Total = CType(dtLiquidacionTotal.Rows(i).Item(5), Decimal) - CType(dtLiquidacionTotal.Rows(i).Item(22), Decimal)
+									Precio = CType(dtLiquidacionTotal.Rows(i).Item(5), Decimal)
 								Else
-									Total = CType(dtLiquidacionTotal.Rows(i).Item(15), Decimal)
+									Total = CType(dtLiquidacionTotal.Rows(i).Item(15), Decimal) - CType(dtLiquidacionTotal.Rows(i).Item(22), Decimal)
+									Precio = CType(dtLiquidacionTotal.Rows(i).Item(15), Decimal)
 								End If
 								If Total = 0 Then
 									Throw New Exception("Error en el proceso, sólo los obsequios pueden tener un total igual a cero, remisión: " & CType(dtLiquidacionTotal.Rows(i).Item(0), String) & " " & CType(dtLiquidacionTotal.Rows(i).Item(1), String))
@@ -4432,6 +4435,7 @@ Public Class frmLiquidacionPortatil
 							'Importe = Total / ((CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal) / 100) + 1)
 							'Impuesto = Total - Importe
 							_seccion = "Cálculo de importes"
+
 							Importe = Total / (1 + _ValorIva)
 							Impuesto = Total - Importe
 
