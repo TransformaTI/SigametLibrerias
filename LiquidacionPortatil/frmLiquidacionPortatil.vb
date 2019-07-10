@@ -7879,7 +7879,7 @@ Public Class frmLiquidacionPortatil
 		If Not dt Is Nothing Then
 			For Each dr As DataRow In dt.Rows
 				If dr("FormaPago").ToString().Trim = "Crédito Portátil" Then
-					VentaCredito = VentaCredito + Convert.ToDecimal(dr("Importe").ToString())
+					VentaCredito = VentaCredito + Convert.ToDecimal(dr("Saldo").ToString())
 				End If
 			Next
 		End If
