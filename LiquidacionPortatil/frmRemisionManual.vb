@@ -1656,7 +1656,7 @@ Public Class frmRemisionManual
 
 									Dim descuentoGrupal As Decimal
 									descuentoGrupal = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * Descuento
-									drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) - descuentoGrupal 'Importe
+									drow(6) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) '- descuentoGrupal 'Importe
 									drow(7) = CType(CType(txtListaCantidad.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * _DiccionarioPrecios(CType(_dtProductos.Rows(i).Item(0), Integer)) - descuentoGrupal 'Saldo
 									drow("TipoCobro") = CType(cboTipoCobro.SelectedValue, Integer)
 									drow("Descuento") = descuentoGrupal.ToString("N4")
@@ -2666,7 +2666,7 @@ Public Class frmRemisionManual
 						If nombreTabla = "Remision" Then
 							descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
 							'Control de OBSEQUIO
-							grdDetalle.Item(i, 6) = (CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) - descuentoGrupal).ToString("N4") 'Total
+							grdDetalle.Item(i, 6) = (CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal)).ToString("N4") 'Total
 							grdDetalle.Item(i, 7) = (CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) - descuentoGrupal).ToString("N4") 'Total
 						Else
 							descuentoGrupal = CType(grdDetalle.Item(i, 6), Decimal) * Descuento
@@ -2815,7 +2815,7 @@ Public Class frmRemisionManual
 								If nombreTabla = "Remision" Then
 									descuentoGrupal = CType(grdDetalle.Item(i, 10), Decimal) * Descuento
 									'Control de OBSEQUIO
-									grdDetalle.Item(i, 6) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) - descuentoGrupal 'Total
+									grdDetalle.Item(i, 6) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) '- descuentoGrupal 'Total
 									grdDetalle.Item(i, 7) = CType(grdDetalle.Item(i, 10), Decimal) * CType(_dtListaProductos.Rows(fila).Item(2), Decimal) - descuentoGrupal 'Total
 									grdDetalle.Item(i, 13) = cboTipoCobro.Identificador
 								Else
