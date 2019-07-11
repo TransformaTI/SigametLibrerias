@@ -3330,6 +3330,7 @@ Public Class frmLiquidacionPortatil
 	'20150627CNSM$003-----------------
 	Private Sub CargaGrid()
 
+		Dim agregado As Boolean
 
 		Dim oProducto As New PortatilClasses.cLiquidacion()
 		'20150627CNSM$003-----------------
@@ -3463,15 +3464,21 @@ Public Class frmLiquidacionPortatil
 				drow(20) = _DetalleGrid.Rows(i).Item(0)
 				drow(21) = _DetalleGrid.Rows(i).Item(1)
 				' If Not VerificaRegistroGrid(drow) Then
+
+				agregado = False
 				If CDec(_DetalleGrid.Rows(i).Item(7)) = 0 Then
 					dtLiquidacionTotal.Rows.Add(drow)
+					agregado = True
 				Else
 					dtLiquidacionTotal.Rows.Add(drow)
+					agregado = True
 				End If
 				'End If
 
 				If (CDec(_DetalleGrid.Rows(i).Item("Saldo")) < CDec(_DetalleGrid.Rows(i).Item("Importe")) And CDec(_DetalleGrid.Rows(i).Item("Saldo")) > 0) Then
-					dtLiquidacionTotal.Rows.Add(drow)
+					If Not agregado Then
+						dtLiquidacionTotal.Rows.Add(drow)
+					End If
 				End If
 
 				grdDetalle.DataSource = Nothing
