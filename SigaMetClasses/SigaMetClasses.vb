@@ -5888,6 +5888,32 @@ Public Class Cobro
         End Try
     End Function
 
+    Public Function DatosPedidoCheque(AñoCobro As Integer, Cobro As Integer) As DataTable
+        Dim da As SqlDataAdapter
+
+        Dim dt = New DataTable("Pedido")
+        'da.Fill(dt)
+
+
+
+        Dim cmd As New SqlCommand("select RUTA, ISNULL(Producto,0) AS 'Producto',isnull(Descuento,0) as 'Descuento',isnull(Importe,0) as 'importe',isnull(Impuesto,0) as 'Impuesto' from pedido  where AñoCobro = " & AñoCobro & "and cobro = " & Cobro)
+        Dim dr As SqlDataReader
+        cmd.CommandType = CommandType.Text
+        Try
+            cmd.Transaction = Transaccion
+            cmd.Connection = DataLayer.Conexion
+            dr = cmd.ExecuteReader()
+            dt.Load(dr)
+            Return dt
+        Catch ex As Exception
+            Throw ex
+        Finally
+            cmd.Dispose()
+        End Try
+
+        Return dt
+    End Function
+
     Public Sub actualizarPedido(ByVal PedidoReferenciaActual As String,
                                  ByVal PedidoReferenciaNuevo As String)
 

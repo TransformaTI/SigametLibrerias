@@ -1232,12 +1232,14 @@ Public Class BusquedaCliente
                             URLGateway:=_URLGateway, CadenaCon:=_CadenaConexion, Modulo:=_Modulo)
             End If
 
-            Dim IdDireccionesEntrega As Integer = CInt(lvwCliente.Items(lvwCliente.FocusedItem.Index).SubItems(0).Text)
-            oConsulta.ClienteRow = _DireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = IdDireccionesEntrega)
+            If _DireccionesEntrega.Count > 0 Then
+                Dim IdDireccionesEntrega As Integer = CInt(lvwCliente.Items(lvwCliente.FocusedItem.Index).SubItems(0).Text)
+                oConsulta.ClienteRow = _DireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = IdDireccionesEntrega)
+            End If
             oConsulta.ShowDialog()
-            'oConsulta.ClienteRow = _DireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(lvwCliente.Items(lvwCliente.FocusedItem.Index).SubItems(1).ToString()))
-            Cursor = Cursors.Default
-        End If
+                'oConsulta.ClienteRow = _DireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(lvwCliente.Items(lvwCliente.FocusedItem.Index).SubItems(1).ToString()))
+                Cursor = Cursors.Default
+            End If
     End Sub
 
     '20150705CNSM$002-----------------

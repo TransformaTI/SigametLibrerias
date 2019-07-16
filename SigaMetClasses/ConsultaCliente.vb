@@ -1901,7 +1901,7 @@ Public Class frmConsultaCliente
 		_CambioEmpleadoNomina = PermiteCambioEmpleadoNomina
 		_CambioClientePadre = PermiteCambioCtePadre
 		_Modulo = Modulo
-        'Me._ClienteRow = _ClienteRow
+        Me._ClienteRow = _ClienteRow
         PermiteModificarDatosCte = PermiteModificarDatosCliente
 
         'If (String.IsNullOrEmpty(_URLGateway)) Then
@@ -2889,6 +2889,7 @@ Public Class frmConsultaCliente
         'Dim oDireccionEntrega As RTGMCore.DireccionEntrega
 
         If IsNothing(_ClienteRow) Then
+
             Try
                 If (Cliente > 0 And Not String.IsNullOrEmpty(URLGateway)) Then
                     Cursor = Cursors.WaitCursor
