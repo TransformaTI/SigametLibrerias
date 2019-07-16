@@ -4477,7 +4477,7 @@ Public Class frmLiquidacionPortatil
 									"SURTIDO",
 									ClienteTemp,
 									Now,
-									SaldoTemp,
+									Total,
 									"", 1, 8,
 									CType(_drLiquidacion(0).Item(25), Short),
 									0, 0,
@@ -4604,7 +4604,7 @@ Public Class frmLiquidacionPortatil
 						If _TotalNetoCaja = 0 Then
 							For Each dr As DataRow In dtLiquidacionTotal.Rows
 								If CType(dr("TipoCobro"), String) <> "18" Then
-									_TotalNetoCaja = _TotalNetoCaja + CType(dr("Subtotal"), Decimal)
+									_TotalNetoCaja = _TotalNetoCaja + CType(dr("Subtotal"), Decimal) - CType(dr("Descuento"), Decimal)
 								End If
 							Next
 						End If
