@@ -3493,7 +3493,7 @@ Public Class frmLiquidacionPortatil
 					_KilosCredito = _KilosCredito '+ (CType(CType(txtLista.Item(1), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(oProducto.dtTable.Rows(1).Item(6), Integer))
 				End If
 				If CType(drow(10), Integer) <> _TipoCobroCredito Then
-					_TotalNetoCaja = _TotalNetoCaja + CType(drow(11), Decimal)
+					_TotalNetoCaja = _TotalNetoCaja + CType(drow(11), Decimal) - CType(drow(22), Decimal)
 				End If
 
 				' CType(lblLista.Item(1), System.Windows.Forms.Label).Text = CType(CType(CType(lblLista.Item(1), System.Windows.Forms.Label).Text, Integer) - ValorText, String)
