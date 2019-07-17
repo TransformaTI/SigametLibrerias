@@ -1786,74 +1786,7 @@ Public Class ConsultaCargo
         End If
     End Sub
 
-    Private Sub ConsultaDocumento(ByVal PedidoReferencia As String, ByVal URLGateway As String)
 
-        Dim objGateway As RTGMGateway.RTGMPedidoGateway
-        Dim objSolicitud As RTGMGateway.SolicitudPedidoGateway
-        Dim lstPedidos As New Generic.List(Of RTGMCore.Pedido)
-        'Dim Referencia As Integer
-
-        Try
-            LimpiaCajas()
-            'Referencia = Convert.ToInt32(PedidoReferencia)
-
-            If (Not String.IsNullOrEmpty(PedidoReferencia)) Then
-                objGateway = New RTGMGateway.RTGMPedidoGateway(_Modulo, _CadenaConexion)
-                objGateway.URLServicio = URLGateway
-
-                objSolicitud = New RTGMGateway.SolicitudPedidoGateway
-                objSolicitud.TipoConsultaPedido = RTGMCore.TipoConsultaPedido.Boletin
-                objSolicitud.PedidoReferencia = PedidoReferencia
-
-                lstPedidos = objGateway.buscarPedidos(objSolicitud)
-
-                If lstPedidos.Count > 0 Then
-                    lblPedido.Text = If(lstPedidos(0).PedidoReferencia, "").Trim
-
-                    lblAnoPed.Text = lstPedidos(0).AnioPed.ToString
-
-                    lblTipoDocumento.Text = If(lstPedidos(0).TipoCargo, "").Trim
-
-                    lblStatusPedido.Text = If(lstPedidos(0).EstatusPedido, "").Trim
-
-                    lblStatusCobranza.Text = If(lstPedidos(0).EstatusPedido, "").Trim
-
-                    If Not IsNothing(lstPedidos(0).DireccionEntrega) Then
-                        lblCliente.Text = lstPedidos(0).DireccionEntrega.IDDireccionEntrega & " " &
-                            If(lstPedidos(0).DireccionEntrega.Nombre, "").Trim
-                    End If
-
-                    If Not IsNothing(lstPedidos(0).RutaSuministro) Then
-                        lblRutaSuministro.Text = If(lstPedidos(0).RutaSuministro.Descripcion, "").Trim
-                    End If
-
-                    lblFCargo.Text = lstPedidos(0).FCargo.ToString
-
-                    If Not IsNothing(lstPedidos(0).Importe) Then
-                        lblImporte.Text = CDec(lstPedidos(0).Importe).ToString("C")
-                    End If
-
-                    If Not IsNothing(lstPedidos(0).Saldo) Then
-                        lblSaldo.Text = CDec(lstPedidos(0).Saldo).ToString("C")
-                    End If
-                Else
-                    MessageBox.Show("No se encontró la referencia.", Me.Titulo,
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information)
-                End If
-            Else
-                MessageBox.Show("Introduzca un número de documento válido.",
-                    Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            End If
-        Catch ex As System.OverflowException
-            MessageBox.Show("Introduzca un número de documento válido.",
-             Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        Catch ex As Exception
-            MessageBox.Show("Ha ocurrido un error:" & CrLf & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Exit Sub
-        End Try
-
-    End Sub
 
     Private Sub ConsultaHistoricoAbonos(ByVal PedidoReferencia As String)
         Dim da As New SqlDataAdapter("spCyCConsultaHistoricoAbonoDocumento", DataLayer.Conexion)

@@ -1960,7 +1960,7 @@ Public Class ConsultaMovimientos
     End Sub
 
     Private Sub btnConsultar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultar.Click
-        If Not String.IsNullOrEmpty(_URLGateway) AndAlso _ConsultarPedidosGateway Then
+        If Not String.IsNullOrEmpty(_URLGateway) AndAlso _ConsultarPedidosGateway Then ' eL PARAMETRO _ConsultarPedidosGateway=FALSE CONSULTA PEDIDOS en sigamet
             CargaDatos(_URLGateway)
         Else
             CargaDatos()
