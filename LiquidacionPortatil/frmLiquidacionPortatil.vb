@@ -4495,7 +4495,7 @@ Public Class frmLiquidacionPortatil
 									CType(dtLiquidacionTotal.Rows(i).Item(20), String),
 								   CInt(dtLiquidacionTotal.Rows(i).Item(21))
 								)
-								_TotalCredito = _TotalCredito + CType(dtLiquidacionTotal.Rows(i).Item(15), Decimal)
+								_TotalCredito = _TotalCredito + Total
 
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 5 Then
 								_seccion = "Liquidacion Pedido y Cobro Contado"
