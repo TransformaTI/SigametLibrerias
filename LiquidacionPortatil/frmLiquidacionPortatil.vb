@@ -3433,6 +3433,7 @@ Public Class frmLiquidacionPortatil
 					_ExisteObsequio = _ExisteObsequio + 1
 					drow(11) = 0
 					drow(15) = drow(8)
+					drow(22) = 0
 					_KilosObsequio = _KilosObsequio + CType(_DetalleGrid.Rows(i).Item(4), Integer) '_KilosObsequio + (CType(CType(txtLista.Item(1), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(_DetalleGrid.Rows(i).Item(4), Integer))
 					_TotalObsequios = 0 '_TotalObsequios + CType(drow(15), Decimal) 'CAGP20120910
 				End If
