@@ -3645,7 +3645,28 @@ Public Class cCliente
         End Try
     End Sub
 
-    Public Sub Consulta(ByVal intCliente As Integer, ByVal URLGateway As String)
+	Public Function ConsultaClientesAnticipos(Cliente As Integer) As DataTable
+		Dim cmd As New SqlCommand()
+		cmd.CommandType = CommandType.StoredProcedure
+		cmd.CommandText = "spCyCConsultaClientesAnticipo"
+		cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+		cmd.Connection = DataLayer.Conexion
+		Dim da As New SqlDataAdapter(cmd)
+		Dim ds As New DataSet()
+
+		Try
+			da.Fill(ds, "Clientes")
+			Return ds.Tables(0)
+		Catch ex As Exception
+			Throw ex
+		Finally
+			da.Dispose()
+			da = Nothing
+		End Try
+
+	End Function
+
+	Public Sub Consulta(ByVal intCliente As Integer, ByVal URLGateway As String)
         Dim cmd As New SqlCommand("spCCClienteConsulta2", DataLayer.Conexion)
         With cmd
             .CommandType = CommandType.StoredProcedure
