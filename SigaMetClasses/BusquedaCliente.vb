@@ -1250,218 +1250,224 @@ Public Class BusquedaCliente
 	End Sub
 
 	Private Sub btnConsultaCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultaCliente.Click
-		If _Cliente > 0 Then
-			Cursor = Cursors.WaitCursor
-			Dim oConsulta As SigaMetClasses.frmConsultaCliente
+        If _Cliente > 0 Then
+            Cursor = Cursors.WaitCursor
+            Dim oConsulta As SigaMetClasses.frmConsultaCliente
 
-			If (String.IsNullOrEmpty(_URLGateway)) Then
-				oConsulta = New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario,
-							PermiteModificarDatosCliente:=_PermiteModificarDatosCliente,
-							PermiteModificarDatosCredito:=_PermiteModificarDatosCredito,
-							PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina,
-							PermiteCambioCtePadre:=_PermiteCambioClientePadre,
-							DSCatalogos:=_dsCatalogos, CadenaCon:=_CadenaConexion, Modulo:=_Modulo)
-			Else
-				oConsulta = New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario,
-							PermiteModificarDatosCliente:=_PermiteModificarDatosCliente,
-							PermiteModificarDatosCredito:=_PermiteModificarDatosCredito,
-							PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina,
-							PermiteCambioCtePadre:=_PermiteCambioClientePadre,
-							DSCatalogos:=_dsCatalogos,
-							URLGateway:=_URLGateway, CadenaCon:=_CadenaConexion, Modulo:=_Modulo)
-			End If
-			oConsulta.ShowDialog()
-			Cursor = Cursors.Default
-		End If
-	End Sub
+            If (String.IsNullOrEmpty(_URLGateway)) Then
+                oConsulta = New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario,
+                            PermiteModificarDatosCliente:=_PermiteModificarDatosCliente,
+                            PermiteModificarDatosCredito:=_PermiteModificarDatosCredito,
+                            PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina,
+                            PermiteCambioCtePadre:=_PermiteCambioClientePadre,
+                            DSCatalogos:=_dsCatalogos, CadenaCon:=_CadenaConexion, Modulo:=_Modulo)
+            Else
+                oConsulta = New SigaMetClasses.frmConsultaCliente(_Cliente, Usuario:=_Usuario,
+                            PermiteModificarDatosCliente:=_PermiteModificarDatosCliente,
+                            PermiteModificarDatosCredito:=_PermiteModificarDatosCredito,
+                            PermiteCambioEmpleadoNomina:=_PermiteCambioEmpleadoNomina,
+                            PermiteCambioCtePadre:=_PermiteCambioClientePadre,
+                            DSCatalogos:=_dsCatalogos,
+                            URLGateway:=_URLGateway, CadenaCon:=_CadenaConexion, Modulo:=_Modulo)
+            End If
 
-	'20150705CNSM$002-----------------
-	Private Sub ActualizarDatosTelefono()
-		Cursor = Cursors.WaitCursor
+            If _DireccionesEntrega.Count > 0 Then
+                Dim IdDireccionesEntrega As Integer = CInt(lvwCliente.Items(lvwCliente.FocusedItem.Index).SubItems(0).Text)
+                oConsulta.ClienteRow = _DireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = IdDireccionesEntrega)
+            End If
+            oConsulta.ShowDialog()
+                'oConsulta.ClienteRow = _DireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(lvwCliente.Items(lvwCliente.FocusedItem.Index).SubItems(1).ToString()))
+                Cursor = Cursors.Default
+            End If
+    End Sub
 
-		Try
+    '20150705CNSM$002-----------------
+    Private Sub ActualizarDatosTelefono()
+        Cursor = Cursors.WaitCursor
 
-			Dim TipoLlamada As Integer = 2
-			Dim Usuario As String
+        Try
 
-			If chkPortatil.Checked Then
-				TipoLlamada = 1
-			End If
+            Dim TipoLlamada As Integer = 2
+            Dim Usuario As String
 
-			'Obetenmos el usuario por medio de la cadena de conexion 
-			Usuario = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
+            If chkPortatil.Checked Then
+                TipoLlamada = 1
+            End If
 
-			Dim Conexion As String
+            'Obetenmos el usuario por medio de la cadena de conexion 
+            Usuario = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
 
-			Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
-			Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
+            Dim Conexion As String
 
+            Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
+            Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
 
-			Conexion = "Database=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("BDAsterisk"), String) &
-			";Data Source=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ServidorAsterisk"), String) &
-			";Port=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PuertoAsterisk"), String) &
-			";User Id=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("UsuarioAsterisk"), String) &
-			";Password=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PasswordAsterisk"), String) &
-			";Connect Timeout=30;"
 
-			Dim oActualiza As New Asterisk.Asterisk
-			oActualiza.StatusLlamda(CType(txtTelefono.Tag, String), TipoLlamada, Sucursal, Conexion)
+            Conexion = "Database=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("BDAsterisk"), String) &
+            ";Data Source=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ServidorAsterisk"), String) &
+            ";Port=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PuertoAsterisk"), String) &
+            ";User Id=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("UsuarioAsterisk"), String) &
+            ";Password=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PasswordAsterisk"), String) &
+            ";Connect Timeout=30;"
 
-		Catch ex As Exception
-			MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error)
-		Finally
-			Cursor = Cursors.Default
-		End Try
+            Dim oActualiza As New Asterisk.Asterisk
+            oActualiza.StatusLlamda(CType(txtTelefono.Tag, String), TipoLlamada, Sucursal, Conexion)
 
-	End Sub
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+        End Try
 
+    End Sub
 
 
-	'20150705CNSM$001-----------------
-	'Private Sub ConsultarDatosTelefono()
-	'    Cursor = Cursors.WaitCursor
 
-	'    Try
+    '20150705CNSM$001-----------------
+    'Private Sub ConsultarDatosTelefono()
+    '    Cursor = Cursors.WaitCursor
 
-	'        Dim Usuario As String
+    '    Try
 
-	'        'Obetenmos el usuario por medio de la cadena de conexion 
-	'        Usuario = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
+    '        Dim Usuario As String
 
-	'        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
-	'        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
+    '        'Obetenmos el usuario por medio de la cadena de conexion 
+    '        Usuario = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
 
-	'        'Prueba para poder identificar si disponemos de los parametros para realizar la operacion
-	'        If CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ActivoAsterisk"), Boolean) Then
+    '        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
+    '        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
 
-	'            FlawBusquedaLlamada = True
+    '        'Prueba para poder identificar si disponemos de los parametros para realizar la operacion
+    '        If CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ActivoAsterisk"), Boolean) Then
 
-	'            Dim Conexion As String
-	'            Dim dtInformacionTelefono As DataTable
-	'            Dim Agente As String = SigametSeguridad.Seguridad.DatosUsuario(Usuario).Agente
+    '            FlawBusquedaLlamada = True
 
+    '            Dim Conexion As String
+    '            Dim dtInformacionTelefono As DataTable
+    '            Dim Agente As String = SigametSeguridad.Seguridad.DatosUsuario(Usuario).Agente
 
 
 
-	'            Conexion = "Database=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("BDAsterisk"), String) & _
-	'                        ";Data Source=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ServidorAsterisk"), String) & _
-	'                        ";Port=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PuertoAsterisk"), String) & _
-	'                        ";User Id=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("UsuarioAsterisk"), String) & _
-	'                        ";Password=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PasswordAsterisk"), String) & _
-	'                        ";Connect Timeout=30;"
 
+    '            Conexion = "Database=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("BDAsterisk"), String) & _
+    '                        ";Data Source=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ServidorAsterisk"), String) & _
+    '                        ";Port=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PuertoAsterisk"), String) & _
+    '                        ";User Id=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("UsuarioAsterisk"), String) & _
+    '                        ";Password=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PasswordAsterisk"), String) & _
+    '                        ";Connect Timeout=30;"
 
-	'            Dim oConsulta As New Asterisk.Asterisk
-	'            dtInformacionTelefono = oConsulta.ConsultaDatosTelefono(Agente, Conexion)
 
-	'            'Verificamos que se tengan datos en el dt
-	'            If (dtInformacionTelefono.Rows.Count > 0) Then
-	'                txtTelefono.Tag = CType(dtInformacionTelefono.Rows(0).Item(0), String)
-	'                txtTelefono.Text = CType(dtInformacionTelefono.Rows(0).Item(1), String)
-	'            End If
+    '            Dim oConsulta As New Asterisk.Asterisk
+    '            dtInformacionTelefono = oConsulta.ConsultaDatosTelefono(Agente, Conexion)
 
-	'            Consulta()
+    '            'Verificamos que se tengan datos en el dt
+    '            If (dtInformacionTelefono.Rows.Count > 0) Then
+    '                txtTelefono.Tag = CType(dtInformacionTelefono.Rows(0).Item(0), String)
+    '                txtTelefono.Text = CType(dtInformacionTelefono.Rows(0).Item(1), String)
+    '            End If
 
-	'        End If
+    '            Consulta()
 
-	'    Catch ex As Exception
-	'        MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error)
-	'    Finally
-	'        Cursor = Cursors.Default
-	'    End Try
+    '        End If
 
-	'End Sub
-	'20150705CNSM$001-----------------
-	Private Sub ConsultarDatosTelefono()
-		Cursor = Cursors.WaitCursor
+    '    Catch ex As Exception
+    '        MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '    Finally
+    '        Cursor = Cursors.Default
+    '    End Try
 
-		Try
+    'End Sub
+    '20150705CNSM$001-----------------
+    Private Sub ConsultarDatosTelefono()
+        Cursor = Cursors.WaitCursor
 
-			Dim Usuario As String
+        Try
 
-			'Obetenmos el usuario por medio de la cadena de conexion 
-			Usuario = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
+            Dim Usuario As String
 
-			Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
-			Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
+            'Obetenmos el usuario por medio de la cadena de conexion 
+            Usuario = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
 
-			'Prueba para poder identificar si disponemos de los parametros para realizar la operacion
-			If CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ActivoAsterisk"), Boolean) Then
+            Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
+            Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
 
-				FlawBusquedaLlamada = True
+            'Prueba para poder identificar si disponemos de los parametros para realizar la operacion
+            If CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ActivoAsterisk"), Boolean) Then
 
-				Dim Conexion As String
-				Dim dtInformacionTelefono As DataTable
-				Dim Agente As String = SigametSeguridad.Seguridad.DatosUsuario(Usuario).Agente
+                FlawBusquedaLlamada = True
 
+                Dim Conexion As String
+                Dim dtInformacionTelefono As DataTable
+                Dim Agente As String = SigametSeguridad.Seguridad.DatosUsuario(Usuario).Agente
 
 
-				Conexion = "Database=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("BDAsterisk"), String) &
-							";Data Source=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ServidorAsterisk"), String) &
-							";Port=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PuertoAsterisk"), String) &
-							";User Id=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("UsuarioAsterisk"), String) &
-							";Password=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PasswordAsterisk"), String) &
-							";Connect Timeout=30;"
 
-				Dim oConsulta As New Asterisk.Asterisk
-				dtInformacionTelefono = oConsulta.ConsultaDatosTelefono(Agente, Conexion)
+                Conexion = "Database=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("BDAsterisk"), String) &
+                            ";Data Source=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("ServidorAsterisk"), String) &
+                            ";Port=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PuertoAsterisk"), String) &
+                            ";User Id=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("UsuarioAsterisk"), String) &
+                            ";Password=" & CType((New cConfig(1, Corporativo, Sucursal)).Parametros("PasswordAsterisk"), String) &
+                            ";Connect Timeout=30;"
 
-				'Verificamos que se tengan datos en el dt
-				If (dtInformacionTelefono.Rows.Count > 0) Then
-					txtTelefono.Tag = CType(dtInformacionTelefono.Rows(0).Item(0), String)
-					txtTelefono.Text = CType(dtInformacionTelefono.Rows(0).Item(1), String)
-				End If
+                Dim oConsulta As New Asterisk.Asterisk
+                dtInformacionTelefono = oConsulta.ConsultaDatosTelefono(Agente, Conexion)
 
-				Consulta(True)
+                'Verificamos que se tengan datos en el dt
+                If (dtInformacionTelefono.Rows.Count > 0) Then
+                    txtTelefono.Tag = CType(dtInformacionTelefono.Rows(0).Item(0), String)
+                    txtTelefono.Text = CType(dtInformacionTelefono.Rows(0).Item(1), String)
+                End If
 
-			End If
+                Consulta(True)
 
-		Catch ex As Exception
-			MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error)
-		Finally
-			Cursor = Cursors.Default
-		End Try
+            End If
 
-	End Sub
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+        End Try
 
+    End Sub
 
-	Private Sub btnTelefono_Click(sender As Object, e As EventArgs) Handles btnTelefono.Click
-		ConsultarDatosTelefono()
-	End Sub
 
-	'20150705CNSM$001-----------------
-	Private Function ObtenerUsuario() As String
+    Private Sub btnTelefono_Click(sender As Object, e As EventArgs) Handles btnTelefono.Click
+        ConsultarDatosTelefono()
+    End Sub
 
-		'Variables declaradas para obetener el usuario
-		Dim StrCadenaConexion As String
-		Dim Usuario As String
+    '20150705CNSM$001-----------------
+    Private Function ObtenerUsuario() As String
 
-		Dim ValorInicial As Integer
-		Dim ValorFinal As Integer
+        'Variables declaradas para obetener el usuario
+        Dim StrCadenaConexion As String
+        Dim Usuario As String
 
+        Dim ValorInicial As Integer
+        Dim ValorFinal As Integer
 
-		StrCadenaConexion = DataLayer.Conexion.ConnectionString
-		ValorInicial = (StrCadenaConexion.IndexOf("User ID = ")) + 10
-		ValorFinal = (StrCadenaConexion.Length - ValorInicial) - 1
 
-		Usuario = StrCadenaConexion.Substring(ValorInicial, ValorFinal)
+        StrCadenaConexion = DataLayer.Conexion.ConnectionString
+        ValorInicial = (StrCadenaConexion.IndexOf("User ID = ")) + 10
+        ValorFinal = (StrCadenaConexion.Length - ValorInicial) - 1
 
-		Return Usuario
+        Usuario = StrCadenaConexion.Substring(ValorInicial, ValorFinal)
 
-	End Function
+        Return Usuario
 
-	'20150705CNSM$001-----------------
-	Private Sub txtTelefono_Leave(sender As Object, e As EventArgs) Handles txtTelefono.Leave
+    End Function
 
-		'Comparamos si el componete tiene datos de no tenerlos, no sera posible realizar la actualziacion del tipo de llamada
-		If txtTelefono.Text <> "" Then
-			txtTelefono.Tag = 0
-			FlawBusquedaLlamada = False
-		End If
+    '20150705CNSM$001-----------------
+    Private Sub txtTelefono_Leave(sender As Object, e As EventArgs) Handles txtTelefono.Leave
 
-	End Sub
+        'Comparamos si el componete tiene datos de no tenerlos, no sera posible realizar la actualziacion del tipo de llamada
+        If txtTelefono.Text <> "" Then
+            txtTelefono.Tag = 0
+            FlawBusquedaLlamada = False
+        End If
 
-	Private Sub BusquedaCliente_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    End Sub
+
+    Private Sub BusquedaCliente_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
 	End Sub
 End Class

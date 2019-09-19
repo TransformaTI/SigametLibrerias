@@ -3600,6 +3600,27 @@ Public Class cCliente
 
     End Function
 
+    Public Function ConsultaClientesAnticipos(Cliente As Integer) As DataTable
+        Dim cmd As New SqlCommand()
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "spCyCConsultaClientesAnticipo"
+        cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+        cmd.Connection = DataLayer.Conexion
+        Dim da As New SqlDataAdapter(cmd)
+        Dim ds As New DataSet()
+
+        Try
+            da.Fill(ds, "Clientes")
+            Return ds.Tables(0)
+        Catch ex As Exception
+            Throw ex
+        Finally
+            da.Dispose()
+            da = Nothing
+        End Try
+
+    End Function
+
     Public Sub Consulta(ByVal intCliente As Integer)
         Dim cmd As New SqlCommand("spCCClienteConsulta2", DataLayer.Conexion)
         With cmd
@@ -4768,10 +4789,11 @@ Public Class AltaPagoTarjeta
     Public Function ConsultaCargoTarjeta(ByVal FechaIni As Date, ByVal FechaFin As Date, ByVal NumCliente As Int64) As DataTable
         Dim DtCargoTarjeta As New DataTable
         Dim cmd As New SqlCommand("spCyCConsultaPagosTarjetaPorFechaAlta")
-
         Dim dr As SqlDataReader
 
+
         Try
+
             AbreConexion()
 
             cmd.Connection = DataLayer.Conexion
@@ -4782,15 +4804,15 @@ Public Class AltaPagoTarjeta
                 cmd.Parameters.Add("@NumCliente", SqlDbType.BigInt).Value = NumCliente
             End If
 
-
             dr = cmd.ExecuteReader()
 
             DtCargoTarjeta.Load(dr)
+
         Catch ex As Exception
             EventLog.WriteEntry("SigametClasses " & ex.Source, ex.Message, EventLogEntryType.Error)
             Throw ex
-        End Try
 
+        End Try
         Return DtCargoTarjeta
     End Function
 
@@ -5457,7 +5479,9 @@ Public Class Cobro
                             Optional ByVal referencia As String = "",
                             Optional ByVal dtmFCobro As Date = Nothing,
                             Optional ByVal FolioMovAnt As Int64 = Nothing,
-                             Optional ByVal AñoMovAnt As Integer = Nothing) As Integer
+                            Optional ByVal AñoMovAnt As Integer = Nothing,
+                            Optional ByVal AnioCobroOrigen As Short = Nothing,
+                            Optional ByVal CobroOrigen As Integer = Nothing) As Integer
 
         Dim cmd As New SqlCommand("spChequeTarjetaAltaModifica")
         With cmd
@@ -5474,7 +5498,14 @@ Public Class Cobro
             End If
             If TipoCobro <> Enumeradores.enumTipoCobro.EfectivoVales Then
                 .Parameters.Add(New SqlParameter("@NumeroCheque", SqlDbType.Char, 20)).Value = strNumeroCheque
-                .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = dtmFCheque ' IIf(dtmFCheque = Date.MinValue, Date.Now, Date.Now)
+
+
+                If Not IsNothing(dtmFCheque) Then
+                    .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = dtmFCheque ' IIf(dtmFCheque = Date.MinValue, Date.Now, Date.Now)
+                Else
+                    .Parameters.Add(New SqlParameter("@FCheque", SqlDbType.DateTime)).Value = DBNull.Value
+                End If
+
                 If TipoCobro = Enumeradores.enumTipoCobro.Cheque Then
                     .Parameters.Add(New SqlParameter("@FechaCobro", SqlDbType.DateTime)).Value = dtmFCobro
                 Else
@@ -5512,6 +5543,18 @@ Public Class Cobro
                 .Parameters.Add(New SqlParameter("@FolioMov", SqlDbType.BigInt)).Value = FolioMovAnt
                 .Parameters.Add(New SqlParameter("@AñoMov", SqlDbType.BigInt)).Value = AñoMovAnt
 
+                If AnioCobroOrigen > 0 Then
+                    .Parameters.Add(New SqlParameter("@AnioCobroOrigen", SqlDbType.BigInt)).Value = AnioCobroOrigen
+                Else
+                    .Parameters.Add(New SqlParameter("@AnioCobroOrigen", SqlDbType.BigInt)).Value = DBNull.Value
+                End If
+
+                If CobroOrigen > 0 Then
+                    .Parameters.Add(New SqlParameter("@CobroOrigen", SqlDbType.BigInt)).Value = CobroOrigen
+                Else
+                    .Parameters.Add(New SqlParameter("@CobroOrigen", SqlDbType.BigInt)).Value = DBNull.Value
+
+                End If
             End If
 
         End With
@@ -5864,6 +5907,32 @@ Public Class Cobro
 
             cmd = Nothing
         End Try
+    End Function
+
+    Public Function DatosPedidoCheque(AñoCobro As Integer, Cobro As Integer) As DataTable
+        Dim da As SqlDataAdapter
+
+        Dim dt = New DataTable("Pedido")
+        'da.Fill(dt)
+
+
+
+        Dim cmd As New SqlCommand("select RUTA, ISNULL(Producto,0) AS 'Producto',isnull(Descuento,0) as 'Descuento',isnull(Importe,0) as 'importe',isnull(Impuesto,0) as 'Impuesto' from pedido  where AñoCobro = " & AñoCobro & "and cobro = " & Cobro)
+        Dim dr As SqlDataReader
+        cmd.CommandType = CommandType.Text
+        Try
+            cmd.Transaction = Transaccion
+            cmd.Connection = DataLayer.Conexion
+            dr = cmd.ExecuteReader()
+            dt.Load(dr)
+            Return dt
+        Catch ex As Exception
+            Throw ex
+        Finally
+            cmd.Dispose()
+        End Try
+
+        Return dt
     End Function
 
     Public Sub actualizarPedido(ByVal PedidoReferenciaActual As String,
@@ -6223,7 +6292,7 @@ Public Class TransaccionMovimientoCaja
 
                         FolioCobro = objCobro.ChequeTarjetaAlta(Cobro.NoCheque, Cobro.Total, Cobro.NoCuenta, Cobro.FechaCheque, Cobro.Cliente, Cobro.Banco,
                             Cobro.Observaciones, Cobro.TipoCobro, Usuario, Cobro.Saldo, Cobro.NoCuentaDestino, Cobro.BancoOrigen, Cobro.SaldoAFavor,
-                            Cobro.Posfechado, Cobro.Referencia, Cobro.Fcobro, Cobro.FolioMovAnt, Cobro.AñoFolioMov)
+                            Cobro.Posfechado, Cobro.Referencia, Cobro.Fcobro, Cobro.FolioMovAnt, Cobro.AñoFolioMov, Cobro.AnioCobroOrigen, Cobro.CobroOrigen)
 
 
                     Case Enumeradores.enumTipoCobro.TarjetaCredito,
@@ -11476,8 +11545,11 @@ Public Module Main
     Public Function SumaColumna(ByVal NombreTabla As DataTable, ByVal NombreColumna As String) As Decimal
         Dim _row As DataRow, decTotalSuma As Decimal = 0
         For Each _row In NombreTabla.Rows
-            decTotalSuma += CType(_row(NombreColumna), Decimal)
+            If Not _row(NombreColumna) Is DBNull.Value Then
+                decTotalSuma += CType(_row(NombreColumna), Decimal)
+            End If
         Next
+
         Return decTotalSuma
     End Function
 

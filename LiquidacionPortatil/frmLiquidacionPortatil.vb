@@ -1,30 +1,30 @@
-'Forma que permite realizar la liquidación de las rutas de venta
+'Forma que permite realizar la liquidaciï¿½n de las rutas de venta
 'de gas portatil permitiendo las diferentes formas de pago y los
 'tipo de descuento que aplican en la liquidacion a los productos
 
-'Modifico: Claudia Aurora Garcia Patiño
+'Modifico: Claudia Aurora Garcia Patiï¿½o
 'Fecha: 14/11/2006
 'Motivo: Se aumento la condicion para que no se regsitre un movimeinto despues de que el reporte FDIOP-01
 'haya sido verificado
 'Identificador de cambios: 20061114CAGP$001
 
 
-'Modificó: Carlos Nirari Santiago Mendoza
+'Modificï¿½: Carlos Nirari Santiago Mendoza
 'Fecha: 27/06/2015
-'Descripción: Se cambio el metodo para obtener los registros (pedidos portatiles) que estan asociados a una ruta.
+'Descripciï¿½n: Se cambio el metodo para obtener los registros (pedidos portatiles) que estan asociados a una ruta.
 'Id. de cambios: 20150627CNSM$001  
-'Descripción: Se agrego el metodo para limpiar alguno de los componentes del apartado de la vista detalle por producto.
+'Descripciï¿½n: Se agrego el metodo para limpiar alguno de los componentes del apartado de la vista detalle por producto.
 'Id. de cambios: 20060627CNSM$002  
-'Descripción: Se cambio el metodo para obtener los registros (pedidos portatiles) que estan asociados a una ruta.
+'Descripciï¿½n: Se cambio el metodo para obtener los registros (pedidos portatiles) que estan asociados a una ruta.
 'Id. de cambios: 20150627CNSM$003
-'Descripción: Se cambio el metodo para realizar la insercion en producto detalle remision cuando tiene registros (pedidos portatiles) que estan asociados a una ruta
+'Descripciï¿½n: Se cambio el metodo para realizar la insercion en producto detalle remision cuando tiene registros (pedidos portatiles) que estan asociados a una ruta
 'cuando una ruta tiene pedidos portatiles asociados.
 'Id. de cambios: 20150627CNSM$004  
-'Descripción: Evento agregado para lanzar una vista de consulta.
+'Descripciï¿½n: Evento agregado para lanzar una vista de consulta.
 'Id. de cambios: 20150627CNSM$005  
-'Descripción: Se formateo la propiedad MinDate, asi como Value.
+'Descripciï¿½n: Se formateo la propiedad MinDate, asi como Value.
 'Id. de cambios: 20150627CNSM$006  
-'Descripción: Se agrego un parametro para poder definir si la fecha de carga se puede o no modificar, asi tambien se hicieron ajustes para esta modificacion
+'Descripciï¿½n: Se agrego un parametro para poder definir si la fecha de carga se puede o no modificar, asi tambien se hicieron ajustes para esta modificacion
 'Id. de cambios: 20151022CNSM$007  
 
 Option Infer On
@@ -166,11 +166,11 @@ Public Class frmLiquidacionPortatil
     Private arrVales As Array 'Arreglo para las denominacions de los vales
 
     'Variables globales del inicio de sesion para que se pueda procesar la liquidacion
-    Private SesionIniciada As Boolean = False 'Indica si la sesion ya se inició
-    Private PuedeIniciarSesion As Boolean = True 'Indica si el usuario puede iniciar sesión
-    Private ConsecutivoInicioDeSesion As Byte 'Indica el número de consecutivo que el inicio de sesión tiene
+    Private SesionIniciada As Boolean = False 'Indica si la sesion ya se iniciï¿½
+    Private PuedeIniciarSesion As Boolean = True 'Indica si el usuario puede iniciar sesiï¿½n
+    Private ConsecutivoInicioDeSesion As Byte 'Indica el nï¿½mero de consecutivo que el inicio de sesiï¿½n tiene
     'Private FechaInicioSesion As Date
-    Private FechaOperacion As Date ' = CType(Now.ToShortDateString, Date) 'Indica la fecha de operación actual en formato (dd/MM/yyyy)
+    Private FechaOperacion As Date ' = CType(Now.ToShortDateString, Date) 'Indica la fecha de operaciï¿½n actual en formato (dd/MM/yyyy)
 
     'Variables globales para el pago con Cheque
     Dim ofrmPagoCheque As New frmPagoCheque()
@@ -189,10 +189,10 @@ Public Class frmLiquidacionPortatil
 
 
 
-    'LUSATE Parámetro que indica si se liquida con precios vigentes o no vigentes.
+    'LUSATE Parï¿½metro que indica si se liquida con precios vigentes o no vigentes.
     Private _LiqPrecioVigente As Boolean = True
 
-    'LUSATE Variable que indica si el camión tiene BoletinEnLinea
+    'LUSATE Variable que indica si el camiï¿½n tiene BoletinEnLinea
     Private _BoletinEnLineaCamion As Boolean = False
     Private _Totalcobro As Decimal
 
@@ -555,7 +555,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblFechaLiquidacion.Name = "lblFechaLiquidacion"
 		Me.lblFechaLiquidacion.Size = New System.Drawing.Size(73, 13)
 		Me.lblFechaLiquidacion.TabIndex = 64
-		Me.lblFechaLiquidacion.Text = "F. liquidación:"
+		Me.lblFechaLiquidacion.Text = "F. liquidaciï¿½n:"
 		'
 		'dtpFLiquidacion
 		'
@@ -581,7 +581,7 @@ Public Class frmLiquidacionPortatil
 		Me.btnTripulacion.Size = New System.Drawing.Size(26, 21)
 		Me.btnTripulacion.TabIndex = 40
 		Me.btnTripulacion.TabStop = False
-		Me.tltLiquidacion.SetToolTip(Me.btnTripulacion, "Presione tripulación para visualizar la tripulación asignada")
+		Me.tltLiquidacion.SetToolTip(Me.btnTripulacion, "Presione tripulaciï¿½n para visualizar la tripulaciï¿½n asignada")
 		Me.btnTripulacion.UseVisualStyleBackColor = False
 		'
 		'ImageList1
@@ -619,7 +619,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblOrden.TabIndex = 38
 		Me.lblOrden.Text = "Orden"
 		Me.lblOrden.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-		Me.tltLiquidacion.SetToolTip(Me.lblOrden, "Número de folio a liquidar")
+		Me.tltLiquidacion.SetToolTip(Me.lblOrden, "Nï¿½mero de folio a liquidar")
 		'
 		'lblOrdentck
 		'
@@ -661,9 +661,9 @@ Public Class frmLiquidacionPortatil
 		Me.lblCelula.Name = "lblCelula"
 		Me.lblCelula.Size = New System.Drawing.Size(160, 21)
 		Me.lblCelula.TabIndex = 34
-		Me.lblCelula.Text = "Célula"
+		Me.lblCelula.Text = "Cï¿½lula"
 		Me.lblCelula.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-		Me.tltLiquidacion.SetToolTip(Me.lblCelula, "Célula a la que pertenece la ruta")
+		Me.tltLiquidacion.SetToolTip(Me.lblCelula, "Cï¿½lula a la que pertenece la ruta")
 		'
 		'lblRuta
 		'
@@ -675,7 +675,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblRuta.TabIndex = 33
 		Me.lblRuta.Text = "Ruta"
 		Me.lblRuta.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-		Me.tltLiquidacion.SetToolTip(Me.lblRuta, "Número de ruta")
+		Me.tltLiquidacion.SetToolTip(Me.lblRuta, "Nï¿½mero de ruta")
 		'
 		'lblFCarga
 		'
@@ -698,7 +698,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblCelulatck.Name = "lblCelulatck"
 		Me.lblCelulatck.Size = New System.Drawing.Size(40, 13)
 		Me.lblCelulatck.TabIndex = 30
-		Me.lblCelulatck.Text = "Célula:"
+		Me.lblCelulatck.Text = "Cï¿½lula:"
 		'
 		'lblRutatck
 		'
@@ -741,7 +741,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblFolio.TabIndex = 26
 		Me.lblFolio.Text = "Folio"
 		Me.lblFolio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-		Me.tltLiquidacion.SetToolTip(Me.lblFolio, "Número de folio a liquidar")
+		Me.tltLiquidacion.SetToolTip(Me.lblFolio, "Nï¿½mero de folio a liquidar")
 		'
 		'lblCamion
 		'
@@ -751,9 +751,9 @@ Public Class frmLiquidacionPortatil
 		Me.lblCamion.Name = "lblCamion"
 		Me.lblCamion.Size = New System.Drawing.Size(160, 21)
 		Me.lblCamion.TabIndex = 25
-		Me.lblCamion.Text = "Camión"
+		Me.lblCamion.Text = "Camiï¿½n"
 		Me.lblCamion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-		Me.tltLiquidacion.SetToolTip(Me.lblCamion, "Número económico de la unidad de venta")
+		Me.tltLiquidacion.SetToolTip(Me.lblCamion, "Nï¿½mero econï¿½mico de la unidad de venta")
 		'
 		'lblCamiontck
 		'
@@ -763,7 +763,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblCamiontck.Name = "lblCamiontck"
 		Me.lblCamiontck.Size = New System.Drawing.Size(46, 13)
 		Me.lblCamiontck.TabIndex = 24
-		Me.lblCamiontck.Text = "Camión:"
+		Me.lblCamiontck.Text = "Camiï¿½n:"
 		'
 		'grbDetalleProducto
 		'
@@ -820,7 +820,7 @@ Public Class frmLiquidacionPortatil
 		Me.txtAplicaDescuento.Size = New System.Drawing.Size(110, 21)
 		Me.txtAplicaDescuento.TabIndex = 67
 		Me.txtAplicaDescuento.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-		Me.tltLiquidacion.SetToolTip(Me.txtAplicaDescuento, "Número de ruta")
+		Me.tltLiquidacion.SetToolTip(Me.txtAplicaDescuento, "Nï¿½mero de ruta")
 		Me.txtAplicaDescuento.Visible = False
 		'
 		'lblNombreCliente
@@ -903,7 +903,7 @@ Public Class frmLiquidacionPortatil
 		Me.cboTipoCobro.Name = "cboTipoCobro"
 		Me.cboTipoCobro.Size = New System.Drawing.Size(168, 21)
 		Me.cboTipoCobro.TabIndex = 4
-		Me.tltLiquidacion.SetToolTip(Me.cboTipoCobro, "Seleccione la forma de cobro que realizará")
+		Me.tltLiquidacion.SetToolTip(Me.cboTipoCobro, "Seleccione la forma de cobro que realizarï¿½")
 		Me.cboTipoCobro.Visible = False
 		'
 		'btnModificar
@@ -1023,7 +1023,7 @@ Public Class frmLiquidacionPortatil
 		Me.cboZEconomica.Name = "cboZEconomica"
 		Me.cboZEconomica.Size = New System.Drawing.Size(285, 21)
 		Me.cboZEconomica.TabIndex = 3
-		Me.tltLiquidacion.SetToolTip(Me.cboZEconomica, "Seleccione la zona económica donde se relaizó la venta")
+		Me.tltLiquidacion.SetToolTip(Me.cboZEconomica, "Seleccione la zona econï¿½mica donde se relaizï¿½ la venta")
 		'
 		'lblZonaEconomica
 		'
@@ -1033,7 +1033,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblZonaEconomica.Name = "lblZonaEconomica"
 		Me.lblZonaEconomica.Size = New System.Drawing.Size(78, 13)
 		Me.lblZonaEconomica.TabIndex = 34
-		Me.lblZonaEconomica.Text = "Z. económica.:"
+		Me.lblZonaEconomica.Text = "Z. econï¿½mica.:"
 		Me.lblZonaEconomica.Visible = False
 		'
 		'btnDetalle
@@ -1066,7 +1066,7 @@ Public Class frmLiquidacionPortatil
 		Me.btnCancelar.TabIndex = 47
 		Me.btnCancelar.Text = "&Cancelar"
 		Me.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-		Me.tltLiquidacion.SetToolTip(Me.btnCancelar, "Presione cancelar para no registrar la liquidación")
+		Me.tltLiquidacion.SetToolTip(Me.btnCancelar, "Presione cancelar para no registrar la liquidaciï¿½n")
 		Me.btnCancelar.UseVisualStyleBackColor = False
 		'
 		'btnAceptar
@@ -1082,7 +1082,7 @@ Public Class frmLiquidacionPortatil
 		Me.btnAceptar.TabIndex = 46
 		Me.btnAceptar.Text = "&Aceptar"
 		Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-		Me.tltLiquidacion.SetToolTip(Me.btnAceptar, "Presione aceptar para registrar la liquidación portátil")
+		Me.tltLiquidacion.SetToolTip(Me.btnAceptar, "Presione aceptar para registrar la liquidaciï¿½n portï¿½til")
 		Me.btnAceptar.UseVisualStyleBackColor = False
 		'
 		'col001
@@ -1375,7 +1375,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblAplicAnticipotck.Name = "lblAplicAnticipotck"
 		Me.lblAplicAnticipotck.Size = New System.Drawing.Size(176, 21)
 		Me.lblAplicAnticipotck.TabIndex = 118
-		Me.lblAplicAnticipotck.Text = "Aplicación de Anticipo"
+		Me.lblAplicAnticipotck.Text = "Aplicaciï¿½n de Anticipo"
 		Me.lblAplicAnticipotck.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
 		'
 		'lblTransferElect
@@ -1401,7 +1401,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblTransferElectck.Name = "lblTransferElectck"
 		Me.lblTransferElectck.Size = New System.Drawing.Size(176, 21)
 		Me.lblTransferElectck.TabIndex = 116
-		Me.lblTransferElectck.Text = "Transferencia Electrónica"
+		Me.lblTransferElectck.Text = "Transferencia Electrï¿½nica"
 		Me.lblTransferElectck.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
 		'
 		'lblTarjDebCred
@@ -1427,7 +1427,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblTarjDebCredtck.Name = "lblTarjDebCredtck"
 		Me.lblTarjDebCredtck.Size = New System.Drawing.Size(176, 21)
 		Me.lblTarjDebCredtck.TabIndex = 114
-		Me.lblTarjDebCredtck.Text = "Tarjeta débito y crédito"
+		Me.lblTarjDebCredtck.Text = "Tarjeta dï¿½bito y crï¿½dito"
 		Me.lblTarjDebCredtck.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
 		'
 		'Label12
@@ -1541,7 +1541,7 @@ Public Class frmLiquidacionPortatil
 		Me.Label9.Name = "Label9"
 		Me.Label9.Size = New System.Drawing.Size(176, 21)
 		Me.Label9.TabIndex = 105
-		Me.Label9.Text = "Crédito:"
+		Me.Label9.Text = "Crï¿½dito:"
 		Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
 		'
 		'Label7
@@ -1754,7 +1754,7 @@ Public Class frmLiquidacionPortatil
 		Me.btnAplicacionAnticipo.Name = "btnAplicacionAnticipo"
 		Me.btnAplicacionAnticipo.Size = New System.Drawing.Size(126, 23)
 		Me.btnAplicacionAnticipo.TabIndex = 4
-		Me.btnAplicacionAnticipo.Text = "Aplicación Anticipo"
+		Me.btnAplicacionAnticipo.Text = "Aplicaciï¿½n Anticipo"
 		Me.btnAplicacionAnticipo.UseVisualStyleBackColor = True
 		'
 		'btnCapturarVale
@@ -1844,7 +1844,7 @@ Public Class frmLiquidacionPortatil
 		'
 		Me.col0001.Format = ""
 		Me.col0001.FormatInfo = Nothing
-		Me.col0001.HeaderText = "Z. ecón."
+		Me.col0001.HeaderText = "Z. ecï¿½n."
 		Me.col0001.MappingName = "ZonaEconomica"
 		Me.col0001.Width = 48
 		'
@@ -1954,7 +1954,7 @@ Public Class frmLiquidacionPortatil
 		Me.Name = "frmLiquidacionPortatil"
 		Me.ShowInTaskbar = False
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-		Me.Text = "Liquidación de ruta portátil"
+		Me.Text = "Liquidaciï¿½n de ruta portï¿½til"
 		Me.grbInformacion.ResumeLayout(False)
 		Me.grbInformacion.PerformLayout()
 		Me.grbDetalleProducto.ResumeLayout(False)
@@ -1987,7 +1987,7 @@ Public Class frmLiquidacionPortatil
 		oReporte.ListaParametros.Add(Configuracion)
 		oReporte.ListaParametros.Add(MovimientoAlmacen)
 
-		'Orden de parámetros original
+		'Orden de parï¿½metros original
 		'oReporte.ListaParametros.Add(1)
 		'oReporte.ListaParametros.Add(MovimientoAlmacen)
 		'oReporte.ListaParametros.Add(5)
@@ -1995,14 +1995,14 @@ Public Class frmLiquidacionPortatil
 		'oReporte.ListaParametros.Add(3)
 		'oReporte.ListaParametros.Add(MovimientoAlmacen)
 
-		'Se cambió el orden en que manda los parámetros al reporte
-		'Parámetros SubReporte ReporteDetalleLiquidacion
+		'Se cambiï¿½ el orden en que manda los parï¿½metros al reporte
+		'Parï¿½metros SubReporte ReporteDetalleLiquidacion
 		oReporte.ListaParametros.Add(5)
 		oReporte.ListaParametros.Add(MovimientoAlmacen)
-		'Parámetros SubReporte ReporteOperadorLiq
+		'Parï¿½metros SubReporte ReporteOperadorLiq
 		oReporte.ListaParametros.Add(3)
 		oReporte.ListaParametros.Add(MovimientoAlmacen)
-		'Parámetros SubReporte Tripulacion
+		'Parï¿½metros SubReporte Tripulacion
 		oReporte.ListaParametros.Add(1)
 		oReporte.ListaParametros.Add(MovimientoAlmacen)
 
@@ -2010,7 +2010,7 @@ Public Class frmLiquidacionPortatil
 
 		oReporte.ShowDialog()
 
-		'If MessageBox.Show("¿Desea imprimir el reporte?", "Impresión de reporte de liquidación.", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+		'If MessageBox.Show("ï¿½Desea imprimir el reporte?", "Impresiï¿½n de reporte de liquidaciï¿½n.", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
 		'    ImprimirReporte(0, MovimientoAlmacen)
 		'End If
 
@@ -2091,7 +2091,7 @@ Public Class frmLiquidacionPortatil
 			'crParameterFieldDefinition.ApplyCurrentValues(crParameterValues)
 
 
-			'Parámetros SubReporte ReporteDetalleLiquidacion
+			'Parï¿½metros SubReporte ReporteDetalleLiquidacion
 			'Configuracion
 			crParameterFieldDefinitions = rptReporte.DataDefinition.ParameterFields
 			crParameterFieldDefinition = crParameterFieldDefinitions.Item(2)
@@ -2109,7 +2109,7 @@ Public Class frmLiquidacionPortatil
 			crParameterValues.Add(crParameterDiscreteValue)
 			crParameterFieldDefinition.ApplyCurrentValues(crParameterValues)
 
-			'Parámetros SubReporte ReporteOperadorLiq
+			'Parï¿½metros SubReporte ReporteOperadorLiq
 			'Configuracion tRIPULACION
 			crParameterFieldDefinitions = rptReporte.DataDefinition.ParameterFields
 			crParameterFieldDefinition = crParameterFieldDefinitions.Item(4)
@@ -2128,7 +2128,7 @@ Public Class frmLiquidacionPortatil
 			crParameterFieldDefinition.ApplyCurrentValues(crParameterValues)
 
 
-			'Parámetros SubReporte Tripulacion
+			'Parï¿½metros SubReporte Tripulacion
 			'Configuracion
 			crParameterFieldDefinitions = rptReporte.DataDefinition.ParameterFields
 			crParameterFieldDefinition = crParameterFieldDefinitions.Item(6)
@@ -2152,15 +2152,15 @@ Public Class frmLiquidacionPortatil
 				rptReporte.PrintToPrinter(_Copias, False, 0, 0)
 			Catch exc As Exception
 				Dim Mensajes As New PortatilClasses.Mensaje(120)
-				MessageBox.Show(Mensajes.Mensaje, "Modulo de liquidación", MessageBoxButtons.OK, MessageBoxIcon.Error)
+				MessageBox.Show(Mensajes.Mensaje, "Modulo de liquidaciï¿½n", MessageBoxButtons.OK, MessageBoxIcon.Error)
 			End Try
 		Catch exc As Exception
 			Dim Mensajes As New PortatilClasses.Mensaje(120)
-			MessageBox.Show(Mensajes.Mensaje, "Modulo de liquidación", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			MessageBox.Show(Mensajes.Mensaje, "Modulo de liquidaciï¿½n", MessageBoxButtons.OK, MessageBoxIcon.Error)
 		End Try
 	End Sub
 
-	' Establece y realiza la conexión para cargar la información al reporte
+	' Establece y realiza la conexiï¿½n para cargar la informaciï¿½n al reporte
 	Public Sub AplicaInfoConexion()
 		For Each _TablaReporte In rptReporte.Database.Tables
 			_LogonInfo = _TablaReporte.LogOnInfo
@@ -2508,7 +2508,7 @@ Public Class frmLiquidacionPortatil
 		'          'Columna 019
 		'          dcColumna = New DataColumn()
 		'          dcColumna.DataType = System.Type.GetType("System.Int32")
-		'          dcColumna.ColumnName = "AñoMovimiento"
+		'          dcColumna.ColumnName = "Aï¿½oMovimiento"
 		'          dtPedidoCobro.Columns.Add(dcColumna)
 		'          'Columna 020
 		'          dcColumna = New DataColumn()
@@ -2602,12 +2602,12 @@ Public Class frmLiquidacionPortatil
 	'Realiza un inicio de sesion almacenando la informacion en la tabla CorteCaja
 	Public Sub IniciarSesion(ByRef InicioDeSesion As DateTime, ByVal connection As SqlConnection, ByRef transaccion As SqlTransaction)
 		If SesionIniciada Then
-			MessageBox.Show("La sesión ya fue iniciada.", "Inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+			MessageBox.Show("La sesiï¿½n ya fue iniciada.", "Inicio de sesiï¿½n", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
 			Exit Sub
 		End If
 
 		If Not PuedeIniciarSesion Then
-			MessageBox.Show("No puede iniciar sesión.", "Inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+			MessageBox.Show("No puede iniciar sesiï¿½n.", "Inicio de sesiï¿½n", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
 			Exit Sub
 		End If
 
@@ -2642,7 +2642,7 @@ Public Class frmLiquidacionPortatil
 	'Termina la sesion de la liquidacion en caja
 	Public Sub TerminarSesion(ByVal Importe As Decimal, ByVal connection As SqlConnection, ByRef transaccion As SqlTransaction)
 		If Not SesionIniciada Then
-			MessageBox.Show("La sesión no ha sido iniciada.", "Termino de sesión", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			MessageBox.Show("La sesiï¿½n no ha sido iniciada.", "Termino de sesiï¿½n", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 			Exit Sub
 		End If
 		Dim oCorte As New LiquidacionTransaccionada.CorteCaja()
@@ -2764,7 +2764,7 @@ Public Class frmLiquidacionPortatil
 
 		'If Not UsaMovilGasDos Then
 		'    'LUSATE 24/02/2016
-		'    'Carga UsuarioMovil sin importar sea ruta titular, suplente ó apoyo.
+		'    'Carga UsuarioMovil sin importar sea ruta titular, suplente ï¿½ apoyo.
 		'    Dim UsrMovil As Integer = 0
 		'    UsrMovil = oLiquidacion.ConsultaUsuarioMovil(CType(dtpFLiquidacion.Value, Date), _Ruta, _Folio)
 		'    ''
@@ -2794,7 +2794,7 @@ Public Class frmLiquidacionPortatil
 
 		If VersionMovilGas = 1 Or VersionMovilGas = 2 Then
 			'LUSATE 24/02/2016
-			'Carga UsuarioMovil sin importar sea ruta titular, suplente ó apoyo.
+			'Carga UsuarioMovil sin importar sea ruta titular, suplente ï¿½ apoyo.
 			Dim UsrMovil As Integer = 0
 			UsrMovil = oLiquidacion.ConsultaUsuarioMovil(CType(dtpFLiquidacion.Value, Date), _Ruta, _Folio)
 			''
@@ -3007,8 +3007,8 @@ Public Class frmLiquidacionPortatil
 #End Region
 
 #Region "Metodos y Funciones"
-	'Constructor de la forma que inicializa y carga la información necesaria
-	'para que la liquidación se pueda llevar a cabo
+	'Constructor de la forma que inicializa y carga la informaciï¿½n necesaria
+	'para que la liquidaciï¿½n se pueda llevar a cabo
 	Public Sub New(ByVal AnoAtt As Short, ByVal Folio As Integer, ByVal AlmacenGas As Integer, ByVal Corporativo As Integer,
 	ByVal MovimientoAlmacen As Integer, ByVal NDocumento As Integer, ByVal drLiquidacionCarga As DataRow(),
 	ByVal Usuario As String, ByVal Empleado As Integer, ByVal CajaUsuario As Byte, ByVal FactorDensidad As Decimal,
@@ -3018,7 +3018,7 @@ Public Class frmLiquidacionPortatil
 		MyBase.New()
 		InitializeComponent()
 
-		'Asignación de las variables globales referentes al registro de "AutotanqueTurno"
+		'Asignaciï¿½n de las variables globales referentes al registro de "AutotanqueTurno"
 		_AnoAtt = AnoAtt
 		_Folio = Folio
 		_AlmacenGas = AlmacenGas
@@ -3147,7 +3147,7 @@ Public Class frmLiquidacionPortatil
 
 		txtTripulacion.Text = trip
 
-		btnTripulacion.Text = "Tripulación (" + CType(_drLiquidacion(0).Item(9), String) + ")"
+		btnTripulacion.Text = "Tripulaciï¿½n (" + CType(_drLiquidacion(0).Item(9), String) + ")"
 		lblOrden.Text = CType(_drLiquidacion(0).Item(26), String)
 		lblFolio.Text = CType(_drLiquidacion(0).Item(2), String)
 		lblFCarga.Text = CType(_drLiquidacion(0).Item(13), Date).ToString("D")
@@ -4079,7 +4079,7 @@ Public Class frmLiquidacionPortatil
 	Public Sub MovimientoCajasSalida(ByVal Folio As Integer)
 		Dim oMovimientoCajaSalida As New Liquidacion.cMovimientoCaja()
 		Dim Cant As Double
-		'Da de alta el cambio que resultó del movimiento
+		'Da de alta el cambio que resultï¿½ del movimiento
 		If Not arrCambio Is Nothing Then
 			Cant = CType(arrCambio.GetValue(0, 1), Integer)
 			If Cant > 0 Then
@@ -4148,7 +4148,7 @@ Public Class frmLiquidacionPortatil
 	Public Sub MovimientoCajasSalida(ByVal Folio As Integer, ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction)
 		Dim oMovimientoCajaSalida As New LiquidacionTransaccionada.cMovimientoCaja()
 		Dim Cant As Double
-		'Da de alta el cambio que resultó del movimiento
+		'Da de alta el cambio que resultï¿½ del movimiento
 		If Not arrCambio Is Nothing Then
 			Cant = CType(arrCambio.GetValue(0, 1), Integer)
 			If Cant > 0 Then
@@ -4214,7 +4214,7 @@ Public Class frmLiquidacionPortatil
 		'Fin del alta del cambio
 	End Sub
 
-	' Muestra la pantalla para seleccionar la causa de cancelación, despues INACTIVA el movimiento
+	' Muestra la pantalla para seleccionar la causa de cancelaciï¿½n, despues INACTIVA el movimiento
 	' y actualiza las existencias de los almacenes afectados
 	' 20061114CAGP$001 /I
 	Private Sub CancelarMovimiento(ByVal MovimientoAlmacen As Integer, ByVal Almacen As Integer)
@@ -4243,7 +4243,7 @@ Public Class frmLiquidacionPortatil
 
 			Try
 				'---INICIO
-				'Se instancia el objeto que controla la transacción
+				'Se instancia el objeto que controla la transacciï¿½n
 				Dim ClienteTemp As Integer
 
 
@@ -4434,7 +4434,7 @@ Public Class frmLiquidacionPortatil
 									Precio = CType(dtLiquidacionTotal.Rows(i).Item(15), Decimal)
 								End If
 								If Total = 0 Then
-									Throw New Exception("Error en el proceso, sólo los obsequios pueden tener un total igual a cero, remisión: " & CType(dtLiquidacionTotal.Rows(i).Item(0), String) & " " & CType(dtLiquidacionTotal.Rows(i).Item(1), String))
+									Throw New Exception("Error en el proceso, sï¿½lo los obsequios pueden tener un total igual a cero, remisiï¿½n: " & CType(dtLiquidacionTotal.Rows(i).Item(0), String) & " " & CType(dtLiquidacionTotal.Rows(i).Item(1), String))
 								End If
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
 								Total = 0
@@ -4442,7 +4442,7 @@ Public Class frmLiquidacionPortatil
 
 							'Importe = Total / ((CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal) / 100) + 1)
 							'Impuesto = Total - Importe
-							_seccion = "Cálculo de importes"
+							_seccion = "Cï¿½lculo de importes"
 
 							Importe = Total / (1 + _ValorIva)
 							Impuesto = Total - Importe
@@ -4450,7 +4450,7 @@ Public Class frmLiquidacionPortatil
 							'Impuesto = CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal)
 
 
-							_seccion = "Asignación de variables"
+							_seccion = "Asignaciï¿½n de variables"
 							Dim ProductoTemp, CantidadTemp, ValorTemp As Integer
 							Dim SaldoTemp As Decimal
 							Dim TipoCobroTemp, ZonaEconomicaTemp As Short
@@ -4627,7 +4627,7 @@ Public Class frmLiquidacionPortatil
 
 						For Each cobroTemp As SigaMetClasses.CobroDetalladoDatos In queryCobros
 							Dim _CobroTemp As Integer = cobroTemp.Cobro
-							Dim _AnoCobroTemp As Short = cobroTemp.AñoCobro
+							Dim _AnoCobroTemp As Short = cobroTemp.Aï¿½oCobro
 
 
 							_seccion = "AltaMovimientoCajaCobro Efectivo"
@@ -4656,7 +4656,7 @@ Public Class frmLiquidacionPortatil
 
 						For Each cobroTemp As SigaMetClasses.CobroDetalladoDatos In queryCobros
 							Dim _CobroTemp As Integer = cobroTemp.Cobro
-							Dim _AnoCobroTemp As Short = cobroTemp.AñoCobro
+							Dim _AnoCobroTemp As Short = cobroTemp.Aï¿½oCobro
 							Dim oMovimientoCajaCobro As New LiquidacionTransaccionada.cMovimientoCaja()
 							_seccion = "AltaMovimientoCajaCobro FormasPago"
 							oMovimientoCajaCobro.AltaMovimientoCajaCobro(_CajaUsuario, FechaOperacion,
@@ -4745,7 +4745,7 @@ Public Class frmLiquidacionPortatil
 						'End If
 
 						'k = 0
-						'ITL 6/agosto/2018 se comenta porque los obsequios TipoCobro = 15 no deben generar cobro, indicación de Claudia García. 
+						'ITL 6/agosto/2018 se comenta porque los obsequios TipoCobro = 15 no deben generar cobro, indicaciï¿½n de Claudia Garcï¿½a. 
 						'dtPedidoCobro.DefaultView.RowFilter = "Tabla = 0 and TipoCobro = 15"
 						'If dtPedidoCobro.DefaultView.Count > 0 Then
 						'    Dim _CobroTemp As Integer = CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer)
@@ -4854,7 +4854,7 @@ Public Class frmLiquidacionPortatil
 					banderaTransaccion = True
 				Else
 					Dim Mensajes As New PortatilClasses.Mensaje(123)
-					MessageBox.Show(Mensajes.Mensaje, "Módulo de liquidación", MessageBoxButtons.OK, MessageBoxIcon.Error)
+					MessageBox.Show(Mensajes.Mensaje, "Mï¿½dulo de liquidaciï¿½n", MessageBoxButtons.OK, MessageBoxIcon.Error)
 				End If
 
 			Catch ex As Exception
@@ -4862,8 +4862,8 @@ Public Class frmLiquidacionPortatil
 					transaction.Rollback()
 				Catch
 				End Try
-				Throw New Exception("Error en la liquidación: " & ex.Message)
-				'MessageBox.Show("Error en la liquidación: " + ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+				Throw New Exception("Error en la liquidaciï¿½n: " & ex.Message)
+				'MessageBox.Show("Error en la liquidaciï¿½n: " + ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
 			Finally
 				If connection.State = System.Data.ConnectionState.Open Then
 					connection.Close()
@@ -5837,7 +5837,7 @@ Public Class frmLiquidacionPortatil
 	'                   drPedidoCobro(11) = cobroTemp.NumeroCheque
 	'                   drPedidoCobro(12) = cobroTemp.NumeroCuenta
 	'                   drPedidoCobro(14) = cobroTemp.Saldo
-	'                   drPedidoCobro(19) = cobroTemp.AñoMovimiento
+	'                   drPedidoCobro(19) = cobroTemp.Aï¿½oMovimiento
 	'                   drPedidoCobro(20) = cobroTemp.FolioMovimiento
 
 	'                   dtPedidoCobro.Rows.Add(drPedidoCobro)
@@ -5847,7 +5847,7 @@ Public Class frmLiquidacionPortatil
 	'               'If CType(dtLiquidacionTotal.Rows(i).Item(10), Integer) = 21 Then
 	'               '	For Each CobroDetalle As SigaMetClasses.CobroDetalladoDatos In _listaCobros
 	'               '		If CobroDetalle.TipoCobro = 21 And CType(dtLiquidacionTotal.Rows(i).Item(20), String) = CobroDetalle.Serie And CType(dtLiquidacionTotal.Rows(i).Item(21), Integer) = CobroDetalle.Remision Then
-	'               '			drPedidoCobro(19) = CobroDetalle.AñoMovimiento
+	'               '			drPedidoCobro(19) = CobroDetalle.Aï¿½oMovimiento
 	'               '			drPedidoCobro(20) = CobroDetalle.FolioMovimiento
 	'               '		End If
 	'               '	Next
@@ -6180,12 +6180,12 @@ Public Class frmLiquidacionPortatil
 	'               'End Select
 
 
-	'               'If CType(dtPedidoCobro.DefaultView.Item(k).Item(18), Boolean) Then '¿El cobro fue hecho mediante un cheque?
+	'               'If CType(dtPedidoCobro.DefaultView.Item(k).Item(18), Boolean) Then 'ï¿½El cobro fue hecho mediante un cheque?
 	'               '	oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
-	'               'ElseIf CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short) = 6 Then '¿El cobro fue hecho mediante una tarjeta?
+	'               'ElseIf CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short) = 6 Then 'ï¿½El cobro fue hecho mediante una tarjeta?
 	'               '	oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
 	'               'Else
-	'               '	If CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short) <> 15 Then '¿El tipo de cobro no es obsequio?
+	'               '	If CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short) <> 15 Then 'ï¿½El tipo de cobro no es obsequio?
 	'               '		oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
 	'               '		If CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short) = 21 Then 'Se se trata de un anticipo, debitar la parcialidad empleada
 	'               '			Dim oMvtoConciliarCobro As New SigaMetClasses.cMovimientoAConciliarCobro()
@@ -6414,13 +6414,13 @@ Public Class frmLiquidacionPortatil
 													   _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, Nothing,
 													   0, Connection, Transaction, DateTime.MinValue.Date)
 					oMvtoConciliarCobro.altaMovimientoConciliarCobro(cobroTemp.FolioMovimiento,
-																	 cobroTemp.AñoMovimiento,
+																	 cobroTemp.Aï¿½oMovimiento,
 																	 oLiquidacionCobro.AnoCobro, oLiquidacionCobro.Cobro, Total,
 																	 "EMITIDO", Connection, Transaction)
 			End Select
 			_seccion = "Lectura Datos Cobro"
 			cobroTemp.Cobro = oLiquidacionCobro.Cobro
-			cobroTemp.AñoCobro = oLiquidacionCobro.AnoCobro
+			cobroTemp.Aï¿½oCobro = oLiquidacionCobro.AnoCobro
 
 			If TieneSaldoAFavor Then
 				_seccion = "Insercion Saldo a favor Movimiento Conciliar"
@@ -6433,7 +6433,7 @@ Public Class frmLiquidacionPortatil
 				Nothing,
 				Nothing,
 				Nothing,
-				cobroTemp.AñoCobro,
+				cobroTemp.Aï¿½oCobro,
 				cobroTemp.Cobro,
 				cobroTemp.Saldo,
 				"REGISTRADO",
@@ -6474,7 +6474,7 @@ Public Class frmLiquidacionPortatil
 																								  CType(dtLiquidacionTotal.DefaultView.Item(i).Item(16), Short),
 																								  CType(dtLiquidacionTotal.DefaultView.Item(i).Item(17), Integer))
 					oLiquidacionCobroPedido.LiquidacionPedidoyCobroPedido(0, Now, 0, 0, Importe, Impuesto, Total, "", 0, Now, 0, "", 0, 0, 0,
-																			  cobroTemp.AñoCobro,
+																			  cobroTemp.Aï¿½oCobro,
 																			  cobroTemp.Cobro,
 																			  "", 0, 0, 0, 0, "", 0, Now, Now, 0, 0, 0, 0, 0, 0, 0, 0,
 																			  Connection, Transaction)
@@ -6521,7 +6521,7 @@ Public Class frmLiquidacionPortatil
 		'		drPedidoCobro(11) = cobroTemp.NumeroCheque
 		'		drPedidoCobro(12) = cobroTemp.NumeroCuenta
 		'		drPedidoCobro(14) = cobroTemp.Saldo
-		'		drPedidoCobro(19) = cobroTemp.AñoMovimiento
+		'		drPedidoCobro(19) = cobroTemp.Aï¿½oMovimiento
 		'		drPedidoCobro(20) = cobroTemp.FolioMovimiento
 		'		drPedidoCobro(21) = cobroTemp.FDeposito
 		'		drPedidoCobro(22) = cobroTemp.BancoOrigen
@@ -6578,7 +6578,7 @@ Public Class frmLiquidacionPortatil
 		'End If
 
 		'_seccion = "Tabla cobros Formas Pago"
-		'dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1  and TipoCobro in(6, 19, 22, 10, 21, 16, 2)"  'Tarjeta De Crédito, Tarjeta De débito, Tarjeta de servicios, Transferencia, Anticipo, Vales, ValesCaja
+		'dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1  and TipoCobro in(6, 19, 22, 10, 21, 16, 2)"  'Tarjeta De Crï¿½dito, Tarjeta De dï¿½bito, Tarjeta de servicios, Transferencia, Anticipo, Vales, ValesCaja
 		'If dtPedidoCobro.DefaultView.Count > 0 Then
 		'	Dim j As Integer = 0
 		'	While j < dtPedidoCobro.DefaultView.Count
@@ -6711,7 +6711,7 @@ Public Class frmLiquidacionPortatil
 		''Arma la tabla para el registro de la relacion PedidoCobro
 		'dtCobro.DefaultView.RowFilter = "Tabla = 0 AND TipoCobro =5"
 		'Dim numreg As Integer = dtCobro.DefaultView.Count
-		'_seccion = "Asignación datos cobros efectivo"
+		'_seccion = "Asignaciï¿½n datos cobros efectivo"
 		'While k < numreg
 
 
@@ -6737,7 +6737,7 @@ Public Class frmLiquidacionPortatil
 		'dtCobro.DefaultView.RowFilter = "Tabla = 0 AND TipoCobro <> 15 AND TipoCobro <> 5"
 		'numreg = dtCobro.DefaultView.Count
 		'While k < numreg
-		'	_seccion = "Asignación datos cobros contado"
+		'	_seccion = "Asignaciï¿½n datos cobros contado"
 		'	dtCobro.DefaultView.RowFilter = "Tabla = 0 AND TipoCobro <> 15  AND TipoCobro <> 5"
 		'	Dim TipoCobro As String = CType(dtCobro.DefaultView.Item(k).Item(4), String)
 		'	Dim AnoCobro As Integer = CType(dtCobro.DefaultView.Item(k).Item(16), Integer)
@@ -6766,7 +6766,7 @@ Public Class frmLiquidacionPortatil
 		'dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1 AND TipoCobro <> 15"
 		'While k < dtPedidoCobro.DefaultView.Count
 
-		'	_seccion = "Asignación datos cobros no credito"
+		'	_seccion = "Asignaciï¿½n datos cobros no credito"
 		'	Dim TipoCobro As Integer = CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Integer)
 
 		'	'If TipoCobro = 3 Or TipoCobro = 5 Or TipoCobro = 15 Then
@@ -6842,17 +6842,17 @@ Public Class frmLiquidacionPortatil
 
 		Mensaje = Chr(13) + "Total de venta: " + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblVentaTotal.Text) + Chr(13)
 		Mensaje = Mensaje + "Sin cargo + descuentos: " + Chr(9) + "$" + String.Format("{0,15:C}", lblTotal.Text) + Chr(13)
-		Mensaje = Mensaje + "Crédito: " + Chr(9) + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblCredito.Text) + Chr(13)
+		Mensaje = Mensaje + "Crï¿½dito: " + Chr(9) + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblCredito.Text) + Chr(13)
 		Mensaje = Mensaje + "TOTAL A COBRAR: " + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblTotalCobro.Text) + Chr(13)
 		Mensaje = Mensaje + "Efectivo: " + Chr(9) + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblEfectivo.Text) + Chr(13)
 		Mensaje = Mensaje + "Vales de despensa:        " + Chr(9) + "$" + String.Format("{0,15:C}", lblVales.Text) + Chr(13)
-		Mensaje = Mensaje + "Transferencia Electrónic: " + Chr(9) + "$" + String.Format("{0,15:C}", lblTransferElect.Text) + Chr(13)
-		Mensaje = Mensaje + "Tarjeta débito y crédito: " + Chr(9) + "$" + String.Format("{0,15:C}", lblTarjDebCred.Text) + Chr(13)
-		Mensaje = Mensaje + "Aplicación de Anticipo:         " + Chr(9) + "$" + String.Format("{0,15:C}", lblAplicAnticipo.Text) + Chr(13)
+		Mensaje = Mensaje + "Transferencia Electrï¿½nic: " + Chr(9) + "$" + String.Format("{0,15:C}", lblTransferElect.Text) + Chr(13)
+		Mensaje = Mensaje + "Tarjeta dï¿½bito y crï¿½dito: " + Chr(9) + "$" + String.Format("{0,15:C}", lblTarjDebCred.Text) + Chr(13)
+		Mensaje = Mensaje + "Aplicaciï¿½n de Anticipo:         " + Chr(9) + "$" + String.Format("{0,15:C}", lblAplicAnticipo.Text) + Chr(13)
 		Mensaje = Mensaje + "Cheques:         " + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblCheque.Text) + Chr(13)
 		Mensaje = Mensaje + "Cambio: " + Chr(9) + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblCambio.Text) + Chr(13)
 
-		If MessageBox.Show("¿Son correctos los datos de la liquidación?" + Chr(13) + Mensaje + Chr(13) + "Tripulación" + Chr(13) + strTripulacion, Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+		If MessageBox.Show("ï¿½Son correctos los datos de la liquidaciï¿½n?" + Chr(13) + Mensaje + Chr(13) + "Tripulaciï¿½n" + Chr(13) + strTripulacion, Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
 			Return True
 			Me.Close()
 		Else
@@ -6911,7 +6911,7 @@ Public Class frmLiquidacionPortatil
 		End If
 	End Sub
 
-	'Evento del boto Buscar para realizar la búsqueda de un cliente portátil
+	'Evento del boto Buscar para realizar la bï¿½squeda de un cliente portï¿½til
 	Private Sub Buscar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscarCliente.Click
 		Dim ofrmBusquedaCliente As SigaMetClasses.BusquedaCliente
 		ofrmBusquedaCliente = New SigaMetClasses.BusquedaCliente()
@@ -7162,7 +7162,7 @@ Public Class frmLiquidacionPortatil
 								If item("FormaPago").ToString.Trim.ToUpper = "OBSEQUIO" Then
 									row("TipoCobro") = 15
 								End If
-								If item("FormaPago").ToString.Trim = "Crédito Portátil" Then
+								If item("FormaPago").ToString.Trim = "Crï¿½dito Portï¿½til" Then
 									row("TipoCobro") = 18
 								End If
 
@@ -7216,7 +7216,7 @@ Public Class frmLiquidacionPortatil
             Else
                 oDireccionEntrega = New RTGMCore.DireccionEntrega()
                 oDireccionEntrega.IDDireccionEntrega = idCliente
-                oDireccionEntrega.Nombre = "No se encontró cliente"
+                oDireccionEntrega.Nombre = "No se encontrï¿½ cliente"
                 listaDireccionesEntrega.Add(oDireccionEntrega)
             End If
 
@@ -7253,7 +7253,7 @@ Public Class frmLiquidacionPortatil
                     Else
                         direccionEntrega = New RTGMCore.DireccionEntrega()
                         direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
-                        direccionEntrega.Nombre = "No se encontró cliente"
+                        direccionEntrega.Nombre = "No se encontrï¿½ cliente"
                         listaDireccionesEntrega.Add(direccionEntrega)
                     End If
 
@@ -7276,7 +7276,7 @@ Public Class frmLiquidacionPortatil
                     End If
                 Next
 
-                Dim result As Integer = MessageBox.Show("No fue posible encontrar información para " & listaClientes.Count & " clientes de la solicitud ¿desea reintentar?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
+                Dim result As Integer = MessageBox.Show("No fue posible encontrar informaciï¿½n para " & listaClientes.Count & " clientes de la solicitud ï¿½desea reintentar?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
 
                 If result = DialogResult.Yes Then
                     generaListaClientes(listaClientes)
@@ -7353,7 +7353,7 @@ Public Class frmLiquidacionPortatil
 				If item("FormaPago").ToString.Trim.ToUpper = "OBSEQUIO" Then
 					Row("TipoCobro") = 15
 				End If
-				If item("FormaPago").ToString.Trim = "Crédito Portátil" Then
+				If item("FormaPago").ToString.Trim = "Crï¿½dito Portï¿½til" Then
 					Row("TipoCobro") = 18
 				End If
 
@@ -7507,12 +7507,12 @@ Public Class frmLiquidacionPortatil
     'liquidacion de la ruta
     'Private Sub btnAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAceptar.Click
     '    If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
-    '        MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidación," + Chr(13) + "favor de ajustar la fecha y hora conforme a la operación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '        MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidaciï¿½n," + Chr(13) + "favor de ajustar la fecha y hora conforme a la operaciï¿½n.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
     '        Return
     '    End If
 
     '    If _LiqPrecioVigente = False Then
-    '        If MessageBox.Show("¿Está a punto de realizar la liquidación con precios probablemente no vigentes ¿Desea continuar?", Me.Text,
+    '        If MessageBox.Show("ï¿½Estï¿½ a punto de realizar la liquidaciï¿½n con precios probablemente no vigentes ï¿½Desea continuar?", Me.Text,
     '                           MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
     '            Exit Sub
     '        End If
@@ -7628,8 +7628,8 @@ Public Class frmLiquidacionPortatil
 
     'Private Sub BotonBase1_Click(sender As Object, e As EventArgs) Handles BotonBase1.Click
     '    Dim FolioAtt As Integer = 43655 'El folio que se obtiene del registro seleccionado del grid.
-    '    Dim AñoAtt As Short = 2015 'El año del AutotanquTurno que se obtiene del registro seleccionado del grid.
-    '    Dim ofrmPrueba As New frmRemisionManual(FolioAtt, AñoAtt)
+    '    Dim Aï¿½oAtt As Short = 2015 'El aï¿½o del AutotanquTurno que se obtiene del registro seleccionado del grid.
+    '    Dim ofrmPrueba As New frmRemisionManual(FolioAtt, Aï¿½oAtt)
     '    ofrmPrueba.ShowDialog()
     'End Sub
 
@@ -7707,7 +7707,7 @@ Public Class frmLiquidacionPortatil
                     oLiquidacionPedido = New Liquidacion.cLiquidacion(1, 0, 0, 0)
                     dtRemisiones = oLiquidacionPedido.ConsultaPedidoPortatilCapturaManual(0, _AnoAtt, _Folio, 0, 0)
                     If dtRemisiones.Rows.Count > 0 Then
-                        If MessageBox.Show("Los datos de las remisiones capturadas se perderan. ¿Estas seguro de salir de la liquidación?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                        If MessageBox.Show("Los datos de las remisiones capturadas se perderan. ï¿½Estas seguro de salir de la liquidaciï¿½n?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                             Cursor = Cursors.WaitCursor
                             oLiquidacionPedido = New Liquidacion.cLiquidacion(6, 0, 0, 0)
                             oLiquidacionPedido.PedidoDetalleRemision(0, 0, 0, Nothing, Nothing,
@@ -7886,7 +7886,7 @@ Public Class frmLiquidacionPortatil
 
 		If Not dt Is Nothing Then
 			For Each dr As DataRow In dt.Rows
-				If dr("FormaPago").ToString().Trim = "Crédito Portátil" Then
+				If dr("FormaPago").ToString().Trim = "Crï¿½dito Portï¿½til" Then
 					VentaCredito = VentaCredito + Convert.ToDecimal(dr("Saldo").ToString())
 				End If
 			Next
@@ -8055,7 +8055,7 @@ Public Class frmLiquidacionPortatil
 
 		Dim PagoEfectivoDefault As Boolean
 		Dim Pago As Integer
-		Dim result As Integer = MessageBox.Show("¿Desea registrar pago en efectivo para las remisiones pendientes?", "Pago en Efectivo", MessageBoxButtons.YesNo)
+		Dim result As Integer = MessageBox.Show("ï¿½Desea registrar pago en efectivo para las remisiones pendientes?", "Pago en Efectivo", MessageBoxButtons.YesNo)
 		Try
 
 			If (result = DialogResult.No) Then
@@ -8119,10 +8119,10 @@ Public Class frmLiquidacionPortatil
 					formapago = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago"), String).Trim
 
 					'If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim = "CONTADO" Or CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim.ToUpper = "EFECTIVO" Then
-					If Saldo > 0 And formapago <> "Crédito Portátil" Then
+					If Saldo > 0 And formapago <> "Crï¿½dito Portï¿½til" Then
 						_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo") = 0
 					Else
-						If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim = "Crédito Portátil" Then
+						If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim = "Crï¿½dito Portï¿½til" Then
 							Credito = Credito + CDec(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"))
 						End If
 
@@ -8146,7 +8146,7 @@ Public Class frmLiquidacionPortatil
 					End If
 				Next
 				ActualizarTotalizadorFormasDePago(_listaCobros)
-					MessageBox.Show("Cobro de remisiones concluída.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+					MessageBox.Show("Cobro de remisiones concluï¿½da.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 				End If
 				Validacion()
         Catch ex As Exception
@@ -8177,7 +8177,7 @@ Public Class frmLiquidacionPortatil
                     Validacion()
                 End If
             Else
-                MessageBox.Show("No hay cobros registrados aún, imposible eliminarlos.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("No hay cobros registrados aï¿½n, imposible eliminarlos.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
             ActualizarTotalizadorFormasDePago(_listaCobros)
             Validacion()
@@ -8237,12 +8237,12 @@ Public Class frmLiquidacionPortatil
             If validar = True Then
                 Try
                     If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
-                        MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidación," + Chr(13) + "favor de ajustar la fecha y hora conforme a la operación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidaciï¿½n," + Chr(13) + "favor de ajustar la fecha y hora conforme a la operaciï¿½n.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
                         Return
                     End If
 
                     If _LiqPrecioVigente = False Then
-                        If MessageBox.Show("¿Está a punto de realizar la liquidación con precios probablemente no vigentes ¿Desea continuar?", Me.Text,
+                        If MessageBox.Show("ï¿½Estï¿½ a punto de realizar la liquidaciï¿½n con precios probablemente no vigentes ï¿½Desea continuar?", Me.Text,
                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
                             Exit Sub
                         End If
@@ -8260,7 +8260,7 @@ Public Class frmLiquidacionPortatil
 
                             If (listaFolios.Count > 0) Then
                                 Dim Mensaje As New StringBuilder()
-                                Mensaje.Append("Existe pérdida de folios en el rango que se desea liquidar.")
+                                Mensaje.Append("Existe pï¿½rdida de folios en el rango que se desea liquidar.")
                                 Mensaje.AppendLine()
                                 Mensaje.Append("Los folios faltantes son :")
                                 Mensaje.AppendLine()
@@ -8349,16 +8349,16 @@ Public Class frmLiquidacionPortatil
                     End If
                     'For Each Cobro As SigaMetClasses.CobroDetalladoDatos In _listaCobros
                     '    With Cobro
-                    '        Cobro.insertaCobro(.AñoCobro, .Cobro, .Importe, .Impuesto, .Total, .Referencia, .Banco, .FAlta, .Status, .TipoCobro, .NumeroCheque,
+                    '        Cobro.insertaCobro(.Aï¿½oCobro, .Cobro, .Importe, .Impuesto, .Total, .Referencia, .Banco, .FAlta, .Status, .TipoCobro, .NumeroCheque,
                     '.FCheque, .NumeroCuenta, .Observaciones, .FDevolucion, .RazonDevCheque, .Cliente, .Saldo, .Usuario, .FActualizacion,
-                    '.Folio, .FDeposito, .FolioAtt, .AñoAtt, .NumeroCuentaDestino, .BancoOrigen, .SaldoAFavor, .StatusSaldoAFavor,
-                    '.AñoCobroOrigen, .CobroOrigen, .TPV)
+                    '.Folio, .FDeposito, .FolioAtt, .Aï¿½oAtt, .NumeroCuentaDestino, .BancoOrigen, .SaldoAFavor, .StatusSaldoAFavor,
+                    '.Aï¿½oCobroOrigen, .CobroOrigen, .TPV)
                     '    End With
                     'Next
-                    MessageBox.Show("El proceso de registro de cobros concluyó exitosamente.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("El proceso de registro de cobros concluyï¿½ exitosamente.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Catch ex As Exception
-                    MessageBox.Show("Se generó el siguiente error: " & ex.Message & ". Seccion: " & _seccion, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show("Se generï¿½ el siguiente error: " & ex.Message & ". Seccion: " & _seccion, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
                     Me.Close()
                 End Try
             Else
@@ -8366,7 +8366,7 @@ Public Class frmLiquidacionPortatil
                 Dim totalPagos As Decimal = CDec(lblTransferElect.Text) + CDec(lblTarjDebCred.Text) + CDec(lblAplicAnticipo.Text) + CDec(lblCheque.Text) + CDec(lblEfectivo.Text) + CDec(lblVales.Text)
                 If totalcobro = 0 Then
 
-                    MessageBox.Show("No se ha hecho la liquidación de ruta portátil, se necesita el total a cobrar.")
+                    MessageBox.Show("No se ha hecho la liquidaciï¿½n de ruta portï¿½til, se necesita el total a cobrar.")
                 ElseIf totalcobro > 0 And totalcobro <> totalPagos Then
                     MessageBox.Show("El pago total debe de ser igual al cobro total.")
                 ElseIf totalPagos > totalcobro Then
@@ -8414,14 +8414,14 @@ Public Class frmLiquidacionPortatil
 		Dim formapago As String
 		Dim Total As Decimal = 0
 		Dim insertaCobro As New SigaMetClasses.CobroDetalladoDatos()
-		'Dim TotalRemisiones2 As Decimal = Convert.ToDecimal(_DetalleGrid.Compute("SUM(saldo)", "FormaPago <> 'Crédito Portátil'"))
+		'Dim TotalRemisiones2 As Decimal = Convert.ToDecimal(_DetalleGrid.Compute("SUM(saldo)", "FormaPago <> 'Crï¿½dito Portï¿½til'"))
 		Dim TotalRemisiones As Decimal = 0
 		Dim insertacobroRemision As New SigaMetClasses.CobroRemisiones
 
 		For Each row As DataRow In _DetalleGrid.Rows
 			Saldo = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"), Decimal)
 			formapago = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago"), String).Trim
-			If Saldo > 0 And formapago <> "Crédito Portátil" Then
+			If Saldo > 0 And formapago <> "Crï¿½dito Portï¿½til" Then
 				TotalRemisiones = TotalRemisiones + Saldo
 			End If
 		Next
@@ -8430,7 +8430,7 @@ Public Class frmLiquidacionPortatil
 			With insertaCobro
 				.Pago = PagoNum
 				.SaldoAFavor = False
-				.AñoCobro = CShort(DateTime.Now.Year)
+				.Aï¿½oCobro = CShort(DateTime.Now.Year)
 				.Cobro = 0
 				.Total = TotalRemisiones
 				.Importe = .Total / CDec(1 + (16 / 100))
@@ -8454,11 +8454,11 @@ Public Class frmLiquidacionPortatil
 				.Folio = 0
 				.FDeposito = Date.MinValue
 				.FolioAtt = 0
-				.AñoAtt = CShort(Now.Year)
+				.Aï¿½oAtt = CShort(Now.Year)
 				.NumeroCuentaDestino = "NULL"
 				.BancoOrigen = CShort("0")
 				.StatusSaldoAFavor = "NULL"
-				.AñoCobroOrigen = CShort("0")
+				.Aï¿½oCobroOrigen = CShort("0")
 				.CobroOrigen = 0
 				.TPV = False
 
@@ -8467,7 +8467,7 @@ Public Class frmLiquidacionPortatil
 			For Each row As DataRow In _DetalleGrid.Rows
 				Saldo = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"), Decimal)
 				formapago = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago"), String).Trim
-				If Saldo > 0 And formapago <> "Crédito Portátil" Then
+				If Saldo > 0 And formapago <> "Crï¿½dito Portï¿½til" Then
 					insertacobroRemision = New SigaMetClasses.CobroRemisiones()
 					insertacobroRemision.MontoAbonado = Saldo
 					insertacobroRemision.Pago = PagoNum
@@ -8503,14 +8503,14 @@ Public Class frmLiquidacionPortatil
             For Each row As DataRow In _DetalleGrid.Rows
                 Saldo = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"), Decimal)
                 formapago = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago"), String).Trim
-                If Saldo > 0 And formapago <> "Crédito Portátil" Then
+                If Saldo > 0 And formapago <> "Crï¿½dito Portï¿½til" Then
                     insertaCobro = New SigaMetClasses.CobroDetalladoDatos()
                     PagoNum = PagoNum + 1
 
                     With insertaCobro
                         .Pago = PagoNum
                         .SaldoAFavor = False
-                        .AñoCobro = CShort(DateTime.Now.Year)
+                        .Aï¿½oCobro = CShort(DateTime.Now.Year)
                         .Cobro = 0
                         .Total = Saldo
                         .Importe = .Total / CDec(1 + (16 / 100))
@@ -8534,11 +8534,11 @@ Public Class frmLiquidacionPortatil
                         .Folio = 0
                         .FDeposito = Date.MinValue
                         .FolioAtt = 0
-                        .AñoAtt = CShort(Now.Year)
+                        .Aï¿½oAtt = CShort(Now.Year)
                         .NumeroCuentaDestino = "NULL"
                         .BancoOrigen = CShort("0")
                         .StatusSaldoAFavor = "NULL"
-                        .AñoCobroOrigen = CShort("0")
+                        .Aï¿½oCobroOrigen = CShort("0")
                         .CobroOrigen = 0
                         .TPV = False
                         .Serie = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Serie"), String)
@@ -8626,7 +8626,7 @@ Public Class frmLiquidacionPortatil
 
     Public Sub CargaTablaLiquidacion()
         If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
-            MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidación," + Chr(13) + "favor de ajustar la fecha y hora conforme a la operación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidaciï¿½n," + Chr(13) + "favor de ajustar la fecha y hora conforme a la operaciï¿½n.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
 
         End If
@@ -8762,7 +8762,7 @@ Public Class frmLiquidacionPortatil
 
                 TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(5), Decimal)
                 If Convert.ToString(_DetalleGrid.Rows(i).Item(8)) <> "" Then
-                    If CType(_DetalleGrid.Rows(i).Item(8), String).Trim = "Crédito Portátil" Then
+                    If CType(_DetalleGrid.Rows(i).Item(8), String).Trim = "Crï¿½dito Portï¿½til" Then
                         TotalCREDITO = TotalCREDITO + CType(_DetalleGrid.Rows(i).Item("Saldo"), Decimal)
                     End If
                 End If

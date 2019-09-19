@@ -1100,7 +1100,9 @@ Public Class CapturaDatosCreditoCliente
             If chkClientePadre.Checked = True Then
                 _ClientePadreInt = _Cliente
             Else
-                _ClientePadreInt = CType(txtClientePadre.Text, Integer)
+                If Not String.IsNullOrEmpty(txtClientePadre.Text) Then
+                    _ClientePadreInt = CType(txtClientePadre.Text, Integer)
+                End If
             End If
 
             'Cambio de ejecutivo responsable
@@ -1122,29 +1124,31 @@ Public Class CapturaDatosCreditoCliente
             Else
                 _DificultadCobro = CType(cboDCobro.SelectedValue, Byte)
             End If
+
             '*****
 
+
             Try
-                oCliente.Modifica(_Cliente, _
-                                  CType(Me.numDiasCredito.Value, Short), _
-                                  CType(numMaxImporteCredito.Value, Decimal), _
-                                  CType(cboTipoCredito.SelectedValue, Byte), _
-                                  _TipoCobro, _
-                                  _DiaRevision, _
-                                  _DiaPago, _
-                                  _Empleado, _
-                                  _EmpleadoNomina, _
-                                  CType(cboTipoFactura.SelectedValue, Byte), _
-                                  CType(cboNotaCredito.SelectedValue, Byte), _
-                                  CType(cboTipoCartera.SelectedValue, Byte), _
-                                 _ClientePadreInt, _
-                                 _EjecutivoCyC, _
-                                 Not chkHorariosAtencion.Checked, _
-                                 dtpHInicioAtencion.Value, _
-                                 dtpHFinAtencion.Value, _
-                                 txtObservacionesCyC.Text, _
-                                 _DificultadGestion, _
-                                 _DificultadCobro)
+                oCliente.Modifica(_Cliente,
+                                      CType(Me.numDiasCredito.Value, Short),
+                                      CType(numMaxImporteCredito.Value, Decimal),
+                                      CType(cboTipoCredito.SelectedValue, Byte),
+                                      _TipoCobro,
+                                      _DiaRevision,
+                                      _DiaPago,
+                                      _Empleado,
+                                      _EmpleadoNomina,
+                                      CType(cboTipoFactura.SelectedValue, Byte),
+                                      CType(cboNotaCredito.SelectedValue, Byte),
+                                      CType(cboTipoCartera.SelectedValue, Byte),
+                                      _ClientePadreInt, '_ClientePadreInt, _
+                                     _EjecutivoCyC,
+                                     Not chkHorariosAtencion.Checked,
+                                     dtpHInicioAtencion.Value,
+                                     dtpHFinAtencion.Value,
+                                     txtObservacionesCyC.Text,
+                                     _DificultadGestion,
+                                     _DificultadCobro)
                 'Salva los datos asignados al día de revisión Modificado 09/09/2004 por Jorge A. Guerrero
                 salvarDatosDiaCobranza()
                 Me.DialogResult = DialogResult.OK

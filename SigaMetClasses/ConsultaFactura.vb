@@ -838,7 +838,7 @@ Public Class ConsultaFactura
     Private Sub mnuConsultaCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuConsultaCliente.Click
         If Trim(lvwFacturaPedido.FocusedItem.SubItems(2).Text) <> "" Then
             Cursor = Cursors.WaitCursor
-            Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(CType(lvwFacturaPedido.FocusedItem.SubItems(2).Text, Integer), Nuevo:=0, Usuario:=_Usuario)
+            Dim oConsultaCliente As New SigaMetClasses.frmConsultaCliente(CType(lvwFacturaPedido.FocusedItem.SubItems(2).Text, Integer), Nuevo:=0, Usuario:=_Usuario, PermiteModificarDatosCliente:=True)
             oConsultaCliente.ShowDialog()
             Cursor = Cursors.Default
         End If
@@ -847,7 +847,7 @@ Public Class ConsultaFactura
 
     Private Sub btnConsultaEmpresa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultaEmpresa.Click
         Cursor = Cursors.WaitCursor
-        Dim oConsultaEmpresa As New SigaMetClasses.ConsultaEmpresa(_Empresa)
+        Dim oConsultaEmpresa As New SigaMetClasses.ConsultaEmpresa(_Empresa, PermiteModificar:=True)
         oConsultaEmpresa.ShowDialog()
         Cursor = Cursors.Default
     End Sub

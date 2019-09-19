@@ -1901,1493 +1901,1552 @@ Public Class frmConsultaCliente
 		_CambioEmpleadoNomina = PermiteCambioEmpleadoNomina
 		_CambioClientePadre = PermiteCambioCtePadre
 		_Modulo = Modulo
-		Me._ClienteRow = _ClienteRow
-		PermiteModificarDatosCte = PermiteModificarDatosCliente
-
-		'If (String.IsNullOrEmpty(_URLGateway)) Then
-		'    Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
-		'Else
-		'    Me.ConsultaCliente(_Cliente, _URLGateway)
-		'    'Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
-		'End If
-
-
-		If Not IsNothing(dtDocumento) Then
-			If dtDocumento.Rows.Count > 0 Then grdDocumento.Select(0)
-		End If
-
-		If _SoloCreditos Then Me.Text = "Consulta de cliente (Solo créditos pendientes)"
-		lnkModificarDatosCredito.Visible = PermiteModificarDatosCredito
-		btnModificar.Visible = PermiteModificarDatosCliente
-		btnListaNotas.Visible = PermiteCapturarNotas
-		btnContactos.Visible = MostrarBtnContactos
-
-		'Alta de quejas, se utiliza el permiso de captura de notas para capturar quejas en este módulo
-		If Not System.Configuration.ConfigurationManager.AppSettings.Item("CapturaQueja@Consulta") Is Nothing Then
-			btnQuejas.Visible = CType(System.Configuration.ConfigurationManager.AppSettings("CapturaQueja@Consulta"), Boolean)
-		End If
-
-		btnQuejas.Visible = (_Usuario.Trim.Length > 0)
-
-		'Consulta de imágenes capturadas para los clientes, solo para los usuarios con permiso de modificación de datos de crédito
-
-		consultaImagenes()
-
-		_dsCatalogos = DSCatalogos
-		_LinkQueja = LinkQueja          '20070622#CFSL001
-
-		'Alta de seguimients, se utiliza el permiso de captura de notas para capturar quejas en este módulo, y la configuracion
-		'para captura de notas
-		'Se Comenta ya que no es funcional
-		'If Not System.Configuration.ConfigurationManager.AppSettings.Item("CapturaQueja@Consulta") Is Nothing Then
-		'    btnSeguimiento.Visible = CType(System.Configuration.ConfigurationManager.AppSettings("CapturaQueja@Consulta"), Boolean)
-		'End If
-		'btnSeguimiento.Visible = (_Usuario.Trim.Length > 0)
-		'*****
-	End Sub
-
-	'Se agregaron los siguientes parámetros opcionales:
-	'   -PermiteCambioEmpleadoNomina, Habilita la posibilidad de cambio de empleado de nómina para el usuario que cuente con el permiso
-	'   -PermiteCambio
-	Public Sub New(ByVal Cliente As Integer,
-		  Optional ByVal Usuario As String = "",
-		  Optional ByVal SoloDocumentosACredito As Boolean = False,
-		  Optional ByVal SoloDocumentosSurtidos As Boolean = True,
-		  Optional ByVal PermiteSeleccionarDocumento As Boolean = False,
-		  Optional ByVal PermiteModificarDatosCredito As Boolean = False,
-		  Optional ByVal PermiteModificarDatosCliente As Boolean = False,
-		  Optional ByVal PermiteCapturarNotas As Boolean = False,
-		  Optional ByVal PermiteCambioEmpleadoNomina As Boolean = False,
-		  Optional ByVal PermiteCambioCtePadre As Boolean = False,
-		  Optional ByVal DSCatalogos As DataSet = Nothing,
-		  Optional ByVal LinkQueja As Boolean = True)
-
-		MyBase.New()
-		InitializeComponent()
-		_Cliente = Cliente
-		_Usuario = Usuario
-		_SoloCreditos = SoloDocumentosACredito
-		_SoloSurtidos = SoloDocumentosSurtidos
-		_SeleccionPedidoReferencia = PermiteSeleccionarDocumento
-
-		_CambioEmpleadoNomina = PermiteCambioEmpleadoNomina
-		_CambioClientePadre = PermiteCambioCtePadre
-
-		Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
-
-		If dtDocumento.Rows.Count > 0 Then grdDocumento.Select(0)
-		If _SoloCreditos Then Me.Text = "Consulta de cliente (Solo créditos pendientes)"
-		lnkModificarDatosCredito.Visible = PermiteModificarDatosCredito
-		btnModificar.Visible = PermiteModificarDatosCliente
-		btnListaNotas.Visible = PermiteCapturarNotas
-
-		'Alta de quejas, se utiliza el permiso de captura de notas para capturar quejas en este módulo
-		If Not System.Configuration.ConfigurationManager.AppSettings.Item("CapturaQueja@Consulta") Is Nothing Then
-			btnQuejas.Visible = CType(System.Configuration.ConfigurationManager.AppSettings("CapturaQueja@Consulta"), Boolean)
-		End If
-
-		btnQuejas.Visible = (_Usuario.Trim.Length > 0)
-
-		'Consulta de imágenes capturadas para los clientes, solo para los usuarios con permiso de modificación de datos de crédito
-
-		consultaImagenes()
-
-		_dsCatalogos = DSCatalogos
-		_LinkQueja = LinkQueja          '20070622#CFSL001
-
-		'Alta de seguimients, se utiliza el permiso de captura de notas para capturar quejas en este módulo, y la configuracion
-		'para captura de notas
-		'Se Comenta ya que no es funcional
-		'If Not System.Configuration.ConfigurationManager.AppSettings.Item("CapturaQueja@Consulta") Is Nothing Then
-		'    btnSeguimiento.Visible = CType(System.Configuration.ConfigurationManager.AppSettings("CapturaQueja@Consulta"), Boolean)
-		'End If
-		'btnSeguimiento.Visible = (_Usuario.Trim.Length > 0)
-		'*****
-	End Sub
-
-	Public Sub New(ByVal Cliente As Integer, ByVal URLGateway As String, Optional ByVal CadenaCon As String = "", Optional ByVal Usuario As String = "", Optional ByVal Modulo As Byte = 0)
-
-		MyBase.New()
-		_Cliente = Cliente
-		_URLGateway = URLGateway
-		_Usuario = Usuario
-		_CadenaConexion = CadenaCon
-		_Modulo = Modulo
-		InitializeComponent()
-		ClienteRow = Nothing
-
-
-
-	End Sub
-
-	Private Sub consultaImagenes()
-		If _Usuario.Length > 0 Then
-			Dim securityProfiler As New cSeguridad(_Usuario, 4)
-			btnImagenes.Visible = securityProfiler.TieneAcceso("CONSULTA_IMAGENES")
-		End If
-	End Sub
-
-
-	Private Sub btnCerrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCerrar.Click
-		Me.Close()
-	End Sub
-
-	Private Sub ConsultaCliente(ByVal Cliente As Integer,
-								ByVal SoloPedidosCredito As Boolean,
-								ByVal SoloPedidosSurtidos As Boolean)
-		Dim oCliente As New SigaMetClasses.cCliente()
-		Dim dsDatos As System.Data.DataSet
-		Dim dtCliente As DataTable, dr As DataRow
-
-		Try
-			Cursor = Cursors.WaitCursor
-			dsDatos = oCliente.ConsultaDatos(Cliente, , , , SoloPedidosCredito, SoloPedidosSurtidos)
-			dtCliente = dsDatos.Tables("Cliente")
-			For Each dr In dtCliente.Rows
-				lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("Nombre"), String)
-				If dr("DireccionCompleta") IsNot DBNull.Value Then
-					lblDireccion.Text = CType(dr("DireccionCompleta"), String)
-					'Dim aString As String = Replace(lblDireccion.Text, "0", " ")
-					'lblDireccion.Text = aString
-					lblTipoCliente.Text = CType(dr("TipoClienteDescripcion"), String)
-				End If
-				'Teléfonos
-				lblTelCasa.Text = FormatoTelefono(CType(dr("TelCasa"), String).Trim)
-				lblTelAlterno1.Text = FormatoTelefono(CType(dr("TelAlterno1"), String).Trim)
-				lblTelAlterno2.Text = FormatoTelefono(CType(dr("TelAlterno2"), String).Trim)
-
-				lblCelula.Text = CType(dr("CelulaDescripcion"), String).Trim
-				lblRuta.Text = CType(dr("RutaDescripcion"), String).Trim
-				lblStatus.Text = CType(dr("Status"), String).Trim
-				lblFAlta.Text = CType(dr("FAlta"), Date).ToString
-				lblObservaciones.Text = CType(dr("Observaciones"), String).Trim
-
-				If CType(dr("Programacion"), Boolean) = True Then
-					lblProgramacion.Text = "ACTIVA"
-				Else
-					lblProgramacion.Text = "INACTIVA"
-				End If
-
-				If Not IsDBNull(dr("ProgramaCliente")) Then
-					lblProgramaCliente.Text = CType(dr("ProgramaCliente"), String).Trim
-				Else
-					lblProgramaCliente.Text = ""
-				End If
-				lblProgramaCliente.ForeColor = lblProgramacion.ForeColor
-
-				lblTipoCredito.Text = CType(dr("TipoCreditoDescripcion"), String)
-
-				If Not IsDBNull(dr("Empresa")) Then
-					lblEmpresa.Text = CType(dr("Empresa"), String)
-					lblRazonSocial.Text = CType(dr("RazonSocial"), String)
-					If CType(dr("Empresa"), Integer) = 0 Then btnConsultaEmpresa.Visible = False
-				Else
-					lblEmpresa.Text = ""
-					lblRazonSocial.Text = ""
-					btnConsultaEmpresa.Visible = False
-				End If
-
-
-				If Not IsDBNull(dr("MaxImporteCredito")) Then lblMaxImporteCredito.Text = CType(dr("MaxImporteCredito"), Decimal).ToString("C")
-				If Not IsDBNull(dr("DiasCredito")) Then lblDiasCredito.Text = CType(dr("DiasCredito"), Short).ToString
-				If Not IsDBNull(dr("Saldo")) Then lblSaldo.Text = CType(dr("Saldo"), Decimal).ToString("C")
-				If Not IsDBNull(dr("Saldo")) Then _SaldoSigamet = (CType(dr("Saldo"), Integer))
-				'If Not IsDBNull(dr("DiaRevisionNombre")) Then lblDiaRevision.Text = CType(dr("DiaRevisionNombre"), String)
-				'If Not IsDBNull(dr("DiaPagoNombre")) Then lblDiaPago.Text = CType(dr("DiaPagoNombre"), String)
-				If Not IsDBNull(dr("CarteraDescripcion")) Then lblCartera.Text = CType(dr("CarteraDescripcion"), String)
-				If Not IsDBNull(dr("EmpleadoNombre")) Then lblResponsable.Text = CType(dr("EmpleadoNombre"), String)
-				If Not IsDBNull(dr("EmpleadoNominaNombre")) Then lblEmpleadoNomina.Text = CType(dr("EmpleadoNominaNombre"), String)
-				'agregado el 01/03/2004
-				If Not IsDBNull(dr("TipoFacturaDescripcion")) Then lblTipoFacturacion.Text = CType(dr("TipoFacturaDescripcion"), String)
-				If Not IsDBNull(dr("TipoNotaCreditoDescripcion")) Then lblTipoNotaCredito.Text = CType(dr("TipoNotaCreditoDescripcion"), String)
-				'If Not IsDBNull(dr("DiaRevisionNombre")) Then lblDiaRevision.Text = cargaDiasCobranza(_Cliente, 0)
-				'If Not IsDBNull(dr("DiaPagoNombre")) Then lblDiaPago.Text = cargaDiasCobranza(_Cliente, 1)
-				If Not IsDBNull(dr("DiasRevision")) Then lblDiaRevision.Text = CType(dr("DiasRevision"), String)
-				If Not IsDBNull(dr("DiasPago")) Then lblDiaPago.Text = CType(dr("DiasPago"), String)
-				'TODO: Muestra el cliente padre de cyc
-				If Not IsDBNull(dr("ClientePadre")) Then
-					_ClientePadreCyC = CType(dr("ClientePadre"), Integer)
-					If _Cliente <> _ClientePadreCyC Then
-						lblClientePadre.Text = _ClientePadreCyC.ToString()
-					Else
-						lblClientePadre.Text = CStr(_Cliente) & " (SIN ASIGNAR)"
-					End If
-				Else
-					lblClientePadre.Text = "NO ASIGNADO"
-				End If
-
-				'Muestra el ejecutivo de cyc asignado
-				If Not IsDBNull(dr("NombreEjecutivoResponsable")) Then lblEjeCyC.Text = CType(dr("NombreEjecutivoResponsable"), String)
-
-				'Muestra el dígito verificador asignado al cliente
-				If Not IsDBNull(dr("DigitoVerificador")) Then
-					lblDigitoVerificador.Text = CType(dr("DigitoVerificador"), String)
-				Else
-					lblDigitoVerificador.Text = String.Empty
-				End If
-
-				'Consulta de quejas activas
-				If Not IsDBNull(dr("QuejaActiva")) And _LinkQueja Then
-					lnkQueja.Enabled = True
-					lnkQueja.Visible = True
-					lnkQueja.Text = CType(dr("QuejaActiva"), String)
-				End If
-
-				'Consulta de horarios de atención y observaciones (info crm)
-				If Not IsDBNull(dr("HInicioAtencionCyC")) AndAlso Not IsDBNull(dr("HFinAtencionCyC")) Then
-					lblHorarioAtencion.Text = CType(dr("HInicioAtencionCyC"), Date).TimeOfDay.ToString() & " - " & CType(dr("HFinAtencionCyC"), Date).TimeOfDay.ToString()
-				End If
-
-				If Not IsDBNull(dr("ObservacionesCyC")) Then
-					_observacionesCyC = CType(dr("ObservacionesCyC"), String)
-				End If
-
-				If Not IsDBNull(dr("ObservacionesCyC")) Then
-					_observacionesCyC = CType(dr("ObservacionesCyC"), String)
-				End If
-
-				If Not IsDBNull(dr("TipoCobroDescripcion")) Then
-					lblCobroDefault.Text = CType(dr("TipoCobroDescripcion"), String)
-				End If
-
-				'Consulta y despliegue de la dificultad de gestión asignada al cliente
-				If Not dr("DificultadGestion") Is DBNull.Value Then
-					lblDGestion.Text = CType(dr("DificultadGestion"), String).Trim
-					lblDGestion.BackColor = System.Drawing.Color.FromName(CType(dr("ColorGestion"), String))
-				Else
-					lblDGestion.Text = String.Empty
-					lblDGestion.BackColor = grpDatosCredito.BackColor
-				End If
-
-				If Not dr("DificultadCobro") Is DBNull.Value Then
-					lblDCobro.Text = CType(dr("DificultadCobro"), String).Trim
-					lblDCobro.BackColor = System.Drawing.Color.FromName(CType(dr("ColorCobro"), String))
-				Else
-					lblDCobro.Text = String.Empty
-					lblDCobro.BackColor = grpDatosCredito.BackColor
-				End If
-				'*****
-
-			Next
-			dtDocumento = dsDatos.Tables("Pedido")
-			grdDocumento.DataSource = dtDocumento
-			For Each dr In dtDocumento.Rows
-				If Not IsDBNull(dr("Saldo")) Then
-					If Not IsDBNull(dr("CyC")) Then
-						_TotalSaldoCartera += CType(dr("Saldo"), Decimal)
-						_TotalLitrosCartera += CType(dr("Litros"), Decimal)
-					End If
-					_TotalSaldo += CType(dr("Saldo"), Decimal)
-					_TotalLitros += CType(dr("Litros"), Decimal)
-				End If
-			Next
-			grdDocumento.CaptionText = "Documentos relacionados (" & dtDocumento.Rows.Count.ToString & ")"
-
-			If Not IsNothing(dsDatos.Tables("TarjetaCredito")) Then
-				If dsDatos.Tables("TarjetaCredito").Rows.Count > 0 Then
-					OcultarTarjetaCredito()
-					grdTarjetaCredito.DataSource = dsDatos.Tables("TarjetaCredito")
-					grdTarjetaCredito.CaptionText = "Tarjetas de crédito (" & dsDatos.Tables("TarjetaCredito").Rows.Count.ToString & ")"
-				Else
-					grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
-				End If
-			Else
-				grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
-			End If
-
-			If Not IsNothing(CType(dsDatos.Tables("ClienteDescuento"), DataTable)) Then
-				If dsDatos.Tables("ClienteDescuento").Rows.Count > 0 Then
-					grdClienteDescuento.DataSource = dsDatos.Tables("ClienteDescuento")
-					grdClienteDescuento.CaptionText = "Histórico de descuentos del cliente"
-				Else
-					grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
-				End If
-			Else
-				grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
-			End If
-
-
-			lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
-			lblSaldoTotal.Text = _TotalSaldo.ToString("C")
-			lblLitrosCartera.Text = _TotalLitrosCartera.ToString
-			lblLitrosConsulta.Text = _TotalLitros.ToString
-
-
-		Catch ex As Exception
-			MessageBox.Show(ex.Message, "Consulta de cliente", MessageBoxButtons.OK, MessageBoxIcon.Error)
-		Finally
-			Cursor = Cursors.Default
-			dr = Nothing
-			dtCliente = Nothing
-			dsDatos = Nothing
-		End Try
-	End Sub
-
-	Private Function recuperarCadenaCRM(ByVal objComponenteRespuesta As Object) As String
-		Dim strRecuperada As String = ""
-		Try
-			strRecuperada = CType(IIf(Not IsNothing(objComponenteRespuesta), objComponenteRespuesta, 0), String).Trim
-		Catch nrex As NullReferenceException
-			strRecuperada = ""
-		Catch ex As Exception
-			Throw ex
-		End Try
-		Return strRecuperada
-	End Function
-
-	Private Function recuperarEnteroCRM(ByVal objComponenteRespuesta As Object) As Integer
-		Dim intRecuperada As Integer = 0
-		Try
-			intRecuperada = CType(IIf(Not IsNothing(objComponenteRespuesta), objComponenteRespuesta, 0), Integer)
-		Catch nrex As NullReferenceException
-			intRecuperada = 0
-		Catch ex As Exception
-			Throw ex
-		End Try
-		Return intRecuperada
-	End Function
-
-
-	Private Sub ConsultaCliente(ByVal Cliente As Integer,
-								ByVal URLGateway As String)
-		Dim dificultadGestion As String
-		Dim colorGestion As String
-		Dim dificultadCobro As String
-		Dim colorCobro As String
-		Dim oGateway As RTGMGateway.RTGMGateway
-		Dim oSolicitud As RTGMGateway.SolicitudGateway
-		Dim oDireccionEntrega As RTGMCore.DireccionEntrega
-		Dim tipoClienteDescripcion As String
-		Dim celula As String
-		Dim ruta As String
-		Dim status As String
-		Dim fAlta As String
-		Dim observaciones As String
-
-
-
-		Try
-			If (Cliente > 0 And URLGateway.Trim > "") Then
-				Cursor = Cursors.WaitCursor
-
-				oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
-				oSolicitud = New RTGMGateway.SolicitudGateway
-
-				oGateway.URLServicio = URLGateway
-				oSolicitud.IDCliente = Cliente
-
-				oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
-
-				If Not IsNothing(oDireccionEntrega.Message) Then
-
-					If oDireccionEntrega.Message.Contains("ERROR EN DYNAMICS CRM") And oDireccionEntrega.Message.Contains("La consulta no produjo resultados con los parametros indicados") Then
-						Throw New Exception(oDireccionEntrega.Message)
-					End If
-				End If
-
-				If Not IsNothing(oDireccionEntrega) Then
-					Dim direccionEntrega As Integer = recuperarEnteroCRM(oDireccionEntrega.IDDireccionEntrega)
-					Dim nombreEmpleado As String = recuperarCadenaCRM(oDireccionEntrega.Nombre)
-					Dim direccionCompleta As String = recuperarCadenaCRM(oDireccionEntrega.DireccionCompleta)
-
-					If Not IsNothing(oDireccionEntrega.TipoCliente) Then
-						tipoClienteDescripcion = recuperarCadenaCRM(oDireccionEntrega.TipoCliente.Descripcion)
-					End If
-
-					Dim telefono1 As String = recuperarCadenaCRM(oDireccionEntrega.Telefono1)
-					Dim telefono2 As String = recuperarCadenaCRM(oDireccionEntrega.Telefono2)
-					Dim telefono3 As String = recuperarCadenaCRM(oDireccionEntrega.Telefono3)
-
-					If Not IsNothing(oDireccionEntrega.ZonaSuministro) Then
-						celula = recuperarCadenaCRM(oDireccionEntrega.ZonaSuministro.Descripcion)
-					End If
-
-					If Not IsNothing(oDireccionEntrega.Ruta) Then
-						ruta = CType(IIf(Not IsNothing(oDireccionEntrega.Ruta.Descripcion), oDireccionEntrega.Ruta.Descripcion.Trim, ""), String)
-					End If
-
-					If Not IsNothing(oDireccionEntrega.Status) Then
-						status = recuperarCadenaCRM(oDireccionEntrega.Status)
-					End If
-
-					If Not IsNothing(oDireccionEntrega.FAlta) Then
-						fAlta = recuperarCadenaCRM(oDireccionEntrega.FAlta.ToString)
-					End If
-
-					If Not IsNothing(oDireccionEntrega.Observaciones) Then
-						observaciones = recuperarCadenaCRM(oDireccionEntrega.Observaciones)
-					End If
-
-
-					lblCliente.Text = direccionEntrega & " " & nombreEmpleado
-					lblDireccion.Text = direccionCompleta
-					lblTipoCliente.Text = tipoClienteDescripcion
-					lblTelCasa.Text = FormatoTelefono(telefono1)
-					lblTelAlterno1.Text = FormatoTelefono(telefono2)
-					lblTelAlterno2.Text = FormatoTelefono(telefono3)
-					lblCelula.Text = celula
-					lblRuta.Text = ruta
-					lblStatus.Text = status
-					lblFAlta.Text = fAlta
-					lblObservaciones.Text = observaciones
-
-					If Not IsNothing(oDireccionEntrega.ProgramacionSuministro) Then
-						lblProgramaCliente.Text = recuperarCadenaCRM(oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion)
-						lblProgramaCliente.ForeColor = lblProgramacion.ForeColor
-						If (oDireccionEntrega.ProgramacionSuministro.ProgramacionActiva) Then
-							lblProgramacion.Text = "ACTIVA"
-						Else
-							lblProgramacion.Text = "INACTIVA"
-						End If
-					Else
-						lblProgramaCliente.Text = ""
-						lblProgramacion.Text = "INACTIVA"
-					End If
-
-					If Not IsNothing(oDireccionEntrega.DatosFiscales) Then
-						lblEmpresa.Text = recuperarCadenaCRM(oDireccionEntrega.DatosFiscales.IDDatosFiscales.ToString)
-						lblRazonSocial.Text = recuperarCadenaCRM(oDireccionEntrega.DatosFiscales.RazonSocial)
-						If (recuperarEnteroCRM(oDireccionEntrega.DatosFiscales.IDDatosFiscales) = 0) Then
-							btnConsultaEmpresa.Visible = False
-						End If
-					Else
-						lblEmpresa.Text = ""
-						lblRazonSocial.Text = ""
-						btnConsultaEmpresa.Visible = False
-					End If
-
-					'   Condiciones crédito
-					If Not IsNothing(oDireccionEntrega.CondicionesCredito) Then
-						lblTipoCredito.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ClasificacionCredito)
-						lblMaxImporteCredito.Text = CDec(recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.LimiteCredito)).ToString("C")
-						lblDiasCredito.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString)
-						lblSaldo.Text = CDec(recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.Saldo)).ToString("C")
-						lblDiaRevision.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.DiasRevision)
-						lblDiaPago.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.DiasPago)
-						lblCartera.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.CarteraDescripcion)
-						If (oDireccionEntrega.CondicionesCredito.ResponsableGestion IsNot Nothing) Then
-							lblResponsable.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto)
-						End If
-						If (oDireccionEntrega.CondicionesCredito.EmpleadoNomina IsNot Nothing) Then
-							lblEmpleadoNomina.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto)
-						End If
-						'Muestra el ejecutivo de cyc asignado
-						If oDireccionEntrega.CondicionesCredito.SupervisorGestion Is Nothing Then
-							lblEjeCyC.Text = ""
-						Else
-							lblEjeCyC.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto)
-						End If
-						If oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC IsNot Nothing Then
-							lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC.ToString)
-						Else
-							lblHorarioAtencion.Text = ""
-						End If
-						'If oDireccionEntrega.CondicionesCredito.ObservacionesCyC IsNot Nothing Then
-						'    lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ObservacionesCyC.ToString)
-						'Else
-						'    lblHorarioAtencion.Text = ""
-						'End If
-						lblCobroDefault.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion)
-
-						'Consulta y despliegue de la dificultad de gestión asignada al cliente
-						dificultadGestion = oDireccionEntrega.CondicionesCredito.DificultadGestion
-						colorGestion = oDireccionEntrega.CondicionesCredito.ColorGestion
-
-						If Not IsNothing(colorGestion) Then
-							lblDGestion.BackColor = System.Drawing.Color.FromName(colorGestion)
-						End If
-
-						If Not (String.IsNullOrEmpty(dificultadGestion)) Then
-							lblDGestion.Text = recuperarCadenaCRM(dificultadGestion)
-
-						Else
-							lblDGestion.Text = String.Empty
-							lblDGestion.BackColor = grpDatosCredito.BackColor
-						End If
-
-						dificultadCobro = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.DificultadCobro)
-						If Not IsNothing(oDireccionEntrega.CondicionesCredito.ColorCobro) Then
-							colorCobro = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ColorCobro)
-							lblDCobro.BackColor = System.Drawing.Color.FromName(colorCobro)
-						End If
-						If Not (String.IsNullOrEmpty(dificultadCobro)) Then
-							lblDCobro.Text = recuperarCadenaCRM(dificultadCobro.Trim)
-
-						Else
-							lblDCobro.Text = String.Empty
-							lblDCobro.BackColor = grpDatosCredito.BackColor
-						End If
-					End If
-
-					'agregado el 01/03/2004
-					If Not IsNothing(oDireccionEntrega.TipoFacturacion) Then
-						If Not IsNothing(oDireccionEntrega.TipoFacturacion.Descripcion) Then
-							lblTipoFacturacion.Text = recuperarCadenaCRM(oDireccionEntrega.TipoFacturacion.Descripcion.Trim)
-						End If
-					End If
-					'       FALTA
-					'If Not IsDBNull(dr("TipoNotaCreditoDescripcion")) Then lblTipoNotaCredito.Text = CType(dr("TipoNotaCreditoDescripcion"), String)
-					'lblTipoNotaCredito.Text = oDireccionEntrega.
-
-					'       FALTA
-					'TODO: Muestra el cliente padre de cyc
-					'If Not IsDBNull(dr("ClientePadre")) Then
-					'    _ClientePadreCyC = CType(dr("ClientePadre"), Integer)
-					'    If _Cliente <> _ClientePadreCyC Then
-					'        lblClientePadre.Text = _ClientePadreCyC.ToString()
-					'    Else
-					'        lblClientePadre.Text = CStr(_Cliente) & " (SIN ASIGNAR)"
-					'    End If
-					'Else
-					'    lblClientePadre.Text = "NO ASIGNADO"
-					'End If
-					lblClientePadre.Text = "NO ASIGNADO"
-
-					'Muestra el dígito verificador asignado al cliente
-					lblDigitoVerificador.Text = recuperarCadenaCRM(oDireccionEntrega.DigitoVerificador.ToString)
-
-					'Consulta de quejas activas
-					If Not IsNothing(oDireccionEntrega.QuejaActiva) Then
-						If (oDireccionEntrega.QuejaActiva.Trim > "" And _LinkQueja) Then
-							lnkQueja.Enabled = True
-							lnkQueja.Visible = True
-							lnkQueja.Text = recuperarCadenaCRM(oDireccionEntrega.QuejaActiva.Trim)
-						End If
-					End If
-					'*****
-
-					'   No se encontró información relacionada con Pedidos
-					'
-					'dtDocumento = oDireccionEntrega.Tables("Pedido")
-					'grdDocumento.DataSource = dtDocumento
-					'For Each dr In dtDocumento.Rows
-					'    If Not IsDBNull(dr("Saldo")) Then
-					'        If Not IsDBNull(dr("CyC")) Then
-					'            _TotalSaldoCartera += CType(dr("Saldo"), Decimal)
-					'            _TotalLitrosCartera += CType(dr("Litros"), Decimal)
-					'        End If
-					'        _TotalSaldo += CType(dr("Saldo"), Decimal)
-					'        _TotalLitros += CType(dr("Litros"), Decimal)
-					'    End If
-					'Next
-					'grdDocumento.CaptionText = "Documentos relacionados (" & dtDocumento.Rows.Count.ToString & ")"
-
-					'   Tarjeta de crédito
-					If Not IsNothing(oDireccionEntrega.TarjetasCredito) Then
-						If oDireccionEntrega.TarjetasCredito.Count > 0 Then
-							OcultarTarjetaCredito()
-							grdTarjetaCredito.DataSource = oDireccionEntrega.TarjetasCredito
-							grdTarjetaCredito.CaptionText = "Tarjetas de crédito (" & recuperarCadenaCRM(oDireccionEntrega.TarjetasCredito.Count.ToString) & ")"
-						Else
-							grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
-						End If
-					Else
-						grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
-					End If
-
-					'   Descuento
-					If Not IsNothing(oDireccionEntrega.Descuentos) Then
-						If oDireccionEntrega.Descuentos.Count > 0 Then
-							grdClienteDescuento.DataSource = oDireccionEntrega.Descuentos
-							grdClienteDescuento.CaptionText = "Histórico de descuentos del cliente"
-						Else
-							grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
-						End If
-					Else
-						grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
-					End If
-
-					lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
-					lblSaldoTotal.Text = _TotalSaldo.ToString("C")
-					lblLitrosCartera.Text = _TotalLitrosCartera.ToString
-					lblLitrosConsulta.Text = _TotalLitros.ToString
-				End If
-			End If
-		Catch ex As Exception
-			MessageBox.Show("Ha ocurrido un error:" & Chr(13) & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-		Finally
-			Cursor = Cursors.Default
-		End Try
-	End Sub
-
-	Private Sub grdDocumento_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles grdDocumento.CurrentCellChanged
-
-		If (grdDocumento.CurrentRowIndex >= 0) Then
-			_PedidoReferencia = Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 3), String))
-			If grdDocumento.Item(grdDocumento.CurrentRowIndex, 7) IsNot DBNull.Value Then
-				_Fecha = Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 7), String))
-			End If
-			_Litro = CDec(Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 8), String)))
-			_Importe = CDec(Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 10), String)))
-			If btnConsultaDocumento.Enabled = False And _PedidoReferencia <> "" Then btnConsultaDocumento.Enabled = True
-			grdDocumento.Select(grdDocumento.CurrentRowIndex)
-
-
-		End If
-	End Sub
-
-	Private Sub grdDocumento_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles grdDocumento.DoubleClick
-		SeleccionaPedidoReferencia()
-	End Sub
-
-	Private Sub SeleccionaPedidoReferencia()
-		'Se necesita saber la columna del PedidoReferencia
-		If _SeleccionPedidoReferencia = True Then
-			_PedidoReferencia = Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 3), String))
-
-			DialogResult = DialogResult.OK
-			Me.Close()
-		End If
-	End Sub
-
-	Private Sub btnConsultaEmpresa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultaEmpresa.Click
-		Cursor = Cursors.WaitCursor
-		Dim oConsultaEmpresa As SigaMetClasses.ConsultaEmpresa = Nothing
-
-		Try
-			If Not (String.IsNullOrEmpty(_URLGateway) OrElse IsNothing(_oDireccionEntrega)) Then
-				If Not IsNothing(_oDireccionEntrega.DatosFiscales) Then
+        Me._ClienteRow = _ClienteRow
+        PermiteModificarDatosCte = PermiteModificarDatosCliente
+
+        'If (String.IsNullOrEmpty(_URLGateway)) Then
+        '    Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+        'Else
+        '    Me.ConsultaCliente(_Cliente, _URLGateway)
+        '    'Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
+        'End If
+
+
+        If Not IsNothing(dtDocumento) Then
+            If dtDocumento.Rows.Count > 0 Then grdDocumento.Select(0)
+        End If
+
+        If _SoloCreditos Then Me.Text = "Consulta de cliente (Solo créditos pendientes)"
+        lnkModificarDatosCredito.Visible = PermiteModificarDatosCredito
+        btnModificar.Visible = PermiteModificarDatosCliente
+        btnListaNotas.Visible = PermiteCapturarNotas
+        btnContactos.Visible = MostrarBtnContactos
+
+        'Alta de quejas, se utiliza el permiso de captura de notas para capturar quejas en este módulo
+        If Not System.Configuration.ConfigurationManager.AppSettings.Item("CapturaQueja@Consulta") Is Nothing Then
+            btnQuejas.Visible = CType(System.Configuration.ConfigurationManager.AppSettings("CapturaQueja@Consulta"), Boolean)
+        End If
+
+        btnQuejas.Visible = (_Usuario.Trim.Length > 0)
+
+        'Consulta de imágenes capturadas para los clientes, solo para los usuarios con permiso de modificación de datos de crédito
+
+        consultaImagenes()
+
+        _dsCatalogos = DSCatalogos
+        _LinkQueja = LinkQueja          '20070622#CFSL001
+
+        'Alta de seguimients, se utiliza el permiso de captura de notas para capturar quejas en este módulo, y la configuracion
+        'para captura de notas
+        'Se Comenta ya que no es funcional
+        'If Not System.Configuration.ConfigurationManager.AppSettings.Item("CapturaQueja@Consulta") Is Nothing Then
+        '    btnSeguimiento.Visible = CType(System.Configuration.ConfigurationManager.AppSettings("CapturaQueja@Consulta"), Boolean)
+        'End If
+        'btnSeguimiento.Visible = (_Usuario.Trim.Length > 0)
+        '*****
+    End Sub
+
+    'Se agregaron los siguientes parámetros opcionales:
+    '   -PermiteCambioEmpleadoNomina, Habilita la posibilidad de cambio de empleado de nómina para el usuario que cuente con el permiso
+    '   -PermiteCambio
+    Public Sub New(ByVal Cliente As Integer,
+          Optional ByVal Usuario As String = "",
+          Optional ByVal SoloDocumentosACredito As Boolean = False,
+          Optional ByVal SoloDocumentosSurtidos As Boolean = True,
+          Optional ByVal PermiteSeleccionarDocumento As Boolean = False,
+          Optional ByVal PermiteModificarDatosCredito As Boolean = False,
+          Optional ByVal PermiteModificarDatosCliente As Boolean = False,
+          Optional ByVal PermiteCapturarNotas As Boolean = False,
+          Optional ByVal PermiteCambioEmpleadoNomina As Boolean = False,
+          Optional ByVal PermiteCambioCtePadre As Boolean = False,
+          Optional ByVal DSCatalogos As DataSet = Nothing,
+          Optional ByVal LinkQueja As Boolean = True)
+
+        MyBase.New()
+        InitializeComponent()
+        _Cliente = Cliente
+        _Usuario = Usuario
+        _SoloCreditos = SoloDocumentosACredito
+        _SoloSurtidos = SoloDocumentosSurtidos
+        _SeleccionPedidoReferencia = PermiteSeleccionarDocumento
+
+        _CambioEmpleadoNomina = PermiteCambioEmpleadoNomina
+        _CambioClientePadre = PermiteCambioCtePadre
+
+        Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+
+        If dtDocumento.Rows.Count > 0 Then grdDocumento.Select(0)
+        If _SoloCreditos Then Me.Text = "Consulta de cliente (Solo créditos pendientes)"
+        lnkModificarDatosCredito.Visible = PermiteModificarDatosCredito
+        btnModificar.Visible = PermiteModificarDatosCliente
+        btnListaNotas.Visible = PermiteCapturarNotas
+
+        'Alta de quejas, se utiliza el permiso de captura de notas para capturar quejas en este módulo
+        If Not System.Configuration.ConfigurationManager.AppSettings.Item("CapturaQueja@Consulta") Is Nothing Then
+            btnQuejas.Visible = CType(System.Configuration.ConfigurationManager.AppSettings("CapturaQueja@Consulta"), Boolean)
+        End If
+
+        btnQuejas.Visible = (_Usuario.Trim.Length > 0)
+
+        'Consulta de imágenes capturadas para los clientes, solo para los usuarios con permiso de modificación de datos de crédito
+
+        consultaImagenes()
+
+        _dsCatalogos = DSCatalogos
+        _LinkQueja = LinkQueja          '20070622#CFSL001
+
+        'Alta de seguimients, se utiliza el permiso de captura de notas para capturar quejas en este módulo, y la configuracion
+        'para captura de notas
+        'Se Comenta ya que no es funcional
+        'If Not System.Configuration.ConfigurationManager.AppSettings.Item("CapturaQueja@Consulta") Is Nothing Then
+        '    btnSeguimiento.Visible = CType(System.Configuration.ConfigurationManager.AppSettings("CapturaQueja@Consulta"), Boolean)
+        'End If
+        'btnSeguimiento.Visible = (_Usuario.Trim.Length > 0)
+        '*****
+    End Sub
+
+    Public Sub New(ByVal Cliente As Integer, ByVal URLGateway As String, Optional ByVal CadenaCon As String = "", Optional ByVal Usuario As String = "", Optional ByVal Modulo As Byte = 0)
+
+        MyBase.New()
+        _Cliente = Cliente
+        _URLGateway = URLGateway
+        _Usuario = Usuario
+        _CadenaConexion = CadenaCon
+        _Modulo = Modulo
+        InitializeComponent()
+        ClienteRow = Nothing
+
+
+
+    End Sub
+
+    Private Sub consultaImagenes()
+        If _Usuario.Length > 0 Then
+            Dim securityProfiler As New cSeguridad(_Usuario, 4)
+            btnImagenes.Visible = securityProfiler.TieneAcceso("CONSULTA_IMAGENES")
+        End If
+    End Sub
+
+
+    Private Sub btnCerrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCerrar.Click
+        Me.Close()
+    End Sub
+
+    Private Sub ConsultaCliente(ByVal Cliente As Integer,
+                                ByVal SoloPedidosCredito As Boolean,
+                                ByVal SoloPedidosSurtidos As Boolean)
+        Dim oCliente As New SigaMetClasses.cCliente()
+        Dim dsDatos As System.Data.DataSet
+        Dim dtCliente As DataTable, dr As DataRow
+
+        Try
+            Cursor = Cursors.WaitCursor
+            dsDatos = oCliente.ConsultaDatos(Cliente, , , , SoloPedidosCredito, SoloPedidosSurtidos)
+            dtCliente = dsDatos.Tables("Cliente")
+            For Each dr In dtCliente.Rows
+                lblCliente.Text = CType(dr("Cliente"), String) & " " & CType(dr("Nombre"), String)
+                If dr("DireccionCompleta") IsNot DBNull.Value Then
+                    lblDireccion.Text = CType(dr("DireccionCompleta"), String)
+                    'Dim aString As String = Replace(lblDireccion.Text, "0", " ")
+                    'lblDireccion.Text = aString
+                    lblTipoCliente.Text = CType(dr("TipoClienteDescripcion"), String)
+                End If
+                'Teléfonos
+                lblTelCasa.Text = FormatoTelefono(CType(dr("TelCasa"), String).Trim)
+                lblTelAlterno1.Text = FormatoTelefono(CType(dr("TelAlterno1"), String).Trim)
+                lblTelAlterno2.Text = FormatoTelefono(CType(dr("TelAlterno2"), String).Trim)
+
+                lblCelula.Text = CType(dr("CelulaDescripcion"), String).Trim
+                lblRuta.Text = CType(dr("RutaDescripcion"), String).Trim
+                lblStatus.Text = CType(dr("Status"), String).Trim
+                lblFAlta.Text = CType(dr("FAlta"), Date).ToString
+                lblObservaciones.Text = CType(dr("Observaciones"), String).Trim
+
+                If CType(dr("Programacion"), Boolean) = True Then
+                    lblProgramacion.Text = "ACTIVA"
+                Else
+                    lblProgramacion.Text = "INACTIVA"
+                End If
+
+                If Not IsDBNull(dr("ProgramaCliente")) Then
+                    lblProgramaCliente.Text = CType(dr("ProgramaCliente"), String).Trim
+                Else
+                    lblProgramaCliente.Text = ""
+                End If
+                lblProgramaCliente.ForeColor = lblProgramacion.ForeColor
+
+                lblTipoCredito.Text = CType(dr("TipoCreditoDescripcion"), String)
+
+                If Not IsDBNull(dr("Empresa")) Then
+                    lblEmpresa.Text = CType(dr("Empresa"), String)
+                    lblRazonSocial.Text = CType(dr("RazonSocial"), String)
+                    If CType(dr("Empresa"), Integer) = 0 Then btnConsultaEmpresa.Visible = False
+                Else
+                    lblEmpresa.Text = ""
+                    lblRazonSocial.Text = ""
+                    btnConsultaEmpresa.Visible = False
+                End If
+
+
+                If Not IsDBNull(dr("MaxImporteCredito")) Then lblMaxImporteCredito.Text = CType(dr("MaxImporteCredito"), Decimal).ToString("C")
+                If Not IsDBNull(dr("DiasCredito")) Then lblDiasCredito.Text = CType(dr("DiasCredito"), Short).ToString
+                If Not IsDBNull(dr("Saldo")) Then lblSaldo.Text = CType(dr("Saldo"), Decimal).ToString("C")
+                If Not IsDBNull(dr("Saldo")) Then _SaldoSigamet = (CType(dr("Saldo"), Integer))
+                'If Not IsDBNull(dr("DiaRevisionNombre")) Then lblDiaRevision.Text = CType(dr("DiaRevisionNombre"), String)
+                'If Not IsDBNull(dr("DiaPagoNombre")) Then lblDiaPago.Text = CType(dr("DiaPagoNombre"), String)
+                If Not IsDBNull(dr("CarteraDescripcion")) Then lblCartera.Text = CType(dr("CarteraDescripcion"), String)
+                If Not IsDBNull(dr("EmpleadoNombre")) Then lblResponsable.Text = CType(dr("EmpleadoNombre"), String)
+                If Not IsDBNull(dr("EmpleadoNominaNombre")) Then lblEmpleadoNomina.Text = CType(dr("EmpleadoNominaNombre"), String)
+                'agregado el 01/03/2004
+                If Not IsDBNull(dr("TipoFacturaDescripcion")) Then lblTipoFacturacion.Text = CType(dr("TipoFacturaDescripcion"), String)
+                If Not IsDBNull(dr("TipoNotaCreditoDescripcion")) Then lblTipoNotaCredito.Text = CType(dr("TipoNotaCreditoDescripcion"), String)
+                'If Not IsDBNull(dr("DiaRevisionNombre")) Then lblDiaRevision.Text = cargaDiasCobranza(_Cliente, 0)
+                'If Not IsDBNull(dr("DiaPagoNombre")) Then lblDiaPago.Text = cargaDiasCobranza(_Cliente, 1)
+                If Not IsDBNull(dr("DiasRevision")) Then lblDiaRevision.Text = CType(dr("DiasRevision"), String)
+                If Not IsDBNull(dr("DiasPago")) Then lblDiaPago.Text = CType(dr("DiasPago"), String)
+                'TODO: Muestra el cliente padre de cyc
+                If Not IsDBNull(dr("ClientePadre")) Then
+                    _ClientePadreCyC = CType(dr("ClientePadre"), Integer)
+                    If _Cliente <> _ClientePadreCyC Then
+                        lblClientePadre.Text = _ClientePadreCyC.ToString()
+                    Else
+                        lblClientePadre.Text = CStr(_Cliente) & " (SIN ASIGNAR)"
+                    End If
+                Else
+                    lblClientePadre.Text = "NO ASIGNADO"
+                End If
+
+                'Muestra el ejecutivo de cyc asignado
+                If Not IsDBNull(dr("NombreEjecutivoResponsable")) Then lblEjeCyC.Text = CType(dr("NombreEjecutivoResponsable"), String)
+
+                'Muestra el dígito verificador asignado al cliente
+                If Not IsDBNull(dr("DigitoVerificador")) Then
+                    lblDigitoVerificador.Text = CType(dr("DigitoVerificador"), String)
+                Else
+                    lblDigitoVerificador.Text = String.Empty
+                End If
+
+                'Consulta de quejas activas
+                If Not IsDBNull(dr("QuejaActiva")) And _LinkQueja Then
+                    lnkQueja.Enabled = True
+                    lnkQueja.Visible = True
+                    lnkQueja.Text = CType(dr("QuejaActiva"), String)
+                End If
+
+                'Consulta de horarios de atención y observaciones (info crm)
+                If Not IsDBNull(dr("HInicioAtencionCyC")) AndAlso Not IsDBNull(dr("HFinAtencionCyC")) Then
+                    lblHorarioAtencion.Text = CType(dr("HInicioAtencionCyC"), Date).TimeOfDay.ToString() & " - " & CType(dr("HFinAtencionCyC"), Date).TimeOfDay.ToString()
+                End If
+
+                If Not IsDBNull(dr("ObservacionesCyC")) Then
+                    _observacionesCyC = CType(dr("ObservacionesCyC"), String)
+                End If
+
+                If Not IsDBNull(dr("ObservacionesCyC")) Then
+                    _observacionesCyC = CType(dr("ObservacionesCyC"), String)
+                End If
+
+                If Not IsDBNull(dr("TipoCobroDescripcion")) Then
+                    lblCobroDefault.Text = CType(dr("TipoCobroDescripcion"), String)
+                End If
+
+                'Consulta y despliegue de la dificultad de gestión asignada al cliente
+                If Not dr("DificultadGestion") Is DBNull.Value Then
+                    lblDGestion.Text = CType(dr("DificultadGestion"), String).Trim
+                    lblDGestion.BackColor = System.Drawing.Color.FromName(CType(dr("ColorGestion"), String))
+                Else
+                    lblDGestion.Text = String.Empty
+                    lblDGestion.BackColor = grpDatosCredito.BackColor
+                End If
+
+                If Not dr("DificultadCobro") Is DBNull.Value Then
+                    lblDCobro.Text = CType(dr("DificultadCobro"), String).Trim
+                    lblDCobro.BackColor = System.Drawing.Color.FromName(CType(dr("ColorCobro"), String))
+                Else
+                    lblDCobro.Text = String.Empty
+                    lblDCobro.BackColor = grpDatosCredito.BackColor
+                End If
+                '*****
+
+            Next
+            dtDocumento = dsDatos.Tables("Pedido")
+            grdDocumento.DataSource = dtDocumento
+            For Each dr In dtDocumento.Rows
+                If Not IsDBNull(dr("Saldo")) Then
+                    If Not IsDBNull(dr("CyC")) Then
+                        _TotalSaldoCartera += CType(dr("Saldo"), Decimal)
+                        _TotalLitrosCartera += CType(dr("Litros"), Decimal)
+                    End If
+                    _TotalSaldo += CType(dr("Saldo"), Decimal)
+                    _TotalLitros += CType(dr("Litros"), Decimal)
+                End If
+            Next
+            grdDocumento.CaptionText = "Documentos relacionados (" & dtDocumento.Rows.Count.ToString & ")"
+
+            If Not IsNothing(dsDatos.Tables("TarjetaCredito")) Then
+                If dsDatos.Tables("TarjetaCredito").Rows.Count > 0 Then
+                    OcultarTarjetaCredito()
+                    grdTarjetaCredito.DataSource = dsDatos.Tables("TarjetaCredito")
+                    grdTarjetaCredito.CaptionText = "Tarjetas de crédito (" & dsDatos.Tables("TarjetaCredito").Rows.Count.ToString & ")"
+                Else
+                    grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
+                End If
+            Else
+                grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
+            End If
+
+            If Not IsNothing(CType(dsDatos.Tables("ClienteDescuento"), DataTable)) Then
+                If dsDatos.Tables("ClienteDescuento").Rows.Count > 0 Then
+                    grdClienteDescuento.DataSource = dsDatos.Tables("ClienteDescuento")
+                    grdClienteDescuento.CaptionText = "Histórico de descuentos del cliente"
+                Else
+                    grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
+                End If
+            Else
+                grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
+            End If
+
+
+            lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
+            lblSaldoTotal.Text = _TotalSaldo.ToString("C")
+            lblLitrosCartera.Text = _TotalLitrosCartera.ToString
+            lblLitrosConsulta.Text = _TotalLitros.ToString
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Consulta de cliente", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+            dr = Nothing
+            dtCliente = Nothing
+            dsDatos = Nothing
+        End Try
+    End Sub
+
+    Private Function recuperarCadenaCRM(ByVal objComponenteRespuesta As Object) As String
+        Dim strRecuperada As String = ""
+        Try
+            strRecuperada = CType(IIf(Not IsNothing(objComponenteRespuesta), objComponenteRespuesta, 0), String).Trim
+        Catch nrex As NullReferenceException
+            strRecuperada = ""
+        Catch ex As Exception
+            Throw ex
+        End Try
+        Return strRecuperada
+    End Function
+
+    Private Function recuperarEnteroCRM(ByVal objComponenteRespuesta As Object) As Integer
+        Dim intRecuperada As Integer = 0
+        Try
+            intRecuperada = CType(IIf(Not IsNothing(objComponenteRespuesta), objComponenteRespuesta, 0), Integer)
+        Catch nrex As NullReferenceException
+            intRecuperada = 0
+        Catch ex As Exception
+            Throw ex
+        End Try
+        Return intRecuperada
+    End Function
+
+
+    Private Sub ConsultaCliente(ByVal Cliente As Integer,
+                                ByVal URLGateway As String)
+        Dim dificultadGestion As String
+        Dim colorGestion As String
+        Dim dificultadCobro As String
+        Dim colorCobro As String
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        Dim tipoClienteDescripcion As String
+        Dim celula As String
+        Dim ruta As String
+        Dim status As String
+        Dim fAlta As String
+        Dim observaciones As String
+
+
+
+        Try
+            If (Cliente > 0 And URLGateway.Trim > "") Then
+                Cursor = Cursors.WaitCursor
+
+                oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+                oSolicitud = New RTGMGateway.SolicitudGateway
+
+                oGateway.URLServicio = URLGateway
+                oSolicitud.IDCliente = Cliente
+
+                oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+                If Not IsNothing(oDireccionEntrega.Message) Then
+
+                    If oDireccionEntrega.Message.Contains("ERROR EN DYNAMICS CRM") And oDireccionEntrega.Message.Contains("La consulta no produjo resultados con los parametros indicados") Then
+                        Throw New Exception(oDireccionEntrega.Message)
+                    End If
+                End If
+
+                If Not IsNothing(oDireccionEntrega) Then
+                    Dim direccionEntrega As Integer = recuperarEnteroCRM(oDireccionEntrega.IDDireccionEntrega)
+                    Dim nombreEmpleado As String = recuperarCadenaCRM(oDireccionEntrega.Nombre)
+                    Dim direccionCompleta As String = recuperarCadenaCRM(oDireccionEntrega.DireccionCompleta)
+
+                    If Not IsNothing(oDireccionEntrega.TipoCliente) Then
+                        tipoClienteDescripcion = recuperarCadenaCRM(oDireccionEntrega.TipoCliente.Descripcion)
+                    End If
+
+                    Dim telefono1 As String = recuperarCadenaCRM(oDireccionEntrega.Telefono1)
+                    Dim telefono2 As String = recuperarCadenaCRM(oDireccionEntrega.Telefono2)
+                    Dim telefono3 As String = recuperarCadenaCRM(oDireccionEntrega.Telefono3)
+
+                    If Not IsNothing(oDireccionEntrega.ZonaSuministro) Then
+                        celula = recuperarCadenaCRM(oDireccionEntrega.ZonaSuministro.Descripcion)
+                    End If
+
+                    If Not IsNothing(oDireccionEntrega.Ruta) Then
+                        ruta = CType(IIf(Not IsNothing(oDireccionEntrega.Ruta.Descripcion), oDireccionEntrega.Ruta.Descripcion.Trim, ""), String)
+                    End If
+
+                    If Not IsNothing(oDireccionEntrega.Status) Then
+                        status = recuperarCadenaCRM(oDireccionEntrega.Status)
+                    End If
+
+                    If Not IsNothing(oDireccionEntrega.FAlta) Then
+                        fAlta = recuperarCadenaCRM(oDireccionEntrega.FAlta.ToString)
+                    End If
+
+                    If Not IsNothing(oDireccionEntrega.Observaciones) Then
+                        observaciones = recuperarCadenaCRM(oDireccionEntrega.Observaciones)
+                    End If
+
+
+                    lblCliente.Text = direccionEntrega & " " & nombreEmpleado
+                    lblDireccion.Text = direccionCompleta
+                    lblTipoCliente.Text = tipoClienteDescripcion
+                    lblTelCasa.Text = FormatoTelefono(telefono1)
+                    lblTelAlterno1.Text = FormatoTelefono(telefono2)
+                    lblTelAlterno2.Text = FormatoTelefono(telefono3)
+                    lblCelula.Text = celula
+                    lblRuta.Text = ruta
+                    lblStatus.Text = status
+                    lblFAlta.Text = fAlta
+                    lblObservaciones.Text = observaciones
+
+                    If Not IsNothing(oDireccionEntrega.ProgramacionSuministro) Then
+                        lblProgramaCliente.Text = recuperarCadenaCRM(oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion)
+                        lblProgramaCliente.ForeColor = lblProgramacion.ForeColor
+                        If (oDireccionEntrega.ProgramacionSuministro.ProgramacionActiva) Then
+                            lblProgramacion.Text = "ACTIVA"
+                        Else
+                            lblProgramacion.Text = "INACTIVA"
+                        End If
+                    Else
+                        lblProgramaCliente.Text = ""
+                        lblProgramacion.Text = "INACTIVA"
+                    End If
+
+                    If Not IsNothing(oDireccionEntrega.DatosFiscales) Then
+                        lblEmpresa.Text = recuperarCadenaCRM(oDireccionEntrega.DatosFiscales.IDDatosFiscales.ToString)
+                        lblRazonSocial.Text = recuperarCadenaCRM(oDireccionEntrega.DatosFiscales.RazonSocial)
+                        If (recuperarEnteroCRM(oDireccionEntrega.DatosFiscales.IDDatosFiscales) = 0) Then
+                            btnConsultaEmpresa.Visible = False
+                        End If
+                    Else
+                        lblEmpresa.Text = ""
+                        lblRazonSocial.Text = ""
+                        btnConsultaEmpresa.Visible = False
+                    End If
+
+                    '   Condiciones crédito
+                    If Not IsNothing(oDireccionEntrega.CondicionesCredito) Then
+                        lblTipoCredito.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ClasificacionCredito)
+                        lblMaxImporteCredito.Text = CDec(recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.LimiteCredito)).ToString("C")
+                        lblDiasCredito.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString)
+                        lblSaldo.Text = CDec(recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.Saldo)).ToString("C")
+                        lblDiaRevision.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.DiasRevision)
+                        lblDiaPago.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.DiasPago)
+                        lblCartera.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.CarteraDescripcion)
+                        If (oDireccionEntrega.CondicionesCredito.ResponsableGestion IsNot Nothing) Then
+                            lblResponsable.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto)
+                        End If
+                        If (oDireccionEntrega.CondicionesCredito.EmpleadoNomina IsNot Nothing) Then
+                            lblEmpleadoNomina.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto)
+                        End If
+                        'Muestra el ejecutivo de cyc asignado
+                        If oDireccionEntrega.CondicionesCredito.SupervisorGestion Is Nothing Then
+                            lblEjeCyC.Text = ""
+                        Else
+                            lblEjeCyC.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto)
+                        End If
+                        If oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC IsNot Nothing Then
+                            lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC.ToString)
+                        Else
+                            lblHorarioAtencion.Text = ""
+                        End If
+                        'If oDireccionEntrega.CondicionesCredito.ObservacionesCyC IsNot Nothing Then
+                        '    lblHorarioAtencion.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ObservacionesCyC.ToString)
+                        'Else
+                        '    lblHorarioAtencion.Text = ""
+                        'End If
+                        lblCobroDefault.Text = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion)
+
+                        'Consulta y despliegue de la dificultad de gestión asignada al cliente
+                        dificultadGestion = oDireccionEntrega.CondicionesCredito.DificultadGestion
+                        colorGestion = oDireccionEntrega.CondicionesCredito.ColorGestion
+
+                        If Not IsNothing(colorGestion) Then
+                            lblDGestion.BackColor = System.Drawing.Color.FromName(colorGestion)
+                        End If
+
+                        If Not (String.IsNullOrEmpty(dificultadGestion)) Then
+                            lblDGestion.Text = recuperarCadenaCRM(dificultadGestion)
+
+                        Else
+                            lblDGestion.Text = String.Empty
+                            lblDGestion.BackColor = grpDatosCredito.BackColor
+                        End If
+
+                        dificultadCobro = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.DificultadCobro)
+                        If Not IsNothing(oDireccionEntrega.CondicionesCredito.ColorCobro) Then
+                            colorCobro = recuperarCadenaCRM(oDireccionEntrega.CondicionesCredito.ColorCobro)
+                            lblDCobro.BackColor = System.Drawing.Color.FromName(colorCobro)
+                        End If
+                        If Not (String.IsNullOrEmpty(dificultadCobro)) Then
+                            lblDCobro.Text = recuperarCadenaCRM(dificultadCobro.Trim)
+
+                        Else
+                            lblDCobro.Text = String.Empty
+                            lblDCobro.BackColor = grpDatosCredito.BackColor
+                        End If
+                    End If
+
+                    'agregado el 01/03/2004
+                    If Not IsNothing(oDireccionEntrega.TipoFacturacion) Then
+                        If Not IsNothing(oDireccionEntrega.TipoFacturacion.Descripcion) Then
+                            lblTipoFacturacion.Text = recuperarCadenaCRM(oDireccionEntrega.TipoFacturacion.Descripcion.Trim)
+                        End If
+                    End If
+
+
+                    '       FALTA
+                    'If Not IsDBNull(dr("TipoNotaCreditoDescripcion")) Then lblTipoNotaCredito.Text = CType(dr("TipoNotaCreditoDescripcion"), String)
+                    'lblTipoNotaCredito.Text = oDireccionEntrega.
+
+                    '       FALTA
+                    'TODO: Muestra el cliente padre de cyc
+                    'If Not IsDBNull(dr("ClientePadre")) Then
+                    '    _ClientePadreCyC = CType(dr("ClientePadre"), Integer)
+                    '    If _Cliente <> _ClientePadreCyC Then
+                    '        lblClientePadre.Text = _ClientePadreCyC.ToString()
+                    '    Else
+                    '        lblClientePadre.Text = CStr(_Cliente) & " (SIN ASIGNAR)"
+                    '    End If
+                    'Else
+                    '    lblClientePadre.Text = "NO ASIGNADO"
+                    'End If
+
+
+
+                    If Not IsNothing(oDireccionEntrega.IDDireccionEntregaPadre) Then
+                        _ClientePadreCyC = CType(oDireccionEntrega.IDDireccionEntregaPadre, Integer)
+
+                        If _Cliente <> _ClientePadreCyC Then
+                            lblClientePadre.Text = oDireccionEntrega.IDDireccionEntregaPadre.Value.ToString()
+                        Else
+                            lblClientePadre.Text = oDireccionEntrega.IDDireccionEntregaPadre.Value.ToString() & " (SIN ASIGNAR)"
+                        End If
+
+                    Else
+                        lblClientePadre.Text = "NO ASIGNADO"
+                    End If
+
+                    'Muestra el dígito verificador asignado al cliente
+                    lblDigitoVerificador.Text = recuperarCadenaCRM(oDireccionEntrega.DigitoVerificador.ToString)
+
+                    'Consulta de quejas activas
+                    If Not IsNothing(oDireccionEntrega.QuejaActiva) Then
+                        If (oDireccionEntrega.QuejaActiva.Trim > "" And _LinkQueja) Then
+                            lnkQueja.Enabled = True
+                            lnkQueja.Visible = True
+                            lnkQueja.Text = recuperarCadenaCRM(oDireccionEntrega.QuejaActiva.Trim)
+                        End If
+                    End If
+                    '*****
+
+                    '   No se encontró información relacionada con Pedidos
+                    '
+                    'dtDocumento = oDireccionEntrega.Tables("Pedido")
+                    'grdDocumento.DataSource = dtDocumento
+                    'For Each dr In dtDocumento.Rows
+                    '    If Not IsDBNull(dr("Saldo")) Then
+                    '        If Not IsDBNull(dr("CyC")) Then
+                    '            _TotalSaldoCartera += CType(dr("Saldo"), Decimal)
+                    '            _TotalLitrosCartera += CType(dr("Litros"), Decimal)
+                    '        End If
+                    '        _TotalSaldo += CType(dr("Saldo"), Decimal)
+                    '        _TotalLitros += CType(dr("Litros"), Decimal)
+                    '    End If
+                    'Next
+                    'grdDocumento.CaptionText = "Documentos relacionados (" & dtDocumento.Rows.Count.ToString & ")"
+
+                    '   Tarjeta de crédito
+                    If Not IsNothing(oDireccionEntrega.TarjetasCredito) Then
+                        If oDireccionEntrega.TarjetasCredito.Count > 0 Then
+                            OcultarTarjetaCredito()
+                            grdTarjetaCredito.DataSource = oDireccionEntrega.TarjetasCredito
+                            grdTarjetaCredito.CaptionText = "Tarjetas de crédito (" & recuperarCadenaCRM(oDireccionEntrega.TarjetasCredito.Count.ToString) & ")"
+                        Else
+                            grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
+                        End If
+                    Else
+                        grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
+                    End If
+
+                    '   Descuento
+                    If Not IsNothing(oDireccionEntrega.Descuentos) Then
+                        If oDireccionEntrega.Descuentos.Count > 0 Then
+                            grdClienteDescuento.DataSource = oDireccionEntrega.Descuentos
+                            grdClienteDescuento.CaptionText = "Histórico de descuentos del cliente"
+                        Else
+                            grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
+                        End If
+                    Else
+                        grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
+                    End If
+
+                    lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
+                    lblSaldoTotal.Text = _TotalSaldo.ToString("C")
+                    lblLitrosCartera.Text = _TotalLitrosCartera.ToString
+                    lblLitrosConsulta.Text = _TotalLitros.ToString
+                End If
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Ha ocurrido un error:" & Chr(13) & ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+        End Try
+    End Sub
+
+    Private Sub grdDocumento_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles grdDocumento.CurrentCellChanged
+
+        If (grdDocumento.CurrentRowIndex >= 0) Then
+            _PedidoReferencia = Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 3), String))
+            If grdDocumento.Item(grdDocumento.CurrentRowIndex, 7) IsNot DBNull.Value Then
+                _Fecha = Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 7), String))
+            End If
+            _Litro = CDec(Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 8), String)))
+            _Importe = CDec(Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 10), String)))
+            If btnConsultaDocumento.Enabled = False And _PedidoReferencia <> "" Then btnConsultaDocumento.Enabled = True
+            grdDocumento.Select(grdDocumento.CurrentRowIndex)
+
+
+        End If
+    End Sub
+
+    Private Sub grdDocumento_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles grdDocumento.DoubleClick
+        SeleccionaPedidoReferencia()
+    End Sub
+
+    Private Sub SeleccionaPedidoReferencia()
+        'Se necesita saber la columna del PedidoReferencia
+        If _SeleccionPedidoReferencia = True Then
+            _PedidoReferencia = Trim(CType(grdDocumento.Item(grdDocumento.CurrentRowIndex, 3), String))
+
+            DialogResult = DialogResult.OK
+            Me.Close()
+        End If
+    End Sub
+
+    Private Sub btnConsultaEmpresa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultaEmpresa.Click
+        Cursor = Cursors.WaitCursor
+        Dim oConsultaEmpresa As SigaMetClasses.ConsultaEmpresa = Nothing
+
+        Try
+            If Not (String.IsNullOrEmpty(_URLGateway) OrElse IsNothing(_oDireccionEntrega)) Then
+                If Not IsNothing(_oDireccionEntrega.DatosFiscales) Then
                     oConsultaEmpresa = New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer),
                                                                           DireccionEntrega:=_oDireccionEntrega, PermiteModificar:=PermiteModificarDatosCte, Usuario:=_Usuario)
                 End If
-			Else
+            Else
                 oConsultaEmpresa = New SigaMetClasses.ConsultaEmpresa(CType(lblEmpresa.Text, Integer), PermiteModificar:=PermiteModificarDatosCte, Usuario:=_Usuario)
             End If
 
-			oConsultaEmpresa.ShowDialog()
-		Catch ex As Exception
-			MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-		Finally
-			Cursor = Cursors.Default
-		End Try
-	End Sub
+            oConsultaEmpresa.ShowDialog()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Cursor = Cursors.Default
+        End Try
+    End Sub
 
-	Private Sub ModificaDatosCredito()
-		'leer el perfil del usuario
-		Dim FuenteCRM As String = String.Empty
-		Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
-		Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
-		Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
-		Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
+    Private Sub ModificaDatosCredito()
+        'leer el perfil del usuario
+        Dim FuenteCRM As String = String.Empty
+        Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
+        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
+        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
+        Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
 
-		Dim securityProfiler As New cSeguridad(_Usuario, 4)
+        Dim securityProfiler As New cSeguridad(_Usuario, 4)
 
-		Try
-			FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
-		Catch ex As Exception
-			FuenteCRM = String.Empty
-		End Try
+        Try
+            FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
+        Catch ex As Exception
+            FuenteCRM = String.Empty
+        End Try
 
-		Cursor = Cursors.WaitCursor
-		Dim frmDatosCredito As New CapturaDatosCreditoCliente(_Cliente,
-															  SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo,
-															  SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal,
-															  ModificaTipoFactura:=securityProfiler.TieneAcceso("ModificaFacturacionCliente"),
-															  ModificaEmpleadoNomina:=_CambioEmpleadoNomina,
-															  ModificaClientePadre:=_CambioClientePadre,
-															  dtEjecutivoCyC:=_dsCatalogos.Tables("EjecutivosCyC"))
-		If frmDatosCredito.ShowDialog() = DialogResult.OK Then
-			If (FuenteCRM = "SIGAMET") Then
-				Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
-			ElseIf (Not String.IsNullOrEmpty(_URLGateway) And FuenteCRM = "CRM") Then
-				Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
-			End If
+        Cursor = Cursors.WaitCursor
+        Dim frmDatosCredito As New CapturaDatosCreditoCliente(_Cliente,
+                                                              SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo,
+                                                              SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal,
+                                                              ModificaTipoFactura:=securityProfiler.TieneAcceso("ModificaFacturacionCliente"),
+                                                              ModificaEmpleadoNomina:=_CambioEmpleadoNomina,
+                                                              ModificaClientePadre:=_CambioClientePadre,
+                                                              dtEjecutivoCyC:=_dsCatalogos.Tables("EjecutivosCyC"))
+        If frmDatosCredito.ShowDialog() = DialogResult.OK Then
+            If (String.IsNullOrEmpty(_URLGateway)) Then
+                Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+            ElseIf (Not String.IsNullOrEmpty(_URLGateway)) Then 'And FuenteCRM = "CRM"
+                Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
+            End If
 
-		End If
-		Cursor = Cursors.Default
-	End Sub
+        End If
+        Cursor = Cursors.Default
+    End Sub
 
-	Private Sub lnkModificarDatosCredito_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkModificarDatosCredito.LinkClicked
-		ModificaDatosCredito()
-	End Sub
+    Private Sub lnkModificarDatosCredito_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkModificarDatosCredito.LinkClicked
+        ModificaDatosCredito()
+    End Sub
 
-	Private Sub btnConsultaDocumento_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultaDocumento.Click
-		Cursor = Cursors.WaitCursor
-		Dim frmConsultaCargo As New ConsultaCargo(_PedidoReferencia,,)
-		frmConsultaCargo.ShowDialog()
-		Cursor = Cursors.Default
-	End Sub
+    Private Sub btnConsultaDocumento_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConsultaDocumento.Click
+        Cursor = Cursors.WaitCursor
+        Dim frmConsultaCargo As New ConsultaCargo(_PedidoReferencia,,)
+        frmConsultaCargo.ShowDialog()
+        Cursor = Cursors.Default
+    End Sub
 
-	Private Sub btnListaNotas_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnListaNotas.Click
-		Dim oPostitLista As New PostitLista(Postit.enumTipoPostit.Cliente, "", True, True, Cliente:=_Cliente)
-		oPostitLista.ShowDialog()
-	End Sub
+    Private Sub btnListaNotas_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnListaNotas.Click
+        Dim oPostitLista As New PostitLista(Postit.enumTipoPostit.Cliente, "", True, True, Cliente:=_Cliente)
+        oPostitLista.ShowDialog()
+    End Sub
 
-	Private Sub btnModificar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnModificar.Click
-		Cursor = Cursors.WaitCursor
-		Dim oModifica As SigaMetClasses.ModificaCliente
-		oModifica = New SigaMetClasses.ModificaCliente(_Cliente, _Usuario, SePermiteModificar:=True, PermiteModificarStatus:=False, PermiteModificarStatusCalidad:=False, PermiteModificarCelula:=False, PermiteConsultarCliente:=False)
-		If oModifica.ShowDialog = DialogResult.OK Then
-			ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
-		End If
-		Cursor = Cursors.Default
-	End Sub
+    Private Sub btnModificar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnModificar.Click
+        Cursor = Cursors.WaitCursor
+        Dim oModifica As SigaMetClasses.ModificaCliente
+        oModifica = New SigaMetClasses.ModificaCliente(_Cliente, _Usuario, SePermiteModificar:=True, PermiteModificarStatus:=False, PermiteModificarStatusCalidad:=False, PermiteModificarCelula:=False, PermiteConsultarCliente:=False)
+        If oModifica.ShowDialog = DialogResult.OK Then
+            ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+        End If
+        Cursor = Cursors.Default
+    End Sub
 
-	'Private Function cargaDiasCobranza(ByVal Cliente As Integer, ByVal DiaCobranza As Byte) As String
-	'    Dim cmdSelect As New SqlClient.SqlCommand()
-	'    cmdSelect.CommandText = "spCyCadenaDiasGestionCobranza"
-	'    cmdSelect.Connection = New SqlClient.SqlConnection(LeeInfoConexion(False))
-	'    cmdSelect.CommandType = CommandType.StoredProcedure
-	'    cmdSelect.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
-	'    cmdSelect.Parameters.Add("@TipoDia", SqlDbType.Bit).Value = DiaCobranza
-	'    cmdSelect.Parameters.Add("@Cadena", SqlDbType.VarChar, 200).Direction = ParameterDirection.Output
-	'    Try
-	'        cmdSelect.Connection.Open()
-	'        cmdSelect.ExecuteScalar()
-	'        cargaDiasCobranza = CStr(cmdSelect.Parameters.Item("@Cadena").Value)
-	'    Catch ex As Exception
-	'        cargaDiasCobranza = ""
-	'    Finally
-	'        If cmdSelect.Connection.State = ConnectionState.Open Then
-	'            cmdSelect.Connection.Close()
-	'        End If
-	'    End Try
-	'End Function
+    'Private Function cargaDiasCobranza(ByVal Cliente As Integer, ByVal DiaCobranza As Byte) As String
+    '    Dim cmdSelect As New SqlClient.SqlCommand()
+    '    cmdSelect.CommandText = "spCyCadenaDiasGestionCobranza"
+    '    cmdSelect.Connection = New SqlClient.SqlConnection(LeeInfoConexion(False))
+    '    cmdSelect.CommandType = CommandType.StoredProcedure
+    '    cmdSelect.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+    '    cmdSelect.Parameters.Add("@TipoDia", SqlDbType.Bit).Value = DiaCobranza
+    '    cmdSelect.Parameters.Add("@Cadena", SqlDbType.VarChar, 200).Direction = ParameterDirection.Output
+    '    Try
+    '        cmdSelect.Connection.Open()
+    '        cmdSelect.ExecuteScalar()
+    '        cargaDiasCobranza = CStr(cmdSelect.Parameters.Item("@Cadena").Value)
+    '    Catch ex As Exception
+    '        cargaDiasCobranza = ""
+    '    Finally
+    '        If cmdSelect.Connection.State = ConnectionState.Open Then
+    '            cmdSelect.Connection.Close()
+    '        End If
+    '    End Try
+    'End Function
 
-	Private Sub btnQuejas_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnQuejas.Click
-		If _Usuario.Trim.Length > 0 Then
+    Private Sub btnQuejas_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnQuejas.Click
+        If _Usuario.Trim.Length > 0 Then
 
-			Try
-				QuejasLibrary.Public.[Global].ConfiguraLibrary(SigametSeguridad.Seguridad.Conexion.ConnectionString,
-					SigametSeguridad.Seguridad.Conexion, _Usuario, 1)
-				Dim frmQueja As Form
-				frmQueja = New QuejasLibrary.frmAltaQueja(False, _Cliente)
-				If frmQueja.ShowDialog = DialogResult.OK Then
-					Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
-				End If
-			Catch ex As Exception
-				MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message & vbCrLf &
-					ex.StackTrace, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-			End Try
-		End If
-	End Sub
+            Try
+                QuejasLibrary.Public.[Global].ConfiguraLibrary(SigametSeguridad.Seguridad.Conexion.ConnectionString,
+                    SigametSeguridad.Seguridad.Conexion, _Usuario, 1)
+                Dim frmQueja As Form
+                frmQueja = New QuejasLibrary.frmAltaQueja(False, _Cliente)
+                If frmQueja.ShowDialog = DialogResult.OK Then
+                    Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message & vbCrLf &
+                    ex.StackTrace, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
+    End Sub
 
-	Private Sub lnkQueja_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkQueja.LinkClicked
-		Try
-			QuejasLibrary.Public.[Global].ConfiguraLibrary(SigametSeguridad.Seguridad.Conexion.ConnectionString,
-				SigametSeguridad.Seguridad.Conexion, _Usuario, 1)
-			Dim frmQueja As New QuejasLibrary.frmSeguimientoQueja(_Cliente)
-			frmQueja.ShowDialog()
-		Catch ex As Exception
-			MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message & vbCrLf &
-				ex.StackTrace, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-		End Try
-	End Sub
+    Private Sub lnkQueja_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkQueja.LinkClicked
+        Try
+            QuejasLibrary.Public.[Global].ConfiguraLibrary(SigametSeguridad.Seguridad.Conexion.ConnectionString,
+                SigametSeguridad.Seguridad.Conexion, _Usuario, 1)
+            Dim frmQueja As New QuejasLibrary.frmSeguimientoQueja(_Cliente)
+            frmQueja.ShowDialog()
+        Catch ex As Exception
+            MessageBox.Show("Ha ocurrido un error:" & vbCrLf & ex.Message & vbCrLf &
+                ex.StackTrace, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
 
-	Private Sub btnImagenes_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImagenes.Click
-		If _Cliente <> 0 Then
-			Dim imgViewer As New ImgCallCenter.frmImgCCMain(DataLayer.Conexion, _Cliente, GLOBAL_Usuario)
-			imgViewer.StartPosition = FormStartPosition.CenterScreen
-			imgViewer.ShowDialog()
-		End If
-	End Sub
+    Private Sub btnImagenes_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImagenes.Click
+        If _Cliente <> 0 Then
+            Dim imgViewer As New ImgCallCenter.frmImgCCMain(DataLayer.Conexion, _Cliente, GLOBAL_Usuario)
+            imgViewer.StartPosition = FormStartPosition.CenterScreen
+            imgViewer.ShowDialog()
+        End If
+    End Sub
 
-	Private Sub btnContactos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnContactos.Click
-		If _Cliente <> 0 Then
-			Dim frmListaContactos As CRMContactos.ListaContactos = New CRMContactos.ListaContactos(SigaMetClasses.DataLayer.Conexion, _Cliente, CadenaConexion, _URLGateway)
-			frmListaContactos.WindowState = FormWindowState.Normal
-			frmListaContactos.StartPosition = FormStartPosition.CenterParent
-			frmListaContactos.Width = Me.Width - 100
-			frmListaContactos.Height = Me.Height - 100
-			frmListaContactos.ShowDialog()
-		End If
-	End Sub
+    Private Sub btnContactos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnContactos.Click
+        If _Cliente <> 0 Then
+            Dim frmListaContactos As CRMContactos.ListaContactos = New CRMContactos.ListaContactos(SigaMetClasses.DataLayer.Conexion, _Cliente, CadenaConexion, _URLGateway)
+            frmListaContactos.WindowState = FormWindowState.Normal
+            frmListaContactos.StartPosition = FormStartPosition.CenterParent
+            frmListaContactos.Width = Me.Width - 100
+            frmListaContactos.Height = Me.Height - 100
+            frmListaContactos.ShowDialog()
+        End If
+    End Sub
 
-	Private Sub btnObservacionesCyC_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnObservacionesCyC.Click
-		If _observacionesCyC.Length > 0 Then
-			MessageBox.Show(_observacionesCyC.ToUpper().Trim(), "Observaciones", MessageBoxButtons.OK, MessageBoxIcon.Information)
-		End If
-	End Sub
+    Private Sub btnObservacionesCyC_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnObservacionesCyC.Click
+        If _observacionesCyC.Length > 0 Then
+            MessageBox.Show(_observacionesCyC.ToUpper().Trim(), "Observaciones", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
 
-	Private Sub btnClientesRelacionados_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClientesRelacionados.Click
-		If _ClientePadreCyC <> 0 AndAlso _ClientePadreCyC <> _Cliente Then
-			Dim frmConsultaClientesHijo As New AsignacionMultiple.AsignacionClientePadre(SigaMetClasses.DataLayer.Conexion, _ClientePadreCyC)
-			frmConsultaClientesHijo.ShowDialog()
-		Else
-			Try
-				Dim frmConsultaClientesHijo As New AsignacionMultiple.AsignacionClientePadre(SigaMetClasses.DataLayer.Conexion, _Cliente)
-				frmConsultaClientesHijo.ShowDialog()
-			Catch ex As Exception
-			End Try
-		End If
-	End Sub
+    Private Sub btnClientesRelacionados_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClientesRelacionados.Click
+        If _ClientePadreCyC <> 0 AndAlso _ClientePadreCyC <> _Cliente Then
+            Dim frmConsultaClientesHijo As New AsignacionMultiple.AsignacionClientePadre(SigaMetClasses.DataLayer.Conexion, _ClientePadreCyC)
+            frmConsultaClientesHijo.ShowDialog()
+        Else
+            Try
+                Dim frmConsultaClientesHijo As New AsignacionMultiple.AsignacionClientePadre(SigaMetClasses.DataLayer.Conexion, _Cliente)
+                frmConsultaClientesHijo.ShowDialog()
+            Catch ex As Exception
+            End Try
+        End If
+    End Sub
 
 #Region "Tarjetas de crédito"
-	Private Sub OcultarTarjetaCredito()
-		If _Usuario <> Nothing Then
-			Dim security As New cSeguridad(_Usuario, 3)
-			If security.TieneAcceso("INFO_TDC") Then
-				colTarjetaCredito.MappingName = "TarjetaCredito"
-			Else
-				colTarjetaCredito.MappingName = "NumeroTarjetaCredito"
-			End If
-		End If
-	End Sub
+    Private Sub OcultarTarjetaCredito()
+        If _Usuario <> Nothing Then
+            Dim security As New cSeguridad(_Usuario, 3)
+            If security.TieneAcceso("INFO_TDC") Then
+                colTarjetaCredito.MappingName = "TarjetaCredito"
+            Else
+                colTarjetaCredito.MappingName = "NumeroTarjetaCredito"
+            End If
+        End If
+    End Sub
 
-	Private Sub frmConsultaCliente_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-		Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
-		Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
-		Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
-		Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
+    Private Sub frmConsultaCliente_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
+        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
+        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
+        Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
 
-		Try
-			DeshabilitaBotonQuejas()
+        Try
+            DeshabilitaBotonQuejas()
 
-			Dim FuenteCRM As String = ""
+            Dim FuenteCRM As String = ""
 
-			Try
-				FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
-			Catch ex As Exception
-				FuenteCRM = String.Empty
-			End Try
+            Try
+                FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
+            Catch ex As Exception
+                FuenteCRM = String.Empty
+            End Try
 
 
-			If (
-			   FuenteCRM = "SIGAMET" Or FuenteCRM = "") Then ' String.IsNullOrEmpty(_URLGateway) And 
-				Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
-				btnModificar.Enabled = PermiteModificarDatosCliente
-			ElseIf Not String.IsNullOrEmpty(_URLGateway) Then
-				Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
-				btnModificar.Enabled = PermiteModificarDatosCliente
-				'Me.ConsultaCliente(_Cliente, _URLGateway)
-			End If
-			DeshabilitaBotonModificar()
-		Catch EX As Exception
-			MessageBox.Show(EX.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-		End Try
+            If (String.IsNullOrEmpty(_URLGateway)) Then
+                Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+                btnModificar.Enabled = PermiteModificarDatosCliente
+            ElseIf Not String.IsNullOrEmpty(_URLGateway) Then
+                Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
+                btnModificar.Enabled = PermiteModificarDatosCliente
+                'Me.ConsultaCliente(_Cliente, _URLGateway)
+            End If
+            DeshabilitaBotonModificar()
+        Catch EX As Exception
+            MessageBox.Show(EX.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
-	End Sub
+    End Sub
 #End Region
 
-	Private Sub tabDatos_TabIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabDatos.TabIndexChanged
-		If tabDatos.SelectedTab.Name = "tpDatosCredito" Then
-			btnSeguimiento.Visible = True
-		Else
-			btnSeguimiento.Visible = False
-		End If
-	End Sub
+    Private Sub tabDatos_TabIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabDatos.TabIndexChanged
+        If tabDatos.SelectedTab.Name = "tpDatosCredito" Then
+            btnSeguimiento.Visible = True
+        Else
+            btnSeguimiento.Visible = False
+        End If
+    End Sub
 
-	Private Sub btnSeguimiento_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSeguimiento.Click
-		Dim frmSeguimiento As New SeguimientoCliente.ListaSeguimiento(_Cliente, lblCliente.Text, _Usuario, SigaMetClasses.DataLayer.Conexion)
-		frmSeguimiento.StartPosition = FormStartPosition.CenterScreen
-		frmSeguimiento.ShowDialog()
-	End Sub
+    Private Sub btnSeguimiento_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSeguimiento.Click
+        Dim frmSeguimiento As New SeguimientoCliente.ListaSeguimiento(_Cliente, lblCliente.Text, _Usuario, SigaMetClasses.DataLayer.Conexion)
+        frmSeguimiento.StartPosition = FormStartPosition.CenterScreen
+        frmSeguimiento.ShowDialog()
+    End Sub
 
-	Private Sub grdDocumento_Navigate(sender As Object, ne As NavigateEventArgs) Handles grdDocumento.Navigate
+    Private Sub grdDocumento_Navigate(sender As Object, ne As NavigateEventArgs) Handles grdDocumento.Navigate
 
-	End Sub
+    End Sub
 
-	Private Sub DeshabilitaBotonQuejas()
+    Private Sub DeshabilitaBotonQuejas()
 
-		Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
-		Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
-		Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
-		Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
-		Dim FuenteCRM As String = ""
+        Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
+        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
+        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
+        Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, Corporativo, Sucursal)
+        Dim FuenteCRM As String = ""
 
-		Try
-			FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
-		Catch ex As Exception
-			FuenteCRM = String.Empty
-		End Try
-
-
-
-		'If (Not String.IsNullOrEmpty(_URLGateway)) Then
-		If FuenteCRM = "CRM" Then
-			btnQuejas.Enabled = False
-
-		Else
-			btnQuejas.Enabled = True
-		End If
+        Try
+            FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
+        Catch ex As Exception
+            FuenteCRM = String.Empty
+        End Try
 
 
-	End Sub
-	Private Function ObtenerUsuario() As String
 
-		'Variables declaradas para obetener el usuario
-		Dim StrCadenaConexion As String
-		Dim Usuario As String
+        'If (Not String.IsNullOrEmpty(_URLGateway)) Then
+        If FuenteCRM = "CRM" Then
+            btnQuejas.Enabled = False
 
-		Dim ValorInicial As Integer
-		Dim ValorFinal As Integer
-
-
-		StrCadenaConexion = DataLayer.Conexion.ConnectionString
-		ValorInicial = (StrCadenaConexion.IndexOf("User ID = ")) + 10
-		ValorFinal = (StrCadenaConexion.Length - ValorInicial) - 1
-
-		Usuario = StrCadenaConexion.Substring(ValorInicial, ValorFinal)
-
-		Return Usuario
-
-	End Function
-
-	Private Sub DeshabilitaBotonModificar()
-
-		Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
-		Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
-		Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
-		Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, CShort(Corporativo), Sucursal)
-		Dim FuenteCRM As String = ""
-
-		Try
-			FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
-		Catch ex As Exception
-			FuenteCRM = ""
-		End Try
+        Else
+            btnQuejas.Enabled = True
+        End If
 
 
-		Try
-			If (oConfig.Parametros.Count > 0) Then
-				If FuenteCRM = "CRM" Then
-					btnModificar.Enabled = False
-					lnkModificarDatosCredito.Enabled = False
-				Else
-					btnModificar.Enabled = True
-				End If
+    End Sub
+    Private Function ObtenerUsuario() As String
 
-			End If
-		Catch ex As Exception
-			If _URLParada = "" Then
-				Throw New Exception("No hay valor para URLParada, error de configuración")
-			End If
-		End Try
+        'Variables declaradas para obetener el usuario
+        Dim StrCadenaConexion As String
+        Dim Usuario As String
 
-	End Sub
-	Private Sub ConsultaCliente(ByVal Cliente As Integer,
-								ByVal SoloPedidosCredito As Boolean,
-								ByVal SoloPedidosSurtidos As Boolean,
-								ByVal URLGateway As String)
+        Dim ValorInicial As Integer
+        Dim ValorFinal As Integer
 
-		Dim dificultadGestion As String
-		Dim colorGestion As String
-		Dim dificultadCobro As String
-		Dim colorCobro As String
 
-		Dim oCliente As New SigaMetClasses.cCliente()
-		Dim dsDatos As System.Data.DataSet
-		Dim dtCliente As DataTable, dr As DataRow
+        StrCadenaConexion = DataLayer.Conexion.ConnectionString
+        ValorInicial = (StrCadenaConexion.IndexOf("User ID = ")) + 10
+        ValorFinal = (StrCadenaConexion.Length - ValorInicial) - 1
 
-		Dim oGateway As RTGMGateway.RTGMGateway
-		Dim oSolicitud As RTGMGateway.SolicitudGateway
-		'Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+        Usuario = StrCadenaConexion.Substring(ValorInicial, ValorFinal)
 
-		If IsNothing(_ClienteRow) Then
-			Try
-				If (Cliente > 0 And Not String.IsNullOrEmpty(URLGateway)) Then
-					Cursor = Cursors.WaitCursor
+        Return Usuario
 
-					oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
-					oSolicitud = New RTGMGateway.SolicitudGateway()
-					oGateway.GuardarLog = True
-					oGateway.URLServicio = URLGateway
-					oSolicitud.IDCliente = Cliente
-					_oDireccionEntrega = New RTGMCore.DireccionEntrega()
-					_oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+    End Function
 
-					If Not IsNothing(_oDireccionEntrega) Then
+    Private Sub DeshabilitaBotonModificar()
 
-						' Verificar errores de DynamicsCRM
-						If _oDireccionEntrega.Message IsNot Nothing AndAlso
-						_oDireccionEntrega.Message.Contains("ERROR EN DYNAMICS CRM") Then
-							Throw New Exception(_oDireccionEntrega.Message)
-						End If
+        Dim Usuario As String = CType(IIf(_Usuario <> "", _Usuario, ObtenerUsuario()), String)
+        Dim Corporativo As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Corporativo, Short)
+        Dim Sucursal As Short = CType(SigametSeguridad.Seguridad.DatosUsuario(Usuario).Sucursal, Short)
+        Dim oConfig As SigaMetClasses.cConfig = New SigaMetClasses.cConfig(_Modulo, CShort(Corporativo), Sucursal)
+        Dim FuenteCRM As String = ""
 
-						If _oDireccionEntrega.Nombre IsNot Nothing Then
-							lblCliente.Text = _oDireccionEntrega.IDDireccionEntrega & " " & _oDireccionEntrega.Nombre.Trim()
-						Else
-							lblCliente.Text = _oDireccionEntrega.IDDireccionEntrega.ToString()
-						End If
+        Try
+            FuenteCRM = CStr(oConfig.Parametros("FUENTECRM")).Trim()
+        Catch ex As Exception
+            FuenteCRM = ""
+        End Try
 
-						lblDireccion.Text = _oDireccionEntrega.DireccionCompleta.Trim()
+
+        Try
+            If (oConfig.Parametros.Count > 0) Then
+                If FuenteCRM = "CRM" Then
+                    btnModificar.Enabled = False
+                    lnkModificarDatosCredito.Enabled = False
+                Else
+                    btnModificar.Enabled = True
+                End If
+
+            End If
+        Catch ex As Exception
+            If _URLParada = "" Then
+                Throw New Exception("No hay valor para URLParada, error de configuración")
+            End If
+        End Try
+
+    End Sub
+    Private Sub ConsultaCliente(ByVal Cliente As Integer,
+                                ByVal SoloPedidosCredito As Boolean,
+                                ByVal SoloPedidosSurtidos As Boolean,
+                                ByVal URLGateway As String)
+
+        Dim dificultadGestion As String
+        Dim colorGestion As String
+        Dim dificultadCobro As String
+        Dim colorCobro As String
+
+        Dim oCliente As New SigaMetClasses.cCliente()
+        Dim dsDatos As System.Data.DataSet
+        Dim dtCliente As DataTable, dr As DataRow
+
+        Dim oGateway As RTGMGateway.RTGMGateway
+        Dim oSolicitud As RTGMGateway.SolicitudGateway
+        'Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+
+        If IsNothing(_ClienteRow) Then
+
+            Try
+                If (Cliente > 0 And Not String.IsNullOrEmpty(URLGateway)) Then
+                    Cursor = Cursors.WaitCursor
+
+                    oGateway = New RTGMGateway.RTGMGateway(_Modulo, _CadenaConexion)
+                    oSolicitud = New RTGMGateway.SolicitudGateway()
+                    oGateway.GuardarLog = True
+                    oGateway.URLServicio = URLGateway
+                    oSolicitud.IDCliente = Cliente
+                    _oDireccionEntrega = New RTGMCore.DireccionEntrega()
+                    _oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+                    If Not IsNothing(_oDireccionEntrega) Then
+
+                        ' Verificar errores de DynamicsCRM
+                        If _oDireccionEntrega.Message IsNot Nothing AndAlso
+                        _oDireccionEntrega.Message.Contains("ERROR EN DYNAMICS CRM") Then
+                            Throw New Exception(_oDireccionEntrega.Message)
+                        End If
+
+                        If _oDireccionEntrega.Nombre IsNot Nothing Then
+                            lblCliente.Text = _oDireccionEntrega.IDDireccionEntrega & " " & _oDireccionEntrega.Nombre.Trim()
+                        Else
+                            lblCliente.Text = _oDireccionEntrega.IDDireccionEntrega.ToString()
+                        End If
+
+                        lblDireccion.Text = _oDireccionEntrega.DireccionCompleta.Trim()
                         'Dim ReemplazarCero As String = Replace(lblDireccion.Text, "0", " ")
 
                         'lblDireccion.Text = ReemplazarCero
 
                         If Not IsNothing(_oDireccionEntrega.TipoCliente) Then
-							lblTipoCliente.Text = _oDireccionEntrega.TipoCliente.Descripcion
-						End If
-
-						'Teléfonos
-						lblTelCasa.Text = If(IsNothing(_oDireccionEntrega.Telefono1),
-							String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono1.Trim()))
-						lblTelAlterno1.Text = If(IsNothing(_oDireccionEntrega.Telefono2),
-							String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono2.Trim()))
-						lblTelAlterno2.Text = If(IsNothing(_oDireccionEntrega.Telefono3),
-							String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono3.Trim()))
-
-
-						If Not IsNothing(_oDireccionEntrega.ZonaSuministro) Then
-							lblCelula.Text = _oDireccionEntrega.ZonaSuministro.Descripcion.ToString()
-						End If
-						If Not IsNothing(_oDireccionEntrega.Ruta) Then
-							lblRuta.Text = _oDireccionEntrega.Ruta.Descripcion.Trim()
-						End If
-						lblStatus.Text = IIf(IsNothing(_oDireccionEntrega.Status), String.Empty, _oDireccionEntrega.Status).ToString()
-
-						If Not IsNothing(_oDireccionEntrega.FAlta) Then
-							lblFAlta.Text = _oDireccionEntrega.FAlta.ToString()
-						End If
-
-						lblObservaciones.Text = If(IsNothing(_oDireccionEntrega.Observaciones), String.Empty, _oDireccionEntrega.Observaciones.Trim())
-
-
-						If Not IsNothing(_oDireccionEntrega.ProgramacionSuministro) Then
-							If Not IsNothing(_oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion) Then
-								lblProgramaCliente.Text = _oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion.Trim
-							End If
-							lblProgramaCliente.ForeColor = lblProgramacion.ForeColor
-
-							If (_oDireccionEntrega.ProgramacionSuministro.ProgramacionActiva) Then
-								lblProgramacion.Text = "ACTIVA"
-							Else
-								lblProgramacion.Text = "INACTIVA"
-							End If
-						Else
-							lblProgramaCliente.Text = ""
-							lblProgramacion.Text = "INACTIVA"
-						End If
-
-						If Not IsNothing(_oDireccionEntrega.DatosFiscales) Then
-							lblEmpresa.Text = _oDireccionEntrega.DatosFiscales.IDDatosFiscales.ToString
-							lblRazonSocial.Text = _oDireccionEntrega.DatosFiscales.RazonSocial.Trim
-							If (_oDireccionEntrega.DatosFiscales.IDDatosFiscales = 0) Then
-								btnConsultaEmpresa.Visible = False
-							End If
-						Else
-							lblEmpresa.Text = ""
-							lblRazonSocial.Text = ""
-							btnConsultaEmpresa.Visible = False
-						End If
-
-						'Condiciones crédito
-						If Not IsNothing(_oDireccionEntrega.CondicionesCredito) Then
-
-							'lblSaldo.Text = _oDireccionEntrega.CondicionesCredito.Saldo.ToString()
-
-							lblTipoCredito.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ClasificacionCredito),
-								String.Empty, _oDireccionEntrega.CondicionesCredito.ClasificacionCredito.Trim())
-
-							lblMaxImporteCredito.Text = CDec(_oDireccionEntrega.CondicionesCredito.LimiteCredito).ToString("C")
-							lblDiasCredito.Text = _oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString()
-							lblSaldo.Text = CDec(_oDireccionEntrega.CondicionesCredito.Saldo).ToString("C")
-							'lblSaldo.Text = SaldoSigamet.ToString("C")
-							lblDiaRevision.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DiasRevision),
-								String.Empty, _oDireccionEntrega.CondicionesCredito.DiasRevision.Trim())
-
-							lblDiaPago.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DiasPago),
-								String.Empty, _oDireccionEntrega.CondicionesCredito.DiasPago.Trim())
-
-							lblCartera.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.CarteraDescripcion),
-								String.Empty, _oDireccionEntrega.CondicionesCredito.CarteraDescripcion.Trim())
-
-							If Not IsNothing(_oDireccionEntrega.CondicionesCredito.ResponsableGestion) Then
-								lblResponsable.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto),
-									String.Empty, _oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto)
-							End If
-							If Not IsNothing(_oDireccionEntrega.CondicionesCredito.EmpleadoNomina) Then
-								lblEmpleadoNomina.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto),
-									String.Empty, _oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto)
-							End If
-
-							'Muestra el ejecutivo de cyc asignado
-							If Not IsNothing(_oDireccionEntrega.CondicionesCredito.SupervisorGestion) Then
-								lblEjeCyC.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto),
-									String.Empty, _oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto)
-							End If
-							lblHorarioAtencion.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC), String.Empty, _oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC.ToString())
-
-							'lblHorarioAtencion.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ObservacionesCyC),
-							'    String.Empty, _oDireccionEntrega.CondicionesCredito.ObservacionesCyC.Trim())
-
-							lblCobroDefault.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion),
-								String.Empty, _oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion.Trim())
-
-							'Consulta y despliegue de la dificultad de gestión asignada al cliente
-							dificultadGestion = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DificultadGestion),
-								String.Empty, _oDireccionEntrega.CondicionesCredito.DificultadGestion)
-
-							colorGestion = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ColorGestion),
-								String.Empty, _oDireccionEntrega.CondicionesCredito.ColorGestion)
-
-							If Not (String.IsNullOrEmpty(dificultadGestion)) Then
-								lblDGestion.Text = dificultadGestion.Trim()
-								lblDGestion.BackColor = System.Drawing.Color.FromName(colorGestion)
-							Else
-								lblDGestion.Text = String.Empty
-								lblDGestion.BackColor = grpDatosCredito.BackColor
-							End If
-
-							'dificultadCobro = _oDireccionEntrega.CondicionesCredito.DificultadCobro
-							dificultadCobro = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DificultadCobro),
-								String.Empty, _oDireccionEntrega.CondicionesCredito.DificultadCobro)
-
-							colorCobro = _oDireccionEntrega.CondicionesCredito.ColorCobro
-							If Not (String.IsNullOrEmpty(dificultadCobro)) Then
-								lblDCobro.Text = dificultadCobro.Trim
-								If Not IsNothing(colorCobro) Then
-									lblDCobro.BackColor = System.Drawing.Color.FromName(colorCobro)
-								End If
-							Else
-								lblDCobro.Text = String.Empty
-								lblDCobro.BackColor = grpDatosCredito.BackColor
-							End If
-						End If
-
-						lblTipoFacturacion.Text = If(IsNothing(_oDireccionEntrega.TipoFacturacion.Descripcion), String.Empty, _oDireccionEntrega.TipoFacturacion.Descripcion.Trim())
-
-						'       FALTA
-						'If Not IsDBNull(dr("TipoNotaCreditoDescripcion")) Then lblTipoNotaCredito.Text = CType(dr("TipoNotaCreditoDescripcion"), String)
-						'lblTipoNotaCredito.Text = _oDireccionEntrega.
-
-						'       FALTA
-						'TODO: Muestra el cliente padre de cyc
-						'If Not IsDBNull(dr("ClientePadre")) Then
-						'    _ClientePadreCyC = CType(dr("ClientePadre"), Integer)
-						'    If _Cliente <> _ClientePadreCyC Then
-						'        lblClientePadre.Text = _ClientePadreCyC.ToString()
-						'    Else
-						'        lblClientePadre.Text = CStr(_Cliente) & " (SIN ASIGNAR)"
-						'    End If
-						'Else
-						'    lblClientePadre.Text = "NO ASIGNADO"
-						'End If
-						lblClientePadre.Text = "NO ASIGNADO"
-
-						'Muestra el dígito verificador asignado al cliente
-						lblDigitoVerificador.Text = _oDireccionEntrega.DigitoVerificador.ToString
-
-						'Consulta de quejas activas
-						If (_oDireccionEntrega.QuejaActiva IsNot Nothing AndAlso _oDireccionEntrega.QuejaActiva.Trim > "" AndAlso _LinkQueja) Then
-							lnkQueja.Enabled = True
-							lnkQueja.Visible = True
-							lnkQueja.Text = _oDireccionEntrega.QuejaActiva.Trim
-						End If
-						'*****
-
-						'   No se encontró información relacionada con Pedidos
-						'
-						'dtDocumento = _oDireccionEntrega.Tables("Pedido")
-						'grdDocumento.DataSource = dtDocumento
-						'For Each dr In dtDocumento.Rows
-						'    If Not IsDBNull(dr("Saldo")) Then
-						'        If Not IsDBNull(dr("CyC")) Then
-						'            _TotalSaldoCartera += CType(dr("Saldo"), Decimal)
-						'            _TotalLitrosCartera += CType(dr("Litros"), Decimal)
-						'        End If
-						'        _TotalSaldo += CType(dr("Saldo"), Decimal)
-						'        _TotalLitros += CType(dr("Litros"), Decimal)
-						'    End If
-						'Next
-						'grdDocumento.CaptionText = "Documentos relacionados (" & dtDocumento.Rows.Count.ToString & ")"
-
-						'   Tarjeta de crédito
-						If Not IsNothing(_oDireccionEntrega.TarjetasCredito) Then
-							If _oDireccionEntrega.TarjetasCredito.Count > 0 Then
-								OcultarTarjetaCredito()
-								grdTarjetaCredito.DataSource = _oDireccionEntrega.TarjetasCredito
-								grdTarjetaCredito.CaptionText = "Tarjetas de crédito (" & _oDireccionEntrega.TarjetasCredito.Count.ToString & ")"
-							Else
-								grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
-							End If
-						Else
-							grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
-						End If
-
-						'   Descuento
-						If Not IsNothing(_oDireccionEntrega.Descuentos) Then
-							If _oDireccionEntrega.Descuentos.Count > 0 Then
-								Dim dtDescuentos As New DataTable
-
-								dtDescuentos.Columns.Add("F.Inicial", GetType(String))
-								dtDescuentos.Columns.Add("F.Final", GetType(String))
-								dtDescuentos.Columns.Add("Descuento", GetType(String))
-								dtDescuentos.Columns.Add("Estatus", GetType(String))
-
-								For Each Desc As RTGMCore.Descuento In _oDireccionEntrega.Descuentos
-									dtDescuentos.Rows.Add(Desc.FInicial, Desc.FFinal, Desc.ImporteDescuento, Desc.Status)
-								Next
-
-								grdClienteDescuento.DataSource = dtDescuentos
-
-								grdClienteDescuento.CaptionText = "Histórico de descuentos del cliente"
-							Else
-								grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
-							End If
-						Else
-							grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
-						End If
-
-						lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
-						lblSaldoTotal.Text = _TotalSaldo.ToString("C")
-						lblLitrosCartera.Text = _TotalLitrosCartera.ToString
-						lblLitrosConsulta.Text = _TotalLitros.ToString
-					End If
-				End If
-
-				''--------------------------------------------pedidos EN SIGAMET----------------------------------------
-				dsDatos = oCliente.ConsultaDatos(Cliente, , , , SoloPedidosCredito, SoloPedidosSurtidos)
-				dtDocumento = dsDatos.Tables("Pedido")
-				grdDocumento.DataSource = dtDocumento
-				For Each dr In dtDocumento.Rows
-					If Not IsDBNull(dr("Saldo")) Then
-						If Not IsDBNull(dr("CyC")) Then
-							_TotalSaldoCartera += CType(dr("Saldo"), Decimal)
-							_TotalLitrosCartera += CType(dr("Litros"), Decimal)
-						End If
-						_TotalSaldo += CType(dr("Saldo"), Decimal)
-						_TotalLitros += CType(dr("Litros"), Decimal)
-					End If
-				Next
-
-				' 12/10/2018 - RM. En esta sobrecarga del método, el saldo se debe cargar desde el servicio web
-				'lblSaldo.Text = _TotalSaldoCartera.ToString("C")
-
-				lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
-				lblSaldoTotal.Text = _TotalSaldo.ToString("C")
-				lblLitrosCartera.Text = _TotalLitrosCartera.ToString
-				lblLitrosConsulta.Text = _TotalLitros.ToString
-
-			Catch ex As Exception
-				MessageBox.Show(ex.Message, "Consulta de cliente", MessageBoxButtons.OK, MessageBoxIcon.Error)
-			Finally
-				Cursor = Cursors.Default
-				dr = Nothing
-				dtCliente = Nothing
-				dsDatos = Nothing
-			End Try
-		Else
-			Try
-				_oDireccionEntrega = _ClienteRow
-				' Verificar errores de DynamicsCRM
-				If _oDireccionEntrega.Message IsNot Nothing AndAlso
-				_oDireccionEntrega.Message.Contains("ERROR EN DYNAMICS CRM") Then
-					Throw New Exception(_oDireccionEntrega.Message)
-				End If
-
-				If _oDireccionEntrega.Nombre IsNot Nothing Then
-					lblCliente.Text = _oDireccionEntrega.IDDireccionEntrega & " " & _oDireccionEntrega.Nombre.Trim()
-				Else
-					lblCliente.Text = _oDireccionEntrega.IDDireccionEntrega.ToString()
-				End If
-
-				lblDireccion.Text = If(IsNothing(_oDireccionEntrega.DireccionCompleta),
-					String.Empty, _oDireccionEntrega.DireccionCompleta.Trim())
-
-
-				'lblDireccion.Text = _oDireccionEntrega.DireccionCompleta.Trim()
-				'Dim ReemplazarCero As String = Replace(lblDireccion.Text, "0", " ")
-				'lblDireccion.Text = ReemplazarCero
-				If Not IsNothing(_oDireccionEntrega.TipoCliente) Then
-					lblTipoCliente.Text = _oDireccionEntrega.TipoCliente.Descripcion
-				End If
-
-				'Teléfonos
-				lblTelCasa.Text = If(IsNothing(_oDireccionEntrega.Telefono1),
-					String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono1.Trim()))
-				lblTelAlterno1.Text = If(IsNothing(_oDireccionEntrega.Telefono2),
-					String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono2.Trim()))
-				lblTelAlterno2.Text = If(IsNothing(_oDireccionEntrega.Telefono3),
-					String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono3.Trim()))
-
-
-				If Not IsNothing(_oDireccionEntrega.ZonaSuministro) Then
-					lblCelula.Text = _oDireccionEntrega.ZonaSuministro.Descripcion.ToString()
-				End If
-				If Not IsNothing(_oDireccionEntrega.Ruta) Then
-					lblRuta.Text = _oDireccionEntrega.Ruta.Descripcion.Trim()
-				End If
-				lblStatus.Text = IIf(IsNothing(_oDireccionEntrega.Status), String.Empty, _oDireccionEntrega.Status).ToString()
-
-				If Not IsNothing(_oDireccionEntrega.FAlta) Then
-					lblFAlta.Text = _oDireccionEntrega.FAlta.ToString()
-				End If
-
-				lblObservaciones.Text = If(IsNothing(_oDireccionEntrega.Observaciones), String.Empty, _oDireccionEntrega.Observaciones.Trim())
-
-
-				If Not IsNothing(_oDireccionEntrega.ProgramacionSuministro) Then
-					If Not IsNothing(_oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion) Then
-						lblProgramaCliente.Text = _oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion.Trim
-					End If
-					lblProgramaCliente.ForeColor = lblProgramacion.ForeColor
-
-					If (_oDireccionEntrega.ProgramacionSuministro.ProgramacionActiva) Then
-						lblProgramacion.Text = "ACTIVA"
-					Else
-						lblProgramacion.Text = "INACTIVA"
-					End If
-				Else
-					lblProgramaCliente.Text = ""
-					lblProgramacion.Text = "INACTIVA"
-				End If
-
-				If Not IsNothing(_oDireccionEntrega.DatosFiscales) Then
-					lblEmpresa.Text = _oDireccionEntrega.DatosFiscales.IDDatosFiscales.ToString
-					lblRazonSocial.Text = _oDireccionEntrega.DatosFiscales.RazonSocial.Trim
-					If (_oDireccionEntrega.DatosFiscales.IDDatosFiscales = 0) Then
-						btnConsultaEmpresa.Visible = False
-					End If
-				Else
-					lblEmpresa.Text = ""
-					lblRazonSocial.Text = ""
-					btnConsultaEmpresa.Visible = False
-				End If
-
-				'Condiciones crédito
-				If Not IsNothing(_oDireccionEntrega.CondicionesCredito) Then
-
-					'lblSaldo.Text = _oDireccionEntrega.CondicionesCredito.Saldo.ToString()
-
-					lblTipoCredito.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ClasificacionCredito),
-						String.Empty, _oDireccionEntrega.CondicionesCredito.ClasificacionCredito.Trim())
-
-					lblMaxImporteCredito.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.LimiteCredito),
-												String.Empty, CDec(_oDireccionEntrega.CondicionesCredito.LimiteCredito).ToString("C"))
-
-					lblDiasCredito.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.PlazoCredito),
-											 String.Empty, _oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString())
-					lblSaldo.Text = CDec(_oDireccionEntrega.CondicionesCredito.Saldo).ToString("C")
-					'lblSaldo.Text = SaldoSigamet.ToString("C")
-					lblDiaRevision.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DiasRevision),
-						String.Empty, _oDireccionEntrega.CondicionesCredito.DiasRevision.Trim())
-
-					lblDiaPago.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DiasPago),
-						String.Empty, _oDireccionEntrega.CondicionesCredito.DiasPago.Trim())
-
-					lblCartera.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.CarteraDescripcion),
-						String.Empty, _oDireccionEntrega.CondicionesCredito.CarteraDescripcion.Trim())
-
-					If Not IsNothing(_oDireccionEntrega.CondicionesCredito.ResponsableGestion) Then
-						lblResponsable.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto),
-							String.Empty, _oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto)
-					End If
-					If Not IsNothing(_oDireccionEntrega.CondicionesCredito.EmpleadoNomina) Then
-						lblEmpleadoNomina.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto),
-							String.Empty, _oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto)
-					End If
-
-					'Muestra el ejecutivo de cyc asignado
-					If Not IsNothing(_oDireccionEntrega.CondicionesCredito.SupervisorGestion) Then
-						lblEjeCyC.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto),
-							String.Empty, _oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto)
-					End If
-					lblHorarioAtencion.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC), String.Empty, _oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC.ToString())
-
-					'lblHorarioAtencion.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ObservacionesCyC),
-					'    String.Empty, _oDireccionEntrega.CondicionesCredito.ObservacionesCyC.Trim())
-
-					lblCobroDefault.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion),
-						String.Empty, _oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion.Trim())
-
-					'Consulta y despliegue de la dificultad de gestión asignada al cliente
-					dificultadGestion = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DificultadGestion),
-						String.Empty, _oDireccionEntrega.CondicionesCredito.DificultadGestion)
-
-					colorGestion = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ColorGestion),
-						String.Empty, _oDireccionEntrega.CondicionesCredito.ColorGestion)
-
-					If Not (String.IsNullOrEmpty(dificultadGestion)) Then
-						lblDGestion.Text = dificultadGestion.Trim()
-						lblDGestion.BackColor = System.Drawing.Color.FromName(colorGestion)
-					Else
-						lblDGestion.Text = String.Empty
-						lblDGestion.BackColor = grpDatosCredito.BackColor
-					End If
-
-					'dificultadCobro = _oDireccionEntrega.CondicionesCredito.DificultadCobro
-					dificultadCobro = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DificultadCobro),
-						String.Empty, _oDireccionEntrega.CondicionesCredito.DificultadCobro)
-
-					colorCobro = _oDireccionEntrega.CondicionesCredito.ColorCobro
-					If Not (String.IsNullOrEmpty(dificultadCobro)) Then
-						lblDCobro.Text = dificultadCobro.Trim
-						If Not IsNothing(colorCobro) Then
-							lblDCobro.BackColor = System.Drawing.Color.FromName(colorCobro)
-						End If
-					Else
-						lblDCobro.Text = String.Empty
-						lblDCobro.BackColor = grpDatosCredito.BackColor
-					End If
-				End If
-
-				Dim _tipoFacturacion As String = String.Empty
-
-				Try
-					_tipoFacturacion = _oDireccionEntrega.TipoFacturacion.Descripcion
-				Catch ex As Exception
-
-				End Try
-
-
-				lblTipoFacturacion.Text = _tipoFacturacion
-				'       FALTA
-				'If Not IsDBNull(dr("TipoNotaCreditoDescripcion")) Then lblTipoNotaCredito.Text = CType(dr("TipoNotaCreditoDescripcion"), String)
-				'lblTipoNotaCredito.Text = _oDireccionEntrega.
-
-				'       FALTA
-				'TODO: Muestra el cliente padre de cyc
-				'If Not IsDBNull(dr("ClientePadre")) Then
-				'    _ClientePadreCyC = CType(dr("ClientePadre"), Integer)
-				'    If _Cliente <> _ClientePadreCyC Then
-				'        lblClientePadre.Text = _ClientePadreCyC.ToString()
-				'    Else
-				'        lblClientePadre.Text = CStr(_Cliente) & " (SIN ASIGNAR)"
-				'    End If
-				'Else
-				'    lblClientePadre.Text = "NO ASIGNADO"
-				'End If
-				lblClientePadre.Text = "NO ASIGNADO"
-
-				'Muestra el dígito verificador asignado al cliente
-				lblDigitoVerificador.Text = _oDireccionEntrega.DigitoVerificador.ToString
-
-				'Consulta de quejas activas
-				If (_oDireccionEntrega.QuejaActiva IsNot Nothing AndAlso _oDireccionEntrega.QuejaActiva.Trim > "" AndAlso _LinkQueja) Then
-					lnkQueja.Enabled = True
-					lnkQueja.Visible = True
-					lnkQueja.Text = _oDireccionEntrega.QuejaActiva.Trim
-				End If
-				'*****
-
-				'   No se encontró información relacionada con Pedidos
-				'
-				'dtDocumento = _oDireccionEntrega.Tables("Pedido")
-				'grdDocumento.DataSource = dtDocumento
-				'For Each dr In dtDocumento.Rows
-				'    If Not IsDBNull(dr("Saldo")) Then
-				'        If Not IsDBNull(dr("CyC")) Then
-				'            _TotalSaldoCartera += CType(dr("Saldo"), Decimal)
-				'            _TotalLitrosCartera += CType(dr("Litros"), Decimal)
-				'        End If
-				'        _TotalSaldo += CType(dr("Saldo"), Decimal)
-				'        _TotalLitros += CType(dr("Litros"), Decimal)
-				'    End If
-				'Next
-				'grdDocumento.CaptionText = "Documentos relacionados (" & dtDocumento.Rows.Count.ToString & ")"
-
-				'   Tarjeta de crédito
-				If Not IsNothing(_oDireccionEntrega.TarjetasCredito) Then
-					If _oDireccionEntrega.TarjetasCredito.Count > 0 Then
-						OcultarTarjetaCredito()
-						grdTarjetaCredito.DataSource = _oDireccionEntrega.TarjetasCredito
-						grdTarjetaCredito.CaptionText = "Tarjetas de crédito (" & _oDireccionEntrega.TarjetasCredito.Count.ToString & ")"
-					Else
-						grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
-					End If
-				Else
-					grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
-				End If
-
-				'   Descuento
-				If Not IsNothing(_oDireccionEntrega.Descuentos) Then
-					If _oDireccionEntrega.Descuentos.Count > 0 Then
-						grdClienteDescuento.DataSource = _oDireccionEntrega.Descuentos
-						grdClienteDescuento.CaptionText = "Histórico de descuentos del cliente"
-					Else
-						grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
-					End If
+                            lblTipoCliente.Text = _oDireccionEntrega.TipoCliente.Descripcion
+                        End If
+
+                        'Teléfonos
+                        lblTelCasa.Text = If(IsNothing(_oDireccionEntrega.Telefono1),
+                            String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono1.Trim()))
+                        lblTelAlterno1.Text = If(IsNothing(_oDireccionEntrega.Telefono2),
+                            String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono2.Trim()))
+                        lblTelAlterno2.Text = If(IsNothing(_oDireccionEntrega.Telefono3),
+                            String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono3.Trim()))
+
+
+                        If Not IsNothing(_oDireccionEntrega.ZonaSuministro) Then
+                            lblCelula.Text = _oDireccionEntrega.ZonaSuministro.Descripcion.ToString()
+                        End If
+                        If Not IsNothing(_oDireccionEntrega.Ruta) Then
+                            lblRuta.Text = _oDireccionEntrega.Ruta.Descripcion.Trim()
+                        End If
+                        lblStatus.Text = IIf(IsNothing(_oDireccionEntrega.Status), String.Empty, _oDireccionEntrega.Status).ToString()
+
+                        If Not IsNothing(_oDireccionEntrega.FAlta) Then
+                            lblFAlta.Text = _oDireccionEntrega.FAlta.ToString()
+                        End If
+
+                        lblObservaciones.Text = If(IsNothing(_oDireccionEntrega.Observaciones), String.Empty, _oDireccionEntrega.Observaciones.Trim())
+
+
+                        If Not IsNothing(_oDireccionEntrega.ProgramacionSuministro) Then
+                            If Not IsNothing(_oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion) Then
+                                lblProgramaCliente.Text = _oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion.Trim
+                            End If
+                            lblProgramaCliente.ForeColor = lblProgramacion.ForeColor
+
+                            If (_oDireccionEntrega.ProgramacionSuministro.ProgramacionActiva) Then
+                                lblProgramacion.Text = "ACTIVA"
+                            Else
+                                lblProgramacion.Text = "INACTIVA"
+                            End If
+                        Else
+                            lblProgramaCliente.Text = ""
+                            lblProgramacion.Text = "INACTIVA"
+                        End If
+
+                        If Not IsNothing(_oDireccionEntrega.DatosFiscales) Then
+                            lblEmpresa.Text = _oDireccionEntrega.DatosFiscales.IDDatosFiscales.ToString
+                            lblRazonSocial.Text = _oDireccionEntrega.DatosFiscales.RazonSocial.Trim
+                            If (_oDireccionEntrega.DatosFiscales.IDDatosFiscales = 0) Then
+                                btnConsultaEmpresa.Visible = False
+                            End If
+                        Else
+                            lblEmpresa.Text = ""
+                            lblRazonSocial.Text = ""
+                            btnConsultaEmpresa.Visible = False
+                        End If
+
+                        'Condiciones crédito
+                        If Not IsNothing(_oDireccionEntrega.CondicionesCredito) Then
+
+                            If Not IsNothing(_oDireccionEntrega.CondicionesCredito.ObservacionesCyC) Then
+                                _observacionesCyC = _oDireccionEntrega.CondicionesCredito.ObservacionesCyC
+                            End If
+
+                            'lblSaldo.Text = _oDireccionEntrega.CondicionesCredito.Saldo.ToString()
+
+                            lblTipoCredito.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ClasificacionCredito),
+                                String.Empty, _oDireccionEntrega.CondicionesCredito.ClasificacionCredito.Trim())
+
+                            lblMaxImporteCredito.Text = CDec(_oDireccionEntrega.CondicionesCredito.LimiteCredito).ToString("C")
+                            lblDiasCredito.Text = _oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString()
+                            lblSaldo.Text = CDec(_oDireccionEntrega.CondicionesCredito.Saldo).ToString("C")
+                            'lblSaldo.Text = SaldoSigamet.ToString("C")
+                            lblDiaRevision.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DiasRevision),
+                                String.Empty, _oDireccionEntrega.CondicionesCredito.DiasRevision.Trim())
+
+                            lblDiaPago.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DiasPago),
+                                String.Empty, _oDireccionEntrega.CondicionesCredito.DiasPago.Trim())
+
+                            lblCartera.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.CarteraDescripcion),
+                                String.Empty, _oDireccionEntrega.CondicionesCredito.CarteraDescripcion.Trim())
+
+                            If Not IsNothing(_oDireccionEntrega.CondicionesCredito.ResponsableGestion) Then
+                                lblResponsable.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto),
+                                    String.Empty, _oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto)
+                            End If
+                            If Not IsNothing(_oDireccionEntrega.CondicionesCredito.EmpleadoNomina) Then
+                                lblEmpleadoNomina.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto),
+                                    String.Empty, _oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto)
+                            End If
+
+                            'Muestra el ejecutivo de cyc asignado
+                            If Not IsNothing(_oDireccionEntrega.CondicionesCredito.SupervisorGestion) Then
+                                lblEjeCyC.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto),
+                                    String.Empty, _oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto)
+                            End If
+                            lblHorarioAtencion.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC), String.Empty, _oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC.ToString())
+
+                            'lblHorarioAtencion.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ObservacionesCyC),
+                            '    String.Empty, _oDireccionEntrega.CondicionesCredito.ObservacionesCyC.Trim())
+
+                            lblCobroDefault.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion),
+                                String.Empty, _oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion.Trim())
+
+                            'Consulta y despliegue de la dificultad de gestión asignada al cliente
+                            dificultadGestion = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DificultadGestion),
+                                String.Empty, _oDireccionEntrega.CondicionesCredito.DificultadGestion)
+
+                            colorGestion = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ColorGestion),
+                                String.Empty, _oDireccionEntrega.CondicionesCredito.ColorGestion)
+
+                            If Not (String.IsNullOrEmpty(dificultadGestion)) Then
+                                lblDGestion.Text = dificultadGestion.Trim()
+                                lblDGestion.BackColor = System.Drawing.Color.FromName(colorGestion)
+                            Else
+                                lblDGestion.Text = String.Empty
+                                lblDGestion.BackColor = grpDatosCredito.BackColor
+                            End If
+
+                            'dificultadCobro = _oDireccionEntrega.CondicionesCredito.DificultadCobro
+                            dificultadCobro = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DificultadCobro),
+                                String.Empty, _oDireccionEntrega.CondicionesCredito.DificultadCobro)
+
+                            colorCobro = _oDireccionEntrega.CondicionesCredito.ColorCobro
+                            If Not (String.IsNullOrEmpty(dificultadCobro)) Then
+                                lblDCobro.Text = dificultadCobro.Trim
+                                If Not IsNothing(colorCobro) Then
+                                    lblDCobro.BackColor = System.Drawing.Color.FromName(colorCobro)
+                                End If
+                            Else
+                                lblDCobro.Text = String.Empty
+                                lblDCobro.BackColor = grpDatosCredito.BackColor
+                            End If
+                        End If
+
+                        lblTipoFacturacion.Text = If(IsNothing(_oDireccionEntrega.TipoFacturacion.Descripcion), String.Empty, _oDireccionEntrega.TipoFacturacion.Descripcion.Trim())
+
+                        '       FALTA
+                        'If Not IsDBNull(dr("TipoNotaCreditoDescripcion")) Then lblTipoNotaCredito.Text = CType(dr("TipoNotaCreditoDescripcion"), String)
+                        'lblTipoNotaCredito.Text = _oDireccionEntrega.
+
+                        '       FALTA
+                        'TODO: Muestra el cliente padre de cyc
+                        'If Not IsDBNull(dr("ClientePadre")) Then
+                        '    _ClientePadreCyC = CType(dr("ClientePadre"), Integer)
+                        '    If _Cliente <> _ClientePadreCyC Then
+                        '        lblClientePadre.Text = _ClientePadreCyC.ToString()
+                        '    Else
+                        '        lblClientePadre.Text = CStr(_Cliente) & " (SIN ASIGNAR)"
+                        '    End If
+                        'Else
+                        '    lblClientePadre.Text = "NO ASIGNADO"
+                        'End If
+
+
+
+                        'If Not IsNothing(_oDireccionEntrega.IDDireccionEntregaPadre) Then
+                        '    lblClientePadre.Text = _oDireccionEntrega.IDDireccionEntregaPadre.Value.ToString()
+                        'Else
+                        '    lblClientePadre.Text = "NO ASIGNADO"
+                        'End If
+
+                        If Not IsNothing(_oDireccionEntrega.IDDireccionEntregaPadre) Then
+                            _ClientePadreCyC = CType(_oDireccionEntrega.IDDireccionEntregaPadre, Integer)
+
+                            If _Cliente <> _ClientePadreCyC Then
+                                lblClientePadre.Text = _oDireccionEntrega.IDDireccionEntregaPadre.Value.ToString()
+                            Else
+                                lblClientePadre.Text = _oDireccionEntrega.IDDireccionEntregaPadre.Value.ToString() & " (SIN ASIGNAR)"
+                            End If
+                        Else
+                            lblClientePadre.Text = "NO ASIGNADO"
+                        End If
+
+
+                        'Muestra el dígito verificador asignado al cliente
+                        lblDigitoVerificador.Text = _oDireccionEntrega.DigitoVerificador.ToString
+
+                        'Consulta de quejas activas
+                        If (_oDireccionEntrega.QuejaActiva IsNot Nothing AndAlso _oDireccionEntrega.QuejaActiva.Trim > "" AndAlso _LinkQueja) Then
+                            lnkQueja.Enabled = True
+                            lnkQueja.Visible = True
+                            lnkQueja.Text = _oDireccionEntrega.QuejaActiva.Trim
+                        End If
+                        '*****
+
+                        '   No se encontró información relacionada con Pedidos
+                        '
+                        'dtDocumento = _oDireccionEntrega.Tables("Pedido")
+                        'grdDocumento.DataSource = dtDocumento
+                        'For Each dr In dtDocumento.Rows
+                        '    If Not IsDBNull(dr("Saldo")) Then
+                        '        If Not IsDBNull(dr("CyC")) Then
+                        '            _TotalSaldoCartera += CType(dr("Saldo"), Decimal)
+                        '            _TotalLitrosCartera += CType(dr("Litros"), Decimal)
+                        '        End If
+                        '        _TotalSaldo += CType(dr("Saldo"), Decimal)
+                        '        _TotalLitros += CType(dr("Litros"), Decimal)
+                        '    End If
+                        'Next
+                        'grdDocumento.CaptionText = "Documentos relacionados (" & dtDocumento.Rows.Count.ToString & ")"
+
+                        '   Tarjeta de crédito
+                        If Not IsNothing(_oDireccionEntrega.TarjetasCredito) Then
+                            If _oDireccionEntrega.TarjetasCredito.Count > 0 Then
+                                OcultarTarjetaCredito()
+                                grdTarjetaCredito.DataSource = _oDireccionEntrega.TarjetasCredito
+                                grdTarjetaCredito.CaptionText = "Tarjetas de crédito (" & _oDireccionEntrega.TarjetasCredito.Count.ToString & ")"
+                            Else
+                                grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
+                            End If
+                        Else
+                            grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
+                        End If
+
+                        '   Descuento
+                        If Not IsNothing(_oDireccionEntrega.Descuentos) Then
+                            If _oDireccionEntrega.Descuentos.Count > 0 Then
+                                Dim dtDescuentos As New DataTable
+
+                                dtDescuentos.Columns.Add("F.Inicial", GetType(String))
+                                dtDescuentos.Columns.Add("F.Final", GetType(String))
+                                dtDescuentos.Columns.Add("Descuento", GetType(String))
+                                dtDescuentos.Columns.Add("Estatus", GetType(String))
+
+                                For Each Desc As RTGMCore.Descuento In _oDireccionEntrega.Descuentos
+                                    dtDescuentos.Rows.Add(Desc.FInicial, Desc.FFinal, Desc.ImporteDescuento, Desc.Status)
+                                Next
+
+                                grdClienteDescuento.DataSource = dtDescuentos
+
+                                grdClienteDescuento.CaptionText = "Histórico de descuentos del cliente"
+                            Else
+                                grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
+                            End If
+                        Else
+                            grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
+                        End If
+
+                        lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
+                        lblSaldoTotal.Text = _TotalSaldo.ToString("C")
+                        lblLitrosCartera.Text = _TotalLitrosCartera.ToString
+                        lblLitrosConsulta.Text = _TotalLitros.ToString
+                    End If
+                End If
+
+                ''--------------------------------------------pedidos EN SIGAMET----------------------------------------
+                dsDatos = oCliente.ConsultaDatos(Cliente, , , , SoloPedidosCredito, SoloPedidosSurtidos)
+                dtDocumento = dsDatos.Tables("Pedido")
+                grdDocumento.DataSource = dtDocumento
+                For Each dr In dtDocumento.Rows
+                    If Not IsDBNull(dr("Saldo")) Then
+                        If Not IsDBNull(dr("CyC")) Then
+                            _TotalSaldoCartera += CType(dr("Saldo"), Decimal)
+                            _TotalLitrosCartera += CType(dr("Litros"), Decimal)
+                        End If
+                        _TotalSaldo += CType(dr("Saldo"), Decimal)
+                        _TotalLitros += CType(dr("Litros"), Decimal)
+                    End If
+                Next
+
+                ' 12/10/2018 - RM. En esta sobrecarga del método, el saldo se debe cargar desde el servicio web
+                'lblSaldo.Text = _TotalSaldoCartera.ToString("C")
+
+                lblSaldoTotalCartera.Text = _TotalSaldoCartera.ToString("C")
+                lblSaldoTotal.Text = _TotalSaldo.ToString("C")
+                lblLitrosCartera.Text = _TotalLitrosCartera.ToString
+                lblLitrosConsulta.Text = _TotalLitros.ToString
+
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, "Consulta de cliente", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Finally
+                Cursor = Cursors.Default
+                dr = Nothing
+                dtCliente = Nothing
+                dsDatos = Nothing
+            End Try
+        Else
+            Try
+                _oDireccionEntrega = _ClienteRow
+                ' Verificar errores de DynamicsCRM
+                If _oDireccionEntrega.Message IsNot Nothing AndAlso
+                _oDireccionEntrega.Message.Contains("ERROR EN DYNAMICS CRM") Then
+                    Throw New Exception(_oDireccionEntrega.Message)
+                End If
+
+                If _oDireccionEntrega.Nombre IsNot Nothing Then
+                    lblCliente.Text = _oDireccionEntrega.IDDireccionEntrega & " " & _oDireccionEntrega.Nombre.Trim()
+                Else
+                    lblCliente.Text = _oDireccionEntrega.IDDireccionEntrega.ToString()
+                End If
+
+                lblDireccion.Text = If(IsNothing(_oDireccionEntrega.DireccionCompleta),
+                    String.Empty, _oDireccionEntrega.DireccionCompleta.Trim())
+
+
+                'lblDireccion.Text = _oDireccionEntrega.DireccionCompleta.Trim()
+                'Dim ReemplazarCero As String = Replace(lblDireccion.Text, "0", " ")
+                'lblDireccion.Text = ReemplazarCero
+                If Not IsNothing(_oDireccionEntrega.TipoCliente) Then
+                    lblTipoCliente.Text = _oDireccionEntrega.TipoCliente.Descripcion
+                End If
+
+                'Teléfonos
+                lblTelCasa.Text = If(IsNothing(_oDireccionEntrega.Telefono1),
+                    String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono1.Trim()))
+                lblTelAlterno1.Text = If(IsNothing(_oDireccionEntrega.Telefono2),
+                    String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono2.Trim()))
+                lblTelAlterno2.Text = If(IsNothing(_oDireccionEntrega.Telefono3),
+                    String.Empty, FormatoTelefono(_oDireccionEntrega.Telefono3.Trim()))
+
+
+                If Not IsNothing(_oDireccionEntrega.ZonaSuministro) Then
+                    lblCelula.Text = _oDireccionEntrega.ZonaSuministro.Descripcion.ToString()
+                End If
+                If Not IsNothing(_oDireccionEntrega.Ruta) Then
+                    lblRuta.Text = _oDireccionEntrega.Ruta.Descripcion.Trim()
+                End If
+                lblStatus.Text = IIf(IsNothing(_oDireccionEntrega.Status), String.Empty, _oDireccionEntrega.Status).ToString()
+
+                If Not IsNothing(_oDireccionEntrega.FAlta) Then
+                    lblFAlta.Text = _oDireccionEntrega.FAlta.ToString()
+                End If
+
+                lblObservaciones.Text = If(IsNothing(_oDireccionEntrega.Observaciones), String.Empty, _oDireccionEntrega.Observaciones.Trim())
+
+
+                If Not IsNothing(_oDireccionEntrega.ProgramacionSuministro) Then
+                    If Not IsNothing(_oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion) Then
+                        lblProgramaCliente.Text = _oDireccionEntrega.ProgramacionSuministro.DescripcionProgramacion.Trim
+                    End If
+                    lblProgramaCliente.ForeColor = lblProgramacion.ForeColor
+
+                    If (_oDireccionEntrega.ProgramacionSuministro.ProgramacionActiva) Then
+                        lblProgramacion.Text = "ACTIVA"
+                    Else
+                        lblProgramacion.Text = "INACTIVA"
+                    End If
+                Else
+                    lblProgramaCliente.Text = ""
+                    lblProgramacion.Text = "INACTIVA"
+                End If
+
+                If Not IsNothing(_oDireccionEntrega.DatosFiscales) Then
+                    lblEmpresa.Text = _oDireccionEntrega.DatosFiscales.IDDatosFiscales.ToString
+                    lblRazonSocial.Text = _oDireccionEntrega.DatosFiscales.RazonSocial.Trim
+                    If (_oDireccionEntrega.DatosFiscales.IDDatosFiscales = 0) Then
+                        btnConsultaEmpresa.Visible = False
+                    End If
+                Else
+                    lblEmpresa.Text = ""
+                    lblRazonSocial.Text = ""
+                    btnConsultaEmpresa.Visible = False
+                End If
+
+                'Condiciones crédito
+                If Not IsNothing(_oDireccionEntrega.CondicionesCredito) Then
+
+
+                    If Not IsNothing(_oDireccionEntrega.CondicionesCredito.ObservacionesCyC) Then
+                        _observacionesCyC = _oDireccionEntrega.CondicionesCredito.ObservacionesCyC
+                    End If
+
+                    'lblSaldo.Text = _oDireccionEntrega.CondicionesCredito.Saldo.ToString()
+
+                    lblTipoCredito.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ClasificacionCredito),
+                        String.Empty, _oDireccionEntrega.CondicionesCredito.ClasificacionCredito.Trim())
+
+                    lblMaxImporteCredito.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.LimiteCredito),
+                                                String.Empty, CDec(_oDireccionEntrega.CondicionesCredito.LimiteCredito).ToString("C"))
+
+                    lblDiasCredito.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.PlazoCredito),
+                                             String.Empty, _oDireccionEntrega.CondicionesCredito.PlazoCredito.ToString())
+                    lblSaldo.Text = CDec(_oDireccionEntrega.CondicionesCredito.Saldo).ToString("C")
+                    'lblSaldo.Text = SaldoSigamet.ToString("C")
+                    lblDiaRevision.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DiasRevision),
+                        String.Empty, _oDireccionEntrega.CondicionesCredito.DiasRevision.Trim())
+
+                    lblDiaPago.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DiasPago),
+                        String.Empty, _oDireccionEntrega.CondicionesCredito.DiasPago.Trim())
+
+                    lblCartera.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.CarteraDescripcion),
+                        String.Empty, _oDireccionEntrega.CondicionesCredito.CarteraDescripcion.Trim())
+
+                    If Not IsNothing(_oDireccionEntrega.CondicionesCredito.ResponsableGestion) Then
+                        lblResponsable.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto),
+                            String.Empty, _oDireccionEntrega.CondicionesCredito.ResponsableGestion.NombreCompleto)
+                    End If
+                    If Not IsNothing(_oDireccionEntrega.CondicionesCredito.EmpleadoNomina) Then
+                        lblEmpleadoNomina.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto),
+                            String.Empty, _oDireccionEntrega.CondicionesCredito.EmpleadoNomina.NombreCompleto)
+                    End If
+
+                    'Muestra el ejecutivo de cyc asignado
+                    If Not IsNothing(_oDireccionEntrega.CondicionesCredito.SupervisorGestion) Then
+                        lblEjeCyC.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto),
+                            String.Empty, _oDireccionEntrega.CondicionesCredito.SupervisorGestion.NombreCompleto)
+                    End If
+                    lblHorarioAtencion.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC), String.Empty, _oDireccionEntrega.CondicionesCredito.HInicioAtencionCyC.ToString())
+
+                    'lblHorarioAtencion.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ObservacionesCyC),
+                    '    String.Empty, _oDireccionEntrega.CondicionesCredito.ObservacionesCyC.Trim())
+
+                    lblCobroDefault.Text = If(IsNothing(_oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion),
+                        String.Empty, _oDireccionEntrega.CondicionesCredito.FormaPagoPreferidaDescripcion.Trim())
+
+                    'Consulta y despliegue de la dificultad de gestión asignada al cliente
+                    dificultadGestion = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DificultadGestion),
+                        String.Empty, _oDireccionEntrega.CondicionesCredito.DificultadGestion)
+
+                    colorGestion = If(IsNothing(_oDireccionEntrega.CondicionesCredito.ColorGestion),
+                        String.Empty, _oDireccionEntrega.CondicionesCredito.ColorGestion)
+
+                    If Not (String.IsNullOrEmpty(dificultadGestion)) Then
+                        lblDGestion.Text = dificultadGestion.Trim()
+                        lblDGestion.BackColor = System.Drawing.Color.FromName(colorGestion)
+                    Else
+                        lblDGestion.Text = String.Empty
+                        lblDGestion.BackColor = grpDatosCredito.BackColor
+                    End If
+
+                    'dificultadCobro = _oDireccionEntrega.CondicionesCredito.DificultadCobro
+                    dificultadCobro = If(IsNothing(_oDireccionEntrega.CondicionesCredito.DificultadCobro),
+                        String.Empty, _oDireccionEntrega.CondicionesCredito.DificultadCobro)
+
+                    colorCobro = _oDireccionEntrega.CondicionesCredito.ColorCobro
+                    If Not (String.IsNullOrEmpty(dificultadCobro)) Then
+                        lblDCobro.Text = dificultadCobro.Trim
+                        If Not IsNothing(colorCobro) Then
+                            lblDCobro.BackColor = System.Drawing.Color.FromName(colorCobro)
+                        End If
+                    Else
+                        lblDCobro.Text = String.Empty
+                        lblDCobro.BackColor = grpDatosCredito.BackColor
+                    End If
+                End If
+
+                Dim _tipoFacturacion As String = String.Empty
+
+                Try
+                    _tipoFacturacion = _oDireccionEntrega.TipoFacturacion.Descripcion
+                Catch ex As Exception
+
+                End Try
+
+
+                lblTipoFacturacion.Text = _tipoFacturacion
+                '       FALTA
+                'If Not IsDBNull(dr("TipoNotaCreditoDescripcion")) Then lblTipoNotaCredito.Text = CType(dr("TipoNotaCreditoDescripcion"), String)
+                'lblTipoNotaCredito.Text = _oDireccionEntrega.
+
+                '       FALTA
+                'TODO: Muestra el cliente padre de cyc
+                'If Not IsDBNull(dr("ClientePadre")) Then
+                '    _ClientePadreCyC = CType(dr("ClientePadre"), Integer)
+                '    If _Cliente <> _ClientePadreCyC Then
+                '        lblClientePadre.Text = _ClientePadreCyC.ToString()
+                '    Else
+                '        lblClientePadre.Text = CStr(_Cliente) & " (SIN ASIGNAR)"
+                '    End If
+                'Else
+                '    lblClientePadre.Text = "NO ASIGNADO"
+                'End If
+                lblClientePadre.Text = "NO ASIGNADO"
+
+                'Muestra el dígito verificador asignado al cliente
+                lblDigitoVerificador.Text = _oDireccionEntrega.DigitoVerificador.ToString
+
+                'Consulta de quejas activas
+                If (_oDireccionEntrega.QuejaActiva IsNot Nothing AndAlso _oDireccionEntrega.QuejaActiva.Trim > "" AndAlso _LinkQueja) Then
+                    lnkQueja.Enabled = True
+                    lnkQueja.Visible = True
+                    lnkQueja.Text = _oDireccionEntrega.QuejaActiva.Trim
+                End If
+                '*****
+
+                '   No se encontró información relacionada con Pedidos
+                '
+                'dtDocumento = _oDireccionEntrega.Tables("Pedido")
+                'grdDocumento.DataSource = dtDocumento
+                'For Each dr In dtDocumento.Rows
+                '    If Not IsDBNull(dr("Saldo")) Then
+                '        If Not IsDBNull(dr("CyC")) Then
+                '            _TotalSaldoCartera += CType(dr("Saldo"), Decimal)
+                '            _TotalLitrosCartera += CType(dr("Litros"), Decimal)
+                '        End If
+                '        _TotalSaldo += CType(dr("Saldo"), Decimal)
+                '        _TotalLitros += CType(dr("Litros"), Decimal)
+                '    End If
+                'Next
+                'grdDocumento.CaptionText = "Documentos relacionados (" & dtDocumento.Rows.Count.ToString & ")"
+
+                '   Tarjeta de crédito
+                If Not IsNothing(_oDireccionEntrega.TarjetasCredito) Then
+                    If _oDireccionEntrega.TarjetasCredito.Count > 0 Then
+                        OcultarTarjetaCredito()
+                        grdTarjetaCredito.DataSource = _oDireccionEntrega.TarjetasCredito
+                        grdTarjetaCredito.CaptionText = "Tarjetas de crédito (" & _oDireccionEntrega.TarjetasCredito.Count.ToString & ")"
+                    Else
+                        grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
+                    End If
+                Else
+                    grdTarjetaCredito.CaptionText = "El cliente no tiene tarjetas de crédito relacionadas."
+                End If
+
+                '   Descuento
+                If Not IsNothing(_oDireccionEntrega.Descuentos) Then
+                    If _oDireccionEntrega.Descuentos.Count > 0 Then
+
+                        Dim dtDescuentos As New DataTable
+
+                        dtDescuentos.Columns.Add("F.Inicial", GetType(String))
+                        dtDescuentos.Columns.Add("F.Final", GetType(String))
+                        dtDescuentos.Columns.Add("Descuento", GetType(String))
+                        dtDescuentos.Columns.Add("Estatus", GetType(String))
+
+                        For Each Desc As RTGMCore.Descuento In _oDireccionEntrega.Descuentos
+                            dtDescuentos.Rows.Add(Desc.FInicial, Desc.FFinal, Desc.ImporteDescuento, Desc.Status)
+                        Next
+
+                        'grdClienteDescuento.DataSource = _oDireccionEntrega.Descuentos
+
+                        grdClienteDescuento.DataSource = dtDescuentos
+                        grdClienteDescuento.CaptionText = "Histórico de descuentos del cliente"
+                    Else
+                        grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
+                    End If
 				Else
 					grdClienteDescuento.CaptionText = "El cliente no tiene descuento"
 				End If

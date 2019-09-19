@@ -235,7 +235,7 @@ namespace CRMContactos
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(36, 14);
 			this.label2.TabIndex = 2;
-			this.label2.Text = "Título:";
+			this.label2.Text = "Tï¿½tulo:";
 			// 
 			// txtTitulo
 			// 
@@ -280,7 +280,7 @@ namespace CRMContactos
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(73, 14);
 			this.label6.TabIndex = 13;
-			this.label6.Text = "Organización:";
+			this.label6.Text = "Organizaciï¿½n:";
 			// 
 			// txtOrganizacion
 			// 
@@ -355,7 +355,7 @@ namespace CRMContactos
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(52, 14);
 			this.label4.TabIndex = 28;
-			this.label4.Text = "Teléfono:";
+			this.label4.Text = "Telï¿½fono:";
 			// 
 			// label9
 			// 
@@ -420,7 +420,7 @@ namespace CRMContactos
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(99, 14);
 			this.label8.TabIndex = 36;
-			this.label8.Text = "Correo Electrónico:";
+			this.label8.Text = "Correo Electrï¿½nico:";
 			// 
 			// btnClientesAsociados
 			// 
@@ -447,7 +447,7 @@ namespace CRMContactos
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(116, 14);
 			this.label11.TabIndex = 40;
-			this.label11.Text = "Fecha de cumpleaños:";
+			this.label11.Text = "Fecha de cumpleaï¿½os:";
 			// 
 			// grdCliente
 			// 
@@ -472,7 +472,7 @@ namespace CRMContactos
 			// menuItem2
 			// 
 			this.menuItem2.Index = 0;
-			this.menuItem2.Text = "&Eliminar la relación seleccionada";
+			this.menuItem2.Text = "&Eliminar la relaciï¿½n seleccionada";
 			this.menuItem2.Click += new System.EventHandler(this.menuItem2_Click);
 			// 
 			// Contactos
@@ -645,7 +645,7 @@ namespace CRMContactos
 			_contacto.CorreoElectronico = eMail1.CorreoElectronico;
 			_contacto.Domicilio = txtDomicilio.Text;
 			_contacto.Extension = telefono1.Extension;
-			_contacto.FCumpleaños = dtpFCumpleanios.Value.Date;
+			_contacto.FCumpleaï¿½os = dtpFCumpleanios.Value.Date;
 			_contacto.Horario = txtHorario.Text;
 			_contacto.Lada = telefono1.Lada;
 			_contacto.Nombre = txtNombre.Text;
@@ -681,8 +681,8 @@ namespace CRMContactos
 
 		private void eMail1_ValidatedMail(object sender, System.EventArgs e)
 		{
-			MessageBox.Show("La dirección de correo: " + ((EMail)sender).CorreoElectronico + (char)13 +
-				"proporcionada no es válida", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);		
+			MessageBox.Show("La direcciï¿½n de correo: " + ((EMail)sender).CorreoElectronico + (char)13 +
+				"proporcionada no es vï¿½lida", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);		
 		}
 
 		private void grdCliente_CurrentCellChanged(object sender, System.EventArgs e)

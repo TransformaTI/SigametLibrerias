@@ -137,7 +137,7 @@ Public Class ConsultaCobro
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents lblNumeroCtaDestino As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(ConsultaCobro))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ConsultaCobro))
         Me.lblAnoCobro = New System.Windows.Forms.Label()
         Me.lblCobro = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -189,6 +189,7 @@ Public Class ConsultaCobro
         CType(Me.grdCobroPedido, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.grdMovimientoCaja, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelInformacion.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblAnoCobro
@@ -218,7 +219,7 @@ Public Class ConsultaCobro
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(16, 19)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(27, 14)
+        Me.Label3.Size = New System.Drawing.Size(30, 13)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Año:"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -228,7 +229,7 @@ Public Class ConsultaCobro
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(332, 20)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(38, 14)
+        Me.Label4.Size = New System.Drawing.Size(40, 13)
         Me.Label4.TabIndex = 4
         Me.Label4.Text = "Cobro:"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -237,13 +238,15 @@ Public Class ConsultaCobro
         '
         Me.btnCerrar.BackColor = System.Drawing.SystemColors.Control
         Me.btnCerrar.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCerrar.Image = CType(resources.GetObject("btnCerrar.Image"), System.Drawing.Bitmap)
+        Me.btnCerrar.Image = CType(resources.GetObject("btnCerrar.Image"), System.Drawing.Image)
         Me.btnCerrar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnCerrar.Location = New System.Drawing.Point(589, 16)
         Me.btnCerrar.Name = "btnCerrar"
+        Me.btnCerrar.Size = New System.Drawing.Size(75, 23)
         Me.btnCerrar.TabIndex = 5
         Me.btnCerrar.Text = "&Cerrar"
         Me.btnCerrar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnCerrar.UseVisualStyleBackColor = False
         '
         'lblTotal
         '
@@ -261,7 +264,7 @@ Public Class ConsultaCobro
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(16, 91)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(33, 14)
+        Me.Label6.Size = New System.Drawing.Size(35, 13)
         Me.Label6.TabIndex = 7
         Me.Label6.Text = "Total:"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -280,7 +283,7 @@ Public Class ConsultaCobro
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(16, 115)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(37, 14)
+        Me.Label8.Size = New System.Drawing.Size(40, 13)
         Me.Label8.TabIndex = 9
         Me.Label8.Text = "F.Alta:"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -299,7 +302,7 @@ Public Class ConsultaCobro
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(332, 116)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(44, 14)
+        Me.Label10.Size = New System.Drawing.Size(47, 13)
         Me.Label10.TabIndex = 11
         Me.Label10.Text = "Estatus:"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -318,7 +321,7 @@ Public Class ConsultaCobro
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(16, 163)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(135, 14)
+        Me.Label12.Size = New System.Drawing.Size(132, 13)
         Me.Label12.TabIndex = 13
         Me.Label12.Text = "No. Cheque / Documento:"
         Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -337,7 +340,7 @@ Public Class ConsultaCobro
         Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(16, 67)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(42, 14)
+        Me.Label15.Size = New System.Drawing.Size(44, 13)
         Me.Label15.TabIndex = 16
         Me.Label15.Text = "Cliente:"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -347,7 +350,7 @@ Public Class ConsultaCobro
         Me.Label14.AutoSize = True
         Me.Label14.Location = New System.Drawing.Point(332, 92)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(35, 14)
+        Me.Label14.Size = New System.Drawing.Size(37, 13)
         Me.Label14.TabIndex = 18
         Me.Label14.Text = "Saldo:"
         Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -431,7 +434,7 @@ Public Class ConsultaCobro
         Me.Label18.AutoSize = True
         Me.Label18.Location = New System.Drawing.Point(16, 211)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(76, 14)
+        Me.Label18.Size = New System.Drawing.Size(76, 13)
         Me.Label18.TabIndex = 21
         Me.Label18.Text = "F. Devolución:"
         Me.Label18.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -451,7 +454,7 @@ Public Class ConsultaCobro
         Me.Label20.AutoSize = True
         Me.Label20.Location = New System.Drawing.Point(16, 43)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(77, 14)
+        Me.Label20.Size = New System.Drawing.Size(76, 13)
         Me.Label20.TabIndex = 23
         Me.Label20.Text = "Tipo de cobro:"
         Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -471,7 +474,7 @@ Public Class ConsultaCobro
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(360, 379)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(179, 14)
+        Me.Label1.Size = New System.Drawing.Size(174, 13)
         Me.Label1.TabIndex = 25
         Me.Label1.Text = "Total en documentos relacionados:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -486,7 +489,7 @@ Public Class ConsultaCobro
         Me.grdMovimientoCaja.Location = New System.Drawing.Point(8, 408)
         Me.grdMovimientoCaja.Name = "grdMovimientoCaja"
         Me.grdMovimientoCaja.ReadOnly = True
-        Me.grdMovimientoCaja.Size = New System.Drawing.Size(656, 72)
+        Me.grdMovimientoCaja.Size = New System.Drawing.Size(656, 90)
         Me.grdMovimientoCaja.TabIndex = 26
         Me.grdMovimientoCaja.TableStyles.AddRange(New System.Windows.Forms.DataGridTableStyle() {Me.EstiloMovimientoCaja})
         '
@@ -561,7 +564,7 @@ Public Class ConsultaCobro
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(16, 187)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(64, 14)
+        Me.Label2.Size = New System.Drawing.Size(66, 13)
         Me.Label2.TabIndex = 28
         Me.Label2.Text = "No. Cuenta:"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -580,7 +583,7 @@ Public Class ConsultaCobro
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(16, 139)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(124, 14)
+        Me.Label7.Size = New System.Drawing.Size(122, 13)
         Me.Label7.TabIndex = 30
         Me.Label7.Text = "F.Cheque / Documento:"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -589,19 +592,21 @@ Public Class ConsultaCobro
         '
         Me.btnModificarCobro.BackColor = System.Drawing.SystemColors.Control
         Me.btnModificarCobro.Enabled = False
-        Me.btnModificarCobro.Image = CType(resources.GetObject("btnModificarCobro.Image"), System.Drawing.Bitmap)
+        Me.btnModificarCobro.Image = CType(resources.GetObject("btnModificarCobro.Image"), System.Drawing.Image)
         Me.btnModificarCobro.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnModificarCobro.Location = New System.Drawing.Point(589, 208)
         Me.btnModificarCobro.Name = "btnModificarCobro"
+        Me.btnModificarCobro.Size = New System.Drawing.Size(75, 23)
         Me.btnModificarCobro.TabIndex = 31
         Me.btnModificarCobro.Text = "&Modificar"
         Me.btnModificarCobro.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnModificarCobro.UseVisualStyleBackColor = False
         '
         'stbEstatus
         '
-        Me.stbEstatus.Location = New System.Drawing.Point(0, 489)
+        Me.stbEstatus.Location = New System.Drawing.Point(0, 504)
         Me.stbEstatus.Name = "stbEstatus"
-        Me.stbEstatus.Size = New System.Drawing.Size(674, 22)
+        Me.stbEstatus.Size = New System.Drawing.Size(680, 22)
         Me.stbEstatus.TabIndex = 32
         Me.stbEstatus.Text = "Consulta de cobro"
         '
@@ -609,7 +614,8 @@ Public Class ConsultaCobro
         '
         Me.PanelInformacion.BackColor = System.Drawing.Color.LemonChiffon
         Me.PanelInformacion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PanelInformacion.Controls.AddRange(New System.Windows.Forms.Control() {Me.lblInformacion, Me.PictureBox1})
+        Me.PanelInformacion.Controls.Add(Me.lblInformacion)
+        Me.PanelInformacion.Controls.Add(Me.PictureBox1)
         Me.PanelInformacion.Location = New System.Drawing.Point(8, 240)
         Me.PanelInformacion.Name = "PanelInformacion"
         Me.PanelInformacion.Size = New System.Drawing.Size(656, 21)
@@ -624,11 +630,11 @@ Public Class ConsultaCobro
         Me.lblInformacion.Size = New System.Drawing.Size(600, 16)
         Me.lblInformacion.TabIndex = 35
         Me.lblInformacion.Text = "El cobro no puede ser modificado porque el movimiento que lo incluye tiene estatu" &
-        "s "
+    "s "
         '
         'PictureBox1
         '
-        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Bitmap)
+        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
         Me.PictureBox1.Location = New System.Drawing.Point(8, 2)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(16, 16)
@@ -640,7 +646,7 @@ Public Class ConsultaCobro
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(332, 188)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(90, 14)
+        Me.Label5.Size = New System.Drawing.Size(91, 13)
         Me.Label5.TabIndex = 34
         Me.Label5.Text = "No. Cta. Destino:"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -659,8 +665,41 @@ Public Class ConsultaCobro
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
         Me.BackColor = System.Drawing.Color.Gainsboro
         Me.CancelButton = Me.btnCerrar
-        Me.ClientSize = New System.Drawing.Size(674, 511)
-        Me.Controls.AddRange(New System.Windows.Forms.Control() {Me.lblNumeroCtaDestino, Me.Label5, Me.PanelInformacion, Me.stbEstatus, Me.btnModificarCobro, Me.Label7, Me.Label2, Me.Label1, Me.Label20, Me.Label18, Me.Label14, Me.Label15, Me.Label12, Me.Label10, Me.Label8, Me.Label6, Me.Label4, Me.Label3, Me.lblFCheque, Me.lblNumeroCuenta, Me.grdMovimientoCaja, Me.lblCobroPedidoTotal, Me.lblTipoCobroDescripcion, Me.lblFDevolucion, Me.grdCobroPedido, Me.lblSaldo, Me.lblClienteNombre, Me.lblNumeroCheque, Me.lblStatus, Me.lblFAlta, Me.lblTotal, Me.btnCerrar, Me.lblCobro, Me.lblAnoCobro})
+        Me.ClientSize = New System.Drawing.Size(680, 526)
+        Me.Controls.Add(Me.lblNumeroCtaDestino)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.PanelInformacion)
+        Me.Controls.Add(Me.stbEstatus)
+        Me.Controls.Add(Me.btnModificarCobro)
+        Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.Label20)
+        Me.Controls.Add(Me.Label18)
+        Me.Controls.Add(Me.Label14)
+        Me.Controls.Add(Me.Label15)
+        Me.Controls.Add(Me.Label12)
+        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.lblFCheque)
+        Me.Controls.Add(Me.lblNumeroCuenta)
+        Me.Controls.Add(Me.grdMovimientoCaja)
+        Me.Controls.Add(Me.lblCobroPedidoTotal)
+        Me.Controls.Add(Me.lblTipoCobroDescripcion)
+        Me.Controls.Add(Me.lblFDevolucion)
+        Me.Controls.Add(Me.grdCobroPedido)
+        Me.Controls.Add(Me.lblSaldo)
+        Me.Controls.Add(Me.lblClienteNombre)
+        Me.Controls.Add(Me.lblNumeroCheque)
+        Me.Controls.Add(Me.lblStatus)
+        Me.Controls.Add(Me.lblFAlta)
+        Me.Controls.Add(Me.lblTotal)
+        Me.Controls.Add(Me.btnCerrar)
+        Me.Controls.Add(Me.lblCobro)
+        Me.Controls.Add(Me.lblAnoCobro)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -672,7 +711,9 @@ Public Class ConsultaCobro
         CType(Me.grdCobroPedido, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grdMovimientoCaja, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelInformacion.ResumeLayout(False)
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -695,7 +736,10 @@ Public Class ConsultaCobro
                 lblCobro.Text = CType(dtCobro.Rows(0).Item("Cobro"), Integer).ToString
                 lblTipoCobroDescripcion.Text = CType(dtCobro.Rows(0).Item("TipoCobroDescripcion"), String)
                 If Not IsDBNull(dtCobro.Rows(0).Item("Cliente")) Then
-                    lblClienteNombre.Text = CType(dtCobro.Rows(0).Item("Cliente"), String) & " " & CType(dtCobro.Rows(0).Item("ClienteNombre"), String)
+                    lblClienteNombre.Text = CType(dtCobro.Rows(0).Item("Cliente"), String) & " "
+                    If Not IsDBNull(dtCobro.Rows(0).Item("ClienteNombre")) Then
+                        lblClienteNombre.Text = lblClienteNombre.Text & CType(dtCobro.Rows(0).Item("ClienteNombre"), String)
+                    End If
                 End If
                 lblTotal.Text = CType(dtCobro.Rows(0).Item("Total"), Decimal).ToString("N")
                 lblSaldo.Text = CType(dtCobro.Rows(0).Item("Saldo"), Decimal).ToString("N")
@@ -793,15 +837,21 @@ Public Class ConsultaCobro
 			If _CobroRow IsNot Nothing Then
 				lblAnoCobro.Text = CType(_CobroRow("AñoCobro"), Short).ToString
 				lblCobro.Text = CType(_CobroRow("Cobro"), Integer).ToString
-				lblTipoCobroDescripcion.Text = CType(_CobroRow("TipoCobroDescripcion"), String)
-				If Not IsDBNull(_CobroRow("Cliente")) Then
-					lblClienteNombre.Text = CType(_CobroRow("Cliente"), String) & " " & CType(_CobroRow("ClienteNombre"), String)
-				End If
-				lblTotal.Text = CType(_CobroRow("Total"), Decimal).ToString("N")
-				lblSaldo.Text = CType(_CobroRow("Saldo"), Decimal).ToString("N")
-				lblFAlta.Text = CType(_CobroRow("FAlta"), Date).ToString
-				lblStatus.Text = CType(_CobroRow("Status"), String)
-				If Not IsDBNull(_CobroRow("FCheque")) Then
+                lblTipoCobroDescripcion.Text = CType(_CobroRow("TipoCobroDescripcion"), String)
+
+                If Not IsDBNull(_CobroRow("Cliente")) Then
+                    lblClienteNombre.Text = CType(_CobroRow("Cliente"), String) & " "
+                    If Not IsDBNull(_CobroRow("ClienteNombre")) Then
+                        lblClienteNombre.Text = lblClienteNombre.Text & CType(_CobroRow("ClienteNombre"), String)
+                    End If
+                End If
+
+
+                lblTotal.Text = CType(_CobroRow("Total"), Decimal).ToString("N")
+                lblSaldo.Text = CType(_CobroRow("Saldo"), Decimal).ToString("N")
+                lblFAlta.Text = CType(_CobroRow("FAlta"), Date).ToString
+                lblStatus.Text = CType(_CobroRow("Status"), String)
+                If Not IsDBNull(_CobroRow("FCheque")) Then
 					lblFCheque.Text = CType(_CobroRow("FCheque"), Date).ToShortDateString
 				End If
 				lblNumeroCheque.Text = CType(_CobroRow("NumeroCheque"), String)

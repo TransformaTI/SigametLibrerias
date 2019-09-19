@@ -14,6 +14,8 @@ Public Class frmConsultaPagosAreaTarjeta
     Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
     Private _Empresa As Integer
     Private _Sucursal As Byte
+    Dim oConfig As SigaMetClasses.cConfig
+
 #End Region
 #Region "Constructor"
 
@@ -26,6 +28,10 @@ Public Class frmConsultaPagosAreaTarjeta
         _Modulo = modulo
         _Sucursal = sucursal
         listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
+        oConfig = New SigaMetClasses.cConfig(_Modulo, CShort(_Empresa), _Sucursal)
+        _Modulo = modulo
+        _Sucursal = sucursal
+
     End Sub
 
 #Region "Propiedades"
@@ -86,7 +92,7 @@ Public Class frmConsultaPagosAreaTarjeta
 
         CierraConexion()
         Cursor = Cursors.WaitCursor
-        frmAlta = New frmAltaPagoTarjeta(_Usuario)
+        frmAlta = New frmAltaPagoTarjeta(_Usuario, listaDireccionesEntrega, _ConnectionString, _Modulo, _Empresa, _Sucursal)
         frmAlta.modoOperacion = sTipoLlamado
         frmAlta.Folio = _Folio
         frmAlta.Anio = _Anio
@@ -104,10 +110,12 @@ Public Class frmConsultaPagosAreaTarjeta
     Private Sub BuscarCargosTarjetaPorFechaAlta()
         Dim oPagoTarjeta As New AltaPagoTarjeta
         Dim NumCliente As Int64 = 0
-        Dim oConfig As New SigaMetClasses.cConfig(_Modulo, CShort(_Empresa), _Sucursal)
         Dim dtCargoTarjeta As DataTable
         Dim dtCargoTarjetaTmp As DataTable
         Dim direccionEntregaTemp As New RTGMCore.DireccionEntrega
+
+        Cursor = Cursors.WaitCursor
+
 
         If TxtNumCliente.Text <> String.Empty Then
             NumCliente = Convert.ToUInt64(TxtNumCliente.Text)
@@ -135,7 +143,9 @@ Public Class frmConsultaPagosAreaTarjeta
                     If Not IsNothing(direccionEntregaTemp.Nombre) Then
                         If Not direccionEntregaTemp.Nombre.Contains("error") Then
                             dtCargoTarjetaTmp.Columns("nombre").ReadOnly = False
-                            row("Nombre") = direccionEntregaTemp.Nombre.Trim
+                            dtCargoTarjetaTmp.Columns("nombre").MaxLength = 200
+                            row("Nombre") = direccionEntregaTemp.Nombre.Trim()
+                            dtCargoTarjetaTmp.Columns("nombre").ReadOnly = True
                         End If
                     End If
                 End If
@@ -152,7 +162,7 @@ Public Class frmConsultaPagosAreaTarjeta
             SeleccionaPagoTarjeta()
         End If
 
-
+        Cursor = Cursors.Default
         oPagoTarjeta = Nothing
     End Sub
 
@@ -182,13 +192,9 @@ Public Class frmConsultaPagosAreaTarjeta
                 clientesDistintos = clientes.Select(Function(v) v).Distinct.ToList()
             End If
             If clientesDistintos.Count > 0 Then
-                For indice As Integer = 0 To clientesDistintos.Count - 1
-                    System.Threading.Tasks.Parallel.ForEach(clientesDistintos, Sub(x) consultarDirecciones(x))
-                Next
+                System.Threading.Tasks.Parallel.ForEach(clientesDistintos, Sub(x) consultarDirecciones(x))
+
             End If
-
-
-
 
 
         Catch ex As Exception

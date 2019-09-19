@@ -1260,8 +1260,8 @@ Public Class ConsultaCheques
 
     Private Sub Devolver(ByVal DevolucionMultiple As Boolean)
         Dim _DevFechaAnt As Boolean = oSeguridad.TieneAcceso("CHEQUES_DEVOLUCION_FECHAANT")
-        Dim frmDev As New DevolucionCheque(_AnoCobro, _Cobro, _NumeroCheque, _Banco, _BancoNombre, _
-            _Cliente, _ClienteNombre, _Observaciones, _Corporativo, _Sucursal, _DevFechaAnt, DevolucionMultiple)
+        Dim frmDev As New DevolucionCheque(_AnoCobro, _Cobro, _NumeroCheque, _Banco, _BancoNombre,
+            _Cliente, _ClienteNombre, _Observaciones, _Corporativo, _Sucursal, _DevFechaAnt, DevolucionMultiple, Modulo:=_Modulo, CadenaConexion:=_CadenaConexion)
         If frmDev.ShowDialog() = DialogResult.OK Then
             If MessageBox.Show("¿Desea imprimir el comprobante?", _Titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.Yes Then
                 RaiseEvent ImprimirChequeDevuelto(frmDev.PedidoReferencia)

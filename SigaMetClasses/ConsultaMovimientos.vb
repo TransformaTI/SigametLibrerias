@@ -38,6 +38,7 @@ Public Class ConsultaMovimientos
     Private validarPeticion As Boolean
     Private listaClientesEnviados As List(Of Integer)
     Private tempDireccionEntrega As RTGMCore.DireccionEntrega
+    Private _MovCaja As String
 #End Region
 
 #Region "Propiedades"
@@ -1242,6 +1243,7 @@ Public Class ConsultaMovimientos
         _Status = CType(grdMovimientoCaja.Item(grdMovimientoCaja.CurrentRowIndex, 10), String).Trim
         lblObservaciones.Text = CType(grdMovimientoCaja.Item(grdMovimientoCaja.CurrentRowIndex, 13), String)
         _Empleado = CType(grdMovimientoCaja.Item(grdMovimientoCaja.CurrentRowIndex, 15), Integer)
+        _MovCaja = CType(grdMovimientoCaja.Item(grdMovimientoCaja.CurrentRowIndex, 0), String)
 
         grdMovimientoCaja.Select(grdMovimientoCaja.CurrentRowIndex)
         btnConsultarCobro.Enabled = False
@@ -1262,7 +1264,10 @@ Public Class ConsultaMovimientos
         Dim dtTempMov As DataTable
         dtTempMov = CType(grdMovimientoCaja.DataSource, DataTable)
         dtTempMov2 = dtTempMov.Clone
-        dtTempMov2.ImportRow(dtTempMov.Rows(grdMovimientoCaja.CurrentRowIndex))
+        'dtTempMov2.ImportRow(dtTempMov.Rows(grdMovimientoCaja.CurrentRowIndex))
+        dtTempMov2 = dtTempMov.Select("clave='" + CType(_MovCaja, String) + "'").CopyToDataTable()
+        ' dtTempCobro.Select("cobro='" + CType(_CobroCons, String) + "'").FirstOrDefault
+
 
         If _Status = "EMITIDO" Then
             Me.btnModificar.Enabled = True
@@ -1273,14 +1278,17 @@ Public Class ConsultaMovimientos
     End Sub
 
     Private Sub grdCobro_CurrentCellChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles grdCobro.CurrentCellChanged
+        Dim dtTempCobro As DataTable
+
         Try
             _AnoCobro = CType(grdCobro.Item(grdCobro.CurrentRowIndex, 0), Short)
             _CobroCons = CType(grdCobro.Item(grdCobro.CurrentRowIndex, 1), Integer)
             _Documento = ""
 
-            Dim dtTempCobro As DataTable
+
             dtTempCobro = CType(grdCobro.DataSource, DataTable)
-            _CobroRow = dtTempCobro.Rows(grdCobro.CurrentRowIndex)
+            _CobroRow = dtTempCobro.Select("cobro='" + CType(_CobroCons, String) + "'").FirstOrDefault
+
 
             grdCobro.Select(grdCobro.CurrentRowIndex)
             btnConsultarCobro.Enabled = True
@@ -1596,22 +1604,57 @@ Public Class ConsultaMovimientos
             dtCobPedEnvio.DefaultView.RowFilter = strFiltro
 
 
-				For Each r As DataRow In dtCobroPedido.Rows
-            direccionEntregaTemp = listaDireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(r("PedidoCliente")))
-                If Not IsNothing(direccionEntregaTemp) Then
-                    If Not IsNothing(direccionEntregaTemp.Nombre) Then
-                        If Not direccionEntregaTemp.Nombre.Contains("error") Then
-                            r("ClienteNombre") = direccionEntregaTemp.Nombre.Trim
-                            tempDireccionEntrega = listaDireccionesEntrega.Find(Function(x) x.IDDireccionEntrega = CInt(r("PedidoCliente")))
-                        End If
-                    End If
-                End If
-				Next
 
-				grdCobroPedido.DataSource = dtCobroPedido
-				grdCobroPedido.CaptionText = "Lista de documentos relacionados en el cobro (" & dtCobroPedido.DefaultView.Count & ") Total: " & SumaColumnaVista(dtCobroPedido.DefaultView, "CobroPedidoTotal").ToString("C")
+			'Dim View As New DataView(dtCobroPedido)
+			'Dim distinctValues As DataTable = View.ToTable(True, "PedidoCliente")
+
+
+			Dim no As Integer = dtCobroPedido.Select(strFiltro).Count
+			Dim dtTemp As DataTable
+
+			If no > 0 Then
+
+
+				dtTemp = dtCobroPedido.Select(strFiltro).CopyToDataTable()
+			Else
+				dtTemp = New DataTable()
 
 			End If
+
+            For Each item As DataRow In dtTemp.Rows
+                Dim i As Integer = ListaCtesDetalle.Find(Function(p) p = CInt(item("PedidoCliente")))
+                If Not IsNothing(i) Then
+                    ListaCtesDetalle.Add(CInt(item("PedidoCliente").ToString()))
+                End If
+            Next
+
+            'ListaCtesDetalle = (From r As DataRow In distinctValues.Rows.Cast(Of DataRow)()
+            '                    Select CInt(r("PedidoCliente"))).ToList
+
+            If Not String.IsNullOrEmpty(_URLGateway) Then
+                generaListaClientes(ListaCtesDetalle)
+
+                For Each r As DataRow In dtCobroPedido.Rows
+
+                    direccionEntregaTemp = listaDireccionesEntrega.Find(Function(p) p.IDDireccionEntrega = CInt(r("PedidoCliente")))
+
+                    If Not IsNothing(direccionEntregaTemp) Then
+                        If Not IsNothing(direccionEntregaTemp.Nombre) Then
+                            If Not direccionEntregaTemp.Nombre.Contains("error") Then
+
+                                r("ClienteNombre") = direccionEntregaTemp.Nombre.Trim
+
+                            End If
+                        End If
+
+                    End If
+                Next
+            End If
+
+            grdCobroPedido.DataSource = dtCobroPedido
+                grdCobroPedido.CaptionText = "Lista de documentos relacionados en el cobro (" & dtCobroPedido.DefaultView.Count & ") Total: " & SumaColumnaVista(dtCobroPedido.DefaultView, "CobroPedidoTotal").ToString("C")
+
+            End If
     End Sub
 
     Private Sub ConsultaCobroPedido(ByVal Caja As Byte,
