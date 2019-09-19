@@ -19,10 +19,12 @@ namespace LiquidacionSTN
         private string _NumAfiliacion;
         private short _BancoAfiliacion;
         private byte _TipoTarjeta;
+        private string _numeroTarjeta;
+        private int _BancoTarjeta;
 
         int _Pedido;
         int _Celula;
-        int _AñoPed;
+        int _Aï¿½oPed;
         int _Cliente;
         int a;
         int _Autotanque;
@@ -59,7 +61,33 @@ namespace LiquidacionSTN
         /// </summary>
         private System.ComponentModel.Container components = null;
 
-		public frmVoucher(int Cliente,string PedidoReferencia)
+        public string NumeroTarjeta
+        {
+            get
+            {
+                return _numeroTarjeta;
+            }
+
+            set
+            {
+                _numeroTarjeta = value;
+            }
+        }
+
+        public int BancoTarjeta
+        {
+            get
+            {
+                return _BancoTarjeta;
+            }
+
+            set
+            {
+                _BancoTarjeta = value;
+            }
+        }
+
+        public frmVoucher(int Cliente,string PedidoReferencia)
 		{
 			
 			_PedidoReferencia = PedidoReferencia;
@@ -274,7 +302,7 @@ namespace LiquidacionSTN
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(90, 35);
             this.label9.TabIndex = 20;
-            this.label9.Text = "Conrfirmar autorización:";
+            this.label9.Text = "Conrfirmar autorizaciï¿½n:";
             // 
             // txtAutorizacion
             // 
@@ -290,7 +318,7 @@ namespace LiquidacionSTN
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(90, 17);
             this.label8.TabIndex = 18;
-            this.label8.Text = "Autorización:";
+            this.label8.Text = "Autorizaciï¿½n:";
             // 
             // cboTipoTarjeta
             // 
@@ -326,7 +354,7 @@ namespace LiquidacionSTN
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 17);
             this.label2.TabIndex = 14;
-            this.label2.Text = "Afiliación:";
+            this.label2.Text = "Afiliaciï¿½n:";
             // 
             // label7
             // 
@@ -405,16 +433,16 @@ namespace LiquidacionSTN
 			{
 				_Pedido = Convert.ToInt32 (dr["Pedido"]);
 				_Celula = Convert.ToInt32 (dr["Celula"]);
-				_AñoPed = Convert.ToInt32 (dr["AñoPEd"]);
+				_Aï¿½oPed = Convert.ToInt32 (dr["Aï¿½oPEd"]);
 				_Autotanque = Convert.ToInt32 (dr["Autotanque"]);
-				_Total = Convert.ToInt32 (dr["Total"]);
+				_Total = Convert.ToDecimal(dr["Total"]);
 			}
 
 		}
 
 		private void ChacaSaldo()
 		{
-		    System.Data.DataRow [] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + " and añoped = " + _AñoPed);
+		    System.Data.DataRow [] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + " and aï¿½oped = " + _Aï¿½oPed);
 			foreach (System.Data.DataRow drCh in Consulta)
 			{
 				_Monto = Convert.ToDecimal (drCh["Monto"]);
@@ -462,17 +490,18 @@ namespace LiquidacionSTN
                 Registro = LiquidacionSTN.Modulo.dtVoucher.NewRow();
                 Registro["Pedido"] = _Pedido;
                 Registro["Celula"] = _Celula;
-                Registro["AñoPed"] = _AñoPed;
+                Registro["Aï¿½oPed"] = _Aï¿½oPed;
                 Registro["Cliente"] = _Cliente;
                 //Registro["Banco"] = this.cboBanco.SelectedValue;
                 Registro["Banco"] = _BancoAfiliacion;
                 Registro["Fecha"] = this.dtpFecha.Value.Date;
-                //Registro["Folio"] = this.txtFolio.Text;
+                Registro["Folio"] = _numeroTarjeta;
                 Registro["Monto"] = this.txtMonto.Text;
                 Registro["Autotanque"] = _Autotanque;
                 Registro["Saldo"] = _Saldo;
                 Registro["Autorizacion"] = txtAutorizacion.Text;
                 Registro["Afiliacion"] = _NumAfiliacion;
+                Registro["BancoTarjeta"] = _BancoTarjeta;
 
                 LiquidacionSTN.Modulo.dtVoucher.Rows.Add(Registro);
 
@@ -512,7 +541,7 @@ namespace LiquidacionSTN
 
             if (!valido)
             {
-                MessageBox.Show("Este Voucher ya se dió de alta, por favor verifíque.", "Información", 
+                MessageBox.Show("Este Voucher ya se diï¿½ de alta, por favor verifï¿½que.", "Informaciï¿½n", 
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             return valido;
@@ -560,7 +589,7 @@ namespace LiquidacionSTN
             }
             catch (Exception ex)
             {
-                throw new Exception("Error cargando el combo afiliación:" + Environment.NewLine + ex.Message, ex.InnerException);
+                throw new Exception("Error cargando el combo afiliaciï¿½n:" + Environment.NewLine + ex.Message, ex.InnerException);
             }
             finally
             {
@@ -585,7 +614,7 @@ namespace LiquidacionSTN
             }
             catch (Exception ex)
             {
-                throw new Exception("Error consultando banco afiliación:" + Environment.NewLine + ex.Message, ex.InnerException);
+                throw new Exception("Error consultando banco afiliaciï¿½n:" + Environment.NewLine + ex.Message, ex.InnerException);
             }
             finally
             {
@@ -667,37 +696,37 @@ namespace LiquidacionSTN
 
             if (cliente <= 0)
             {
-                mensaje.Append("Debe proporcionar un número de cliente válido." + Environment.NewLine);
+                mensaje.Append("Debe proporcionar un nï¿½mero de cliente vï¿½lido." + Environment.NewLine);
             }
             if (afiliacion == 0)
             {
-                mensaje.Append("Debe proporcionar un número de afiliación válido." + Environment.NewLine);
+                mensaje.Append("Debe proporcionar un nï¿½mero de afiliaciï¿½n vï¿½lido." + Environment.NewLine);
             }
             if (tipoTarjeta == 0)
             {
-                mensaje.Append("Debe proporcionar un tipo de tarjeta válido." + Environment.NewLine);
+                mensaje.Append("Debe proporcionar un tipo de tarjeta vï¿½lido." + Environment.NewLine);
             }
             if (!autorizacion.Equals(confirmaAutorizacion))
             {
-                mensaje.Append("Los campos de autorización no concuerdan, verifíque." + Environment.NewLine);
+                mensaje.Append("Los campos de autorizaciï¿½n no concuerdan, verifï¿½que." + Environment.NewLine);
             }
             else if (autorizacion.Length == 0 || confirmaAutorizacion.Length == 0)
             {
-                mensaje.Append("Debe proporcionar un número de autorización." + Environment.NewLine);
+                mensaje.Append("Debe proporcionar un nï¿½mero de autorizaciï¿½n." + Environment.NewLine);
             }
 
             decimal dMonto = 0;
             decimal.TryParse(monto, out dMonto);
             if (dMonto == 0)
             {
-                mensaje.Append("Debe proporcionar un monto válido." + Environment.NewLine);
+                mensaje.Append("Debe proporcionar un monto vï¿½lido." + Environment.NewLine);
             }
 
             decimal dSaldo = 0;
             decimal.TryParse(saldo, out dSaldo);
             if (dSaldo < 0)
             {
-                mensaje.Append("El saldo es incorrecto, verifíque." + Environment.NewLine);
+                mensaje.Append("El saldo es incorrecto, verifï¿½que." + Environment.NewLine);
             }
 
             if (dMonto < _Total)
@@ -728,7 +757,11 @@ namespace LiquidacionSTN
                         //CalcularSaldo();
                         Aceptar();
                     }
-                }                              
+                }      
+                else
+                {
+                    Aceptar();
+                }                        
             }
             catch (Exception ex)
             {
@@ -751,7 +784,7 @@ namespace LiquidacionSTN
             if(!bResultado)
             {
                 MessageBox.Show("Falta relacionar " + _Saldo.ToString("N2") + ", y el monto por relacionar supera el monto " + Environment.NewLine +
-                    "máximo de pago por exceso para TPV, favor de relacionar más documentos");
+                    "mï¿½ximo de pago por exceso para TPV, favor de relacionar mï¿½s documentos");
             }
 
             return bResultado;
@@ -799,7 +832,7 @@ namespace LiquidacionSTN
 
         private bool EsCorrectoElMonto()
         {
-            string strPregunta = "El monto es diferente al total del servicio técnico." + Environment.NewLine + "¿Es correcto el monto?";
+            string strPregunta = "El monto es diferente al total del servicio tï¿½cnico." + Environment.NewLine + "ï¿½Es correcto el monto?";
 
             bool montoCorrecto = (MessageBox.Show(strPregunta, this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes);
 

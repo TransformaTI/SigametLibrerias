@@ -879,7 +879,24 @@ namespace LiquidacionSTN
 
 		}
 
+        private bool validaCombos()
+        {
+            bool valido = true;
 
+            if (cboTipoCobro.Text == "")
+            {
+                MessageBox.Show("Usted debe seleccionar un tipo de cobro", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                valido = false;
+            }
+
+            if (cboFormaCredito.Text == "" && valido)
+            {
+                MessageBox.Show("Usted debe seleccionar una forma de crédito", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                valido = false;
+            }
+
+            return valido;
+        }
 
 		private void btnAgregar_Click(object sender, System.EventArgs e)
 		{
@@ -984,6 +1001,8 @@ namespace LiquidacionSTN
 					break;
 
 				case "Modificar":
+                    if (!validaCombos())
+                        return;
 					if (FormaPago == 7) 
 					{
 						if (Convert.ToDecimal (txtTotal.Text) == 0)

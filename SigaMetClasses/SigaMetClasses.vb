@@ -3666,7 +3666,28 @@ Public Class cCliente
         End Try
     End Sub
 
-    Public Sub Consulta(ByVal intCliente As Integer, ByVal URLGateway As String)
+	Public Function ConsultaClientesAnticipos(Cliente As Integer) As DataTable
+		Dim cmd As New SqlCommand()
+		cmd.CommandType = CommandType.StoredProcedure
+		cmd.CommandText = "spCyCConsultaClientesAnticipo"
+		cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+		cmd.Connection = DataLayer.Conexion
+		Dim da As New SqlDataAdapter(cmd)
+		Dim ds As New DataSet()
+
+		Try
+			da.Fill(ds, "Clientes")
+			Return ds.Tables(0)
+		Catch ex As Exception
+			Throw ex
+		Finally
+			da.Dispose()
+			da = Nothing
+		End Try
+
+	End Function
+
+	Public Sub Consulta(ByVal intCliente As Integer, ByVal URLGateway As String)
         Dim cmd As New SqlCommand("spCCClienteConsulta2", DataLayer.Conexion)
         With cmd
             .CommandType = CommandType.StoredProcedure
@@ -8172,9 +8193,10 @@ Public Class CobroRemisiones
     Private _Serie As String
     Private _Remision As String
     Private _Pago As Integer
-    Private _MontoAbonado As Decimal
+	Private _MontoAbonado As Decimal
+	Private _Producto As String
 
-    Public Property Pago() As Integer
+	Public Property Pago() As Integer
         Get
             Return _Pago
         End Get
@@ -8212,7 +8234,14 @@ Public Class CobroRemisiones
         End Set
     End Property
 
-
+	Public Property Producto As String
+		Get
+			Return _Producto
+		End Get
+		Set(value As String)
+			_Producto = value
+		End Set
+	End Property
 End Class
 
 

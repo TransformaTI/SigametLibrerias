@@ -54,6 +54,45 @@ Public Class BusquedaCliente
 
 #Region " Windows Form Designer generated code "
 
+	Public Sub New(ByVal PermiteSeleccionar As Boolean,
+					ByVal AutoSeleccionarRegistroUnico As Boolean,
+				   ByVal PermiteModificarDatosCliente As Boolean,
+				   ByVal PermiteModificarDatosCredito As Boolean,
+				   ByVal Usuario As String,
+				   ByVal Celula As Byte,
+				   ByVal Remoto As Boolean,
+				   ByVal PermiteCambioEmpleadoNomina As Boolean,
+				   ByVal PermiteCambioClientePadre As Boolean,
+				   ByVal DSCatalogos As DataSet)
+
+		MyBase.New()
+
+		'This call is required by the Windows Form Designer.
+		InitializeComponent()
+
+		'Add any initialization after the InitializeComponent() call
+
+		_PermiteSeleccionar = PermiteSeleccionar
+		_AutoSeleccionarRegistroUnico = AutoSeleccionarRegistroUnico
+		_PermiteModificarDatosCliente = PermiteModificarDatosCliente
+		_PermiteModificarDatosCredito = PermiteModificarDatosCredito
+		_Usuario = Usuario
+		_Celula = Celula
+		_Remoto = Remoto
+
+		_PermiteCambioEmpleadoNomina = PermiteCambioEmpleadoNomina
+		_PermiteCambioClientePadre = PermiteCambioClientePadre
+
+		If Not DSCatalogos Is Nothing Then
+			_dsCatalogos = DSCatalogos
+		End If
+
+
+		chkPortatil.Checked = False
+
+
+	End Sub
+
 	Public Sub New(Optional ByVal PermiteSeleccionar As Boolean = True,
 				   Optional ByVal AutoSeleccionarRegistroUnico As Boolean = True,
 				   Optional ByVal PermiteModificarDatosCliente As Boolean = False,

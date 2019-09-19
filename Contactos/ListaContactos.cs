@@ -16,7 +16,7 @@ namespace CRMContactos
 	/// </summary>
 	public class ListaContactos : System.Windows.Forms.Form
 	{
-		private CRMContactos.TBDirectorioAlfabético tbDirectorioAlfabético1;
+		private CRMContactos.TBDirectorioAlfabï¿½tico tbDirectorioAlfabï¿½tico1;
 		private System.Windows.Forms.ToolBar toolBar1;
 		private System.Windows.Forms.ToolBarButton tbAgregar;
 		private System.Windows.Forms.ToolBarButton tbRefrescar;
@@ -105,7 +105,7 @@ namespace CRMContactos
             cargaDatos();
         }
 
-		public ListaContactos(SqlConnection Connection, int Cliente, string cadenaConexion,string urlgateway)
+        public ListaContactos(SqlConnection Connection, int Cliente, string cadenaConexion,string urlgateway)
 		{
 			//
 			// Required for Windows Form Designer support
@@ -114,7 +114,7 @@ namespace CRMContactos
 			//
 			// TODO: Add any constructor code after InitializeComponent call
 			//
-			this.Controls.Remove(tbDirectorioAlfabético1);
+			this.Controls.Remove(tbDirectorioAlfabï¿½tico1);
 			tbAgregar.Enabled = false;
 			tbAgregar.Visible = false;
 			tbRefrescar.Enabled = false;
@@ -154,7 +154,7 @@ namespace CRMContactos
 		{
 			this.components = new System.ComponentModel.Container();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(ListaContactos));
-			this.tbDirectorioAlfabético1 = new CRMContactos.TBDirectorioAlfabético();
+			this.tbDirectorioAlfabï¿½tico1 = new CRMContactos.TBDirectorioAlfabï¿½tico();
 			this.toolBar1 = new System.Windows.Forms.ToolBar();
 			this.tbAgregar = new System.Windows.Forms.ToolBarButton();
 			this.tbConsultar = new System.Windows.Forms.ToolBarButton();
@@ -165,15 +165,15 @@ namespace CRMContactos
 			this.vwGrd1 = new CustGrd.vwGrd();
 			this.SuspendLayout();
 			// 
-			// tbDirectorioAlfabético1
+			// tbDirectorioAlfabï¿½tico1
 			// 
-			this.tbDirectorioAlfabético1.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
-			this.tbDirectorioAlfabético1.Location = new System.Drawing.Point(320, 8);
-			this.tbDirectorioAlfabético1.Name = "tbDirectorioAlfabético1";
-			this.tbDirectorioAlfabético1.SelectedControlBackColor = System.Drawing.Color.Red;
-			this.tbDirectorioAlfabético1.Size = new System.Drawing.Size(468, 24);
-			this.tbDirectorioAlfabético1.TabIndex = 0;
-			this.tbDirectorioAlfabético1.Click += new System.EventHandler(this.tbDirectorioAlfabético1_Click);
+			this.tbDirectorioAlfabï¿½tico1.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
+			this.tbDirectorioAlfabï¿½tico1.Location = new System.Drawing.Point(320, 8);
+			this.tbDirectorioAlfabï¿½tico1.Name = "tbDirectorioAlfabï¿½tico1";
+			this.tbDirectorioAlfabï¿½tico1.SelectedControlBackColor = System.Drawing.Color.Red;
+			this.tbDirectorioAlfabï¿½tico1.Size = new System.Drawing.Size(468, 24);
+			this.tbDirectorioAlfabï¿½tico1.TabIndex = 0;
+			this.tbDirectorioAlfabï¿½tico1.Click += new System.EventHandler(this.tbDirectorioAlfabï¿½tico1_Click);
 			// 
 			// toolBar1
 			// 
@@ -251,7 +251,7 @@ namespace CRMContactos
 			this.ClientSize = new System.Drawing.Size(792, 573);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
 																		  this.vwGrd1,
-																		  this.tbDirectorioAlfabético1,
+																		  this.tbDirectorioAlfabï¿½tico1,
 																		  this.toolBar1});
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -302,7 +302,7 @@ namespace CRMContactos
 			vwGrd1.RowSearch();
 		}
 
-		private void tbDirectorioAlfabético1_Click(object sender, System.EventArgs e)
+		private void tbDirectorioAlfabï¿½tico1_Click(object sender, System.EventArgs e)
 		{
 			cargaDatos();
 		}
@@ -312,7 +312,7 @@ namespace CRMContactos
 			this.Cursor = Cursors.WaitCursor;
 			try
 			{
-				contactos.cargaCatalogos(tbDirectorioAlfabético1.SelectedChar);
+				contactos.cargaCatalogos(tbDirectorioAlfabï¿½tico1.SelectedChar);
 				vwGrd1.DataSource = contactos.DSContactos.Tables["Contactos"];
 				vwGrd1.AutoColumnHeader();
 				vwGrd1.DataAdd();
