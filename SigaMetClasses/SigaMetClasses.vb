@@ -5205,14 +5205,15 @@ Public Class cTarjetaCredito
 
     Public Function Valida(ByVal TarjetaCredito As String) As Integer
         Dim cmd As New SqlCommand("exec sp_DigitoVerificadorContrato " & TarjetaCredito, DataLayer.Conexion)
-        Try
-            AbreConexion()
-            Dim i As Integer = cmd.ExecuteScalar
-            Return i
-        Catch ex As Exception
-            Throw ex
-        Finally
-            CierraConexion()
+		Try
+
+			AbreConexion()
+			Dim i As Integer = cmd.ExecuteScalar
+			Return i
+		Catch ex As Exception
+			Throw ex
+		Finally
+			CierraConexion()
         End Try
     End Function
 
@@ -6437,313 +6438,341 @@ Public Class TransaccionMovimientoCaja
         Dim objMCE As New MovimientoCajaEntrada()
         Dim i, max As Integer, Cant As Double, _AnoCobro As Short, _Cobro As Integer
         Dim ImporteCheque As Decimal, ImporteTC As Decimal, ImporteFD As Decimal
-        max = arrEfectivo.GetUpperBound(0)
+		max = arrEfectivo.GetUpperBound(0)
 
-        AbreConexion()
+		Dim StatusInicialMovCaja As String
+		Dim OrigenTransBan As Integer
+
+
+		AbreConexion()
         If IniciarTransaccionNueva = True Then
             IniciaTransaccion()
         End If
 
-        Try
+		Try
 
-            'Alta de denominación de los cheques 
-            'NOTA: La clave de denominación de los cheques es 40
-            'Solo un registro por cheque
-            i = 0 : _AnoCobro = 0 : _Cobro = 0
-            If Not arrCheques Is Nothing Then
-                If arrCheques(0, 1) > 0 Then
-                    For i = 0 To arrCheques.GetUpperBound(0)
-                        _AnoCobro = arrCheques(i, 0)
-                        _Cobro = arrCheques(i, 1)
-                        ImporteCheque = arrCheques(i, 2)
-                        objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, _AnoCobro, _Cobro, 40, 1, ImporteCheque)
-                    Next i
-                End If
-            End If
-            'Fin del alta de denominación de los cheques 
-
-            'Alta de denominación de los cobros con tarjeta de crédito (Clave 60)
-            'Solo un registro por cobro
-            i = 0 : _AnoCobro = 0 : _Cobro = 0
-            If arrTarjetaCredito.GetUpperBound(0) >= 0 Then
-                If arrTarjetaCredito(0, 0) <> 0 Then 'AñoCobro
-                    For i = 0 To arrTarjetaCredito.GetUpperBound(0)
-                        _AnoCobro = arrTarjetaCredito(i, 0)
-                        _Cobro = arrTarjetaCredito(i, 1)
-                        ImporteTC = arrTarjetaCredito(i, 2)
-                        objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, _AnoCobro, _Cobro, 60, 1, ImporteTC)
-                    Next i
-                End If
-            End If
-            'Fin del alta de denominación de los cobros con tarjeta de crédito
+			' Se obtiene el StatusInicialMovCaja 
 
 
-            'Alta de denominación de los cobros con ficha de depósito(Clave 70)
-            'Solo un registro por cobro
-            i = 0 : _AnoCobro = 0 : _Cobro = 0
-            If Not arrFichaDeposito Is Nothing Then
-                If arrFichaDeposito(0, 0) <> 0 Then 'AñoCobro
-                    For i = 0 To arrFichaDeposito.GetUpperBound(0)
-                        _AnoCobro = arrFichaDeposito(i, 0)
-                        _Cobro = arrFichaDeposito(i, 1)
-                        ImporteFD = arrFichaDeposito(i, 2)
-                        objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, _AnoCobro, _Cobro, 70, 1, ImporteFD)
-                    Next i
-                End If
-            End If
-            'Fin del alta de denominación de los cobros con ficha de depósito
+			Try
+				StatusInicialMovCaja = obtenStatusInicialMovCaja()
+			Catch ex As Exception
+				Throw New Exception("Error al consultar StatusInicialMovCaja: " + ex.Message)
+			End Try
+
+			If Not (StatusInicialMovCaja = "EMITIDO" Or StatusInicialMovCaja = "VALIDADO") Then
+				Throw New Exception("StatusInicialMovCaja no tiene un valor válido ")
+			End If
+
+			OrigenTransBan = validaVieneDeConciliacion(Folio, Consecutivo, FOperacion, Caja)
+
+			'Alta de denominación de los cheques 
+			'NOTA: La clave de denominación de los cheques es 40
+			'Solo un registro por cheque
+			i = 0 : _AnoCobro = 0 : _Cobro = 0
+			If Not arrCheques Is Nothing Then
+				If arrCheques(0, 1) > 0 Then
+					For i = 0 To arrCheques.GetUpperBound(0)
+						_AnoCobro = arrCheques(i, 0)
+						_Cobro = arrCheques(i, 1)
+						ImporteCheque = arrCheques(i, 2)
+						objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, _AnoCobro, _Cobro, 40, 1, ImporteCheque)
+					Next i
+				End If
+			End If
+			'Fin del alta de denominación de los cheques 
+
+			'Alta de denominación de los cobros con tarjeta de crédito (Clave 60)
+			'Solo un registro por cobro
+			i = 0 : _AnoCobro = 0 : _Cobro = 0
+			If arrTarjetaCredito.GetUpperBound(0) >= 0 Then
+				If arrTarjetaCredito(0, 0) <> 0 Then 'AñoCobro
+					For i = 0 To arrTarjetaCredito.GetUpperBound(0)
+						_AnoCobro = arrTarjetaCredito(i, 0)
+						_Cobro = arrTarjetaCredito(i, 1)
+						ImporteTC = arrTarjetaCredito(i, 2)
+						objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, _AnoCobro, _Cobro, 60, 1, ImporteTC)
+					Next i
+				End If
+			End If
+			'Fin del alta de denominación de los cobros con tarjeta de crédito
 
 
-            'Alta de la denominacion en efectivo
-            If Not arrEfectivo Is Nothing Then
-                If arrEfectivo(0, 1) > 0 Then
-                    Cant = arrEfectivo(0, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 1, Cant, 500)
-                End If
-                If arrEfectivo(1, 1) > 0 Then
-                    Cant = arrEfectivo(1, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 2, Cant, 200)
-                End If
-                If arrEfectivo(2, 1) > 0 Then
-                    Cant = arrEfectivo(2, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 3, Cant, 100)
-                End If
-                If arrEfectivo(3, 1) > 0 Then
-                    Cant = arrEfectivo(3, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 4, Cant, 50)
-                End If
-                If arrEfectivo(4, 1) > 0 Then
-                    Cant = arrEfectivo(4, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 5, Cant, 20)
-                End If
-                If arrEfectivo(5, 1) > 0 Then
-                    Cant = arrEfectivo(5, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 6, Cant, 10)
-                End If
-                If arrEfectivo(6, 1) > 0 Then
-                    Cant = arrEfectivo(6, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 7, Cant, 5)
-                End If
-                If arrEfectivo(7, 1) > 0 Then
-                    Cant = arrEfectivo(7, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 8, Cant, 2)
-                End If
-                If arrEfectivo(8, 1) > 0 Then
-                    Cant = arrEfectivo(8, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 9, Cant, 1)
-                End If
-                If arrEfectivo(9, 1) > 0 Then
-                    Cant = arrEfectivo(9, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 10, Cant, 0.5)
-                End If
-                If arrEfectivo(10, 1) > 0 Then
-                    Cant = arrEfectivo(10, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 11, Cant, 0.2)
-                End If
-                If arrEfectivo(11, 1) > 0 Then
-                    Cant = arrEfectivo(11, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 12, Cant, 0.1)
-                End If
-                If arrEfectivo(12, 1) > 0 Then
-                    Cant = arrEfectivo(12, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 13, Cant, 0.05)
-                End If
-                If arrEfectivo(13, 1) > 0 Then
-                    Cant = arrEfectivo(13, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 14, 1, Cant)
-                End If
-                'TODO: alta de la denominación de 1000
-                If arrEfectivo(14, 1) > 0 Then
-                    Cant = arrEfectivo(14, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 15, Cant, 1000)
-                End If
-            End If
-            'Fin del alta de efectivo
+			'Alta de denominación de los cobros con ficha de depósito(Clave 70)
+			'Solo un registro por cobro
+			i = 0 : _AnoCobro = 0 : _Cobro = 0
+			If Not arrFichaDeposito Is Nothing Then
+				If arrFichaDeposito(0, 0) <> 0 Then 'AñoCobro
+					For i = 0 To arrFichaDeposito.GetUpperBound(0)
+						_AnoCobro = arrFichaDeposito(i, 0)
+						_Cobro = arrFichaDeposito(i, 1)
+						ImporteFD = arrFichaDeposito(i, 2)
+						objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, _AnoCobro, _Cobro, 70, 1, ImporteFD)
+					Next i
+				End If
+			End If
+			'Fin del alta de denominación de los cobros con ficha de depósito
 
-            'Alta de vales de despensa
-            If Not arrVales Is Nothing Then
-                If arrVales(0, 1) > 0 Then
-                    Cant = arrVales(0, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 21, Cant, 100)
-                End If
-                If arrVales(1, 1) > 0 Then
-                    Cant = arrVales(1, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 22, Cant, 50)
-                End If
-                If arrVales(2, 1) > 0 Then
-                    Cant = arrVales(2, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 23, Cant, 35)
-                End If
-                If arrVales(3, 1) > 0 Then
-                    Cant = arrVales(3, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 24, Cant, 30)
-                End If
-                If arrVales(4, 1) > 0 Then
-                    Cant = arrVales(4, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 25, Cant, 25)
-                End If
-                If arrVales(5, 1) > 0 Then
-                    Cant = arrVales(5, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 26, Cant, 20)
-                End If
-                If arrVales(6, 1) > 0 Then
-                    Cant = arrVales(6, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 27, Cant, 15)
-                End If
-                If arrVales(7, 1) > 0 Then
-                    Cant = arrVales(7, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 28, Cant, 10)
-                End If
-                If arrVales(8, 1) > 0 Then
-                    Cant = arrVales(8, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 29, Cant, 5)
-                End If
-                If arrVales(9, 1) > 0 Then
-                    Cant = arrVales(9, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 30, Cant, 4)
-                End If
-                If arrVales(10, 1) > 0 Then
-                    Cant = arrVales(10, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 31, Cant, 3)
-                End If
-                If arrVales(11, 1) > 0 Then
-                    Cant = arrVales(11, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 32, Cant, 2)
-                End If
-                If arrVales(12, 1) > 0 Then
-                    Cant = arrVales(12, 1)
-                    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 33, Cant, 1)
-                End If
-                ''
-                'If arrVales(12, 1) > 0 Then
-                '    Cant = arrVales(12, 1)
-                '    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 33, Cant, 1)
-                'End If
-            End If
-            'Fin del alta de vales de despensa
 
-            'Alta de vales promocionales
-            'If Not arrValePromocion Is Nothing Then
-            '    If arrValePromocion(0, 1) > 0 Then
-            '        Cant = arrValePromocion(0, 1)
-            '        'objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 34, Cant, 50)
-            '        objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 34, Cant, Convert.ToInt32(arrValePromocion(0, 0)))
-            '    End If
-            'End If
-            'Alta dinámica de vales promocionales
-            If Not DTValePromocion Is Nothing Then
-                Dim drValePromocion As DataRow
-                For Each drValePromocion In DTValePromocion.Rows
-                    If Convert.ToInt32(drValePromocion("Cantidad")) > 0 AndAlso
-                    Convert.ToDecimal(drValePromocion("Importe")) > 0 Then
-                        objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro,
-                            Convert.ToByte(drValePromocion("Denominacion")), Convert.ToInt32(drValePromocion("Cantidad")),
-                            Convert.ToDecimal(drValePromocion("ValorDenominacion")))
-                    End If
-                Next
-            End If
-            'Fin del alta de vales promocionales
+			'Alta de la denominacion en efectivo
+			If Not arrEfectivo Is Nothing Then
+				If arrEfectivo(0, 1) > 0 Then
+					Cant = arrEfectivo(0, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 1, Cant, 500)
+				End If
+				If arrEfectivo(1, 1) > 0 Then
+					Cant = arrEfectivo(1, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 2, Cant, 200)
+				End If
+				If arrEfectivo(2, 1) > 0 Then
+					Cant = arrEfectivo(2, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 3, Cant, 100)
+				End If
+				If arrEfectivo(3, 1) > 0 Then
+					Cant = arrEfectivo(3, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 4, Cant, 50)
+				End If
+				If arrEfectivo(4, 1) > 0 Then
+					Cant = arrEfectivo(4, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 5, Cant, 20)
+				End If
+				If arrEfectivo(5, 1) > 0 Then
+					Cant = arrEfectivo(5, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 6, Cant, 10)
+				End If
+				If arrEfectivo(6, 1) > 0 Then
+					Cant = arrEfectivo(6, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 7, Cant, 5)
+				End If
+				If arrEfectivo(7, 1) > 0 Then
+					Cant = arrEfectivo(7, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 8, Cant, 2)
+				End If
+				If arrEfectivo(8, 1) > 0 Then
+					Cant = arrEfectivo(8, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 9, Cant, 1)
+				End If
+				If arrEfectivo(9, 1) > 0 Then
+					Cant = arrEfectivo(9, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 10, Cant, 0.5)
+				End If
+				If arrEfectivo(10, 1) > 0 Then
+					Cant = arrEfectivo(10, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 11, Cant, 0.2)
+				End If
+				If arrEfectivo(11, 1) > 0 Then
+					Cant = arrEfectivo(11, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 12, Cant, 0.1)
+				End If
+				If arrEfectivo(12, 1) > 0 Then
+					Cant = arrEfectivo(12, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 13, Cant, 0.05)
+				End If
+				If arrEfectivo(13, 1) > 0 Then
+					Cant = arrEfectivo(13, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 14, 1, Cant)
+				End If
+				'TODO: alta de la denominación de 1000
+				If arrEfectivo(14, 1) > 0 Then
+					Cant = arrEfectivo(14, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 15, Cant, 1000)
+				End If
+			End If
+			'Fin del alta de efectivo
 
-            'Da de alta el cambio que resultó del movimiento
-            If Not arrCambio Is Nothing Then
-                If arrCambio(0, 1) > 0 Then
-                    Cant = arrCambio(0, 1)
-                    CambioAlta(Caja, FOperacion, Consecutivo, Folio, 1, Cant, 500)
-                End If
-                If arrCambio(1, 1) > 0 Then
-                    Cant = arrCambio(1, 1)
-                    CambioAlta(Caja, FOperacion, Consecutivo, Folio, 2, Cant, 200)
-                End If
-                If arrCambio(2, 1) > 0 Then
-                    Cant = arrCambio(2, 1)
-                    CambioAlta(Caja, FOperacion, Consecutivo, Folio, 3, Cant, 100)
-                End If
-                If arrCambio(3, 1) > 0 Then
-                    Cant = arrCambio(3, 1)
-                    CambioAlta(Caja, FOperacion, Consecutivo, Folio, 4, Cant, 50)
-                End If
-                If arrCambio(4, 1) > 0 Then
-                    Cant = arrCambio(4, 1)
-                    CambioAlta(Caja, FOperacion, Consecutivo, Folio, 5, Cant, 20)
-                End If
-                If arrCambio(5, 1) > 0 Then
-                    Cant = arrCambio(5, 1)
-                    CambioAlta(Caja, FOperacion, Consecutivo, Folio, 6, Cant, 10)
-                End If
-                If arrCambio(6, 1) > 0 Then
-                    Cant = arrCambio(6, 1)
-                    CambioAlta(Caja, FOperacion, Consecutivo, Folio, 7, Cant, 5)
-                End If
-                If arrCambio(7, 1) > 0 Then
-                    Cant = arrCambio(7, 1)
-                    CambioAlta(Caja, FOperacion, Consecutivo, Folio, 8, Cant, 2)
-                End If
-                If arrCambio(8, 1) > 0 Then
-                    Cant = arrCambio(8, 1)
-                    CambioAlta(Caja, FOperacion, Consecutivo, Folio, 9, Cant, 1)
-                End If
-                If arrCambio(9, 1) > 0 Then
-                    Cant = arrCambio(9, 1)
-                    CambioAlta(Caja, FOperacion, Consecutivo, Folio, 10, Cant, 0.5)
-                End If
-                If arrCambio(10, 1) > 0 Then
-                    Cant = arrCambio(10, 1)
-                    CambioAlta(Caja, FOperacion, Consecutivo, Folio, 11, Cant, 0.2)
-                End If
-                If arrCambio(11, 1) > 0 Then
-                    Cant = arrCambio(11, 1)
-                    CambioAlta(Caja, FOperacion, Consecutivo, Folio, 12, Cant, 0.1)
-                End If
-                If arrCambio(12, 1) > 0 Then
-                    Cant = arrCambio(12, 1)
-                    CambioAlta(Caja, FOperacion, Consecutivo, Folio, 13, Cant, 0.05)
-                End If
-                If arrCambio(13, 1) > 0 Then
-                    Cant = arrCambio(13, 1)
-                    CambioAlta(Caja, FOperacion, Consecutivo, Folio, 14, Cant, 1)
-                End If
-            End If
-            'Fin del alta del cambio
+			'Alta de vales de despensa
+			If Not arrVales Is Nothing Then
+				If arrVales(0, 1) > 0 Then
+					Cant = arrVales(0, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 21, Cant, 100)
+				End If
+				If arrVales(1, 1) > 0 Then
+					Cant = arrVales(1, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 22, Cant, 50)
+				End If
+				If arrVales(2, 1) > 0 Then
+					Cant = arrVales(2, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 23, Cant, 35)
+				End If
+				If arrVales(3, 1) > 0 Then
+					Cant = arrVales(3, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 24, Cant, 30)
+				End If
+				If arrVales(4, 1) > 0 Then
+					Cant = arrVales(4, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 25, Cant, 25)
+				End If
+				If arrVales(5, 1) > 0 Then
+					Cant = arrVales(5, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 26, Cant, 20)
+				End If
+				If arrVales(6, 1) > 0 Then
+					Cant = arrVales(6, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 27, Cant, 15)
+				End If
+				If arrVales(7, 1) > 0 Then
+					Cant = arrVales(7, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 28, Cant, 10)
+				End If
+				If arrVales(8, 1) > 0 Then
+					Cant = arrVales(8, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 29, Cant, 5)
+				End If
+				If arrVales(9, 1) > 0 Then
+					Cant = arrVales(9, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 30, Cant, 4)
+				End If
+				If arrVales(10, 1) > 0 Then
+					Cant = arrVales(10, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 31, Cant, 3)
+				End If
+				If arrVales(11, 1) > 0 Then
+					Cant = arrVales(11, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 32, Cant, 2)
+				End If
+				If arrVales(12, 1) > 0 Then
+					Cant = arrVales(12, 1)
+					objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 33, Cant, 1)
+				End If
+				''
+				'If arrVales(12, 1) > 0 Then
+				'    Cant = arrVales(12, 1)
+				'    objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 33, Cant, 1)
+				'End If
+			End If
+			'Fin del alta de vales de despensa
 
-            'Actualización de los saldos de los pedidos
-            Dim dr As DataRow, _Celula As Byte, _AnoPed As Short, _Pedido As Integer, _Abono As Decimal
+			'Alta de vales promocionales
+			'If Not arrValePromocion Is Nothing Then
+			'    If arrValePromocion(0, 1) > 0 Then
+			'        Cant = arrValePromocion(0, 1)
+			'        'objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 34, Cant, 50)
+			'        objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro, 34, Cant, Convert.ToInt32(arrValePromocion(0, 0)))
+			'    End If
+			'End If
+			'Alta dinámica de vales promocionales
+			If Not DTValePromocion Is Nothing Then
+				Dim drValePromocion As DataRow
+				For Each drValePromocion In DTValePromocion.Rows
+					If Convert.ToInt32(drValePromocion("Cantidad")) > 0 AndAlso
+					Convert.ToDecimal(drValePromocion("Importe")) > 0 Then
+						objMCE.Alta(Caja, FOperacion, Consecutivo, Folio, AnoCobro, Cobro,
+							Convert.ToByte(drValePromocion("Denominacion")), Convert.ToInt32(drValePromocion("Cantidad")),
+							Convert.ToDecimal(drValePromocion("ValorDenominacion")))
+					End If
+				Next
+			End If
+			'Fin del alta de vales promocionales
 
-            '27 de junio del 2003
-            'Se valida que no traiga nulos, para el caso de las notas de ingreso que no traen registros en CobroPedido
-            If ContieneDetalleCobroPedido Then
-                For Each dr In dtCobroPedido.Rows
-                    _Celula = CType(dr("Celula"), Byte)
-                    _AnoPed = CType(dr("AñoPed"), Short)
-                    _Pedido = CType(dr("Pedido"), Integer)
-                    _Abono = CType(dr("CobroPedidoTotal"), Decimal)
+			'Da de alta el cambio que resultó del movimiento
+			If Not arrCambio Is Nothing Then
+				If arrCambio(0, 1) > 0 Then
+					Cant = arrCambio(0, 1)
+					CambioAlta(Caja, FOperacion, Consecutivo, Folio, 1, Cant, 500)
+				End If
+				If arrCambio(1, 1) > 0 Then
+					Cant = arrCambio(1, 1)
+					CambioAlta(Caja, FOperacion, Consecutivo, Folio, 2, Cant, 200)
+				End If
+				If arrCambio(2, 1) > 0 Then
+					Cant = arrCambio(2, 1)
+					CambioAlta(Caja, FOperacion, Consecutivo, Folio, 3, Cant, 100)
+				End If
+				If arrCambio(3, 1) > 0 Then
+					Cant = arrCambio(3, 1)
+					CambioAlta(Caja, FOperacion, Consecutivo, Folio, 4, Cant, 50)
+				End If
+				If arrCambio(4, 1) > 0 Then
+					Cant = arrCambio(4, 1)
+					CambioAlta(Caja, FOperacion, Consecutivo, Folio, 5, Cant, 20)
+				End If
+				If arrCambio(5, 1) > 0 Then
+					Cant = arrCambio(5, 1)
+					CambioAlta(Caja, FOperacion, Consecutivo, Folio, 6, Cant, 10)
+				End If
+				If arrCambio(6, 1) > 0 Then
+					Cant = arrCambio(6, 1)
+					CambioAlta(Caja, FOperacion, Consecutivo, Folio, 7, Cant, 5)
+				End If
+				If arrCambio(7, 1) > 0 Then
+					Cant = arrCambio(7, 1)
+					CambioAlta(Caja, FOperacion, Consecutivo, Folio, 8, Cant, 2)
+				End If
+				If arrCambio(8, 1) > 0 Then
+					Cant = arrCambio(8, 1)
+					CambioAlta(Caja, FOperacion, Consecutivo, Folio, 9, Cant, 1)
+				End If
+				If arrCambio(9, 1) > 0 Then
+					Cant = arrCambio(9, 1)
+					CambioAlta(Caja, FOperacion, Consecutivo, Folio, 10, Cant, 0.5)
+				End If
+				If arrCambio(10, 1) > 0 Then
+					Cant = arrCambio(10, 1)
+					CambioAlta(Caja, FOperacion, Consecutivo, Folio, 11, Cant, 0.2)
+				End If
+				If arrCambio(11, 1) > 0 Then
+					Cant = arrCambio(11, 1)
+					CambioAlta(Caja, FOperacion, Consecutivo, Folio, 12, Cant, 0.1)
+				End If
+				If arrCambio(12, 1) > 0 Then
+					Cant = arrCambio(12, 1)
+					CambioAlta(Caja, FOperacion, Consecutivo, Folio, 13, Cant, 0.05)
+				End If
+				If arrCambio(13, 1) > 0 Then
+					Cant = arrCambio(13, 1)
+					CambioAlta(Caja, FOperacion, Consecutivo, Folio, 14, Cant, 1)
+				End If
+			End If
+			'Fin del alta del cambio
 
-                    ActualizaSaldoPedido(_Celula, _AnoPed, _Pedido, _Abono)
-                Next
-            End If
+			'Actualización de los saldos de los pedidos
+			Dim dr As DataRow, _Celula As Byte, _AnoPed As Short, _Pedido As Integer, _Abono As Decimal
 
-            'Fin de la actualización de los saldos de los pedidos
+			'27 de junio del 2003
+			'Se valida que no traiga nulos, para el caso de las notas de ingreso que no traen registros en CobroPedido
+			If ContieneDetalleCobroPedido Then
+				For Each dr In dtCobroPedido.Rows
+					_Celula = CType(dr("Celula"), Byte)
+					_AnoPed = CType(dr("AñoPed"), Short)
+					_Pedido = CType(dr("Pedido"), Integer)
+					_Abono = CType(dr("CobroPedidoTotal"), Decimal)
 
-            'Valida el movimiento de caja para cambiar el estatus del movimiento de EMITIDO a VALIDADO
-            ValidaMovimientoCaja(Caja, FOperacion, Consecutivo, Folio)
+					ActualizaSaldoPedido(_Celula, _AnoPed, _Pedido, _Abono)
+				Next
+			End If
 
-            'TODO: Poner aquí la transferencia del movimiento a la caja correcta.
+			'Fin de la actualización de los saldos de los pedidos
 
-            'TransfiereMovimientoCaja
-            If Transferir Then
-                TransfiereMovimientoCaja(Caja, FOperacion, Consecutivo, Folio, CajaDestino, FOperacionDestino, ConsecutivoDestino)
-            End If
-            '*****
+			'Valida el movimiento de caja para cambiar el estatus del movimiento de EMITIDO a VALIDADO
+			ValidaMovimientoCaja(Caja, FOperacion, Consecutivo, Folio)
 
-            If IniciarTransaccionNueva Then
-                Transaccion.Commit()
-            End If
-        Catch ex As Exception
-            If IniciarTransaccionNueva Then
-                Transaccion.Rollback()
-            End If
-            Throw ex
-        Finally
-            If IniciarTransaccionNueva Then
+			'TODO: Poner aquí la transferencia del movimiento a la caja correcta.
+
+			'TransfiereMovimientoCaja
+			If Transferir Then
+				TransfiereMovimientoCaja(Caja, FOperacion, Consecutivo, Folio, CajaDestino, FOperacionDestino, ConsecutivoDestino)
+			End If
+			'*****
+
+
+
+
+			If (StatusInicialMovCaja.Equals("EMITIDO") And OrigenTransBan = 1) Then
+				ejecutaFacturaComplemento(Consecutivo, Folio, FOperacion, Caja)
+
+			End If
+
+
+			If IniciarTransaccionNueva Then
+				Transaccion.Commit()
+			End If
+		Catch ex As Exception
+			If IniciarTransaccionNueva Then
+				Transaccion.Rollback()
+			End If
+			Throw ex
+		Finally
+			If IniciarTransaccionNueva Then
                 CierraConexion()
             End If
             objMCE = Nothing
@@ -6754,9 +6783,123 @@ Public Class TransaccionMovimientoCaja
 
 #End Region
 
+#Region "StatusInicialMovCaja"
+	Friend Function obtenStatusInicialMovCaja() As String
+		Dim resultado As String = ""
+		Dim Rs As SqlDataReader
+
+		Dim comando As String =
+		"SELECT Valor FROM dbo. Parametro WHERE Modulo = 30 AND Parametro = 'StatusInicialMovCaja'"
+
+		Dim cmd As New SqlCommand(comando)
+
+		With cmd
+			.CommandType = CommandType.Text
+			.Transaction = Transaccion
+
+		End With
+		Try
+			cmd.Connection = DataLayer.Conexion
+			Rs = cmd.ExecuteReader()
+			If (Rs.Read()) Then
+				resultado = Rs("Valor").ToString()
+
+			End If
+			Rs.Close()
+		Catch ex As Exception
+			Throw ex
+		Finally
+			cmd = Nothing
+			Rs = Nothing
+		End Try
+
+		Return resultado
+
+	End Function
+
+
+#End Region
+
+#Region "Viene de conciliación"
+	Friend Function validaVieneDeConciliacion(folio As Integer,
+											  consecutivo As Integer,
+											  fecha As Date,
+											  caja As Integer) As Integer
+		Dim resultado As Integer = 0
+		Dim Rs As SqlDataReader
+
+		Dim cmd As New SqlCommand("spCBValidaVieneDeConciliacionTRANSBAN")
+		With cmd
+			.CommandType = CommandType.StoredProcedure
+			.Transaction = Transaccion
+			.Parameters.Add(New SqlParameter("@Folio ", SqlDbType.TinyInt)).Value = folio
+			.Parameters.Add(New SqlParameter("@Consecutivo", SqlDbType.Int)).Value = consecutivo
+			.Parameters.Add(New SqlParameter("@FOperacion", SqlDbType.VarChar, 20)).Value = fecha.ToString("dd/MM/yyyy")
+
+			.Parameters.Add(New SqlParameter("@Caja ", SqlDbType.Int)).Value = caja
+
+		End With
+
+		Try
+			cmd.Connection = DataLayer.Conexion
+			Rs = cmd.ExecuteReader()
+			If (Rs.Read()) Then
+				resultado = Rs.GetInt32(0)
+
+			End If
+			Rs.Close()
+		Catch ex As Exception
+			Throw ex
+		Finally
+			cmd = Nothing
+
+			Rs = Nothing
+		End Try
+
+		Return resultado
+
+	End Function
+#End Region
+
+#Region "Viene de conciliación"
+	Friend Sub ejecutaFacturaComplemento(consecutivo As Integer,
+										folio As Integer,
+										fOperacion As DateTime,
+										caja As Integer)
+
+		Dim cmd As New SqlCommand("spCBFacturaComplementoAltaModificaCaja")
+		With cmd
+			.CommandType = CommandType.StoredProcedure
+			.Transaction = Transaccion
+			.Parameters.Add(New SqlParameter("@CorporativoConciliacion", SqlDbType.TinyInt)).Value = DBNull.Value
+			.Parameters.Add(New SqlParameter("@SucursalConciliacion", SqlDbType.Int)).Value = DBNull.Value
+			.Parameters.Add(New SqlParameter("@AñoConciliacion", SqlDbType.Int)).Value = DBNull.Value
+			.Parameters.Add(New SqlParameter("@MesConciliacion", SqlDbType.Int)).Value = DBNull.Value
+			.Parameters.Add(New SqlParameter("@FolioConciliacion", SqlDbType.Int)).Value = DBNull.Value
+			.Parameters.Add(New SqlParameter("@Consecutivo", SqlDbType.Int)).Value = consecutivo
+			.Parameters.Add(New SqlParameter("@Folio", SqlDbType.Int)).Value = folio
+			.Parameters.Add(New SqlParameter("@FOperacion", SqlDbType.DateTime)).Value = fOperacion
+			.Parameters.Add(New SqlParameter("@Caja ", SqlDbType.Int)).Value = caja
+
+		End With
+
+		Try
+			cmd.Connection = DataLayer.Conexion
+			cmd.ExecuteNonQuery()
+		Catch ex As Exception
+			Throw ex
+		Finally
+			cmd = Nothing
+		End Try
+
+	End Sub
+
+
+#End Region
+
 #Region "TransfiereMovimientoCaja"
-    'Procedimiento para transferir los movimientos de una caja a otra
-    Public Sub TransfiereMovimientoCaja(ByVal CajaFuente As Byte,
+	'Procedimiento para transferir los movimientos de una caja a otra
+	Public Sub TransfiereMovimientoCaja(ByVal CajaFuente As Byte,
                                         ByVal FOperacionFuente As Date,
                                         ByVal ConsecutivoFuente As Byte,
                                         ByVal FolioFuente As Integer,
