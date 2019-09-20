@@ -112,7 +112,7 @@
   <ItemGroup>
     <Reference Include="ReportesEspeciales, Version=1.0.6633.26357, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\ReportesEspeciales.dll</HintPath>
+      <HintPath>..\ReportesEspeciales\bin\ReportesEspeciales.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>

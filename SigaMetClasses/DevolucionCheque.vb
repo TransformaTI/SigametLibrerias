@@ -393,16 +393,23 @@ Public Class DevolucionCheque
                 Dim total As Decimal
                 Try
 
-                    Dim url As String
+					Dim url As String
+					Dim fuenteCRM As String
 
-                    Try
-                        url = CType(oConfig.Parametros("URLGateway"), String).Trim()
-                    Catch ex As Exception
-                        url = ""
-                    End Try
+					Try
+						url = CType(oConfig.Parametros("URLGateway"), String).Trim()
+					Catch ex As Exception
+						url = ""
+					End Try
+
+					Try
+						fuenteCRM = CType(oConfig.Parametros("FuenteCRM"), String).Trim()
+					Catch ex As Exception
+						fuenteCRM = ""
+					End Try
 
 
-                    AbreConexion()
+					AbreConexion()
 
 
 
@@ -414,65 +421,65 @@ Public Class DevolucionCheque
 
                     dt = oCobro.DatosPedidoCheque(_AñoCobro, _Cobro)
 
-                    If (Not url.Equals("")) Then
+					If (Not url.Equals("")) And (fuenteCRM.Equals("CRM")) Then
 
-                        'Dim pedido As New RTGMCore.PedidoCRMSaldo
-                        'pedido.Abono = total
+						'Dim pedido As New RTGMCore.PedidoCRMSaldo
+						'pedido.Abono = total
 
-                        Dim pedido As New RTGMCore.PedidoCRMDatos
-                        Dim DetallePedido As New RTGMCore.DetallePedido
-                        Dim ListaDetallePedidos As New List(Of RTGMCore.DetallePedido)
-                        Dim listaPedidos As New List(Of RTGMCore.Pedido)
+						Dim pedido As New RTGMCore.PedidoCRMDatos
+						Dim DetallePedido As New RTGMCore.DetallePedido
+						Dim ListaDetallePedidos As New List(Of RTGMCore.DetallePedido)
+						Dim listaPedidos As New List(Of RTGMCore.Pedido)
 
-                        pedido.IDTipoPedido = 3
-                        'pedido.IDTipoServicio = pendiente
-                        pedido.RutaSuministro = New RTGMCore.RutaCRMDatos With {.IDRuta = CInt(dt.Rows(0).Item("RUTA"))}
-
-
-
-                        'detalle pedido
-                        DetallePedido.Producto = New RTGMCore.Producto With {.IDProducto = CInt(dt.Rows(0).Item("producto"))}
-                        DetallePedido.DescuentoAplicado = CInt(dt.Rows(0).Item("Descuento"))
-                        DetallePedido.Importe = CDec(dt.Rows(0).Item("importe"))
-                        DetallePedido.Impuesto = CDec(dt.Rows(0).Item("Impuesto"))
-
-                        ListaDetallePedidos.Add(DetallePedido)
-                        pedido.DetallePedido = ListaDetallePedidos
-                        listaPedidos.Add(pedido)
-
-
-                        Dim ListaRespuesta As List(Of RTGMCore.Pedido)
-                        Dim objGateway As New RTGMGateway.RTGMActualizarPedido(CByte(_Modulo), _CadenaConexion)
-                        objGateway.URLServicio = url
-
-                        Dim SolicitudActualizarPedido As New RTGMGateway.SolicitudActualizarPedido()
-
-                        SolicitudActualizarPedido.Pedidos = listaPedidos
-
-                        SolicitudActualizarPedido.Portatil = False
-
-                        'SolicitudActualizarPedido.TipoActualizacion = RTGMCore.TipoActualizacion.Saldo
-
-                        SolicitudActualizarPedido.TipoActualizacion = RTGMCore.TipoActualizacion.Liquidacion
-
-                        SolicitudActualizarPedido.Usuario = GLOBAL_Usuario
-
-
-                        ListaRespuesta = objGateway.ActualizarPedido(SolicitudActualizarPedido)
-
-                        referenciaCRm = ListaRespuesta(0).PedidoReferencia
-
-                        If referenciaCRm = Nothing Then
-                            referenciaCRm = ""
-                        End If
+						pedido.IDTipoPedido = 3
+						'pedido.IDTipoServicio = pendiente
+						pedido.RutaSuministro = New RTGMCore.RutaCRMDatos With {.IDRuta = CInt(dt.Rows(0).Item("RUTA"))}
 
 
 
-                        oCobro.actualizarPedido(_PedidoReferencia, referenciaCRm)
+						'detalle pedido
+						DetallePedido.Producto = New RTGMCore.Producto With {.IDProducto = CInt(dt.Rows(0).Item("producto"))}
+						DetallePedido.DescuentoAplicado = CInt(dt.Rows(0).Item("Descuento"))
+						DetallePedido.Importe = CDec(dt.Rows(0).Item("importe"))
+						DetallePedido.Impuesto = CDec(dt.Rows(0).Item("Impuesto"))
 
-                    End If
+						ListaDetallePedidos.Add(DetallePedido)
+						pedido.DetallePedido = ListaDetallePedidos
+						listaPedidos.Add(pedido)
 
-                    Transaccion.Commit()
+
+						Dim ListaRespuesta As List(Of RTGMCore.Pedido)
+						Dim objGateway As New RTGMGateway.RTGMActualizarPedido(CByte(_Modulo), _CadenaConexion)
+						objGateway.URLServicio = url
+
+						Dim SolicitudActualizarPedido As New RTGMGateway.SolicitudActualizarPedido()
+
+						SolicitudActualizarPedido.Pedidos = listaPedidos
+
+						SolicitudActualizarPedido.Portatil = False
+
+						'SolicitudActualizarPedido.TipoActualizacion = RTGMCore.TipoActualizacion.Saldo
+
+						SolicitudActualizarPedido.TipoActualizacion = RTGMCore.TipoActualizacion.Liquidacion
+
+						SolicitudActualizarPedido.Usuario = GLOBAL_Usuario
+
+
+						ListaRespuesta = objGateway.ActualizarPedido(SolicitudActualizarPedido)
+
+						referenciaCRm = ListaRespuesta(0).PedidoReferencia
+
+						If referenciaCRm = Nothing Then
+							referenciaCRm = ""
+						End If
+
+
+
+						oCobro.actualizarPedido(_PedidoReferencia, referenciaCRm)
+
+					End If
+
+					Transaccion.Commit()
 
 
                     DialogResult = DialogResult.OK

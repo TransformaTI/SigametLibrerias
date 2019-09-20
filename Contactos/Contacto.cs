@@ -447,7 +447,7 @@ namespace CRMContactos
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(116, 14);
 			this.label11.TabIndex = 40;
-			this.label11.Text = "Fecha de cumplea�os:";
+			this.label11.Text = "Fecha de cumpleaños:";
 			// 
 			// grdCliente
 			// 
@@ -645,7 +645,7 @@ namespace CRMContactos
 			_contacto.CorreoElectronico = eMail1.CorreoElectronico;
 			_contacto.Domicilio = txtDomicilio.Text;
 			_contacto.Extension = telefono1.Extension;
-			_contacto.FCumplea�os = dtpFCumpleanios.Value.Date;
+			_contacto.FCumpleaños = dtpFCumpleanios.Value.Date;
 			_contacto.Horario = txtHorario.Text;
 			_contacto.Lada = telefono1.Lada;
 			_contacto.Nombre = txtNombre.Text;

@@ -1,30 +1,30 @@
-'Forma que permite realizar la liquidaci�n de las rutas de venta
+'Forma que permite realizar la liquidación de las rutas de venta
 'de gas portatil permitiendo las diferentes formas de pago y los
 'tipo de descuento que aplican en la liquidacion a los productos
 
-'Modifico: Claudia Aurora Garcia Pati�o
+'Modifico: Claudia Aurora Garcia Patiño
 'Fecha: 14/11/2006
 'Motivo: Se aumento la condicion para que no se regsitre un movimeinto despues de que el reporte FDIOP-01
 'haya sido verificado
 'Identificador de cambios: 20061114CAGP$001
 
 
-'Modific�: Carlos Nirari Santiago Mendoza
+'Modificó: Carlos Nirari Santiago Mendoza
 'Fecha: 27/06/2015
-'Descripci�n: Se cambio el metodo para obtener los registros (pedidos portatiles) que estan asociados a una ruta.
+'Descripción: Se cambio el metodo para obtener los registros (pedidos portatiles) que estan asociados a una ruta.
 'Id. de cambios: 20150627CNSM$001  
-'Descripci�n: Se agrego el metodo para limpiar alguno de los componentes del apartado de la vista detalle por producto.
+'Descripción: Se agrego el metodo para limpiar alguno de los componentes del apartado de la vista detalle por producto.
 'Id. de cambios: 20060627CNSM$002  
-'Descripci�n: Se cambio el metodo para obtener los registros (pedidos portatiles) que estan asociados a una ruta.
+'Descripción: Se cambio el metodo para obtener los registros (pedidos portatiles) que estan asociados a una ruta.
 'Id. de cambios: 20150627CNSM$003
-'Descripci�n: Se cambio el metodo para realizar la insercion en producto detalle remision cuando tiene registros (pedidos portatiles) que estan asociados a una ruta
+'Descripción: Se cambio el metodo para realizar la insercion en producto detalle remision cuando tiene registros (pedidos portatiles) que estan asociados a una ruta
 'cuando una ruta tiene pedidos portatiles asociados.
 'Id. de cambios: 20150627CNSM$004  
-'Descripci�n: Evento agregado para lanzar una vista de consulta.
+'Descripción: Evento agregado para lanzar una vista de consulta.
 'Id. de cambios: 20150627CNSM$005  
-'Descripci�n: Se formateo la propiedad MinDate, asi como Value.
+'Descripción: Se formateo la propiedad MinDate, asi como Value.
 'Id. de cambios: 20150627CNSM$006  
-'Descripci�n: Se agrego un parametro para poder definir si la fecha de carga se puede o no modificar, asi tambien se hicieron ajustes para esta modificacion
+'Descripción: Se agrego un parametro para poder definir si la fecha de carga se puede o no modificar, asi tambien se hicieron ajustes para esta modificacion
 'Id. de cambios: 20151022CNSM$007  
 
 Option Infer On
@@ -40,232 +40,232 @@ Imports System.Linq
 
 
 Public Class frmLiquidacionPortatil
-    Inherits System.Windows.Forms.Form
+	Inherits System.Windows.Forms.Form
 
-    Private rptReporte As New ReportDocument()
+	Private rptReporte As New ReportDocument()
 
-    'Private dtTripulacion As DataTable
-    Private dataViewTripulacion As DataView
-    Private _DetalleGrid As DataTable
+	'Private dtTripulacion As DataTable
+	Private dataViewTripulacion As DataView
+	Private _DetalleGrid As DataTable
 
-    Dim banderaRemisionManual As Boolean = False
-    Public dtRemisiones As New DataTable
-    Public dtCantidades As New DataTable
-    Private _Configuracion As Integer
-    Private _ValorIva As Decimal
-    Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
-    Private _Modulo As Byte
-    Private _URLGateway As String
-    Private validarPeticion As Boolean
-    Private listaClientesEnviados As List(Of Integer)
+	Dim banderaRemisionManual As Boolean = False
+	Public dtRemisiones As New DataTable
+	Public dtCantidades As New DataTable
+	Private _Configuracion As Integer
+	Private _ValorIva As Decimal
+	Private listaDireccionesEntrega As List(Of RTGMCore.DireccionEntrega)
+	Private _Modulo As Byte
+	Private _URLGateway As String
+	Private validarPeticion As Boolean
+	Private listaClientesEnviados As List(Of Integer)
 
 
-    Private _listaCobros As New List(Of SigaMetClasses.CobroDetalladoDatos)
-    Private _ListaCobroRemisiones As New List(Of SigaMetClasses.CobroRemisiones)
-    Private _RutaMovil As Boolean
-    Private _addRemisiones As Boolean
-    Dim Credito As Decimal
-    Private _dtListaProductos As DataTable
-    Private _cargarProductosPadre As Boolean = False
+	Private _listaCobros As New List(Of SigaMetClasses.CobroDetalladoDatos)
+	Private _ListaCobroRemisiones As New List(Of SigaMetClasses.CobroRemisiones)
+	Private _RutaMovil As Boolean
+	Private _addRemisiones As Boolean
+	Dim Credito As Decimal
+	Private _dtListaProductos As DataTable
+	Private _cargarProductosPadre As Boolean = False
 
-    Private _soloObsequios As Boolean = False
+	Private _soloObsequios As Boolean = False
 
-    Public Property Cobros() As List(Of SigaMetClasses.CobroDetalladoDatos)
-        Get
-            Return _listaCobros
-        End Get
-        Set(ByVal value As List(Of SigaMetClasses.CobroDetalladoDatos))
-            _listaCobros = value
-        End Set
-    End Property
+	Public Property Cobros() As List(Of SigaMetClasses.CobroDetalladoDatos)
+		Get
+			Return _listaCobros
+		End Get
+		Set(ByVal value As List(Of SigaMetClasses.CobroDetalladoDatos))
+			_listaCobros = value
+		End Set
+	End Property
 
-    Private _listaDebitoAnticipos As New List(Of FormasPago.DebitoAnticipo)
-    Public Property DebitoAnticipo() As List(Of FormasPago.DebitoAnticipo)
-        Get
-            Return _listaDebitoAnticipos
-        End Get
-        Set(ByVal value As List(Of FormasPago.DebitoAnticipo))
-            _listaDebitoAnticipos = value
-        End Set
-    End Property
+	Private _listaDebitoAnticipos As New List(Of FormasPago.DebitoAnticipo)
+	Public Property DebitoAnticipo() As List(Of FormasPago.DebitoAnticipo)
+		Get
+			Return _listaDebitoAnticipos
+		End Get
+		Set(ByVal value As List(Of FormasPago.DebitoAnticipo))
+			_listaDebitoAnticipos = value
+		End Set
+	End Property
 
 
 #Region "Variables"
-    'Variables globales referentes al registro de "AutotanqueTurno"
-    Private dtRemisionesManuales As DataTable
-    Private oProductoRemManuales As DataTable
-    Private _AnoAtt As Short
-    Private _Folio As Integer
-    Private _AlmacenGas As Integer
-    Private _Corporativo As Integer
-    Private _MovimientoAlmacen As Integer
-    Private _NDocumento As Integer
-    Private _drLiquidacion As DataRow()
-    'Variables para la conexion con la base de datos y de usuo general como el "FactorDensisdad" y "RutaReportes"
-    Private _Usuario As String
-    Private _Empleado As Integer
-    Private _CorporativoUsuario As Short
-    Private _SucursalUsuario As Short
+	'Variables globales referentes al registro de "AutotanqueTurno"
+	Private dtRemisionesManuales As DataTable
+	Private oProductoRemManuales As DataTable
+	Private _AnoAtt As Short
+	Private _Folio As Integer
+	Private _AlmacenGas As Integer
+	Private _Corporativo As Integer
+	Private _MovimientoAlmacen As Integer
+	Private _NDocumento As Integer
+	Private _drLiquidacion As DataRow()
+	'Variables para la conexion con la base de datos y de usuo general como el "FactorDensisdad" y "RutaReportes"
+	Private _Usuario As String
+	Private _Empleado As Integer
+	Private _CorporativoUsuario As Short
+	Private _SucursalUsuario As Short
 
-    Private _CajaUsuario As Byte
-    Private _FactorDensidad As Decimal
-    Private _Servidor As String
-    Private _Database As String
-    Private _Password As String
-    Private _RutaReportes As String
+	Private _CajaUsuario As Byte
+	Private _FactorDensidad As Decimal
+	Private _Servidor As String
+	Private _Database As String
+	Private _Password As String
+	Private _RutaReportes As String
 
-    Private _IdCelula As Integer
-    Private _seccion As String
+	Private _IdCelula As Integer
+	Private _seccion As String
 
-    '20150627CNSM$001-----------------
-    'Variable declarada para poder identificar si la sucursal cuenta con movil
-    Private _SucursalMovil As Boolean
-    'Variable para almacenar la ruta 
-    Private _Ruta As Integer
-    'Variable para identificar si la Ruta tiene o no tiene pedidos portatiles producto
-    Private _FlagPedidoPortatil As Boolean
-    '20150627CNSM$001-----------------
+	'20150627CNSM$001-----------------
+	'Variable declarada para poder identificar si la sucursal cuenta con movil
+	Private _SucursalMovil As Boolean
+	'Variable para almacenar la ruta 
+	Private _Ruta As Integer
+	'Variable para identificar si la Ruta tiene o no tiene pedidos portatiles producto
+	Private _FlagPedidoPortatil As Boolean
+	'20150627CNSM$001-----------------
 
-    'RM_02_08_2018 Variable para mantener en memoria los productos
-    Private _dtProductos As DataTable = New DataTable
+	'RM_02_08_2018 Variable para mantener en memoria los productos
+	Private _dtProductos As DataTable = New DataTable
 
-    'Variables para el cliente al momento de liquidar
-    Private _ClienteVentasPublico As Integer
+	'Variables para el cliente al momento de liquidar
+	Private _ClienteVentasPublico As Integer
 
-    '20151022CNSM$007-----------------
-    Private _ModificaFCarga As Boolean
-    Private _Modifcaciondtp As Boolean
-    Private _FCargaActual, _FLiquidacionActual As DateTime
-    '20151022CNSM$007-----------------
+	'20151022CNSM$007-----------------
+	Private _ModificaFCarga As Boolean
+	Private _Modifcaciondtp As Boolean
+	Private _FCargaActual, _FLiquidacionActual As DateTime
+	'20151022CNSM$007-----------------
 
-    Private _TipoCobroClienteVentasPublico As Integer
-    Private _ClienteNormal As Integer = 0
-    Private _TipoCobroClienteNormal As Integer = 0
-    Private _ZonaEconomicaClienteNormal As Integer = 0
-    Private _ClienteVtaPublico As Integer ' 20061114CAGP$001
+	Private _TipoCobroClienteVentasPublico As Integer
+	Private _ClienteNormal As Integer = 0
+	Private _TipoCobroClienteNormal As Integer = 0
+	Private _ZonaEconomicaClienteNormal As Integer = 0
+	Private _ClienteVtaPublico As Integer ' 20061114CAGP$001
 
-    Private _DatosCliente As Array = Array.CreateInstance(GetType(String), 9)
+	Private _DatosCliente As Array = Array.CreateInstance(GetType(String), 9)
 
-    'Variables donde se almacena los totales de efectivo
-    Private _TotalLiquidarPedido As Decimal = 0
-    Private _TotalNetoCaja As Decimal = 0
-    'Private _TotalCobro As Decimal
+	'Variables donde se almacena los totales de efectivo
+	Private _TotalLiquidarPedido As Decimal = 0
+	Private _TotalNetoCaja As Decimal = 0
+	'Private _TotalCobro As Decimal
 
-    Private _Cambio As Decimal = 0
+	Private _Cambio As Decimal = 0
 
-    Private _TotalCreditos As Decimal = 0
-    Private _TotalObsequios As Decimal = 0
-    Private _Kilos As Integer = 0
-    Private _KilosCredito As Integer = 0
-    Private _KilosObsequio As Integer = 0
-    Private _ExisteObsequio As Integer = 0
+	Private _TotalCreditos As Decimal = 0
+	Private _TotalObsequios As Decimal = 0
+	Private _Kilos As Integer = 0
+	Private _KilosCredito As Integer = 0
+	Private _KilosObsequio As Integer = 0
+	Private _ExisteObsequio As Integer = 0
 
-    'Arreglos donde se almacena la cantidad de dinero pagada
-    Private arrCambio As Array 'Arreglo para las denominaciones del cambio desglosado
-    Private arrEfectivo As Array 'Arreglo para las denominaciones del efectivo
-    Private arrVales As Array 'Arreglo para las denominacions de los vales
+	'Arreglos donde se almacena la cantidad de dinero pagada
+	Private arrCambio As Array 'Arreglo para las denominaciones del cambio desglosado
+	Private arrEfectivo As Array 'Arreglo para las denominaciones del efectivo
+	Private arrVales As Array 'Arreglo para las denominacions de los vales
 
-    'Variables globales del inicio de sesion para que se pueda procesar la liquidacion
-    Private SesionIniciada As Boolean = False 'Indica si la sesion ya se inici�
-    Private PuedeIniciarSesion As Boolean = True 'Indica si el usuario puede iniciar sesi�n
-    Private ConsecutivoInicioDeSesion As Byte 'Indica el n�mero de consecutivo que el inicio de sesi�n tiene
-    'Private FechaInicioSesion As Date
-    Private FechaOperacion As Date ' = CType(Now.ToShortDateString, Date) 'Indica la fecha de operaci�n actual en formato (dd/MM/yyyy)
+	'Variables globales del inicio de sesion para que se pueda procesar la liquidacion
+	Private SesionIniciada As Boolean = False 'Indica si la sesion ya se inició
+	Private PuedeIniciarSesion As Boolean = True 'Indica si el usuario puede iniciar sesión
+	Private ConsecutivoInicioDeSesion As Byte 'Indica el número de consecutivo que el inicio de sesión tiene
+	'Private FechaInicioSesion As Date
+	Private FechaOperacion As Date ' = CType(Now.ToShortDateString, Date) 'Indica la fecha de operación actual en formato (dd/MM/yyyy)
 
-    'Variables globales para el pago con Cheque
-    Dim ofrmPagoCheque As New frmPagoCheque()
-    Private _ClienteLista As New ArrayList()
-    Private _TipoCobroLista As New ArrayList()
+	'Variables globales para el pago con Cheque
+	Dim ofrmPagoCheque As New frmPagoCheque()
+	Private _ClienteLista As New ArrayList()
+	Private _TipoCobroLista As New ArrayList()
 
-    Private _TipoCobroCredito As Integer = 18
+	Private _TipoCobroCredito As Integer = 18
 
-    Public _Copias As Integer
-    Public _FormaImprimir As String
-    Private _ReglaHoraLiquidar As String = "0"
-    Private _MaxHoraLiquidar As String = "00:00"
+	Public _Copias As Integer
+	Public _FormaImprimir As String
+	Private _ReglaHoraLiquidar As String = "0"
+	Private _MaxHoraLiquidar As String = "00:00"
 
-    Private VersionMovilGas As Integer = 0
-    Private MGConexionMySQL As String = Nothing
+	Private VersionMovilGas As Integer = 0
+	Private MGConexionMySQL As String = Nothing
 
 
 
-    'LUSATE Par�metro que indica si se liquida con precios vigentes o no vigentes.
-    Private _LiqPrecioVigente As Boolean = True
+	'LUSATE Parámetro que indica si se liquida con precios vigentes o no vigentes.
+	Private _LiqPrecioVigente As Boolean = True
 
-    'LUSATE Variable que indica si el cami�n tiene BoletinEnLinea
-    Private _BoletinEnLineaCamion As Boolean = False
-    Private _Totalcobro As Decimal
+	'LUSATE Variable que indica si el camión tiene BoletinEnLinea
+	Private _BoletinEnLineaCamion As Boolean = False
+	Private _Totalcobro As Decimal
 
-    Dim MovimientoAlmacenS As New LiquidacionTransaccionada.cMovimientoAlmacen(0, 0, 0, DateTime.Now, 0, 0, 0, DateTime.Now, 0, 0, 0, "", 0)
-    Dim MovimientoAlmacenO As LiquidacionTransaccionada.cMovimientoAlmacen
-    Private banderaTransaccion As Boolean = False
+	Dim MovimientoAlmacenS As New LiquidacionTransaccionada.cMovimientoAlmacen(0, 0, 0, DateTime.Now, 0, 0, 0, DateTime.Now, 0, 0, 0, "", 0)
+	Dim MovimientoAlmacenO As LiquidacionTransaccionada.cMovimientoAlmacen
+	Private banderaTransaccion As Boolean = False
 
-    Private _obligaInsercionRemision As Boolean
+	Private _obligaInsercionRemision As Boolean
 
-    Private _Liquidado As Boolean = False
-    Friend WithEvents grpCobroEfectivo As GroupBox
-    Friend WithEvents capEfectivo As CapturaEfectivo.Efectivo
-    Friend WithEvents grpEfectivo As GroupBox
-    Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents Label20 As Label
-    Friend WithEvents Label19 As Label
-    Friend WithEvents Label18 As Label
-    Friend WithEvents lblAplicAnticipo As Label
-    Friend WithEvents lblAplicAnticipotck As Label
-    Friend WithEvents lblTransferElect As Label
-    Friend WithEvents lblTransferElectck As Label
-    Friend WithEvents lblTarjDebCred As Label
-    Friend WithEvents lblTarjDebCredtck As Label
-    Friend WithEvents Label12 As Label
-    Friend WithEvents lblVales As Label
-    Friend WithEvents lblValetck As Label
-    Friend WithEvents Label6 As Label
-    Friend WithEvents lblCheque As Label
-    Friend WithEvents lblChequetck As Label
-    Friend WithEvents Label5 As Label
-    Friend WithEvents lblCredito As Label
-    Friend WithEvents Label9 As Label
-    Friend WithEvents Label7 As Label
-    Friend WithEvents lblEfectivo As Label
-    Friend WithEvents lblEfectivotck As Label
-    Friend WithEvents Label1 As Label
-    Friend WithEvents Label3 As Label
-    Friend WithEvents lblVentaTotal As Label
-    Friend WithEvents lblVentatotaltck As Label
-    Friend WithEvents lblTotalCobro As Label
-    Friend WithEvents lblCobrotck As Label
-    Friend WithEvents lblTotal As Label
-    Friend WithEvents lblTotaltck As Label
-    Friend WithEvents lblCambiotck As Label
-    Friend WithEvents lblCambio As Label
-    Friend WithEvents grpFormasPago As GroupBox
-    Friend WithEvents btnCancelarPago As Button
-    Friend WithEvents btnPagoEfectivo As Button
-    Friend WithEvents btnAplicacionAnticipo As Button
-    Friend WithEvents btnCapturarVale As Button
-    Friend WithEvents btnTransferencia As Button
-    Friend WithEvents btnCapturarTarjeta As Button
-    Friend WithEvents btnCapturarCheque As Button
-    Friend WithEvents col0004 As DataGridTextBoxColumn
-    Friend WithEvents col0005 As DataGridTextBoxColumn
-    Friend WithEvents col0003 As DataGridTextBoxColumn
-    Friend WithEvents col0002 As DataGridTextBoxColumn
-    Friend WithEvents col00021 As DataGridTextBoxColumn
-    Friend WithEvents col0001 As DataGridTextBoxColumn
-    Friend WithEvents col0000 As DataGridTextBoxColumn
-    Friend WithEvents GroupBox2 As GroupBox
-    Friend WithEvents lblTotalKilos As Label
-    Friend WithEvents lblKilosVendidos As Label
-    Friend WithEvents grdDetalle As DataGrid
-    Friend WithEvents Label16 As Label
-    Friend WithEvents Label15 As Label
-    Friend WithEvents Label14 As Label
-    Friend WithEvents btnBuscarCliente As ControlesBase.BotonBase
-    Friend WithEvents btnModificar As ControlesBase.BotonBase
-    Friend WithEvents lblmovilgas As Label
-    Friend WithEvents Label2 As Label
-    Friend WithEvents lblResto As Label
-    Friend WithEvents lblTipoRuta As Label
+	Private _Liquidado As Boolean = False
+	Friend WithEvents grpCobroEfectivo As GroupBox
+	Friend WithEvents capEfectivo As CapturaEfectivo.Efectivo
+	Friend WithEvents grpEfectivo As GroupBox
+	Friend WithEvents GroupBox1 As GroupBox
+	Friend WithEvents Label20 As Label
+	Friend WithEvents Label19 As Label
+	Friend WithEvents Label18 As Label
+	Friend WithEvents lblAplicAnticipo As Label
+	Friend WithEvents lblAplicAnticipotck As Label
+	Friend WithEvents lblTransferElect As Label
+	Friend WithEvents lblTransferElectck As Label
+	Friend WithEvents lblTarjDebCred As Label
+	Friend WithEvents lblTarjDebCredtck As Label
+	Friend WithEvents Label12 As Label
+	Friend WithEvents lblVales As Label
+	Friend WithEvents lblValetck As Label
+	Friend WithEvents Label6 As Label
+	Friend WithEvents lblCheque As Label
+	Friend WithEvents lblChequetck As Label
+	Friend WithEvents Label5 As Label
+	Friend WithEvents lblCredito As Label
+	Friend WithEvents Label9 As Label
+	Friend WithEvents Label7 As Label
+	Friend WithEvents lblEfectivo As Label
+	Friend WithEvents lblEfectivotck As Label
+	Friend WithEvents Label1 As Label
+	Friend WithEvents Label3 As Label
+	Friend WithEvents lblVentaTotal As Label
+	Friend WithEvents lblVentatotaltck As Label
+	Friend WithEvents lblTotalCobro As Label
+	Friend WithEvents lblCobrotck As Label
+	Friend WithEvents lblTotal As Label
+	Friend WithEvents lblTotaltck As Label
+	Friend WithEvents lblCambiotck As Label
+	Friend WithEvents lblCambio As Label
+	Friend WithEvents grpFormasPago As GroupBox
+	Friend WithEvents btnCancelarPago As Button
+	Friend WithEvents btnPagoEfectivo As Button
+	Friend WithEvents btnAplicacionAnticipo As Button
+	Friend WithEvents btnCapturarVale As Button
+	Friend WithEvents btnTransferencia As Button
+	Friend WithEvents btnCapturarTarjeta As Button
+	Friend WithEvents btnCapturarCheque As Button
+	Friend WithEvents col0004 As DataGridTextBoxColumn
+	Friend WithEvents col0005 As DataGridTextBoxColumn
+	Friend WithEvents col0003 As DataGridTextBoxColumn
+	Friend WithEvents col0002 As DataGridTextBoxColumn
+	Friend WithEvents col00021 As DataGridTextBoxColumn
+	Friend WithEvents col0001 As DataGridTextBoxColumn
+	Friend WithEvents col0000 As DataGridTextBoxColumn
+	Friend WithEvents GroupBox2 As GroupBox
+	Friend WithEvents lblTotalKilos As Label
+	Friend WithEvents lblKilosVendidos As Label
+	Friend WithEvents grdDetalle As DataGrid
+	Friend WithEvents Label16 As Label
+	Friend WithEvents Label15 As Label
+	Friend WithEvents Label14 As Label
+	Friend WithEvents btnBuscarCliente As ControlesBase.BotonBase
+	Friend WithEvents btnModificar As ControlesBase.BotonBase
+	Friend WithEvents lblmovilgas As Label
+	Friend WithEvents Label2 As Label
+	Friend WithEvents lblResto As Label
+	Friend WithEvents lblTipoRuta As Label
 	Friend WithEvents Label4 As Label
 	Friend WithEvents lblEnEfectivo As Label
 	Friend WithEvents Label13 As Label
@@ -279,82 +279,82 @@ Public Class frmLiquidacionPortatil
 #Region " Windows Form Designer generated code "
 
 	Public Sub New()
-        MyBase.New()
+		MyBase.New()
 
-        'This call is required by the Windows Form Designer.
-        InitializeComponent()
-        'Add any initialization after the InitializeComponent() call
+		'This call is required by the Windows Form Designer.
+		InitializeComponent()
+		'Add any initialization after the InitializeComponent() call
 
-    End Sub
+	End Sub
 
-    'Form overrides dispose to clean up the component list.
-    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-        If disposing Then
-            If Not (components Is Nothing) Then
-                components.Dispose()
-            End If
-        End If
-        MyBase.Dispose(disposing)
-    End Sub
+	'Form overrides dispose to clean up the component list.
+	Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+		If disposing Then
+			If Not (components Is Nothing) Then
+				components.Dispose()
+			End If
+		End If
+		MyBase.Dispose(disposing)
+	End Sub
 
-    'Required by the Windows Form Designer
-    Private components As System.ComponentModel.IContainer
+	'Required by the Windows Form Designer
+	Private components As System.ComponentModel.IContainer
 
-    'NOTE: The following procedure is required by the Windows Form Designer
-    'It can be modified using the Windows Form Designer.  
-    'Do not modify it using the code editor.
-    Friend WithEvents btnDetalle As ControlesBase.BotonBase
-    Friend WithEvents Label10 As System.Windows.Forms.Label
-    Friend WithEvents dtpFCarga As System.Windows.Forms.DateTimePicker
-    Friend WithEvents grbInformacion As System.Windows.Forms.GroupBox
-    Friend WithEvents lblCelula As System.Windows.Forms.Label
-    Friend WithEvents lblRuta As System.Windows.Forms.Label
-    Friend WithEvents lblFCarga As System.Windows.Forms.Label
-    Friend WithEvents lblFolio As System.Windows.Forms.Label
-    Friend WithEvents lblCamion As System.Windows.Forms.Label
-    Friend WithEvents lblCelulatck As System.Windows.Forms.Label
-    Friend WithEvents lblRutatck As System.Windows.Forms.Label
-    Friend WithEvents lblFCargatck As System.Windows.Forms.Label
-    Friend WithEvents lblFoliotck As System.Windows.Forms.Label
-    Friend WithEvents lblCamiontck As System.Windows.Forms.Label
-    Friend WithEvents grbDetalleProducto As System.Windows.Forms.GroupBox
-    Friend WithEvents cboZEconomica As PortatilClasses.Combo.ComboZEconomicaPtl
-    Friend WithEvents lblZonaEconomica As System.Windows.Forms.Label
-    Friend WithEvents lblExistencia1 As System.Windows.Forms.Label
-    Friend WithEvents lbltckExistencia As System.Windows.Forms.Label
-    Friend WithEvents Label8 As System.Windows.Forms.Label
-    Friend WithEvents lbltckProducto As System.Windows.Forms.Label
-    Friend WithEvents lblProducto1 As System.Windows.Forms.Label
-    Friend WithEvents txtCantidad1 As SigaMetClasses.Controles.txtNumeroEntero
-    Friend WithEvents btnCancelar As ControlesBase.BotonBase
-    Friend WithEvents btnAceptar As ControlesBase.BotonBase
-    Friend WithEvents pnlProducto As System.Windows.Forms.Panel
-    Friend WithEvents btnAgregar As ControlesBase.BotonBase
-    Friend WithEvents lblCorporativotck As System.Windows.Forms.Label
-    Friend WithEvents lblCorporativo As System.Windows.Forms.Label
-    Friend WithEvents col001 As System.Windows.Forms.DataGridTextBoxColumn
-    Friend WithEvents col002 As System.Windows.Forms.DataGridTextBoxColumn
-    Friend WithEvents col003 As System.Windows.Forms.DataGridTextBoxColumn
-    Friend WithEvents col004 As System.Windows.Forms.DataGridTextBoxColumn
-    Friend WithEvents col005 As System.Windows.Forms.DataGridTextBoxColumn
-    Friend WithEvents lblTipoCobro As System.Windows.Forms.Label
-    Friend WithEvents cboTipoCobro As PortatilClasses.Combo.ComboBase
-    Friend WithEvents tltLiquidacion As System.Windows.Forms.ToolTip
-    Friend WithEvents lblCliente As System.Windows.Forms.Label
-    Friend WithEvents TxtCliente As SigaMetClasses.Controles.txtNumeroEntero
-    Friend WithEvents ImageList1 As System.Windows.Forms.ImageList
-    Friend WithEvents lblOrdentck As System.Windows.Forms.Label
-    Friend WithEvents lblOrden As System.Windows.Forms.Label
-    Friend WithEvents lblTripulaciontck As System.Windows.Forms.Label
-    Friend WithEvents btnTripulacion As ControlesBase.BotonBase
-    Friend WithEvents lblNombreCliente As System.Windows.Forms.Label
-    Friend WithEvents lblNombreClientetck As System.Windows.Forms.Label
-    Friend WithEvents cbxAplicaDescuento As System.Windows.Forms.CheckBox
-    Friend WithEvents txtAplicaDescuento As System.Windows.Forms.Label
-    Friend WithEvents lblFechaLiquidacion As System.Windows.Forms.Label
-    Friend WithEvents dtpFLiquidacion As System.Windows.Forms.DateTimePicker
-    Friend WithEvents txtTripulacion As System.Windows.Forms.TextBox
-    <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+	'NOTE: The following procedure is required by the Windows Form Designer
+	'It can be modified using the Windows Form Designer.  
+	'Do not modify it using the code editor.
+	Friend WithEvents btnDetalle As ControlesBase.BotonBase
+	Friend WithEvents Label10 As System.Windows.Forms.Label
+	Friend WithEvents dtpFCarga As System.Windows.Forms.DateTimePicker
+	Friend WithEvents grbInformacion As System.Windows.Forms.GroupBox
+	Friend WithEvents lblCelula As System.Windows.Forms.Label
+	Friend WithEvents lblRuta As System.Windows.Forms.Label
+	Friend WithEvents lblFCarga As System.Windows.Forms.Label
+	Friend WithEvents lblFolio As System.Windows.Forms.Label
+	Friend WithEvents lblCamion As System.Windows.Forms.Label
+	Friend WithEvents lblCelulatck As System.Windows.Forms.Label
+	Friend WithEvents lblRutatck As System.Windows.Forms.Label
+	Friend WithEvents lblFCargatck As System.Windows.Forms.Label
+	Friend WithEvents lblFoliotck As System.Windows.Forms.Label
+	Friend WithEvents lblCamiontck As System.Windows.Forms.Label
+	Friend WithEvents grbDetalleProducto As System.Windows.Forms.GroupBox
+	Friend WithEvents cboZEconomica As PortatilClasses.Combo.ComboZEconomicaPtl
+	Friend WithEvents lblZonaEconomica As System.Windows.Forms.Label
+	Friend WithEvents lblExistencia1 As System.Windows.Forms.Label
+	Friend WithEvents lbltckExistencia As System.Windows.Forms.Label
+	Friend WithEvents Label8 As System.Windows.Forms.Label
+	Friend WithEvents lbltckProducto As System.Windows.Forms.Label
+	Friend WithEvents lblProducto1 As System.Windows.Forms.Label
+	Friend WithEvents txtCantidad1 As SigaMetClasses.Controles.txtNumeroEntero
+	Friend WithEvents btnCancelar As ControlesBase.BotonBase
+	Friend WithEvents btnAceptar As ControlesBase.BotonBase
+	Friend WithEvents pnlProducto As System.Windows.Forms.Panel
+	Friend WithEvents btnAgregar As ControlesBase.BotonBase
+	Friend WithEvents lblCorporativotck As System.Windows.Forms.Label
+	Friend WithEvents lblCorporativo As System.Windows.Forms.Label
+	Friend WithEvents col001 As System.Windows.Forms.DataGridTextBoxColumn
+	Friend WithEvents col002 As System.Windows.Forms.DataGridTextBoxColumn
+	Friend WithEvents col003 As System.Windows.Forms.DataGridTextBoxColumn
+	Friend WithEvents col004 As System.Windows.Forms.DataGridTextBoxColumn
+	Friend WithEvents col005 As System.Windows.Forms.DataGridTextBoxColumn
+	Friend WithEvents lblTipoCobro As System.Windows.Forms.Label
+	Friend WithEvents cboTipoCobro As PortatilClasses.Combo.ComboBase
+	Friend WithEvents tltLiquidacion As System.Windows.Forms.ToolTip
+	Friend WithEvents lblCliente As System.Windows.Forms.Label
+	Friend WithEvents TxtCliente As SigaMetClasses.Controles.txtNumeroEntero
+	Friend WithEvents ImageList1 As System.Windows.Forms.ImageList
+	Friend WithEvents lblOrdentck As System.Windows.Forms.Label
+	Friend WithEvents lblOrden As System.Windows.Forms.Label
+	Friend WithEvents lblTripulaciontck As System.Windows.Forms.Label
+	Friend WithEvents btnTripulacion As ControlesBase.BotonBase
+	Friend WithEvents lblNombreCliente As System.Windows.Forms.Label
+	Friend WithEvents lblNombreClientetck As System.Windows.Forms.Label
+	Friend WithEvents cbxAplicaDescuento As System.Windows.Forms.CheckBox
+	Friend WithEvents txtAplicaDescuento As System.Windows.Forms.Label
+	Friend WithEvents lblFechaLiquidacion As System.Windows.Forms.Label
+	Friend WithEvents dtpFLiquidacion As System.Windows.Forms.DateTimePicker
+	Friend WithEvents txtTripulacion As System.Windows.Forms.TextBox
+	<System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
 		Me.components = New System.ComponentModel.Container()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLiquidacionPortatil))
 		Me.grbInformacion = New System.Windows.Forms.GroupBox()
@@ -555,7 +555,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblFechaLiquidacion.Name = "lblFechaLiquidacion"
 		Me.lblFechaLiquidacion.Size = New System.Drawing.Size(73, 13)
 		Me.lblFechaLiquidacion.TabIndex = 64
-		Me.lblFechaLiquidacion.Text = "F. liquidaci�n:"
+		Me.lblFechaLiquidacion.Text = "F. liquidacion:"
 		'
 		'dtpFLiquidacion
 		'
@@ -581,7 +581,7 @@ Public Class frmLiquidacionPortatil
 		Me.btnTripulacion.Size = New System.Drawing.Size(26, 21)
 		Me.btnTripulacion.TabIndex = 40
 		Me.btnTripulacion.TabStop = False
-		Me.tltLiquidacion.SetToolTip(Me.btnTripulacion, "Presione tripulaci�n para visualizar la tripulaci�n asignada")
+		Me.tltLiquidacion.SetToolTip(Me.btnTripulacion, "Presione tripulación para visualizar la tripulación asignada")
 		Me.btnTripulacion.UseVisualStyleBackColor = False
 		'
 		'ImageList1
@@ -619,7 +619,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblOrden.TabIndex = 38
 		Me.lblOrden.Text = "Orden"
 		Me.lblOrden.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-		Me.tltLiquidacion.SetToolTip(Me.lblOrden, "N�mero de folio a liquidar")
+		Me.tltLiquidacion.SetToolTip(Me.lblOrden, "Número de folio a liquidar")
 		'
 		'lblOrdentck
 		'
@@ -661,9 +661,9 @@ Public Class frmLiquidacionPortatil
 		Me.lblCelula.Name = "lblCelula"
 		Me.lblCelula.Size = New System.Drawing.Size(160, 21)
 		Me.lblCelula.TabIndex = 34
-		Me.lblCelula.Text = "C�lula"
+		Me.lblCelula.Text = "Célula"
 		Me.lblCelula.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-		Me.tltLiquidacion.SetToolTip(Me.lblCelula, "C�lula a la que pertenece la ruta")
+		Me.tltLiquidacion.SetToolTip(Me.lblCelula, "Célula a la que pertenece la ruta")
 		'
 		'lblRuta
 		'
@@ -675,7 +675,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblRuta.TabIndex = 33
 		Me.lblRuta.Text = "Ruta"
 		Me.lblRuta.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-		Me.tltLiquidacion.SetToolTip(Me.lblRuta, "N�mero de ruta")
+		Me.tltLiquidacion.SetToolTip(Me.lblRuta, "Número de ruta")
 		'
 		'lblFCarga
 		'
@@ -698,7 +698,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblCelulatck.Name = "lblCelulatck"
 		Me.lblCelulatck.Size = New System.Drawing.Size(40, 13)
 		Me.lblCelulatck.TabIndex = 30
-		Me.lblCelulatck.Text = "C�lula:"
+		Me.lblCelulatck.Text = "Célula:"
 		'
 		'lblRutatck
 		'
@@ -741,7 +741,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblFolio.TabIndex = 26
 		Me.lblFolio.Text = "Folio"
 		Me.lblFolio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-		Me.tltLiquidacion.SetToolTip(Me.lblFolio, "N�mero de folio a liquidar")
+		Me.tltLiquidacion.SetToolTip(Me.lblFolio, "Número de folio a liquidar")
 		'
 		'lblCamion
 		'
@@ -751,9 +751,9 @@ Public Class frmLiquidacionPortatil
 		Me.lblCamion.Name = "lblCamion"
 		Me.lblCamion.Size = New System.Drawing.Size(160, 21)
 		Me.lblCamion.TabIndex = 25
-		Me.lblCamion.Text = "Cami�n"
+		Me.lblCamion.Text = "camión"
 		Me.lblCamion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-		Me.tltLiquidacion.SetToolTip(Me.lblCamion, "N�mero econ�mico de la unidad de venta")
+		Me.tltLiquidacion.SetToolTip(Me.lblCamion, "Número económico de la unidad de venta")
 		'
 		'lblCamiontck
 		'
@@ -763,7 +763,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblCamiontck.Name = "lblCamiontck"
 		Me.lblCamiontck.Size = New System.Drawing.Size(46, 13)
 		Me.lblCamiontck.TabIndex = 24
-		Me.lblCamiontck.Text = "Cami�n:"
+		Me.lblCamiontck.Text = "camión:"
 		'
 		'grbDetalleProducto
 		'
@@ -820,7 +820,7 @@ Public Class frmLiquidacionPortatil
 		Me.txtAplicaDescuento.Size = New System.Drawing.Size(110, 21)
 		Me.txtAplicaDescuento.TabIndex = 67
 		Me.txtAplicaDescuento.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-		Me.tltLiquidacion.SetToolTip(Me.txtAplicaDescuento, "N�mero de ruta")
+		Me.tltLiquidacion.SetToolTip(Me.txtAplicaDescuento, "Número de ruta")
 		Me.txtAplicaDescuento.Visible = False
 		'
 		'lblNombreCliente
@@ -903,7 +903,7 @@ Public Class frmLiquidacionPortatil
 		Me.cboTipoCobro.Name = "cboTipoCobro"
 		Me.cboTipoCobro.Size = New System.Drawing.Size(168, 21)
 		Me.cboTipoCobro.TabIndex = 4
-		Me.tltLiquidacion.SetToolTip(Me.cboTipoCobro, "Seleccione la forma de cobro que realizar�")
+		Me.tltLiquidacion.SetToolTip(Me.cboTipoCobro, "Seleccione la forma de cobro que realizará")
 		Me.cboTipoCobro.Visible = False
 		'
 		'btnModificar
@@ -1023,7 +1023,7 @@ Public Class frmLiquidacionPortatil
 		Me.cboZEconomica.Name = "cboZEconomica"
 		Me.cboZEconomica.Size = New System.Drawing.Size(285, 21)
 		Me.cboZEconomica.TabIndex = 3
-		Me.tltLiquidacion.SetToolTip(Me.cboZEconomica, "Seleccione la zona econ�mica donde se relaiz� la venta")
+		Me.tltLiquidacion.SetToolTip(Me.cboZEconomica, "Seleccione la zona económica donde se relaizó la venta")
 		'
 		'lblZonaEconomica
 		'
@@ -1033,7 +1033,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblZonaEconomica.Name = "lblZonaEconomica"
 		Me.lblZonaEconomica.Size = New System.Drawing.Size(78, 13)
 		Me.lblZonaEconomica.TabIndex = 34
-		Me.lblZonaEconomica.Text = "Z. econ�mica.:"
+		Me.lblZonaEconomica.Text = "Z. económica.:"
 		Me.lblZonaEconomica.Visible = False
 		'
 		'btnDetalle
@@ -1066,7 +1066,7 @@ Public Class frmLiquidacionPortatil
 		Me.btnCancelar.TabIndex = 47
 		Me.btnCancelar.Text = "&Cancelar"
 		Me.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-		Me.tltLiquidacion.SetToolTip(Me.btnCancelar, "Presione cancelar para no registrar la liquidaci�n")
+		Me.tltLiquidacion.SetToolTip(Me.btnCancelar, "Presione cancelar para no registrar la liquidación")
 		Me.btnCancelar.UseVisualStyleBackColor = False
 		'
 		'btnAceptar
@@ -1082,7 +1082,7 @@ Public Class frmLiquidacionPortatil
 		Me.btnAceptar.TabIndex = 46
 		Me.btnAceptar.Text = "&Aceptar"
 		Me.btnAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-		Me.tltLiquidacion.SetToolTip(Me.btnAceptar, "Presione aceptar para registrar la liquidaci�n port�til")
+		Me.tltLiquidacion.SetToolTip(Me.btnAceptar, "Presione aceptar para registrar la liquidación portátil")
 		Me.btnAceptar.UseVisualStyleBackColor = False
 		'
 		'col001
@@ -1375,7 +1375,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblAplicAnticipotck.Name = "lblAplicAnticipotck"
 		Me.lblAplicAnticipotck.Size = New System.Drawing.Size(176, 21)
 		Me.lblAplicAnticipotck.TabIndex = 118
-		Me.lblAplicAnticipotck.Text = "Aplicaci�n de Anticipo"
+		Me.lblAplicAnticipotck.Text = "Aplicación de Anticipo"
 		Me.lblAplicAnticipotck.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
 		'
 		'lblTransferElect
@@ -1401,7 +1401,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblTransferElectck.Name = "lblTransferElectck"
 		Me.lblTransferElectck.Size = New System.Drawing.Size(176, 21)
 		Me.lblTransferElectck.TabIndex = 116
-		Me.lblTransferElectck.Text = "Transferencia Electr�nica"
+		Me.lblTransferElectck.Text = "Transferencia Electrónica"
 		Me.lblTransferElectck.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
 		'
 		'lblTarjDebCred
@@ -1427,7 +1427,7 @@ Public Class frmLiquidacionPortatil
 		Me.lblTarjDebCredtck.Name = "lblTarjDebCredtck"
 		Me.lblTarjDebCredtck.Size = New System.Drawing.Size(176, 21)
 		Me.lblTarjDebCredtck.TabIndex = 114
-		Me.lblTarjDebCredtck.Text = "Tarjeta d�bito y cr�dito"
+		Me.lblTarjDebCredtck.Text = "Tarjeta débito y crédito"
 		Me.lblTarjDebCredtck.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
 		'
 		'Label12
@@ -1541,7 +1541,7 @@ Public Class frmLiquidacionPortatil
 		Me.Label9.Name = "Label9"
 		Me.Label9.Size = New System.Drawing.Size(176, 21)
 		Me.Label9.TabIndex = 105
-		Me.Label9.Text = "Cr�dito:"
+		Me.Label9.Text = "Crédito:"
 		Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
 		'
 		'Label7
@@ -1754,7 +1754,7 @@ Public Class frmLiquidacionPortatil
 		Me.btnAplicacionAnticipo.Name = "btnAplicacionAnticipo"
 		Me.btnAplicacionAnticipo.Size = New System.Drawing.Size(126, 23)
 		Me.btnAplicacionAnticipo.TabIndex = 4
-		Me.btnAplicacionAnticipo.Text = "Aplicaci�n Anticipo"
+		Me.btnAplicacionAnticipo.Text = "Aplicación Anticipo"
 		Me.btnAplicacionAnticipo.UseVisualStyleBackColor = True
 		'
 		'btnCapturarVale
@@ -1844,7 +1844,7 @@ Public Class frmLiquidacionPortatil
 		'
 		Me.col0001.Format = ""
 		Me.col0001.FormatInfo = Nothing
-		Me.col0001.HeaderText = "Z. ec�n."
+		Me.col0001.HeaderText = "Z. econ."
 		Me.col0001.MappingName = "ZonaEconomica"
 		Me.col0001.Width = 48
 		'
@@ -1954,7 +1954,7 @@ Public Class frmLiquidacionPortatil
 		Me.Name = "frmLiquidacionPortatil"
 		Me.ShowInTaskbar = False
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-		Me.Text = "Liquidaci�n de ruta port�til"
+		Me.Text = "Liquidación de ruta portátil"
 		Me.grbInformacion.ResumeLayout(False)
 		Me.grbInformacion.PerformLayout()
 		Me.grbDetalleProducto.ResumeLayout(False)
@@ -1987,7 +1987,7 @@ Public Class frmLiquidacionPortatil
 		oReporte.ListaParametros.Add(Configuracion)
 		oReporte.ListaParametros.Add(MovimientoAlmacen)
 
-		'Orden de par�metros original
+		'Orden de parámetros original
 		'oReporte.ListaParametros.Add(1)
 		'oReporte.ListaParametros.Add(MovimientoAlmacen)
 		'oReporte.ListaParametros.Add(5)
@@ -1995,14 +1995,14 @@ Public Class frmLiquidacionPortatil
 		'oReporte.ListaParametros.Add(3)
 		'oReporte.ListaParametros.Add(MovimientoAlmacen)
 
-		'Se cambi� el orden en que manda los par�metros al reporte
-		'Par�metros SubReporte ReporteDetalleLiquidacion
+		'Se cambió el orden en que manda los parámetros al reporte
+		'Parámetros SubReporte ReporteDetalleLiquidacion
 		oReporte.ListaParametros.Add(5)
 		oReporte.ListaParametros.Add(MovimientoAlmacen)
-		'Par�metros SubReporte ReporteOperadorLiq
+		'Parámetros SubReporte ReporteOperadorLiq
 		oReporte.ListaParametros.Add(3)
 		oReporte.ListaParametros.Add(MovimientoAlmacen)
-		'Par�metros SubReporte Tripulacion
+		'Parámetros SubReporte Tripulacion
 		oReporte.ListaParametros.Add(1)
 		oReporte.ListaParametros.Add(MovimientoAlmacen)
 
@@ -2010,7 +2010,7 @@ Public Class frmLiquidacionPortatil
 
 		oReporte.ShowDialog()
 
-		'If MessageBox.Show("�Desea imprimir el reporte?", "Impresi�n de reporte de liquidaci�n.", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+		'If MessageBox.Show("¿Desea imprimir el reporte?", "Impresión de reporte de liquidación.", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
 		'    ImprimirReporte(0, MovimientoAlmacen)
 		'End If
 
@@ -2091,7 +2091,7 @@ Public Class frmLiquidacionPortatil
 			'crParameterFieldDefinition.ApplyCurrentValues(crParameterValues)
 
 
-			'Par�metros SubReporte ReporteDetalleLiquidacion
+			'Parámetros SubReporte ReporteDetalleLiquidacion
 			'Configuracion
 			crParameterFieldDefinitions = rptReporte.DataDefinition.ParameterFields
 			crParameterFieldDefinition = crParameterFieldDefinitions.Item(2)
@@ -2109,7 +2109,7 @@ Public Class frmLiquidacionPortatil
 			crParameterValues.Add(crParameterDiscreteValue)
 			crParameterFieldDefinition.ApplyCurrentValues(crParameterValues)
 
-			'Par�metros SubReporte ReporteOperadorLiq
+			'Parámetros SubReporte ReporteOperadorLiq
 			'Configuracion tRIPULACION
 			crParameterFieldDefinitions = rptReporte.DataDefinition.ParameterFields
 			crParameterFieldDefinition = crParameterFieldDefinitions.Item(4)
@@ -2128,7 +2128,7 @@ Public Class frmLiquidacionPortatil
 			crParameterFieldDefinition.ApplyCurrentValues(crParameterValues)
 
 
-			'Par�metros SubReporte Tripulacion
+			'Parámetros SubReporte Tripulacion
 			'Configuracion
 			crParameterFieldDefinitions = rptReporte.DataDefinition.ParameterFields
 			crParameterFieldDefinition = crParameterFieldDefinitions.Item(6)
@@ -2152,15 +2152,15 @@ Public Class frmLiquidacionPortatil
 				rptReporte.PrintToPrinter(_Copias, False, 0, 0)
 			Catch exc As Exception
 				Dim Mensajes As New PortatilClasses.Mensaje(120)
-				MessageBox.Show(Mensajes.Mensaje, "Modulo de liquidaci�n", MessageBoxButtons.OK, MessageBoxIcon.Error)
+				MessageBox.Show(Mensajes.Mensaje, "Modulo de liquidación", MessageBoxButtons.OK, MessageBoxIcon.Error)
 			End Try
 		Catch exc As Exception
 			Dim Mensajes As New PortatilClasses.Mensaje(120)
-			MessageBox.Show(Mensajes.Mensaje, "Modulo de liquidaci�n", MessageBoxButtons.OK, MessageBoxIcon.Error)
+			MessageBox.Show(Mensajes.Mensaje, "Modulo de liquidación", MessageBoxButtons.OK, MessageBoxIcon.Error)
 		End Try
 	End Sub
 
-	' Establece y realiza la conexi�n para cargar la informaci�n al reporte
+	' Establece y realiza la conexión para cargar la información al reporte
 	Public Sub AplicaInfoConexion()
 		For Each _TablaReporte In rptReporte.Database.Tables
 			_LogonInfo = _TablaReporte.LogOnInfo
@@ -2508,7 +2508,7 @@ Public Class frmLiquidacionPortatil
 		'          'Columna 019
 		'          dcColumna = New DataColumn()
 		'          dcColumna.DataType = System.Type.GetType("System.Int32")
-		'          dcColumna.ColumnName = "A�oMovimiento"
+		'          dcColumna.ColumnName = "AñoMovimiento"
 		'          dtPedidoCobro.Columns.Add(dcColumna)
 		'          'Columna 020
 		'          dcColumna = New DataColumn()
@@ -2602,12 +2602,12 @@ Public Class frmLiquidacionPortatil
 	'Realiza un inicio de sesion almacenando la informacion en la tabla CorteCaja
 	Public Sub IniciarSesion(ByRef InicioDeSesion As DateTime, ByVal connection As SqlConnection, ByRef transaccion As SqlTransaction)
 		If SesionIniciada Then
-			MessageBox.Show("La sesi�n ya fue iniciada.", "Inicio de sesi�n", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+			MessageBox.Show("La sesión ya fue iniciada.", "Inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
 			Exit Sub
 		End If
 
 		If Not PuedeIniciarSesion Then
-			MessageBox.Show("No puede iniciar sesi�n.", "Inicio de sesi�n", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+			MessageBox.Show("No puede iniciar sesión.", "Inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
 			Exit Sub
 		End If
 
@@ -2642,7 +2642,7 @@ Public Class frmLiquidacionPortatil
 	'Termina la sesion de la liquidacion en caja
 	Public Sub TerminarSesion(ByVal Importe As Decimal, ByVal connection As SqlConnection, ByRef transaccion As SqlTransaction)
 		If Not SesionIniciada Then
-			MessageBox.Show("La sesi�n no ha sido iniciada.", "Termino de sesi�n", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			MessageBox.Show("La sesión no ha sido iniciada.", "Termino de sesión", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 			Exit Sub
 		End If
 		Dim oCorte As New LiquidacionTransaccionada.CorteCaja()
@@ -2764,7 +2764,7 @@ Public Class frmLiquidacionPortatil
 
 		'If Not UsaMovilGasDos Then
 		'    'LUSATE 24/02/2016
-		'    'Carga UsuarioMovil sin importar sea ruta titular, suplente � apoyo.
+		'    'Carga UsuarioMovil sin importar sea ruta titular, suplente o apoyo.
 		'    Dim UsrMovil As Integer = 0
 		'    UsrMovil = oLiquidacion.ConsultaUsuarioMovil(CType(dtpFLiquidacion.Value, Date), _Ruta, _Folio)
 		'    ''
@@ -2794,7 +2794,7 @@ Public Class frmLiquidacionPortatil
 
 		If VersionMovilGas = 1 Or VersionMovilGas = 2 Then
 			'LUSATE 24/02/2016
-			'Carga UsuarioMovil sin importar sea ruta titular, suplente � apoyo.
+			'Carga UsuarioMovil sin importar sea ruta titular, suplente o apoyo.
 			Dim UsrMovil As Integer = 0
 			UsrMovil = oLiquidacion.ConsultaUsuarioMovil(CType(dtpFLiquidacion.Value, Date), _Ruta, _Folio)
 			''
@@ -3007,8 +3007,8 @@ Public Class frmLiquidacionPortatil
 #End Region
 
 #Region "Metodos y Funciones"
-	'Constructor de la forma que inicializa y carga la informaci�n necesaria
-	'para que la liquidaci�n se pueda llevar a cabo
+	'Constructor de la forma que inicializa y carga la información necesaria
+	'para que la liquidación se pueda llevar a cabo
 	Public Sub New(ByVal AnoAtt As Short, ByVal Folio As Integer, ByVal AlmacenGas As Integer, ByVal Corporativo As Integer,
 	ByVal MovimientoAlmacen As Integer, ByVal NDocumento As Integer, ByVal drLiquidacionCarga As DataRow(),
 	ByVal Usuario As String, ByVal Empleado As Integer, ByVal CajaUsuario As Byte, ByVal FactorDensidad As Decimal,
@@ -3018,7 +3018,7 @@ Public Class frmLiquidacionPortatil
 		MyBase.New()
 		InitializeComponent()
 
-		'Asignaci�n de las variables globales referentes al registro de "AutotanqueTurno"
+		'Asignación de las variables globales referentes al registro de "AutotanqueTurno"
 		_AnoAtt = AnoAtt
 		_Folio = Folio
 		_AlmacenGas = AlmacenGas
@@ -3147,7 +3147,7 @@ Public Class frmLiquidacionPortatil
 
 		txtTripulacion.Text = trip
 
-		btnTripulacion.Text = "Tripulaci�n (" + CType(_drLiquidacion(0).Item(9), String) + ")"
+		btnTripulacion.Text = "tripulación (" + CType(_drLiquidacion(0).Item(9), String) + ")"
 		lblOrden.Text = CType(_drLiquidacion(0).Item(26), String)
 		lblFolio.Text = CType(_drLiquidacion(0).Item(2), String)
 		lblFCarga.Text = CType(_drLiquidacion(0).Item(13), Date).ToString("D")
@@ -4079,7 +4079,7 @@ Public Class frmLiquidacionPortatil
 	Public Sub MovimientoCajasSalida(ByVal Folio As Integer)
 		Dim oMovimientoCajaSalida As New Liquidacion.cMovimientoCaja()
 		Dim Cant As Double
-		'Da de alta el cambio que result� del movimiento
+		'Da de alta el cambio que resultó del movimiento
 		If Not arrCambio Is Nothing Then
 			Cant = CType(arrCambio.GetValue(0, 1), Integer)
 			If Cant > 0 Then
@@ -4148,7 +4148,7 @@ Public Class frmLiquidacionPortatil
 	Public Sub MovimientoCajasSalida(ByVal Folio As Integer, ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction)
 		Dim oMovimientoCajaSalida As New LiquidacionTransaccionada.cMovimientoCaja()
 		Dim Cant As Double
-		'Da de alta el cambio que result� del movimiento
+		'Da de alta el cambio que resultó del movimiento
 		If Not arrCambio Is Nothing Then
 			Cant = CType(arrCambio.GetValue(0, 1), Integer)
 			If Cant > 0 Then
@@ -4214,7 +4214,7 @@ Public Class frmLiquidacionPortatil
 		'Fin del alta del cambio
 	End Sub
 
-	' Muestra la pantalla para seleccionar la causa de cancelaci�n, despues INACTIVA el movimiento
+	' Muestra la pantalla para seleccionar la causa de cancelación, despues INACTIVA el movimiento
 	' y actualiza las existencias de los almacenes afectados
 	' 20061114CAGP$001 /I
 	Private Sub CancelarMovimiento(ByVal MovimientoAlmacen As Integer, ByVal Almacen As Integer)
@@ -4243,7 +4243,7 @@ Public Class frmLiquidacionPortatil
 
 			Try
 				'---INICIO
-				'Se instancia el objeto que controla la transacci�n
+				'Se instancia el objeto que controla la transacción
 				Dim ClienteTemp As Integer
 
 
@@ -4434,7 +4434,7 @@ Public Class frmLiquidacionPortatil
 									Precio = CType(dtLiquidacionTotal.Rows(i).Item(15), Decimal)
 								End If
 								If Total = 0 Then
-									Throw New Exception("Error en el proceso, s�lo los obsequios pueden tener un total igual a cero, remisi�n: " & CType(dtLiquidacionTotal.Rows(i).Item(0), String) & " " & CType(dtLiquidacionTotal.Rows(i).Item(1), String))
+									Throw New Exception("Error en el proceso, sólo los obsequios pueden tener un total igual a cero, remisión: " & CType(dtLiquidacionTotal.Rows(i).Item(0), String) & " " & CType(dtLiquidacionTotal.Rows(i).Item(1), String))
 								End If
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
 								Total = 0
@@ -4442,7 +4442,7 @@ Public Class frmLiquidacionPortatil
 
 							'Importe = Total / ((CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal) / 100) + 1)
 							'Impuesto = Total - Importe
-							_seccion = "C�lculo de importes"
+							_seccion = "Cálculo de importes"
 
 							Importe = Total / (1 + _ValorIva)
 							Impuesto = Total - Importe
@@ -4450,7 +4450,7 @@ Public Class frmLiquidacionPortatil
 							'Impuesto = CType(dtLiquidacionTotal.Rows(i).Item(7), Decimal)
 
 
-							_seccion = "Asignaci�n de variables"
+							_seccion = "Asignación de variables"
 							Dim ProductoTemp, CantidadTemp, ValorTemp As Integer
 							Dim SaldoTemp As Decimal
 							Dim TipoCobroTemp, ZonaEconomicaTemp As Short
@@ -4627,7 +4627,7 @@ Public Class frmLiquidacionPortatil
 
 						For Each cobroTemp As SigaMetClasses.CobroDetalladoDatos In queryCobros
 							Dim _CobroTemp As Integer = cobroTemp.Cobro
-							Dim _AnoCobroTemp As Short = cobroTemp.A�oCobro
+							Dim _AnoCobroTemp As Short = cobroTemp.AñoCobro
 
 
 							_seccion = "AltaMovimientoCajaCobro Efectivo"
@@ -4656,7 +4656,7 @@ Public Class frmLiquidacionPortatil
 
 						For Each cobroTemp As SigaMetClasses.CobroDetalladoDatos In queryCobros
 							Dim _CobroTemp As Integer = cobroTemp.Cobro
-							Dim _AnoCobroTemp As Short = cobroTemp.A�oCobro
+							Dim _AnoCobroTemp As Short = cobroTemp.AñoCobro
 							Dim oMovimientoCajaCobro As New LiquidacionTransaccionada.cMovimientoCaja()
 							_seccion = "AltaMovimientoCajaCobro FormasPago"
 							oMovimientoCajaCobro.AltaMovimientoCajaCobro(_CajaUsuario, FechaOperacion,
@@ -4745,7 +4745,7 @@ Public Class frmLiquidacionPortatil
 						'End If
 
 						'k = 0
-						'ITL 6/agosto/2018 se comenta porque los obsequios TipoCobro = 15 no deben generar cobro, indicaci�n de Claudia Garc�a. 
+						'ITL 6/agosto/2018 se comenta porque los obsequios TipoCobro = 15 no deben generar cobro, indicación de Claudia García. 
 						'dtPedidoCobro.DefaultView.RowFilter = "Tabla = 0 and TipoCobro = 15"
 						'If dtPedidoCobro.DefaultView.Count > 0 Then
 						'    Dim _CobroTemp As Integer = CType(dtPedidoCobro.DefaultView.Item(k).Item(17), Integer)
@@ -4854,7 +4854,7 @@ Public Class frmLiquidacionPortatil
 					banderaTransaccion = True
 				Else
 					Dim Mensajes As New PortatilClasses.Mensaje(123)
-					MessageBox.Show(Mensajes.Mensaje, "M�dulo de liquidaci�n", MessageBoxButtons.OK, MessageBoxIcon.Error)
+					MessageBox.Show(Mensajes.Mensaje, "Módulo de liquidación", MessageBoxButtons.OK, MessageBoxIcon.Error)
 				End If
 
 			Catch ex As Exception
@@ -4862,8 +4862,8 @@ Public Class frmLiquidacionPortatil
 					transaction.Rollback()
 				Catch
 				End Try
-				Throw New Exception("Error en la liquidaci�n: " & ex.Message)
-				'MessageBox.Show("Error en la liquidaci�n: " + ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+				Throw New Exception("Error en la liquidación: " & ex.Message)
+				'MessageBox.Show("Error en la liquidación: " + ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
 			Finally
 				If connection.State = System.Data.ConnectionState.Open Then
 					connection.Close()
@@ -5837,7 +5837,7 @@ Public Class frmLiquidacionPortatil
 	'                   drPedidoCobro(11) = cobroTemp.NumeroCheque
 	'                   drPedidoCobro(12) = cobroTemp.NumeroCuenta
 	'                   drPedidoCobro(14) = cobroTemp.Saldo
-	'                   drPedidoCobro(19) = cobroTemp.A�oMovimiento
+	'                   drPedidoCobro(19) = cobroTemp.AñoMovimiento
 	'                   drPedidoCobro(20) = cobroTemp.FolioMovimiento
 
 	'                   dtPedidoCobro.Rows.Add(drPedidoCobro)
@@ -5847,7 +5847,7 @@ Public Class frmLiquidacionPortatil
 	'               'If CType(dtLiquidacionTotal.Rows(i).Item(10), Integer) = 21 Then
 	'               '	For Each CobroDetalle As SigaMetClasses.CobroDetalladoDatos In _listaCobros
 	'               '		If CobroDetalle.TipoCobro = 21 And CType(dtLiquidacionTotal.Rows(i).Item(20), String) = CobroDetalle.Serie And CType(dtLiquidacionTotal.Rows(i).Item(21), Integer) = CobroDetalle.Remision Then
-	'               '			drPedidoCobro(19) = CobroDetalle.A�oMovimiento
+	'               '			drPedidoCobro(19) = CobroDetalle.AñoMovimiento
 	'               '			drPedidoCobro(20) = CobroDetalle.FolioMovimiento
 	'               '		End If
 	'               '	Next
@@ -6180,12 +6180,12 @@ Public Class frmLiquidacionPortatil
 	'               'End Select
 
 
-	'               'If CType(dtPedidoCobro.DefaultView.Item(k).Item(18), Boolean) Then '�El cobro fue hecho mediante un cheque?
+	'               'If CType(dtPedidoCobro.DefaultView.Item(k).Item(18), Boolean) Then '¿El cobro fue hecho mediante un cheque?
 	'               '	oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), CType(dtPedidoCobro.DefaultView.Item(k).Item(11), String), CType(dtPedidoCobro.DefaultView.Item(k).Item(10), DateTime), CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
-	'               'ElseIf CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short) = 6 Then '�El cobro fue hecho mediante una tarjeta?
+	'               'ElseIf CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short) = 6 Then '¿El cobro fue hecho mediante una tarjeta?
 	'               '	oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", CType(dtPedidoCobro.DefaultView.Item(k).Item(9), Short), Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, CType(dtPedidoCobro.DefaultView.Item(k).Item(12), String), "", CType(dtPedidoCobro.DefaultView.Item(k).Item(6), Integer), CType(dtPedidoCobro.DefaultView.Item(k).Item(14), Decimal), _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
 	'               'Else
-	'               '	If CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short) <> 15 Then '�El tipo de cobro no es obsequio?
+	'               '	If CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short) <> 15 Then '¿El tipo de cobro no es obsequio?
 	'               '		oLiquidacionCobro.LiquidacionCobro(Importe, Impuesto, Total, "", 0, Now, "EMITIDO", CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short), "", Now, "", "", 0, 0, _Usuario, Now, 0, _Folio, _AnoAtt, False, Connection, Transaction)
 	'               '		If CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Short) = 21 Then 'Se se trata de un anticipo, debitar la parcialidad empleada
 	'               '			Dim oMvtoConciliarCobro As New SigaMetClasses.cMovimientoAConciliarCobro()
@@ -6414,13 +6414,13 @@ Public Class frmLiquidacionPortatil
 													   _Usuario, Now, 0, _Folio, _AnoAtt, TieneSaldoAFavor, Nothing,
 													   0, Connection, Transaction, DateTime.MinValue.Date)
 					oMvtoConciliarCobro.altaMovimientoConciliarCobro(cobroTemp.FolioMovimiento,
-																	 cobroTemp.A�oMovimiento,
+																	 cobroTemp.AñoMovimiento,
 																	 oLiquidacionCobro.AnoCobro, oLiquidacionCobro.Cobro, Total,
 																	 "EMITIDO", Connection, Transaction)
 			End Select
 			_seccion = "Lectura Datos Cobro"
 			cobroTemp.Cobro = oLiquidacionCobro.Cobro
-			cobroTemp.A�oCobro = oLiquidacionCobro.AnoCobro
+			cobroTemp.AñoCobro = oLiquidacionCobro.AnoCobro
 
 			If TieneSaldoAFavor Then
 				_seccion = "Insercion Saldo a favor Movimiento Conciliar"
@@ -6433,7 +6433,7 @@ Public Class frmLiquidacionPortatil
 				Nothing,
 				Nothing,
 				Nothing,
-				cobroTemp.A�oCobro,
+				cobroTemp.AñoCobro,
 				cobroTemp.Cobro,
 				cobroTemp.Saldo,
 				"REGISTRADO",
@@ -6474,7 +6474,7 @@ Public Class frmLiquidacionPortatil
 																								  CType(dtLiquidacionTotal.DefaultView.Item(i).Item(16), Short),
 																								  CType(dtLiquidacionTotal.DefaultView.Item(i).Item(17), Integer))
 					oLiquidacionCobroPedido.LiquidacionPedidoyCobroPedido(0, Now, 0, 0, Importe, Impuesto, Total, "", 0, Now, 0, "", 0, 0, 0,
-																			  cobroTemp.A�oCobro,
+																			  cobroTemp.AñoCobro,
 																			  cobroTemp.Cobro,
 																			  "", 0, 0, 0, 0, "", 0, Now, Now, 0, 0, 0, 0, 0, 0, 0, 0,
 																			  Connection, Transaction)
@@ -6521,7 +6521,7 @@ Public Class frmLiquidacionPortatil
 		'		drPedidoCobro(11) = cobroTemp.NumeroCheque
 		'		drPedidoCobro(12) = cobroTemp.NumeroCuenta
 		'		drPedidoCobro(14) = cobroTemp.Saldo
-		'		drPedidoCobro(19) = cobroTemp.A�oMovimiento
+		'		drPedidoCobro(19) = cobroTemp.AñoMovimiento
 		'		drPedidoCobro(20) = cobroTemp.FolioMovimiento
 		'		drPedidoCobro(21) = cobroTemp.FDeposito
 		'		drPedidoCobro(22) = cobroTemp.BancoOrigen
@@ -6578,7 +6578,7 @@ Public Class frmLiquidacionPortatil
 		'End If
 
 		'_seccion = "Tabla cobros Formas Pago"
-		'dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1  and TipoCobro in(6, 19, 22, 10, 21, 16, 2)"  'Tarjeta De Cr�dito, Tarjeta De d�bito, Tarjeta de servicios, Transferencia, Anticipo, Vales, ValesCaja
+		'dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1  and TipoCobro in(6, 19, 22, 10, 21, 16, 2)"  'Tarjeta De Crédito, Tarjeta De débito, Tarjeta de servicios, Transferencia, Anticipo, Vales, ValesCaja
 		'If dtPedidoCobro.DefaultView.Count > 0 Then
 		'	Dim j As Integer = 0
 		'	While j < dtPedidoCobro.DefaultView.Count
@@ -6711,7 +6711,7 @@ Public Class frmLiquidacionPortatil
 		''Arma la tabla para el registro de la relacion PedidoCobro
 		'dtCobro.DefaultView.RowFilter = "Tabla = 0 AND TipoCobro =5"
 		'Dim numreg As Integer = dtCobro.DefaultView.Count
-		'_seccion = "Asignaci�n datos cobros efectivo"
+		'_seccion = "Asignación datos cobros efectivo"
 		'While k < numreg
 
 
@@ -6737,7 +6737,7 @@ Public Class frmLiquidacionPortatil
 		'dtCobro.DefaultView.RowFilter = "Tabla = 0 AND TipoCobro <> 15 AND TipoCobro <> 5"
 		'numreg = dtCobro.DefaultView.Count
 		'While k < numreg
-		'	_seccion = "Asignaci�n datos cobros contado"
+		'	_seccion = "Asignación datos cobros contado"
 		'	dtCobro.DefaultView.RowFilter = "Tabla = 0 AND TipoCobro <> 15  AND TipoCobro <> 5"
 		'	Dim TipoCobro As String = CType(dtCobro.DefaultView.Item(k).Item(4), String)
 		'	Dim AnoCobro As Integer = CType(dtCobro.DefaultView.Item(k).Item(16), Integer)
@@ -6766,7 +6766,7 @@ Public Class frmLiquidacionPortatil
 		'dtPedidoCobro.DefaultView.RowFilter = "Tabla = 1 AND TipoCobro <> 15"
 		'While k < dtPedidoCobro.DefaultView.Count
 
-		'	_seccion = "Asignaci�n datos cobros no credito"
+		'	_seccion = "Asignación datos cobros no credito"
 		'	Dim TipoCobro As Integer = CType(dtPedidoCobro.DefaultView.Item(k).Item(4), Integer)
 
 		'	'If TipoCobro = 3 Or TipoCobro = 5 Or TipoCobro = 15 Then
@@ -6842,17 +6842,17 @@ Public Class frmLiquidacionPortatil
 
 		Mensaje = Chr(13) + "Total de venta: " + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblVentaTotal.Text) + Chr(13)
 		Mensaje = Mensaje + "Sin cargo + descuentos: " + Chr(9) + "$" + String.Format("{0,15:C}", lblTotal.Text) + Chr(13)
-		Mensaje = Mensaje + "Cr�dito: " + Chr(9) + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblCredito.Text) + Chr(13)
+		Mensaje = Mensaje + "Crédito: " + Chr(9) + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblCredito.Text) + Chr(13)
 		Mensaje = Mensaje + "TOTAL A COBRAR: " + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblTotalCobro.Text) + Chr(13)
 		Mensaje = Mensaje + "Efectivo: " + Chr(9) + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblEfectivo.Text) + Chr(13)
 		Mensaje = Mensaje + "Vales de despensa:        " + Chr(9) + "$" + String.Format("{0,15:C}", lblVales.Text) + Chr(13)
-		Mensaje = Mensaje + "Transferencia Electr�nic: " + Chr(9) + "$" + String.Format("{0,15:C}", lblTransferElect.Text) + Chr(13)
-		Mensaje = Mensaje + "Tarjeta d�bito y cr�dito: " + Chr(9) + "$" + String.Format("{0,15:C}", lblTarjDebCred.Text) + Chr(13)
-		Mensaje = Mensaje + "Aplicaci�n de Anticipo:         " + Chr(9) + "$" + String.Format("{0,15:C}", lblAplicAnticipo.Text) + Chr(13)
+		Mensaje = Mensaje + "Transferencia Electrónic: " + Chr(9) + "$" + String.Format("{0,15:C}", lblTransferElect.Text) + Chr(13)
+		Mensaje = Mensaje + "Tarjeta débito y crédito: " + Chr(9) + "$" + String.Format("{0,15:C}", lblTarjDebCred.Text) + Chr(13)
+		Mensaje = Mensaje + "Aplicación de Anticipo:         " + Chr(9) + "$" + String.Format("{0,15:C}", lblAplicAnticipo.Text) + Chr(13)
 		Mensaje = Mensaje + "Cheques:         " + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblCheque.Text) + Chr(13)
 		Mensaje = Mensaje + "Cambio: " + Chr(9) + Chr(9) + Chr(9) + "$" + String.Format("{0,15:C}", lblCambio.Text) + Chr(13)
 
-		If MessageBox.Show("�Son correctos los datos de la liquidaci�n?" + Chr(13) + Mensaje + Chr(13) + "Tripulaci�n" + Chr(13) + strTripulacion, Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+		If MessageBox.Show("¿Son correctos los datos de la liquidación?" + Chr(13) + Mensaje + Chr(13) + "tripulación" + Chr(13) + strTripulacion, Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
 			Return True
 			Me.Close()
 		Else
@@ -6911,7 +6911,7 @@ Public Class frmLiquidacionPortatil
 		End If
 	End Sub
 
-	'Evento del boto Buscar para realizar la b�squeda de un cliente port�til
+	'Evento del boto Buscar para realizar la búsqueda de un cliente portátil
 	Private Sub Buscar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscarCliente.Click
 		Dim ofrmBusquedaCliente As SigaMetClasses.BusquedaCliente
 		ofrmBusquedaCliente = New SigaMetClasses.BusquedaCliente()
@@ -7162,7 +7162,7 @@ Public Class frmLiquidacionPortatil
 								If item("FormaPago").ToString.Trim.ToUpper = "OBSEQUIO" Then
 									row("TipoCobro") = 15
 								End If
-								If item("FormaPago").ToString.Trim = "Cr�dito Port�til" Then
+								If item("FormaPago").ToString.Trim = "Crédito Portátil" Then
 									row("TipoCobro") = 18
 								End If
 
@@ -7182,120 +7182,120 @@ Public Class frmLiquidacionPortatil
 
 			End If
 
-				Totalizador()
+			Totalizador()
 		Catch ex As Exception
 			Throw ex
 		End Try
 	End Sub
 
 	Private Sub consultarDirecciones(ByVal idCliente As Integer)
-        Dim oGateway As RTGMGateway.RTGMGateway
-        Dim oSolicitud As RTGMGateway.SolicitudGateway
-        Dim oDireccionEntrega As RTGMCore.DireccionEntrega
-        Try
+		Dim oGateway As RTGMGateway.RTGMGateway
+		Dim oSolicitud As RTGMGateway.SolicitudGateway
+		Dim oDireccionEntrega As RTGMCore.DireccionEntrega
+		Try
 
 
-            oGateway = New RTGMGateway.RTGMGateway(_Modulo, ConString)
-            oSolicitud = New RTGMGateway.SolicitudGateway()
-            oGateway.URLServicio = _URLGateway
+			oGateway = New RTGMGateway.RTGMGateway(_Modulo, ConString)
+			oSolicitud = New RTGMGateway.SolicitudGateway()
+			oGateway.URLServicio = _URLGateway
 
 
-            oSolicitud.IDCliente = idCliente
-            oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+			oSolicitud.IDCliente = idCliente
+			oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
 
-            If Not IsNothing(oDireccionEntrega) Then
-                If Not IsNothing(oDireccionEntrega.Message) Then
-                    oDireccionEntrega = New RTGMCore.DireccionEntrega()
-                    oDireccionEntrega.IDDireccionEntrega = idCliente
-                    oDireccionEntrega.Nombre = oDireccionEntrega.Message
-                    listaDireccionesEntrega.Add(oDireccionEntrega)
-                Else
-                    listaDireccionesEntrega.Add(oDireccionEntrega)
-                End If
+			If Not IsNothing(oDireccionEntrega) Then
+				If Not IsNothing(oDireccionEntrega.Message) Then
+					oDireccionEntrega = New RTGMCore.DireccionEntrega()
+					oDireccionEntrega.IDDireccionEntrega = idCliente
+					oDireccionEntrega.Nombre = oDireccionEntrega.Message
+					listaDireccionesEntrega.Add(oDireccionEntrega)
+				Else
+					listaDireccionesEntrega.Add(oDireccionEntrega)
+				End If
 
-            Else
-                oDireccionEntrega = New RTGMCore.DireccionEntrega()
-                oDireccionEntrega.IDDireccionEntrega = idCliente
-                oDireccionEntrega.Nombre = "No se encontr� cliente"
-                listaDireccionesEntrega.Add(oDireccionEntrega)
-            End If
+			Else
+				oDireccionEntrega = New RTGMCore.DireccionEntrega()
+				oDireccionEntrega.IDDireccionEntrega = idCliente
+				oDireccionEntrega.Nombre = "No se encontró cliente"
+				listaDireccionesEntrega.Add(oDireccionEntrega)
+			End If
 
-        Catch ex As Exception
-            oDireccionEntrega = New RTGMCore.DireccionEntrega()
-            oDireccionEntrega.IDDireccionEntrega = idCliente
-            oDireccionEntrega.Nombre = ex.Message
-            listaDireccionesEntrega.Add(oDireccionEntrega)
+		Catch ex As Exception
+			oDireccionEntrega = New RTGMCore.DireccionEntrega()
+			oDireccionEntrega.IDDireccionEntrega = idCliente
+			oDireccionEntrega.Nombre = ex.Message
+			listaDireccionesEntrega.Add(oDireccionEntrega)
 
-        End Try
+		End Try
 
 
 
-    End Sub
+	End Sub
 
-    Public Sub completarListaEntregas(lista As List(Of RTGMCore.DireccionEntrega))
-        Dim direccionEntrega As RTGMCore.DireccionEntrega
-        Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
-        Dim errorConsulta As Boolean
-        Try
-            For Each direccion As RTGMCore.DireccionEntrega In lista
-                Try
-                    If Not IsNothing(direccion) Then
-                        If Not IsNothing(direccion.Message) Then
-                            direccionEntrega = New RTGMCore.DireccionEntrega()
-                            direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
-                            direccionEntrega.Nombre = direccion.Message
-                            listaDireccionesEntrega.Add(direccionEntrega)
-                        ElseIf direccion.IDDireccionEntrega = -1 Then
-                            errorConsulta = True
-                        ElseIf direccion.IDDireccionEntrega >= 0 Then
-                            listaDireccionesEntrega.Add(direccion)
-                        End If
-                    Else
-                        direccionEntrega = New RTGMCore.DireccionEntrega()
-                        direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
-                        direccionEntrega.Nombre = "No se encontr� cliente"
-                        listaDireccionesEntrega.Add(direccionEntrega)
-                    End If
+	Public Sub completarListaEntregas(lista As List(Of RTGMCore.DireccionEntrega))
+		Dim direccionEntrega As RTGMCore.DireccionEntrega
+		Dim direccionEntregaTemp As RTGMCore.DireccionEntrega
+		Dim errorConsulta As Boolean
+		Try
+			For Each direccion As RTGMCore.DireccionEntrega In lista
+				Try
+					If Not IsNothing(direccion) Then
+						If Not IsNothing(direccion.Message) Then
+							direccionEntrega = New RTGMCore.DireccionEntrega()
+							direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+							direccionEntrega.Nombre = direccion.Message
+							listaDireccionesEntrega.Add(direccionEntrega)
+						ElseIf direccion.IDDireccionEntrega = -1 Then
+							errorConsulta = True
+						ElseIf direccion.IDDireccionEntrega >= 0 Then
+							listaDireccionesEntrega.Add(direccion)
+						End If
+					Else
+						direccionEntrega = New RTGMCore.DireccionEntrega()
+						direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+						direccionEntrega.Nombre = "No se encontró cliente"
+						listaDireccionesEntrega.Add(direccionEntrega)
+					End If
 
-                Catch ex As Exception
-                    direccionEntrega = New RTGMCore.DireccionEntrega()
-                    direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
-                    direccionEntrega.Nombre = ex.Message
-                    listaDireccionesEntrega.Add(direccionEntrega)
-                End Try
-            Next
+				Catch ex As Exception
+					direccionEntrega = New RTGMCore.DireccionEntrega()
+					direccionEntrega.IDDireccionEntrega = direccion.IDDireccionEntrega
+					direccionEntrega.Nombre = ex.Message
+					listaDireccionesEntrega.Add(direccionEntrega)
+				End Try
+			Next
 
-            If validarPeticion And errorConsulta Then
-                validarPeticion = False
-                Dim listaClientes As List(Of Integer) = New List(Of Integer)
-                For Each clienteTemp As Integer In listaClientesEnviados
-                    direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
+			If validarPeticion And errorConsulta Then
+				validarPeticion = False
+				Dim listaClientes As List(Of Integer) = New List(Of Integer)
+				For Each clienteTemp As Integer In listaClientesEnviados
+					direccionEntregaTemp = listaDireccionesEntrega.FirstOrDefault(Function(x) x.IDDireccionEntrega = clienteTemp)
 
-                    If IsNothing(direccionEntregaTemp) Then
-                        listaClientes.Add(clienteTemp)
-                    End If
-                Next
+					If IsNothing(direccionEntregaTemp) Then
+						listaClientes.Add(clienteTemp)
+					End If
+				Next
 
-                Dim result As Integer = MessageBox.Show("No fue posible encontrar informaci�n para " & listaClientes.Count & " clientes de la solicitud �desea reintentar?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
+				Dim result As Integer = MessageBox.Show("No fue posible encontrar información para " & listaClientes.Count & " clientes de la solicitud ¿desea reintentar?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
 
-                If result = DialogResult.Yes Then
-                    generaListaClientes(listaClientes)
-                Else
-                    llenarListaEntrega()
-                End If
-            Else
-                llenarListaEntrega()
-            End If
-        Catch ex As Exception
+				If result = DialogResult.Yes Then
+					generaListaClientes(listaClientes)
+				Else
+					llenarListaEntrega()
+				End If
+			Else
+				llenarListaEntrega()
+			End If
+		Catch ex As Exception
 			MessageBox.Show("Error consultando clientes: " + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
 		End Try
-    End Sub
+	End Sub
 
-    Private Sub llenarListaEntrega()
-        Dim drow As DataRow
-        Dim row As DataRow
-        Dim CLIENTETEMP As Integer
-        Dim direccionEntrega As RTGMCore.DireccionEntrega
+	Private Sub llenarListaEntrega()
+		Dim drow As DataRow
+		Dim row As DataRow
+		Dim CLIENTETEMP As Integer
+		Dim direccionEntrega As RTGMCore.DireccionEntrega
 		Try
 			direccionEntrega = New RTGMCore.DireccionEntrega
 			For Each drow In dtRemisionesManuales.Rows
@@ -7322,12 +7322,12 @@ Public Class frmLiquidacionPortatil
 				'               Dim dr() As DataRow = oProductoRemManuales.Select("producto=" + item("producto").ToString())
 
 
-				Row = _DetalleGrid.NewRow()
-				Row("Serie") = item("Serie")
-				Row("Remision") = item("Remision")
+				row = _DetalleGrid.NewRow()
+				row("Serie") = item("Serie")
+				row("Remision") = item("Remision")
 				If item("Cliente").ToString = Nothing Then
-					Row("Cliente") = _ClienteVentasPublico
-					Row("Nombre") = "Cliente Ventas Publico"
+					row("Cliente") = _ClienteVentasPublico
+					row("Nombre") = "Cliente Ventas Publico"
 				Else
 					If item("Cliente").ToString = _ClienteVentasPublico.ToString() Then
 						row("Cliente") = _ClienteVentasPublico
@@ -7342,22 +7342,22 @@ Public Class frmLiquidacionPortatil
 
 
 				row("Kilos") = Convert.ToInt64(item("Valor"))
-				Row("descuento") = Convert.ToDecimal(item("descuento"))
-				Row("Importe") = item("TotalNeto")
-				Row("Saldo") = item("TotalNeto")
-				Row("Descripcion") = item("ProductoDescripcion")
-				Row("Cantidad") = item("Cantidad")
-				Row("producto") = item("producto")
-				Row("zonaeconomica") = cboZEconomica.Text
-				Row("FormaPago") = item("FormaPago")
+				row("descuento") = Convert.ToDecimal(item("descuento"))
+				row("Importe") = item("TotalNeto")
+				row("Saldo") = item("TotalNeto")
+				row("Descripcion") = item("ProductoDescripcion")
+				row("Cantidad") = item("Cantidad")
+				row("producto") = item("producto")
+				row("zonaeconomica") = cboZEconomica.Text
+				row("FormaPago") = item("FormaPago")
 				If item("FormaPago").ToString.Trim.ToUpper = "OBSEQUIO" Then
-					Row("TipoCobro") = 15
+					row("TipoCobro") = 15
 				End If
-				If item("FormaPago").ToString.Trim = "Cr�dito Port�til" Then
-					Row("TipoCobro") = 18
+				If item("FormaPago").ToString.Trim = "Crédito Portátil" Then
+					row("TipoCobro") = 18
 				End If
 
-				_DetalleGrid.Rows.Add(Row)
+				_DetalleGrid.Rows.Add(row)
 			Next
 		Catch ex As Exception
 			MessageBox.Show("Error" + ex.Message, ex.Source, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -7369,372 +7369,372 @@ Public Class frmLiquidacionPortatil
 		ActualizarTotalizadorFormasDePago(_listaCobros)
 	End Sub
 
-    Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
-        Dim oGateway As RTGMGateway.RTGMGateway
-        Dim oSolicitud As RTGMGateway.SolicitudGateway
-        Try
+	Private Sub generaListaClientes(ByVal listaClientesDistintos As List(Of Integer))
+		Dim oGateway As RTGMGateway.RTGMGateway
+		Dim oSolicitud As RTGMGateway.SolicitudGateway
+		Try
 
-            oGateway = New RTGMGateway.RTGMGateway(_Modulo, ConString) ', _UrlGateway)
-            oGateway.ListaCliente = listaClientesDistintos
-            oGateway.URLServicio = _URLGateway
-            oSolicitud = New RTGMGateway.SolicitudGateway()
-            AddHandler oGateway.eListaEntregas, AddressOf completarListaEntregas
-            listaClientesEnviados = listaClientesDistintos
-            For Each CLIENTETEMP As Integer In listaClientesDistintos
-                oSolicitud.IDCliente = CLIENTETEMP
-                oGateway.busquedaDireccionEntregaAsync(oSolicitud)
-            Next
-        Catch ex As Exception
-            Throw
-        End Try
-    End Sub
-
-
-    Private Sub ActualizarProductos()
-        Dim i As Integer = 0
-
-        LimpiarProductos()
-
-        While i < _dtProductos.Rows.Count
-            If _FlagPedidoPortatil Then
-                '20150627CNSM$001-----------------
-                InicializarComponentes(CType(_dtProductos.Rows(i).Item(0), Integer),
-                                    CType(_dtProductos.Rows(i).Item(1), String),
-                                    CType(_dtProductos.Rows(i).Item(2), Decimal),
-                                    CType(_dtProductos.Rows(i).Item(3), Integer),
-                                    CType(_dtProductos.Rows(i).Item(4), Integer), "pdto" + _dtProductos.Rows(i).Item(0).ToString())
-                '20150627CNSM$001-----------------
-            Else
-                InicializarComponentes(CType(_dtProductos.Rows(i).Item(0), Integer),
-                                   CType(_dtProductos.Rows(i).Item(1), String),
-                                   CType(_dtProductos.Rows(i).Item(2), Decimal),
-                                   CType(_dtProductos.Rows(i).Item(3), Integer))
-            End If
-            i = i + 1
-        End While
-    End Sub
-
-    Private Sub ValidarInformacionGrid(ByVal valorABuscar As String)
-        Dim nColumnas As Integer = grdDetalle.VisibleRowCount - 1
-
-        If grdDetalle.VisibleRowCount > 0 Then
-            Dim i As Integer = 0
-            While i <= nColumnas
-                If grdDetalle.Item(i, 2).ToString() = valorABuscar And Convert.ToInt32(grdDetalle.Item(i, 0)) <> _ClienteVtaPublico Then
-                    grdDetalle.Select(i)
-                    BorrarGridPedido()
-                    nColumnas = grdDetalle.VisibleRowCount - 1
-                    i = -1
-                End If
-                i = i + 1
-            End While
-        End If
-    End Sub
-
-    Private Sub VerificarDatos()
-        ' If VerificaDatos() Then
-        If VerificaDatosClienteNormal() Then
-            CargaGrid()
-            cboTipoCobro.SelectedIndex = 0
-            cboZEconomica.SelectedIndex = 0
-            cbxAplicaDescuento.Checked = False
-            cbxAplicaDescuento.Enabled = False
-            TxtCliente.Clear()
-            lblNombreCliente.Text = ""
-            _ClienteNormal = 0
-            _TipoCobroClienteNormal = 0
-            _ZonaEconomicaClienteNormal = 0
-            Me.ActiveControl = cboTipoCobro
-            banderaRemisionManual = False
-        End If
-        '  Else
-        'Dim Mensajes As PortatilClasses.Mensaje
-        '    Mensajes = New PortatilClasses.Mensaje(45)
-        '    MessageBox.Show(Mensajes.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        'End If
-    End Sub
+			oGateway = New RTGMGateway.RTGMGateway(_Modulo, ConString) ', _UrlGateway)
+			oGateway.ListaCliente = listaClientesDistintos
+			oGateway.URLServicio = _URLGateway
+			oSolicitud = New RTGMGateway.SolicitudGateway()
+			AddHandler oGateway.eListaEntregas, AddressOf completarListaEntregas
+			listaClientesEnviados = listaClientesDistintos
+			For Each CLIENTETEMP As Integer In listaClientesDistintos
+				oSolicitud.IDCliente = CLIENTETEMP
+				oGateway.busquedaDireccionEntregaAsync(oSolicitud)
+			Next
+		Catch ex As Exception
+			Throw
+		End Try
+	End Sub
 
 
-    'Evento click en el boton Borrar que elimina un registro del grid donde se
-    'encuentra la lista de productos a liquidar
-    'Private Sub btnBorrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBorrar.Click
-    '    If grdDetalle.VisibleRowCount > 0 Then
-    '        If btnPagoCheque.Visible Then
-    '            If ofrmPagoCheque.VerificaExisteChequeCliente(CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(12), Integer)) And CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(10), Integer) = 5 Then
-    '                Dim oMensaje As New PortatilClasses.Mensaje(126)
-    '                MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '                ofrmPagoCheque.ShowDialog()
-    '                Dim MontoCheque As Decimal
-    '                MontoCheque = ofrmPagoCheque._MontoCheque
-    '                lblCheques.Text = MontoCheque.ToString("N2")
-    '                If ofrmPagoCheque.dtCheque.Rows.Count > 0 Then
-    '                    btnPagoCheque.Text = "Cheque (" + CType(ofrmPagoCheque.dtCheque.Rows.Count, String) + ")"
-    '                Else
-    '                    btnPagoCheque.Text = "Cheque"
-    '                End If
-    '            Else
-    '                BorrarGridPedido()
-    '            End If
-    '        Else
-    '            BorrarGridPedido()
-    '        End If
-    '    End If
-    'End Sub
+	Private Sub ActualizarProductos()
+		Dim i As Integer = 0
+
+		LimpiarProductos()
+
+		While i < _dtProductos.Rows.Count
+			If _FlagPedidoPortatil Then
+				'20150627CNSM$001-----------------
+				InicializarComponentes(CType(_dtProductos.Rows(i).Item(0), Integer),
+									CType(_dtProductos.Rows(i).Item(1), String),
+									CType(_dtProductos.Rows(i).Item(2), Decimal),
+									CType(_dtProductos.Rows(i).Item(3), Integer),
+									CType(_dtProductos.Rows(i).Item(4), Integer), "pdto" + _dtProductos.Rows(i).Item(0).ToString())
+				'20150627CNSM$001-----------------
+			Else
+				InicializarComponentes(CType(_dtProductos.Rows(i).Item(0), Integer),
+								   CType(_dtProductos.Rows(i).Item(1), String),
+								   CType(_dtProductos.Rows(i).Item(2), Decimal),
+								   CType(_dtProductos.Rows(i).Item(3), Integer))
+			End If
+			i = i + 1
+		End While
+	End Sub
+
+	Private Sub ValidarInformacionGrid(ByVal valorABuscar As String)
+		Dim nColumnas As Integer = grdDetalle.VisibleRowCount - 1
+
+		If grdDetalle.VisibleRowCount > 0 Then
+			Dim i As Integer = 0
+			While i <= nColumnas
+				If grdDetalle.Item(i, 2).ToString() = valorABuscar And Convert.ToInt32(grdDetalle.Item(i, 0)) <> _ClienteVtaPublico Then
+					grdDetalle.Select(i)
+					BorrarGridPedido()
+					nColumnas = grdDetalle.VisibleRowCount - 1
+					i = -1
+				End If
+				i = i + 1
+			End While
+		End If
+	End Sub
+
+	Private Sub VerificarDatos()
+		' If VerificaDatos() Then
+		If VerificaDatosClienteNormal() Then
+			CargaGrid()
+			cboTipoCobro.SelectedIndex = 0
+			cboZEconomica.SelectedIndex = 0
+			cbxAplicaDescuento.Checked = False
+			cbxAplicaDescuento.Enabled = False
+			TxtCliente.Clear()
+			lblNombreCliente.Text = ""
+			_ClienteNormal = 0
+			_TipoCobroClienteNormal = 0
+			_ZonaEconomicaClienteNormal = 0
+			Me.ActiveControl = cboTipoCobro
+			banderaRemisionManual = False
+		End If
+		'  Else
+		'Dim Mensajes As PortatilClasses.Mensaje
+		'    Mensajes = New PortatilClasses.Mensaje(45)
+		'    MessageBox.Show(Mensajes.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		'End If
+	End Sub
 
 
-    'Opcion para activar el pago por medio de un cheque
-    'Private Sub btnPagoCheque_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-    '    If _ClienteLista.Count > 0 Then
-    '        ofrmPagoCheque.InicializaLista(_ClienteLista, _TipoCobroLista, dtLiquidacionTotal)
-    '        ofrmPagoCheque.ShowDialog()
-    '        Dim MontoCheque As Decimal
-    '        MontoCheque = ofrmPagoCheque._MontoCheque
-    '        lblCheques.Text = MontoCheque.ToString("N2")
-    '        If ofrmPagoCheque.dtCheque.Rows.Count > 0 Then
-    '            btnPagoCheque.Text = "Cheque (" + CType(ofrmPagoCheque.dtCheque.Rows.Count, String) + ")"
-    '        Else
-    '            btnPagoCheque.Text = "Cheque"
-    '        End If
-    '    Else
-    '        lblCheques.Text = "0.00"
-    '        Dim oMensaje As New PortatilClasses.Mensaje(124)
-    '        MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '    End If
-    'End Sub
+	'Evento click en el boton Borrar que elimina un registro del grid donde se
+	'encuentra la lista de productos a liquidar
+	'Private Sub btnBorrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBorrar.Click
+	'    If grdDetalle.VisibleRowCount > 0 Then
+	'        If btnPagoCheque.Visible Then
+	'            If ofrmPagoCheque.VerificaExisteChequeCliente(CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(12), Integer)) And CType(dtLiquidacionTotal.Rows(grdDetalle.CurrentRowIndex).Item(10), Integer) = 5 Then
+	'                Dim oMensaje As New PortatilClasses.Mensaje(126)
+	'                MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+	'                ofrmPagoCheque.ShowDialog()
+	'                Dim MontoCheque As Decimal
+	'                MontoCheque = ofrmPagoCheque._MontoCheque
+	'                lblCheques.Text = MontoCheque.ToString("N2")
+	'                If ofrmPagoCheque.dtCheque.Rows.Count > 0 Then
+	'                    btnPagoCheque.Text = "Cheque (" + CType(ofrmPagoCheque.dtCheque.Rows.Count, String) + ")"
+	'                Else
+	'                    btnPagoCheque.Text = "Cheque"
+	'                End If
+	'            Else
+	'                BorrarGridPedido()
+	'            End If
+	'        Else
+	'            BorrarGridPedido()
+	'        End If
+	'    End If
+	'End Sub
 
 
-    'Evento del boton Aceptar para realizar y almacenar en la base de datos la
-    'liquidacion de la ruta
-    'Private Sub btnAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAceptar.Click
-    '    If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
-    '        MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidaci�n," + Chr(13) + "favor de ajustar la fecha y hora conforme a la operaci�n.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '        Return
-    '    End If
-
-    '    If _LiqPrecioVigente = False Then
-    '        If MessageBox.Show("�Est� a punto de realizar la liquidaci�n con precios probablemente no vigentes �Desea continuar?", Me.Text,
-    '                           MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
-    '            Exit Sub
-    '        End If
-    '    End If
-
-    '    If grdDetalle.VisibleRowCount > 0 Then
-
-    '        If _FlagPedidoPortatil Then
-    '            Dim oLiquidacionPedido As LiquidacionTransaccionada.cLiquidacion
-    '            oLiquidacionPedido = New LiquidacionTransaccionada.cLiquidacion(0, CType(_drLiquidacion(0).Item(4), Short), 0, 0)
-    '            Dim listaFolios As New ArrayList
-    '            listaFolios = oLiquidacionPedido.ConsultaFoliosFaltantesMovil(_AnoAtt, _Folio, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime), New SqlConnection(PortatilClasses.Globals.GetInstance._CadenaConexion))
-
-    '            If (listaFolios.Count > 0) Then
-    '                Dim Mensaje As New StringBuilder()
-    '                Mensaje.Append("Existe perdida de folios en el rango que se desea liquidar.")
-    '                Mensaje.AppendLine()
-    '                Mensaje.Append("Los folios faltantes son :")
-    '                Mensaje.AppendLine()
-    '                Dim num As Integer
-    '                For Each num In listaFolios
-    '                    Mensaje.Append(num)
-    '                    Mensaje.AppendLine()
-    '                Next
-    '                Mensaje.Append("Favor de verificarlo con el encargado de sistemas.")
-    '                MessageBox.Show(Mensaje.ToString(), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '                Return
-    '            End If
-
-    '            Dim listaFoliosALiquidar As New DataTable
-    '            listaFoliosALiquidar = oLiquidacionPedido.ConsulaFoliosLiquidacion(_AnoAtt, _Folio, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime), New SqlConnection(PortatilClasses.Globals.GetInstance._CadenaConexion))
+	'Opcion para activar el pago por medio de un cheque
+	'Private Sub btnPagoCheque_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+	'    If _ClienteLista.Count > 0 Then
+	'        ofrmPagoCheque.InicializaLista(_ClienteLista, _TipoCobroLista, dtLiquidacionTotal)
+	'        ofrmPagoCheque.ShowDialog()
+	'        Dim MontoCheque As Decimal
+	'        MontoCheque = ofrmPagoCheque._MontoCheque
+	'        lblCheques.Text = MontoCheque.ToString("N2")
+	'        If ofrmPagoCheque.dtCheque.Rows.Count > 0 Then
+	'            btnPagoCheque.Text = "Cheque (" + CType(ofrmPagoCheque.dtCheque.Rows.Count, String) + ")"
+	'        Else
+	'            btnPagoCheque.Text = "Cheque"
+	'        End If
+	'    Else
+	'        lblCheques.Text = "0.00"
+	'        Dim oMensaje As New PortatilClasses.Mensaje(124)
+	'        MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+	'    End If
+	'End Sub
 
 
-    '            If (listaFoliosALiquidar.Rows.Count > 0) Then
-    '                Dim frmFolios As New frmFoliosLiquidacion()
-    '                frmFolios.Datos = listaFoliosALiquidar
-    '                frmFolios.ShowDialog()
-    '            End If
+	'Evento del boton Aceptar para realizar y almacenar en la base de datos la
+	'liquidacion de la ruta
+	'Private Sub btnAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAceptar.Click
+	'    If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
+	'        MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidación," + Chr(13) + "favor de ajustar la fecha y hora conforme a la operación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+	'        Return
+	'    End If
 
-    '        End If
+	'    If _LiqPrecioVigente = False Then
+	'        If MessageBox.Show("¿Está a punto de realizar la liquidación con precios probablemente no vigentes ¿Desea continuar?", Me.Text,
+	'                           MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
+	'            Exit Sub
+	'        End If
+	'    End If
 
+	'    If grdDetalle.VisibleRowCount > 0 Then
 
-    '        Dim oMovimiento As New PortatilClasses.Consulta.cMovAprobadoyVerificado(dtpFLiquidacion.Value, _AlmacenGas, 0) ' 20061114CAGP$001
-    '        If oMovimiento.RealizarMovimiento() Then        '20061114CAGP$001
-    '            'lblEfectivo.Text = CType(capEfectivo.TotalEfectivo + Vales.TotalVales + ofrmPagoCheque._MontoCheque, Decimal).ToString("N2")
-    '            _Cambio = (capEfectivo.TotalEfectivo + Vales.TotalVales + ofrmPagoCheque._MontoCheque) - _TotalNetoCaja
+	'        If _FlagPedidoPortatil Then
+	'            Dim oLiquidacionPedido As LiquidacionTransaccionada.cLiquidacion
+	'            oLiquidacionPedido = New LiquidacionTransaccionada.cLiquidacion(0, CType(_drLiquidacion(0).Item(4), Short), 0, 0)
+	'            Dim listaFolios As New ArrayList
+	'            listaFolios = oLiquidacionPedido.ConsultaFoliosFaltantesMovil(_AnoAtt, _Folio, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime), New SqlConnection(PortatilClasses.Globals.GetInstance._CadenaConexion))
 
-    '            If _Cambio >= 0 Then
-    '                lblCambio.Text = CType(_Cambio, Decimal).ToString("N2")
-    '                If _Cambio > 0 Then
-    '                    Dim ofrmCambioPortatil As frmCambioPortatil
-    '                    ofrmCambioPortatil = New frmCambioPortatil(_Cambio)
-    '                    If ofrmCambioPortatil.ShowDialog() = DialogResult.OK Then
-    '                        If AceptaLiquidacion() Then
-    '                            arrEfectivo = capEfectivo.CalculaDenominaciones
-    '                            arrVales = Vales.CalculaDenominaciones
-    '                            arrCambio = ofrmCambioPortatil.Efectivo.CalculaDenominaciones
-    '                            Cursor = Cursors.WaitCursor
-    '                            RealizarLiquidacion()
-    '                            _Liquidado = True
-    '                            Me.DialogResult() = DialogResult.OK
-    '                            Me.Close()
-    '                            Cursor = Cursors.Default
-    '                        End If
-    '                    End If
+	'            If (listaFolios.Count > 0) Then
+	'                Dim Mensaje As New StringBuilder()
+	'                Mensaje.Append("Existe perdida de folios en el rango que se desea liquidar.")
+	'                Mensaje.AppendLine()
+	'                Mensaje.Append("Los folios faltantes son :")
+	'                Mensaje.AppendLine()
+	'                Dim num As Integer
+	'                For Each num In listaFolios
+	'                    Mensaje.Append(num)
+	'                    Mensaje.AppendLine()
+	'                Next
+	'                Mensaje.Append("Favor de verificarlo con el encargado de sistemas.")
+	'                MessageBox.Show(Mensaje.ToString(), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+	'                Return
+	'            End If
 
-    '                Else
-    '                    If AceptaLiquidacion() Then
-    '                        arrEfectivo = capEfectivo.CalculaDenominaciones
-    '                        arrVales = Vales.CalculaDenominaciones
-    '                        Cursor = Cursors.WaitCursor
-    '                        RealizarLiquidacion()
-    '                        _Liquidado = True
-    '                        Me.DialogResult() = DialogResult.OK
-    '                        Me.Close()
-    '                        Cursor = Cursors.Default
-    '                    End If
-    '                End If
-    '            Else
-    '                Dim oMensaje As New PortatilClasses.Mensaje(50)
-    '                MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '                lblEfectivo.Text = "0.00"
-    '                lblVales.Text = "0.00"
-    '            End If
-    '            ' 20061114CAGP$001 /I
-    '        Else
-    '            Dim Mensajes As New PortatilClasses.Mensaje(87, oMovimiento.Mensaje)
-    '            MessageBox.Show(Mensajes.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-    '            ActiveControl = dtpFLiquidacion
-    '        End If
-    '        oMovimiento = Nothing
-    '        ' 20061114CAGP$001 /F
-    '    Else
-    '        Dim oMensaje As New PortatilClasses.Mensaje(51)
-    '        MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '    End If
-    'End Sub
+	'            Dim listaFoliosALiquidar As New DataTable
+	'            listaFoliosALiquidar = oLiquidacionPedido.ConsulaFoliosLiquidacion(_AnoAtt, _Folio, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime), New SqlConnection(PortatilClasses.Globals.GetInstance._CadenaConexion))
 
 
-    Private Sub dtpFCarga_ValueChanged(sender As Object, e As EventArgs) Handles dtpFLiquidacion.ValueChanged, dtpFCarga.ValueChanged
-        If dtpFCarga.Focused Or dtpFLiquidacion.Focused Then
-            _Modifcaciondtp = True
-        End If
+	'            If (listaFoliosALiquidar.Rows.Count > 0) Then
+	'                Dim frmFolios As New frmFoliosLiquidacion()
+	'                frmFolios.Datos = listaFoliosALiquidar
+	'                frmFolios.ShowDialog()
+	'            End If
 
-    End Sub
-
-    '20150627CNSM$005-----------------
-    Private Sub btnDetalle_Click(sender As Object, e As EventArgs) Handles btnDetalle.Click
-        Dim ofrmDetallePedidoRemision As frmDetallePedidoRemision
-        ofrmDetallePedidoRemision = New frmDetallePedidoRemision(_Ruta, _MovimientoAlmacen, CType(lblCamion.Text, Integer), _AlmacenGas, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime))
-        ofrmDetallePedidoRemision.ShowDialog()
-    End Sub
-
-    'Private Sub BotonBase1_Click(sender As Object, e As EventArgs) Handles BotonBase1.Click
-    '    Dim FolioAtt As Integer = 43655 'El folio que se obtiene del registro seleccionado del grid.
-    '    Dim A�oAtt As Short = 2015 'El a�o del AutotanquTurno que se obtiene del registro seleccionado del grid.
-    '    Dim ofrmPrueba As New frmRemisionManual(FolioAtt, A�oAtt)
-    '    ofrmPrueba.ShowDialog()
-    'End Sub
-
-    '20151022CNSM$007-----------------
-    Private Sub dtpFCarga_Leave(sender As Object, e As EventArgs) Handles dtpFCarga.Leave
-        If _Modifcaciondtp Then
-            'Inicializa metodos que cargan e inicializan la forma
-            LimpiarComponentes()
-            CargarProductosVarios()
-            If (_RutaMovil) Then
-                cargarRemisiones()
-                validarFormasPago()
-                Totalizador()
-            End If
+	'        End If
 
 
-            _Modifcaciondtp = False
-        End If
+	'        Dim oMovimiento As New PortatilClasses.Consulta.cMovAprobadoyVerificado(dtpFLiquidacion.Value, _AlmacenGas, 0) ' 20061114CAGP$001
+	'        If oMovimiento.RealizarMovimiento() Then        '20061114CAGP$001
+	'            'lblEfectivo.Text = CType(capEfectivo.TotalEfectivo + Vales.TotalVales + ofrmPagoCheque._MontoCheque, Decimal).ToString("N2")
+	'            _Cambio = (capEfectivo.TotalEfectivo + Vales.TotalVales + ofrmPagoCheque._MontoCheque) - _TotalNetoCaja
 
-    End Sub
+	'            If _Cambio >= 0 Then
+	'                lblCambio.Text = CType(_Cambio, Decimal).ToString("N2")
+	'                If _Cambio > 0 Then
+	'                    Dim ofrmCambioPortatil As frmCambioPortatil
+	'                    ofrmCambioPortatil = New frmCambioPortatil(_Cambio)
+	'                    If ofrmCambioPortatil.ShowDialog() = DialogResult.OK Then
+	'                        If AceptaLiquidacion() Then
+	'                            arrEfectivo = capEfectivo.CalculaDenominaciones
+	'                            arrVales = Vales.CalculaDenominaciones
+	'                            arrCambio = ofrmCambioPortatil.Efectivo.CalculaDenominaciones
+	'                            Cursor = Cursors.WaitCursor
+	'                            RealizarLiquidacion()
+	'                            _Liquidado = True
+	'                            Me.DialogResult() = DialogResult.OK
+	'                            Me.Close()
+	'                            Cursor = Cursors.Default
+	'                        End If
+	'                    End If
 
-    Private Sub dtpFLiquidacion_Leave(sender As Object, e As EventArgs) Handles dtpFLiquidacion.Leave
+	'                Else
+	'                    If AceptaLiquidacion() Then
+	'                        arrEfectivo = capEfectivo.CalculaDenominaciones
+	'                        arrVales = Vales.CalculaDenominaciones
+	'                        Cursor = Cursors.WaitCursor
+	'                        RealizarLiquidacion()
+	'                        _Liquidado = True
+	'                        Me.DialogResult() = DialogResult.OK
+	'                        Me.Close()
+	'                        Cursor = Cursors.Default
+	'                    End If
+	'                End If
+	'            Else
+	'                Dim oMensaje As New PortatilClasses.Mensaje(50)
+	'                MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+	'                lblEfectivo.Text = "0.00"
+	'                lblVales.Text = "0.00"
+	'            End If
+	'            ' 20061114CAGP$001 /I
+	'        Else
+	'            Dim Mensajes As New PortatilClasses.Mensaje(87, oMovimiento.Mensaje)
+	'            MessageBox.Show(Mensajes.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+	'            ActiveControl = dtpFLiquidacion
+	'        End If
+	'        oMovimiento = Nothing
+	'        ' 20061114CAGP$001 /F
+	'    Else
+	'        Dim oMensaje As New PortatilClasses.Mensaje(51)
+	'        MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+	'    End If
+	'End Sub
 
-        If _ModificaFCarga And dtpFCarga.Enabled = False Then
-            'Habilitamos el componente
-            dtpFCarga.Enabled = True
-        End If
 
-        If _Modifcaciondtp Then
+	Private Sub dtpFCarga_ValueChanged(sender As Object, e As EventArgs) Handles dtpFLiquidacion.ValueChanged, dtpFCarga.ValueChanged
+		If dtpFCarga.Focused Or dtpFLiquidacion.Focused Then
+			_Modifcaciondtp = True
+		End If
 
-            LimpiarComponentes()
-            CargarProductosVarios()
-            _Modifcaciondtp = False
-            If (_RutaMovil) Then
-                cargarRemisiones()
-                validarFormasPago()
-                Totalizador()
-            End If
+	End Sub
 
-        End If
+	'20150627CNSM$005-----------------
+	Private Sub btnDetalle_Click(sender As Object, e As EventArgs) Handles btnDetalle.Click
+		Dim ofrmDetallePedidoRemision As frmDetallePedidoRemision
+		ofrmDetallePedidoRemision = New frmDetallePedidoRemision(_Ruta, _MovimientoAlmacen, CType(lblCamion.Text, Integer), _AlmacenGas, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime))
+		ofrmDetallePedidoRemision.ShowDialog()
+	End Sub
 
-        If (Not _DetalleGrid Is Nothing) Then
-            Totalizador()
-        End If
+	'Private Sub BotonBase1_Click(sender As Object, e As EventArgs) Handles BotonBase1.Click
+	'    Dim FolioAtt As Integer = 43655 'El folio que se obtiene del registro seleccionado del grid.
+	'    Dim AñoAtt As Short = 2015 'El año del AutotanquTurno que se obtiene del registro seleccionado del grid.
+	'    Dim ofrmPrueba As New frmRemisionManual(FolioAtt, AñoAtt)
+	'    ofrmPrueba.ShowDialog()
+	'End Sub
 
-    End Sub
+	'20151022CNSM$007-----------------
+	Private Sub dtpFCarga_Leave(sender As Object, e As EventArgs) Handles dtpFCarga.Leave
+		If _Modifcaciondtp Then
+			'Inicializa metodos que cargan e inicializan la forma
+			LimpiarComponentes()
+			CargarProductosVarios()
+			If (_RutaMovil) Then
+				cargarRemisiones()
+				validarFormasPago()
+				Totalizador()
+			End If
 
-    Private Sub dtpFCarga_DropDown(sender As Object, e As EventArgs) Handles dtpFCarga.DropDown
-        _FCargaActual = dtpFCarga.Value
-    End Sub
 
-    Private Sub dtpFCarga_CloseUp(sender As Object, e As EventArgs) Handles dtpFCarga.CloseUp
-        If dtpFCarga.Value <> _FCargaActual Then
-            _Modifcaciondtp = True
-            Call dtpFLiquidacion_Leave(sender, e)
-        End If
-    End Sub
+			_Modifcaciondtp = False
+		End If
 
-    Private Sub dtpFLiquidacion_DropDown(sender As Object, e As EventArgs) Handles dtpFLiquidacion.DropDown
-        _FLiquidacionActual = dtpFLiquidacion.Value
-    End Sub
+	End Sub
 
-    Private Sub dtpFLiquidacion_CloseUp(sender As Object, e As EventArgs) Handles dtpFLiquidacion.CloseUp
-        If dtpFLiquidacion.Value <> _FLiquidacionActual Then
-            _Modifcaciondtp = True
-            Call dtpFLiquidacion_Leave(sender, e)
-        End If
-    End Sub
+	Private Sub dtpFLiquidacion_Leave(sender As Object, e As EventArgs) Handles dtpFLiquidacion.Leave
 
-    Private Sub frmLiquidacionPortatil_FormClosing(sender As System.Object, e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
-        If _BoletinEnLineaCamion = False Then
-            If _obligaInsercionRemision Then
-                If Not _Liquidado Then
-                    Dim oLiquidacionPedido As Liquidacion.cLiquidacion
-                    oLiquidacionPedido = New Liquidacion.cLiquidacion(1, 0, 0, 0)
-                    dtRemisiones = oLiquidacionPedido.ConsultaPedidoPortatilCapturaManual(0, _AnoAtt, _Folio, 0, 0)
-                    If dtRemisiones.Rows.Count > 0 Then
-                        If MessageBox.Show("Los datos de las remisiones capturadas se perderan. �Estas seguro de salir de la liquidaci�n?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                            Cursor = Cursors.WaitCursor
-                            oLiquidacionPedido = New Liquidacion.cLiquidacion(6, 0, 0, 0)
-                            oLiquidacionPedido.PedidoDetalleRemision(0, 0, 0, Nothing, Nothing,
-                                                                     0, 0, 0,
-                                                                     0, 0,
-                                                                     _Folio, _AnoAtt, Nothing,
-                                                                     Nothing,
-                                                                     Nothing, 0, 0)
+		If _ModificaFCarga And dtpFCarga.Enabled = False Then
+			'Habilitamos el componente
+			dtpFCarga.Enabled = True
+		End If
 
-                            Cursor = Cursors.Default
-                        Else
-                            e.Cancel = True
-                        End If
-                    End If
-                End If
-            End If
-        End If
-    End Sub
+		If _Modifcaciondtp Then
 
-    Private Sub btnCapturarCheque_Click(sender As Object, e As EventArgs) Handles btnCapturarCheque.Click
-        Dim frmSeleTipoCobro As New FormasPago.frmSelTipoCobroPortatil(0, True, 3, _Folio)
-        Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
+			LimpiarComponentes()
+			CargarProductosVarios()
+			_Modifcaciondtp = False
+			If (_RutaMovil) Then
+				cargarRemisiones()
+				validarFormasPago()
+				Totalizador()
+			End If
 
-        frmSeleTipoCobro.MostrarDacion = False
-        frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
-        frmSeleTipoCobro.fecha = fechaCargo
-        frmSeleTipoCobro.TotalCobros = _listaCobros.Count
+		End If
+
+		If (Not _DetalleGrid Is Nothing) Then
+			Totalizador()
+		End If
+
+	End Sub
+
+	Private Sub dtpFCarga_DropDown(sender As Object, e As EventArgs) Handles dtpFCarga.DropDown
+		_FCargaActual = dtpFCarga.Value
+	End Sub
+
+	Private Sub dtpFCarga_CloseUp(sender As Object, e As EventArgs) Handles dtpFCarga.CloseUp
+		If dtpFCarga.Value <> _FCargaActual Then
+			_Modifcaciondtp = True
+			Call dtpFLiquidacion_Leave(sender, e)
+		End If
+	End Sub
+
+	Private Sub dtpFLiquidacion_DropDown(sender As Object, e As EventArgs) Handles dtpFLiquidacion.DropDown
+		_FLiquidacionActual = dtpFLiquidacion.Value
+	End Sub
+
+	Private Sub dtpFLiquidacion_CloseUp(sender As Object, e As EventArgs) Handles dtpFLiquidacion.CloseUp
+		If dtpFLiquidacion.Value <> _FLiquidacionActual Then
+			_Modifcaciondtp = True
+			Call dtpFLiquidacion_Leave(sender, e)
+		End If
+	End Sub
+
+	Private Sub frmLiquidacionPortatil_FormClosing(sender As System.Object, e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
+		If _BoletinEnLineaCamion = False Then
+			If _obligaInsercionRemision Then
+				If Not _Liquidado Then
+					Dim oLiquidacionPedido As Liquidacion.cLiquidacion
+					oLiquidacionPedido = New Liquidacion.cLiquidacion(1, 0, 0, 0)
+					dtRemisiones = oLiquidacionPedido.ConsultaPedidoPortatilCapturaManual(0, _AnoAtt, _Folio, 0, 0)
+					If dtRemisiones.Rows.Count > 0 Then
+						If MessageBox.Show("Los datos de las remisiones capturadas se perderan. ¿Estas seguro de salir de la liquidación?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+							Cursor = Cursors.WaitCursor
+							oLiquidacionPedido = New Liquidacion.cLiquidacion(6, 0, 0, 0)
+							oLiquidacionPedido.PedidoDetalleRemision(0, 0, 0, Nothing, Nothing,
+																	 0, 0, 0,
+																	 0, 0,
+																	 _Folio, _AnoAtt, Nothing,
+																	 Nothing,
+																	 Nothing, 0, 0)
+
+							Cursor = Cursors.Default
+						Else
+							e.Cancel = True
+						End If
+					End If
+				End If
+			End If
+		End If
+	End Sub
+
+	Private Sub btnCapturarCheque_Click(sender As Object, e As EventArgs) Handles btnCapturarCheque.Click
+		Dim frmSeleTipoCobro As New FormasPago.frmSelTipoCobroPortatil(0, True, 3, _Folio)
+		Dim fechaCargo As Date = CDate(_drLiquidacion(0).Item(13))
+
+		frmSeleTipoCobro.MostrarDacion = False
+		frmSeleTipoCobro.ObtenerRemisiones = _DetalleGrid
+		frmSeleTipoCobro.fecha = fechaCargo
+		frmSeleTipoCobro.TotalCobros = _listaCobros.Count
 		frmSeleTipoCobro.CobroRemisiones = _ListaCobroRemisiones
 		If _listaCobros.Count = 0 Then
 			frmSeleTipoCobro.NumeroPago = 1
@@ -7886,7 +7886,7 @@ Public Class frmLiquidacionPortatil
 
 		If Not dt Is Nothing Then
 			For Each dr As DataRow In dt.Rows
-				If dr("FormaPago").ToString().Trim = "Cr�dito Port�til" Then
+				If dr("FormaPago").ToString().Trim = "Crédito Portátil" Then
 					VentaCredito = VentaCredito + Convert.ToDecimal(dr("Saldo").ToString())
 				End If
 			Next
@@ -8055,7 +8055,7 @@ Public Class frmLiquidacionPortatil
 
 		Dim PagoEfectivoDefault As Boolean
 		Dim Pago As Integer
-		Dim result As Integer = MessageBox.Show("�Desea registrar pago en efectivo para las remisiones pendientes?", "Pago en Efectivo", MessageBoxButtons.YesNo)
+		Dim result As Integer = MessageBox.Show("¿Desea registrar pago en efectivo para las remisiones pendientes?", "Pago en Efectivo", MessageBoxButtons.YesNo)
 		Try
 
 			If (result = DialogResult.No) Then
@@ -8104,7 +8104,7 @@ Public Class frmLiquidacionPortatil
 				End If
 
 				Dim cobro As SigaMetClasses.CobroDetalladoDatos = AltaPagoEfectivo(Pago)
-					_listaCobros.Add(cobro)
+				_listaCobros.Add(cobro)
 				Dim Saldo As Decimal
 				Dim formapago As String
 
@@ -8119,10 +8119,10 @@ Public Class frmLiquidacionPortatil
 					formapago = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago"), String).Trim
 
 					'If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim = "CONTADO" Or CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim.ToUpper = "EFECTIVO" Then
-					If Saldo > 0 And formapago <> "Cr�dito Port�til" Then
+					If Saldo > 0 And formapago <> "Crédito Portátil" Then
 						_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo") = 0
 					Else
-						If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim = "Cr�dito Port�til" Then
+						If CStr(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago")).Trim = "Crédito Portátil" Then
 							Credito = Credito + CDec(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"))
 						End If
 
@@ -8146,148 +8146,148 @@ Public Class frmLiquidacionPortatil
 					End If
 				Next
 				ActualizarTotalizadorFormasDePago(_listaCobros)
-					MessageBox.Show("Cobro de remisiones conclu�da.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
-				End If
+				MessageBox.Show("Cobro de remisiones concluída.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+			End If
+			Validacion()
+		Catch ex As Exception
+			MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+		End Try
+	End Sub
+
+	Private Sub lblAplicAnticipo_Click(sender As Object, e As EventArgs)
+
+	End Sub
+
+	Private Sub lblVales_Click(sender As Object, e As EventArgs)
+
+	End Sub
+
+	Private Sub btnCancelarPago_Click(sender As Object, e As EventArgs) Handles btnCancelarPago.Click
+		Try
+			If _listaCobros.Count > 0 Then
+				Dim oCancelarPago As New frmCancelarPago()
+				oCancelarPago.Cobros = _listaCobros
+				oCancelarPago.CobroRemisiones = _ListaCobroRemisiones
 				Validacion()
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
+				oCancelarPago.Remisiones = _DetalleGrid
+				If oCancelarPago.ShowDialog = DialogResult.OK Then
+					_listaCobros = oCancelarPago.Cobros
+					_DetalleGrid = oCancelarPago.Remisiones
+					_ListaCobroRemisiones = oCancelarPago.CobroRemisiones
+					Validacion()
+				End If
+			Else
+				MessageBox.Show("No hay cobros registrados aún, imposible eliminarlos.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+			End If
+			ActualizarTotalizadorFormasDePago(_listaCobros)
+			Validacion()
+		Catch ex As Exception
+			MessageBox.Show(ex.Message)
+		End Try
 
-    Private Sub lblAplicAnticipo_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub lblVales_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub btnCancelarPago_Click(sender As Object, e As EventArgs) Handles btnCancelarPago.Click
-        Try
-            If _listaCobros.Count > 0 Then
-                Dim oCancelarPago As New frmCancelarPago()
-                oCancelarPago.Cobros = _listaCobros
-                oCancelarPago.CobroRemisiones = _ListaCobroRemisiones
-                Validacion()
-                oCancelarPago.Remisiones = _DetalleGrid
-                If oCancelarPago.ShowDialog = DialogResult.OK Then
-                    _listaCobros = oCancelarPago.Cobros
-                    _DetalleGrid = oCancelarPago.Remisiones
-                    _ListaCobroRemisiones = oCancelarPago.CobroRemisiones
-                    Validacion()
-                End If
-            Else
-                MessageBox.Show("No hay cobros registrados a�n, imposible eliminarlos.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            End If
-            ActualizarTotalizadorFormasDePago(_listaCobros)
-            Validacion()
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-        End Try
-
-    End Sub
+	End Sub
 
 
-    Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
-        Try
-            ocultar()
-            Movilgas()
-            cargarRemisiones()
-            validarFormasPago()
+	Private Sub frmLiquidacionPortatil_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+		Try
+			ocultar()
+			Movilgas()
+			cargarRemisiones()
+			validarFormasPago()
 			ActualizarTotalizadorFormasDePago(_listaCobros)
 			listaDireccionesEntrega = New List(Of RTGMCore.DireccionEntrega)
 		Catch ex As Exception
-            MessageBox.Show("Error al cargar " & ex.Message)
-            Me.Close()
-        End Try
-    End Sub
+			MessageBox.Show("Error al cargar " & ex.Message)
+			Me.Close()
+		End Try
+	End Sub
 
 
-    Private Function validarExistencias() As Boolean
-        Dim ValorText As Integer
-        Dim i As Integer
-        Dim Flag As Boolean = True
+	Private Function validarExistencias() As Boolean
+		Dim ValorText As Integer
+		Dim i As Integer
+		Dim Flag As Boolean = True
 
-        While i < lblLista.Count And Flag = True
-            If CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text = "" Then
-                ValorText = 0
-            Else
-                ValorText = CType(CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer)
-            End If
+		While i < lblLista.Count And Flag = True
+			If CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text = "" Then
+				ValorText = 0
+			Else
+				ValorText = CType(CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer)
+			End If
 
-            If ValorText > CType(CType(lblLista.Item(i), System.Windows.Forms.Label).Text, Integer) Then
-                Flag = False
-                Me.ActiveControl = CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero)
-            End If
-            i = i + 1
-        End While
-        Return Flag
-    End Function
+			If ValorText > CType(CType(lblLista.Item(i), System.Windows.Forms.Label).Text, Integer) Then
+				Flag = False
+				Me.ActiveControl = CType(txtLista.Item(i), SigaMetClasses.Controles.txtNumeroEntero)
+			End If
+			i = i + 1
+		End While
+		Return Flag
+	End Function
 
-    Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
-        If Not validarExistencias() Then
-            MessageBox.Show("No hay suficientes existencias para liquidar ", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return
-        End If
+	Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
+		If Not validarExistencias() Then
+			MessageBox.Show("No hay suficientes existencias para liquidar ", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+			Return
+		End If
 
-        If grdDetalle.VisibleRowCount > 0 Then
-            Dim validar As Boolean
-            validar = Validacion()
+		If grdDetalle.VisibleRowCount > 0 Then
+			Dim validar As Boolean
+			validar = Validacion()
 
-            If validar = True Then
-                Try
-                    If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
-                        MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidaci�n," + Chr(13) + "favor de ajustar la fecha y hora conforme a la operaci�n.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                        Return
-                    End If
+			If validar = True Then
+				Try
+					If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
+						MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidación," + Chr(13) + "favor de ajustar la fecha y hora conforme a la operación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+						Return
+					End If
 
-                    If _LiqPrecioVigente = False Then
-                        If MessageBox.Show("�Est� a punto de realizar la liquidaci�n con precios probablemente no vigentes �Desea continuar?", Me.Text,
-                                   MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
-                            Exit Sub
-                        End If
-                    End If
+					If _LiqPrecioVigente = False Then
+						If MessageBox.Show("¿Está a punto de realizar la liquidación con precios probablemente no vigentes ¿Desea continuar?", Me.Text,
+								   MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
+							Exit Sub
+						End If
+					End If
 
-                    CargaTablaLiquidacion()
+					CargaTablaLiquidacion()
 
-                    If grdDetalle.VisibleRowCount > 0 Then
+					If grdDetalle.VisibleRowCount > 0 Then
 
-                        If _FlagPedidoPortatil Then
-                            Dim oLiquidacionPedido As LiquidacionTransaccionada.cLiquidacion
-                            oLiquidacionPedido = New LiquidacionTransaccionada.cLiquidacion(0, CType(_drLiquidacion(0).Item(4), Short), 0, 0)
-                            Dim listaFolios As New ArrayList
-                            listaFolios = oLiquidacionPedido.ConsultaFoliosFaltantesMovil(_AnoAtt, _Folio, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime), New SqlConnection(PortatilClasses.Globals.GetInstance._CadenaConexion))
+						If _FlagPedidoPortatil Then
+							Dim oLiquidacionPedido As LiquidacionTransaccionada.cLiquidacion
+							oLiquidacionPedido = New LiquidacionTransaccionada.cLiquidacion(0, CType(_drLiquidacion(0).Item(4), Short), 0, 0)
+							Dim listaFolios As New ArrayList
+							listaFolios = oLiquidacionPedido.ConsultaFoliosFaltantesMovil(_AnoAtt, _Folio, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime), New SqlConnection(PortatilClasses.Globals.GetInstance._CadenaConexion))
 
-                            If (listaFolios.Count > 0) Then
-                                Dim Mensaje As New StringBuilder()
-                                Mensaje.Append("Existe p�rdida de folios en el rango que se desea liquidar.")
-                                Mensaje.AppendLine()
-                                Mensaje.Append("Los folios faltantes son :")
-                                Mensaje.AppendLine()
-                                Dim num As Integer
-                                For Each num In listaFolios
-                                    Mensaje.Append(num)
-                                    Mensaje.AppendLine()
-                                Next
-                                Mensaje.Append("Favor de verificarlo con el encargado de sistemas.")
-                                MessageBox.Show(Mensaje.ToString(), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                                Return
-                            End If
+							If (listaFolios.Count > 0) Then
+								Dim Mensaje As New StringBuilder()
+								Mensaje.Append("Existe pérdida de folios en el rango que se desea liquidar.")
+								Mensaje.AppendLine()
+								Mensaje.Append("Los folios faltantes son :")
+								Mensaje.AppendLine()
+								Dim num As Integer
+								For Each num In listaFolios
+									Mensaje.Append(num)
+									Mensaje.AppendLine()
+								Next
+								Mensaje.Append("Favor de verificarlo con el encargado de sistemas.")
+								MessageBox.Show(Mensaje.ToString(), Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+								Return
+							End If
 
-                            Dim listaFoliosALiquidar As New DataTable
-                            listaFoliosALiquidar = oLiquidacionPedido.ConsulaFoliosLiquidacion(_AnoAtt, _Folio, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime), New SqlConnection(PortatilClasses.Globals.GetInstance._CadenaConexion))
+							Dim listaFoliosALiquidar As New DataTable
+							listaFoliosALiquidar = oLiquidacionPedido.ConsulaFoliosLiquidacion(_AnoAtt, _Folio, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime), New SqlConnection(PortatilClasses.Globals.GetInstance._CadenaConexion))
 
 
-                            If (listaFoliosALiquidar.Rows.Count > 0) Then
-                                Dim frmFolios As New frmFoliosLiquidacion()
-                                frmFolios.Datos = listaFoliosALiquidar
-                                frmFolios.ShowDialog()
-                            End If
+							If (listaFoliosALiquidar.Rows.Count > 0) Then
+								Dim frmFolios As New frmFoliosLiquidacion()
+								frmFolios.Datos = listaFoliosALiquidar
+								frmFolios.ShowDialog()
+							End If
 
-                        End If
+						End If
 
-                        Dim oMovimiento As New PortatilClasses.Consulta.cMovAprobadoyVerificado(dtpFLiquidacion.Value, _AlmacenGas, 0) ' 20061114CAGP$001
-                        If oMovimiento.RealizarMovimiento() Then        '20061114CAGP$001
+						Dim oMovimiento As New PortatilClasses.Consulta.cMovAprobadoyVerificado(dtpFLiquidacion.Value, _AlmacenGas, 0) ' 20061114CAGP$001
+						If oMovimiento.RealizarMovimiento() Then        '20061114CAGP$001
 							'lblEfectivo.Text = CType(capEfectivo.TotalEfectivo + Vales.TotalVales + ofrmPagoCheque._MontoCheque, Decimal).ToString("N2")
 							'_Cambio = (capEfectivo.TotalEfectivo + Vales.TotalVales + ofrmPagoCheque._MontoCheque) - _TotalNetoCaja
 
@@ -8331,97 +8331,97 @@ Public Class frmLiquidacionPortatil
 								End If
 							Else
 								Dim oMensaje As New PortatilClasses.Mensaje(50)
-                                MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                                lblEfectivo.Text = "0.00"
-                                lblVales.Text = "0.00"
-                            End If
-                            ' 20061114CAGP$001 /I
-                        Else
-                            Dim Mensajes As New PortatilClasses.Mensaje(87, oMovimiento.Mensaje)
-                            MessageBox.Show(Mensajes.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            ActiveControl = dtpFLiquidacion
-                        End If
-                        oMovimiento = Nothing
-                        ' 20061114CAGP$001 /F
-                    Else
-                        Dim oMensaje As New PortatilClasses.Mensaje(51)
-                        MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                    End If
-                    'For Each Cobro As SigaMetClasses.CobroDetalladoDatos In _listaCobros
-                    '    With Cobro
-                    '        Cobro.insertaCobro(.A�oCobro, .Cobro, .Importe, .Impuesto, .Total, .Referencia, .Banco, .FAlta, .Status, .TipoCobro, .NumeroCheque,
-                    '.FCheque, .NumeroCuenta, .Observaciones, .FDevolucion, .RazonDevCheque, .Cliente, .Saldo, .Usuario, .FActualizacion,
-                    '.Folio, .FDeposito, .FolioAtt, .A�oAtt, .NumeroCuentaDestino, .BancoOrigen, .SaldoAFavor, .StatusSaldoAFavor,
-                    '.A�oCobroOrigen, .CobroOrigen, .TPV)
-                    '    End With
-                    'Next
-                    MessageBox.Show("El proceso de registro de cobros concluy� exitosamente.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+								MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+								lblEfectivo.Text = "0.00"
+								lblVales.Text = "0.00"
+							End If
+							' 20061114CAGP$001 /I
+						Else
+							Dim Mensajes As New PortatilClasses.Mensaje(87, oMovimiento.Mensaje)
+							MessageBox.Show(Mensajes.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+							ActiveControl = dtpFLiquidacion
+						End If
+						oMovimiento = Nothing
+						' 20061114CAGP$001 /F
+					Else
+						Dim oMensaje As New PortatilClasses.Mensaje(51)
+						MessageBox.Show(oMensaje.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+					End If
+					'For Each Cobro As SigaMetClasses.CobroDetalladoDatos In _listaCobros
+					'    With Cobro
+					'        Cobro.insertaCobro(.AñoCobro, .Cobro, .Importe, .Impuesto, .Total, .Referencia, .Banco, .FAlta, .Status, .TipoCobro, .NumeroCheque,
+					'.FCheque, .NumeroCuenta, .Observaciones, .FDevolucion, .RazonDevCheque, .Cliente, .Saldo, .Usuario, .FActualizacion,
+					'.Folio, .FDeposito, .FolioAtt, .AñoAtt, .NumeroCuentaDestino, .BancoOrigen, .SaldoAFavor, .StatusSaldoAFavor,
+					'.AñoCobroOrigen, .CobroOrigen, .TPV)
+					'    End With
+					'Next
+					MessageBox.Show("El proceso de registro de cobros concluyó exitosamente.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-                Catch ex As Exception
-                    MessageBox.Show("Se gener� el siguiente error: " & ex.Message & ". Seccion: " & _seccion, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Me.Close()
-                End Try
-            Else
-                Dim totalcobro As Decimal = CDec(lblTotalCobro.Text)
-                Dim totalPagos As Decimal = CDec(lblTransferElect.Text) + CDec(lblTarjDebCred.Text) + CDec(lblAplicAnticipo.Text) + CDec(lblCheque.Text) + CDec(lblEfectivo.Text) + CDec(lblVales.Text)
-                If totalcobro = 0 Then
+				Catch ex As Exception
+					MessageBox.Show("Se generó el siguiente error: " & ex.Message & ". Seccion: " & _seccion, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+					Me.Close()
+				End Try
+			Else
+				Dim totalcobro As Decimal = CDec(lblTotalCobro.Text)
+				Dim totalPagos As Decimal = CDec(lblTransferElect.Text) + CDec(lblTarjDebCred.Text) + CDec(lblAplicAnticipo.Text) + CDec(lblCheque.Text) + CDec(lblEfectivo.Text) + CDec(lblVales.Text)
+				If totalcobro = 0 Then
 
-                    MessageBox.Show("No se ha hecho la liquidaci�n de ruta port�til, se necesita el total a cobrar.")
-                ElseIf totalcobro > 0 And totalcobro <> totalPagos Then
-                    MessageBox.Show("El pago total debe de ser igual al cobro total.")
-                ElseIf totalPagos > totalcobro Then
-                    MessageBox.Show("El pago total es mayor al total del cobro, debe de ser igual al cobro total.")
+					MessageBox.Show("No se ha hecho la liquidación de ruta portátil, se necesita el total a cobrar.")
+				ElseIf totalcobro > 0 And totalcobro <> totalPagos Then
+					MessageBox.Show("El pago total debe de ser igual al cobro total.")
+				ElseIf totalPagos > totalcobro Then
+					MessageBox.Show("El pago total es mayor al total del cobro, debe de ser igual al cobro total.")
 
-                End If
-            End If
-        Else
-            MessageBox.Show("No se ha agregado productos a liquidar", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
-    End Sub
+				End If
+			End If
+		Else
+			MessageBox.Show("No se ha agregado productos a liquidar", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+		End If
+	End Sub
 
-    Private Sub grbDetalleProducto_Enter(sender As Object, e As EventArgs) Handles grbDetalleProducto.Enter
+	Private Sub grbDetalleProducto_Enter(sender As Object, e As EventArgs) Handles grbDetalleProducto.Enter
 
-    End Sub
+	End Sub
 
-    Private Sub lblTransferElect_Click(sender As Object, e As EventArgs)
+	Private Sub lblTransferElect_Click(sender As Object, e As EventArgs)
 
-    End Sub
+	End Sub
 
-    Public Sub cargarRemisiones()
-        Dim TotalKilos As New Decimal
-        'Dim cargarRemisiones1 As New SigaMetClasses.LiquidacionPortatil
-        '_DetalleGrid = cargarRemisiones1.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
+	Public Sub cargarRemisiones()
+		Dim TotalKilos As New Decimal
+		'Dim cargarRemisiones1 As New SigaMetClasses.LiquidacionPortatil
+		'_DetalleGrid = cargarRemisiones1.cargarRemisionesPortatilALiquidar(_Folio, _NDocumento)
 
-        Dim cargarRemisiones As New PortatilClasses.cLiquidacion
-        _DetalleGrid = cargarRemisiones.ConsultaRemisionesPortatil(_AlmacenGas, cboZEconomica.Identificador, _Ruta, _MovimientoAlmacen, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime), CType(lblCamion.Text, Integer))
+		Dim cargarRemisiones As New PortatilClasses.cLiquidacion
+		_DetalleGrid = cargarRemisiones.ConsultaRemisionesPortatil(_AlmacenGas, cboZEconomica.Identificador, _Ruta, _MovimientoAlmacen, CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime), CType(lblCamion.Text, Integer))
 
-        ' _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
-        grdDetalle.DataSource = _DetalleGrid
+		' _DetalleGrid = cargarRemisiones.cargarRemisionesPortatilALiquidar(148711, 113413)
+		grdDetalle.DataSource = _DetalleGrid
 
-        If _DetalleGrid.Rows.Count > 0 Then
-            cboZEconomica.SelectedIndex = cboZEconomica.FindString(_DetalleGrid.Rows(0).Item("zonaeconomica").ToString())
-            TotalKilos = Convert.ToDecimal(_DetalleGrid.Compute("SUM(Kilos)", String.Empty))
-            lblTotalKilos.Text = TotalKilos.ToString
-            Dim col As New DataColumn("Modificado", GetType(Integer))
-            col.ReadOnly = False
-            col.DefaultValue = 0
-            _DetalleGrid.Columns.Add(col)
-        End If
-    End Sub
+		If _DetalleGrid.Rows.Count > 0 Then
+			cboZEconomica.SelectedIndex = cboZEconomica.FindString(_DetalleGrid.Rows(0).Item("zonaeconomica").ToString())
+			TotalKilos = Convert.ToDecimal(_DetalleGrid.Compute("SUM(Kilos)", String.Empty))
+			lblTotalKilos.Text = TotalKilos.ToString
+			Dim col As New DataColumn("Modificado", GetType(Integer))
+			col.ReadOnly = False
+			col.DefaultValue = 0
+			_DetalleGrid.Columns.Add(col)
+		End If
+	End Sub
 
 	Public Function AltaPagoEfectivo(PagoNum As Integer) As SigaMetClasses.CobroDetalladoDatos
 		Dim Saldo As Decimal
 		Dim formapago As String
 		Dim Total As Decimal = 0
 		Dim insertaCobro As New SigaMetClasses.CobroDetalladoDatos()
-		'Dim TotalRemisiones2 As Decimal = Convert.ToDecimal(_DetalleGrid.Compute("SUM(saldo)", "FormaPago <> 'Cr�dito Port�til'"))
+		'Dim TotalRemisiones2 As Decimal = Convert.ToDecimal(_DetalleGrid.Compute("SUM(saldo)", "FormaPago <> 'Crédito Portátil'"))
 		Dim TotalRemisiones As Decimal = 0
 		Dim insertacobroRemision As New SigaMetClasses.CobroRemisiones
 
 		For Each row As DataRow In _DetalleGrid.Rows
 			Saldo = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"), Decimal)
 			formapago = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago"), String).Trim
-			If Saldo > 0 And formapago <> "Cr�dito Port�til" Then
+			If Saldo > 0 And formapago <> "Crédito Portátil" Then
 				TotalRemisiones = TotalRemisiones + Saldo
 			End If
 		Next
@@ -8430,7 +8430,7 @@ Public Class frmLiquidacionPortatil
 			With insertaCobro
 				.Pago = PagoNum
 				.SaldoAFavor = False
-				.A�oCobro = CShort(DateTime.Now.Year)
+				.AñoCobro = CShort(DateTime.Now.Year)
 				.Cobro = 0
 				.Total = TotalRemisiones
 				.Importe = .Total / CDec(1 + (16 / 100))
@@ -8454,11 +8454,11 @@ Public Class frmLiquidacionPortatil
 				.Folio = 0
 				.FDeposito = Date.MinValue
 				.FolioAtt = 0
-				.A�oAtt = CShort(Now.Year)
+				.AñoAtt = CShort(Now.Year)
 				.NumeroCuentaDestino = "NULL"
 				.BancoOrigen = CShort("0")
 				.StatusSaldoAFavor = "NULL"
-				.A�oCobroOrigen = CShort("0")
+				.AñoCobroOrigen = CShort("0")
 				.CobroOrigen = 0
 				.TPV = False
 
@@ -8467,7 +8467,7 @@ Public Class frmLiquidacionPortatil
 			For Each row As DataRow In _DetalleGrid.Rows
 				Saldo = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"), Decimal)
 				formapago = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago"), String).Trim
-				If Saldo > 0 And formapago <> "Cr�dito Port�til" Then
+				If Saldo > 0 And formapago <> "Crédito Portátil" Then
 					insertacobroRemision = New SigaMetClasses.CobroRemisiones()
 					insertacobroRemision.MontoAbonado = Saldo
 					insertacobroRemision.Pago = PagoNum
@@ -8491,249 +8491,249 @@ Public Class frmLiquidacionPortatil
 
 
 	Public Function TodoPagoEfectivo(PagoNum As Integer) As List(Of SigaMetClasses.CobroDetalladoDatos)
-        Dim listaCobrosEfectivo As New List(Of SigaMetClasses.CobroDetalladoDatos)
-        Dim insertaCobro As New SigaMetClasses.CobroDetalladoDatos()
-        Dim TotalRemisiones As Decimal = Convert.ToDecimal(_DetalleGrid.Compute("SUM(saldo)", String.Empty))
-        Dim insertacobroRemision As New SigaMetClasses.CobroRemisiones
-        Dim Saldo As Decimal
-        Dim formapago As String
-        If TotalRemisiones > 0 Then
+		Dim listaCobrosEfectivo As New List(Of SigaMetClasses.CobroDetalladoDatos)
+		Dim insertaCobro As New SigaMetClasses.CobroDetalladoDatos()
+		Dim TotalRemisiones As Decimal = Convert.ToDecimal(_DetalleGrid.Compute("SUM(saldo)", String.Empty))
+		Dim insertacobroRemision As New SigaMetClasses.CobroRemisiones
+		Dim Saldo As Decimal
+		Dim formapago As String
+		If TotalRemisiones > 0 Then
 
 
-            For Each row As DataRow In _DetalleGrid.Rows
-                Saldo = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"), Decimal)
-                formapago = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago"), String).Trim
-                If Saldo > 0 And formapago <> "Cr�dito Port�til" Then
-                    insertaCobro = New SigaMetClasses.CobroDetalladoDatos()
-                    PagoNum = PagoNum + 1
+			For Each row As DataRow In _DetalleGrid.Rows
+				Saldo = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Saldo"), Decimal)
+				formapago = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("FormaPago"), String).Trim
+				If Saldo > 0 And formapago <> "Crédito Portátil" Then
+					insertaCobro = New SigaMetClasses.CobroDetalladoDatos()
+					PagoNum = PagoNum + 1
 
-                    With insertaCobro
-                        .Pago = PagoNum
-                        .SaldoAFavor = False
-                        .A�oCobro = CShort(DateTime.Now.Year)
-                        .Cobro = 0
-                        .Total = Saldo
-                        .Importe = .Total / CDec(1 + (16 / 100))
-                        .Impuesto = .Total - .Importe
-                        .Referencia = "NULL" ' puede ser vacio
-                        .Banco = CShort("0") 'puede ser null
-                        .FAlta = CDate(DateTime.Now.ToString("dd/MM/yyyy"))
-                        .Status = "EMITIDO"
-                        .TipoCobro = CByte(SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales)
-                        .DscTipoCobro = "Efectivo"
-                        .NumeroCheque = "NULL" ' puede ser vacio
-                        .FCheque = Date.MinValue
-                        .NumeroCuenta = "NULL"
-                        .Observaciones = "NULL"
-                        .FDevolucion = Date.MinValue
-                        .RazonDevCheque = Nothing
-                        .Cliente = 0 ' este dato se debeb de obtener depues de las remisiones
-                        .Saldo = 0 ' igual este dato
-                        .Usuario = _Usuario
-                        .FActualizacion = CDate(DateTime.Now.ToString("dd/MM/yyyy"))
-                        .Folio = 0
-                        .FDeposito = Date.MinValue
-                        .FolioAtt = 0
-                        .A�oAtt = CShort(Now.Year)
-                        .NumeroCuentaDestino = "NULL"
-                        .BancoOrigen = CShort("0")
-                        .StatusSaldoAFavor = "NULL"
-                        .A�oCobroOrigen = CShort("0")
-                        .CobroOrigen = 0
-                        .TPV = False
-                        .Serie = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Serie"), String)
-                        .Remision = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Remision"), Integer)
-                        .Producto = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Producto"), String)
-                    End With
+					With insertaCobro
+						.Pago = PagoNum
+						.SaldoAFavor = False
+						.AñoCobro = CShort(DateTime.Now.Year)
+						.Cobro = 0
+						.Total = Saldo
+						.Importe = .Total / CDec(1 + (16 / 100))
+						.Impuesto = .Total - .Importe
+						.Referencia = "NULL" ' puede ser vacio
+						.Banco = CShort("0") 'puede ser null
+						.FAlta = CDate(DateTime.Now.ToString("dd/MM/yyyy"))
+						.Status = "EMITIDO"
+						.TipoCobro = CByte(SigaMetClasses.Enumeradores.enumTipoCobro.EfectivoVales)
+						.DscTipoCobro = "Efectivo"
+						.NumeroCheque = "NULL" ' puede ser vacio
+						.FCheque = Date.MinValue
+						.NumeroCuenta = "NULL"
+						.Observaciones = "NULL"
+						.FDevolucion = Date.MinValue
+						.RazonDevCheque = Nothing
+						.Cliente = 0 ' este dato se debeb de obtener depues de las remisiones
+						.Saldo = 0 ' igual este dato
+						.Usuario = _Usuario
+						.FActualizacion = CDate(DateTime.Now.ToString("dd/MM/yyyy"))
+						.Folio = 0
+						.FDeposito = Date.MinValue
+						.FolioAtt = 0
+						.AñoAtt = CShort(Now.Year)
+						.NumeroCuentaDestino = "NULL"
+						.BancoOrigen = CShort("0")
+						.StatusSaldoAFavor = "NULL"
+						.AñoCobroOrigen = CShort("0")
+						.CobroOrigen = 0
+						.TPV = False
+						.Serie = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Serie"), String)
+						.Remision = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Remision"), Integer)
+						.Producto = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Producto"), String)
+					End With
 
-                    insertacobroRemision = New SigaMetClasses.CobroRemisiones()
-                    insertacobroRemision.MontoAbonado = Saldo
-                    insertacobroRemision.Pago = PagoNum
-                    insertacobroRemision.Remision = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Remision"), String)
-                    insertacobroRemision.Serie = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Serie"), String)
+					insertacobroRemision = New SigaMetClasses.CobroRemisiones()
+					insertacobroRemision.MontoAbonado = Saldo
+					insertacobroRemision.Pago = PagoNum
+					insertacobroRemision.Remision = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Remision"), String)
+					insertacobroRemision.Serie = CType(_DetalleGrid.Rows(_DetalleGrid.Rows.IndexOf(row))("Serie"), String)
 
-                    _ListaCobroRemisiones.Add(insertacobroRemision)
-                    listaCobrosEfectivo.Add(insertaCobro)
-                End If
-            Next
-        Else
-            Throw New Exception("El monto de un cobro no puede ser cero")
+					_ListaCobroRemisiones.Add(insertacobroRemision)
+					listaCobrosEfectivo.Add(insertaCobro)
+				End If
+			Next
+		Else
+			Throw New Exception("El monto de un cobro no puede ser cero")
 
-        End If
+		End If
 
-        Return listaCobrosEfectivo
+		Return listaCobrosEfectivo
 
-    End Function
+	End Function
 
-    Function Validacion() As Boolean
-        Dim totalPagos As Decimal = CDec(lblTransferElect.Text) + CDec(lblTarjDebCred.Text) + CDec(lblAplicAnticipo.Text) + CDec(lblCheque.Text) + CDec(lblEfectivo.Text) + CDec(lblVales.Text) + CDec(lblCredito.Text)
-        Dim totalCobro As Decimal = CDec(lblTotalCobro.Text) + CDec(lblCredito.Text)
-        Dim Validado As Boolean
-        Dim totalDescuentos As Decimal = CDec(lblTotal.Text)
-        Dim totalVenta As Decimal = CDec(lblVentaTotal.Text)
+	Function Validacion() As Boolean
+		Dim totalPagos As Decimal = CDec(lblTransferElect.Text) + CDec(lblTarjDebCred.Text) + CDec(lblAplicAnticipo.Text) + CDec(lblCheque.Text) + CDec(lblEfectivo.Text) + CDec(lblVales.Text) + CDec(lblCredito.Text)
+		Dim totalCobro As Decimal = CDec(lblTotalCobro.Text) + CDec(lblCredito.Text)
+		Dim Validado As Boolean
+		Dim totalDescuentos As Decimal = CDec(lblTotal.Text)
+		Dim totalVenta As Decimal = CDec(lblVentaTotal.Text)
 
-        Dim i As Integer = 0
+		Dim i As Integer = 0
 
-        _soloObsequios = True
+		_soloObsequios = True
 
-        While i < _DetalleGrid.Rows.Count And _soloObsequios 'txtLista.Count
-            If CType(_DetalleGrid.Rows(i).Item(8), String).ToUpper.Trim <> "OBSEQUIO" Then
-                _soloObsequios = False
-            End If
-            i = i + 1
-        End While
+		While i < _DetalleGrid.Rows.Count And _soloObsequios 'txtLista.Count
+			If CType(_DetalleGrid.Rows(i).Item(8), String).ToUpper.Trim <> "OBSEQUIO" Then
+				_soloObsequios = False
+			End If
+			i = i + 1
+		End While
 
-        Dim SaldoAFavor As Decimal = 0
+		Dim SaldoAFavor As Decimal = 0
 
-        For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
-            SaldoAFavor = SaldoAFavor + Cobro.Saldo
-        Next
-
-
-        totalPagos = totalPagos - SaldoAFavor
-
-        Dim totalCambio As Decimal
-
-        totalCambio = (totalPagos + totalDescuentos) - totalVenta
-
-        'If totalCobro = totalPagos And totalCobro > 0 Then
-        '	Validado = True
-        'ElseIf totalPagos > totalCobro Then
-        '	Validado = True
-        '	'lblCambio.Text = (totalPagos - totalCobro).ToString("N2")
-        'ElseIf totalventa = totalDescuentos Then
-        '	Validado = True
-        'ElseIf totalPagos <= totalCobro Then
-        '	lblCambio.Text = (0).ToString("N2")
-        'Else
-        '	Validado = False
-        'End If
-
-        Validado = (totalPagos + totalDescuentos) >= totalVenta
-
-        If totalCambio > 0 Then
-            lblCambio.Text = totalCambio.ToString("N2")
-        Else
-            lblCambio.Text = (0).ToString("N2")
-        End If
+		For Each Cobro As SigaMetClasses.CobroDetalladoDatos In Cobros
+			SaldoAFavor = SaldoAFavor + Cobro.Saldo
+		Next
 
 
-        Return Validado
-        totalCobro = 0
-        totalPagos = 0
+		totalPagos = totalPagos - SaldoAFavor
 
-    End Function
+		Dim totalCambio As Decimal
 
-    Public Sub CargaTablaLiquidacion()
-        If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
-            MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidaci�n," + Chr(13) + "favor de ajustar la fecha y hora conforme a la operaci�n.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
+		totalCambio = (totalPagos + totalDescuentos) - totalVenta
 
-        End If
+		'If totalCobro = totalPagos And totalCobro > 0 Then
+		'	Validado = True
+		'ElseIf totalPagos > totalCobro Then
+		'	Validado = True
+		'	'lblCambio.Text = (totalPagos - totalCobro).ToString("N2")
+		'ElseIf totalventa = totalDescuentos Then
+		'	Validado = True
+		'ElseIf totalPagos <= totalCobro Then
+		'	lblCambio.Text = (0).ToString("N2")
+		'Else
+		'	Validado = False
+		'End If
 
-        Dim i = 0
-        If _RutaMovil Then
-            While i < _DetalleGrid.Rows.Count
-                If CType(_DetalleGrid.Rows(i).Item(15), Integer) = 0 Then
-                    _DetalleGrid.Rows(i).Item(2) = 0
-                End If
-                i = i + 1
-            End While
-        End If
+		Validado = (totalPagos + totalDescuentos) >= totalVenta
 
-        If _BoletinEnLineaCamion = False Then
-            If _obligaInsercionRemision Then
-                If (TxtCliente.Text.Length > 0) Then
-                    If _ClienteVtaPublico = Convert.ToInt32(TxtCliente.Text) Or cboTipoCobro.Identificador = 15 Then
-                        VerificarDatos()
-                    Else
-                        If banderaRemisionManual = False Then
-                            ValidarInformacionGrid(cboTipoCobro.Text)
-                            InsertaRemisiones()
-                        Else
-                            VerificarDatos()
-                        End If
-                    End If
-                Else
-                    If banderaRemisionManual = False Then
-                        ValidarInformacionGrid(cboTipoCobro.Text)
-                        InsertaRemisiones()
-                    Else
-                        VerificarDatos()
-                    End If
-                End If
-            Else
-                VerificarDatos()
-            End If
-        Else
-            VerificarDatos()
-        End If
-
-    End Sub
-
-    Private Sub grdDetalle_Navigate(sender As Object, ne As NavigateEventArgs)
-
-    End Sub
+		If totalCambio > 0 Then
+			lblCambio.Text = totalCambio.ToString("N2")
+		Else
+			lblCambio.Text = (0).ToString("N2")
+		End If
 
 
-    Private Sub grdDetalle_Click(sender As Object, e As EventArgs) Handles grdDetalle.Click
-        Dim producto As String = ""
-        Dim Total As Integer = 0
+		Return Validado
+		totalCobro = 0
+		totalPagos = 0
 
-        If grdDetalle.CurrentRowIndex > -1 Then
-            TxtCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Cliente").ToString()
-            lblNombreCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Nombre").ToString()
-            cboZEconomica.SelectedIndex = cboZEconomica.FindString(_DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("zonaeconomica").ToString())
-            ' TxtSerie.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Serie").ToString()
-            ' TxtRemision.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Remision").ToString()
-            producto = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("producto").ToString()
+	End Function
 
-            For Each row As DataRow In _DetalleGrid.Rows
-                If (row.Item("cliente").ToString() = TxtCliente.Text And _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Serie").ToString() = row.Item("serie").ToString() And row.Item("producto").ToString() = producto) Then
+	Public Sub CargaTablaLiquidacion()
+		If ValidarFechas(CType(dtpFCarga.Value, DateTime), CType(dtpFLiquidacion.Value, DateTime)) = True Then
+			MessageBox.Show("La fecha de carga no puede ser mayor que la fecha de liquidación," + Chr(13) + "favor de ajustar la fecha y hora conforme a la operación.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			Return
 
-                    Total = Total + Convert.ToInt16(row.Item("cantidad").ToString())
+		End If
 
-                End If
-            Next
+		Dim i = 0
+		If _RutaMovil Then
+			While i < _DetalleGrid.Rows.Count
+				If CType(_DetalleGrid.Rows(i).Item(15), Integer) = 0 Then
+					_DetalleGrid.Rows(i).Item(2) = 0
+				End If
+				i = i + 1
+			End While
+		End If
 
-            For Each ctrl As Control In pnlProducto.Controls
-                If (ctrl.Name.Contains("pdto" + producto.ToString().Trim())) Then
-                    ctrl.Text = Total.ToString()
-                End If
-            Next
-        End If
-    End Sub
+		If _BoletinEnLineaCamion = False Then
+			If _obligaInsercionRemision Then
+				If (TxtCliente.Text.Length > 0) Then
+					If _ClienteVtaPublico = Convert.ToInt32(TxtCliente.Text) Or cboTipoCobro.Identificador = 15 Then
+						VerificarDatos()
+					Else
+						If banderaRemisionManual = False Then
+							ValidarInformacionGrid(cboTipoCobro.Text)
+							InsertaRemisiones()
+						Else
+							VerificarDatos()
+						End If
+					End If
+				Else
+					If banderaRemisionManual = False Then
+						ValidarInformacionGrid(cboTipoCobro.Text)
+						InsertaRemisiones()
+					Else
+						VerificarDatos()
+					End If
+				End If
+			Else
+				VerificarDatos()
+			End If
+		Else
+			VerificarDatos()
+		End If
+
+	End Sub
+
+	Private Sub grdDetalle_Navigate(sender As Object, ne As NavigateEventArgs)
+
+	End Sub
 
 
-    Private Sub GroupBox2_Enter(sender As Object, e As EventArgs) Handles GroupBox2.Enter
+	Private Sub grdDetalle_Click(sender As Object, e As EventArgs) Handles grdDetalle.Click
+		Dim producto As String = ""
+		Dim Total As Integer = 0
+
+		If grdDetalle.CurrentRowIndex > -1 Then
+			TxtCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Cliente").ToString()
+			lblNombreCliente.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Nombre").ToString()
+			cboZEconomica.SelectedIndex = cboZEconomica.FindString(_DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("zonaeconomica").ToString())
+			' TxtSerie.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Serie").ToString()
+			' TxtRemision.Text = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Remision").ToString()
+			producto = _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("producto").ToString()
+
+			For Each row As DataRow In _DetalleGrid.Rows
+				If (row.Item("cliente").ToString() = TxtCliente.Text And _DetalleGrid.Rows(grdDetalle.CurrentRowIndex).Item("Serie").ToString() = row.Item("serie").ToString() And row.Item("producto").ToString() = producto) Then
+
+					Total = Total + Convert.ToInt16(row.Item("cantidad").ToString())
+
+				End If
+			Next
+
+			For Each ctrl As Control In pnlProducto.Controls
+				If (ctrl.Name.Contains("pdto" + producto.ToString().Trim())) Then
+					ctrl.Text = Total.ToString()
+				End If
+			Next
+		End If
+	End Sub
 
 
-    End Sub
-
-    Private Sub btnCrearRemision_Click(sender As Object, e As EventArgs)
-
-    End Sub
-    Private Sub ObtenProductos()
-
-        Dim oLiquidacion As New PortatilClasses.cLiquidacion()
-
-        Dim precioVigente As Integer
-
-        If _LiqPrecioVigente Then
-            precioVigente = 1
-        Else
-            precioVigente = 0
-        End If
-
-        _dtListaProductos = New DataTable
-        oLiquidacion.ConsultaPedido(1, _Folio, _AnoAtt, dtpFLiquidacion.Value, precioVigente, cboZEconomica.Identificador)
-        _dtListaProductos = oLiquidacion.dtTable
-        _dtListaProductos.TableName = "ProductosInicial"
+	Private Sub GroupBox2_Enter(sender As Object, e As EventArgs) Handles GroupBox2.Enter
 
 
-    End Sub
+	End Sub
 
-    Private Function obtenerRegistroProducto(ByVal _Clave As Integer) As Integer
+	Private Sub btnCrearRemision_Click(sender As Object, e As EventArgs)
+
+	End Sub
+	Private Sub ObtenProductos()
+
+		Dim oLiquidacion As New PortatilClasses.cLiquidacion()
+
+		Dim precioVigente As Integer
+
+		If _LiqPrecioVigente Then
+			precioVigente = 1
+		Else
+			precioVigente = 0
+		End If
+
+		_dtListaProductos = New DataTable
+		oLiquidacion.ConsultaPedido(1, _Folio, _AnoAtt, dtpFLiquidacion.Value, precioVigente, cboZEconomica.Identificador)
+		_dtListaProductos = oLiquidacion.dtTable
+		_dtListaProductos.TableName = "ProductosInicial"
+
+
+	End Sub
+
+	Private Function obtenerRegistroProducto(ByVal _Clave As Integer) As Integer
 
 		For i As Integer = 0 To _dtListaProductos.Rows.Count - 1
 			If CType(_dtListaProductos.Rows(i).Item(0), Integer) = _Clave Then
@@ -8744,28 +8744,28 @@ Public Class frmLiquidacionPortatil
 
 	End Function
 
-    Public Sub Totalizador()
+	Public Sub Totalizador()
 
-        Dim i As Integer
-        Dim TotalDescuento As Decimal = 0
-        Dim TotalCREDITO As Decimal = 0
-        Dim Kilostotal As Decimal = 0
-        Dim Ventatotal As Decimal = 0
-        Dim totalcobro As Decimal = 0
-        Dim cantidad As Decimal = 0
-        Dim Kilos As Decimal = 0
+		Dim i As Integer
+		Dim TotalDescuento As Decimal = 0
+		Dim TotalCREDITO As Decimal = 0
+		Dim Kilostotal As Decimal = 0
+		Dim Ventatotal As Decimal = 0
+		Dim totalcobro As Decimal = 0
+		Dim cantidad As Decimal = 0
+		Dim Kilos As Decimal = 0
 		Dim fila As Integer = 0
 
 		ObtenProductos()
-        If _DetalleGrid.Rows.Count <> 0 Then
-            While i < _DetalleGrid.Rows.Count  'txtLista.Count
+		If _DetalleGrid.Rows.Count <> 0 Then
+			While i < _DetalleGrid.Rows.Count  'txtLista.Count
 
-                TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(5), Decimal)
-                If Convert.ToString(_DetalleGrid.Rows(i).Item(8)) <> "" Then
-                    If CType(_DetalleGrid.Rows(i).Item(8), String).Trim = "Cr�dito Port�til" Then
-                        TotalCREDITO = TotalCREDITO + CType(_DetalleGrid.Rows(i).Item("Saldo"), Decimal)
-                    End If
-                End If
+				TotalDescuento = TotalDescuento + CType(_DetalleGrid.Rows(i).Item(5), Decimal)
+				If Convert.ToString(_DetalleGrid.Rows(i).Item(8)) <> "" Then
+					If CType(_DetalleGrid.Rows(i).Item(8), String).Trim = "Crédito Portátil" Then
+						TotalCREDITO = TotalCREDITO + CType(_DetalleGrid.Rows(i).Item("Saldo"), Decimal)
+					End If
+				End If
                 Kilostotal = CType(_DetalleGrid.Rows(i).Item(4), Decimal)
                 Ventatotal = Ventatotal + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
                 totalcobro = totalcobro + CType(_DetalleGrid.Rows(i).Item(7), Decimal)
