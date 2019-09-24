@@ -6442,6 +6442,7 @@ Public Class TransaccionMovimientoCaja
 
 		Dim StatusInicialMovCaja As String
 		Dim OrigenTransBan As Integer
+		Dim folioDestino As Integer
 
 
 		AbreConexion()
@@ -6750,7 +6751,7 @@ Public Class TransaccionMovimientoCaja
 
 			'TransfiereMovimientoCaja
 			If Transferir Then
-				TransfiereMovimientoCaja(Caja, FOperacion, Consecutivo, Folio, CajaDestino, FOperacionDestino, ConsecutivoDestino)
+				folioDestino = TransfiereMovimientoCaja(Caja, FOperacion, Consecutivo, Folio, CajaDestino, FOperacionDestino, ConsecutivoDestino)
 			End If
 			'*****
 
@@ -6758,7 +6759,7 @@ Public Class TransaccionMovimientoCaja
 
 
 			If (StatusInicialMovCaja.Equals("EMITIDO") And OrigenTransBan = 1) Then
-				ejecutaFacturaComplemento(Consecutivo, Folio, FOperacion, Caja)
+				ejecutaFacturaComplemento(ConsecutivoDestino, folioDestino, FOperacionDestino, CajaDestino)
 
 			End If
 
@@ -6861,7 +6862,7 @@ Public Class TransaccionMovimientoCaja
 	End Function
 #End Region
 
-#Region "Viene de conciliación"
+#Region "Factura complemento"
 	Friend Sub ejecutaFacturaComplemento(consecutivo As Integer,
 										folio As Integer,
 										fOperacion As DateTime,
@@ -6899,46 +6900,57 @@ Public Class TransaccionMovimientoCaja
 
 #Region "TransfiereMovimientoCaja"
 	'Procedimiento para transferir los movimientos de una caja a otra
-	Public Sub TransfiereMovimientoCaja(ByVal CajaFuente As Byte,
-                                        ByVal FOperacionFuente As Date,
-                                        ByVal ConsecutivoFuente As Byte,
-                                        ByVal FolioFuente As Integer,
-                                        ByVal CajaDestino As Byte,
-                                        ByVal FOperacionDestino As Date,
-                                        ByVal ConsecutivoDestino As Byte)
+	Public Function TransfiereMovimientoCaja(ByVal CajaFuente As Byte,
+										ByVal FOperacionFuente As Date,
+										ByVal ConsecutivoFuente As Byte,
+										ByVal FolioFuente As Integer,
+										ByVal CajaDestino As Byte,
+										ByVal FOperacionDestino As Date,
+										ByVal ConsecutivoDestino As Byte) As Integer
+		Dim folioDestino As Integer
+		Dim Rs As SqlDataReader
+		Dim cmd As New SqlCommand("spTransfiereMovimientoCaja")
+		With cmd
+			.CommandType = CommandType.StoredProcedure
+			.Transaction = Transaccion
+			.Parameters.Add(New SqlParameter("@CajaFuente", SqlDbType.TinyInt)).Value = CajaFuente
+			.Parameters.Add(New SqlParameter("@FOperacionFuente", SqlDbType.DateTime)).Value = FOperacionFuente
+			.Parameters.Add(New SqlParameter("@ConsecutivoFuente", SqlDbType.TinyInt)).Value = ConsecutivoFuente
+			.Parameters.Add(New SqlParameter("@FolioFuente", SqlDbType.Int)).Value = FolioFuente
+			.Parameters.Add(New SqlParameter("@CajaDestino", SqlDbType.TinyInt)).Value = CajaDestino
+			.Parameters.Add(New SqlParameter("@FOperacionDestino", SqlDbType.DateTime)).Value = FOperacionDestino
+			.Parameters.Add(New SqlParameter("@ConsecutivoDestino", SqlDbType.TinyInt)).Value = ConsecutivoDestino
+		End With
 
-        Dim cmd As New SqlCommand("spTransfiereMovimientoCaja")
-        With cmd
-            .CommandType = CommandType.StoredProcedure
-            .Transaction = Transaccion
-            .Parameters.Add(New SqlParameter("@CajaFuente", SqlDbType.TinyInt)).Value = CajaFuente
-            .Parameters.Add(New SqlParameter("@FOperacionFuente", SqlDbType.DateTime)).Value = FOperacionFuente
-            .Parameters.Add(New SqlParameter("@ConsecutivoFuente", SqlDbType.TinyInt)).Value = ConsecutivoFuente
-            .Parameters.Add(New SqlParameter("@FolioFuente", SqlDbType.Int)).Value = FolioFuente
-            .Parameters.Add(New SqlParameter("@CajaDestino", SqlDbType.TinyInt)).Value = CajaDestino
-            .Parameters.Add(New SqlParameter("@FOperacionDestino", SqlDbType.DateTime)).Value = FOperacionDestino
-            .Parameters.Add(New SqlParameter("@ConsecutivoDestino", SqlDbType.TinyInt)).Value = ConsecutivoDestino
-        End With
-        Try
-            AbreConexion()
-            cmd.Connection = DataLayer.Conexion
-            cmd.ExecuteNonQuery()
-        Catch ex As Exception
-            CierraConexion()
-            Throw ex
-        Finally
-            cmd = Nothing
-        End Try
+		Try
+			AbreConexion()
+			cmd.Connection = DataLayer.Conexion
+			Rs = cmd.ExecuteReader()
+			If (Rs.Read()) Then
+				folioDestino = Rs.GetInt32(0)
 
-    End Sub
+			End If
+			Rs.Close()
+		Catch ex As Exception
+			CierraConexion()
+			Throw ex
+		Finally
+			cmd = Nothing
+
+			Rs = Nothing
+		End Try
+
+		Return folioDestino
+
+	End Function
 
 
 #End Region
 
 #Region "ActualizaSaldoPedido"
-    'TODO Los saldos de los pedidos y de los clientes se deben actualizar cuando la caja
-    'valide la captura.
-    Friend Sub ActualizaSaldoPedido(ByVal Celula As Byte,
+	'TODO Los saldos de los pedidos y de los clientes se deben actualizar cuando la caja
+	'valide la captura.
+	Friend Sub ActualizaSaldoPedido(ByVal Celula As Byte,
                                     ByVal AnoPed As Short,
                                     ByVal Pedido As Integer,
                                     ByVal Abono As Decimal)
