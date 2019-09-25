@@ -99,7 +99,7 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCAutotanque;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCPedido;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCCelula;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTBCA�oPed;
+		private System.Windows.Forms.DataGridTextBoxColumn dGTBCAñoPed;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCNombre;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCEmpresa;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCTrabajoSolicitado;
@@ -111,7 +111,7 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCNumExterior;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCMunicipio;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCCP;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTBCA�oFolioPresupuesto;
+		private System.Windows.Forms.DataGridTextBoxColumn dGTBCAñoFolioPresupuesto;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCFolioPresupuesto;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCStatusPresupuesto;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCObservacionesPresupuesto;
@@ -136,7 +136,7 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCTotalCheque;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCTipoCobroCheque;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCFolio;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTBCA�oAtt;
+		private System.Windows.Forms.DataGridTextBoxColumn dGTBCAñoAtt;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCTipoServicio;
 		private System.Windows.Forms.DataGridTableStyle dataGridTableStyle2;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCCliente;
@@ -153,7 +153,7 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCAutotanque;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCPedido;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCCelula;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCA�oPed;
+		private System.Windows.Forms.DataGridTextBoxColumn dGTCAñoPed;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCNombre;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCEmpresa;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCTrabajoSolicitado;
@@ -165,7 +165,7 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCNumExterior;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCMunicipio;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCCP;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCA�oFolioPresupuesto;
+		private System.Windows.Forms.DataGridTextBoxColumn dGTCAñoFolioPresupuesto;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCFolioPresupuesto;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCStatusPresupuesto;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCObservacionesPresupuesto;
@@ -190,7 +190,7 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCTotalCheque;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCTipoCobroCheque;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCFolio;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCA�oAtt;
+		private System.Windows.Forms.DataGridTextBoxColumn dGTCAñoAtt;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCTipoServicio;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTCBancoNombre;
 		private System.Windows.Forms.ToolBarButton tbbPedidos;
@@ -294,10 +294,10 @@ namespace LiquidacionSTN
 		//public SqlConnection cnnSigamet = new SqlConnection(SigaMetClasses.Main.LeeInfoConexion(false,false,"LiquidacionST"));
 		
 		int _Folio;
-		int _A�oAtt;
+		int _AñoAtt;
 
 		int _FolioReporte;
-		int _A�oattReporte;
+		int _AñoattReporte;
 
 		int PedLiq;
 		int PedBD;
@@ -307,12 +307,12 @@ namespace LiquidacionSTN
 		
 		int _Pedido;
 		int _Celula;
-		int _A�oped;
+		int _AñoPed;
 		int _TipoCobro;
 		string CnSigamet;
         
 		int FolioL;
-		int A�oAttL;
+		int AñoAttL;
 
         // Variables para la conexi�n al servicio web de GM
         private string _URLGateway;
@@ -399,7 +399,7 @@ namespace LiquidacionSTN
             this.dGTCAutotanque = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTCPedido = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTCCelula = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCA�oPed = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCAñoPed = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTCNombre = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTCEmpresa = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTCTrabajoSolicitado = new System.Windows.Forms.DataGridTextBoxColumn();
@@ -411,7 +411,7 @@ namespace LiquidacionSTN
             this.dGTCNumExterior = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTCMunicipio = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTCCP = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCA�oFolioPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCAñoFolioPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTCFolioPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTCStatusPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTCObservacionesPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
@@ -436,7 +436,7 @@ namespace LiquidacionSTN
             this.dGTCTotalCheque = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTCTipoCobroCheque = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTCFolio = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCA�oAtt = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCAñoAtt = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTCTipoServicio = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTCBancoNombre = new System.Windows.Forms.DataGridTextBoxColumn();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -470,7 +470,7 @@ namespace LiquidacionSTN
             this.dGTBCAutotanque = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCPedido = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCCelula = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTBCA�oPed = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTBCAñoPed = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCNombre = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCEmpresa = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCTrabajoSolicitado = new System.Windows.Forms.DataGridTextBoxColumn();
@@ -482,7 +482,7 @@ namespace LiquidacionSTN
             this.dGTBCNumExterior = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCMunicipio = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCCP = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTBCA�oFolioPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTBCAñoFolioPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCFolioPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCStatusPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCObservacionesPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
@@ -507,7 +507,7 @@ namespace LiquidacionSTN
             this.dGTBCTotalCheque = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCTipoCobroCheque = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCFolio = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTBCA�oAtt = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTBCAñoAtt = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCTipoServicio = new System.Windows.Forms.DataGridTextBoxColumn();
             this.grdTarjerta = new System.Windows.Forms.DataGrid();
             this.lblTotalALiquidar = new System.Windows.Forms.Label();
@@ -1032,7 +1032,7 @@ namespace LiquidacionSTN
             this.dGTCAutotanque,
             this.dGTCPedido,
             this.dGTCCelula,
-            this.dGTCA�oPed,
+            this.dGTCAñoPed,
             this.dGTCNombre,
             this.dGTCEmpresa,
             this.dGTCTrabajoSolicitado,
@@ -1044,7 +1044,7 @@ namespace LiquidacionSTN
             this.dGTCNumExterior,
             this.dGTCMunicipio,
             this.dGTCCP,
-            this.dGTCA�oFolioPresupuesto,
+            this.dGTCAñoFolioPresupuesto,
             this.dGTCFolioPresupuesto,
             this.dGTCStatusPresupuesto,
             this.dGTCObservacionesPresupuesto,
@@ -1069,7 +1069,7 @@ namespace LiquidacionSTN
             this.dGTCTotalCheque,
             this.dGTCTipoCobroCheque,
             this.dGTCFolio,
-            this.dGTCA�oAtt,
+            this.dGTCAñoAtt,
             this.dGTCTipoServicio,
             this.dGTCBancoNombre});
             this.dataGridTableStyle2.HeaderForeColor = System.Drawing.SystemColors.ControlText;
@@ -1188,13 +1188,13 @@ namespace LiquidacionSTN
             this.dGTCCelula.MappingName = "Celula";
             this.dGTCCelula.Width = 0;
             // 
-            // dGTCA�oPed
+            // dGTCAñoPed
             // 
-            this.dGTCA�oPed.Format = "";
-            this.dGTCA�oPed.FormatInfo = null;
-            this.dGTCA�oPed.HeaderText = "A�oPed";
-            this.dGTCA�oPed.MappingName = "A�oPed";
-            this.dGTCA�oPed.Width = 0;
+            this.dGTCAñoPed.Format = "";
+            this.dGTCAñoPed.FormatInfo = null;
+            this.dGTCAñoPed.HeaderText = "AñoPed";
+            this.dGTCAñoPed.MappingName = "AñoPed";
+            this.dGTCAñoPed.Width = 0;
             // 
             // dGTCNombre
             // 
@@ -1284,13 +1284,13 @@ namespace LiquidacionSTN
             this.dGTCCP.MappingName = "CP";
             this.dGTCCP.Width = 0;
             // 
-            // dGTCA�oFolioPresupuesto
+            // dGTCAñoFolioPresupuesto
             // 
-            this.dGTCA�oFolioPresupuesto.Format = "";
-            this.dGTCA�oFolioPresupuesto.FormatInfo = null;
-            this.dGTCA�oFolioPresupuesto.HeaderText = "A�oFolioPresupuesto";
-            this.dGTCA�oFolioPresupuesto.MappingName = "A�oFolioPresupuesto";
-            this.dGTCA�oFolioPresupuesto.Width = 0;
+            this.dGTCAñoFolioPresupuesto.Format = "";
+            this.dGTCAñoFolioPresupuesto.FormatInfo = null;
+            this.dGTCAñoFolioPresupuesto.HeaderText = "AñoFolioPresupuesto";
+            this.dGTCAñoFolioPresupuesto.MappingName = "AñoFolioPresupuesto";
+            this.dGTCAñoFolioPresupuesto.Width = 0;
             // 
             // dGTCFolioPresupuesto
             // 
@@ -1484,13 +1484,13 @@ namespace LiquidacionSTN
             this.dGTCFolio.MappingName = "Folio";
             this.dGTCFolio.Width = 0;
             // 
-            // dGTCA�oAtt
+            // dGTCAñoAtt
             // 
-            this.dGTCA�oAtt.Format = "";
-            this.dGTCA�oAtt.FormatInfo = null;
-            this.dGTCA�oAtt.HeaderText = "A�oAtt";
-            this.dGTCA�oAtt.MappingName = "A�oAtt";
-            this.dGTCA�oAtt.Width = 0;
+            this.dGTCAñoAtt.Format = "";
+            this.dGTCAñoAtt.FormatInfo = null;
+            this.dGTCAñoAtt.HeaderText = "AñoAtt";
+            this.dGTCAñoAtt.MappingName = "AñoAtt";
+            this.dGTCAñoAtt.Width = 0;
             // 
             // dGTCTipoServicio
             // 
@@ -1718,7 +1718,7 @@ namespace LiquidacionSTN
             this.dGTBCAutotanque,
             this.dGTBCPedido,
             this.dGTBCCelula,
-            this.dGTBCA�oPed,
+            this.dGTBCAñoPed,
             this.dGTBCNombre,
             this.dGTBCEmpresa,
             this.dGTBCTrabajoSolicitado,
@@ -1730,7 +1730,7 @@ namespace LiquidacionSTN
             this.dGTBCNumExterior,
             this.dGTBCMunicipio,
             this.dGTBCCP,
-            this.dGTBCA�oFolioPresupuesto,
+            this.dGTBCAñoFolioPresupuesto,
             this.dGTBCFolioPresupuesto,
             this.dGTBCStatusPresupuesto,
             this.dGTBCObservacionesPresupuesto,
@@ -1755,7 +1755,7 @@ namespace LiquidacionSTN
             this.dGTBCTotalCheque,
             this.dGTBCTipoCobroCheque,
             this.dGTBCFolio,
-            this.dGTBCA�oAtt,
+            this.dGTBCAñoAtt,
             this.dGTBCTipoServicio});
             this.dataGridTableStyle1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
             this.dataGridTableStyle1.MappingName = "Liquidacion";
@@ -1873,13 +1873,13 @@ namespace LiquidacionSTN
             this.dGTBCCelula.MappingName = "Celula";
             this.dGTBCCelula.Width = 0;
             // 
-            // dGTBCA�oPed
+            // dGTBCAñoPed
             // 
-            this.dGTBCA�oPed.Format = "";
-            this.dGTBCA�oPed.FormatInfo = null;
-            this.dGTBCA�oPed.HeaderText = "A�oPed";
-            this.dGTBCA�oPed.MappingName = "A�oPed";
-            this.dGTBCA�oPed.Width = 0;
+            this.dGTBCAñoPed.Format = "";
+            this.dGTBCAñoPed.FormatInfo = null;
+            this.dGTBCAñoPed.HeaderText = "AñoPed";
+            this.dGTBCAñoPed.MappingName = "AñoPed";
+            this.dGTBCAñoPed.Width = 0;
             // 
             // dGTBCNombre
             // 
@@ -1969,13 +1969,13 @@ namespace LiquidacionSTN
             this.dGTBCCP.MappingName = "CP";
             this.dGTBCCP.Width = 0;
             // 
-            // dGTBCA�oFolioPresupuesto
+            // dGTBCAñoFolioPresupuesto
             // 
-            this.dGTBCA�oFolioPresupuesto.Format = "";
-            this.dGTBCA�oFolioPresupuesto.FormatInfo = null;
-            this.dGTBCA�oFolioPresupuesto.HeaderText = "A�oFolioPresupuesto";
-            this.dGTBCA�oFolioPresupuesto.MappingName = "A�oFolioPresupuesto";
-            this.dGTBCA�oFolioPresupuesto.Width = 0;
+            this.dGTBCAñoFolioPresupuesto.Format = "";
+            this.dGTBCAñoFolioPresupuesto.FormatInfo = null;
+            this.dGTBCAñoFolioPresupuesto.HeaderText = "AñoFolioPresupuesto";
+            this.dGTBCAñoFolioPresupuesto.MappingName = "AñoFolioPresupuesto";
+            this.dGTBCAñoFolioPresupuesto.Width = 0;
             // 
             // dGTBCFolioPresupuesto
             // 
@@ -2169,13 +2169,13 @@ namespace LiquidacionSTN
             this.dGTBCFolio.MappingName = "Folio";
             this.dGTBCFolio.Width = 0;
             // 
-            // dGTBCA�oAtt
+            // dGTBCAñoAtt
             // 
-            this.dGTBCA�oAtt.Format = "";
-            this.dGTBCA�oAtt.FormatInfo = null;
-            this.dGTBCA�oAtt.HeaderText = "A�oAtt";
-            this.dGTBCA�oAtt.MappingName = "A�oAtt";
-            this.dGTBCA�oAtt.Width = 0;
+            this.dGTBCAñoAtt.Format = "";
+            this.dGTBCAñoAtt.FormatInfo = null;
+            this.dGTBCAñoAtt.HeaderText = "AñoAtt";
+            this.dGTBCAñoAtt.MappingName = "AñoAtt";
+            this.dGTBCAñoAtt.Width = 0;
             // 
             // dGTBCTipoServicio
             // 
@@ -2356,12 +2356,12 @@ namespace LiquidacionSTN
 			try
 			{
 				string Query = ("Select Cliente,RutaCliente,PedidoReferencia,TipoPedidoDescripcion,TipoServicioDescripcion,FAtencion,FCompromiso,Total, Impuesto, Status," 
-					+ "StatusServicioTecnico,TipoCobroDescripcion,Autotanque,Pedido,Celula,A�oped,Nombre,Empresa, " 
+					+ "StatusServicioTecnico,TipoCobroDescripcion,Autotanque,Pedido,Celula,AñoPed,Nombre,Empresa, " 
 					+ "TrabajoSolicitado,Chofer,Ayudante,Calle,Colonia,NumInterior,NumExterior,Municipio,cp, " 
-					+ "A�oFolioPresupuesto,FolioPresupuesto,isnull(StatusPresupuesto,'Sin Status') as StatusPresupuesto,isnull(ObservacionesPresupuesto,'sin Observ') as ObservacionesPresupuesto,DescuentoPresupuesto," 
+					+ "AñoFolioPresupuesto,FolioPresupuesto,isnull(StatusPresupuesto,'Sin Status') as StatusPresupuesto,isnull(ObservacionesPresupuesto,'sin Observ') as ObservacionesPresupuesto,DescuentoPresupuesto," 
 					+ "SubTotalPresupuesto,TotalPresupuesto,CostoServicioTecnico,ObservacionesServicioRealizado, IdCRM, Producto," 
 					+ "TipoPedido,NumeroPagos,FrecuenciaPagos,CreditoServicioTecnico,TipoCobro,PagosDe,ImporteLetra, " 
-					+ "BancoCheque,FAltaCheque,FCheque,NumCuentaCheque,SaldoCheque,NumeroCheque,TotalCheque,TipoCobroCheque,Folio,A�oAtt,TipoServicio,'' as BancoNombre " 
+					+ "BancoCheque,FAltaCheque,FCheque,NumCuentaCheque,SaldoCheque,NumeroCheque,TotalCheque,TipoCobroCheque,Folio,AñoAtt,TipoServicio,'' as BancoNombre " 
 					+ " from vwSTNuevaLiquidacion " 
 					+ "where StatusServicioTecnico = 'ACTIVO' AND  fcompromiso >= ' " + dtpFLiquidacion.Value.ToShortDateString ()  + " 00:00:00' " 
 					+ "and fcompromiso <= ' " + dtpFLiquidacion.Value.ToShortDateString ()   + " 23:59:59' ");
@@ -2406,7 +2406,7 @@ namespace LiquidacionSTN
 
 			ColumnaVoucher = new DataColumn();
 			ColumnaVoucher.DataType = System.Type.GetType ("System.Int32");
-			ColumnaVoucher.ColumnName = "A�oPed";
+			ColumnaVoucher.ColumnName = "AñoPed";
 			LiquidacionSTN.Modulo.dtVoucher.Columns.Add (ColumnaVoucher);
 
 			ColumnaVoucher = new DataColumn ();
@@ -2522,45 +2522,45 @@ namespace LiquidacionSTN
         /// Valida que no existan cheques, voucher o transferencias asociadas al pedido
         /// </summary>
         /// <returns></returns>
-        private bool ValidarPedidoFormaPago(int parPedido, int parCelula, int parA�oPed)
+        private bool ValidarPedidoFormaPago(int parPedido, int parCelula, int parAñoPed)
         {
-            return ValidarPedidoCheque(parPedido, parCelula, parA�oPed) &&
-                ValidarPedidoVoucher(parPedido, parCelula, parA�oPed) &&
-                ValidarPedidoTransferencias(parPedido, parCelula, parA�oPed);
+            return ValidarPedidoCheque(parPedido, parCelula, parAñoPed) &&
+                ValidarPedidoVoucher(parPedido, parCelula, parAñoPed) &&
+                ValidarPedidoTransferencias(parPedido, parCelula, parAñoPed);
         }
 
-        private bool ValidarPedidoCheque(int parPedido, int parCelula, int parA�oPed)
+        private bool ValidarPedidoCheque(int parPedido, int parCelula, int parAñoPed)
         {
             string cadenaFiltro = "BancoCheque <> 0 AND Autotanque = " + cboCamioneta.Text + 
                                     " AND Pedido = " + parPedido +
                                     " AND Celula = " + parCelula + 
-                                    " AND A�oPed = " + parA�oPed;
+                                    " AND AñoPed = " + parAñoPed;
             DataView vwCheque;
             vwCheque = new DataView(LiquidacionSTN.Modulo.dtLiquidacion);
             vwCheque.RowFilter = cadenaFiltro;
             return vwCheque.Count == 0;
         }
 
-        private bool ValidarPedidoVoucher(int parPedido, int parCelula, int parA�oPed)
+        private bool ValidarPedidoVoucher(int parPedido, int parCelula, int parAñoPed)
         {
             string cadenaFiltro = "Autotanque = " + cboCamioneta.Text +
                                     " AND Pedido = " + parPedido +
                                     " AND Celula = " + parCelula +
-                                    " AND A�oPed = " + parA�oPed;
+                                    " AND AñoPed = " + parAñoPed;
             DataView vwVoucher;
             vwVoucher = new DataView(LiquidacionSTN.Modulo.dtVoucher);
             vwVoucher.RowFilter = cadenaFiltro;
             return vwVoucher.Count == 0;
         }
         
-        private bool ValidarPedidoTransferencias(int parPedido, int parCelula, int parA�oPed)
+        private bool ValidarPedidoTransferencias(int parPedido, int parCelula, int parAñoPed)
         {
             if (_Transferencias != null)
             {
                 return !_Transferencias.Exists(x =>
                                                 x.Pedido == parPedido &&
                                                 x.Celula == parCelula &&
-                                                x.A�oPed == parA�oPed);
+                                                x.AñoPed == parAñoPed);
             }
             else
                 return true;
@@ -2786,11 +2786,11 @@ namespace LiquidacionSTN
 			foreach (System.Data.DataRow dr in Query)
 			{
 				_Folio = Convert.ToInt32 (dr["Folio"]);
-				_A�oAtt = Convert.ToInt32 (dr["A�oAtt"]);
+				_AñoAtt = Convert.ToInt32 (dr["AñoAtt"]);
 			}
 
 			LiquidacionSTN.Modulo.CnnSigamet.Close ();
-			string Consulta = "select Pedido from pedido where folio = " + _Folio + "and a�oatt = " + _A�oAtt;
+			string Consulta = "select Pedido from pedido where folio = " + _Folio + "and añoatt = " + _AñoAtt;
 			System.Data.SqlClient.SqlDataAdapter da;
 			da = new SqlDataAdapter ();
 			System.Data.DataTable dt;
@@ -2813,7 +2813,7 @@ namespace LiquidacionSTN
                                             short TipoAplicacionIngreso,
                                             int ConsecutivoTipoAplicacion,
                                             int Factura,
-                                            short A�oCobro,
+                                            short AñoCobro,
                                             int Cobro,
                                             decimal Monto,
                                             string StatusMovimiento,
@@ -2822,12 +2822,12 @@ namespace LiquidacionSTN
                                             DateTime FConciliacion,
                                             short CorporativoConciliacion,
                                             short SucursalConciliacion,
-                                            int A�oConciliacion,
+                                            int AñoConciliacion,
                                             short MesConciliacion,
                                             int FolioConciliacion,
                                             short CorporativoExterno,
                                             short SucursalExterno,
-                                            int A�oExterno,
+                                            int AñoExterno,
                                             int FolioExterno,
                                             int SecuenciaExterno,
                                             int Cliente,
@@ -2855,7 +2855,7 @@ namespace LiquidacionSTN
                 //Comando.Parameters.Add("@TipoAplicacionIngreso", System.Data.SqlDbType.TinyInt).Value = TipoAplicacionIngreso;
                 //Comando.Parameters.Add("@ConsecutivoTipoAplicacion", System.Data.SqlDbType.TinyInt).Value = ConsecutivoTipoAplicacion;
                 //Comando.Parameters.Add("@Factura", System.Data.SqlDbType.Int).Value = Factura;
-                ComandoConciliar.Parameters.Add("@A�oCobro", System.Data.SqlDbType.SmallInt).Value = A�oCobro;
+                ComandoConciliar.Parameters.Add("@AñoCobro", System.Data.SqlDbType.SmallInt).Value = AñoCobro;
                 ComandoConciliar.Parameters.Add("@Cobro", System.Data.SqlDbType.Int).Value = Cobro;
                 ComandoConciliar.Parameters.Add("@Monto", System.Data.SqlDbType.Money).Value = Monto;
                 ComandoConciliar.Parameters.Add("@StatusMovimiento", System.Data.SqlDbType.VarChar,20).Value = StatusMovimiento;
@@ -2864,12 +2864,12 @@ namespace LiquidacionSTN
                 ComandoConciliar.Parameters.Add("@FConciliacion", System.Data.SqlDbType.DateTime).Value = FConciliacion;
                 //Comando.Parameters.Add("@CorporativoConciliacion", System.Data.SqlDbType.TinyInt).Value = CorporativoConciliacion;
                 //Comando.Parameters.Add("@SucursalConciliacion", System.Data.SqlDbType.TinyInt).Value = SucursalConciliacion;
-                //Comando.Parameters.Add("@A�oConciliacion", System.Data.SqlDbType.Int).Value = A�oConciliacion;
+                //Comando.Parameters.Add("@AñoConciliacion", System.Data.SqlDbType.Int).Value = AñoConciliacion;
                 //Comando.Parameters.Add("@MesConciliacion", System.Data.SqlDbType.SmallInt).Value = MesConciliacion;
                 //Comando.Parameters.Add("@FolioConciliacion", System.Data.SqlDbType.Int).Value = FolioConciliacion;
                 //Comando.Parameters.Add("@CorporativoExterno", System.Data.SqlDbType.TinyInt).Value = CorporativoExterno;
                 //Comando.Parameters.Add("@SucursalExterno", System.Data.SqlDbType.TinyInt).Value = SucursalExterno;
-                //Comando.Parameters.Add("@A�oExterno", System.Data.SqlDbType.Int).Value = A�oExterno;
+                //Comando.Parameters.Add("@AñoExterno", System.Data.SqlDbType.Int).Value = AñoExterno;
                 //Comando.Parameters.Add("@FolioExterno", System.Data.SqlDbType.Int).Value = FolioExterno;
                 //Comando.Parameters.Add("@SecuenciaExterno", System.Data.SqlDbType.Int).Value = SecuenciaExterno;
                 ComandoConciliar.Parameters.Add("@Cliente", System.Data.SqlDbType.Int).Value = Cliente;
@@ -2950,12 +2950,12 @@ namespace LiquidacionSTN
                                     {
                                         _Pedido = Convert.ToInt32(dr["Pedido"]);
                                         _Celula = Convert.ToInt32(dr["Celula"]);
-                                        _A�oped = Convert.ToInt32(dr["A�oPed"]);
+                                        _AñoPed = Convert.ToInt32(dr["AñoPed"]);
                                         _TipoCobro = Convert.ToInt32(dr["TipoCobro"]);
 
                                         if (_TipoCobro == 6 || _TipoCobro == 19 || _TipoCobro == 22)
                                         {
-                                            System.Data.DataRow[] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select("Pedido = " + _Pedido + " and Celula = " + _Celula + "and A�oPed = " + _A�oped);
+                                            System.Data.DataRow[] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select("Pedido = " + _Pedido + " and Celula = " + _Celula + "and AñoPed = " + _AñoPed);
                                             foreach (System.Data.DataRow drVoucher in Consulta)
                                             {
                                                 try
@@ -2973,8 +2973,8 @@ namespace LiquidacionSTN
                                                     Parametro.Value = drVoucher["Pedido"];
                                                     Parametro = Comando.Parameters.Add("@Celula", System.Data.SqlDbType.TinyInt);
                                                     Parametro.Value = dr["Celula"];
-                                                    Parametro = Comando.Parameters.Add("@A�oPed", System.Data.SqlDbType.SmallInt);
-                                                    Parametro.Value = dr["A�oPed"];
+                                                    Parametro = Comando.Parameters.Add("@AñoPed", System.Data.SqlDbType.SmallInt);
+                                                    Parametro.Value = dr["AñoPed"];
                                                     Parametro = Comando.Parameters.Add("@ObservacionesServicioRealizado", System.Data.SqlDbType.VarChar);
                                                     Parametro.Value = dr["ObservacionesServicioRealizado"];
                                                     Parametro = Comando.Parameters.Add("@CostoServicioTecnico", SqlDbType.Money);
@@ -3026,10 +3026,10 @@ namespace LiquidacionSTN
                                                     Parametro.Value = _Usuario;
                                                     Parametro = Comando.Parameters.Add("@Folio", SqlDbType.Int);
                                                     Parametro.Value = dr["Folio"];
-                                                    Parametro = Comando.Parameters.Add("@A�oAtt", SqlDbType.Int);
+                                                    Parametro = Comando.Parameters.Add("@AñoAtt", SqlDbType.Int);
                                                     _Folio = Convert.ToInt32(dr["Folio"]);
-                                                    _A�oAtt = Convert.ToInt32(dr["A�oAtt"]);
-                                                    Parametro.Value = dr["A�oAtt"];
+                                                    _AñoAtt = Convert.ToInt32(dr["AñoAtt"]);
+                                                    Parametro.Value = dr["AñoAtt"];
                                                     Parametro = Comando.Parameters.Add("@ImporteContado", SqlDbType.Money);
                                                     Parametro.Value = lblTotalContados.Text;
                                                     Parametro = Comando.Parameters.Add("@ImporteCredito", System.Data.SqlDbType.Money);
@@ -3117,8 +3117,8 @@ namespace LiquidacionSTN
                                                 Parametro.Value = dr["Pedido"];
                                                 Parametro = Comando.Parameters.Add("@Celula", System.Data.SqlDbType.TinyInt);
                                                 Parametro.Value = dr["Celula"];
-                                                Parametro = Comando.Parameters.Add("@A�oPed", System.Data.SqlDbType.SmallInt);
-                                                Parametro.Value = dr["A�oPed"];
+                                                Parametro = Comando.Parameters.Add("@AñoPed", System.Data.SqlDbType.SmallInt);
+                                                Parametro.Value = dr["AñoPed"];
                                                 Parametro = Comando.Parameters.Add("@ObservacionesServicioRealizado", System.Data.SqlDbType.VarChar);
                                                 Parametro.Value = dr["ObservacionesServicioRealizado"];
                                                 Parametro = Comando.Parameters.Add("@CostoServicioTecnico", SqlDbType.Money);
@@ -3167,10 +3167,10 @@ namespace LiquidacionSTN
                                                 Parametro.Value = _Usuario;
                                                 Parametro = Comando.Parameters.Add("@Folio", SqlDbType.Int);
                                                 Parametro.Value = dr["Folio"];
-                                                Parametro = Comando.Parameters.Add("@A�oAtt", SqlDbType.Int);
+                                                Parametro = Comando.Parameters.Add("@AñoAtt", SqlDbType.Int);
                                                 _Folio = Convert.ToInt32(dr["Folio"]);
-                                                _A�oAtt = Convert.ToInt32(dr["A�oAtt"]);
-                                                Parametro.Value = dr["A�oAtt"];
+                                                _AñoAtt = Convert.ToInt32(dr["AñoAtt"]);
+                                                Parametro.Value = dr["AñoAtt"];
                                                 Parametro = Comando.Parameters.Add("@ImporteContado", SqlDbType.Money);
                                                 Parametro.Value = lblTotalContados.Text;
                                                 Parametro = Comando.Parameters.Add("@ImporteCredito", System.Data.SqlDbType.Money);
@@ -3214,23 +3214,23 @@ namespace LiquidacionSTN
                                     {
                                         _Pedido = Convert.ToInt32(dr["Pedido"]);
                                         _Celula = Convert.ToInt32(dr["Celula"]);
-                                        _A�oped = Convert.ToInt32(dr["A�oPed"]);
+                                        _AñoPed = Convert.ToInt32(dr["AñoPed"]);
                                         _TipoCobro = Convert.ToInt32(dr["TipoCobro"]);
 
                                         if (_TipoCobro == 6 || _TipoCobro == 19 || _TipoCobro == 22)
                                         {
-                                            System.Data.DataRow[] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select("Pedido = " + _Pedido + " and Celula = " + _Celula + "and A�oPed = " + _A�oped);
+                                            System.Data.DataRow[] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select("Pedido = " + _Pedido + " and Celula = " + _Celula + "and AñoPed = " + _AñoPed);
                                             foreach (System.Data.DataRow drVoucher in Consulta)
                                             {
                                                 if (Convert.ToDecimal(drVoucher["Monto"]) > Convert.ToDecimal(dr["Total"]))
                                                 {
                                                     short FCobro = 0;
-                                                    int FA�oCobro = 0;
+                                                    int FAñoCobro = 0;
                                                     string QueryCobro = "SELECT A�OCOBRO,COBRO FROM COBRO " +
                                                     "WHERE total = " + Convert.ToString(drVoucher["Monto"]) + " and banco = " + Convert.ToString(drVoucher["Banco"]) +
                                                     " and NumeroCheque = " + Convert.ToString(drVoucher["Autorizacion"]) +
                                                     " and status = 'EMITIDO' and tipocobro in (6, 19, 22) and cliente = " + Convert.ToString(dr["Cliente"]) +
-                                                    " and folioatt = " + Convert.ToString(_Folio) + " and a�oatt = " + Convert.ToString(_A�oAtt);
+                                                    " and folioatt = " + Convert.ToString(_Folio) + " and añoatt = " + Convert.ToString(_AñoAtt);
                                                     SqlCommand ComandoCobro = new SqlCommand(QueryCobro, LiquidacionSTN.Modulo.CnnSigamet);
                                                     ComandoCobro.Transaction = Transaccion;
                                                     //LiquidacionSTN.Modulo.CnnSigamet.Open();
@@ -3240,7 +3240,7 @@ namespace LiquidacionSTN
                                                         drEquipo = ComandoCobro.ExecuteReader();
                                                         while (drEquipo.Read())
                                                         {
-                                                            FA�oCobro = Convert.ToInt16(drEquipo.GetValue(0));
+                                                            FAñoCobro = Convert.ToInt16(drEquipo.GetValue(0));
                                                             FCobro = Convert.ToInt16(drEquipo.GetValue(1));
                                                         }
                                                         drEquipo.Close();
@@ -3255,7 +3255,7 @@ namespace LiquidacionSTN
                                                         //LiquidacionSTN.Modulo.CnnSigamet.Close();
                                                     }
 
-                                                    insertaMovimientoConciliar(4, 0, 0, DateTime.Now, 0, 0, 0, 0, 0, (Int16)FA�oCobro, FCobro, Convert.ToDecimal(drVoucher["Saldo"]),
+                                                    insertaMovimientoConciliar(4, 0, 0, DateTime.Now, 0, 0, 0, 0, 0, (Int16)FAñoCobro, FCobro, Convert.ToDecimal(drVoucher["Saldo"]),
                                                     "REGISTRADO", DateTime.Now, "CONCILIADA", DateTime.Now, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, Convert.ToInt32(dr["Cliente"]), Conexion, Transaccion);
                                                 }
                                             }
@@ -3280,7 +3280,7 @@ namespace LiquidacionSTN
                                 
                                 try
                                 {
-	                                LiquidacionSTN.frmImprime Imprime = new frmImprime (_Folio,_A�oAtt);
+	                                LiquidacionSTN.frmImprime Imprime = new frmImprime (_Folio,_AñoAtt);
 	                                Imprime.ShowDialog ();
                                 }
                                 catch(Exception exc)
@@ -3310,7 +3310,7 @@ namespace LiquidacionSTN
                         }
                         else 
                         {
-                            if (!ValidarPedidoFormaPago(_Pedido, _Celula, _A�oped))
+                            if (!ValidarPedidoFormaPago(_Pedido, _Celula, _AñoPed))
                             {
                                 CerrarOrden = new LiquidacionSTN.frmCerrarOrden(_PedidoReferencia, _Usuario, HabilitarModificar: false);
                             }
@@ -3342,7 +3342,7 @@ namespace LiquidacionSTN
 					}
 					else
 					{
-                        if (!ValidarPedidoFormaPago(_Pedido, _Celula, _A�oped))
+                        if (!ValidarPedidoFormaPago(_Pedido, _Celula, _AñoPed))
                         {
                             MessageBox.Show("El pedido ya tiene asociada una forma de pago", "Adevertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					        Cursor = Cursors.Default ;
@@ -3394,7 +3394,7 @@ namespace LiquidacionSTN
 						
 					if (_ClienteTarjeta > 0)
 					{
-                        if (!ValidarPedidoFormaPago(_Pedido, _Celula, _A�oped))
+                        if (!ValidarPedidoFormaPago(_Pedido, _Celula, _AñoPed))
                         {
                             MessageBox.Show("El pedido ya tiene asociada una forma de pago", "Adevertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             Cursor = Cursors.Default;
@@ -3440,7 +3440,7 @@ namespace LiquidacionSTN
                 case "Franquicia":
 					Cursor = Cursors.WaitCursor ;
 					int Folio;
-					int A�oAtt;
+					int AñoAtt;
 					int _Cliente;
 					
 					if (MessageBox.Show("�Usted desea liquidar la franquicia?", "Servicios T�cnicos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -3451,7 +3451,7 @@ namespace LiquidacionSTN
 						foreach (System.Data.DataRow dr in Consulta)
 						{
 							Folio = Convert.ToInt32 (dr["Folio"]);
-							A�oAtt = Convert.ToInt32 (dr["A�oAtt"]);
+							AñoAtt = Convert.ToInt32 (dr["AñoAtt"]);
 							_Cliente = Convert.ToInt32 (dr["Cliente"]);
 						}
 
@@ -3499,14 +3499,14 @@ namespace LiquidacionSTN
 							Parametro.Value = dr["Pdd"];
 							Parametro = Comando.Parameters.Add ("@Celula",System.Data.SqlDbType.Int );
 							Parametro.Value = dr["Cll"];
-							Parametro = Comando.Parameters.Add ("@A�oPed",System.Data.SqlDbType.Int );
+							Parametro = Comando.Parameters.Add ("@AñoPed",System.Data.SqlDbType.Int );
 							Parametro.Value = dr["APdd"];
 							Parametro = Comando.Parameters.Add ("@Total",System.Data.SqlDbType.Int );
 							Parametro.Value = dr["tpspt"];
 							Parametro = Comando.Parameters.Add ("@Folio",System.Data.SqlDbType.Int );
 							Parametro.Value = _Folio;
-							Parametro = Comando.Parameters.Add ("@A�oatt",System.Data.SqlDbType.Int );
-							Parametro.Value = _A�oAtt;
+							Parametro = Comando.Parameters.Add ("@Añoatt",System.Data.SqlDbType.Int );
+							Parametro.Value = _AñoAtt;
 							Parametro = Comando.Parameters.Add ("@Cliente",System.Data.SqlDbType.Int );
 							Parametro.Value = dr["Ctt"];
 							Parametro = Comando.Parameters.Add ("@FPresupuesto",System.Data.SqlDbType.Int);
@@ -3553,13 +3553,13 @@ namespace LiquidacionSTN
 					foreach (System.Data.DataRow drL in ConsultaL)
 					{
 						FolioL = Convert.ToInt32 (drL["Folio"]);
-						A�oAttL = Convert.ToInt32 (drL["A�oAtt"]);
+						AñoAttL = Convert.ToInt32 (drL["AñoAtt"]);
 						
 					}
 
 					ValidaPedidos ();
 
-					LiquidacionSTN.frmImprime Imprimir = new LiquidacionSTN.frmImprime(FolioL,A�oAttL);
+					LiquidacionSTN.frmImprime Imprimir = new LiquidacionSTN.frmImprime(FolioL,AñoAttL);
 					Imprimir.ShowDialog ();
 
 					Cursor = Cursors.Default ;
@@ -3568,19 +3568,19 @@ namespace LiquidacionSTN
                 case "Pedidos":
 					Cursor = Cursors.WaitCursor;
 					ValidaPedidos ();
-                    //LiquidacionSTN.frmPedidosALiquidar PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio,_A�oAtt);
+                    //LiquidacionSTN.frmPedidosALiquidar PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio,_AñoAtt);
                     LiquidacionSTN.frmPedidosALiquidar PedidosTablaPedido;
 
                     //if (_FuenteGateway.Equals("CRM"))
                     //{
-                    //    PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio, _A�oAtt, _FuenteGateway);
+                    //    PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio, _AñoAtt, _FuenteGateway);
                     //}
                     //else
                     //{
-                    //    PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio, _A�oAtt);
+                    //    PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio, _AñoAtt);
                     //}
 
-                    PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio, _A�oAtt);
+                    PedidosTablaPedido = new LiquidacionSTN.frmPedidosALiquidar(_Folio, _AñoAtt);
                     PedidosTablaPedido.ShowDialog ();
                     Cursor = Cursors.Default ;
 					break;
@@ -3610,8 +3610,8 @@ namespace LiquidacionSTN
                     Parametro.Value = dr["Pedido"];
                     Parametro = cmd.Parameters.Add("@Celula", System.Data.SqlDbType.TinyInt);
                     Parametro.Value = dr["Celula"];
-                    Parametro = cmd.Parameters.Add("@A�oPed", System.Data.SqlDbType.SmallInt);
-                    Parametro.Value = dr["A�oPed"];
+                    Parametro = cmd.Parameters.Add("@AñoPed", System.Data.SqlDbType.SmallInt);
+                    Parametro.Value = dr["AñoPed"];
                     Parametro = cmd.Parameters.Add("@ObservacionesServicioRealizado", System.Data.SqlDbType.VarChar);
                     Parametro.Value = dr["ObservacionesServicioRealizado"];
                     Parametro = cmd.Parameters.Add("@CostoServicioTecnico", SqlDbType.Money);
@@ -3663,10 +3663,10 @@ namespace LiquidacionSTN
                     Parametro.Value = _Usuario;
                     Parametro = cmd.Parameters.Add("@Folio", SqlDbType.Int);
                     Parametro.Value = dr["Folio"];
-                    Parametro = cmd.Parameters.Add("@A�oAtt", SqlDbType.Int);
+                    Parametro = cmd.Parameters.Add("@AñoAtt", SqlDbType.Int);
                     _Folio = Convert.ToInt32(dr["Folio"]);
-                    _A�oAtt = Convert.ToInt32(dr["A�oAtt"]);
-                    Parametro.Value = dr["A�oAtt"];
+                    _AñoAtt = Convert.ToInt32(dr["AñoAtt"]);
+                    Parametro.Value = dr["AñoAtt"];
                     Parametro = cmd.Parameters.Add("@ImporteContado", SqlDbType.Money);
                     Parametro.Value = lblTotalContados.Text;
                     Parametro = cmd.Parameters.Add("@ImporteCredito", System.Data.SqlDbType.Money);
@@ -3725,8 +3725,8 @@ namespace LiquidacionSTN
                     Parametro.Value = dr["Pedido"];
                     Parametro = cmd.Parameters.Add("@Celula", System.Data.SqlDbType.TinyInt);
                     Parametro.Value = dr["Celula"];
-                    Parametro = cmd.Parameters.Add("@A�oPed", System.Data.SqlDbType.SmallInt);
-                    Parametro.Value = dr["A�oPed"];
+                    Parametro = cmd.Parameters.Add("@AñoPed", System.Data.SqlDbType.SmallInt);
+                    Parametro.Value = dr["AñoPed"];
                     Parametro = cmd.Parameters.Add("@ObservacionesServicioRealizado", System.Data.SqlDbType.VarChar);
                     Parametro.Value = dr["ObservacionesServicioRealizado"];
                     Parametro = cmd.Parameters.Add("@CostoServicioTecnico", SqlDbType.Money);
@@ -3775,10 +3775,10 @@ namespace LiquidacionSTN
                     Parametro.Value = _Usuario;
                     Parametro = cmd.Parameters.Add("@Folio", SqlDbType.Int);
                     Parametro.Value = dr["Folio"];
-                    Parametro = cmd.Parameters.Add("@A�oAtt", SqlDbType.Int);
+                    Parametro = cmd.Parameters.Add("@AñoAtt", SqlDbType.Int);
                     _Folio = Convert.ToInt32(dr["Folio"]);
-                    _A�oAtt = Convert.ToInt32(dr["A�oAtt"]);
-                    Parametro.Value = dr["A�oAtt"];
+                    _AñoAtt = Convert.ToInt32(dr["AñoAtt"]);
+                    Parametro.Value = dr["AñoAtt"];
                     Parametro = cmd.Parameters.Add("@ImporteContado", SqlDbType.Money);
                     Parametro.Value = lblTotalContados.Text;
                     Parametro = cmd.Parameters.Add("@ImporteCredito", System.Data.SqlDbType.Money);
@@ -3812,7 +3812,7 @@ namespace LiquidacionSTN
             foreach (var transferencia in _Transferencias)
             {
                 _Folio          = (int)drPedido["Folio"];
-                _A�oAtt         = (short)drPedido["A�oAtt"];
+                _AñoAtt         = (short)drPedido["AñoAtt"];
                 bancoOrigen     = (transferencia.BancoOrigen > 0 ? transferencia.BancoOrigen : (object)System.DBNull.Value);
                 cuentaOrigen    = (transferencia.CuentaOrigen.Length > 0 ? transferencia.CuentaOrigen : (object)System.DBNull.Value);
 
@@ -3829,7 +3829,7 @@ namespace LiquidacionSTN
                 cmd.Parameters.Add("@Saldo", SqlDbType.Money).Value = transferencia.Saldo;
                 cmd.Parameters.Add("@Usuario", SqlDbType.Char).Value = _Usuario;
                 cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = _Folio;
-                cmd.Parameters.Add("@A�oAtt", SqlDbType.SmallInt).Value = _A�oAtt;
+                cmd.Parameters.Add("@AñoAtt", SqlDbType.SmallInt).Value = _AñoAtt;
                 cmd.Parameters.Add("@BancoOrigen", SqlDbType.SmallInt).Value = bancoOrigen;
                 cmd.Parameters.Add("@NumeroCuentaDestino", SqlDbType.Char).Value = cuentaOrigen;
                 cmd.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = transferencia.BancoDestino;
@@ -3838,7 +3838,7 @@ namespace LiquidacionSTN
 
                 cmd.Parameters.Add("@Pedido", SqlDbType.Int).Value = transferencia.Pedido;
                 cmd.Parameters.Add("@Celula", SqlDbType.TinyInt).Value = transferencia.Celula;
-                cmd.Parameters.Add("@A�oPed", SqlDbType.SmallInt).Value = transferencia.A�oPed;
+                cmd.Parameters.Add("@AñoPed", SqlDbType.SmallInt).Value = transferencia.AñoPed;
 
                 cmd.Parameters.Add("@ImporteContado", SqlDbType.Money).Value= lblTotalContados.Text;
                 cmd.Parameters.Add("@ImporteCredito", SqlDbType.Money).Value = lblTotalCreditos.Text;
@@ -4011,7 +4011,7 @@ namespace LiquidacionSTN
                 else
                 {
 
-                    if (!ValidarPedidoFormaPago(_Pedido, _Celula, _A�oped))
+                    if (!ValidarPedidoFormaPago(_Pedido, _Celula, _AñoPed))
                     {
                         MessageBox.Show("El pedido ya tiene asociada una forma de pago", "Adevertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
@@ -4145,7 +4145,7 @@ namespace LiquidacionSTN
                                 ,RutaSuministro             = obRuta
                                 ,DetallePedido              = lsDetallesPedido
                                 ,IDDireccionEntrega         = (int)dr["Cliente"]
-                                ,AnioAtt                    = (short)dr["A�oAtt"]
+                                ,AnioAtt                    = (short)dr["AñoAtt"]
                                 ,FSuministro                = (DateTime)dr["FAtencion"]
                                 ,FolioRemision              = 0
                                 ,IDAutotanque               = (short)dr["Autotanque"]
@@ -4286,7 +4286,7 @@ namespace LiquidacionSTN
 
                 _Pedido = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 12]);
                 _Celula = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 13]);
-                _A�oped = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 14]);
+                _AñoPed = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 14]);
             }
             catch (Exception ex)
             {

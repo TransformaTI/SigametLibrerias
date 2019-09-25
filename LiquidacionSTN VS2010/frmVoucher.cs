@@ -24,7 +24,7 @@ namespace LiquidacionSTN
 
         int _Pedido;
         int _Celula;
-        int _A�oPed;
+        int _AñoPed;
         int _Cliente;
         int a;
         int _Autotanque;
@@ -433,7 +433,7 @@ namespace LiquidacionSTN
 			{
 				_Pedido = Convert.ToInt32 (dr["Pedido"]);
 				_Celula = Convert.ToInt32 (dr["Celula"]);
-				_A�oPed = Convert.ToInt32 (dr["A�oPEd"]);
+				_AñoPed = Convert.ToInt32 (dr["A�oPEd"]);
 				_Autotanque = Convert.ToInt32 (dr["Autotanque"]);
 				_Total = Convert.ToDecimal(dr["Total"]);
 			}
@@ -442,7 +442,7 @@ namespace LiquidacionSTN
 
 		private void ChacaSaldo()
 		{
-		    System.Data.DataRow [] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + " and a�oped = " + _A�oPed);
+		    System.Data.DataRow [] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + " and a�oped = " + _AñoPed);
 			foreach (System.Data.DataRow drCh in Consulta)
 			{
 				_Monto = Convert.ToDecimal (drCh["Monto"]);
@@ -490,7 +490,7 @@ namespace LiquidacionSTN
                 Registro = LiquidacionSTN.Modulo.dtVoucher.NewRow();
                 Registro["Pedido"] = _Pedido;
                 Registro["Celula"] = _Celula;
-                Registro["A�oPed"] = _A�oPed;
+                Registro["AñoPed"] = _AñoPed;
                 Registro["Cliente"] = _Cliente;
                 //Registro["Banco"] = this.cboBanco.SelectedValue;
                 Registro["Banco"] = _BancoAfiliacion;

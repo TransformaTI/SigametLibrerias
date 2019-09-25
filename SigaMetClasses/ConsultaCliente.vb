@@ -2758,11 +2758,11 @@ Public Class frmConsultaCliente
             End Try
 
 
-            If (String.IsNullOrEmpty(_URLGateway)) Then
-                Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
-                btnModificar.Enabled = PermiteModificarDatosCliente
-            ElseIf Not String.IsNullOrEmpty(_URLGateway) Then
-                Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
+			If (String.IsNullOrEmpty(_URLGateway)) Or (FuenteCRM = "SIGAMET") Then
+				Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+				btnModificar.Enabled = PermiteModificarDatosCliente
+			ElseIf Not String.IsNullOrEmpty(_URLGateway) Then
+				Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
                 btnModificar.Enabled = PermiteModificarDatosCliente
                 'Me.ConsultaCliente(_Cliente, _URLGateway)
             End If
