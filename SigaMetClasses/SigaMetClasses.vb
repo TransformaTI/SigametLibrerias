@@ -5422,13 +5422,13 @@ Public Class MovimientoCaja
             End If
         End With
 
-        Try
-            cmd.Connection = DataLayer.Conexion
-            cmd.ExecuteNonQuery()
-            NuevaClave = CType(cmd.Parameters("@NuevaClave").Value, String)
-            Return CType(cmd.Parameters("@Folio").Value, Integer)
-        Catch ex As Exception
-            Throw ex
+		Try
+			cmd.Connection = DataLayer.Conexion
+			cmd.ExecuteNonQuery()
+			NuevaClave = CType(cmd.Parameters("@NuevaClave").Value, String)
+			Return CType(cmd.Parameters("@Folio").Value, Integer)
+		Catch ex As Exception
+			Throw ex
             Return -1
         Finally
             cmd = Nothing
@@ -6754,9 +6754,6 @@ Public Class TransaccionMovimientoCaja
 				folioDestino = TransfiereMovimientoCaja(Caja, FOperacion, Consecutivo, Folio, CajaDestino, FOperacionDestino, ConsecutivoDestino)
 			End If
 			'*****
-
-
-
 
 			If (StatusInicialMovCaja.Equals("EMITIDO") And OrigenTransBan = 1) Then
 				ejecutaFacturaComplemento(ConsecutivoDestino, folioDestino, FOperacionDestino, CajaDestino)
