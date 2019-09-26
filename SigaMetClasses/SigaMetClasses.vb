@@ -6869,6 +6869,7 @@ Public Class TransaccionMovimientoCaja
 		With cmd
 			.CommandType = CommandType.StoredProcedure
 			.Transaction = Transaccion
+			.CommandTimeout = 0
 			.Parameters.Add(New SqlParameter("@CorporativoConciliacion", SqlDbType.TinyInt)).Value = DBNull.Value
 			.Parameters.Add(New SqlParameter("@SucursalConciliacion", SqlDbType.Int)).Value = DBNull.Value
 			.Parameters.Add(New SqlParameter("@AñoConciliacion", SqlDbType.Int)).Value = DBNull.Value
