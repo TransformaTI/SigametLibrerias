@@ -314,13 +314,13 @@ namespace LiquidacionSTN
 		int FolioL;
 		int AñoAttL;
 
-        // Variables para la conexi�n al servicio web de GM
+        // Variables para la conexión al servicio web de GM
         private string _URLGateway;
         private byte _Modulo;
         private string _CadenaConexion;
         private string _FuenteGateway;
         
-        // Variable para deshabilitar el bot�n Presupuesto de la forma frmCerrarOrden -- RM 27/09/2018
+        // Variable para deshabilitar el botón Presupuesto de la forma frmCerrarOrden -- RM 27/09/2018
         private bool _VerCerrarOrden_Presupuesto;
 
         private List<RTGMCore.DireccionEntrega> ListaDireccionesEntrega;
@@ -644,7 +644,7 @@ namespace LiquidacionSTN
             // 
             this.cboCamioneta.Location = new System.Drawing.Point(809, 9);
             this.cboCamioneta.Name = "cboCamioneta";
-            this.cboCamioneta.Size = new System.Drawing.Size(115, 24);
+            this.cboCamioneta.Size = new System.Drawing.Size(115, 21);
             this.cboCamioneta.TabIndex = 1;
             this.cboCamioneta.SelectedIndexChanged += new System.EventHandler(this.cboCamioneta_SelectedIndexChanged);
             // 
@@ -653,7 +653,7 @@ namespace LiquidacionSTN
             this.dtpFLiquidacion.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFLiquidacion.Location = new System.Drawing.Point(1030, 9);
             this.dtpFLiquidacion.Name = "dtpFLiquidacion";
-            this.dtpFLiquidacion.Size = new System.Drawing.Size(115, 22);
+            this.dtpFLiquidacion.Size = new System.Drawing.Size(115, 20);
             this.dtpFLiquidacion.TabIndex = 2;
             this.dtpFLiquidacion.ValueChanged += new System.EventHandler(this.dtpFLiquidacion_ValueChanged);
             // 
@@ -671,7 +671,7 @@ namespace LiquidacionSTN
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(86, 18);
             this.label2.TabIndex = 4;
-            this.label2.Text = "FLiquidaci�n:";
+            this.label2.Text = "FLiquidación:";
             // 
             // groupBox1
             // 
@@ -695,7 +695,7 @@ namespace LiquidacionSTN
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.lblCliente);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(10, 286);
+            this.groupBox1.Location = new System.Drawing.Point(10, 259);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(546, 259);
             this.groupBox1.TabIndex = 6;
@@ -873,7 +873,7 @@ namespace LiquidacionSTN
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 18);
             this.label4.TabIndex = 2;
-            this.label4.Text = "C�lula:";
+            this.label4.Text = "Célula:";
             // 
             // lblCliente
             // 
@@ -899,11 +899,11 @@ namespace LiquidacionSTN
             this.label5.BackColor = System.Drawing.Color.YellowGreen;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label5.Location = new System.Drawing.Point(0, 249);
+            this.label5.Location = new System.Drawing.Point(0, 228);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(1162, 28);
             this.label5.TabIndex = 7;
-            this.label5.Text = "Datos del Servicio T�cnico";
+            this.label5.Text = "Datos del Servicio Técnico";
             // 
             // groupBox2
             // 
@@ -915,7 +915,7 @@ namespace LiquidacionSTN
             this.groupBox2.Controls.Add(this.label22);
             this.groupBox2.Controls.Add(this.lblTrabajoSolicitado);
             this.groupBox2.Controls.Add(this.label24);
-            this.groupBox2.Location = new System.Drawing.Point(570, 286);
+            this.groupBox2.Location = new System.Drawing.Point(570, 259);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(582, 259);
             this.groupBox2.TabIndex = 8;
@@ -958,7 +958,7 @@ namespace LiquidacionSTN
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(57, 18);
             this.label28.TabIndex = 18;
-            this.label28.Text = "T�cnico:";
+            this.label28.Text = "Técnico:";
             // 
             // lblUnidad
             // 
@@ -1003,13 +1003,13 @@ namespace LiquidacionSTN
             this.grdCheque.BackgroundColor = System.Drawing.SystemColors.Window;
             this.grdCheque.CaptionBackColor = System.Drawing.Color.YellowGreen;
             this.grdCheque.CaptionForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.grdCheque.CaptionText = "Cheques Incluidos en la liquidaci�n";
+            this.grdCheque.CaptionText = "Cheques Incluidos en la liquidación";
             this.grdCheque.DataMember = "";
             this.grdCheque.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.grdCheque.Location = new System.Drawing.Point(10, 545);
+            this.grdCheque.Location = new System.Drawing.Point(10, 518);
             this.grdCheque.Name = "grdCheque";
             this.grdCheque.ReadOnly = true;
-            this.grdCheque.Size = new System.Drawing.Size(546, 92);
+            this.grdCheque.Size = new System.Drawing.Size(546, 74);
             this.grdCheque.TabIndex = 9;
             this.grdCheque.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
             this.dataGridTableStyle2});
@@ -1514,7 +1514,7 @@ namespace LiquidacionSTN
             this.groupBox3.Controls.Add(this.txtKilometrajeInicial);
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Location = new System.Drawing.Point(570, 554);
+            this.groupBox3.Location = new System.Drawing.Point(570, 527);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(221, 157);
             this.groupBox3.TabIndex = 10;
@@ -1526,14 +1526,14 @@ namespace LiquidacionSTN
             // 
             this.txtKilometrajeFinal.Location = new System.Drawing.Point(10, 120);
             this.txtKilometrajeFinal.Name = "txtKilometrajeFinal";
-            this.txtKilometrajeFinal.Size = new System.Drawing.Size(172, 22);
+            this.txtKilometrajeFinal.Size = new System.Drawing.Size(172, 20);
             this.txtKilometrajeFinal.TabIndex = 17;
             // 
             // txtKilometrajeInicial
             // 
             this.txtKilometrajeInicial.Location = new System.Drawing.Point(10, 55);
             this.txtKilometrajeInicial.Name = "txtKilometrajeInicial";
-            this.txtKilometrajeInicial.Size = new System.Drawing.Size(172, 22);
+            this.txtKilometrajeInicial.Size = new System.Drawing.Size(172, 20);
             this.txtKilometrajeInicial.TabIndex = 16;
             this.txtKilometrajeInicial.TextChanged += new System.EventHandler(this.txtKilometrajeInicial_TextChanged);
             // 
@@ -1568,7 +1568,7 @@ namespace LiquidacionSTN
             this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.label15);
-            this.groupBox4.Location = new System.Drawing.Point(798, 554);
+            this.groupBox4.Location = new System.Drawing.Point(798, 527);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(354, 157);
             this.groupBox4.TabIndex = 11;
@@ -1674,7 +1674,7 @@ namespace LiquidacionSTN
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(105, 27);
             this.label15.TabIndex = 13;
-            this.label15.Text = "Cr�ditos:";
+            this.label15.Text = "Créditos:";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // grdLiquidacion
@@ -1684,7 +1684,7 @@ namespace LiquidacionSTN
             this.grdLiquidacion.CaptionBackColor = System.Drawing.Color.YellowGreen;
             this.grdLiquidacion.CaptionFont = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grdLiquidacion.CaptionForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.grdLiquidacion.CaptionText = "Total de Pedidos Incluidos en la liquidaci�n de Servicios T�cnicos:";
+            this.grdLiquidacion.CaptionText = "Total de Pedidos Incluidos en la liquidación de Servicios Técnicos:";
             this.grdLiquidacion.DataMember = "";
             this.grdLiquidacion.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grdLiquidacion.HeaderForeColor = System.Drawing.SystemColors.ControlText;
@@ -1692,7 +1692,7 @@ namespace LiquidacionSTN
             this.grdLiquidacion.Name = "grdLiquidacion";
             this.grdLiquidacion.ReadOnly = true;
             this.grdLiquidacion.SelectionBackColor = System.Drawing.Color.YellowGreen;
-            this.grdLiquidacion.Size = new System.Drawing.Size(1162, 203);
+            this.grdLiquidacion.Size = new System.Drawing.Size(1162, 179);
             this.grdLiquidacion.TabIndex = 12;
             this.grdLiquidacion.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
             this.dataGridTableStyle1});
@@ -1909,7 +1909,7 @@ namespace LiquidacionSTN
             // 
             this.dGTBCChofer.Format = "";
             this.dGTBCChofer.FormatInfo = null;
-            this.dGTBCChofer.HeaderText = "T�cnico";
+            this.dGTBCChofer.HeaderText = "Técnico";
             this.dGTBCChofer.MappingName = "Chofer";
             this.dGTBCChofer.Width = 0;
             // 
@@ -2190,13 +2190,13 @@ namespace LiquidacionSTN
             this.grdTarjerta.BackgroundColor = System.Drawing.SystemColors.Window;
             this.grdTarjerta.CaptionBackColor = System.Drawing.Color.YellowGreen;
             this.grdTarjerta.CaptionForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.grdTarjerta.CaptionText = "Voucher incluidos en la liquidaci�n";
+            this.grdTarjerta.CaptionText = "Voucher incluidos en la liquidación";
             this.grdTarjerta.DataMember = "";
             this.grdTarjerta.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.grdTarjerta.Location = new System.Drawing.Point(10, 637);
+            this.grdTarjerta.Location = new System.Drawing.Point(10, 592);
             this.grdTarjerta.Name = "grdTarjerta";
             this.grdTarjerta.ReadOnly = true;
-            this.grdTarjerta.Size = new System.Drawing.Size(546, 92);
+            this.grdTarjerta.Size = new System.Drawing.Size(546, 83);
             this.grdTarjerta.TabIndex = 14;
             // 
             // lblTotalALiquidar
@@ -2225,7 +2225,7 @@ namespace LiquidacionSTN
             this.colMonto,
             this.colSaldo,
             this.colObservaciones});
-            this.grdTransferencias.Location = new System.Drawing.Point(-2, 23);
+            this.grdTransferencias.Location = new System.Drawing.Point(-1, 21);
             this.grdTransferencias.Name = "grdTransferencias";
             this.grdTransferencias.Size = new System.Drawing.Size(543, 67);
             this.grdTransferencias.TabIndex = 16;
@@ -2284,9 +2284,9 @@ namespace LiquidacionSTN
             this.pnlTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pnlTransferencias.Controls.Add(this.label6);
             this.pnlTransferencias.Controls.Add(this.grdTransferencias);
-            this.pnlTransferencias.Location = new System.Drawing.Point(10, 729);
+            this.pnlTransferencias.Location = new System.Drawing.Point(10, 668);
             this.pnlTransferencias.Name = "pnlTransferencias";
-            this.pnlTransferencias.Size = new System.Drawing.Size(546, 93);
+            this.pnlTransferencias.Size = new System.Drawing.Size(546, 114);
             this.pnlTransferencias.TabIndex = 17;
             // 
             // label6
@@ -2297,15 +2297,15 @@ namespace LiquidacionSTN
             this.label6.ForeColor = System.Drawing.Color.DarkOliveGreen;
             this.label6.Location = new System.Drawing.Point(0, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(542, 22);
+            this.label6.Size = new System.Drawing.Size(542, 18);
             this.label6.TabIndex = 0;
-            this.label6.Text = "Transferencias incluidas en la liquidaci�n";
+            this.label6.Text = "Transferencias incluidas en la liquidación";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // frmLiquidacionST
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(1215, 719);
+            this.ClientSize = new System.Drawing.Size(1215, 737);
             this.Controls.Add(this.pnlTransferencias);
             this.Controls.Add(this.lblTotalALiquidar);
             this.Controls.Add(this.grdTarjerta);
@@ -2327,7 +2327,7 @@ namespace LiquidacionSTN
             this.MinimizeBox = false;
             this.Name = "frmLiquidacionST";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Liquidaci�n Servicios T�cnicos";
+            this.Text = "Liquidación Servicios Técnicos";
             this.Load += new System.EventHandler(this.frmLiquidacionST_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -2643,7 +2643,7 @@ namespace LiquidacionSTN
 				_StatusServicio= Convert.ToString (drA["StatusServicioTecnico"]);
 				if (_StatusServicio.Trim () == "ACTIVO")
 				{
-					MessageBox.Show("Usted tiene servicios con status ACTIVO. Cierre las ordenes faltantes", "Servicio T�cnico", MessageBoxButtons.OK);
+					MessageBox.Show("Usted tiene servicios con status ACTIVO. Cierre las ordenes faltantes", "Servicio Técnico", MessageBoxButtons.OK);
 					break;
 				}
 			}
@@ -2687,7 +2687,7 @@ namespace LiquidacionSTN
 			}
 			catch (Exception Exc)
 			{
-				MessageBox.Show("Ha ocurrido el siguiente error:" + Exc.Message, Application.ProductName + " versi�n " + Application.ProductVersion, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Ha ocurrido el siguiente error:" + Exc.Message, Application.ProductName + " versión " + Application.ProductVersion, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
 		}
@@ -2910,13 +2910,13 @@ namespace LiquidacionSTN
 						{
 							if (txtKilometrajeInicial.Text == "")
 							{
-								MessageBox.Show("Usted debe de capturar un kilometraje inicial", "Servicio T�cnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
+								MessageBox.Show("Usted debe de capturar un kilometraje inicial", "Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
 								break;
 							}
 														
 							if(txtKilometrajeFinal.Text == "")
 							{
-								MessageBox.Show("Usted debe de capturar un kilometraje Final", "Servicio T�cnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
+								MessageBox.Show("Usted debe de capturar un kilometraje Final", "Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
 								break;
 							}
 														
@@ -2924,7 +2924,7 @@ namespace LiquidacionSTN
 																												
 														
 														
-							if (MessageBox.Show("�Desea Cerrar la liquidaci�n?.", "Servicios Tecnicos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+							if (MessageBox.Show("¿Desea Cerrar la liquidación?.", "Servicios Tecnicos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 								LiquidacionSTN.Modulo.CnnSigamet.Close ();
 														
 						    {
@@ -3292,7 +3292,7 @@ namespace LiquidacionSTN
 					}
 					else
 					{
-						MessageBox.Show("Usted no puede cerrar la liquidaci�n, pues agrego � quito un pedido de la liquidaci�n, cierrela y vuelva a liquidar.","Liquidaci�n Servicios T�cnicos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						MessageBox.Show("Usted no puede cerrar la liquidación, pues agrego ó quito un pedido de la liquidación, cierrela y vuelva a liquidar.","Liquidación Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					}
 
                     Cursor = Cursors.Default;
@@ -3319,6 +3319,7 @@ namespace LiquidacionSTN
                                 CerrarOrden = new LiquidacionSTN.frmCerrarOrden(_PedidoReferencia, _Usuario);
                             }
                         }
+                       
                         CerrarOrden.ShowDialog();
                         //LlenaGridFinal();
                         TotalGeneral();
@@ -3338,7 +3339,7 @@ namespace LiquidacionSTN
 					Cursor = Cursors.WaitCursor;
 					if (_StatusST == "ATENDIDO")
 					{
-						MessageBox.Show ("El servicio t�cnico ya ha sido ATENDIDO, no puede agregarle un cheque.", "Servicio T�cnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						MessageBox.Show ("El servicio técnico ya ha sido ATENDIDO, no puede agregarle un cheque.", "Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					}
 					else
 					{
@@ -3359,7 +3360,7 @@ namespace LiquidacionSTN
 						}
 						else
 						{
-							MessageBox.Show("El pedido   " + Convert.ToString (_PedidoReferencia) + ", no es de contado, no puede tener cheques capturados.", "Servicio T�cnicos", MessageBoxButtons.OK);
+							MessageBox.Show("El pedido   " + Convert.ToString (_PedidoReferencia) + ", no es de contado, no puede tener cheques capturados.", "Servicio Técnicos", MessageBoxButtons.OK);
 						}
 					}
 
@@ -3370,7 +3371,7 @@ namespace LiquidacionSTN
 					Cursor = Cursors.WaitCursor ;
 					if(_StatusST == "ATENDIDO")
 					{
-						MessageBox.Show("El servicio t�cnico ya a sido ATENDIDO, no puede cancelar el cheque.", "Servicio T�cnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						MessageBox.Show("El servicio técnico ya a sido ATENDIDO, no puede cancelar el cheque.", "Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					}
 					else
 					{
@@ -3422,12 +3423,12 @@ namespace LiquidacionSTN
 						}
 						else
 						{
-							MessageBox.Show("No puede abonar un voucher en un pedido de contado  y tipo cobro efectivo, debe Cambiar a Tarjeta de Cr�dito.", "Liquidaci�n Servicio T�cnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
+							MessageBox.Show("No puede abonar un voucher en un pedido de contado  y tipo cobro efectivo, debe Cambiar a Tarjeta de Crédito.", "Liquidación Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
 						}
 					}
 					else
 					{
-						MessageBox.Show("El cliente  " + lblCliente.Text  + "  no pertenece a la lista de tarjetas autorizadas, por favor llame a telemarketing, para verificar", "Liquidaci�n Servicios T�cnicos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						MessageBox.Show("El cliente  " + lblCliente.Text  + "  no pertenece a la lista de tarjetas autorizadas, por favor llame a telemarketing, para verificar", "Liquidación Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					}
 
 				    Cursor = Cursors.Default ;
@@ -3443,7 +3444,7 @@ namespace LiquidacionSTN
 					int AñoAtt;
 					int _Cliente;
 					
-					if (MessageBox.Show("�Usted desea liquidar la franquicia?", "Servicios T�cnicos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+					if (MessageBox.Show("¿Usted desea liquidar la franquicia?", "Servicios Técnicos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 					{
 
 						System.Data.DataRow [] Consulta = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Autotanque = " + cboCamioneta.Text );
@@ -4005,7 +4006,7 @@ namespace LiquidacionSTN
                 }
                 if (_StatusST == "ATENDIDO")
                 {
-                    MessageBox.Show("El servicio t�cnico ya ha sido ATENDIDO, no puede agregarle una transferencia.", this.Text,
+                    MessageBox.Show("El servicio técnico ya ha sido ATENDIDO, no puede agregarle una transferencia.", this.Text,
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
@@ -4095,7 +4096,7 @@ namespace LiquidacionSTN
                     decimal importe = 0M;
                     decimal precio = 0M;
                     int IDCRM = 0;
-                    int tipoCargo = 2;  // 2 = Servicio t�cnico
+                    int tipoCargo = 2;  // 2 = Servicio técnico
 
                     RTGMGateway.RTGMActualizarPedido obGateway = new RTGMActualizarPedido(_Modulo, _CadenaConexion);
                     obGateway.URLServicio = _URLGateway;

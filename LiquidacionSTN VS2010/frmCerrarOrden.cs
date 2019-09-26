@@ -1072,7 +1072,11 @@ namespace LiquidacionSTN
                             }
                             else
                             {
-                                drM["TipoCobro"] = (cboTipoCobro.SelectedValue != null ? cboTipoCobro.SelectedValue : 0);
+                                if (Convert.ToInt32(drM["TipoCobro"]) != 10)
+                                {
+                                    drM["TipoCobro"] = (cboTipoCobro.SelectedValue != null ? cboTipoCobro.SelectedValue : 0);
+                                }
+                                
                             }
 							     
 							drM.EndEdit ();
