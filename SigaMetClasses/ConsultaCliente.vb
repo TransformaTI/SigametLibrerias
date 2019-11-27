@@ -2808,14 +2808,14 @@ Public Class frmConsultaCliente
 
 
 
-        'If (Not String.IsNullOrEmpty(_URLGateway)) Then
-        If FuenteCRM = "CRM" Then
-            btnQuejas.Enabled = False
+        If (Not String.IsNullOrEmpty(_URLGateway)) Then
+            If FuenteCRM = "CRM" Then
+                btnQuejas.Enabled = False
 
-        Else
-            btnQuejas.Enabled = True
+            Else
+                btnQuejas.Enabled = True
+            End If
         End If
-
 
     End Sub
     Private Function ObtenerUsuario() As String

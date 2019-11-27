@@ -1146,58 +1146,58 @@ Public Class ConsultaMovimientos
 
 
 
-            For Each dr In dtCobroPedido.Rows
-                pedidoConsulta.IDDireccionEntrega = CType(dr("PedidoCliente"), Integer)
-                pedidoConsulta.PedidoReferencia = Trim(CType(dr("PedidoReferencia"), String))
+            'For Each dr In dtCobroPedido.Rows
+            '    pedidoConsulta.IDDireccionEntrega = CType(dr("PedidoCliente"), Integer)
+            '    pedidoConsulta.PedidoReferencia = Trim(CType(dr("PedidoReferencia"), String))
 
-                pedidoTemp = listaPedidosConsulta.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(dr("PedidoCliente"), Integer) And x.PedidoReferencia.Trim = Trim(CType(dr("PedidoReferencia"), String)))
+            '    pedidoTemp = listaPedidosConsulta.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(dr("PedidoCliente"), Integer) And x.PedidoReferencia.Trim = Trim(CType(dr("PedidoReferencia"), String)))
 
-                If IsNothing(pedidoTemp) Then
+            '    If IsNothing(pedidoTemp) Then
 
-                    listaPedidosConsulta.Add(pedidoConsulta)
+            '        listaPedidosConsulta.Add(pedidoConsulta)
 
-                End If
-            Next
-
-
-            Dim opciones As New System.Threading.Tasks.ParallelOptions()
-            opciones.MaxDegreeOfParallelism = 10
-            System.Threading.Tasks.Parallel.ForEach(listaPedidosConsulta, opciones, Sub(x) ConsultaPedidos(x.IDDireccionEntrega, x.PedidoReferencia))
-
-            If listaPedidos.Count > 0 Then
-
-                For Each drPed In dtCobroPedido.Rows
-
-                    pedidoTemp = listaPedidos.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(drPed("PedidoCliente"), Integer) And x.PedidoReferencia.Trim = Trim(CType(drPed("PedidoReferencia"), String)))
-
-                    If Not IsNothing(pedidoTemp) Then
-
-                        drPed("PedidoReferencia") = pedidoTemp.PedidoReferencia()
-                        If pedidoTemp.FSuministro() IsNot Nothing Then
-                            drPed("PedidoFSuministro") = pedidoTemp.FSuministro().ToString()
-                        End If
-                        drPed("TipoPedidoDescripcion") = pedidoTemp.TipoPedido.Trim()
-                        If pedidoTemp.RutaSuministro IsNot Nothing Then
-
-                        End If
-                        drPed("Celula") = pedidoTemp.IDZona.ToString()
-                        If pedidoTemp.DireccionEntrega IsNot Nothing Then
-                            drPed("ClienteNombre") = pedidoTemp.DireccionEntrega.Nombre
-                        End If
-
-                        If (pedidoTemp.Importe IsNot Nothing) Then
-                            If (pedidoTemp.Importe.ToString() <> "") Then
-                                drPed("PedidoImporte") = CDec(pedidoTemp.Importe.ToString())
-                            End If
-                        End If
-
-                        drPed("PedidoStatus") = pedidoTemp.EstatusPedido.ToString()
-                    End If
-                Next
+            '    End If
+            'Next
 
 
+            'Dim opciones As New System.Threading.Tasks.ParallelOptions()
+            'opciones.MaxDegreeOfParallelism = 10
+            'System.Threading.Tasks.Parallel.ForEach(listaPedidosConsulta, opciones, Sub(x) ConsultaPedidos(x.IDDireccionEntrega, x.PedidoReferencia))
 
-            End If
+            'If listaPedidos.Count > 0 Then
+
+            '    For Each drPed In dtCobroPedido.Rows
+
+            '        pedidoTemp = listaPedidos.FirstOrDefault(Function(x) x.IDDireccionEntrega = CType(drPed("PedidoCliente"), Integer) And x.PedidoReferencia.Trim = Trim(CType(drPed("PedidoReferencia"), String)))
+
+            '        If Not IsNothing(pedidoTemp) Then
+
+            '            drPed("PedidoReferencia") = pedidoTemp.PedidoReferencia()
+            '            If pedidoTemp.FSuministro() IsNot Nothing Then
+            '                drPed("PedidoFSuministro") = pedidoTemp.FSuministro().ToString()
+            '            End If
+            '            drPed("TipoPedidoDescripcion") = pedidoTemp.TipoPedido.Trim()
+            '            If pedidoTemp.RutaSuministro IsNot Nothing Then
+
+            '            End If
+            '            drPed("Celula") = pedidoTemp.IDZona.ToString()
+            '            If pedidoTemp.DireccionEntrega IsNot Nothing Then
+            '                drPed("ClienteNombre") = pedidoTemp.DireccionEntrega.Nombre
+            '            End If
+
+            '            If (pedidoTemp.Importe IsNot Nothing) Then
+            '                If (pedidoTemp.Importe.ToString() <> "") Then
+            '                    drPed("PedidoImporte") = CDec(pedidoTemp.Importe.ToString())
+            '                End If
+            '            End If
+
+            '            drPed("PedidoStatus") = pedidoTemp.EstatusPedido.ToString()
+            '        End If
+            '    Next
+
+
+
+            'End If
 
 
 
