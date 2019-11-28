@@ -121,8 +121,9 @@
     <Reference Include="Microsoft.VisualBasic">
       <Name>Microsoft.VisualBasic</Name>
     </Reference>
-    <Reference Include="RTGMGateway">
-      <HintPath>..\..\..\RTGMGateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
+    <Reference Include="RTGMGateway, Version=1.19.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\RTGMGateway\RTGMGateway\bin\Debug\RTGMGateway.dll</HintPath>
     </Reference>
     <Reference Include="SGDAC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

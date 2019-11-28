@@ -272,7 +272,7 @@ Public Class ConsultaProgramaCobranza
     Private _empleado As Integer
 
     Private _Modulo As Byte
-    Private _CadenaConexion As String
+    Public _CadenaConexion As String
 
     Private _ejecutivo As Integer
 
@@ -345,6 +345,7 @@ Public Class ConsultaProgramaCobranza
         _connection = Connection
         _listaCelulas = ListaRutas
         _URLGateway = URLGateway
+
 
         chkCteSinDatos.Visible = ConsultaClientesSinDatos
     End Sub
