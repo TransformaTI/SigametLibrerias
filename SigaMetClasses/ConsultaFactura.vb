@@ -766,11 +766,11 @@ Public Class ConsultaFactura
                     For Each drow In dtFacturaPedido.Rows
                         If Not IsDBNull(drow("PedidoReferencia")) Then
                             Dim ParametroCrm As String
-                            If FuenteCRM = "CRM" Then
-                                ParametroCrm = "idCRM"
-                            Else
-                                ParametroCrm = "PedidoReferencia"
-                            End If
+                            'If FuenteCRM = "CRM" Then
+                            'ParametroCrm = "idCRM"
+                            'Else
+                            ParametroCrm = "PedidoReferencia"
+                            'End If
                             If drow(ParametroCrm) Is DBNull.Value Then
                             Else
                                 Dim oItem As New ListViewItem(Trim(CType(drow(ParametroCrm), String)), 0)
