@@ -2606,6 +2606,7 @@ Public Class frmConsultaCliente
             If (String.IsNullOrEmpty(_URLGateway)) Then
                 Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
             ElseIf (Not String.IsNullOrEmpty(_URLGateway)) Then 'And FuenteCRM = "CRM"
+                _ClienteRow = Nothing
                 Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
             End If
 
@@ -2634,7 +2635,12 @@ Public Class frmConsultaCliente
         Dim oModifica As SigaMetClasses.ModificaCliente
         oModifica = New SigaMetClasses.ModificaCliente(_Cliente, _Usuario, SePermiteModificar:=True, PermiteModificarStatus:=False, PermiteModificarStatusCalidad:=False, PermiteModificarCelula:=False, PermiteConsultarCliente:=False)
         If oModifica.ShowDialog = DialogResult.OK Then
-            ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+            If (String.IsNullOrEmpty(_URLGateway)) Then
+                Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos)
+            ElseIf (Not String.IsNullOrEmpty(_URLGateway)) Then 'And FuenteCRM = "CRM"
+                _ClienteRow = Nothing
+                Me.ConsultaCliente(_Cliente, _SoloCreditos, _SoloSurtidos, _URLGateway)
+            End If
         End If
         Cursor = Cursors.Default
     End Sub
@@ -2901,6 +2907,8 @@ Public Class frmConsultaCliente
                     oSolicitud.IDCliente = Cliente
                     _oDireccionEntrega = New RTGMCore.DireccionEntrega()
                     _oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+
+                    _ClienteRow = _oDireccionEntrega
 
                     If Not IsNothing(_oDireccionEntrega) Then
 
