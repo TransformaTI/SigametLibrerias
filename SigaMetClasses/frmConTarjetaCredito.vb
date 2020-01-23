@@ -71,9 +71,9 @@ Public Class frmConTarjetaCredito
         oGateway.URLServicio = _URLGateway
         oSolicitud.IDCliente = _Cliente
         If (IsNothing(_DireccionEntrega)) Then
-            oDireccionEntrega = _DireccionEntrega
-        Else
             oDireccionEntrega = oGateway.buscarDireccionEntrega(oSolicitud)
+        Else
+            oDireccionEntrega = _DireccionEntrega
         End If
 
 
