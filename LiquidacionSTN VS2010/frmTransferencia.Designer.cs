@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTransferencia));
             this.tsBotonera = new System.Windows.Forms.ToolStrip();
             this.tsbAceptar = new System.Windows.Forms.ToolStripButton();
             this.tsbCerrar = new System.Windows.Forms.ToolStripButton();
             this.pnlPrincipal = new System.Windows.Forms.Panel();
-            this.txtSaldo = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.lblAsteriscoCuenta = new System.Windows.Forms.Label();
             this.lblAsteriscoBanco = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -42,13 +42,10 @@
             this.label12 = new System.Windows.Forms.Label();
             this.cboCuentaDestino = new System.Windows.Forms.ComboBox();
             this.txtCuentaOrigen = new System.Windows.Forms.TextBox();
-            this.cboBancoDestino = new SigaMetClasses.Combos.ComboBanco();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.cboBancoOrigen = new SigaMetClasses.Combos.ComboBanco();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.txtObservaciones = new System.Windows.Forms.TextBox();
             this.txtDocumento = new System.Windows.Forms.TextBox();
             this.dtpFecha = new System.Windows.Forms.DateTimePicker();
@@ -60,6 +57,12 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.tsbCancelar = new System.Windows.Forms.ToolStripButton();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.txtSaldo = new SigaMetClasses.Controles.txtNumeroDecimal();
+            this.cboBancoDestino = new SigaMetClasses.Combos.ComboBanco();
+            this.cboBancoOrigen = new SigaMetClasses.Combos.ComboBanco();
+            this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.cCalle1 = new SigaMetClasses.cCalle();
             this.tsBotonera.SuspendLayout();
             this.pnlPrincipal.SuspendLayout();
@@ -71,6 +74,7 @@
             this.tsBotonera.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.tsBotonera.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbAceptar,
+            this.tsbCancelar,
             this.tsbCerrar});
             this.tsBotonera.Location = new System.Drawing.Point(0, 0);
             this.tsBotonera.Name = "tsBotonera";
@@ -140,13 +144,6 @@
             this.pnlPrincipal.Name = "pnlPrincipal";
             this.pnlPrincipal.Size = new System.Drawing.Size(332, 481);
             this.pnlPrincipal.TabIndex = 1;
-            // 
-            // txtSaldo
-            // 
-            this.txtSaldo.Location = new System.Drawing.Point(117, 348);
-            this.txtSaldo.Name = "txtSaldo";
-            this.txtSaldo.Size = new System.Drawing.Size(110, 20);
-            this.txtSaldo.TabIndex = 16;
             // 
             // lblAsteriscoCuenta
             // 
@@ -229,15 +226,6 @@
             this.txtCuentaOrigen.Size = new System.Drawing.Size(110, 20);
             this.txtCuentaOrigen.TabIndex = 11;
             // 
-            // cboBancoDestino
-            // 
-            this.cboBancoDestino.FormattingEnabled = true;
-            this.cboBancoDestino.Location = new System.Drawing.Point(117, 234);
-            this.cboBancoDestino.Name = "cboBancoDestino";
-            this.cboBancoDestino.Size = new System.Drawing.Size(187, 21);
-            this.cboBancoDestino.TabIndex = 13;
-            this.cboBancoDestino.SelectedIndexChanged += new System.EventHandler(this.cboBancoDestino_SelectedIndexChanged);
-            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -256,15 +244,6 @@
             this.label10.TabIndex = 18;
             this.label10.Text = "Banco destino:";
             // 
-            // cboBancoOrigen
-            // 
-            this.cboBancoOrigen.FormattingEnabled = true;
-            this.cboBancoOrigen.Location = new System.Drawing.Point(117, 120);
-            this.cboBancoOrigen.Name = "cboBancoOrigen";
-            this.cboBancoOrigen.Size = new System.Drawing.Size(187, 21);
-            this.cboBancoOrigen.TabIndex = 10;
-            this.cboBancoOrigen.SelectedIndexChanged += new System.EventHandler(this.cboBancoOrigen_SelectedIndexChanged);
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -282,14 +261,6 @@
             this.label8.Size = new System.Drawing.Size(73, 13);
             this.label8.TabIndex = 15;
             this.label8.Text = "Banco origen:";
-            // 
-            // txtMonto
-            // 
-            this.txtMonto.Location = new System.Drawing.Point(117, 310);
-            this.txtMonto.Name = "txtMonto";
-            this.txtMonto.Size = new System.Drawing.Size(110, 20);
-            this.txtMonto.TabIndex = 15;
-            this.txtMonto.Leave += new System.EventHandler(this.txtMonto_Leave);
             // 
             // txtObservaciones
             // 
@@ -394,6 +365,59 @@
             this.label1.Text = "Agregar una transferencia";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // tsbCancelar
+            // 
+            this.tsbCancelar.AutoSize = false;
+            this.tsbCancelar.Image = ((System.Drawing.Image)(resources.GetObject("tsbCancelar.Image")));
+            this.tsbCancelar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCancelar.Name = "tsbCancelar";
+            this.tsbCancelar.Size = new System.Drawing.Size(52, 35);
+            this.tsbCancelar.Text = "Cancelar";
+            this.tsbCancelar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsbCancelar.Click += new System.EventHandler(this.tsbCancelar_Click);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "");
+            this.imageList1.Images.SetKeyName(1, "");
+            this.imageList1.Images.SetKeyName(2, "");
+            // 
+            // txtSaldo
+            // 
+            this.txtSaldo.Location = new System.Drawing.Point(117, 348);
+            this.txtSaldo.Name = "txtSaldo";
+            this.txtSaldo.ReadOnly = true;
+            this.txtSaldo.Size = new System.Drawing.Size(110, 20);
+            this.txtSaldo.TabIndex = 16;
+            // 
+            // cboBancoDestino
+            // 
+            this.cboBancoDestino.FormattingEnabled = true;
+            this.cboBancoDestino.Location = new System.Drawing.Point(117, 234);
+            this.cboBancoDestino.Name = "cboBancoDestino";
+            this.cboBancoDestino.Size = new System.Drawing.Size(187, 21);
+            this.cboBancoDestino.TabIndex = 13;
+            this.cboBancoDestino.SelectedIndexChanged += new System.EventHandler(this.cboBancoDestino_SelectedIndexChanged);
+            // 
+            // cboBancoOrigen
+            // 
+            this.cboBancoOrigen.FormattingEnabled = true;
+            this.cboBancoOrigen.Location = new System.Drawing.Point(117, 120);
+            this.cboBancoOrigen.Name = "cboBancoOrigen";
+            this.cboBancoOrigen.Size = new System.Drawing.Size(187, 21);
+            this.cboBancoOrigen.TabIndex = 10;
+            this.cboBancoOrigen.SelectedIndexChanged += new System.EventHandler(this.cboBancoOrigen_SelectedIndexChanged);
+            // 
+            // txtMonto
+            // 
+            this.txtMonto.Location = new System.Drawing.Point(117, 310);
+            this.txtMonto.Name = "txtMonto";
+            this.txtMonto.Size = new System.Drawing.Size(110, 20);
+            this.txtMonto.TabIndex = 15;
+            this.txtMonto.Leave += new System.EventHandler(this.txtMonto_Leave);
+            // 
             // frmTransferencia
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -454,5 +478,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private SigaMetClasses.Controles.txtNumeroDecimal txtSaldo;
+        private System.Windows.Forms.ToolStripButton tsbCancelar;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }

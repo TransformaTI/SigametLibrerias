@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
 using System.Data.SqlClient;
+using SigaMetClasses;
 
 namespace LiquidacionSTN
 {
@@ -37,6 +38,8 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.TextBox txtSaldo;
         private DateTimePicker dtpFechaCobroCheque;
         private Label lblFechaCobroCheque;
+        private TextBox txtObservaciones;
+        private Label label6;
         private System.ComponentModel.IContainer components;
 
 		public FrmCheque(string PedidoReferencia)
@@ -70,13 +73,25 @@ namespace LiquidacionSTN
 		decimal _TotalPedido;
 		decimal _Monto;
 		decimal _Saldo;
+        private int _Pedido;
+        private byte _Celula;
+        private short _AñoPed;
+        private decimal _MontoPagar;
+        private bool _EsAlta = true;
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
+        SigaMetClasses.sCheque _objCheque;
+
+        public sCheque ObjCheque { get => _objCheque; set => _objCheque = value; }
+        public decimal MontoPagar { get => _MontoPagar; set => _MontoPagar = value; }
+        public bool EsAlta { get => _EsAlta; set => _EsAlta = value; }
+
+
+        #region Windows Form Designer generated code
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCheque));
@@ -104,6 +119,8 @@ namespace LiquidacionSTN
             this.txtSaldo = new System.Windows.Forms.TextBox();
             this.dtpFechaCobroCheque = new System.Windows.Forms.DateTimePicker();
             this.lblFechaCobroCheque = new System.Windows.Forms.Label();
+            this.txtObservaciones = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // toolBar1
@@ -173,7 +190,7 @@ namespace LiquidacionSTN
             // lblCliente
             // 
             this.lblCliente.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblCliente.Location = new System.Drawing.Point(104, 53);
+            this.lblCliente.Location = new System.Drawing.Point(109, 53);
             this.lblCliente.Name = "lblCliente";
             this.lblCliente.Size = new System.Drawing.Size(128, 23);
             this.lblCliente.TabIndex = 3;
@@ -181,7 +198,7 @@ namespace LiquidacionSTN
             // 
             // cboBanco
             // 
-            this.cboBanco.Location = new System.Drawing.Point(104, 86);
+            this.cboBanco.Location = new System.Drawing.Point(109, 86);
             this.cboBanco.Name = "cboBanco";
             this.cboBanco.Size = new System.Drawing.Size(240, 21);
             this.cboBanco.TabIndex = 0;
@@ -208,7 +225,7 @@ namespace LiquidacionSTN
             // 
             // dtpFechaCheque
             // 
-            this.dtpFechaCheque.Location = new System.Drawing.Point(102, 160);
+            this.dtpFechaCheque.Location = new System.Drawing.Point(107, 160);
             this.dtpFechaCheque.Name = "dtpFechaCheque";
             this.dtpFechaCheque.Size = new System.Drawing.Size(242, 20);
             this.dtpFechaCheque.TabIndex = 2;
@@ -246,7 +263,7 @@ namespace LiquidacionSTN
             // txtCodigo
             // 
             this.txtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtCodigo.Location = new System.Drawing.Point(280, 264);
+            this.txtCodigo.Location = new System.Drawing.Point(285, 264);
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.ReadOnly = true;
             this.txtCodigo.Size = new System.Drawing.Size(184, 13);
@@ -276,7 +293,7 @@ namespace LiquidacionSTN
             // txtNumCheque
             // 
             this.txtNumCheque.BackColor = System.Drawing.SystemColors.Control;
-            this.txtNumCheque.Location = new System.Drawing.Point(104, 120);
+            this.txtNumCheque.Location = new System.Drawing.Point(109, 120);
             this.txtNumCheque.Name = "txtNumCheque";
             this.txtNumCheque.Size = new System.Drawing.Size(240, 20);
             this.txtNumCheque.TabIndex = 1;
@@ -285,7 +302,7 @@ namespace LiquidacionSTN
             // txtNumCuenta
             // 
             this.txtNumCuenta.BackColor = System.Drawing.SystemColors.Control;
-            this.txtNumCuenta.Location = new System.Drawing.Point(102, 210);
+            this.txtNumCuenta.Location = new System.Drawing.Point(107, 210);
             this.txtNumCuenta.Name = "txtNumCuenta";
             this.txtNumCuenta.Size = new System.Drawing.Size(240, 20);
             this.txtNumCuenta.TabIndex = 3;
@@ -293,16 +310,17 @@ namespace LiquidacionSTN
             // txtMonto
             // 
             this.txtMonto.BackColor = System.Drawing.SystemColors.Control;
-            this.txtMonto.Location = new System.Drawing.Point(102, 236);
+            this.txtMonto.Location = new System.Drawing.Point(107, 236);
             this.txtMonto.Name = "txtMonto";
             this.txtMonto.Size = new System.Drawing.Size(136, 20);
             this.txtMonto.TabIndex = 4;
             this.txtMonto.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtMonto.Leave += new System.EventHandler(this.txtMonto_Leave);
             // 
             // txtSaldo
             // 
             this.txtSaldo.BackColor = System.Drawing.SystemColors.Control;
-            this.txtSaldo.Location = new System.Drawing.Point(102, 262);
+            this.txtSaldo.Location = new System.Drawing.Point(107, 262);
             this.txtSaldo.Name = "txtSaldo";
             this.txtSaldo.Size = new System.Drawing.Size(136, 20);
             this.txtSaldo.TabIndex = 5;
@@ -312,7 +330,7 @@ namespace LiquidacionSTN
             // 
             // dtpFechaCobroCheque
             // 
-            this.dtpFechaCobroCheque.Location = new System.Drawing.Point(102, 184);
+            this.dtpFechaCobroCheque.Location = new System.Drawing.Point(107, 184);
             this.dtpFechaCobroCheque.Name = "dtpFechaCobroCheque";
             this.dtpFechaCobroCheque.Size = new System.Drawing.Size(242, 20);
             this.dtpFechaCobroCheque.TabIndex = 18;
@@ -327,10 +345,30 @@ namespace LiquidacionSTN
             this.lblFechaCobroCheque.TabIndex = 19;
             this.lblFechaCobroCheque.Text = "Fecha cobro";
             // 
+            // txtObservaciones
+            // 
+            this.txtObservaciones.Location = new System.Drawing.Point(105, 295);
+            this.txtObservaciones.Multiline = true;
+            this.txtObservaciones.Name = "txtObservaciones";
+            this.txtObservaciones.Size = new System.Drawing.Size(242, 66);
+            this.txtObservaciones.TabIndex = 20;
+            // 
+            // label6
+            // 
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(8, 304);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(95, 15);
+            this.label6.TabIndex = 21;
+            this.label6.Text = "Observaciones:";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // FrmCheque
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(472, 330);
+            this.ClientSize = new System.Drawing.Size(472, 379);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.txtObservaciones);
             this.Controls.Add(this.lblFechaCobroCheque);
             this.Controls.Add(this.dtpFechaCobroCheque);
             this.Controls.Add(this.txtSaldo);
@@ -359,6 +397,7 @@ namespace LiquidacionSTN
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cheque";
             this.Load += new System.EventHandler(this.Cheque_Load);
+            this.Shown += new System.EventHandler(this.FrmCheque_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -392,53 +431,57 @@ namespace LiquidacionSTN
 
 		}
 
-		
-		private void LlenaCheque ()
-		{
-			DataRow [] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select("PedidoReferencia ='" + _PedidoReferencia + "'");
-			foreach (DataRow dr in Query)
-			{
-				lblCliente.Text = Convert.ToString (dr["Cliente"]);
-				cboBanco.SelectedValue = dr["BancoCheque"];
-				txtNumCheque.Text = Convert.ToString (dr["NumeroCheque"]);
-				txtNumCuenta.Text = Convert.ToString (dr["NumCuentaCheque"]);
-				txtMonto.Text = Convert.ToString (dr["TotalCheque"]);
-				txtSaldo.Text = Convert.ToString (dr["SaldoCheque"]);
-			    _TotalPedido = Convert.ToDecimal  (dr["Total"]);
 
-			}
+        private void LlenaCheque()
+        {
+            DataRow[] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select("PedidoReferencia ='" + _PedidoReferencia + "'");
+            foreach (DataRow dr in Query)
+            {
+                lblCliente.Text = Convert.ToString(dr["Cliente"]);
+                //	cboBanco.SelectedValue = dr["BancoCheque"];
+                //	txtNumCheque.Text = Convert.ToString (dr["NumeroCheque"]);
+                //	txtNumCuenta.Text = Convert.ToString (dr["NumCuentaCheque"]);
+                //	txtMonto.Text = Convert.ToString (dr["TotalCheque"]);
+                //	txtSaldo.Text = Convert.ToString (dr["SaldoCheque"]);
+                //    _TotalPedido = Convert.ToDecimal  (dr["Total"]);
+                _Pedido = Convert.ToInt32(dr["Pedido"]);
+                _Celula = Convert.ToByte(dr["Celula"]);
+                _AñoPed = Convert.ToInt16(dr["AñoPed"]);
+            }
+        }
 
+        //private void Suma ()
+        //{
+        //	_Monto = Convert.ToDecimal(txtMonto.Text) ;
+        //	if (_Monto == _TotalPedido)
+        //	{
+        //		_Saldo = _Monto -_TotalPedido;
+        //		txtSaldo.Text = Convert.ToString (_Saldo);
+        //	}
+        //	else
+        //	{
+        //		if (_Monto > _TotalPedido)
+        //		{
+        //			_Saldo = _Monto - _TotalPedido;
+        //			txtSaldo.Text = Convert.ToString (_Saldo);
+        //		}
+        //		else
+        //		{
+        //			_Saldo = _TotalPedido - _Monto;
+        //			txtSaldo.Text = Convert.ToString(0);
+        //		}
+        //	}
 
-		}
-
-		private void Suma ()
-		{
-			_Monto = Convert.ToDecimal(txtMonto.Text) ;
-			if (_Monto == _TotalPedido)
-			{
-				_Saldo = _Monto -_TotalPedido;
-				txtSaldo.Text = Convert.ToString (_Saldo);
-			}
-			else
-			{
-				if (_Monto > _TotalPedido)
-				{
-					_Saldo = _Monto - _TotalPedido;
-					txtSaldo.Text = Convert.ToString (_Saldo);
-				}
-				else
-				{
-					_Saldo = _TotalPedido - _Monto;
-					txtSaldo.Text = Convert.ToString(0);
-				}
-			}
-
-		}
-		private void Cheque_Load(object sender, System.EventArgs e)
+        //}
+        private void Cheque_Load(object sender, System.EventArgs e)
 		{
 			LiquidacionSTN.Modulo.CnnSigamet.Close ();
+            txtSaldo.Text=_MontoPagar.ToString();
+
 		    LlenaCombo ();
 			LlenaCheque();
+
+
 
 		}
 
@@ -478,45 +521,81 @@ namespace LiquidacionSTN
 						break;
 					}
 
-                    if (Convert.ToDecimal(txtMonto.Text) < _TotalPedido)
+                    //if (Convert.ToDecimal(txtMonto.Text) < _TotalPedido)
+                    //{
+                    //    MessageBox.Show("El monto no cubre el total del pedido", "Mesaje del sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //    break;
+                    //}
+
+                    decimal saldoTemp=Convert.ToDecimal(txtSaldo.Text);
+
+                    if (saldoTemp<0)
                     {
-                        MessageBox.Show("El monto no cubre el total del pedido", "Mesaje del sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        break;
+                        saldoTemp = saldoTemp * -1;
+                    }
+                    else
+                    {
+                        saldoTemp = 0;
                     }
 
-                    DataRow[] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("PedidoReferencia = '"+ _PedidoReferencia +"'");
-					foreach (System.Data.DataRow dr in Query)
-					{
-						dr.BeginEdit();
-						dr["BancoCheque"] = cboBanco.SelectedValue;
-						dr["NumeroCheque"] = txtNumCheque.Text ;
-						dr["FCheque"] =dtpFechaCheque.Value ;
-						dr["FAltaCheque"] = dtpFechaCheque.Value ;
-						dr["NumCuentaCheque"] = txtNumCuenta.Text ;
-						dr["TotalCheque"]= txtMonto.Text ;
-						dr["SaldoCheque"] = txtSaldo.Text ;
-						dr["TipoCobroCheque"] = 3;
-						dr["TipoCobro"] = 3;
-						dr["TipoCobroDescripcion"] = "Cheque";
-                        dr["BancoNombre"] = this.cboBanco.Text;
-						dr.EndEdit ();
-					}
-					this.Close ();
-					break;	
+
+
+                    _objCheque = new sCheque();
+
+                    _objCheque.PedidoReferencia = _PedidoReferencia;
+                    _objCheque.BancoCheque= Convert.ToInt32(cboBanco.SelectedValue);
+                    _objCheque.NumeroCheque= txtNumCheque.Text;
+                    _objCheque.Fecha = dtpFechaCheque.Value;
+                    _objCheque.NumCuenta = txtNumCuenta.Text;
+                    _objCheque.Total = Convert.ToDecimal(txtMonto.Text);
+                    _objCheque.Saldo = saldoTemp;
+                    _objCheque.TipoCobroCheque = 3;
+                    _objCheque.TipoCobro = 3;
+                    _objCheque.TipoCobroDescripcion = "Cheque";
+                    _objCheque.BancoNombre = this.cboBanco.Text;
+                    _objCheque.Pedido = _Pedido;
+                    _objCheque.Celula = _Celula;
+                    _objCheque.AñoPed = _AñoPed;
+                    _objCheque.Observaciones = txtObservaciones.Text;
+
+
+                    //DataRow[] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("PedidoReferencia = '"+ _PedidoReferencia +"'");
+
+                    //foreach (System.Data.DataRow dr in Query)
+                    //{
+                    //    dr.BeginEdit();
+                    //    dr["BancoCheque"] = cboBanco.SelectedValue;
+                    //    dr["NumeroCheque"] = txtNumCheque.Text;
+                    //    dr["FCheque"] = dtpFechaCheque.Value;
+                    //    dr["FAltaCheque"] = dtpFechaCheque.Value;
+                    //    dr["NumCuentaCheque"] = txtNumCuenta.Text;
+                    //    dr["TotalCheque"] = txtMonto.Text;
+                    //    dr["SaldoCheque"] = txtSaldo.Text;
+                    //    dr["TipoCobroCheque"] = 3;
+                    //    dr["TipoCobro"] = 3;
+                    //    dr["TipoCobroDescripcion"] = "Cheque";
+                    //    dr["BancoNombre"] = this.cboBanco.Text;
+                    //    dr.EndEdit();
+                    //}
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                    break;	
 				case "Cancelar":
-					System.Data.DataRow [] Consulta = LiquidacionSTN.Modulo.dtLiquidacion.Select ("PedidoReferencia = '"+ _PedidoReferencia +"'");
-					foreach(System.Data.DataRow drC in Consulta)
-					{
-					    drC.BeginEdit();
-						drC["BancoCheque"] = 0;
-						drC["NumeroCheque"] = "";
-						drC["NumCuentaCheque"] = "";
-						drC["TotalCheque"] = 0;
-						drC["SaldoCheque"] = 0;
-						drC["TipoCobroCheque"] = 0;
-						drC.EndEdit();
-					}
-					this.Close ();
+                    //System.Data.DataRow [] Consulta = LiquidacionSTN.Modulo.dtLiquidacion.Select ("PedidoReferencia = '"+ _PedidoReferencia +"'");
+                    //foreach(System.Data.DataRow drC in Consulta)
+                    //{
+                    //    drC.BeginEdit();
+                    //	drC["BancoCheque"] = 0;
+                    //	drC["NumeroCheque"] = "";
+                    //	drC["NumCuentaCheque"] = "";
+                    //	drC["TotalCheque"] = 0;
+                    //	drC["SaldoCheque"] = 0;
+                    //	drC["TipoCobroCheque"] = 0;
+                    //	drC.EndEdit();
+                    //}
+                    this.DialogResult = DialogResult.OK;
+
+                    this.Close ();
 					break;
 				case "Cerrar":
 					this.Close ();
@@ -529,33 +608,33 @@ namespace LiquidacionSTN
 		{
 
 
-			if (Convert.ToDecimal (txtMonto.Text) == _TotalPedido)
-			{
-				Suma();
-			}
-			else
-			{
-				string message = "El total del cheque es diferente al Total del Servicio Técnico,  ¿es correcto el monto del cheque?";
-				string caption = "Liquidación Servicios Técnicos";
-				MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-				DialogResult result;
+			//if (Convert.ToDecimal (txtMonto.Text) == _TotalPedido)
+			//{
+			//	Suma();
+			//}
+			//else
+			//{
+			//	string message = "El total del cheque es diferente al Total del Servicio Técnico,  ¿es correcto el monto del cheque?";
+			//	string caption = "Liquidación Servicios Técnicos";
+			//	MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+			//	DialogResult result;
 
-				// Displays the MessageBox.
+			//	// Displays the MessageBox.
 
-				result = MessageBox.Show(this, message, caption, buttons,
-					MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, 
-					MessageBoxOptions.RightAlign);
+			//	result = MessageBox.Show(this, message, caption, buttons,
+			//		MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, 
+			//		MessageBoxOptions.RightAlign);
 
 				
-				if (result == DialogResult.Yes )
-			    {
-					Suma();
-			    }
-				else
-				{
-					MessageBox.Show ("Corriga el monto total del cheque","Servicios Técnicos",MessageBoxButtons.OK, MessageBoxIcon.Information );
-				}
-			}
+			//	if (result == DialogResult.Yes )
+			//    {
+			//		Suma();
+			//    }
+			//	else
+			//	{
+			//		MessageBox.Show ("Corriga el monto total del cheque","Servicios Técnicos",MessageBoxButtons.OK, MessageBoxIcon.Information );
+			//	}
+			//}
 		}
 
 		private void txtNumCheque_Validated(object sender, System.EventArgs e)
@@ -597,5 +676,62 @@ namespace LiquidacionSTN
 		{
 		
 		}
-	}
+
+        private void txtMonto_Leave(object sender, EventArgs e)
+        {
+            if (_EsAlta)
+            {
+                decimal Monto;
+
+                if (txtMonto.Text == "")
+                {
+                    Monto = 0;
+                }
+                else
+                {
+                    Monto = Convert.ToDecimal(txtMonto.Text);
+                }
+
+                txtSaldo.Text = (_MontoPagar - Monto).ToString();
+            }
+
+
+        }
+
+        private void cargaDatosCheque()
+        {
+            cboBanco.FindString(_objCheque.BancoNombre);
+
+            _PedidoReferencia = _objCheque.PedidoReferencia;
+            txtNumCheque.Text = _objCheque.NumeroCheque;
+            dtpFechaCheque.Value = _objCheque.Fecha;
+            txtNumCuenta.Text = _objCheque.NumCuenta;
+            txtMonto.Text = _objCheque.Total.ToString();
+                     
+            _Pedido = _objCheque.Pedido;
+            _Celula = _objCheque.Celula;
+            _AñoPed = _objCheque.AñoPed;
+            txtObservaciones.Text = _objCheque.Observaciones;
+
+            cboBanco.Enabled = false;
+            txtNumCheque.Enabled = false;
+            dtpFechaCheque.Enabled = false;
+            txtNumCuenta.Enabled = false;
+            txtMonto.Enabled = false;
+            txtSaldo.Enabled = false;            
+            txtObservaciones.Enabled = false;
+            txtSaldo.Text = _objCheque.Saldo.ToString();
+        }
+
+        private void FrmCheque_Shown(object sender, EventArgs e)
+        {
+            tbbAceptar.Enabled = _EsAlta;
+            tbbCancelar.Enabled = !_EsAlta;
+            if (! _EsAlta)
+            {
+               
+                cargaDatosCheque();
+            }
+        }
+    }
 }

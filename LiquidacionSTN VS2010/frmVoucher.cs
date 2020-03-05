@@ -6,6 +6,9 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data;
 using System.Text;
+using System.Collections.Generic;
+using SigaMetClasses;
+using System.Linq;
 
 namespace LiquidacionSTN
 {
@@ -21,10 +24,12 @@ namespace LiquidacionSTN
         private byte _TipoTarjeta;
         private string _numeroTarjeta;
         private int _BancoTarjeta;
+        private String _NombreBanco;
+        private decimal _MontoPagar;
 
         int _Pedido;
-        int _Celula;
-        int _AñoPed;
+        byte _Celula;
+        short _AñoPed;
         int _Cliente;
         int a;
         int _Autotanque;
@@ -33,6 +38,9 @@ namespace LiquidacionSTN
         decimal _Monto;
         int _ClienteTarjeta;
         decimal _Total;
+        int _folio = 0;
+        private bool _EsAlta = true;
+        DataTable dtAfiliacion = new DataTable("Afiliacion");
 
         private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label3;
@@ -55,11 +63,17 @@ namespace LiquidacionSTN
         private Label label8;
         private SigaMetClasses.Controles.txtNumeroDecimal txtMonto;
         private SigaMetClasses.Controles.txtNumeroDecimal txtSaldo;
-
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.Container components = null;
+        private List<SigaMetClasses.sVoucher> _listaVoucher ;
+        private IContainer components;
+        private Label label12;
+        private TextBox txtTarjeta;
+        private ComboBox cboBancoTarjeta;
+        private Label label11;
+        private ComboBox cboBanco;
+        private Label label10;
+        private ToolStripButton tsbCancelar;
+        private ImageList imageList1;
+        private SigaMetClasses.sVoucher _objVoucher = new sVoucher();
 
         public string NumeroTarjeta
         {
@@ -86,6 +100,11 @@ namespace LiquidacionSTN
                 _BancoTarjeta = value;
             }
         }
+
+        public List<sVoucher> ListaVoucher { get => _listaVoucher; set => _listaVoucher = value; }
+        public sVoucher objVoucher { get => _objVoucher; set => _objVoucher = value; }
+        public bool EsAlta { get => _EsAlta; set => _EsAlta = value; }
+        public decimal MontoPagar { get => _MontoPagar; set => _MontoPagar = value; }
 
         public frmVoucher(int Cliente,string PedidoReferencia)
 		{
@@ -125,6 +144,7 @@ namespace LiquidacionSTN
 		/// </summary>
 		private void InitializeComponent()
 		{
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmVoucher));
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -134,8 +154,15 @@ namespace LiquidacionSTN
             this.label6 = new System.Windows.Forms.Label();
             this.tsBotonera = new System.Windows.Forms.ToolStrip();
             this.tsbAceptar = new System.Windows.Forms.ToolStripButton();
+            this.tsbCancelar = new System.Windows.Forms.ToolStripButton();
             this.tsbCerrar = new System.Windows.Forms.ToolStripButton();
             this.pnlPrincipal = new System.Windows.Forms.Panel();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtTarjeta = new System.Windows.Forms.TextBox();
+            this.cboBancoTarjeta = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.cboBanco = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.txtSaldo = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.txtMonto = new SigaMetClasses.Controles.txtNumeroDecimal();
             this.txtConfirmaAutorizacion = new System.Windows.Forms.TextBox();
@@ -147,15 +174,16 @@ namespace LiquidacionSTN
             this.cboAfiliacion = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tsBotonera.SuspendLayout();
             this.pnlPrincipal.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(28, 54);
+            this.label1.Location = new System.Drawing.Point(27, 47);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 19);
+            this.label1.Size = new System.Drawing.Size(56, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Cliente:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -164,9 +192,9 @@ namespace LiquidacionSTN
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(28, 172);
+            this.label3.Location = new System.Drawing.Point(27, 183);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 17);
+            this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 2;
             this.label3.Text = "Fecha:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -175,9 +203,9 @@ namespace LiquidacionSTN
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(28, 301);
+            this.label5.Location = new System.Drawing.Point(27, 341);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(51, 17);
+            this.label5.Size = new System.Drawing.Size(40, 13);
             this.label5.TabIndex = 4;
             this.label5.Text = "Monto:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -185,19 +213,19 @@ namespace LiquidacionSTN
             // dtpFecha
             // 
             this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFecha.Location = new System.Drawing.Point(143, 172);
+            this.dtpFecha.Location = new System.Drawing.Point(119, 177);
             this.dtpFecha.Name = "dtpFecha";
-            this.dtpFecha.Size = new System.Drawing.Size(138, 22);
+            this.dtpFecha.Size = new System.Drawing.Size(115, 20);
             this.dtpFecha.TabIndex = 3;
             // 
             // txtCliente
             // 
             this.txtCliente.BackColor = System.Drawing.SystemColors.HighlightText;
             this.txtCliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCliente.Location = new System.Drawing.Point(143, 53);
+            this.txtCliente.Location = new System.Drawing.Point(119, 46);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.ReadOnly = true;
-            this.txtCliente.Size = new System.Drawing.Size(138, 23);
+            this.txtCliente.Size = new System.Drawing.Size(115, 20);
             this.txtCliente.TabIndex = 0;
             this.txtCliente.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -205,9 +233,9 @@ namespace LiquidacionSTN
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(28, 339);
+            this.label6.Location = new System.Drawing.Point(27, 373);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(48, 17);
+            this.label6.Size = new System.Drawing.Size(37, 13);
             this.label6.TabIndex = 12;
             this.label6.Text = "Saldo:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -219,6 +247,7 @@ namespace LiquidacionSTN
             this.tsBotonera.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.tsBotonera.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbAceptar,
+            this.tsbCancelar,
             this.tsbCerrar});
             this.tsBotonera.Location = new System.Drawing.Point(0, 0);
             this.tsBotonera.Name = "tsBotonera";
@@ -237,6 +266,17 @@ namespace LiquidacionSTN
             this.tsbAceptar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.tsbAceptar.Click += new System.EventHandler(this.tsbAceptar_Click);
             // 
+            // tsbCancelar
+            // 
+            this.tsbCancelar.AutoSize = false;
+            this.tsbCancelar.Image = ((System.Drawing.Image)(resources.GetObject("tsbCancelar.Image")));
+            this.tsbCancelar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCancelar.Name = "tsbCancelar";
+            this.tsbCancelar.Size = new System.Drawing.Size(52, 35);
+            this.tsbCancelar.Text = "Cancelar";
+            this.tsbCancelar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsbCancelar.Click += new System.EventHandler(this.tsbCancelar_Click);
+            // 
             // tsbCerrar
             // 
             this.tsbCerrar.AutoSize = false;
@@ -250,6 +290,12 @@ namespace LiquidacionSTN
             // 
             // pnlPrincipal
             // 
+            this.pnlPrincipal.Controls.Add(this.label12);
+            this.pnlPrincipal.Controls.Add(this.txtTarjeta);
+            this.pnlPrincipal.Controls.Add(this.cboBancoTarjeta);
+            this.pnlPrincipal.Controls.Add(this.label11);
+            this.pnlPrincipal.Controls.Add(this.cboBanco);
+            this.pnlPrincipal.Controls.Add(this.label10);
             this.pnlPrincipal.Controls.Add(this.txtSaldo);
             this.pnlPrincipal.Controls.Add(this.txtMonto);
             this.pnlPrincipal.Controls.Add(this.txtConfirmaAutorizacion);
@@ -273,88 +319,145 @@ namespace LiquidacionSTN
             this.pnlPrincipal.Size = new System.Drawing.Size(326, 421);
             this.pnlPrincipal.TabIndex = 13;
             // 
+            // label12
+            // 
+            this.label12.Location = new System.Drawing.Point(27, 277);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(75, 16);
+            this.label12.TabIndex = 25;
+            this.label12.Text = "No. de tarjeta:";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label12.Click += new System.EventHandler(this.label12_Click);
+            // 
+            // txtTarjeta
+            // 
+            this.txtTarjeta.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.txtTarjeta.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTarjeta.Location = new System.Drawing.Point(119, 273);
+            this.txtTarjeta.Name = "txtTarjeta";
+            this.txtTarjeta.ReadOnly = true;
+            this.txtTarjeta.Size = new System.Drawing.Size(115, 20);
+            this.txtTarjeta.TabIndex = 26;
+            this.txtTarjeta.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtTarjeta.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // cboBancoTarjeta
+            // 
+            this.cboBancoTarjeta.FormattingEnabled = true;
+            this.cboBancoTarjeta.Location = new System.Drawing.Point(119, 305);
+            this.cboBancoTarjeta.Name = "cboBancoTarjeta";
+            this.cboBancoTarjeta.Size = new System.Drawing.Size(115, 21);
+            this.cboBancoTarjeta.TabIndex = 23;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(27, 305);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(73, 13);
+            this.label11.TabIndex = 24;
+            this.label11.Text = "Banco tarjeta:";
+            // 
+            // cboBanco
+            // 
+            this.cboBanco.Location = new System.Drawing.Point(119, 78);
+            this.cboBanco.Name = "cboBanco";
+            this.cboBanco.Size = new System.Drawing.Size(115, 21);
+            this.cboBanco.TabIndex = 21;
+            this.cboBanco.SelectedIndexChanged += new System.EventHandler(this.cboBanco_SelectedIndexChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(27, 81);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(41, 13);
+            this.label10.TabIndex = 22;
+            this.label10.Text = "Banco:";
+            // 
             // txtSaldo
             // 
             this.txtSaldo.Enabled = false;
-            this.txtSaldo.Location = new System.Drawing.Point(143, 336);
+            this.txtSaldo.Location = new System.Drawing.Point(119, 370);
             this.txtSaldo.Name = "txtSaldo";
-            this.txtSaldo.Size = new System.Drawing.Size(138, 22);
+            this.txtSaldo.ReadOnly = true;
+            this.txtSaldo.Size = new System.Drawing.Size(115, 20);
             this.txtSaldo.TabIndex = 7;
             // 
             // txtMonto
             // 
-            this.txtMonto.Location = new System.Drawing.Point(143, 298);
+            this.txtMonto.Location = new System.Drawing.Point(119, 338);
             this.txtMonto.Name = "txtMonto";
-            this.txtMonto.Size = new System.Drawing.Size(138, 22);
+            this.txtMonto.Size = new System.Drawing.Size(115, 20);
             this.txtMonto.TabIndex = 6;
             this.txtMonto.Leave += new System.EventHandler(this.txtMonto_Leave);
             // 
             // txtConfirmaAutorizacion
             // 
-            this.txtConfirmaAutorizacion.Location = new System.Drawing.Point(143, 248);
+            this.txtConfirmaAutorizacion.Location = new System.Drawing.Point(119, 241);
             this.txtConfirmaAutorizacion.Name = "txtConfirmaAutorizacion";
-            this.txtConfirmaAutorizacion.Size = new System.Drawing.Size(138, 22);
+            this.txtConfirmaAutorizacion.Size = new System.Drawing.Size(115, 20);
             this.txtConfirmaAutorizacion.TabIndex = 5;
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(28, 248);
+            this.label9.Location = new System.Drawing.Point(27, 231);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(90, 35);
+            this.label9.Size = new System.Drawing.Size(75, 30);
             this.label9.TabIndex = 20;
-            this.label9.Text = "Conrfirmar autorizaci�n:";
+            this.label9.Text = "Conrfirmar autorización:";
             // 
             // txtAutorizacion
             // 
-            this.txtAutorizacion.Location = new System.Drawing.Point(143, 207);
+            this.txtAutorizacion.Location = new System.Drawing.Point(119, 209);
             this.txtAutorizacion.Name = "txtAutorizacion";
-            this.txtAutorizacion.Size = new System.Drawing.Size(138, 22);
+            this.txtAutorizacion.Size = new System.Drawing.Size(115, 20);
             this.txtAutorizacion.TabIndex = 4;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(28, 210);
+            this.label8.Location = new System.Drawing.Point(27, 212);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(90, 17);
+            this.label8.Size = new System.Drawing.Size(68, 13);
             this.label8.TabIndex = 18;
-            this.label8.Text = "Autorizaci�n:";
+            this.label8.Text = "Autorización:";
             // 
             // cboTipoTarjeta
             // 
             this.cboTipoTarjeta.FormattingEnabled = true;
-            this.cboTipoTarjeta.Location = new System.Drawing.Point(143, 130);
+            this.cboTipoTarjeta.Location = new System.Drawing.Point(119, 144);
             this.cboTipoTarjeta.Name = "cboTipoTarjeta";
-            this.cboTipoTarjeta.Size = new System.Drawing.Size(138, 24);
+            this.cboTipoTarjeta.Size = new System.Drawing.Size(115, 21);
             this.cboTipoTarjeta.TabIndex = 2;
             this.cboTipoTarjeta.SelectedIndexChanged += new System.EventHandler(this.cboTipoTarjeta_SelectedIndexChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(28, 134);
+            this.label4.Location = new System.Drawing.Point(27, 147);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(104, 17);
+            this.label4.Size = new System.Drawing.Size(78, 13);
             this.label4.TabIndex = 16;
             this.label4.Text = "Tipo de tarjeta:";
             // 
             // cboAfiliacion
             // 
             this.cboAfiliacion.FormattingEnabled = true;
-            this.cboAfiliacion.Location = new System.Drawing.Point(143, 92);
+            this.cboAfiliacion.Location = new System.Drawing.Point(119, 111);
             this.cboAfiliacion.Name = "cboAfiliacion";
-            this.cboAfiliacion.Size = new System.Drawing.Size(138, 24);
+            this.cboAfiliacion.Size = new System.Drawing.Size(115, 21);
             this.cboAfiliacion.TabIndex = 1;
             this.cboAfiliacion.SelectedIndexChanged += new System.EventHandler(this.cboAfiliacion_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(28, 96);
+            this.label2.Location = new System.Drawing.Point(27, 114);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 17);
+            this.label2.Size = new System.Drawing.Size(52, 13);
             this.label2.TabIndex = 14;
-            this.label2.Text = "Afiliaci�n:";
+            this.label2.Text = "Afiliación:";
             // 
             // label7
             // 
@@ -364,14 +467,22 @@ namespace LiquidacionSTN
             this.label7.ForeColor = System.Drawing.SystemColors.Window;
             this.label7.Location = new System.Drawing.Point(0, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(326, 29);
+            this.label7.Size = new System.Drawing.Size(326, 25);
             this.label7.TabIndex = 13;
             this.label7.Text = "Llenar Voucher";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "");
+            this.imageList1.Images.SetKeyName(1, "");
+            this.imageList1.Images.SetKeyName(2, "");
+            // 
             // frmVoucher
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
+            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(326, 459);
             this.Controls.Add(this.pnlPrincipal);
@@ -384,6 +495,7 @@ namespace LiquidacionSTN
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Voucher";
             this.Load += new System.EventHandler(this.frmVoucher_Load);
+            this.Shown += new System.EventHandler(this.frmVoucher_Shown);
             this.tsBotonera.ResumeLayout(false);
             this.tsBotonera.PerformLayout();
             this.pnlPrincipal.ResumeLayout(false);
@@ -393,6 +505,37 @@ namespace LiquidacionSTN
 
 		}
 		#endregion
+
+        private void LlenaAfiliaciones()
+        {
+            string dbQuery = "EXEC spSTConsultaAfiliaciones";
+            SqlDataAdapter dataAdapter = new SqlDataAdapter();
+            try
+            {
+                dataAdapter.SelectCommand = new SqlCommand(dbQuery, LiquidacionSTN.Modulo.CnnSigamet);
+                LiquidacionSTN.Modulo.CnnSigamet.Open();
+                dataAdapter.Fill(dtAfiliacion);
+
+                //if (dtAfiliacion.Rows.Count > 0)
+                //{
+                //    cboAfiliacion.DataSource = dtAfiliacion;
+                //    cboAfiliacion.DisplayMember = "NumeroAfiliacion";
+                //    cboAfiliacion.ValueMember = "Afiliacion";
+                //    cboAfiliacion.SelectedIndex = 0;
+
+                //    int.TryParse(cboAfiliacion.SelectedValue.ToString(), out _IDAfiliacion);
+                //}
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error cargando afiliaciones:" + Environment.NewLine + ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                LiquidacionSTN.Modulo.CnnSigamet.Close();
+            }
+
+        }
 
 		private void LlenaBanco()
 		{
@@ -405,13 +548,21 @@ namespace LiquidacionSTN
 				LiquidacionSTN.Modulo.CnnSigamet.Open ();
 				da.SelectCommand = new SqlCommand (Query,LiquidacionSTN.Modulo.CnnSigamet);
 				da.Fill (dt);	
-				//this.cboBanco.DataSource = dt;
-				//this.cboBanco.DisplayMember = "Nombre";
-				//this.cboBanco.ValueMember = "Banco";
-				//this.cboBanco.SelectedIndex = 0;
+				this.cboBanco.DataSource = dt;
+				this.cboBanco.DisplayMember = "Nombre";
+				this.cboBanco.ValueMember = "Banco";
+				this.cboBanco.SelectedIndex = 0;
 				a = 1;
-				
-			}
+
+                DataTable dt2;
+                dt2 = dt.Copy();
+
+                this.cboBancoTarjeta.DataSource = dt2;
+                this.cboBancoTarjeta.DisplayMember = "Nombre";
+                this.cboBancoTarjeta.ValueMember = "Banco";
+                this.cboBancoTarjeta.SelectedIndex = 0;
+
+            }
 			catch (Exception e)
 			{
 				MessageBox.Show (e.Message);
@@ -432,8 +583,8 @@ namespace LiquidacionSTN
 			foreach (System.Data.DataRow dr in C)
 			{
 				_Pedido = Convert.ToInt32 (dr["Pedido"]);
-				_Celula = Convert.ToInt32 (dr["Celula"]);
-				_AñoPed = Convert.ToInt32 (dr["A�oPEd"]);
+				_Celula = Convert.ToByte (dr["Celula"]);
+				_AñoPed = Convert.ToInt16 (dr["AñoPEd"]);
 				_Autotanque = Convert.ToInt32 (dr["Autotanque"]);
 				_Total = Convert.ToDecimal(dr["Total"]);
 			}
@@ -442,7 +593,7 @@ namespace LiquidacionSTN
 
 		private void ChacaSaldo()
 		{
-		    System.Data.DataRow [] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + " and a�oped = " + _AñoPed);
+		    System.Data.DataRow [] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + " and añoped = " + _AñoPed);
 			foreach (System.Data.DataRow drCh in Consulta)
 			{
 				_Monto = Convert.ToDecimal (drCh["Monto"]);
@@ -453,18 +604,24 @@ namespace LiquidacionSTN
 			txtSaldo.Text = Convert.ToString (_Saldo);
 		}
 
+
+
 		private void frmVoucher_Load(object sender, System.EventArgs e)
 		{
-
-            
             try
             {
+                tsbCancelar.Image = imageList1.Images[1];
                 txtCliente.Text = Convert.ToString(_Cliente);
-                //LlenaBanco();
+                LlenaAfiliaciones();
+                LlenaBanco();                
                 LlenaPedido();
-                CargarComboAfiliacion();
-                ConsultarBancoAfiliacion();
+               // CargarComboAfiliacion();
+                //ConsultarBancoAfiliacion();
                 CargarComboTipoTarjeta();
+
+                tsbAceptar.Enabled= _EsAlta;
+                tsbCancelar.Enabled = !_EsAlta;
+
             }
             catch (Exception ex)
             {
@@ -486,26 +643,54 @@ namespace LiquidacionSTN
                                         _TipoTarjeta, 
                                         txtAutorizacion.Text.Trim()) )
             {
-                DataRow Registro;
-                Registro = LiquidacionSTN.Modulo.dtVoucher.NewRow();
-                Registro["Pedido"] = _Pedido;
-                Registro["Celula"] = _Celula;
-                Registro["AñoPed"] = _AñoPed;
-                Registro["Cliente"] = _Cliente;
-                //Registro["Banco"] = this.cboBanco.SelectedValue;
-                Registro["Banco"] = _BancoAfiliacion;
-                Registro["Fecha"] = this.dtpFecha.Value.Date;
-                Registro["Folio"] = _numeroTarjeta;
-                Registro["Monto"] = this.txtMonto.Text;
-                Registro["Autotanque"] = _Autotanque;
-                Registro["Saldo"] = _Saldo;
-                Registro["Autorizacion"] = txtAutorizacion.Text;
-                Registro["Afiliacion"] = _NumAfiliacion;
-                Registro["BancoTarjeta"] = _BancoTarjeta;
+                //DataRow Registro;
+                //Registro = LiquidacionSTN.Modulo.dtVoucher.NewRow();
+                //Registro["Pedido"] = _Pedido;
+                //Registro["Celula"] = _Celula;
+                //Registro["AñoPed"] = _AñoPed;
+                //Registro["Cliente"] = _Cliente;
+                ////Registro["Banco"] = this.cboBanco.SelectedValue;
+                //Registro["Banco"] = _BancoAfiliacion;
+                //Registro["Fecha"] = this.dtpFecha.Value.Date;
+                //Registro["Folio"] = _numeroTarjeta;
+                //Registro["Monto"] = this.txtMonto.Text;
+                //Registro["Autotanque"] = ;
+                //Registro["Saldo"] = _Saldo;
+                //Registro["Autorizacion"] = txtAutorizacion.Text;
+                //Registro["Afiliacion"] = _NumAfiliacion;
+                //Registro["BancoTarjeta"] = _BancoTarjeta;
 
-                LiquidacionSTN.Modulo.dtVoucher.Rows.Add(Registro);
+                //LiquidacionSTN.Modulo.dtVoucher.Rows.Add(Registro);
 
+                decimal saldoTemp = Convert.ToDecimal(txtSaldo.Text);
+
+                if (saldoTemp < 0)
+                {
+                    saldoTemp = saldoTemp * -1;
+                }
+                else
+                {
+                    saldoTemp = 0;
+                }
+
+                _objVoucher.No =0;
+                _objVoucher.Pedido = _Pedido;
+                _objVoucher.Celula = _Celula;
+                _objVoucher.AñoPed = _AñoPed;
+                _objVoucher.Cliente = _Cliente;
+                _objVoucher.Banco = _BancoAfiliacion;
+                _objVoucher.Fecha = this.dtpFecha.Value.Date;
+                _objVoucher.NumeroTarjeta = _numeroTarjeta;
+                _objVoucher.Monto = Convert.ToDecimal(txtMonto.Text);
+                _objVoucher.Autotanque = _Autotanque;
+                _objVoucher.Saldo = saldoTemp;
+                _objVoucher.Afiliacion = _NumAfiliacion;
+                _objVoucher.Autorizacion = txtAutorizacion.Text;
+                _objVoucher.BancoTarjeta = _BancoTarjeta;
+                _objVoucher.Folio = _folio;
+                _objVoucher.PedidoReferencia = _PedidoReferencia;
                 ActualizarPedido();
+                this.DialogResult = DialogResult.OK;
 
                 this.Close();
             }
@@ -541,7 +726,7 @@ namespace LiquidacionSTN
 
             if (!valido)
             {
-                MessageBox.Show("Este Voucher ya se di� de alta, por favor verif�que.", "Informaci�n", 
+                MessageBox.Show("Este Voucher ya se dió de alta, por favor verifíque.", "Información", 
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             return valido;
@@ -567,29 +752,70 @@ namespace LiquidacionSTN
 
         private void CargarComboAfiliacion()
         {
-            string dbQuery = "EXEC spCBConsultaAfiliacionTC";
-            SqlDataAdapter dataAdapter = new SqlDataAdapter();
-            DataTable dtAfiliacion = new DataTable("Afiliacion");
+            //string dbQuery = "EXEC spCBConsultaAfiliacionTC";
+            //SqlDataAdapter dataAdapter = new SqlDataAdapter();
+            
 
             try
             {
-                dataAdapter.SelectCommand = new SqlCommand(dbQuery, LiquidacionSTN.Modulo.CnnSigamet);
-                LiquidacionSTN.Modulo.CnnSigamet.Open();
-                dataAdapter.Fill(dtAfiliacion);
+                //dataAdapter.SelectCommand = new SqlCommand(dbQuery, LiquidacionSTN.Modulo.CnnSigamet);
+                //LiquidacionSTN.Modulo.CnnSigamet.Open();
+                //dataAdapter.Fill(dtAfiliacion);
 
-                if (dtAfiliacion.Rows.Count > 0)
+                //if (dtAfiliacion.Rows.Count > 0)
+                //{
+                //    cboAfiliacion.DataSource = dtAfiliacion;
+                //    cboAfiliacion.DisplayMember = "NumeroAfiliacion";
+                //    cboAfiliacion.ValueMember = "Afiliacion";
+                //    cboAfiliacion.SelectedIndex = 0;
+
+                //    int.TryParse(cboAfiliacion.SelectedValue.ToString(), out _IDAfiliacion);
+                //}
+
+
+                DataTable tbAfiliaciones = new DataTable();
+                DataRow[] filas= dtAfiliacion.Select("Banco=" + ((DataRowView)cboBanco.SelectedItem).Row.ItemArray[0].ToString());
+
+                tbAfiliaciones = dtAfiliacion.Clone();
+
+
+                foreach(DataRow fila in filas)
                 {
-                    cboAfiliacion.DataSource = dtAfiliacion;
+                    tbAfiliaciones.ImportRow(fila);
+                }
+                
+              //  cboAfiliacion.DataSource = null;
+
+                //if (tbAfiliaciones.Rows.Count>0)
+                //{
+                    cboAfiliacion.DataSource = tbAfiliaciones;
                     cboAfiliacion.DisplayMember = "NumeroAfiliacion";
                     cboAfiliacion.ValueMember = "Afiliacion";
-                    cboAfiliacion.SelectedIndex = 0;
 
+
+                if (tbAfiliaciones.Rows.Count > 0)
+                {
+                    cboAfiliacion.SelectedIndex = 0;
                     int.TryParse(cboAfiliacion.SelectedValue.ToString(), out _IDAfiliacion);
                 }
+                else
+                {
+                    _IDAfiliacion = 0;
+                    cboAfiliacion.Text = "";
+                }
+                    
+
+                    
+                //}
+
+
+
+
+
             }
             catch (Exception ex)
             {
-                throw new Exception("Error cargando el combo afiliaci�n:" + Environment.NewLine + ex.Message, ex.InnerException);
+                throw new Exception("Error cargando el combo afiliación:" + Environment.NewLine + ex.Message, ex.InnerException);
             }
             finally
             {
@@ -614,7 +840,7 @@ namespace LiquidacionSTN
             }
             catch (Exception ex)
             {
-                throw new Exception("Error consultando banco afiliaci�n:" + Environment.NewLine + ex.Message, ex.InnerException);
+                throw new Exception("Error consultando banco afiliación:" + Environment.NewLine + ex.Message, ex.InnerException);
             }
             finally
             {
@@ -696,43 +922,43 @@ namespace LiquidacionSTN
 
             if (cliente <= 0)
             {
-                mensaje.Append("Debe proporcionar un n�mero de cliente v�lido." + Environment.NewLine);
+                mensaje.Append("Debe proporcionar un número de cliente válido." + Environment.NewLine);
             }
             if (afiliacion == 0)
             {
-                mensaje.Append("Debe proporcionar un n�mero de afiliaci�n v�lido." + Environment.NewLine);
+                mensaje.Append("Debe proporcionar un número de afiliación válido." + Environment.NewLine);
             }
             if (tipoTarjeta == 0)
             {
-                mensaje.Append("Debe proporcionar un tipo de tarjeta v�lido." + Environment.NewLine);
+                mensaje.Append("Debe proporcionar un tipo de tarjeta válido." + Environment.NewLine);
             }
             if (!autorizacion.Equals(confirmaAutorizacion))
             {
-                mensaje.Append("Los campos de autorizaci�n no concuerdan, verif�que." + Environment.NewLine);
+                mensaje.Append("Los campos de autorización no concuerdan, verifíque." + Environment.NewLine);
             }
             else if (autorizacion.Length == 0 || confirmaAutorizacion.Length == 0)
             {
-                mensaje.Append("Debe proporcionar un n�mero de autorizaci�n." + Environment.NewLine);
+                mensaje.Append("Debe proporcionar un número de autorización." + Environment.NewLine);
             }
 
             decimal dMonto = 0;
             decimal.TryParse(monto, out dMonto);
             if (dMonto == 0)
             {
-                mensaje.Append("Debe proporcionar un monto v�lido." + Environment.NewLine);
+                mensaje.Append("Debe proporcionar un monto válido." + Environment.NewLine);
             }
 
-            decimal dSaldo = 0;
-            decimal.TryParse(saldo, out dSaldo);
-            if (dSaldo < 0)
-            {
-                mensaje.Append("El saldo es incorrecto, verif�que." + Environment.NewLine);
-            }
+            //decimal dSaldo = 0;
+            //decimal.TryParse(saldo, out dSaldo);
+            //if (dSaldo < 0)
+            //{
+            //    mensaje.Append("El saldo es incorrecto, verifíque." + Environment.NewLine);
+            //}
 
-            if (dMonto < _Total)
-            {
-                mensaje.Append("- El monto no cubre el total del pedido");
-            }
+            //if (dMonto < _Total)
+            //{
+            //    mensaje.Append("- El monto no cubre el total del pedido");
+            //}
 
             if (mensaje.Length > 0)
             {
@@ -784,7 +1010,7 @@ namespace LiquidacionSTN
             if(!bResultado)
             {
                 MessageBox.Show("Falta relacionar " + _Saldo.ToString("N2") + ", y el monto por relacionar supera el monto " + Environment.NewLine +
-                    "m�ximo de pago por exceso para TPV, favor de relacionar m�s documentos");
+                    "máximo de pago por exceso para TPV, favor de relacionar más documentos");
             }
 
             return bResultado;
@@ -797,46 +1023,120 @@ namespace LiquidacionSTN
 
         private void txtMonto_Leave(object sender, EventArgs e)
         {
-            decimal.TryParse(txtMonto.Text, out _Monto);
-
-
-            CalcularSaldo();
+            calculaSaldo();
         }
 
-        private void CalcularSaldo()
-        {
-            decimal saldo = 0;
-            decimal.TryParse(txtMonto.Text, out _Monto);
-            if (_Monto > 0)
-            {
-                saldo = _Monto - _Total;
-                if (saldo < 0)
-                    saldo = 0;
-
-                if (_Monto != _Total)
-                {
-                    if (EsCorrectoElMonto())
-                        _Saldo = saldo;
-                    else
-                        _Saldo = 0;
-                }
-                else
-                {
-                    _Saldo = saldo;
-                }
-
-                txtSaldo.Text = _Saldo.ToString("n2");
-            }
-            txtMonto.Text= _Monto.ToString("n2");
-        }
+        
 
         private bool EsCorrectoElMonto()
         {
-            string strPregunta = "El monto es diferente al total del servicio t�cnico." + Environment.NewLine + "�Es correcto el monto?";
+            string strPregunta = "El monto es diferente al total del servicio técnico." + Environment.NewLine + "¿Es correcto el monto?";
 
             bool montoCorrecto = (MessageBox.Show(strPregunta, this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes);
 
             return montoCorrecto;
         }
+
+        private void calculaSaldo()
+        {
+            if (_EsAlta)
+            {
+                decimal Monto;
+
+                if (txtMonto.Text == "")
+                {
+                    Monto = 0;
+                }
+                else
+                {
+                    Monto = Convert.ToDecimal(txtMonto.Text);
+                }
+
+            txtSaldo.Text = (MontoPagar - Monto).ToString();
+            }
+        }
+
+        private void CargaDatosVoucher()
+        {
+            cboBanco.SelectedValue = _objVoucher.Banco;
+            cboBancoTarjeta.SelectedValue = _objVoucher.BancoTarjeta;
+            txtTarjeta.Text = _objVoucher.NumeroTarjeta;
+            cboAfiliacion.SelectedIndex = cboAfiliacion.FindString(_objVoucher.Afiliacion);
+            cboTipoTarjeta.SelectedIndex = cboTipoTarjeta.FindString(_objVoucher.TipoTarjeta);
+            dtpFecha.Value = _objVoucher.Fecha;
+            txtAutorizacion.Text = _objVoucher.Autorizacion;
+            txtConfirmaAutorizacion.Text = _objVoucher.Autorizacion;
+            txtMonto.Text = _objVoucher.Monto.ToString();
+            txtSaldo.Text = _objVoucher.Saldo.ToString();
+            //_PedidoReferencia = _objVoucher.PedidoReferencia;
+            _folio = _objVoucher.Folio;
+
+
+            cboBanco.Enabled = false;
+            cboBancoTarjeta.Enabled = false;
+            cboAfiliacion.Enabled= false;
+            cboTipoTarjeta.Enabled = false;
+            dtpFecha.Enabled = false;
+            txtAutorizacion.Enabled = false;
+            txtConfirmaAutorizacion.Enabled = false;
+            txtMonto.Enabled = false;
+            txtSaldo.Enabled = false;
+            calculaSaldo();
+        }
+
+        private void frmVoucher_Shown(object sender, EventArgs e)
+        {
+            if (_EsAlta)
+            {
+                frmMuestraCargosTarjeta frmVentana = new frmMuestraCargosTarjeta();
+                int resultado = frmVentana.buscaCargos(_Cliente, _listaVoucher);
+
+                if (resultado > 0)
+                {
+                    if (MessageBox.Show("El cliente tiene registros capturados por el Área de Tarjeta, ¿desea utilizarlos?", "Servicios Tecnicos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        if (resultado > 1)
+                        {
+                            frmVentana.ShowDialog();
+                        }
+
+                        if (frmVentana.Seleccionado)
+                        {
+                            _objVoucher = frmVentana.Voucher;
+                            CargaDatosVoucher();
+                        }
+                    }
+                }
+
+                frmVentana.Dispose();
+            } 
+            else
+            {
+                CargaDatosVoucher();
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cboBanco_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CargarComboAfiliacion();
+        }
+
+        private void tsbCancelar_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            this.Close();
+        }
     }
+
+   
 }
