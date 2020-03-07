@@ -9373,6 +9373,7 @@ Public Structure sVoucher
     Private _NumeroTarjeta As String
     Private _TipoTarjeta As String
     Private _PedidoReferencia As String
+    Private _TipoCobro As Byte
 
     Public Property No As Integer
         Get
@@ -9524,6 +9525,15 @@ Public Structure sVoucher
         End Get
         Set(value As String)
             _PedidoReferencia = value
+        End Set
+    End Property
+
+    Public Property TipoCobro As Byte
+        Get
+            Return _TipoCobro
+        End Get
+        Set(value As Byte)
+            _TipoCobro = value
         End Set
     End Property
 End Structure

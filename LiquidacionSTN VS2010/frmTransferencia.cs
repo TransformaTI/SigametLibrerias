@@ -238,6 +238,8 @@ namespace LiquidacionSTN
                 cboBancoDestino.CargaDatos(CargaBancoCero: false);
                 CargarCuentasDestino();
                 tsbCancelar.Image = imageList1.Images[1];
+                txtSaldo.Text = _MontoPagar.ToString();
+
 
                 tsbAceptar.Enabled = _EsAlta;
                 tsbCancelar.Enabled = !_EsAlta;
@@ -401,6 +403,16 @@ namespace LiquidacionSTN
             {
                 decimal.TryParse(txtMonto.Text, out _Monto);
                 CalcularSaldo();
+                if (Convert.ToDecimal(txtSaldo.Text) < 0)
+                {
+                    if (MessageBox.Show("El monto capturado genera saldo a favor, ¿está seguro de continuar?", "Servicios Tecnicos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    {
+                        txtMonto.Text = "0";
+                        txtSaldo.Text = _MontoPagar.ToString();
+                        txtMonto.Focus();
+                    }
+
+                }
             }
             catch (Exception ex)
             {

@@ -322,6 +322,7 @@ namespace LiquidacionSTN
             this.txtSaldo.BackColor = System.Drawing.SystemColors.Control;
             this.txtSaldo.Location = new System.Drawing.Point(107, 262);
             this.txtSaldo.Name = "txtSaldo";
+            this.txtSaldo.ReadOnly = true;
             this.txtSaldo.Size = new System.Drawing.Size(136, 20);
             this.txtSaldo.TabIndex = 5;
             this.txtSaldo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -679,20 +680,40 @@ namespace LiquidacionSTN
 
         private void txtMonto_Leave(object sender, EventArgs e)
         {
-            if (_EsAlta)
+
+            try
             {
-                decimal Monto;
-
-                if (txtMonto.Text == "")
+                if (_EsAlta)
                 {
-                    Monto = 0;
-                }
-                else
+                    decimal Monto;
+
+                    if (txtMonto.Text == "")
+                    {
+                        Monto = 0;
+                    }
+                    else
+                    {
+                        Monto = Convert.ToDecimal(txtMonto.Text);
+                    }
+                    txtSaldo.Text = (_MontoPagar - Monto).ToString();
+                }                
+
+                if (Convert.ToDecimal(txtSaldo.Text) < 0)
                 {
-                    Monto = Convert.ToDecimal(txtMonto.Text);
+                    if (MessageBox.Show("El monto capturado genera saldo a favor, ¿está seguro de continuar?", "Servicios Tecnicos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    {
+                        txtMonto.Text = "0";
+                        txtSaldo.Text = _MontoPagar.ToString();
+                        txtMonto.Focus();
+                    }
+
                 }
 
-                txtSaldo.Text = (_MontoPagar - Monto).ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Se produjo el siguiente error: " + Environment.NewLine + ex.Message, this.Text,
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
 

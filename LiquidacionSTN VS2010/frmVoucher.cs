@@ -23,9 +23,10 @@ namespace LiquidacionSTN
         private short _BancoAfiliacion;
         private byte _TipoTarjeta;
         private string _numeroTarjeta;
-        private int _BancoTarjeta;
         private String _NombreBanco;
         private decimal _MontoPagar;
+        private string _Autorizacion;
+        private short _BancoTarjeta;
 
         int _Pedido;
         byte _Celula;
@@ -75,31 +76,31 @@ namespace LiquidacionSTN
         private ImageList imageList1;
         private SigaMetClasses.sVoucher _objVoucher = new sVoucher();
 
-        public string NumeroTarjeta
-        {
-            get
-            {
-                return _numeroTarjeta;
-            }
+        //public string NumeroTarjeta
+        //{
+        //    get
+        //    {
+        //        return _numeroTarjeta;
+        //    }
 
-            set
-            {
-                _numeroTarjeta = value;
-            }
-        }
+        //    set
+        //    {
+        //        _numeroTarjeta = value;
+        //    }
+        //}
 
-        public int BancoTarjeta
-        {
-            get
-            {
-                return _BancoTarjeta;
-            }
+        //public int BancoTarjeta
+        //{
+        //    get
+        //    {
+        //        return _BancoTarjeta;
+        //    }
 
-            set
-            {
-                _BancoTarjeta = value;
-            }
-        }
+        //    set
+        //    {
+        //        _BancoTarjeta = value;
+        //    }
+        //}
 
         public List<sVoucher> ListaVoucher { get => _listaVoucher; set => _listaVoucher = value; }
         public sVoucher objVoucher { get => _objVoucher; set => _objVoucher = value; }
@@ -216,7 +217,7 @@ namespace LiquidacionSTN
             this.dtpFecha.Location = new System.Drawing.Point(119, 177);
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(115, 20);
-            this.dtpFecha.TabIndex = 3;
+            this.dtpFecha.TabIndex = 4;
             // 
             // txtCliente
             // 
@@ -335,9 +336,8 @@ namespace LiquidacionSTN
             this.txtTarjeta.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTarjeta.Location = new System.Drawing.Point(119, 273);
             this.txtTarjeta.Name = "txtTarjeta";
-            this.txtTarjeta.ReadOnly = true;
             this.txtTarjeta.Size = new System.Drawing.Size(115, 20);
-            this.txtTarjeta.TabIndex = 26;
+            this.txtTarjeta.TabIndex = 7;
             this.txtTarjeta.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtTarjeta.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -347,7 +347,8 @@ namespace LiquidacionSTN
             this.cboBancoTarjeta.Location = new System.Drawing.Point(119, 305);
             this.cboBancoTarjeta.Name = "cboBancoTarjeta";
             this.cboBancoTarjeta.Size = new System.Drawing.Size(115, 21);
-            this.cboBancoTarjeta.TabIndex = 23;
+            this.cboBancoTarjeta.TabIndex = 8;
+            this.cboBancoTarjeta.SelectedIndexChanged += new System.EventHandler(this.cboBancoTarjeta_SelectedIndexChanged);
             // 
             // label11
             // 
@@ -363,7 +364,7 @@ namespace LiquidacionSTN
             this.cboBanco.Location = new System.Drawing.Point(119, 78);
             this.cboBanco.Name = "cboBanco";
             this.cboBanco.Size = new System.Drawing.Size(115, 21);
-            this.cboBanco.TabIndex = 21;
+            this.cboBanco.TabIndex = 1;
             this.cboBanco.SelectedIndexChanged += new System.EventHandler(this.cboBanco_SelectedIndexChanged);
             // 
             // label10
@@ -382,14 +383,14 @@ namespace LiquidacionSTN
             this.txtSaldo.Name = "txtSaldo";
             this.txtSaldo.ReadOnly = true;
             this.txtSaldo.Size = new System.Drawing.Size(115, 20);
-            this.txtSaldo.TabIndex = 7;
+            this.txtSaldo.TabIndex = 10;
             // 
             // txtMonto
             // 
             this.txtMonto.Location = new System.Drawing.Point(119, 338);
             this.txtMonto.Name = "txtMonto";
             this.txtMonto.Size = new System.Drawing.Size(115, 20);
-            this.txtMonto.TabIndex = 6;
+            this.txtMonto.TabIndex = 9;
             this.txtMonto.Leave += new System.EventHandler(this.txtMonto_Leave);
             // 
             // txtConfirmaAutorizacion
@@ -397,7 +398,7 @@ namespace LiquidacionSTN
             this.txtConfirmaAutorizacion.Location = new System.Drawing.Point(119, 241);
             this.txtConfirmaAutorizacion.Name = "txtConfirmaAutorizacion";
             this.txtConfirmaAutorizacion.Size = new System.Drawing.Size(115, 20);
-            this.txtConfirmaAutorizacion.TabIndex = 5;
+            this.txtConfirmaAutorizacion.TabIndex = 6;
             // 
             // label9
             // 
@@ -412,7 +413,8 @@ namespace LiquidacionSTN
             this.txtAutorizacion.Location = new System.Drawing.Point(119, 209);
             this.txtAutorizacion.Name = "txtAutorizacion";
             this.txtAutorizacion.Size = new System.Drawing.Size(115, 20);
-            this.txtAutorizacion.TabIndex = 4;
+            this.txtAutorizacion.TabIndex = 5;
+            this.txtAutorizacion.Leave += new System.EventHandler(this.txtAutorizacion_Leave);
             // 
             // label8
             // 
@@ -429,7 +431,7 @@ namespace LiquidacionSTN
             this.cboTipoTarjeta.Location = new System.Drawing.Point(119, 144);
             this.cboTipoTarjeta.Name = "cboTipoTarjeta";
             this.cboTipoTarjeta.Size = new System.Drawing.Size(115, 21);
-            this.cboTipoTarjeta.TabIndex = 2;
+            this.cboTipoTarjeta.TabIndex = 3;
             this.cboTipoTarjeta.SelectedIndexChanged += new System.EventHandler(this.cboTipoTarjeta_SelectedIndexChanged);
             // 
             // label4
@@ -447,7 +449,7 @@ namespace LiquidacionSTN
             this.cboAfiliacion.Location = new System.Drawing.Point(119, 111);
             this.cboAfiliacion.Name = "cboAfiliacion";
             this.cboAfiliacion.Size = new System.Drawing.Size(115, 21);
-            this.cboAfiliacion.TabIndex = 1;
+            this.cboAfiliacion.TabIndex = 2;
             this.cboAfiliacion.SelectedIndexChanged += new System.EventHandler(this.cboAfiliacion_SelectedIndexChanged);
             // 
             // label2
@@ -635,10 +637,10 @@ namespace LiquidacionSTN
                                         _IDAfiliacion,
                                         _TipoTarjeta,
                                         dtpFecha.Value,
-                                        txtAutorizacion.Text.Trim(),
+                                        _Autorizacion,
                                         txtConfirmaAutorizacion.Text.Trim(),
                                         txtMonto.Text,
-                                        txtSaldo.Text)
+                                        txtSaldo.Text,_BancoAfiliacion, txtTarjeta.Text.Trim(), _BancoTarjeta )
                  && ValidarVoucher(     _NumAfiliacion, 
                                         _TipoTarjeta, 
                                         txtAutorizacion.Text.Trim()) )
@@ -672,7 +674,7 @@ namespace LiquidacionSTN
                 {
                     saldoTemp = 0;
                 }
-
+                
                 _objVoucher.No =0;
                 _objVoucher.Pedido = _Pedido;
                 _objVoucher.Celula = _Celula;
@@ -686,9 +688,11 @@ namespace LiquidacionSTN
                 _objVoucher.Saldo = saldoTemp;
                 _objVoucher.Afiliacion = _NumAfiliacion;
                 _objVoucher.Autorizacion = txtAutorizacion.Text;
+                _objVoucher.TipoTarjeta = cboTipoTarjeta.Text;
                 _objVoucher.BancoTarjeta = _BancoTarjeta;
                 _objVoucher.Folio = _folio;
                 _objVoucher.PedidoReferencia = _PedidoReferencia;
+                _objVoucher.TipoCobro = _TipoTarjeta;
                 ActualizarPedido();
                 this.DialogResult = DialogResult.OK;
 
@@ -823,30 +827,30 @@ namespace LiquidacionSTN
             }
         }
 
-        private void ConsultarBancoAfiliacion()
-        {
-            _BancoAfiliacion = 0;
+        //private void ConsultarBancoAfiliacion()
+        //{
+        //    _BancoAfiliacion = 0;
 
-            if (_IDAfiliacion == 0) { return; }
+        //    if (_IDAfiliacion == 0) { return; }
 
-            SqlCommand cmd = new SqlCommand("spSTBancoAfiliacion", LiquidacionSTN.Modulo.CnnSigamet);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@IDAfiliacion", SqlDbType.Int).Value = _IDAfiliacion;
+        //    SqlCommand cmd = new SqlCommand("spSTBancoAfiliacion", LiquidacionSTN.Modulo.CnnSigamet);
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    cmd.Parameters.Add("@IDAfiliacion", SqlDbType.Int).Value = _IDAfiliacion;
 
-            try
-            {
-                LiquidacionSTN.Modulo.CnnSigamet.Open();
-                _BancoAfiliacion = (short)cmd.ExecuteScalar();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error consultando banco afiliación:" + Environment.NewLine + ex.Message, ex.InnerException);
-            }
-            finally
-            {
-                LiquidacionSTN.Modulo.CnnSigamet.Close();
-            }
-        }
+        //    try
+        //    {
+        //        LiquidacionSTN.Modulo.CnnSigamet.Open();
+        //        _BancoAfiliacion = (short)cmd.ExecuteScalar();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error consultando banco afiliación:" + Environment.NewLine + ex.Message, ex.InnerException);
+        //    }
+        //    finally
+        //    {
+        //        LiquidacionSTN.Modulo.CnnSigamet.Close();
+        //    }
+        //}
 
         private void cboAfiliacion_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -866,7 +870,7 @@ namespace LiquidacionSTN
             _NumAfiliacion = "";
             int.TryParse(cboAfiliacion.SelectedValue.ToString(), out _IDAfiliacion);
             _NumAfiliacion = cboAfiliacion.GetItemText(cboAfiliacion.SelectedItem);
-            ConsultarBancoAfiliacion();
+           // ConsultarBancoAfiliacion();
         }
 
         private void CargarComboTipoTarjeta()
@@ -915,7 +919,7 @@ namespace LiquidacionSTN
 
         private bool ValidarEntradaUsuario(int cliente, int afiliacion, byte tipoTarjeta, DateTime fecha, 
                                             string autorizacion, string confirmaAutorizacion, 
-                                            string monto, string saldo)
+                                            string monto, string saldo, int banco, string tarjeta, int bancoTarjeta)
         {
             bool entradaValida = false;
             StringBuilder mensaje = new StringBuilder();
@@ -924,6 +928,17 @@ namespace LiquidacionSTN
             {
                 mensaje.Append("Debe proporcionar un número de cliente válido." + Environment.NewLine);
             }
+
+            if (banco == 0)
+            {
+                mensaje.Append("Debe proporcionar un banco válido." + Environment.NewLine);
+            }
+
+            if (bancoTarjeta == 0)
+            {
+                mensaje.Append("Debe proporcionar un banco válido." + Environment.NewLine);
+            }
+
             if (afiliacion == 0)
             {
                 mensaje.Append("Debe proporcionar un número de afiliación válido." + Environment.NewLine);
@@ -931,6 +946,11 @@ namespace LiquidacionSTN
             if (tipoTarjeta == 0)
             {
                 mensaje.Append("Debe proporcionar un tipo de tarjeta válido." + Environment.NewLine);
+            }
+
+            if (tarjeta.Length == 0 )
+            {
+                mensaje.Append("Debe proporcionar un número de tarjeta." + Environment.NewLine);
             }
             if (!autorizacion.Equals(confirmaAutorizacion))
             {
@@ -1023,7 +1043,30 @@ namespace LiquidacionSTN
 
         private void txtMonto_Leave(object sender, EventArgs e)
         {
-            calculaSaldo();
+            try
+            {
+                calculaSaldo();
+
+                if (Convert.ToDecimal(txtSaldo.Text)<0) 
+                {
+                    if (MessageBox.Show("El monto capturado genera saldo a favor, ¿está seguro de continuar?", "Servicios Tecnicos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    {
+                        txtMonto.Text = "0";
+                        txtSaldo.Text = _MontoPagar.ToString();
+                        txtMonto.Focus();
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Se produjo el siguiente error: " + Environment.NewLine + ex.Message, this.Text,
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+
         }
 
         
@@ -1070,6 +1113,7 @@ namespace LiquidacionSTN
             txtSaldo.Text = _objVoucher.Saldo.ToString();
             //_PedidoReferencia = _objVoucher.PedidoReferencia;
             _folio = _objVoucher.Folio;
+            _Autorizacion = _objVoucher.Autorizacion;
 
 
             cboBanco.Enabled = false;
@@ -1129,12 +1173,32 @@ namespace LiquidacionSTN
         private void cboBanco_SelectedIndexChanged(object sender, EventArgs e)
         {
             CargarComboAfiliacion();
+            _BancoAfiliacion = 0;
+            short.TryParse(cboBanco.SelectedValue.ToString(), out _BancoAfiliacion);
         }
 
         private void tsbCancelar_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void txtAutorizacion_Leave(object sender, EventArgs e)
+        {
+
+            if (!txtAutorizacion.Text.Contains("*"))
+            {
+                _Autorizacion = txtAutorizacion.Text.Trim();
+                int i= _Autorizacion.Length;
+                txtAutorizacion.Text = new string('*', i);
+            }
+            
+        }
+
+        private void cboBancoTarjeta_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _BancoTarjeta = 0;
+            short.TryParse(cboBancoTarjeta.SelectedValue.ToString(), out _BancoTarjeta);
         }
     }
 
