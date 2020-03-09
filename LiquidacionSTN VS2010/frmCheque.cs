@@ -278,6 +278,7 @@ namespace LiquidacionSTN
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(16, 8);
             this.btnAceptar.TabIndex = 16;
+            this.btnAceptar.TabStop = false;
             this.btnAceptar.Visible = false;
             // 
             // btnleer
@@ -287,6 +288,7 @@ namespace LiquidacionSTN
             this.btnleer.Name = "btnleer";
             this.btnleer.Size = new System.Drawing.Size(16, 8);
             this.btnleer.TabIndex = 17;
+            this.btnleer.TabStop = false;
             this.btnleer.Visible = false;
             this.btnleer.Click += new System.EventHandler(this.btnleer_Click);
             // 
@@ -352,7 +354,7 @@ namespace LiquidacionSTN
             this.txtObservaciones.Multiline = true;
             this.txtObservaciones.Name = "txtObservaciones";
             this.txtObservaciones.Size = new System.Drawing.Size(242, 66);
-            this.txtObservaciones.TabIndex = 20;
+            this.txtObservaciones.TabIndex = 6;
             // 
             // label6
             // 

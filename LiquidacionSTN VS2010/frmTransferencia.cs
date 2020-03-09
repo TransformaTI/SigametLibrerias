@@ -84,8 +84,19 @@ namespace LiquidacionSTN
 
         private void Aceptar()
         {
+            decimal saldoTemp = 0;
+
+
             if (CamposValidos())
             {
+                saldoTemp=_Saldo;
+
+
+
+                if (saldoTemp > 0)
+                {
+                    saldoTemp = 0;
+                }
                 _objTransferencia = new sTransferencia
                 (
                     _Cliente,
@@ -94,7 +105,7 @@ namespace LiquidacionSTN
                     txtCuentaOrigen.Text.Trim(),
                     txtDocumento.Text.Trim(),
                     _Monto,
-                    _Saldo,
+                    saldoTemp,
                     txtObservaciones.Text.Trim(),
                     _BancoDestino,
                     _CuentaDestino,
@@ -403,7 +414,7 @@ namespace LiquidacionSTN
             {
                 decimal.TryParse(txtMonto.Text, out _Monto);
                 CalcularSaldo();
-                if (Convert.ToDecimal(txtSaldo.Text) < 0)
+                if (Convert.ToDecimal(txtSaldo.Text) < 0 && _EsAlta)   
                 {
                     if (MessageBox.Show("El monto capturado genera saldo a favor, ¿está seguro de continuar?", "Servicios Tecnicos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                     {

@@ -3358,14 +3358,14 @@ namespace LiquidacionSTN
                             Impuesto = chequeTemp.Total * ValorIva;
                             Importe = chequeTemp.Total - Impuesto;
 
-                            if (chequeTemp.Saldo> 0)
+                            SaldoPendiente = Math.Abs(chequeTemp.Saldo);
+
+                            if (SaldoPendiente > 0)
                             {
-                                SaldoPendiente = chequeTemp.Saldo;
                                 SaldoFavor = 1;
                             }
                             else
                             {
-                                SaldoPendiente = 0;
                                 SaldoFavor = 0;
                             }
 
@@ -3391,6 +3391,7 @@ namespace LiquidacionSTN
                             Comando.Parameters.Add("@Folio", SqlDbType.Int).Value = Convert.ToInt32(dr["Folio"]);
                             Comando.Parameters.Add("@Añoatt", SqlDbType.SmallInt).Value = Convert.ToInt16(dr["AñoAtt"]);
                             Comando.Parameters.Add("@FDeposito", SqlDbType.DateTime).Value = DateTime.Now;
+                            Comando.Parameters.Add("@Observaciones", SqlDbType.VarChar, 250).Value = chequeTemp.Observaciones;
                             Comando.ExecuteNonQuery();
                         }
 
@@ -3401,15 +3402,15 @@ namespace LiquidacionSTN
                             Impuesto = voucherTemp.Monto * ValorIva;
                             Importe = voucherTemp.Monto - Impuesto;
 
-                            if (voucherTemp.Saldo < 0)
-                            {
-                                SaldoPendiente = voucherTemp.Saldo;
+                            SaldoPendiente = Math.Abs(voucherTemp.Saldo);
+
+                            if (voucherTemp.Saldo > 0)
+                            {                                
                                 SaldoFavor = 1;
                                 TPV = 1;
                             }
                             else
                             {
-                                SaldoPendiente = 0;
                                 SaldoFavor = 0;
                                 TPV = 0;
                             }
@@ -3437,6 +3438,7 @@ namespace LiquidacionSTN
                             Comando.Parameters.Add("@Referencia", SqlDbType.Char, 20).Value = voucherTemp.Afiliacion;
                             Comando.Parameters.Add("@FDeposito", SqlDbType.DateTime).Value = DateTime.Now;
                             Comando.Parameters.Add("@TPV", SqlDbType.TinyInt).Value = TPV;
+                            Comando.Parameters.Add("@FolioTarjeta", SqlDbType.Int).Value = voucherTemp.Folio;
                             Comando.ExecuteNonQuery();
                         }
 
@@ -3447,14 +3449,14 @@ namespace LiquidacionSTN
                             Impuesto = transferenciaTemp.Monto* ValorIva;
                             Importe = transferenciaTemp.Monto - Impuesto;
 
-                            if (transferenciaTemp.Saldo < 0)
+                            SaldoPendiente = Math.Abs(transferenciaTemp.Saldo);
+
+                            if (SaldoPendiente > 0)
                             {
-                                SaldoPendiente = transferenciaTemp.Saldo;
                                 SaldoFavor = 1;
                             }
                             else
                             {
-                                SaldoPendiente = 0;
                                 SaldoFavor = 0;
                             }
 
@@ -3480,7 +3482,8 @@ namespace LiquidacionSTN
                             Comando.Parameters.Add("@Folio", SqlDbType.Int).Value = Convert.ToInt32(dr["Folio"]);
                             Comando.Parameters.Add("@Añoatt", SqlDbType.SmallInt).Value = Convert.ToInt16(dr["AñoAtt"]);
                             Comando.Parameters.Add("@BancoOrigen", SqlDbType.SmallInt).Value = transferenciaTemp.BancoOrigen;
-                            Comando.Parameters.Add("@FDeposito", SqlDbType.DateTime).Value = DateTime.Now;                            
+                            Comando.Parameters.Add("@FDeposito", SqlDbType.DateTime).Value = DateTime.Now;
+                            Comando.Parameters.Add("@Observaciones", SqlDbType.VarChar, 250).Value = transferenciaTemp.Observaciones;
                             Comando.ExecuteNonQuery();
                         }
 
@@ -3954,7 +3957,9 @@ namespace LiquidacionSTN
                                 CerrarOrden = new LiquidacionSTN.frmCerrarOrden(_PedidoReferencia, _Usuario);
                             }
                         }
-                       
+
+                        CerrarOrden.TotalFaltaPorCobrar = _SaldoPed;
+                        CerrarOrden.TotalPedido = _TotalPed;
                         CerrarOrden.ShowDialog();
                         //LlenaGridFinal();
                         TotalGeneral();

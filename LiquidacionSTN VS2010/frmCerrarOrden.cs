@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Data;
 using LiquidacionSTN;
 using Microsoft.VisualBasic;
+using System.Globalization;
 
 namespace LiquidacionSTN
 {
@@ -56,7 +57,11 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.ComboBox CboTipoPedido;
         private Button btnModificar;
         private CheckBox chkNoSuministrar;
-		private System.ComponentModel.IContainer components;
+        private Label label10;
+        private Label label12;
+        private Label lblFaltaPorCobrar;
+        private Label lblTotalCobrado;
+        private System.ComponentModel.IContainer components;
 
         public frmCerrarOrden(string PedidoReferencia,
                                 string Usuario,
@@ -120,6 +125,14 @@ namespace LiquidacionSTN
         bool _HabilitarPresupuesto;
         // Variable para deshabilitar el botón Modificar -- RM 03/01/2019
         bool _HabilitarModificar;
+        private decimal _TotalPedido=0;
+        private decimal _TotalFaltaPorCobrar=0;
+
+
+        public decimal TotalFaltaPorCobrar { get => _TotalFaltaPorCobrar; set => _TotalFaltaPorCobrar = value; }
+        public decimal TotalPedido { get => _TotalPedido; set => _TotalPedido = value; }
+
+
 
 
         #region Windows Form Designer generated code
@@ -171,6 +184,10 @@ namespace LiquidacionSTN
             this.CboTipoPedido = new System.Windows.Forms.ComboBox();
             this.btnModificar = new System.Windows.Forms.Button();
             this.chkNoSuministrar = new System.Windows.Forms.CheckBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.lblFaltaPorCobrar = new System.Windows.Forms.Label();
+            this.lblTotalCobrado = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // toolBar1
@@ -480,6 +497,7 @@ namespace LiquidacionSTN
             this.colNumero,
             this.colEquipo,
             this.colTipo});
+            this.lvwEquipo.HideSelection = false;
             this.lvwEquipo.Location = new System.Drawing.Point(0, 392);
             this.lvwEquipo.Name = "lvwEquipo";
             this.lvwEquipo.Size = new System.Drawing.Size(368, 80);
@@ -545,11 +563,51 @@ namespace LiquidacionSTN
             this.chkNoSuministrar.Text = "No suministrar";
             this.chkNoSuministrar.UseVisualStyleBackColor = true;
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(187, 475);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(76, 13);
+            this.label10.TabIndex = 34;
+            this.label10.Text = "Total cobrado:";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(187, 497);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(84, 13);
+            this.label12.TabIndex = 35;
+            this.label12.Text = "Falta por cobrar:";
+            // 
+            // lblFaltaPorCobrar
+            // 
+            this.lblFaltaPorCobrar.Location = new System.Drawing.Point(286, 497);
+            this.lblFaltaPorCobrar.Name = "lblFaltaPorCobrar";
+            this.lblFaltaPorCobrar.Size = new System.Drawing.Size(85, 13);
+            this.lblFaltaPorCobrar.TabIndex = 37;
+            this.lblFaltaPorCobrar.Text = "1,000.00";
+            this.lblFaltaPorCobrar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblTotalCobrado
+            // 
+            this.lblTotalCobrado.Location = new System.Drawing.Point(286, 475);
+            this.lblTotalCobrado.Name = "lblTotalCobrado";
+            this.lblTotalCobrado.Size = new System.Drawing.Size(85, 13);
+            this.lblTotalCobrado.TabIndex = 36;
+            this.lblTotalCobrado.Text = "0.00";
+            this.lblTotalCobrado.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // frmCerrarOrden
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.BackColor = System.Drawing.Color.YellowGreen;
-            this.ClientSize = new System.Drawing.Size(464, 475);
+            this.ClientSize = new System.Drawing.Size(464, 516);
+            this.Controls.Add(this.lblFaltaPorCobrar);
+            this.Controls.Add(this.lblTotalCobrado);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.chkNoSuministrar);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.CboTipoPedido);
@@ -646,7 +704,7 @@ namespace LiquidacionSTN
 
 			try
 			{
-				string Query = "select TipoCobro,Descripcion from tipocobro where TipoCobro in (5,6,7,8)";
+				string Query = "select TipoCobro,Descripcion from tipocobro where TipoCobro in (5,6,7,8,10,19,22)";
 				SqlDataAdapter daTipoCobro = new SqlDataAdapter ();
 				DataTable dtTipoCobro;
                 DataRow drRow;
@@ -816,20 +874,32 @@ namespace LiquidacionSTN
 		}
 
 
-		private void frmCerrarOrden_Load(object sender, System.EventArgs e)
-		{
-			LiquidacionSTN.Modulo.CnnSigamet.Close ();
-			lblPedidoReferencia.Text = _PedidoReferencia;
-			//LlenaComboTipoPedido ();
-			LlenaCombos ();
-			LlenaDatos();
-			LlenaEquipo ();
+        private void frmCerrarOrden_Load(object sender, System.EventArgs e)
+        {
+
+            decimal totalCobrado;
+            LiquidacionSTN.Modulo.CnnSigamet.Close();
+            lblPedidoReferencia.Text = _PedidoReferencia;
+            //LlenaComboTipoPedido ();
+            LlenaCombos();
+            LlenaDatos();
+            LlenaEquipo();
             //SigaMetClasses.cConfig oConfig = new SigaMetClasses.cConfig(11);
-            SigaMetClasses.cConfig oConfig = new SigaMetClasses.cConfig(11,Modulo.GLOBAL_Corporativo,Modulo.GLOBAL_Sucursal);
-            txtServicioRealizado.ReadOnly = Convert.ToBoolean(Convert.ToByte(oConfig.Parametros["ModificarObsLiqST"]));                                    
+            SigaMetClasses.cConfig oConfig = new SigaMetClasses.cConfig(11, Modulo.GLOBAL_Corporativo, Modulo.GLOBAL_Sucursal);
+            txtServicioRealizado.ReadOnly = Convert.ToBoolean(Convert.ToByte(oConfig.Parametros["ModificarObsLiqST"]));
             ConsultaPuedeSuministrar();
             ConmutarBotonPresupuesto();
             ConmutarBotonModificar();
+            
+            if (_TotalFaltaPorCobrar < 0)
+            {
+                _TotalFaltaPorCobrar = 0;
+            }
+
+            totalCobrado = _TotalPedido - _TotalFaltaPorCobrar;
+
+            lblTotalCobrado.Text = totalCobrado.ToString("C", CultureInfo.CurrentCulture);
+            lblFaltaPorCobrar.Text = _TotalFaltaPorCobrar.ToString("C", CultureInfo.CurrentCulture);
         }
 
         private void ConmutarBotonPresupuesto()
@@ -1072,10 +1142,10 @@ namespace LiquidacionSTN
                             }
                             else
                             {
-                                if (Convert.ToInt32(drM["TipoCobro"]) != 10)
-                                {
+                                //if (Convert.ToInt32(drM["TipoCobro"]) != 10)
+                                //{
                                     drM["TipoCobro"] = (cboTipoCobro.SelectedValue != null ? cboTipoCobro.SelectedValue : 0);
-                                }
+                                //}
                                 
                             }
 							     
@@ -1107,7 +1177,9 @@ namespace LiquidacionSTN
 			{
 				decimal Total;
 				FormaPago = Convert.ToInt32 (CboTipoPedido.SelectedValue);
-				Total = Convert.ToDecimal (txtTotal.Text); 
+				Total = Convert.ToDecimal (txtTotal.Text);
+
+                cboTipoCobro.Enabled = _FormaPago != 10;
 				if (Lleno == 1)
 				{
 					_FormaPago = Convert.ToInt32 (CboTipoPedido.SelectedValue);
@@ -1221,7 +1293,7 @@ namespace LiquidacionSTN
 			{
 				int _TipoCobro;
 				_TipoCobro = Convert.ToInt32(this.cboTipoCobro.SelectedValue) ;
-				if (_TipoCobro == 6)
+				if (_TipoCobro == 6 || _TipoCobro ==9 ||_TipoCobro == 22)
 				{
 					ValidaTarjeta();
 					if (_ClienteTarjeta > 0)
