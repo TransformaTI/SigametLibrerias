@@ -62,7 +62,6 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.Label lblTrabajoSolicitado;
 		private System.Windows.Forms.Label lblAyudante;
 		private System.Windows.Forms.Label lblTecnico;
-		private System.Windows.Forms.DataGrid grdCheque;
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Label label13;
@@ -82,7 +81,6 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.Label lblTotalContados;
 		private System.Windows.Forms.Label lblTotalCreditos;
 		private System.Windows.Forms.ToolBarButton tbbReporte;
-		private System.Windows.Forms.DataGrid grdTarjerta;
 		private System.Windows.Forms.ToolBarButton tbbVoucher;
 		private System.Windows.Forms.DataGridTableStyle dataGridTableStyle1;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTtBCCliente;
@@ -93,7 +91,8 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCFAtencion;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCFCompromiso;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCTotal;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTBCStatus;
+        private System.Windows.Forms.DataGridTextBoxColumn dGTBCSaldo;
+        private System.Windows.Forms.DataGridTextBoxColumn dGTBCStatus;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCStatusServicioTecnico;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCTipoCobroDescripcion;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCAutotanque;
@@ -138,67 +137,94 @@ namespace LiquidacionSTN
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCFolio;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCAñoAtt;
 		private System.Windows.Forms.DataGridTextBoxColumn dGTBCTipoServicio;
-		private System.Windows.Forms.DataGridTableStyle dataGridTableStyle2;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCCliente;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCRutaCliente;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCPedidoReferencia;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCTipoPedidoDescripcion;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCTipoServicioDescripcion;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCFAtencion;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCFCompromiso;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCTotal;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCStatus;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCStatusServicioTecnico;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCTipoCobroDescripcion;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCAutotanque;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCPedido;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCCelula;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCAñoPed;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCNombre;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCEmpresa;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCTrabajoSolicitado;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCChofer;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCAyudante;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCCalle;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCColonia;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCNumInterior;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCNumExterior;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCMunicipio;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCCP;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCAñoFolioPresupuesto;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCFolioPresupuesto;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCStatusPresupuesto;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCObservacionesPresupuesto;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCDescuentoPresupuesto;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCSubTotalPresupuesto;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCTotalPresupuesto;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCCostoServicioTecnico;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCObservacionesServicioRealizado;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCTipoPedido;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCNumeroPagos;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCFrecuenciaPagos;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCCreditoServicioTecnico;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCTipoCobro;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCPagosDe;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCImporteLetra;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCBancoCheque;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCFAltaCheque;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCFCheque;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCNumCuentaCheque;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCSaldoCheque;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCNumeroCheque;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCTotalCheque;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCTipoCobroCheque;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCFolio;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCAñoAtt;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCTipoServicio;
-		private System.Windows.Forms.DataGridTextBoxColumn dGTCBancoNombre;
 		private System.Windows.Forms.ToolBarButton tbbPedidos;
 		private System.Windows.Forms.Label lblTotalALiquidar;
         private ToolBarButton tbbTransferencia;
         private DataGridView grdTransferencias;
         private Panel pnlTransferencias;
         private Label label6;
+        private DataGridTextBoxColumn dGTCBancoNombre;
+        private DataGridTextBoxColumn dGTCTipoServicio;
+        private DataGridTextBoxColumn dGTCAñoAtt;
+        private DataGridTextBoxColumn dGTCFolio;
+        private DataGridTextBoxColumn dGTCTipoCobroCheque;
+        private DataGridTextBoxColumn dGTCTotalCheque;
+        private DataGridTextBoxColumn dGTCNumeroCheque;
+        private DataGridTextBoxColumn dGTCSaldoCheque;
+        private DataGridTextBoxColumn dGTCNumCuentaCheque;
+        private DataGridTextBoxColumn dGTCFCheque;
+        private DataGridTextBoxColumn dGTCFAltaCheque;
+        private DataGridTextBoxColumn dGTCBancoCheque;
+        private DataGridTextBoxColumn dGTCImporteLetra;
+        private DataGridTextBoxColumn dGTCPagosDe;
+        private DataGridTextBoxColumn dGTCTipoCobro;
+        private DataGridTextBoxColumn dGTCCreditoServicioTecnico;
+        private DataGridTextBoxColumn dGTCFrecuenciaPagos;
+        private DataGridTextBoxColumn dGTCNumeroPagos;
+        private DataGridTextBoxColumn dGTCTipoPedido;
+        private DataGridTextBoxColumn dGTCObservacionesServicioRealizado;
+        private DataGridTextBoxColumn dGTCCostoServicioTecnico;
+        private DataGridTextBoxColumn dGTCTotalPresupuesto;
+        private DataGridTextBoxColumn dGTCSubTotalPresupuesto;
+        private DataGridTextBoxColumn dGTCDescuentoPresupuesto;
+        private DataGridTextBoxColumn dGTCObservacionesPresupuesto;
+        private DataGridTextBoxColumn dGTCStatusPresupuesto;
+        private DataGridTextBoxColumn dGTCFolioPresupuesto;
+        private DataGridTextBoxColumn dGTCAñoFolioPresupuesto;
+        private DataGridTextBoxColumn dGTCCP;
+        private DataGridTextBoxColumn dGTCMunicipio;
+        private DataGridTextBoxColumn dGTCNumExterior;
+        private DataGridTextBoxColumn dGTCNumInterior;
+        private DataGridTextBoxColumn dGTCColonia;
+        private DataGridTextBoxColumn dGTCCalle;
+        private DataGridTextBoxColumn dGTCAyudante;
+        private DataGridTextBoxColumn dGTCChofer;
+        private DataGridTextBoxColumn dGTCTrabajoSolicitado;
+        private DataGridTextBoxColumn dGTCEmpresa;
+        private DataGridTextBoxColumn dGTCNombre;
+        private DataGridTextBoxColumn dGTCAñoPed;
+        private DataGridTextBoxColumn dGTCCelula;
+        private DataGridTextBoxColumn dGTCPedido;
+        private DataGridTextBoxColumn dGTCAutotanque;
+        private DataGridTextBoxColumn dGTCTipoCobroDescripcion;
+        private DataGridTextBoxColumn dGTCStatusServicioTecnico;
+        private DataGridTextBoxColumn dGTCStatus;
+        private DataGridTextBoxColumn dGTCTotal;
+        private DataGridTextBoxColumn dGTCFCompromiso;
+        private DataGridTextBoxColumn dGTCFAtencion;
+        private DataGridTextBoxColumn dGTCTipoServicioDescripcion;
+        private DataGridTextBoxColumn dGTCTipoPedidoDescripcion;
+        private DataGridTextBoxColumn dGTCPedidoReferencia;
+        private DataGridTextBoxColumn dGTCRutaCliente;
+        private DataGridTextBoxColumn dGTCCliente;
+        private Panel panel1;
+        private Label label11;
+        private DataGridView grdCheque;
+        private Panel panel2;
+        private Label label27;
+        private DataGridView grdVouchers;
+        private DataGridViewTextBoxColumn colNo;
+        private DataGridViewTextBoxColumn ColPedido;
+        private DataGridViewTextBoxColumn ColNumCuenta;
+        private DataGridViewTextBoxColumn Saldo;
+        private DataGridViewTextBoxColumn NumCheque;
+        private DataGridViewTextBoxColumn Total;
+        private DataGridViewTextBoxColumn Banco;
+        private DataGridViewTextBoxColumn colNo1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn colCelula;
+        private DataGridViewTextBoxColumn colAñoPed;
+        private DataGridViewTextBoxColumn colCliente1;
+        private DataGridViewTextBoxColumn colBanco;
+        private DataGridViewTextBoxColumn colFecha1;
+        private DataGridViewTextBoxColumn colFolio;
+        private DataGridViewTextBoxColumn colMonto1;
+        private DataGridViewTextBoxColumn colAutotanque;
+        private DataGridViewTextBoxColumn colSaldo1;
+        private DataGridViewTextBoxColumn colAfiliacion;
+        private DataGridViewTextBoxColumn colAutorizacion;
+        private DataGridViewTextBoxColumn colBancoTarjeta;
+        private DataGridViewTextBoxColumn colNo2;
         private DataGridViewTextBoxColumn colCliente;
         private DataGridViewTextBoxColumn colFecha;
         private DataGridViewTextBoxColumn colDocumento;
@@ -290,10 +316,12 @@ namespace LiquidacionSTN
 
         // 24/10/2018 RM. Variable para guardar las transferencias que se mostraran en el grid grdTransferencias
         private List<SigaMetClasses.sTransferencia> _Transferencias = new List<SigaMetClasses.sTransferencia>();
+        private List<SigaMetClasses.sCheque> _Cheques = new List<SigaMetClasses.sCheque>();
+        private List<SigaMetClasses.sVoucher> _Vouchers = new List<SigaMetClasses.sVoucher>();
 
-		//public SqlConnection cnnSigamet = new SqlConnection(SigaMetClasses.Main.LeeInfoConexion(false,false,"LiquidacionST"));
-		
-		int _Folio;
+        //public SqlConnection cnnSigamet = new SqlConnection(SigaMetClasses.Main.LeeInfoConexion(false,false,"LiquidacionST"));
+
+        int _Folio;
 		int _AñoAtt;
 
 		int _FolioReporte;
@@ -310,8 +338,11 @@ namespace LiquidacionSTN
 		int _AñoPed;
 		int _TipoCobro;
 		string CnSigamet;
-        
-		int FolioL;
+        decimal _TotalPed;
+        decimal _SaldoPed;
+        int _GridSeleccionado;
+
+        int FolioL;
 		int AñoAttL;
 
         // Variables para la conexión al servicio web de GM
@@ -334,8 +365,12 @@ namespace LiquidacionSTN
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLiquidacionST));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolBar1 = new System.Windows.Forms.ToolBar();
             this.ttbAceptar = new System.Windows.Forms.ToolBarButton();
             this.tbbCerrarOrden = new System.Windows.Forms.ToolBarButton();
@@ -383,62 +418,6 @@ namespace LiquidacionSTN
             this.label22 = new System.Windows.Forms.Label();
             this.lblTrabajoSolicitado = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
-            this.grdCheque = new System.Windows.Forms.DataGrid();
-            this.dataGridTableStyle2 = new System.Windows.Forms.DataGridTableStyle();
-            this.dGTCCliente = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCRutaCliente = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCPedidoReferencia = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCTipoPedidoDescripcion = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCTipoServicioDescripcion = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCFAtencion = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCFCompromiso = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCTotal = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCStatus = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCStatusServicioTecnico = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCTipoCobroDescripcion = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCAutotanque = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCPedido = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCCelula = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCAñoPed = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCNombre = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCEmpresa = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCTrabajoSolicitado = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCChofer = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCAyudante = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCCalle = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCColonia = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCNumInterior = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCNumExterior = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCMunicipio = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCCP = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCAñoFolioPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCFolioPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCStatusPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCObservacionesPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCDescuentoPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCSubTotalPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCTotalPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCCostoServicioTecnico = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCObservacionesServicioRealizado = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCTipoPedido = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCNumeroPagos = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCFrecuenciaPagos = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCCreditoServicioTecnico = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCTipoCobro = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCPagosDe = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCImporteLetra = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCBancoCheque = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCFAltaCheque = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCFCheque = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCNumCuentaCheque = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCSaldoCheque = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCNumeroCheque = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCTotalCheque = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCTipoCobroCheque = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCFolio = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCAñoAtt = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCTipoServicio = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dGTCBancoNombre = new System.Windows.Forms.DataGridTextBoxColumn();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtKilometrajeFinal = new System.Windows.Forms.TextBox();
             this.txtKilometrajeInicial = new System.Windows.Forms.TextBox();
@@ -464,6 +443,7 @@ namespace LiquidacionSTN
             this.dGTBCFAtencion = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCFCompromiso = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCTotal = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTBCSaldo = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCStatus = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCStatusServicioTecnico = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCTipoCobroDescripcion = new System.Windows.Forms.DataGridTextBoxColumn();
@@ -509,26 +489,109 @@ namespace LiquidacionSTN
             this.dGTBCFolio = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCAñoAtt = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dGTBCTipoServicio = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.grdTarjerta = new System.Windows.Forms.DataGrid();
             this.lblTotalALiquidar = new System.Windows.Forms.Label();
             this.grdTransferencias = new System.Windows.Forms.DataGridView();
+            this.pnlTransferencias = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.dGTCBancoNombre = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCTipoServicio = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCAñoAtt = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCFolio = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCTipoCobroCheque = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCTotalCheque = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCNumeroCheque = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCSaldoCheque = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCNumCuentaCheque = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCFCheque = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCFAltaCheque = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCBancoCheque = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCImporteLetra = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCPagosDe = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCTipoCobro = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCCreditoServicioTecnico = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCFrecuenciaPagos = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCNumeroPagos = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCTipoPedido = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCObservacionesServicioRealizado = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCCostoServicioTecnico = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCTotalPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCSubTotalPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCDescuentoPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCObservacionesPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCStatusPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCFolioPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCAñoFolioPresupuesto = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCCP = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCMunicipio = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCNumExterior = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCNumInterior = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCColonia = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCCalle = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCAyudante = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCChofer = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCTrabajoSolicitado = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCEmpresa = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCNombre = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCAñoPed = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCCelula = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCPedido = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCAutotanque = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCTipoCobroDescripcion = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCStatusServicioTecnico = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCStatus = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCTotal = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCFCompromiso = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCFAtencion = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCTipoServicioDescripcion = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCTipoPedidoDescripcion = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCPedidoReferencia = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCRutaCliente = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dGTCCliente = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
+            this.grdCheque = new System.Windows.Forms.DataGridView();
+            this.colNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColPedido = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColNumCuenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Saldo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NumCheque = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Banco = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label27 = new System.Windows.Forms.Label();
+            this.grdVouchers = new System.Windows.Forms.DataGridView();
+            this.colNo1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCelula = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAñoPed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCliente1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBanco = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFecha1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFolio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMonto1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAutotanque = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSaldo1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAfiliacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAutorizacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBancoTarjeta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colNo2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDocumento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMonto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSaldo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colObservaciones = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pnlTransferencias = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdCheque)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdLiquidacion)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grdTarjerta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdTransferencias)).BeginInit();
             this.pnlTransferencias.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdCheque)).BeginInit();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdVouchers)).BeginInit();
             this.SuspendLayout();
             // 
             // toolBar1
@@ -581,8 +644,8 @@ namespace LiquidacionSTN
             // 
             this.tbbCancelaCheque.ImageIndex = 3;
             this.tbbCancelaCheque.Name = "tbbCancelaCheque";
-            this.tbbCancelaCheque.Tag = "CancelarCheque";
-            this.tbbCancelaCheque.Text = "Cancelar Cheque";
+            this.tbbCancelaCheque.Tag = "Cancelar";
+            this.tbbCancelaCheque.Text = "Cancelar";
             // 
             // tbbVoucher
             // 
@@ -695,7 +758,7 @@ namespace LiquidacionSTN
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.lblCliente);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(10, 259);
+            this.groupBox1.Location = new System.Drawing.Point(10, 239);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(546, 259);
             this.groupBox1.TabIndex = 6;
@@ -899,7 +962,7 @@ namespace LiquidacionSTN
             this.label5.BackColor = System.Drawing.Color.YellowGreen;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label5.Location = new System.Drawing.Point(0, 228);
+            this.label5.Location = new System.Drawing.Point(0, 208);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(1162, 28);
             this.label5.TabIndex = 7;
@@ -915,7 +978,7 @@ namespace LiquidacionSTN
             this.groupBox2.Controls.Add(this.label22);
             this.groupBox2.Controls.Add(this.lblTrabajoSolicitado);
             this.groupBox2.Controls.Add(this.label24);
-            this.groupBox2.Location = new System.Drawing.Point(570, 259);
+            this.groupBox2.Location = new System.Drawing.Point(570, 239);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(582, 259);
             this.groupBox2.TabIndex = 8;
@@ -998,523 +1061,13 @@ namespace LiquidacionSTN
             this.label24.Text = "Trabajo Solicitado";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // grdCheque
-            // 
-            this.grdCheque.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.grdCheque.CaptionBackColor = System.Drawing.Color.YellowGreen;
-            this.grdCheque.CaptionForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.grdCheque.CaptionText = "Cheques Incluidos en la liquidación";
-            this.grdCheque.DataMember = "";
-            this.grdCheque.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.grdCheque.Location = new System.Drawing.Point(10, 518);
-            this.grdCheque.Name = "grdCheque";
-            this.grdCheque.ReadOnly = true;
-            this.grdCheque.Size = new System.Drawing.Size(546, 74);
-            this.grdCheque.TabIndex = 9;
-            this.grdCheque.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
-            this.dataGridTableStyle2});
-            // 
-            // dataGridTableStyle2
-            // 
-            this.dataGridTableStyle2.DataGrid = this.grdCheque;
-            this.dataGridTableStyle2.GridColumnStyles.AddRange(new System.Windows.Forms.DataGridColumnStyle[] {
-            this.dGTCCliente,
-            this.dGTCRutaCliente,
-            this.dGTCPedidoReferencia,
-            this.dGTCTipoPedidoDescripcion,
-            this.dGTCTipoServicioDescripcion,
-            this.dGTCFAtencion,
-            this.dGTCFCompromiso,
-            this.dGTCTotal,
-            this.dGTCStatus,
-            this.dGTCStatusServicioTecnico,
-            this.dGTCTipoCobroDescripcion,
-            this.dGTCAutotanque,
-            this.dGTCPedido,
-            this.dGTCCelula,
-            this.dGTCAñoPed,
-            this.dGTCNombre,
-            this.dGTCEmpresa,
-            this.dGTCTrabajoSolicitado,
-            this.dGTCChofer,
-            this.dGTCAyudante,
-            this.dGTCCalle,
-            this.dGTCColonia,
-            this.dGTCNumInterior,
-            this.dGTCNumExterior,
-            this.dGTCMunicipio,
-            this.dGTCCP,
-            this.dGTCAñoFolioPresupuesto,
-            this.dGTCFolioPresupuesto,
-            this.dGTCStatusPresupuesto,
-            this.dGTCObservacionesPresupuesto,
-            this.dGTCDescuentoPresupuesto,
-            this.dGTCSubTotalPresupuesto,
-            this.dGTCTotalPresupuesto,
-            this.dGTCCostoServicioTecnico,
-            this.dGTCObservacionesServicioRealizado,
-            this.dGTCTipoPedido,
-            this.dGTCNumeroPagos,
-            this.dGTCFrecuenciaPagos,
-            this.dGTCCreditoServicioTecnico,
-            this.dGTCTipoCobro,
-            this.dGTCPagosDe,
-            this.dGTCImporteLetra,
-            this.dGTCBancoCheque,
-            this.dGTCFAltaCheque,
-            this.dGTCFCheque,
-            this.dGTCNumCuentaCheque,
-            this.dGTCSaldoCheque,
-            this.dGTCNumeroCheque,
-            this.dGTCTotalCheque,
-            this.dGTCTipoCobroCheque,
-            this.dGTCFolio,
-            this.dGTCAñoAtt,
-            this.dGTCTipoServicio,
-            this.dGTCBancoNombre});
-            this.dataGridTableStyle2.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.dataGridTableStyle2.MappingName = "Liquidacion";
-            this.dataGridTableStyle2.SelectionBackColor = System.Drawing.Color.YellowGreen;
-            // 
-            // dGTCCliente
-            // 
-            this.dGTCCliente.Format = "";
-            this.dGTCCliente.FormatInfo = null;
-            this.dGTCCliente.HeaderText = "Cliente";
-            this.dGTCCliente.MappingName = "Cliente";
-            this.dGTCCliente.Width = 0;
-            // 
-            // dGTCRutaCliente
-            // 
-            this.dGTCRutaCliente.Format = "";
-            this.dGTCRutaCliente.FormatInfo = null;
-            this.dGTCRutaCliente.HeaderText = "RutaCliente";
-            this.dGTCRutaCliente.MappingName = "RutaCliente";
-            this.dGTCRutaCliente.Width = 0;
-            // 
-            // dGTCPedidoReferencia
-            // 
-            this.dGTCPedidoReferencia.Format = "";
-            this.dGTCPedidoReferencia.FormatInfo = null;
-            this.dGTCPedidoReferencia.HeaderText = "Pedido";
-            this.dGTCPedidoReferencia.MappingName = "PedidoReferencia";
-            this.dGTCPedidoReferencia.Width = 70;
-            // 
-            // dGTCTipoPedidoDescripcion
-            // 
-            this.dGTCTipoPedidoDescripcion.Format = "";
-            this.dGTCTipoPedidoDescripcion.FormatInfo = null;
-            this.dGTCTipoPedidoDescripcion.HeaderText = "TipoPedidoDescripcion";
-            this.dGTCTipoPedidoDescripcion.MappingName = "TipoPedidoDescripcion";
-            this.dGTCTipoPedidoDescripcion.Width = 0;
-            // 
-            // dGTCTipoServicioDescripcion
-            // 
-            this.dGTCTipoServicioDescripcion.Format = "";
-            this.dGTCTipoServicioDescripcion.FormatInfo = null;
-            this.dGTCTipoServicioDescripcion.HeaderText = "TipoServicioDescripcion";
-            this.dGTCTipoServicioDescripcion.MappingName = "TipoServicioDescripcion";
-            this.dGTCTipoServicioDescripcion.Width = 0;
-            // 
-            // dGTCFAtencion
-            // 
-            this.dGTCFAtencion.Format = "";
-            this.dGTCFAtencion.FormatInfo = null;
-            this.dGTCFAtencion.HeaderText = "FAtencion";
-            this.dGTCFAtencion.MappingName = "FAtencion";
-            this.dGTCFAtencion.Width = 0;
-            // 
-            // dGTCFCompromiso
-            // 
-            this.dGTCFCompromiso.Format = "";
-            this.dGTCFCompromiso.FormatInfo = null;
-            this.dGTCFCompromiso.HeaderText = "FCompromiso";
-            this.dGTCFCompromiso.MappingName = "FCompromiso";
-            this.dGTCFCompromiso.Width = 0;
-            // 
-            // dGTCTotal
-            // 
-            this.dGTCTotal.Format = "";
-            this.dGTCTotal.FormatInfo = null;
-            this.dGTCTotal.HeaderText = "Total";
-            this.dGTCTotal.MappingName = "Total";
-            this.dGTCTotal.Width = 0;
-            // 
-            // dGTCStatus
-            // 
-            this.dGTCStatus.Format = "";
-            this.dGTCStatus.FormatInfo = null;
-            this.dGTCStatus.HeaderText = "Status";
-            this.dGTCStatus.MappingName = "Status";
-            this.dGTCStatus.Width = 0;
-            // 
-            // dGTCStatusServicioTecnico
-            // 
-            this.dGTCStatusServicioTecnico.Format = "";
-            this.dGTCStatusServicioTecnico.FormatInfo = null;
-            this.dGTCStatusServicioTecnico.HeaderText = "StatusServicioTecnico";
-            this.dGTCStatusServicioTecnico.MappingName = "StatusServicioTecnico";
-            this.dGTCStatusServicioTecnico.Width = 0;
-            // 
-            // dGTCTipoCobroDescripcion
-            // 
-            this.dGTCTipoCobroDescripcion.Format = "";
-            this.dGTCTipoCobroDescripcion.FormatInfo = null;
-            this.dGTCTipoCobroDescripcion.HeaderText = "TipoCobroDescripcion";
-            this.dGTCTipoCobroDescripcion.MappingName = "TipoCobroDescripcion";
-            this.dGTCTipoCobroDescripcion.Width = 0;
-            // 
-            // dGTCAutotanque
-            // 
-            this.dGTCAutotanque.Format = "";
-            this.dGTCAutotanque.FormatInfo = null;
-            this.dGTCAutotanque.HeaderText = "Autotanque";
-            this.dGTCAutotanque.MappingName = "Autotanque";
-            this.dGTCAutotanque.Width = 0;
-            // 
-            // dGTCPedido
-            // 
-            this.dGTCPedido.Format = "";
-            this.dGTCPedido.FormatInfo = null;
-            this.dGTCPedido.HeaderText = "Pedido";
-            this.dGTCPedido.MappingName = "Pedido";
-            this.dGTCPedido.Width = 0;
-            // 
-            // dGTCCelula
-            // 
-            this.dGTCCelula.Format = "";
-            this.dGTCCelula.FormatInfo = null;
-            this.dGTCCelula.HeaderText = "Celula";
-            this.dGTCCelula.MappingName = "Celula";
-            this.dGTCCelula.Width = 0;
-            // 
-            // dGTCAñoPed
-            // 
-            this.dGTCAñoPed.Format = "";
-            this.dGTCAñoPed.FormatInfo = null;
-            this.dGTCAñoPed.HeaderText = "AñoPed";
-            this.dGTCAñoPed.MappingName = "AñoPed";
-            this.dGTCAñoPed.Width = 0;
-            // 
-            // dGTCNombre
-            // 
-            this.dGTCNombre.Format = "";
-            this.dGTCNombre.FormatInfo = null;
-            this.dGTCNombre.HeaderText = "Nombre";
-            this.dGTCNombre.MappingName = "Nombre";
-            this.dGTCNombre.Width = 0;
-            // 
-            // dGTCEmpresa
-            // 
-            this.dGTCEmpresa.Format = "";
-            this.dGTCEmpresa.FormatInfo = null;
-            this.dGTCEmpresa.HeaderText = "Empresa";
-            this.dGTCEmpresa.MappingName = "Empresa";
-            this.dGTCEmpresa.Width = 0;
-            // 
-            // dGTCTrabajoSolicitado
-            // 
-            this.dGTCTrabajoSolicitado.Format = "";
-            this.dGTCTrabajoSolicitado.FormatInfo = null;
-            this.dGTCTrabajoSolicitado.HeaderText = "TrabajoSolicitado";
-            this.dGTCTrabajoSolicitado.MappingName = "TrabajoSolicitado";
-            this.dGTCTrabajoSolicitado.Width = 0;
-            // 
-            // dGTCChofer
-            // 
-            this.dGTCChofer.Format = "";
-            this.dGTCChofer.FormatInfo = null;
-            this.dGTCChofer.HeaderText = "Chofer";
-            this.dGTCChofer.MappingName = "Chofer";
-            this.dGTCChofer.Width = 0;
-            // 
-            // dGTCAyudante
-            // 
-            this.dGTCAyudante.Format = "";
-            this.dGTCAyudante.FormatInfo = null;
-            this.dGTCAyudante.HeaderText = "Ayudante";
-            this.dGTCAyudante.MappingName = "Ayudante";
-            this.dGTCAyudante.Width = 0;
-            // 
-            // dGTCCalle
-            // 
-            this.dGTCCalle.Format = "";
-            this.dGTCCalle.FormatInfo = null;
-            this.dGTCCalle.HeaderText = "Calle";
-            this.dGTCCalle.MappingName = "Calle";
-            this.dGTCCalle.Width = 0;
-            // 
-            // dGTCColonia
-            // 
-            this.dGTCColonia.Format = "";
-            this.dGTCColonia.FormatInfo = null;
-            this.dGTCColonia.HeaderText = "Colonia";
-            this.dGTCColonia.MappingName = "Colonia";
-            this.dGTCColonia.Width = 0;
-            // 
-            // dGTCNumInterior
-            // 
-            this.dGTCNumInterior.Format = "";
-            this.dGTCNumInterior.FormatInfo = null;
-            this.dGTCNumInterior.HeaderText = "NumInterior";
-            this.dGTCNumInterior.MappingName = "NumInterior";
-            this.dGTCNumInterior.Width = 0;
-            // 
-            // dGTCNumExterior
-            // 
-            this.dGTCNumExterior.Format = "";
-            this.dGTCNumExterior.FormatInfo = null;
-            this.dGTCNumExterior.HeaderText = "NumExterior";
-            this.dGTCNumExterior.MappingName = "NumExterior";
-            this.dGTCNumExterior.Width = 0;
-            // 
-            // dGTCMunicipio
-            // 
-            this.dGTCMunicipio.Format = "";
-            this.dGTCMunicipio.FormatInfo = null;
-            this.dGTCMunicipio.HeaderText = "Municipio";
-            this.dGTCMunicipio.MappingName = "Municipio";
-            this.dGTCMunicipio.Width = 0;
-            // 
-            // dGTCCP
-            // 
-            this.dGTCCP.Format = "";
-            this.dGTCCP.FormatInfo = null;
-            this.dGTCCP.HeaderText = "CP";
-            this.dGTCCP.MappingName = "CP";
-            this.dGTCCP.Width = 0;
-            // 
-            // dGTCAñoFolioPresupuesto
-            // 
-            this.dGTCAñoFolioPresupuesto.Format = "";
-            this.dGTCAñoFolioPresupuesto.FormatInfo = null;
-            this.dGTCAñoFolioPresupuesto.HeaderText = "AñoFolioPresupuesto";
-            this.dGTCAñoFolioPresupuesto.MappingName = "AñoFolioPresupuesto";
-            this.dGTCAñoFolioPresupuesto.Width = 0;
-            // 
-            // dGTCFolioPresupuesto
-            // 
-            this.dGTCFolioPresupuesto.Format = "";
-            this.dGTCFolioPresupuesto.FormatInfo = null;
-            this.dGTCFolioPresupuesto.HeaderText = "FolioPresupuesto";
-            this.dGTCFolioPresupuesto.MappingName = "FolioPresupuesto";
-            this.dGTCFolioPresupuesto.Width = 0;
-            // 
-            // dGTCStatusPresupuesto
-            // 
-            this.dGTCStatusPresupuesto.Format = "";
-            this.dGTCStatusPresupuesto.FormatInfo = null;
-            this.dGTCStatusPresupuesto.HeaderText = "StatusPresupuesto";
-            this.dGTCStatusPresupuesto.MappingName = "StatusPresupuesto";
-            this.dGTCStatusPresupuesto.Width = 0;
-            // 
-            // dGTCObservacionesPresupuesto
-            // 
-            this.dGTCObservacionesPresupuesto.Format = "";
-            this.dGTCObservacionesPresupuesto.FormatInfo = null;
-            this.dGTCObservacionesPresupuesto.HeaderText = "ObservacionesPresupuesto";
-            this.dGTCObservacionesPresupuesto.MappingName = "ObservacionesPresupuesto";
-            this.dGTCObservacionesPresupuesto.Width = 0;
-            // 
-            // dGTCDescuentoPresupuesto
-            // 
-            this.dGTCDescuentoPresupuesto.Format = "";
-            this.dGTCDescuentoPresupuesto.FormatInfo = null;
-            this.dGTCDescuentoPresupuesto.HeaderText = "DescuentoPresupuesto";
-            this.dGTCDescuentoPresupuesto.MappingName = "DescuentoPresupuesto";
-            this.dGTCDescuentoPresupuesto.Width = 0;
-            // 
-            // dGTCSubTotalPresupuesto
-            // 
-            this.dGTCSubTotalPresupuesto.Format = "";
-            this.dGTCSubTotalPresupuesto.FormatInfo = null;
-            this.dGTCSubTotalPresupuesto.HeaderText = "SubTotalPresupuesto";
-            this.dGTCSubTotalPresupuesto.MappingName = "SubTotalPresupuesto";
-            this.dGTCSubTotalPresupuesto.Width = 0;
-            // 
-            // dGTCTotalPresupuesto
-            // 
-            this.dGTCTotalPresupuesto.Format = "";
-            this.dGTCTotalPresupuesto.FormatInfo = null;
-            this.dGTCTotalPresupuesto.HeaderText = "TotalPresupuesto";
-            this.dGTCTotalPresupuesto.MappingName = "TotalPresupuesto";
-            this.dGTCTotalPresupuesto.Width = 0;
-            // 
-            // dGTCCostoServicioTecnico
-            // 
-            this.dGTCCostoServicioTecnico.Format = "";
-            this.dGTCCostoServicioTecnico.FormatInfo = null;
-            this.dGTCCostoServicioTecnico.HeaderText = "CostoServicioTecnico";
-            this.dGTCCostoServicioTecnico.MappingName = "CostoServicioTecnico";
-            this.dGTCCostoServicioTecnico.Width = 0;
-            // 
-            // dGTCObservacionesServicioRealizado
-            // 
-            this.dGTCObservacionesServicioRealizado.Format = "";
-            this.dGTCObservacionesServicioRealizado.FormatInfo = null;
-            this.dGTCObservacionesServicioRealizado.HeaderText = "ObservacionesServicioRealizado";
-            this.dGTCObservacionesServicioRealizado.MappingName = "ObservacionesServicioRealizado";
-            this.dGTCObservacionesServicioRealizado.Width = 0;
-            // 
-            // dGTCTipoPedido
-            // 
-            this.dGTCTipoPedido.Format = "";
-            this.dGTCTipoPedido.FormatInfo = null;
-            this.dGTCTipoPedido.HeaderText = "TipoPedido";
-            this.dGTCTipoPedido.MappingName = "TipoPedido";
-            this.dGTCTipoPedido.Width = 0;
-            // 
-            // dGTCNumeroPagos
-            // 
-            this.dGTCNumeroPagos.Format = "";
-            this.dGTCNumeroPagos.FormatInfo = null;
-            this.dGTCNumeroPagos.HeaderText = "NumeroPagos";
-            this.dGTCNumeroPagos.MappingName = "NumeroPagos";
-            this.dGTCNumeroPagos.Width = 0;
-            // 
-            // dGTCFrecuenciaPagos
-            // 
-            this.dGTCFrecuenciaPagos.Format = "";
-            this.dGTCFrecuenciaPagos.FormatInfo = null;
-            this.dGTCFrecuenciaPagos.HeaderText = "FrecuenciaPagos";
-            this.dGTCFrecuenciaPagos.MappingName = "FrecuenciaPagos";
-            this.dGTCFrecuenciaPagos.Width = 0;
-            // 
-            // dGTCCreditoServicioTecnico
-            // 
-            this.dGTCCreditoServicioTecnico.Format = "";
-            this.dGTCCreditoServicioTecnico.FormatInfo = null;
-            this.dGTCCreditoServicioTecnico.HeaderText = "CreditoServicioTecnico";
-            this.dGTCCreditoServicioTecnico.MappingName = "CreditoServicioTecnico";
-            this.dGTCCreditoServicioTecnico.Width = 0;
-            // 
-            // dGTCTipoCobro
-            // 
-            this.dGTCTipoCobro.Format = "";
-            this.dGTCTipoCobro.FormatInfo = null;
-            this.dGTCTipoCobro.HeaderText = "TipoCobro";
-            this.dGTCTipoCobro.MappingName = "TipoCobro";
-            this.dGTCTipoCobro.Width = 0;
-            // 
-            // dGTCPagosDe
-            // 
-            this.dGTCPagosDe.Format = "";
-            this.dGTCPagosDe.FormatInfo = null;
-            this.dGTCPagosDe.HeaderText = "PagosDe";
-            this.dGTCPagosDe.MappingName = "PagosDe";
-            this.dGTCPagosDe.Width = 0;
-            // 
-            // dGTCImporteLetra
-            // 
-            this.dGTCImporteLetra.Format = "";
-            this.dGTCImporteLetra.FormatInfo = null;
-            this.dGTCImporteLetra.HeaderText = "ImporteLetra";
-            this.dGTCImporteLetra.MappingName = "ImporteLetra";
-            this.dGTCImporteLetra.Width = 0;
-            // 
-            // dGTCBancoCheque
-            // 
-            this.dGTCBancoCheque.Format = "";
-            this.dGTCBancoCheque.FormatInfo = null;
-            this.dGTCBancoCheque.HeaderText = "BancoCheque";
-            this.dGTCBancoCheque.MappingName = "BancoCheque";
-            this.dGTCBancoCheque.Width = 0;
-            // 
-            // dGTCFAltaCheque
-            // 
-            this.dGTCFAltaCheque.Format = "";
-            this.dGTCFAltaCheque.FormatInfo = null;
-            this.dGTCFAltaCheque.HeaderText = "FAltaCheque";
-            this.dGTCFAltaCheque.MappingName = "FAltaCheque";
-            this.dGTCFAltaCheque.Width = 0;
-            // 
-            // dGTCFCheque
-            // 
-            this.dGTCFCheque.Format = "";
-            this.dGTCFCheque.FormatInfo = null;
-            this.dGTCFCheque.HeaderText = "FCheque";
-            this.dGTCFCheque.MappingName = "FCheque";
-            this.dGTCFCheque.Width = 0;
-            // 
-            // dGTCNumCuentaCheque
-            // 
-            this.dGTCNumCuentaCheque.Format = "";
-            this.dGTCNumCuentaCheque.FormatInfo = null;
-            this.dGTCNumCuentaCheque.HeaderText = "NumCuenta";
-            this.dGTCNumCuentaCheque.MappingName = "NumCuentaCheque";
-            this.dGTCNumCuentaCheque.Width = 55;
-            // 
-            // dGTCSaldoCheque
-            // 
-            this.dGTCSaldoCheque.Format = "";
-            this.dGTCSaldoCheque.FormatInfo = null;
-            this.dGTCSaldoCheque.HeaderText = "Saldo";
-            this.dGTCSaldoCheque.MappingName = "SaldoCheque";
-            this.dGTCSaldoCheque.Width = 55;
-            // 
-            // dGTCNumeroCheque
-            // 
-            this.dGTCNumeroCheque.Format = "";
-            this.dGTCNumeroCheque.FormatInfo = null;
-            this.dGTCNumeroCheque.HeaderText = "NumCheque";
-            this.dGTCNumeroCheque.MappingName = "NumeroCheque";
-            this.dGTCNumeroCheque.Width = 65;
-            // 
-            // dGTCTotalCheque
-            // 
-            this.dGTCTotalCheque.Format = "";
-            this.dGTCTotalCheque.FormatInfo = null;
-            this.dGTCTotalCheque.HeaderText = "Total";
-            this.dGTCTotalCheque.MappingName = "TotalCheque";
-            this.dGTCTotalCheque.Width = 55;
-            // 
-            // dGTCTipoCobroCheque
-            // 
-            this.dGTCTipoCobroCheque.Format = "";
-            this.dGTCTipoCobroCheque.FormatInfo = null;
-            this.dGTCTipoCobroCheque.HeaderText = "TipoCobroCheque";
-            this.dGTCTipoCobroCheque.MappingName = "TipoCobroCheque";
-            this.dGTCTipoCobroCheque.Width = 0;
-            // 
-            // dGTCFolio
-            // 
-            this.dGTCFolio.Format = "";
-            this.dGTCFolio.FormatInfo = null;
-            this.dGTCFolio.HeaderText = "Folio";
-            this.dGTCFolio.MappingName = "Folio";
-            this.dGTCFolio.Width = 0;
-            // 
-            // dGTCAñoAtt
-            // 
-            this.dGTCAñoAtt.Format = "";
-            this.dGTCAñoAtt.FormatInfo = null;
-            this.dGTCAñoAtt.HeaderText = "AñoAtt";
-            this.dGTCAñoAtt.MappingName = "AñoAtt";
-            this.dGTCAñoAtt.Width = 0;
-            // 
-            // dGTCTipoServicio
-            // 
-            this.dGTCTipoServicio.Format = "";
-            this.dGTCTipoServicio.FormatInfo = null;
-            this.dGTCTipoServicio.HeaderText = "TipoServicio";
-            this.dGTCTipoServicio.MappingName = "TipoServicio";
-            this.dGTCTipoServicio.Width = 0;
-            // 
-            // dGTCBancoNombre
-            // 
-            this.dGTCBancoNombre.Format = "";
-            this.dGTCBancoNombre.FormatInfo = null;
-            this.dGTCBancoNombre.HeaderText = "Banco";
-            this.dGTCBancoNombre.MappingName = "BancoNombre";
-            this.dGTCBancoNombre.Width = 75;
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.txtKilometrajeFinal);
             this.groupBox3.Controls.Add(this.txtKilometrajeInicial);
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Location = new System.Drawing.Point(570, 527);
+            this.groupBox3.Location = new System.Drawing.Point(570, 507);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(221, 157);
             this.groupBox3.TabIndex = 10;
@@ -1568,7 +1121,7 @@ namespace LiquidacionSTN
             this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.label15);
-            this.groupBox4.Location = new System.Drawing.Point(798, 527);
+            this.groupBox4.Location = new System.Drawing.Point(798, 507);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(354, 157);
             this.groupBox4.TabIndex = 11;
@@ -1692,7 +1245,7 @@ namespace LiquidacionSTN
             this.grdLiquidacion.Name = "grdLiquidacion";
             this.grdLiquidacion.ReadOnly = true;
             this.grdLiquidacion.SelectionBackColor = System.Drawing.Color.YellowGreen;
-            this.grdLiquidacion.Size = new System.Drawing.Size(1162, 179);
+            this.grdLiquidacion.Size = new System.Drawing.Size(1162, 156);
             this.grdLiquidacion.TabIndex = 12;
             this.grdLiquidacion.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
             this.dataGridTableStyle1});
@@ -1712,6 +1265,7 @@ namespace LiquidacionSTN
             this.dGTBCFAtencion,
             this.dGTBCFCompromiso,
             this.dGTBCTotal,
+            this.dGTBCSaldo,
             this.dGTBCStatus,
             this.dGTBCStatusServicioTecnico,
             this.dGTBCTipoCobroDescripcion,
@@ -1824,6 +1378,14 @@ namespace LiquidacionSTN
             this.dGTBCTotal.HeaderText = "Total";
             this.dGTBCTotal.MappingName = "Total";
             this.dGTBCTotal.Width = 75;
+            // 
+            // dGTBCSaldo
+            // 
+            this.dGTBCSaldo.Format = "";
+            this.dGTBCSaldo.FormatInfo = null;
+            this.dGTBCSaldo.HeaderText = "Saldo";
+            this.dGTBCSaldo.MappingName = "Saldo";
+            this.dGTBCSaldo.Width = 75;
             // 
             // dGTBCStatus
             // 
@@ -2185,20 +1747,6 @@ namespace LiquidacionSTN
             this.dGTBCTipoServicio.MappingName = "TipoServicio";
             this.dGTBCTipoServicio.Width = 0;
             // 
-            // grdTarjerta
-            // 
-            this.grdTarjerta.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.grdTarjerta.CaptionBackColor = System.Drawing.Color.YellowGreen;
-            this.grdTarjerta.CaptionForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.grdTarjerta.CaptionText = "Voucher incluidos en la liquidación";
-            this.grdTarjerta.DataMember = "";
-            this.grdTarjerta.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.grdTarjerta.Location = new System.Drawing.Point(10, 592);
-            this.grdTarjerta.Name = "grdTarjerta";
-            this.grdTarjerta.ReadOnly = true;
-            this.grdTarjerta.Size = new System.Drawing.Size(546, 83);
-            this.grdTarjerta.TabIndex = 14;
-            // 
             // lblTotalALiquidar
             // 
             this.lblTotalALiquidar.BackColor = System.Drawing.Color.YellowGreen;
@@ -2219,16 +1767,744 @@ namespace LiquidacionSTN
             this.grdTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.grdTransferencias.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdTransferencias.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colNo2,
             this.colCliente,
             this.colFecha,
             this.colDocumento,
             this.colMonto,
             this.colSaldo,
             this.colObservaciones});
-            this.grdTransferencias.Location = new System.Drawing.Point(-1, 21);
+            this.grdTransferencias.Location = new System.Drawing.Point(-1, 1);
             this.grdTransferencias.Name = "grdTransferencias";
             this.grdTransferencias.Size = new System.Drawing.Size(543, 67);
             this.grdTransferencias.TabIndex = 16;
+            this.grdTransferencias.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdTransferencias_CellClick);
+            this.grdTransferencias.Enter += new System.EventHandler(this.grdTransferencias_Enter);
+            // 
+            // pnlTransferencias
+            // 
+            this.pnlTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlTransferencias.Controls.Add(this.label6);
+            this.pnlTransferencias.Controls.Add(this.grdTransferencias);
+            this.pnlTransferencias.Location = new System.Drawing.Point(10, 668);
+            this.pnlTransferencias.Name = "pnlTransferencias";
+            this.pnlTransferencias.Size = new System.Drawing.Size(546, 114);
+            this.pnlTransferencias.TabIndex = 17;
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.YellowGreen;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.DarkOliveGreen;
+            this.label6.Location = new System.Drawing.Point(0, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(542, 18);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Transferencias incluidas en la liquidación";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // dGTCBancoNombre
+            // 
+            this.dGTCBancoNombre.Format = "";
+            this.dGTCBancoNombre.FormatInfo = null;
+            this.dGTCBancoNombre.HeaderText = "Banco";
+            this.dGTCBancoNombre.MappingName = "BancoNombre";
+            this.dGTCBancoNombre.Width = 75;
+            // 
+            // dGTCTipoServicio
+            // 
+            this.dGTCTipoServicio.Format = "";
+            this.dGTCTipoServicio.FormatInfo = null;
+            this.dGTCTipoServicio.HeaderText = "TipoServicio";
+            this.dGTCTipoServicio.MappingName = "TipoServicio";
+            this.dGTCTipoServicio.Width = 0;
+            // 
+            // dGTCAñoAtt
+            // 
+            this.dGTCAñoAtt.Format = "";
+            this.dGTCAñoAtt.FormatInfo = null;
+            this.dGTCAñoAtt.HeaderText = "AñoAtt";
+            this.dGTCAñoAtt.MappingName = "AñoAtt";
+            this.dGTCAñoAtt.Width = 0;
+            // 
+            // dGTCFolio
+            // 
+            this.dGTCFolio.Format = "";
+            this.dGTCFolio.FormatInfo = null;
+            this.dGTCFolio.HeaderText = "Folio";
+            this.dGTCFolio.MappingName = "Folio";
+            this.dGTCFolio.Width = 0;
+            // 
+            // dGTCTipoCobroCheque
+            // 
+            this.dGTCTipoCobroCheque.Format = "";
+            this.dGTCTipoCobroCheque.FormatInfo = null;
+            this.dGTCTipoCobroCheque.HeaderText = "TipoCobroCheque";
+            this.dGTCTipoCobroCheque.MappingName = "TipoCobroCheque";
+            this.dGTCTipoCobroCheque.Width = 0;
+            // 
+            // dGTCTotalCheque
+            // 
+            this.dGTCTotalCheque.Format = "";
+            this.dGTCTotalCheque.FormatInfo = null;
+            this.dGTCTotalCheque.HeaderText = "Total";
+            this.dGTCTotalCheque.MappingName = "TotalCheque";
+            this.dGTCTotalCheque.Width = 55;
+            // 
+            // dGTCNumeroCheque
+            // 
+            this.dGTCNumeroCheque.Format = "";
+            this.dGTCNumeroCheque.FormatInfo = null;
+            this.dGTCNumeroCheque.HeaderText = "NumCheque";
+            this.dGTCNumeroCheque.MappingName = "NumeroCheque";
+            this.dGTCNumeroCheque.Width = 65;
+            // 
+            // dGTCSaldoCheque
+            // 
+            this.dGTCSaldoCheque.Format = "";
+            this.dGTCSaldoCheque.FormatInfo = null;
+            this.dGTCSaldoCheque.HeaderText = "Saldo";
+            this.dGTCSaldoCheque.MappingName = "SaldoCheque";
+            this.dGTCSaldoCheque.Width = 55;
+            // 
+            // dGTCNumCuentaCheque
+            // 
+            this.dGTCNumCuentaCheque.Format = "";
+            this.dGTCNumCuentaCheque.FormatInfo = null;
+            this.dGTCNumCuentaCheque.HeaderText = "NumCuenta";
+            this.dGTCNumCuentaCheque.MappingName = "NumCuentaCheque";
+            this.dGTCNumCuentaCheque.Width = 55;
+            // 
+            // dGTCFCheque
+            // 
+            this.dGTCFCheque.Format = "";
+            this.dGTCFCheque.FormatInfo = null;
+            this.dGTCFCheque.HeaderText = "FCheque";
+            this.dGTCFCheque.MappingName = "FCheque";
+            this.dGTCFCheque.Width = 0;
+            // 
+            // dGTCFAltaCheque
+            // 
+            this.dGTCFAltaCheque.Format = "";
+            this.dGTCFAltaCheque.FormatInfo = null;
+            this.dGTCFAltaCheque.HeaderText = "FAltaCheque";
+            this.dGTCFAltaCheque.MappingName = "FAltaCheque";
+            this.dGTCFAltaCheque.Width = 0;
+            // 
+            // dGTCBancoCheque
+            // 
+            this.dGTCBancoCheque.Format = "";
+            this.dGTCBancoCheque.FormatInfo = null;
+            this.dGTCBancoCheque.HeaderText = "BancoCheque";
+            this.dGTCBancoCheque.MappingName = "BancoCheque";
+            this.dGTCBancoCheque.Width = 0;
+            // 
+            // dGTCImporteLetra
+            // 
+            this.dGTCImporteLetra.Format = "";
+            this.dGTCImporteLetra.FormatInfo = null;
+            this.dGTCImporteLetra.HeaderText = "ImporteLetra";
+            this.dGTCImporteLetra.MappingName = "ImporteLetra";
+            this.dGTCImporteLetra.Width = 0;
+            // 
+            // dGTCPagosDe
+            // 
+            this.dGTCPagosDe.Format = "";
+            this.dGTCPagosDe.FormatInfo = null;
+            this.dGTCPagosDe.HeaderText = "PagosDe";
+            this.dGTCPagosDe.MappingName = "PagosDe";
+            this.dGTCPagosDe.Width = 0;
+            // 
+            // dGTCTipoCobro
+            // 
+            this.dGTCTipoCobro.Format = "";
+            this.dGTCTipoCobro.FormatInfo = null;
+            this.dGTCTipoCobro.HeaderText = "TipoCobro";
+            this.dGTCTipoCobro.MappingName = "TipoCobro";
+            this.dGTCTipoCobro.Width = 0;
+            // 
+            // dGTCCreditoServicioTecnico
+            // 
+            this.dGTCCreditoServicioTecnico.Format = "";
+            this.dGTCCreditoServicioTecnico.FormatInfo = null;
+            this.dGTCCreditoServicioTecnico.HeaderText = "CreditoServicioTecnico";
+            this.dGTCCreditoServicioTecnico.MappingName = "CreditoServicioTecnico";
+            this.dGTCCreditoServicioTecnico.Width = 0;
+            // 
+            // dGTCFrecuenciaPagos
+            // 
+            this.dGTCFrecuenciaPagos.Format = "";
+            this.dGTCFrecuenciaPagos.FormatInfo = null;
+            this.dGTCFrecuenciaPagos.HeaderText = "FrecuenciaPagos";
+            this.dGTCFrecuenciaPagos.MappingName = "FrecuenciaPagos";
+            this.dGTCFrecuenciaPagos.Width = 0;
+            // 
+            // dGTCNumeroPagos
+            // 
+            this.dGTCNumeroPagos.Format = "";
+            this.dGTCNumeroPagos.FormatInfo = null;
+            this.dGTCNumeroPagos.HeaderText = "NumeroPagos";
+            this.dGTCNumeroPagos.MappingName = "NumeroPagos";
+            this.dGTCNumeroPagos.Width = 0;
+            // 
+            // dGTCTipoPedido
+            // 
+            this.dGTCTipoPedido.Format = "";
+            this.dGTCTipoPedido.FormatInfo = null;
+            this.dGTCTipoPedido.HeaderText = "TipoPedido";
+            this.dGTCTipoPedido.MappingName = "TipoPedido";
+            this.dGTCTipoPedido.Width = 0;
+            // 
+            // dGTCObservacionesServicioRealizado
+            // 
+            this.dGTCObservacionesServicioRealizado.Format = "";
+            this.dGTCObservacionesServicioRealizado.FormatInfo = null;
+            this.dGTCObservacionesServicioRealizado.HeaderText = "ObservacionesServicioRealizado";
+            this.dGTCObservacionesServicioRealizado.MappingName = "ObservacionesServicioRealizado";
+            this.dGTCObservacionesServicioRealizado.Width = 0;
+            // 
+            // dGTCCostoServicioTecnico
+            // 
+            this.dGTCCostoServicioTecnico.Format = "";
+            this.dGTCCostoServicioTecnico.FormatInfo = null;
+            this.dGTCCostoServicioTecnico.HeaderText = "CostoServicioTecnico";
+            this.dGTCCostoServicioTecnico.MappingName = "CostoServicioTecnico";
+            this.dGTCCostoServicioTecnico.Width = 0;
+            // 
+            // dGTCTotalPresupuesto
+            // 
+            this.dGTCTotalPresupuesto.Format = "";
+            this.dGTCTotalPresupuesto.FormatInfo = null;
+            this.dGTCTotalPresupuesto.HeaderText = "TotalPresupuesto";
+            this.dGTCTotalPresupuesto.MappingName = "TotalPresupuesto";
+            this.dGTCTotalPresupuesto.Width = 0;
+            // 
+            // dGTCSubTotalPresupuesto
+            // 
+            this.dGTCSubTotalPresupuesto.Format = "";
+            this.dGTCSubTotalPresupuesto.FormatInfo = null;
+            this.dGTCSubTotalPresupuesto.HeaderText = "SubTotalPresupuesto";
+            this.dGTCSubTotalPresupuesto.MappingName = "SubTotalPresupuesto";
+            this.dGTCSubTotalPresupuesto.Width = 0;
+            // 
+            // dGTCDescuentoPresupuesto
+            // 
+            this.dGTCDescuentoPresupuesto.Format = "";
+            this.dGTCDescuentoPresupuesto.FormatInfo = null;
+            this.dGTCDescuentoPresupuesto.HeaderText = "DescuentoPresupuesto";
+            this.dGTCDescuentoPresupuesto.MappingName = "DescuentoPresupuesto";
+            this.dGTCDescuentoPresupuesto.Width = 0;
+            // 
+            // dGTCObservacionesPresupuesto
+            // 
+            this.dGTCObservacionesPresupuesto.Format = "";
+            this.dGTCObservacionesPresupuesto.FormatInfo = null;
+            this.dGTCObservacionesPresupuesto.HeaderText = "ObservacionesPresupuesto";
+            this.dGTCObservacionesPresupuesto.MappingName = "ObservacionesPresupuesto";
+            this.dGTCObservacionesPresupuesto.Width = 0;
+            // 
+            // dGTCStatusPresupuesto
+            // 
+            this.dGTCStatusPresupuesto.Format = "";
+            this.dGTCStatusPresupuesto.FormatInfo = null;
+            this.dGTCStatusPresupuesto.HeaderText = "StatusPresupuesto";
+            this.dGTCStatusPresupuesto.MappingName = "StatusPresupuesto";
+            this.dGTCStatusPresupuesto.Width = 0;
+            // 
+            // dGTCFolioPresupuesto
+            // 
+            this.dGTCFolioPresupuesto.Format = "";
+            this.dGTCFolioPresupuesto.FormatInfo = null;
+            this.dGTCFolioPresupuesto.HeaderText = "FolioPresupuesto";
+            this.dGTCFolioPresupuesto.MappingName = "FolioPresupuesto";
+            this.dGTCFolioPresupuesto.Width = 0;
+            // 
+            // dGTCAñoFolioPresupuesto
+            // 
+            this.dGTCAñoFolioPresupuesto.Format = "";
+            this.dGTCAñoFolioPresupuesto.FormatInfo = null;
+            this.dGTCAñoFolioPresupuesto.HeaderText = "AñoFolioPresupuesto";
+            this.dGTCAñoFolioPresupuesto.MappingName = "AñoFolioPresupuesto";
+            this.dGTCAñoFolioPresupuesto.Width = 0;
+            // 
+            // dGTCCP
+            // 
+            this.dGTCCP.Format = "";
+            this.dGTCCP.FormatInfo = null;
+            this.dGTCCP.HeaderText = "CP";
+            this.dGTCCP.MappingName = "CP";
+            this.dGTCCP.Width = 0;
+            // 
+            // dGTCMunicipio
+            // 
+            this.dGTCMunicipio.Format = "";
+            this.dGTCMunicipio.FormatInfo = null;
+            this.dGTCMunicipio.HeaderText = "Municipio";
+            this.dGTCMunicipio.MappingName = "Municipio";
+            this.dGTCMunicipio.Width = 0;
+            // 
+            // dGTCNumExterior
+            // 
+            this.dGTCNumExterior.Format = "";
+            this.dGTCNumExterior.FormatInfo = null;
+            this.dGTCNumExterior.HeaderText = "NumExterior";
+            this.dGTCNumExterior.MappingName = "NumExterior";
+            this.dGTCNumExterior.Width = 0;
+            // 
+            // dGTCNumInterior
+            // 
+            this.dGTCNumInterior.Format = "";
+            this.dGTCNumInterior.FormatInfo = null;
+            this.dGTCNumInterior.HeaderText = "NumInterior";
+            this.dGTCNumInterior.MappingName = "NumInterior";
+            this.dGTCNumInterior.Width = 0;
+            // 
+            // dGTCColonia
+            // 
+            this.dGTCColonia.Format = "";
+            this.dGTCColonia.FormatInfo = null;
+            this.dGTCColonia.HeaderText = "Colonia";
+            this.dGTCColonia.MappingName = "Colonia";
+            this.dGTCColonia.Width = 0;
+            // 
+            // dGTCCalle
+            // 
+            this.dGTCCalle.Format = "";
+            this.dGTCCalle.FormatInfo = null;
+            this.dGTCCalle.HeaderText = "Calle";
+            this.dGTCCalle.MappingName = "Calle";
+            this.dGTCCalle.Width = 0;
+            // 
+            // dGTCAyudante
+            // 
+            this.dGTCAyudante.Format = "";
+            this.dGTCAyudante.FormatInfo = null;
+            this.dGTCAyudante.HeaderText = "Ayudante";
+            this.dGTCAyudante.MappingName = "Ayudante";
+            this.dGTCAyudante.Width = 0;
+            // 
+            // dGTCChofer
+            // 
+            this.dGTCChofer.Format = "";
+            this.dGTCChofer.FormatInfo = null;
+            this.dGTCChofer.HeaderText = "Chofer";
+            this.dGTCChofer.MappingName = "Chofer";
+            this.dGTCChofer.Width = 0;
+            // 
+            // dGTCTrabajoSolicitado
+            // 
+            this.dGTCTrabajoSolicitado.Format = "";
+            this.dGTCTrabajoSolicitado.FormatInfo = null;
+            this.dGTCTrabajoSolicitado.HeaderText = "TrabajoSolicitado";
+            this.dGTCTrabajoSolicitado.MappingName = "TrabajoSolicitado";
+            this.dGTCTrabajoSolicitado.Width = 0;
+            // 
+            // dGTCEmpresa
+            // 
+            this.dGTCEmpresa.Format = "";
+            this.dGTCEmpresa.FormatInfo = null;
+            this.dGTCEmpresa.HeaderText = "Empresa";
+            this.dGTCEmpresa.MappingName = "Empresa";
+            this.dGTCEmpresa.Width = 0;
+            // 
+            // dGTCNombre
+            // 
+            this.dGTCNombre.Format = "";
+            this.dGTCNombre.FormatInfo = null;
+            this.dGTCNombre.HeaderText = "Nombre";
+            this.dGTCNombre.MappingName = "Nombre";
+            this.dGTCNombre.Width = 0;
+            // 
+            // dGTCAñoPed
+            // 
+            this.dGTCAñoPed.Format = "";
+            this.dGTCAñoPed.FormatInfo = null;
+            this.dGTCAñoPed.HeaderText = "AñoPed";
+            this.dGTCAñoPed.MappingName = "AñoPed";
+            this.dGTCAñoPed.Width = 0;
+            // 
+            // dGTCCelula
+            // 
+            this.dGTCCelula.Format = "";
+            this.dGTCCelula.FormatInfo = null;
+            this.dGTCCelula.HeaderText = "Celula";
+            this.dGTCCelula.MappingName = "Celula";
+            this.dGTCCelula.Width = 0;
+            // 
+            // dGTCPedido
+            // 
+            this.dGTCPedido.Format = "";
+            this.dGTCPedido.FormatInfo = null;
+            this.dGTCPedido.HeaderText = "Pedido";
+            this.dGTCPedido.MappingName = "Pedido";
+            this.dGTCPedido.Width = 0;
+            // 
+            // dGTCAutotanque
+            // 
+            this.dGTCAutotanque.Format = "";
+            this.dGTCAutotanque.FormatInfo = null;
+            this.dGTCAutotanque.HeaderText = "Autotanque";
+            this.dGTCAutotanque.MappingName = "Autotanque";
+            this.dGTCAutotanque.Width = 0;
+            // 
+            // dGTCTipoCobroDescripcion
+            // 
+            this.dGTCTipoCobroDescripcion.Format = "";
+            this.dGTCTipoCobroDescripcion.FormatInfo = null;
+            this.dGTCTipoCobroDescripcion.HeaderText = "TipoCobroDescripcion";
+            this.dGTCTipoCobroDescripcion.MappingName = "TipoCobroDescripcion";
+            this.dGTCTipoCobroDescripcion.Width = 0;
+            // 
+            // dGTCStatusServicioTecnico
+            // 
+            this.dGTCStatusServicioTecnico.Format = "";
+            this.dGTCStatusServicioTecnico.FormatInfo = null;
+            this.dGTCStatusServicioTecnico.HeaderText = "StatusServicioTecnico";
+            this.dGTCStatusServicioTecnico.MappingName = "StatusServicioTecnico";
+            this.dGTCStatusServicioTecnico.Width = 0;
+            // 
+            // dGTCStatus
+            // 
+            this.dGTCStatus.Format = "";
+            this.dGTCStatus.FormatInfo = null;
+            this.dGTCStatus.HeaderText = "Status";
+            this.dGTCStatus.MappingName = "Status";
+            this.dGTCStatus.Width = 0;
+            // 
+            // dGTCTotal
+            // 
+            this.dGTCTotal.Format = "";
+            this.dGTCTotal.FormatInfo = null;
+            this.dGTCTotal.HeaderText = "Total";
+            this.dGTCTotal.MappingName = "Total";
+            this.dGTCTotal.Width = 0;
+            // 
+            // dGTCFCompromiso
+            // 
+            this.dGTCFCompromiso.Format = "";
+            this.dGTCFCompromiso.FormatInfo = null;
+            this.dGTCFCompromiso.HeaderText = "FCompromiso";
+            this.dGTCFCompromiso.MappingName = "FCompromiso";
+            this.dGTCFCompromiso.Width = 0;
+            // 
+            // dGTCFAtencion
+            // 
+            this.dGTCFAtencion.Format = "";
+            this.dGTCFAtencion.FormatInfo = null;
+            this.dGTCFAtencion.HeaderText = "FAtencion";
+            this.dGTCFAtencion.MappingName = "FAtencion";
+            this.dGTCFAtencion.Width = 0;
+            // 
+            // dGTCTipoServicioDescripcion
+            // 
+            this.dGTCTipoServicioDescripcion.Format = "";
+            this.dGTCTipoServicioDescripcion.FormatInfo = null;
+            this.dGTCTipoServicioDescripcion.HeaderText = "TipoServicioDescripcion";
+            this.dGTCTipoServicioDescripcion.MappingName = "TipoServicioDescripcion";
+            this.dGTCTipoServicioDescripcion.Width = 0;
+            // 
+            // dGTCTipoPedidoDescripcion
+            // 
+            this.dGTCTipoPedidoDescripcion.Format = "";
+            this.dGTCTipoPedidoDescripcion.FormatInfo = null;
+            this.dGTCTipoPedidoDescripcion.HeaderText = "TipoPedidoDescripcion";
+            this.dGTCTipoPedidoDescripcion.MappingName = "TipoPedidoDescripcion";
+            this.dGTCTipoPedidoDescripcion.Width = 0;
+            // 
+            // dGTCPedidoReferencia
+            // 
+            this.dGTCPedidoReferencia.Format = "";
+            this.dGTCPedidoReferencia.FormatInfo = null;
+            this.dGTCPedidoReferencia.HeaderText = "Pedido";
+            this.dGTCPedidoReferencia.MappingName = "PedidoReferencia";
+            this.dGTCPedidoReferencia.Width = 70;
+            // 
+            // dGTCRutaCliente
+            // 
+            this.dGTCRutaCliente.Format = "";
+            this.dGTCRutaCliente.FormatInfo = null;
+            this.dGTCRutaCliente.HeaderText = "RutaCliente";
+            this.dGTCRutaCliente.MappingName = "RutaCliente";
+            this.dGTCRutaCliente.Width = 0;
+            // 
+            // dGTCCliente
+            // 
+            this.dGTCCliente.Format = "";
+            this.dGTCCliente.FormatInfo = null;
+            this.dGTCCliente.HeaderText = "Cliente";
+            this.dGTCCliente.MappingName = "Cliente";
+            this.dGTCCliente.Width = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.label11);
+            this.panel1.Controls.Add(this.grdCheque);
+            this.panel1.Location = new System.Drawing.Point(10, 500);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(546, 72);
+            this.panel1.TabIndex = 18;
+            // 
+            // label11
+            // 
+            this.label11.BackColor = System.Drawing.Color.YellowGreen;
+            this.label11.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.DarkOliveGreen;
+            this.label11.Location = new System.Drawing.Point(0, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(542, 18);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "Cheques incluidos en la liquidación";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label11.Click += new System.EventHandler(this.label11_Click);
+            // 
+            // grdCheque
+            // 
+            this.grdCheque.AllowUserToAddRows = false;
+            this.grdCheque.AllowUserToDeleteRows = false;
+            this.grdCheque.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.grdCheque.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.grdCheque.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdCheque.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colNo,
+            this.ColPedido,
+            this.ColNumCuenta,
+            this.Saldo,
+            this.NumCheque,
+            this.Total,
+            this.Banco});
+            this.grdCheque.Location = new System.Drawing.Point(3, 17);
+            this.grdCheque.Name = "grdCheque";
+            this.grdCheque.Size = new System.Drawing.Size(543, 67);
+            this.grdCheque.TabIndex = 16;
+            this.grdCheque.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdCheque_CellClick);
+            this.grdCheque.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.grdCheque.Enter += new System.EventHandler(this.grdCheque_Enter);
+            // 
+            // colNo
+            // 
+            this.colNo.DataPropertyName = "No";
+            this.colNo.HeaderText = "No";
+            this.colNo.Name = "colNo";
+            this.colNo.ReadOnly = true;
+            this.colNo.Visible = false;
+            // 
+            // ColPedido
+            // 
+            this.ColPedido.DataPropertyName = "PedidoReferencia";
+            this.ColPedido.HeaderText = "Pedido";
+            this.ColPedido.Name = "ColPedido";
+            this.ColPedido.ReadOnly = true;
+            this.ColPedido.Width = 80;
+            // 
+            // ColNumCuenta
+            // 
+            this.ColNumCuenta.DataPropertyName = "NumCuenta";
+            this.ColNumCuenta.HeaderText = "NumCuenta";
+            this.ColNumCuenta.Name = "ColNumCuenta";
+            this.ColNumCuenta.ReadOnly = true;
+            this.ColNumCuenta.Width = 50;
+            // 
+            // Saldo
+            // 
+            this.Saldo.DataPropertyName = "Saldo";
+            dataGridViewCellStyle9.Format = "C2";
+            this.Saldo.DefaultCellStyle = dataGridViewCellStyle9;
+            this.Saldo.HeaderText = "Saldo";
+            this.Saldo.Name = "Saldo";
+            this.Saldo.ReadOnly = true;
+            this.Saldo.Width = 80;
+            // 
+            // NumCheque
+            // 
+            this.NumCheque.DataPropertyName = "NumeroCheque";
+            this.NumCheque.HeaderText = "NumCheque";
+            this.NumCheque.Name = "NumCheque";
+            this.NumCheque.ReadOnly = true;
+            this.NumCheque.Width = 80;
+            // 
+            // Total
+            // 
+            this.Total.DataPropertyName = "Total";
+            dataGridViewCellStyle10.Format = "C2";
+            this.Total.DefaultCellStyle = dataGridViewCellStyle10;
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            this.Total.ReadOnly = true;
+            this.Total.Width = 80;
+            // 
+            // Banco
+            // 
+            this.Banco.DataPropertyName = "BancoNombre";
+            this.Banco.HeaderText = "Banco";
+            this.Banco.Name = "Banco";
+            this.Banco.ReadOnly = true;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.label27);
+            this.panel2.Controls.Add(this.grdVouchers);
+            this.panel2.Location = new System.Drawing.Point(10, 575);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(546, 87);
+            this.panel2.TabIndex = 19;
+            // 
+            // label27
+            // 
+            this.label27.BackColor = System.Drawing.Color.YellowGreen;
+            this.label27.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.ForeColor = System.Drawing.Color.DarkOliveGreen;
+            this.label27.Location = new System.Drawing.Point(0, 0);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(542, 18);
+            this.label27.TabIndex = 0;
+            this.label27.Text = "Vouchers incluidos en la liquidación";
+            this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // grdVouchers
+            // 
+            this.grdVouchers.AllowUserToAddRows = false;
+            this.grdVouchers.AllowUserToDeleteRows = false;
+            this.grdVouchers.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.grdVouchers.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.grdVouchers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdVouchers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colNo1,
+            this.dataGridViewTextBoxColumn1,
+            this.colCelula,
+            this.colAñoPed,
+            this.colCliente1,
+            this.colBanco,
+            this.colFecha1,
+            this.colFolio,
+            this.colMonto1,
+            this.colAutotanque,
+            this.colSaldo1,
+            this.colAfiliacion,
+            this.colAutorizacion,
+            this.colBancoTarjeta});
+            this.grdVouchers.Location = new System.Drawing.Point(3, 17);
+            this.grdVouchers.Name = "grdVouchers";
+            this.grdVouchers.Size = new System.Drawing.Size(543, 67);
+            this.grdVouchers.TabIndex = 16;
+            this.grdVouchers.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdVouchers_CellClick);
+            this.grdVouchers.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdVouchers_CellContentClick);
+            this.grdVouchers.Enter += new System.EventHandler(this.grdVouchers_Enter);
+            // 
+            // colNo1
+            // 
+            this.colNo1.DataPropertyName = "No";
+            this.colNo1.HeaderText = "No";
+            this.colNo1.Name = "colNo1";
+            this.colNo1.ReadOnly = true;
+            this.colNo1.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "PedidoReferencia";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Pedido";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 80;
+            // 
+            // colCelula
+            // 
+            this.colCelula.DataPropertyName = "Celula";
+            this.colCelula.HeaderText = "Celula";
+            this.colCelula.Name = "colCelula";
+            // 
+            // colAñoPed
+            // 
+            this.colAñoPed.DataPropertyName = "AñoPed";
+            this.colAñoPed.HeaderText = "AñoPed";
+            this.colAñoPed.Name = "colAñoPed";
+            this.colAñoPed.ReadOnly = true;
+            // 
+            // colCliente1
+            // 
+            this.colCliente1.DataPropertyName = "Cliente";
+            this.colCliente1.HeaderText = "Cliente";
+            this.colCliente1.Name = "colCliente1";
+            this.colCliente1.ReadOnly = true;
+            // 
+            // colBanco
+            // 
+            this.colBanco.DataPropertyName = "Banco";
+            this.colBanco.HeaderText = "Banco";
+            this.colBanco.Name = "colBanco";
+            this.colBanco.ReadOnly = true;
+            // 
+            // colFecha1
+            // 
+            this.colFecha1.DataPropertyName = "Fecha";
+            this.colFecha1.HeaderText = "Fecha";
+            this.colFecha1.Name = "colFecha1";
+            this.colFecha1.ReadOnly = true;
+            // 
+            // colFolio
+            // 
+            this.colFolio.DataPropertyName = "Folio";
+            this.colFolio.HeaderText = "Folio";
+            this.colFolio.Name = "colFolio";
+            this.colFolio.ReadOnly = true;
+            // 
+            // colMonto1
+            // 
+            this.colMonto1.DataPropertyName = "Monto";
+            dataGridViewCellStyle11.Format = "C2";
+            this.colMonto1.DefaultCellStyle = dataGridViewCellStyle11;
+            this.colMonto1.HeaderText = "Monto";
+            this.colMonto1.Name = "colMonto1";
+            this.colMonto1.ReadOnly = true;
+            // 
+            // colAutotanque
+            // 
+            this.colAutotanque.DataPropertyName = "Autotanque";
+            this.colAutotanque.HeaderText = "Autotanque";
+            this.colAutotanque.Name = "colAutotanque";
+            this.colAutotanque.ReadOnly = true;
+            // 
+            // colSaldo1
+            // 
+            this.colSaldo1.DataPropertyName = "Saldo";
+            dataGridViewCellStyle12.Format = "C2";
+            this.colSaldo1.DefaultCellStyle = dataGridViewCellStyle12;
+            this.colSaldo1.HeaderText = "Saldo";
+            this.colSaldo1.Name = "colSaldo1";
+            this.colSaldo1.ReadOnly = true;
+            // 
+            // colAfiliacion
+            // 
+            this.colAfiliacion.DataPropertyName = "Afiliacion";
+            this.colAfiliacion.HeaderText = "Afiliacion";
+            this.colAfiliacion.Name = "colAfiliacion";
+            this.colAfiliacion.ReadOnly = true;
+            // 
+            // colAutorizacion
+            // 
+            this.colAutorizacion.DataPropertyName = "Autorizacion";
+            this.colAutorizacion.HeaderText = "Autorizacion";
+            this.colAutorizacion.Name = "colAutorizacion";
+            this.colAutorizacion.ReadOnly = true;
+            // 
+            // colBancoTarjeta
+            // 
+            this.colBancoTarjeta.DataPropertyName = "BancoTarjeta";
+            this.colBancoTarjeta.HeaderText = "BancoTarjeta";
+            this.colBancoTarjeta.Name = "colBancoTarjeta";
+            this.colBancoTarjeta.ReadOnly = true;
+            // 
+            // colNo2
+            // 
+            this.colNo2.DataPropertyName = "No";
+            this.colNo2.HeaderText = "No";
+            this.colNo2.Name = "colNo2";
+            this.colNo2.ReadOnly = true;
+            this.colNo2.Visible = false;
             // 
             // colCliente
             // 
@@ -2255,9 +2531,9 @@ namespace LiquidacionSTN
             // colMonto
             // 
             this.colMonto.DataPropertyName = "Monto";
-            dataGridViewCellStyle1.Format = "C2";
-            dataGridViewCellStyle1.NullValue = null;
-            this.colMonto.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Format = "C2";
+            dataGridViewCellStyle7.NullValue = null;
+            this.colMonto.DefaultCellStyle = dataGridViewCellStyle7;
             this.colMonto.HeaderText = "Monto";
             this.colMonto.Name = "colMonto";
             this.colMonto.ReadOnly = true;
@@ -2265,9 +2541,9 @@ namespace LiquidacionSTN
             // colSaldo
             // 
             this.colSaldo.DataPropertyName = "Saldo";
-            dataGridViewCellStyle2.Format = "C2";
-            dataGridViewCellStyle2.NullValue = null;
-            this.colSaldo.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Format = "C2";
+            dataGridViewCellStyle8.NullValue = null;
+            this.colSaldo.DefaultCellStyle = dataGridViewCellStyle8;
             this.colSaldo.HeaderText = "Saldo";
             this.colSaldo.Name = "colSaldo";
             this.colSaldo.ReadOnly = true;
@@ -2279,40 +2555,17 @@ namespace LiquidacionSTN
             this.colObservaciones.Name = "colObservaciones";
             this.colObservaciones.ReadOnly = true;
             // 
-            // pnlTransferencias
-            // 
-            this.pnlTransferencias.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pnlTransferencias.Controls.Add(this.label6);
-            this.pnlTransferencias.Controls.Add(this.grdTransferencias);
-            this.pnlTransferencias.Location = new System.Drawing.Point(10, 668);
-            this.pnlTransferencias.Name = "pnlTransferencias";
-            this.pnlTransferencias.Size = new System.Drawing.Size(546, 114);
-            this.pnlTransferencias.TabIndex = 17;
-            // 
-            // label6
-            // 
-            this.label6.BackColor = System.Drawing.Color.YellowGreen;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label6.Location = new System.Drawing.Point(0, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(542, 18);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Transferencias incluidas en la liquidación";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // frmLiquidacionST
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.ClientSize = new System.Drawing.Size(1215, 737);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlTransferencias);
             this.Controls.Add(this.lblTotalALiquidar);
-            this.Controls.Add(this.grdTarjerta);
             this.Controls.Add(this.grdLiquidacion);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.grdCheque);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox1);
@@ -2331,14 +2584,16 @@ namespace LiquidacionSTN
             this.Load += new System.EventHandler(this.frmLiquidacionST_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.grdCheque)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdLiquidacion)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grdTarjerta)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdTransferencias)).EndInit();
             this.pnlTransferencias.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.grdCheque)).EndInit();
+            this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.grdVouchers)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -2355,14 +2610,14 @@ namespace LiquidacionSTN
 			LiquidacionSTN.Modulo.CnnSigamet.Close ();
 			try
 			{
-				string Query = ("Select Cliente,RutaCliente,PedidoReferencia,TipoPedidoDescripcion,TipoServicioDescripcion,FAtencion,FCompromiso,Total, Impuesto, Status," 
-					+ "StatusServicioTecnico,TipoCobroDescripcion,Autotanque,Pedido,Celula,AñoPed,Nombre,Empresa, " 
+				string Query = ("Select Cliente,RutaCliente,PedidoReferencia,TipoPedidoDescripcion,TipoServicioDescripcion,FAtencion,FCompromiso,Total, Impuesto, Status,"
+                    + "StatusServicioTecnico,TipoCobroDescripcion,Autotanque,Pedido,Celula,AñoPed,Nombre,Empresa, " 
 					+ "TrabajoSolicitado,Chofer,Ayudante,Calle,Colonia,NumInterior,NumExterior,Municipio,cp, " 
 					+ "AñoFolioPresupuesto,FolioPresupuesto,isnull(StatusPresupuesto,'Sin Status') as StatusPresupuesto,isnull(ObservacionesPresupuesto,'sin Observ') as ObservacionesPresupuesto,DescuentoPresupuesto," 
 					+ "SubTotalPresupuesto,TotalPresupuesto,CostoServicioTecnico,ObservacionesServicioRealizado, IdCRM, Producto," 
 					+ "TipoPedido,NumeroPagos,FrecuenciaPagos,CreditoServicioTecnico,TipoCobro,PagosDe,ImporteLetra, " 
-					+ "BancoCheque,FAltaCheque,FCheque,NumCuentaCheque,SaldoCheque,NumeroCheque,TotalCheque,TipoCobroCheque,Folio,AñoAtt,TipoServicio,'' as BancoNombre " 
-					+ " from vwSTNuevaLiquidacion " 
+					+ "BancoCheque,FAltaCheque,FCheque,NumCuentaCheque,SaldoCheque,NumeroCheque,TotalCheque,TipoCobroCheque,Folio,AñoAtt,TipoServicio,'' as BancoNombre, Total as Saldo"
+                    + " from vwSTNuevaLiquidacion " 
 					+ "where StatusServicioTecnico = 'ACTIVO' AND  fcompromiso >= ' " + dtpFLiquidacion.Value.ToShortDateString ()  + " 00:00:00' " 
 					+ "and fcompromiso <= ' " + dtpFLiquidacion.Value.ToShortDateString ()   + " 23:59:59' ");
 				SqlDataAdapter daLiquidacion = new SqlDataAdapter ();
@@ -2522,11 +2777,10 @@ namespace LiquidacionSTN
         /// Valida que no existan cheques, voucher o transferencias asociadas al pedido
         /// </summary>
         /// <returns></returns>
-        private bool ValidarPedidoFormaPago(int parPedido, int parCelula, int parAñoPed)
+        private bool ValidarPedidoFormaPago(int parPedido, int parCelula, int parAñoPed, decimal total)
         {
-            return ValidarPedidoCheque(parPedido, parCelula, parAñoPed) &&
-                ValidarPedidoVoucher(parPedido, parCelula, parAñoPed) &&
-                ValidarPedidoTransferencias(parPedido, parCelula, parAñoPed);
+
+            return _Saldo <= 0;
         }
 
         private bool ValidarPedidoCheque(int parPedido, int parCelula, int parAñoPed)
@@ -2568,22 +2822,21 @@ namespace LiquidacionSTN
 
         private void LlenaCheque()
 		{
-			//this.grdCheque.DataSource = Nothing;
-			DataView vwCheque;
-			vwCheque = new DataView (LiquidacionSTN.Modulo.dtLiquidacion);
-			vwCheque.RowFilter = "BancoCheque <> 0 and Autotanque = " + cboCamioneta.Text ;
-			vwCheque.RowStateFilter = DataViewRowState.ModifiedCurrent ;
-			this.grdCheque.DataSource = vwCheque;
-
-		}
+            ////this.grdCheque.DataSource = Nothing;
+            //DataView vwCheque;
+            //vwCheque = new DataView (LiquidacionSTN.Modulo.dtLiquidacion);
+            //vwCheque.RowFilter = "BancoCheque <> 0 and Autotanque = " + cboCamioneta.Text ;
+            //vwCheque.RowStateFilter = DataViewRowState.ModifiedCurrent ;
+            //this.grdCheque.DataSource = vwCheque;
+        }
 
 		private void LlenaVoucher()
 		{
-			DataView vwVoucher;
-			vwVoucher = new DataView (LiquidacionSTN.Modulo.dtVoucher );
-			vwVoucher.RowFilter = "Autotanque = " + this.cboCamioneta.Text ;
-			vwVoucher.RowStateFilter = DataViewRowState.Added ;
-			this.grdTarjerta.DataSource = vwVoucher;
+			//DataView vwVoucher;
+			//vwVoucher = new DataView (LiquidacionSTN.Modulo.dtVoucher );
+			//vwVoucher.RowFilter = "Autotanque = " + this.cboCamioneta.Text ;
+			//vwVoucher.RowStateFilter = DataViewRowState.Added ;
+			//this.grdTarjerta.DataSource = vwVoucher;
 
 		}
 
@@ -2888,6 +3141,379 @@ namespace LiquidacionSTN
             }
         }
 
+        private void actualizaSaldosAFavor(string pedReferencia)
+        {
+            DataRow[] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select("PedidoReferencia = '" + pedReferencia + "'");
+
+            decimal suma = 0;
+            decimal saldo = 0;
+
+            
+
+            foreach (System.Data.DataRow dr in Query)
+            {
+                saldo = Convert.ToDecimal(dr["Total"]);
+            }
+
+
+
+            List<SigaMetClasses.sCheque> listaChequeTemp=_Cheques.Where(x => x.PedidoReferencia == pedReferencia).ToList<SigaMetClasses.sCheque>(); ;
+
+            foreach (SigaMetClasses.sCheque chequeTemp in listaChequeTemp)
+            {
+                
+                SigaMetClasses.sCheque chequeModificar = _Cheques.Find(x => x.No == chequeTemp.No);
+
+                int i = _Cheques.IndexOf(chequeModificar);
+                if (saldo > chequeModificar.Total)
+                {
+                    chequeModificar.Saldo= 0;
+                    saldo = saldo - chequeModificar.Total;
+                }
+                else
+                {
+                    chequeModificar.Saldo = chequeModificar.Total-saldo;
+                    saldo = 0;
+                }
+                _Cheques[i] = chequeModificar;
+            }
+
+            List<SigaMetClasses.sVoucher> listaVoucherTemp = _Vouchers.Where(x => x.PedidoReferencia == pedReferencia).ToList<SigaMetClasses.sVoucher>(); ;
+
+            foreach (SigaMetClasses.sVoucher voucherTemp in listaVoucherTemp)
+            {
+
+                SigaMetClasses.sVoucher voucherModificar = _Vouchers.Find(x => x.No == voucherTemp.No);
+
+                int i = _Vouchers.IndexOf(voucherModificar);
+                if (saldo > voucherModificar.Monto)
+                {
+                    voucherModificar.Saldo = 0;
+                    saldo = saldo - voucherModificar.Monto;
+                }
+                else
+                {
+                    voucherModificar.Saldo = voucherModificar.Monto - saldo;
+                    saldo = 0;
+                }
+                _Vouchers[i] = voucherModificar;
+            }
+
+            List<SigaMetClasses.sTransferencia> listaTransferenciaTemp = _Transferencias.Where(x => x.PedidoReferencia == pedReferencia).ToList<SigaMetClasses.sTransferencia>(); ;
+            foreach (SigaMetClasses.sTransferencia transferenciaTemp in listaTransferenciaTemp)
+            {
+
+                SigaMetClasses.sTransferencia transferenciaModificar = _Transferencias.Find(x => x.No == transferenciaTemp.No);
+
+                int i = _Transferencias.IndexOf(transferenciaModificar);
+                if (saldo > transferenciaModificar.Monto)
+                {
+                    transferenciaModificar.Saldo = 0;
+                    saldo = saldo - transferenciaModificar.Monto;
+                }
+                else
+                {
+                    transferenciaModificar.Saldo = transferenciaModificar.Monto - saldo;
+                    saldo = 0;
+                }
+                _Transferencias[i] = transferenciaModificar;
+            }
+
+            CargarCheques();
+            
+            CargarVouchers();
+
+            CargarTransferencias();
+                
+        }
+            
+
+
+        private void actualizaSaldoPedido(decimal monto)
+        {
+            DataRow[] Query = LiquidacionSTN.Modulo.dtLiquidacion.Select("PedidoReferencia = '" + _PedidoReferencia + "'");
+
+            foreach (System.Data.DataRow dr in Query)
+            {
+                dr.BeginEdit();
+                dr["Saldo"] = Convert.ToDecimal(dr["Saldo"]) - monto;
+                dr.EndEdit();
+                _SaldoPed = Convert.ToDecimal(dr["Saldo"]);
+            }
+        }
+
+        private void guardaLiquidacion(System.Data.DataRow[] Query, SqlConnection Conexion, SqlTransaction Transaccion)
+        {
+            string _seccion="";
+            SqlCommand Comando;
+            decimal Importe = 0;
+            decimal Impuesto = 0;
+            decimal ValorIva =0;
+            decimal SaldoPendiente;
+            short SaldoFavor = 0;
+            short TPV;
+
+            int folio=0;
+            short añoatt=0;
+            try
+            {
+                ValorIva = 0.16M;
+
+                
+
+                foreach (System.Data.DataRow dr in Query)
+                {
+                    _Pedido = Convert.ToInt32(dr["Pedido"]);
+                    _Celula = Convert.ToInt32(dr["Celula"]);
+                    _AñoPed = Convert.ToInt32(dr["AñoPed"]);
+                    _TipoCobro = Convert.ToInt32(dr["TipoCobro"]);
+                    _TipoPedido = Convert.ToInt32(dr["TipoPedido"]);
+                    _seccion = "Pedido: " + _Pedido.ToString();
+                    SaldoPendiente = Convert.ToDecimal(dr["Saldo"]);
+                    _PedidoReferencia = Convert.ToString(dr["PedidoReferencia"]);
+
+                    Impuesto = Convert.ToDecimal(dr["Total"]) * ValorIva;
+                    Importe = Convert.ToDecimal(dr["Total"]) - Impuesto;
+
+
+                    Comando = new SqlCommand("spSTLiquidacionModificaPedido");
+                    Comando.Connection = Conexion;
+                    Comando.Transaction = Transaccion;
+                    Comando.CommandTimeout = 300;
+                    Comando.CommandType = CommandType.StoredProcedure;
+                    Comando.Parameters.Add("@Pedido", SqlDbType.Int).Value = _Pedido;
+                    Comando.Parameters.Add("@Celula", SqlDbType.TinyInt).Value = _Celula;
+                    Comando.Parameters.Add("@AñoPed", SqlDbType.SmallInt).Value = _AñoPed;
+                    Comando.Parameters.Add("@ObservacionesServicioRealizado", SqlDbType.VarChar, 1000).Value = dr["ObservacionesServicioRealizado"];
+                    Comando.Parameters.Add("@Fatencion", SqlDbType.DateTime).Value = Convert.ToDateTime(dr["FAtencion"]);
+                    Comando.Parameters.Add("@CostoServicioTecnico", SqlDbType.Money).Value = Convert.ToDecimal(dr["CostoServicioTecnico"]);
+                    Comando.Parameters.Add("@TotalPedido", SqlDbType.Money).Value = Convert.ToDecimal(dr["Total"]);
+                    Comando.Parameters.Add("@Importe", SqlDbType.Money).Value = Importe;
+                    Comando.Parameters.Add("@Impuesto", SqlDbType.Money).Value = Impuesto ;
+                    Comando.Parameters.Add("@TipoPedido", SqlDbType.TinyInt).Value = _TipoPedido;
+
+                    Comando.Parameters.Add("@Ruta", SqlDbType.Int).Value = Convert.ToInt32(dr["RutaCliente"]);
+                    Comando.Parameters.Add("@TipoServicio", SqlDbType.TinyInt).Value = Convert.ToInt16(dr["TipoServicio"]);
+                    Comando.Parameters.Add("@TotalPresupuesto", SqlDbType.Money).Value = Convert.ToDecimal(dr["TotalPresupuesto"]); 
+                    Comando.Parameters.Add("@DescuentoPresupuesto", SqlDbType.Money).Value = Convert.ToDecimal(dr["DescuentoPresupuesto"]);
+                    Comando.Parameters.Add("@SubTotalPresupuesto", SqlDbType.Money).Value = Convert.ToDecimal(dr["SubTotalPresupuesto"]);
+                    Comando.Parameters.Add("@StatusPresupuesto", SqlDbType.Char,18).Value = Convert.ToString(dr["StatusPresupuesto"]); 
+                    Comando.Parameters.Add("@ObservacionesPresupuesto", SqlDbType.VarChar,250).Value = Convert.ToString(dr["ObservacionesPresupuesto"]);
+                    Comando.Parameters.Add("@Parcialidad", SqlDbType.Money).Value = Convert.ToDecimal(dr["PagosDe"]);
+                    Comando.Parameters.Add("@ImporteLetra", SqlDbType.VarChar,100).Value = Convert.ToString(dr["ImporteLetra"]);
+                    Comando.Parameters.Add("@NumPagos", SqlDbType.Int).Value = Convert.ToInt32(dr["NumeroPagos"]);
+                    Comando.Parameters.Add("@Dias", SqlDbType.Int).Value = Convert.ToInt32(dr["FrecuenciaPagos"]);
+
+
+                    if (_TipoPedido==7)
+                    {
+                        Comando.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = 5;
+                    }
+                    else
+                    {
+
+                        if (_TipoPedido == 10)
+                        {
+                            Comando.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = Convert.ToInt16(dr["TipoCobro"]); ;
+                        }
+                    }
+
+                    folio= Convert.ToInt32(dr["Folio"]);
+                    añoatt = Convert.ToInt16(dr["AñoAtt"]);
+
+                    Comando.ExecuteNonQuery();
+
+                    if (_TipoPedido == 7)
+                    {
+
+                        if (SaldoPendiente > 0)
+                        {
+
+                            Impuesto = SaldoPendiente * ValorIva;
+                            Importe = SaldoPendiente - Impuesto;
+
+                            Comando = new SqlCommand("spSTLiquidacionInsertaCobro");
+                            Comando.Connection = Conexion;
+                            Comando.Transaction = Transaccion;
+                            Comando.CommandTimeout = 300;
+                            Comando.CommandType = CommandType.StoredProcedure;
+                            Comando.Parameters.Add("@Pedido", SqlDbType.Int).Value = _Pedido;
+                            Comando.Parameters.Add("@Celula", SqlDbType.TinyInt).Value = _Celula;
+                            Comando.Parameters.Add("@AñoPed", SqlDbType.SmallInt).Value = _AñoPed;
+                            Comando.Parameters.Add("@Total", SqlDbType.Money).Value = SaldoPendiente;
+                            Comando.Parameters.Add("@Impuesto", SqlDbType.Money).Value = Impuesto;
+                            Comando.Parameters.Add("@Importe", SqlDbType.Money).Value = Importe;
+                            Comando.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = 5;
+                            Comando.Parameters.Add("@Cliente", SqlDbType.Int).Value = Convert.ToInt32(dr["Cliente"]);
+                            Comando.Parameters.Add("@Usuario", SqlDbType.Char, 15).Value = _Usuario;
+                            Comando.Parameters.Add("@Folio", SqlDbType.Int).Value = Convert.ToInt32(dr["Folio"]);
+                            Comando.Parameters.Add("@Añoatt", SqlDbType.SmallInt).Value = Convert.ToInt16(dr["AñoAtt"]);
+                            Comando.ExecuteNonQuery();
+                        }
+
+                        List<SigaMetClasses.sCheque> listaChequeTemp = _Cheques.Where(x => x.PedidoReferencia == _PedidoReferencia).ToList<SigaMetClasses.sCheque>(); ;
+
+                        foreach (SigaMetClasses.sCheque chequeTemp in listaChequeTemp)
+                        {
+                            Impuesto = chequeTemp.Total * ValorIva;
+                            Importe = chequeTemp.Total - Impuesto;
+
+                            SaldoPendiente = Math.Abs(chequeTemp.Saldo);
+
+                            if (SaldoPendiente > 0)
+                            {
+                                SaldoFavor = 1;
+                            }
+                            else
+                            {
+                                SaldoFavor = 0;
+                            }
+
+                            Comando = new SqlCommand("spSTLiquidacionInsertaCobro");
+                            Comando.Connection = Conexion;
+                            Comando.Transaction = Transaccion;
+                            Comando.CommandType = CommandType.StoredProcedure;
+                            Comando.Parameters.Add("@Pedido", SqlDbType.Int).Value = _Pedido;
+                            Comando.Parameters.Add("@Celula", SqlDbType.TinyInt).Value = _Celula;
+                            Comando.Parameters.Add("@AñoPed", SqlDbType.SmallInt).Value = _AñoPed;
+                            Comando.Parameters.Add("@Total", SqlDbType.Money).Value = chequeTemp.Total;
+                            Comando.Parameters.Add("@Impuesto", SqlDbType.Money).Value = Impuesto;
+                            Comando.Parameters.Add("@Importe", SqlDbType.Money).Value = Importe;
+                            Comando.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = chequeTemp.BancoCheque;
+                            Comando.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = chequeTemp.TipoCobro;
+                            Comando.Parameters.Add("@NumeroCheque", SqlDbType.Char, 20).Value = chequeTemp.NumeroCheque;
+                            Comando.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = chequeTemp.Fecha;
+                            Comando.Parameters.Add("@NumeroCuenta", SqlDbType.Char, 20).Value = chequeTemp.NumCuenta;
+                            Comando.Parameters.Add("@Cliente", SqlDbType.Int).Value = Convert.ToInt32(dr["Cliente"]);
+                            Comando.Parameters.Add("@Saldo", SqlDbType.Money).Value = SaldoPendiente;
+                            Comando.Parameters.Add("@SaldoAFavor", SqlDbType.TinyInt).Value = SaldoFavor;
+                            Comando.Parameters.Add("@Usuario", SqlDbType.Char, 15).Value = _Usuario;
+                            Comando.Parameters.Add("@Folio", SqlDbType.Int).Value = Convert.ToInt32(dr["Folio"]);
+                            Comando.Parameters.Add("@Añoatt", SqlDbType.SmallInt).Value = Convert.ToInt16(dr["AñoAtt"]);
+                            Comando.Parameters.Add("@FDeposito", SqlDbType.DateTime).Value = DateTime.Now;
+                            Comando.Parameters.Add("@Observaciones", SqlDbType.VarChar, 250).Value = chequeTemp.Observaciones;
+                            Comando.ExecuteNonQuery();
+                        }
+
+                        List<SigaMetClasses.sVoucher> listaVoucherTemp = _Vouchers.Where(x => x.PedidoReferencia == _PedidoReferencia).ToList<SigaMetClasses.sVoucher>(); ;
+
+                        foreach (SigaMetClasses.sVoucher voucherTemp in listaVoucherTemp)
+                        {
+                            Impuesto = voucherTemp.Monto * ValorIva;
+                            Importe = voucherTemp.Monto - Impuesto;
+
+                            SaldoPendiente = Math.Abs(voucherTemp.Saldo);
+
+                            if (voucherTemp.Saldo > 0)
+                            {                                
+                                SaldoFavor = 1;
+                                TPV = 1;
+                            }
+                            else
+                            {
+                                SaldoFavor = 0;
+                                TPV = 0;
+                            }
+                            Comando = new SqlCommand("spSTLiquidacionInsertaCobro");
+                            Comando.Connection = Conexion;
+                            Comando.Transaction = Transaccion;
+                            Comando.CommandType = CommandType.StoredProcedure;
+                            Comando.Parameters.Add("@Pedido", SqlDbType.Int).Value = _Pedido;
+                            Comando.Parameters.Add("@Celula", SqlDbType.TinyInt).Value = _Celula;
+                            Comando.Parameters.Add("@AñoPed", SqlDbType.SmallInt).Value = _AñoPed;
+                            Comando.Parameters.Add("@Total", SqlDbType.Money).Value = voucherTemp.Monto;
+                            Comando.Parameters.Add("@Impuesto", SqlDbType.Money).Value = Impuesto;
+                            Comando.Parameters.Add("@Importe", SqlDbType.Money).Value = Importe;
+                            Comando.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = voucherTemp.Banco;
+                            Comando.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = voucherTemp.TipoCobro;
+                            Comando.Parameters.Add("@NumeroCheque", SqlDbType.Char, 20).Value = voucherTemp.Autorizacion;
+                            Comando.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = voucherTemp.Fecha;
+                            Comando.Parameters.Add("@Cliente", SqlDbType.Int).Value = Convert.ToInt32(dr["Cliente"]);
+                            Comando.Parameters.Add("@Saldo", SqlDbType.Money).Value = SaldoPendiente;
+                            Comando.Parameters.Add("@SaldoAFavor", SqlDbType.TinyInt).Value = SaldoFavor;
+                            Comando.Parameters.Add("@Usuario", SqlDbType.Char, 15).Value = _Usuario;
+                            Comando.Parameters.Add("@Folio", SqlDbType.Int).Value = Convert.ToInt32(dr["Folio"]);
+                            Comando.Parameters.Add("@Añoatt", SqlDbType.SmallInt).Value = Convert.ToInt16(dr["AñoAtt"]);
+                            Comando.Parameters.Add("@BancoOrigen", SqlDbType.SmallInt).Value = voucherTemp.BancoTarjeta;
+                            Comando.Parameters.Add("@Referencia", SqlDbType.Char, 20).Value = voucherTemp.Afiliacion;
+                            Comando.Parameters.Add("@FDeposito", SqlDbType.DateTime).Value = DateTime.Now;
+                            Comando.Parameters.Add("@TPV", SqlDbType.TinyInt).Value = TPV;
+                            Comando.Parameters.Add("@FolioTarjeta", SqlDbType.Int).Value = voucherTemp.Folio;
+                            Comando.ExecuteNonQuery();
+                        }
+
+                        List<SigaMetClasses.sTransferencia> listaTransferenciaTemp = _Transferencias.Where(x => x.PedidoReferencia == _PedidoReferencia).ToList<SigaMetClasses.sTransferencia>(); ;
+
+                        foreach (SigaMetClasses.sTransferencia transferenciaTemp in listaTransferenciaTemp)
+                        {
+                            Impuesto = transferenciaTemp.Monto* ValorIva;
+                            Importe = transferenciaTemp.Monto - Impuesto;
+
+                            SaldoPendiente = Math.Abs(transferenciaTemp.Saldo);
+
+                            if (SaldoPendiente > 0)
+                            {
+                                SaldoFavor = 1;
+                            }
+                            else
+                            {
+                                SaldoFavor = 0;
+                            }
+
+                            Comando = new SqlCommand("spSTLiquidacionInsertaCobro");
+                            Comando.Connection = Conexion;
+                            Comando.Transaction = Transaccion;
+                            Comando.CommandType = CommandType.StoredProcedure;
+                            Comando.Parameters.Add("@Pedido", SqlDbType.Int).Value = _Pedido;
+                            Comando.Parameters.Add("@Celula", SqlDbType.TinyInt).Value = _Celula;
+                            Comando.Parameters.Add("@AñoPed", SqlDbType.SmallInt).Value = _AñoPed;
+                            Comando.Parameters.Add("@Total", SqlDbType.Money).Value = transferenciaTemp.Monto;
+                            Comando.Parameters.Add("@Impuesto", SqlDbType.Money).Value = Impuesto;
+                            Comando.Parameters.Add("@Importe", SqlDbType.Money).Value = Importe;
+                            Comando.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = transferenciaTemp.BancoDestino;
+                            Comando.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = 10;
+                            Comando.Parameters.Add("@NumeroCheque", SqlDbType.Char, 20).Value = transferenciaTemp.Documento;
+                            Comando.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = transferenciaTemp.Fecha;
+                            Comando.Parameters.Add("@NumeroCuenta", SqlDbType.Char, 20).Value = transferenciaTemp.CuentaOrigen;
+                            Comando.Parameters.Add("@Cliente", SqlDbType.Int).Value = Convert.ToInt32(dr["Cliente"]);
+                            Comando.Parameters.Add("@Saldo", SqlDbType.Money).Value = SaldoPendiente;
+                            Comando.Parameters.Add("@SaldoAFavor", SqlDbType.TinyInt).Value = SaldoFavor;
+                            Comando.Parameters.Add("@Usuario", SqlDbType.Char, 15).Value = _Usuario;
+                            Comando.Parameters.Add("@Folio", SqlDbType.Int).Value = Convert.ToInt32(dr["Folio"]);
+                            Comando.Parameters.Add("@Añoatt", SqlDbType.SmallInt).Value = Convert.ToInt16(dr["AñoAtt"]);
+                            Comando.Parameters.Add("@BancoOrigen", SqlDbType.SmallInt).Value = transferenciaTemp.BancoOrigen;
+                            Comando.Parameters.Add("@FDeposito", SqlDbType.DateTime).Value = DateTime.Now;
+                            Comando.Parameters.Add("@Observaciones", SqlDbType.VarChar, 250).Value = transferenciaTemp.Observaciones;
+                            Comando.ExecuteNonQuery();
+                        }
+
+
+
+                    }     
+
+                }
+                Comando = new SqlCommand("spSTLiquidacionActualizaAutotanqueTurno");
+                Comando.Connection = Conexion;
+                Comando.Transaction = Transaccion;
+                Comando.CommandTimeout = 300;
+                Comando.CommandType = CommandType.StoredProcedure;
+                Comando.Parameters.Add("@ImporteCredito", SqlDbType.Money).Value = lblTotalCreditos.Text;
+                Comando.Parameters.Add("@ImporteContado", SqlDbType.Money).Value = lblTotalContados.Text;
+                Comando.Parameters.Add("@KilometrajeInicial", SqlDbType.Int).Value = txtKilometrajeInicial.Text;
+                Comando.Parameters.Add("@KilometrajeFinal", SqlDbType.Int).Value = txtKilometrajeFinal.Text;
+                Comando.Parameters.Add("@DiferenciaKilometraje", SqlDbType.Int).Value = Convert.ToDecimal(txtKilometrajeFinal.Text) - Convert.ToDecimal(txtKilometrajeInicial.Text);
+                Comando.Parameters.Add("@Usuario", SqlDbType.Char, 15).Value = _Usuario;
+                Comando.Parameters.Add("@Folio", SqlDbType.Int).Value = folio;
+                Comando.Parameters.Add("@Añoatt", SqlDbType.SmallInt).Value = añoatt;
+                Comando.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Error en " + _seccion + ": " + ex.Message);
+
+            }
+        }
 
         private void toolBar1_ButtonClick(object sender, System.Windows.Forms.ToolBarButtonClickEventArgs e)
 		{
@@ -2946,323 +3572,335 @@ namespace LiquidacionSTN
 
                                 try
                                 {
-                                    foreach (System.Data.DataRow dr in Query)
-                                    {
-                                        _Pedido = Convert.ToInt32(dr["Pedido"]);
-                                        _Celula = Convert.ToInt32(dr["Celula"]);
-                                        _AñoPed = Convert.ToInt32(dr["AñoPed"]);
-                                        _TipoCobro = Convert.ToInt32(dr["TipoCobro"]);
-
-                                        if (_TipoCobro == 6 || _TipoCobro == 19 || _TipoCobro == 22)
-                                        {
-                                            System.Data.DataRow[] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select("Pedido = " + _Pedido + " and Celula = " + _Celula + "and AñoPed = " + _AñoPed);
-                                            foreach (System.Data.DataRow drVoucher in Consulta)
-                                            {
-                                                try
-                                                {
-                                                    //Conexion.Open ();
-
-                                                    SqlCommand Comando = Conexion.CreateCommand();
-
-                                                    //Transaccion = Conexion.BeginTransaction () ;
-                                                    Comando.Connection = Conexion;
-                                                    Comando.Transaction = Transaccion;
-
-                                                    SqlParameter Parametro;
-                                                    Parametro = Comando.Parameters.Add("@Pedido", System.Data.SqlDbType.Int);
-                                                    Parametro.Value = drVoucher["Pedido"];
-                                                    Parametro = Comando.Parameters.Add("@Celula", System.Data.SqlDbType.TinyInt);
-                                                    Parametro.Value = dr["Celula"];
-                                                    Parametro = Comando.Parameters.Add("@AñoPed", System.Data.SqlDbType.SmallInt);
-                                                    Parametro.Value = dr["AñoPed"];
-                                                    Parametro = Comando.Parameters.Add("@ObservacionesServicioRealizado", System.Data.SqlDbType.VarChar);
-                                                    Parametro.Value = dr["ObservacionesServicioRealizado"];
-                                                    Parametro = Comando.Parameters.Add("@CostoServicioTecnico", SqlDbType.Money);
-                                                    Parametro.Value = dr["CostoServicioTecnico"];
-                                                    Parametro = Comando.Parameters.Add("@TipoPedido", SqlDbType.TinyInt);
-                                                    Parametro.Value = dr["TipoPedido"];
-                                                    Parametro = Comando.Parameters.Add("@TotalPedido", SqlDbType.Money);
-                                                    Parametro.Value = Convert.ToDecimal(dr["Total"]);
-                                                    Parametro = Comando.Parameters.Add("@StatusPresupuesto", SqlDbType.Char);
-                                                    Parametro.Value = dr["StatusPresupuesto"];
-                                                    Parametro = Comando.Parameters.Add("@TotalPresupuesto", SqlDbType.Money);
-                                                    Parametro.Value = dr["TotalPresupuesto"];
-                                                    Parametro = Comando.Parameters.Add("@DescuentoPresupuesto", SqlDbType.Money);
-                                                    Parametro.Value = dr["DescuentoPresupuesto"];
-                                                    Parametro = Comando.Parameters.Add("@SubTotalPresupuesto", SqlDbType.Money);
-                                                    Parametro.Value = dr["SubTotalPresupuesto"];
-                                                    Parametro = Comando.Parameters.Add("@ObservacionesPresupuesto", SqlDbType.VarChar);
-                                                    Parametro.Value = dr["ObservacionesPresupuesto"];
-                                                    Parametro = Comando.Parameters.Add("@Parcialidad", System.Data.SqlDbType.Money);
-                                                    Parametro.Value = dr["PagosDe"];
-                                                    Parametro = Comando.Parameters.Add("@ImporteLetra", SqlDbType.VarChar);
-                                                    Parametro.Value = dr["ImporteLetra"];
-                                                    Parametro = Comando.Parameters.Add("@NumPagos", SqlDbType.Int);
-                                                    Parametro.Value = dr["NumeroPagos"];
-                                                    Parametro = Comando.Parameters.Add("@Dias", SqlDbType.Int);
-                                                    Parametro.Value = dr["FrecuenciaPagos"];
-                                                    Parametro = Comando.Parameters.Add("@TipoServicio", SqlDbType.Int);
-                                                    Parametro.Value = dr["TipoServicio"];
-                                                    Parametro = Comando.Parameters.Add("@TipoCobro", SqlDbType.Int);
-                                                    Parametro.Value = dr["TipoCobro"];
-                                                    Parametro = Comando.Parameters.Add("@Banco", SqlDbType.Int);
-                                                    Parametro.Value = drVoucher["Banco"];
-                                                    Parametro = Comando.Parameters.Add("@BancoTarjetaCredito", SqlDbType.Int);
-                                                    Parametro.Value = drVoucher["BancoTarjeta"];
-                                                    Parametro = Comando.Parameters.Add("@Cliente", SqlDbType.Int);
-                                                    Parametro.Value = dr["Cliente"];
-                                                    Parametro = Comando.Parameters.Add("@FChequeTarjetaCredito", SqlDbType.DateTime);
-                                                    Parametro.Value = drVoucher["Fecha"];
-                                                    Parametro = Comando.Parameters.Add("@NumCuenta", SqlDbType.Char);
-                                                    Parametro.Value = drVoucher["Folio"];
-                                                    Parametro = Comando.Parameters.Add("@NumChequeTarjetaCredito", SqlDbType.Char);
-                                                    //Parametro.Value = drVoucher["Folio"];
-                                                    Parametro.Value = drVoucher["Autorizacion"];
-                                                    Parametro = Comando.Parameters.Add("@TotalTarjetaCredito", SqlDbType.Money);
-                                                    Parametro.Value = drVoucher["Monto"];
-                                                    Parametro = Comando.Parameters.Add("@SaldoTarjetaCredito", SqlDbType.Money);
-                                                    Parametro.Value = drVoucher["Saldo"]!=null? drVoucher["Saldo"]:0;
-                                                    Parametro = Comando.Parameters.Add("@Usuario", SqlDbType.Char);
-                                                    Parametro.Value = _Usuario;
-                                                    Parametro = Comando.Parameters.Add("@Folio", SqlDbType.Int);
-                                                    Parametro.Value = dr["Folio"];
-                                                    Parametro = Comando.Parameters.Add("@AñoAtt", SqlDbType.Int);
-                                                    _Folio = Convert.ToInt32(dr["Folio"]);
-                                                    _AñoAtt = Convert.ToInt32(dr["AñoAtt"]);
-                                                    Parametro.Value = dr["AñoAtt"];
-                                                    Parametro = Comando.Parameters.Add("@ImporteContado", SqlDbType.Money);
-                                                    Parametro.Value = lblTotalContados.Text;
-                                                    Parametro = Comando.Parameters.Add("@ImporteCredito", System.Data.SqlDbType.Money);
-                                                    Parametro.Value = lblTotalCreditos.Text;
-                                                    Parametro = Comando.Parameters.Add("@KilometrajeInicial", SqlDbType.Int);
-                                                    Parametro.Value = txtKilometrajeInicial.Text;
-                                                    Parametro = Comando.Parameters.Add("@KilometrajeFinal", SqlDbType.Int);
-                                                    Parametro.Value = txtKilometrajeFinal.Text;
-                                                    Parametro = Comando.Parameters.Add("@DiferenciaKilometraje", SqlDbType.Int);
-                                                    Parametro.Value = _Diferencia;
-                                                    Parametro = Comando.Parameters.Add("@Ruta", SqlDbType.Int);
-                                                    Parametro.Value = dr["RutaCliente"];
-                                                    Parametro = Comando.Parameters.Add("@FAtencion", SqlDbType.DateTime);
-                                                    Parametro.Value = dr["FAtencion"];
-                                                    Parametro = Comando.Parameters.Add("@Referencia", SqlDbType.Char);
-                                                    Parametro.Value = drVoucher["Afiliacion"];
-
-                                                    Comando.CommandType = CommandType.StoredProcedure;
-                                                    Comando.CommandText = "spSTLiquidacionServiciosTecnicos";
-                                                    Comando.CommandTimeout = 300;
-                                                    Comando.ExecuteNonQuery();
-                                                    //Transaccion.Commit ();
-
-                                                    
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    //MessageBox.Show(ex.Message);
-                                                    throw;
-                                                }
-                                                //finally
-                                                //{
-                                                //    Conexion.Close();
-                                                //    Conexion.Dispose();
-                                                //    this.Close();
-                                                //}
-                                            }
-                                        }
-                                        else if (_TipoCobro == 10)
-                                        {
-                                          
-                                            // Las transferencias se insertan en el m�todo InsertarTransferencias()
-
-                                            #region "RM - 28/12/2018"
-                                            // RM - 28/12/2018
-                                            // Si la transferencia no cubre el total del pedido, insertar el resto como efectivo.
-                                            // Las transferencias se insertan en el m�todo InsertarTransferencias()
-                                            //decimal dTotalTransferencias = 0;
-                                            //foreach(SigaMetClasses.sTransferencia transferencia in _Transferencias)
-                                            //{
-                                            //    dTotalTransferencias += transferencia.Monto;
-                                            //}
-
-                                            //dTotalEfectivo = Convert.ToDecimal(dr["Total"]);
-                                            ////decimal dTotalCheques = CalcularTotalCheques();
-                                            //decimal dTotalCheques = Convert.ToDecimal(dr["TotalCheque"]);
-                                            //decimal dDiferencia = dTotalEfectivo - (dTotalTransferencias + dTotalCheques);
-
-                                            //if (dDiferencia > 0)
-                                            //{
-                                            //    InsertarCobroEfectivo(dr, Conexion, Transaccion, dDiferencia);
-                                            //}
-
-                                            //if (dTotalCheques > 0)
-                                            //{
-                                            //    InsertarCobroCheque(dr, Conexion, Transaccion);
-                                            }
-                                            #endregion
-
-                                        
-                                        else
-                                        {
-                                            try
-                                            {
-                                                //Conexion.Open ();
-
-                                                SqlCommand Comando = Conexion.CreateCommand();
+                                    #region CodigoViejo
 
 
-                                                Comando.Connection = Conexion;
-                                                Comando.Transaction = Transaccion;
+                                    //foreach (System.Data.DataRow dr in Query)
+                                    //{
+                                    //    _Pedido = Convert.ToInt32(dr["Pedido"]);
+                                    //    _Celula = Convert.ToInt32(dr["Celula"]);
+                                    //    _AñoPed = Convert.ToInt32(dr["AñoPed"]);
+                                    //    _TipoCobro = Convert.ToInt32(dr["TipoCobro"]);
 
-                                                SqlParameter Parametro;
-                                                Parametro = Comando.Parameters.Add("@Pedido", System.Data.SqlDbType.Int);
-                                                Parametro.Value = dr["Pedido"];
-                                                Parametro = Comando.Parameters.Add("@Celula", System.Data.SqlDbType.TinyInt);
-                                                Parametro.Value = dr["Celula"];
-                                                Parametro = Comando.Parameters.Add("@AñoPed", System.Data.SqlDbType.SmallInt);
-                                                Parametro.Value = dr["AñoPed"];
-                                                Parametro = Comando.Parameters.Add("@ObservacionesServicioRealizado", System.Data.SqlDbType.VarChar);
-                                                Parametro.Value = dr["ObservacionesServicioRealizado"];
-                                                Parametro = Comando.Parameters.Add("@CostoServicioTecnico", SqlDbType.Money);
-                                                Parametro.Value = dr["CostoServicioTecnico"];
-                                                Parametro = Comando.Parameters.Add("@TipoPedido", SqlDbType.TinyInt);
-                                                Parametro.Value = dr["TipoPedido"];
-                                                Parametro = Comando.Parameters.Add("@TotalPedido", SqlDbType.Money);
-                                                Parametro.Value = Convert.ToDecimal(dr["Total"]);
-                                                Parametro = Comando.Parameters.Add("@StatusPresupuesto", SqlDbType.Char);
-                                                Parametro.Value = dr["StatusPresupuesto"];
-                                                Parametro = Comando.Parameters.Add("@TotalPresupuesto", SqlDbType.Money);
-                                                Parametro.Value = dr["TotalPresupuesto"];
-                                                Parametro = Comando.Parameters.Add("@DescuentoPresupuesto", SqlDbType.Money);
-                                                Parametro.Value = dr["DescuentoPresupuesto"];
-                                                Parametro = Comando.Parameters.Add("@SubTotalPresupuesto", SqlDbType.Money);
-                                                Parametro.Value = dr["SubTotalPresupuesto"];
-                                                Parametro = Comando.Parameters.Add("@ObservacionesPresupuesto", SqlDbType.VarChar);
-                                                Parametro.Value = dr["ObservacionesPresupuesto"];
-                                                Parametro = Comando.Parameters.Add("@Parcialidad", System.Data.SqlDbType.Money);
-                                                Parametro.Value = dr["PagosDe"];
-                                                Parametro = Comando.Parameters.Add("@ImporteLetra", SqlDbType.VarChar);
-                                                Parametro.Value = dr["ImporteLetra"];
-                                                Parametro = Comando.Parameters.Add("@NumPagos", SqlDbType.Int);
-                                                Parametro.Value = dr["NumeroPagos"];
-                                                Parametro = Comando.Parameters.Add("@Dias", SqlDbType.Int);
-                                                Parametro.Value = dr["FrecuenciaPagos"];
-                                                Parametro = Comando.Parameters.Add("@TipoServicio", SqlDbType.Int);
-                                                Parametro.Value = dr["TipoServicio"];
-                                                Parametro = Comando.Parameters.Add("@TipoCobro", SqlDbType.Int);
-                                                Parametro.Value = dr["TipoCobro"];
-                                                Parametro = Comando.Parameters.Add("@Banco", SqlDbType.Int);
-                                                Parametro.Value = dr["BancoCheque"];
-                                                Parametro = Comando.Parameters.Add("@Cliente", SqlDbType.Int);
-                                                Parametro.Value = dr["Cliente"];
-                                                Parametro = Comando.Parameters.Add("@FCheque", SqlDbType.DateTime);
-                                                Parametro.Value = dr["FCheque"];
-                                                Parametro = Comando.Parameters.Add("@NumCuenta", SqlDbType.Char);
-                                                Parametro.Value = dr["NumCuentaCheque"];
-                                                Parametro = Comando.Parameters.Add("@NumCheque", SqlDbType.Char);
-                                                Parametro.Value = dr["NumeroCheque"];
-                                                Parametro = Comando.Parameters.Add("@TotalCheque", SqlDbType.Money);
-                                                Parametro.Value = dr["TotalCheque"];
-                                                Parametro = Comando.Parameters.Add("@Saldo", SqlDbType.Money);
-                                                Parametro.Value = dr["SaldoCheque"];
-                                                Parametro = Comando.Parameters.Add("@Usuario", SqlDbType.Char);
-                                                Parametro.Value = _Usuario;
-                                                Parametro = Comando.Parameters.Add("@Folio", SqlDbType.Int);
-                                                Parametro.Value = dr["Folio"];
-                                                Parametro = Comando.Parameters.Add("@AñoAtt", SqlDbType.Int);
-                                                _Folio = Convert.ToInt32(dr["Folio"]);
-                                                _AñoAtt = Convert.ToInt32(dr["AñoAtt"]);
-                                                Parametro.Value = dr["AñoAtt"];
-                                                Parametro = Comando.Parameters.Add("@ImporteContado", SqlDbType.Money);
-                                                Parametro.Value = lblTotalContados.Text;
-                                                Parametro = Comando.Parameters.Add("@ImporteCredito", System.Data.SqlDbType.Money);
-                                                Parametro.Value = lblTotalCreditos.Text;
-                                                Parametro = Comando.Parameters.Add("@KilometrajeInicial", SqlDbType.Int);
-                                                Parametro.Value = txtKilometrajeInicial.Text;
-                                                Parametro = Comando.Parameters.Add("@KilometrajeFinal", SqlDbType.Int);
-                                                Parametro.Value = txtKilometrajeFinal.Text;
-                                                Parametro = Comando.Parameters.Add("@DiferenciaKilometraje", SqlDbType.Int);
-                                                Parametro.Value = _Diferencia;
-                                                Parametro = Comando.Parameters.Add("@Ruta", SqlDbType.Int);
-                                                Parametro.Value = dr["RutaCliente"];
-                                                Parametro = Comando.Parameters.Add("@FAtencion", SqlDbType.DateTime);
-                                                Parametro.Value = dr["FAtencion"];
+                                    //    if (_TipoCobro == 6 || _TipoCobro == 19 || _TipoCobro == 22)
+                                    //    {
+                                    //        System.Data.DataRow[] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select("Pedido = " + _Pedido + " and Celula = " + _Celula + "and AñoPed = " + _AñoPed);
+                                    //        foreach (System.Data.DataRow drVoucher in Consulta)
+                                    //        {
+                                    //            try
+                                    //            {
+                                    //                //Conexion.Open ();
 
-                                                Comando.CommandType = CommandType.StoredProcedure;
-                                                Comando.CommandText = "spSTLiquidacionServiciosTecnicos";
-                                                Comando.CommandTimeout = 300;
-                                                Comando.ExecuteNonQuery();
-                                                //Transaccion.Commit ();																												
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                //MessageBox.Show (ex.Message );
-                                                throw;
-                                            }
-                                        }
-                                    }// foreach dr in Query
+                                    //                SqlCommand Comando = Conexion.CreateCommand();
 
-                                    if (Query.Length > 0)
-                                    {
-                                        InsertarTransferencias(Query[0], Conexion, Transaccion);
-                                    }
+                                    //                //Transaccion = Conexion.BeginTransaction () ;
+                                    //                Comando.Connection = Conexion;
+                                    //                Comando.Transaction = Transaccion;
+
+                                    //                SqlParameter Parametro;
+                                    //                Parametro = Comando.Parameters.Add("@Pedido", System.Data.SqlDbType.Int);
+                                    //                Parametro.Value = drVoucher["Pedido"];
+                                    //                Parametro = Comando.Parameters.Add("@Celula", System.Data.SqlDbType.TinyInt);
+                                    //                Parametro.Value = dr["Celula"];
+                                    //                Parametro = Comando.Parameters.Add("@AñoPed", System.Data.SqlDbType.SmallInt);
+                                    //                Parametro.Value = dr["AñoPed"];
+                                    //                Parametro = Comando.Parameters.Add("@ObservacionesServicioRealizado", System.Data.SqlDbType.VarChar);
+                                    //                Parametro.Value = dr["ObservacionesServicioRealizado"];
+                                    //                Parametro = Comando.Parameters.Add("@CostoServicioTecnico", SqlDbType.Money);
+                                    //                Parametro.Value = dr["CostoServicioTecnico"];
+                                    //                Parametro = Comando.Parameters.Add("@TipoPedido", SqlDbType.TinyInt);
+                                    //                Parametro.Value = dr["TipoPedido"];
+                                    //                Parametro = Comando.Parameters.Add("@TotalPedido", SqlDbType.Money);
+                                    //                Parametro.Value = Convert.ToDecimal(dr["Total"]);
+                                    //                Parametro = Comando.Parameters.Add("@StatusPresupuesto", SqlDbType.Char);
+                                    //                Parametro.Value = dr["StatusPresupuesto"];
+                                    //                Parametro = Comando.Parameters.Add("@TotalPresupuesto", SqlDbType.Money);
+                                    //                Parametro.Value = dr["TotalPresupuesto"];
+                                    //                Parametro = Comando.Parameters.Add("@DescuentoPresupuesto", SqlDbType.Money);
+                                    //                Parametro.Value = dr["DescuentoPresupuesto"];
+                                    //                Parametro = Comando.Parameters.Add("@SubTotalPresupuesto", SqlDbType.Money);
+                                    //                Parametro.Value = dr["SubTotalPresupuesto"];
+                                    //                Parametro = Comando.Parameters.Add("@ObservacionesPresupuesto", SqlDbType.VarChar);
+                                    //                Parametro.Value = dr["ObservacionesPresupuesto"];
+                                    //                Parametro = Comando.Parameters.Add("@Parcialidad", System.Data.SqlDbType.Money);
+                                    //                Parametro.Value = dr["PagosDe"];
+                                    //                Parametro = Comando.Parameters.Add("@ImporteLetra", SqlDbType.VarChar);
+                                    //                Parametro.Value = dr["ImporteLetra"];
+                                    //                Parametro = Comando.Parameters.Add("@NumPagos", SqlDbType.Int);
+                                    //                Parametro.Value = dr["NumeroPagos"];
+                                    //                Parametro = Comando.Parameters.Add("@Dias", SqlDbType.Int);
+                                    //                Parametro.Value = dr["FrecuenciaPagos"];
+                                    //                Parametro = Comando.Parameters.Add("@TipoServicio", SqlDbType.Int);
+                                    //                Parametro.Value = dr["TipoServicio"];
+                                    //                Parametro = Comando.Parameters.Add("@TipoCobro", SqlDbType.Int);
+                                    //                Parametro.Value = dr["TipoCobro"];
+                                    //                Parametro = Comando.Parameters.Add("@Banco", SqlDbType.Int);
+                                    //                Parametro.Value = drVoucher["Banco"];
+                                    //                Parametro = Comando.Parameters.Add("@BancoTarjetaCredito", SqlDbType.Int);
+                                    //                Parametro.Value = drVoucher["BancoTarjeta"];
+                                    //                Parametro = Comando.Parameters.Add("@Cliente", SqlDbType.Int);
+                                    //                Parametro.Value = dr["Cliente"];
+                                    //                Parametro = Comando.Parameters.Add("@FChequeTarjetaCredito", SqlDbType.DateTime);
+                                    //                Parametro.Value = drVoucher["Fecha"];
+                                    //                Parametro = Comando.Parameters.Add("@NumCuenta", SqlDbType.Char);
+                                    //                Parametro.Value = drVoucher["Folio"];
+                                    //                Parametro = Comando.Parameters.Add("@NumChequeTarjetaCredito", SqlDbType.Char);
+                                    //                //Parametro.Value = drVoucher["Folio"];
+                                    //                Parametro.Value = drVoucher["Autorizacion"];
+                                    //                Parametro = Comando.Parameters.Add("@TotalTarjetaCredito", SqlDbType.Money);
+                                    //                Parametro.Value = drVoucher["Monto"];
+                                    //                Parametro = Comando.Parameters.Add("@SaldoTarjetaCredito", SqlDbType.Money);
+                                    //                Parametro.Value = drVoucher["Saldo"]!=null? drVoucher["Saldo"]:0;
+                                    //                Parametro = Comando.Parameters.Add("@Usuario", SqlDbType.Char);
+                                    //                Parametro.Value = _Usuario;
+                                    //                Parametro = Comando.Parameters.Add("@Folio", SqlDbType.Int);
+                                    //                Parametro.Value = dr["Folio"];
+                                    //                Parametro = Comando.Parameters.Add("@AñoAtt", SqlDbType.Int);
+                                    //                _Folio = Convert.ToInt32(dr["Folio"]);
+                                    //                _AñoAtt = Convert.ToInt32(dr["AñoAtt"]);
+                                    //                Parametro.Value = dr["AñoAtt"];
+                                    //                Parametro = Comando.Parameters.Add("@ImporteContado", SqlDbType.Money);
+                                    //                Parametro.Value = lblTotalContados.Text;
+                                    //                Parametro = Comando.Parameters.Add("@ImporteCredito", System.Data.SqlDbType.Money);
+                                    //                Parametro.Value = lblTotalCreditos.Text;
+                                    //                Parametro = Comando.Parameters.Add("@KilometrajeInicial", SqlDbType.Int);
+                                    //                Parametro.Value = txtKilometrajeInicial.Text;
+                                    //                Parametro = Comando.Parameters.Add("@KilometrajeFinal", SqlDbType.Int);
+                                    //                Parametro.Value = txtKilometrajeFinal.Text;
+                                    //                Parametro = Comando.Parameters.Add("@DiferenciaKilometraje", SqlDbType.Int);
+                                    //                Parametro.Value = _Diferencia;
+                                    //                Parametro = Comando.Parameters.Add("@Ruta", SqlDbType.Int);
+                                    //                Parametro.Value = dr["RutaCliente"];
+                                    //                Parametro = Comando.Parameters.Add("@FAtencion", SqlDbType.DateTime);
+                                    //                Parametro.Value = dr["FAtencion"];
+                                    //                Parametro = Comando.Parameters.Add("@Referencia", SqlDbType.Char);
+                                    //                Parametro.Value = drVoucher["Afiliacion"];
+
+                                    //                Comando.CommandType = CommandType.StoredProcedure;
+                                    //                Comando.CommandText = "spSTLiquidacionServiciosTecnicos";
+                                    //                Comando.CommandTimeout = 300;
+                                    //                Comando.ExecuteNonQuery();
+                                    //                //Transaccion.Commit ();
+
+
+                                    //            }
+                                    //            catch (Exception ex)
+                                    //            {
+                                    //                //MessageBox.Show(ex.Message);
+                                    //                throw;
+                                    //            }
+                                    //            //finally
+                                    //            //{
+                                    //            //    Conexion.Close();
+                                    //            //    Conexion.Dispose();
+                                    //            //    this.Close();
+                                    //            //}
+                                    //        }
+                                    //    }
+                                    //    else if (_TipoCobro == 10)
+                                    //    {
+
+                                    //        // Las transferencias se insertan en el m�todo InsertarTransferencias()
+
+                                    //        #region "RM - 28/12/2018"
+                                    //        // RM - 28/12/2018
+                                    //        // Si la transferencia no cubre el total del pedido, insertar el resto como efectivo.
+                                    //        // Las transferencias se insertan en el m�todo InsertarTransferencias()
+                                    //        //decimal dTotalTransferencias = 0;
+                                    //        //foreach(SigaMetClasses.sTransferencia transferencia in _Transferencias)
+                                    //        //{
+                                    //        //    dTotalTransferencias += transferencia.Monto;
+                                    //        //}
+
+                                    //        //dTotalEfectivo = Convert.ToDecimal(dr["Total"]);
+                                    //        ////decimal dTotalCheques = CalcularTotalCheques();
+                                    //        //decimal dTotalCheques = Convert.ToDecimal(dr["TotalCheque"]);
+                                    //        //decimal dDiferencia = dTotalEfectivo - (dTotalTransferencias + dTotalCheques);
+
+                                    //        //if (dDiferencia > 0)
+                                    //        //{
+                                    //        //    InsertarCobroEfectivo(dr, Conexion, Transaccion, dDiferencia);
+                                    //        //}
+
+                                    //        //if (dTotalCheques > 0)
+                                    //        //{
+                                    //        //    InsertarCobroCheque(dr, Conexion, Transaccion);
+                                    //        }
+                                    //        #endregion
+
+
+                                    //    else
+                                    //    {
+                                    //        try
+                                    //        {
+                                    //            //Conexion.Open ();
+
+                                    //            SqlCommand Comando = Conexion.CreateCommand();
+
+
+                                    //            Comando.Connection = Conexion;
+                                    //            Comando.Transaction = Transaccion;
+
+                                    //            SqlParameter Parametro;
+                                    //            Parametro = Comando.Parameters.Add("@Pedido", System.Data.SqlDbType.Int);
+                                    //            Parametro.Value = dr["Pedido"];
+                                    //            Parametro = Comando.Parameters.Add("@Celula", System.Data.SqlDbType.TinyInt);
+                                    //            Parametro.Value = dr["Celula"];
+                                    //            Parametro = Comando.Parameters.Add("@AñoPed", System.Data.SqlDbType.SmallInt);
+                                    //            Parametro.Value = dr["AñoPed"];
+                                    //            Parametro = Comando.Parameters.Add("@ObservacionesServicioRealizado", System.Data.SqlDbType.VarChar);
+                                    //            Parametro.Value = dr["ObservacionesServicioRealizado"];
+                                    //            Parametro = Comando.Parameters.Add("@CostoServicioTecnico", SqlDbType.Money);
+                                    //            Parametro.Value = dr["CostoServicioTecnico"];
+                                    //            Parametro = Comando.Parameters.Add("@TipoPedido", SqlDbType.TinyInt);
+                                    //            Parametro.Value = dr["TipoPedido"];
+                                    //            Parametro = Comando.Parameters.Add("@TotalPedido", SqlDbType.Money);
+                                    //            Parametro.Value = Convert.ToDecimal(dr["Total"]);
+                                    //            Parametro = Comando.Parameters.Add("@StatusPresupuesto", SqlDbType.Char);
+                                    //            Parametro.Value = dr["StatusPresupuesto"];
+                                    //            Parametro = Comando.Parameters.Add("@TotalPresupuesto", SqlDbType.Money);
+                                    //            Parametro.Value = dr["TotalPresupuesto"];
+                                    //            Parametro = Comando.Parameters.Add("@DescuentoPresupuesto", SqlDbType.Money);
+                                    //            Parametro.Value = dr["DescuentoPresupuesto"];
+                                    //            Parametro = Comando.Parameters.Add("@SubTotalPresupuesto", SqlDbType.Money);
+                                    //            Parametro.Value = dr["SubTotalPresupuesto"];
+                                    //            Parametro = Comando.Parameters.Add("@ObservacionesPresupuesto", SqlDbType.VarChar);
+                                    //            Parametro.Value = dr["ObservacionesPresupuesto"];
+                                    //            Parametro = Comando.Parameters.Add("@Parcialidad", System.Data.SqlDbType.Money);
+                                    //            Parametro.Value = dr["PagosDe"];
+                                    //            Parametro = Comando.Parameters.Add("@ImporteLetra", SqlDbType.VarChar);
+                                    //            Parametro.Value = dr["ImporteLetra"];
+                                    //            Parametro = Comando.Parameters.Add("@NumPagos", SqlDbType.Int);
+                                    //            Parametro.Value = dr["NumeroPagos"];
+                                    //            Parametro = Comando.Parameters.Add("@Dias", SqlDbType.Int);
+                                    //            Parametro.Value = dr["FrecuenciaPagos"];
+                                    //            Parametro = Comando.Parameters.Add("@TipoServicio", SqlDbType.Int);
+                                    //            Parametro.Value = dr["TipoServicio"];
+                                    //            Parametro = Comando.Parameters.Add("@TipoCobro", SqlDbType.Int);
+                                    //            Parametro.Value = dr["TipoCobro"];
+                                    //            Parametro = Comando.Parameters.Add("@Banco", SqlDbType.Int);
+                                    //            Parametro.Value = dr["BancoCheque"];
+                                    //            Parametro = Comando.Parameters.Add("@Cliente", SqlDbType.Int);
+                                    //            Parametro.Value = dr["Cliente"];
+                                    //            Parametro = Comando.Parameters.Add("@FCheque", SqlDbType.DateTime);
+                                    //            Parametro.Value = dr["FCheque"];
+                                    //            Parametro = Comando.Parameters.Add("@NumCuenta", SqlDbType.Char);
+                                    //            Parametro.Value = dr["NumCuentaCheque"];
+                                    //            Parametro = Comando.Parameters.Add("@NumCheque", SqlDbType.Char);
+                                    //            Parametro.Value = dr["NumeroCheque"];
+                                    //            Parametro = Comando.Parameters.Add("@TotalCheque", SqlDbType.Money);
+                                    //            Parametro.Value = dr["TotalCheque"];
+                                    //            Parametro = Comando.Parameters.Add("@Saldo", SqlDbType.Money);
+                                    //            Parametro.Value = dr["SaldoCheque"];
+                                    //            Parametro = Comando.Parameters.Add("@Usuario", SqlDbType.Char);
+                                    //            Parametro.Value = _Usuario;
+                                    //            Parametro = Comando.Parameters.Add("@Folio", SqlDbType.Int);
+                                    //            Parametro.Value = dr["Folio"];
+                                    //            Parametro = Comando.Parameters.Add("@AñoAtt", SqlDbType.Int);
+                                    //            _Folio = Convert.ToInt32(dr["Folio"]);
+                                    //            _AñoAtt = Convert.ToInt32(dr["AñoAtt"]);
+                                    //            Parametro.Value = dr["AñoAtt"];
+                                    //            Parametro = Comando.Parameters.Add("@ImporteContado", SqlDbType.Money);
+                                    //            Parametro.Value = lblTotalContados.Text;
+                                    //            Parametro = Comando.Parameters.Add("@ImporteCredito", System.Data.SqlDbType.Money);
+                                    //            Parametro.Value = lblTotalCreditos.Text;
+                                    //            Parametro = Comando.Parameters.Add("@KilometrajeInicial", SqlDbType.Int);
+                                    //            Parametro.Value = txtKilometrajeInicial.Text;
+                                    //            Parametro = Comando.Parameters.Add("@KilometrajeFinal", SqlDbType.Int);
+                                    //            Parametro.Value = txtKilometrajeFinal.Text;
+                                    //            Parametro = Comando.Parameters.Add("@DiferenciaKilometraje", SqlDbType.Int);
+                                    //            Parametro.Value = _Diferencia;
+                                    //            Parametro = Comando.Parameters.Add("@Ruta", SqlDbType.Int);
+                                    //            Parametro.Value = dr["RutaCliente"];
+                                    //            Parametro = Comando.Parameters.Add("@FAtencion", SqlDbType.DateTime);
+                                    //            Parametro.Value = dr["FAtencion"];
+
+                                    //            Comando.CommandType = CommandType.StoredProcedure;
+                                    //            Comando.CommandText = "spSTLiquidacionServiciosTecnicos";
+                                    //            Comando.CommandTimeout = 300;
+                                    //            Comando.ExecuteNonQuery();
+                                    //            //Transaccion.Commit ();																												
+                                    //        }
+                                    //        catch (Exception ex)
+                                    //        {
+                                    //            //MessageBox.Show (ex.Message );
+                                    //            throw;
+                                    //        }
+                                    //    }
+                                    //}// foreach dr in Query
+
+                                    //if (Query.Length > 0)
+                                    //{
+                                    //    InsertarTransferencias(Query[0], Conexion, Transaccion);
+                                    //}
+                                    #endregion
+
+                                    guardaLiquidacion(Query, Conexion, Transaccion);
 
                                     LiquidarPedidosCRM(Query);
 
+                                   // throw new Exception("Finaliza prueba");
+
                                     Transaccion.Commit();
 
-                                    Transaccion = Conexion.BeginTransaction();
-                                    foreach (System.Data.DataRow dr in Query)
-                                    {
-                                        _Pedido = Convert.ToInt32(dr["Pedido"]);
-                                        _Celula = Convert.ToInt32(dr["Celula"]);
-                                        _AñoPed = Convert.ToInt32(dr["AñoPed"]);
-                                        _TipoCobro = Convert.ToInt32(dr["TipoCobro"]);
+                                    #region codigoViejo
+                                    //Transaccion = Conexion.BeginTransaction();
+                                    //foreach (System.Data.DataRow dr in Query)
+                                    //{
+                                    //    _Pedido = Convert.ToInt32(dr["Pedido"]);
+                                    //    _Celula = Convert.ToInt32(dr["Celula"]);
+                                    //    _AñoPed = Convert.ToInt32(dr["AñoPed"]);
+                                    //    _TipoCobro = Convert.ToInt32(dr["TipoCobro"]);
 
-                                        if (_TipoCobro == 6 || _TipoCobro == 19 || _TipoCobro == 22)
-                                        {
-                                            System.Data.DataRow[] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select("Pedido = " + _Pedido + " and Celula = " + _Celula + "and AñoPed = " + _AñoPed);
-                                            foreach (System.Data.DataRow drVoucher in Consulta)
-                                            {
-                                                if (Convert.ToDecimal(drVoucher["Monto"]) > Convert.ToDecimal(dr["Total"]))
-                                                {
-                                                    short FCobro = 0;
-                                                    int FAñoCobro = 0;
-                                                    string QueryCobro = "SELECT A�OCOBRO,COBRO FROM COBRO " +
-                                                    "WHERE total = " + Convert.ToString(drVoucher["Monto"]) + " and banco = " + Convert.ToString(drVoucher["Banco"]) +
-                                                    " and NumeroCheque = " + Convert.ToString(drVoucher["Autorizacion"]) +
-                                                    " and status = 'EMITIDO' and tipocobro in (6, 19, 22) and cliente = " + Convert.ToString(dr["Cliente"]) +
-                                                    " and folioatt = " + Convert.ToString(_Folio) + " and añoatt = " + Convert.ToString(_AñoAtt);
-                                                    SqlCommand ComandoCobro = new SqlCommand(QueryCobro, LiquidacionSTN.Modulo.CnnSigamet);
-                                                    ComandoCobro.Transaction = Transaccion;
-                                                    //LiquidacionSTN.Modulo.CnnSigamet.Open();
-                                                    try
-                                                    {
-                                                        SqlDataReader drEquipo;
-                                                        drEquipo = ComandoCobro.ExecuteReader();
-                                                        while (drEquipo.Read())
-                                                        {
-                                                            FAñoCobro = Convert.ToInt16(drEquipo.GetValue(0));
-                                                            FCobro = Convert.ToInt16(drEquipo.GetValue(1));
-                                                        }
-                                                        drEquipo.Close();
-                                                    }
-                                                    catch (Exception ex)
-                                                    {
-                                                        MessageBox.Show(ex.Message);
-                                                    }
-                                                    finally
-                                                    {
+                                    //    if (_TipoCobro == 6 || _TipoCobro == 19 || _TipoCobro == 22)
+                                    //    {
+                                    //        System.Data.DataRow[] Consulta = LiquidacionSTN.Modulo.dtVoucher.Select("Pedido = " + _Pedido + " and Celula = " + _Celula + "and AñoPed = " + _AñoPed);
+                                    //        foreach (System.Data.DataRow drVoucher in Consulta)
+                                    //        {
+                                    //            if (Convert.ToDecimal(drVoucher["Monto"]) > Convert.ToDecimal(dr["Total"]))
+                                    //            {
+                                    //                short FCobro = 0;
+                                    //                int FAñoCobro = 0;
+                                    //                string QueryCobro = "SELECT A�OCOBRO,COBRO FROM COBRO " +
+                                    //                "WHERE total = " + Convert.ToString(drVoucher["Monto"]) + " and banco = " + Convert.ToString(drVoucher["Banco"]) +
+                                    //                " and NumeroCheque = " + Convert.ToString(drVoucher["Autorizacion"]) +
+                                    //                " and status = 'EMITIDO' and tipocobro in (6, 19, 22) and cliente = " + Convert.ToString(dr["Cliente"]) +
+                                    //                " and folioatt = " + Convert.ToString(_Folio) + " and añoatt = " + Convert.ToString(_AñoAtt);
+                                    //                SqlCommand ComandoCobro = new SqlCommand(QueryCobro, LiquidacionSTN.Modulo.CnnSigamet);
+                                    //                ComandoCobro.Transaction = Transaccion;
+                                    //                //LiquidacionSTN.Modulo.CnnSigamet.Open();
+                                    //                try
+                                    //                {
+                                    //                    SqlDataReader drEquipo;
+                                    //                    drEquipo = ComandoCobro.ExecuteReader();
+                                    //                    while (drEquipo.Read())
+                                    //                    {
+                                    //                        FAñoCobro = Convert.ToInt16(drEquipo.GetValue(0));
+                                    //                        FCobro = Convert.ToInt16(drEquipo.GetValue(1));
+                                    //                    }
+                                    //                    drEquipo.Close();
+                                    //                }
+                                    //                catch (Exception ex)
+                                    //                {
+                                    //                    MessageBox.Show(ex.Message);
+                                    //                }
+                                    //                finally
+                                    //                {
 
-                                                        //LiquidacionSTN.Modulo.CnnSigamet.Close();
-                                                    }
+                                    //                    //LiquidacionSTN.Modulo.CnnSigamet.Close();
+                                    //                }
 
-                                                    insertaMovimientoConciliar(4, 0, 0, DateTime.Now, 0, 0, 0, 0, 0, (Int16)FAñoCobro, FCobro, Convert.ToDecimal(drVoucher["Saldo"]),
-                                                    "REGISTRADO", DateTime.Now, "CONCILIADA", DateTime.Now, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, Convert.ToInt32(dr["Cliente"]), Conexion, Transaccion);
-                                                }
-                                            }
+                                    //                insertaMovimientoConciliar(4, 0, 0, DateTime.Now, 0, 0, 0, 0, 0, (Int16)FAñoCobro, FCobro, Convert.ToDecimal(drVoucher["Saldo"]),
+                                    //                "REGISTRADO", DateTime.Now, "CONCILIADA", DateTime.Now, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, Convert.ToInt32(dr["Cliente"]), Conexion, Transaccion);
+                                    //            }
+                                    //        }
                                             
-                                        }
-                                    }
-                                    Transaccion.Commit();
+                                    //    }
+                                    //}
+
+
+                                    //Transaccion.Commit();
+                                    #endregion
 
                                 }
                                 catch (Exception ex)
@@ -3310,7 +3948,7 @@ namespace LiquidacionSTN
                         }
                         else 
                         {
-                            if (!ValidarPedidoFormaPago(_Pedido, _Celula, _AñoPed))
+                            if (!ValidarPedidoFormaPago(_Pedido, _Celula, _AñoPed, _TotalPed))
                             {
                                 CerrarOrden = new LiquidacionSTN.frmCerrarOrden(_PedidoReferencia, _Usuario, HabilitarModificar: false);
                             }
@@ -3319,7 +3957,9 @@ namespace LiquidacionSTN
                                 CerrarOrden = new LiquidacionSTN.frmCerrarOrden(_PedidoReferencia, _Usuario);
                             }
                         }
-                       
+
+                        CerrarOrden.TotalFaltaPorCobrar = _SaldoPed;
+                        CerrarOrden.TotalPedido = _TotalPed;
                         CerrarOrden.ShowDialog();
                         //LlenaGridFinal();
                         TotalGeneral();
@@ -3343,9 +3983,9 @@ namespace LiquidacionSTN
 					}
 					else
 					{
-                        if (!ValidarPedidoFormaPago(_Pedido, _Celula, _AñoPed))
+                        if (!ValidarPedidoFormaPago(_Pedido, _Celula, _AñoPed, _TotalPed))
                         {
-                            MessageBox.Show("El pedido ya tiene asociada una forma de pago", "Adevertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show("El pedido ya está totalmente pagado", "Adevertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					        Cursor = Cursors.Default ;
                             break;
                         }
@@ -3353,10 +3993,32 @@ namespace LiquidacionSTN
                         if (_TipoPedido == 7)
 						{
 							LiquidacionSTN.FrmCheque Cheque = new LiquidacionSTN.FrmCheque(_PedidoReferencia);
+                            Cheque.MontoPagar = _SaldoPed;
 							Cheque.tbbAceptar.Enabled = true;
-							Cheque.ShowDialog();
-							//LlenaGridFinal();
-							LlenaCheque();
+							//Cheque.ShowDialog();
+                            if (Cheque.ShowDialog() == DialogResult.OK)
+                            {
+
+                                SigaMetClasses.sCheque chequeNew;
+                                chequeNew = Cheque.ObjCheque;
+
+
+                                if (_Cheques.Count > 0)
+                                {
+                                    SigaMetClasses.sCheque chequeTemp = _Cheques[_Cheques.Count - 1];
+                                    chequeNew.No = chequeTemp.No + 1;
+                                }
+                                else
+                                {
+                                    chequeNew.No = 1;
+                                }
+
+                                _Cheques.Add(chequeNew);
+                                actualizaSaldoPedido(chequeNew.Total);
+                            }
+
+                            //LlenaGridFinal();
+                            CargarCheques();
 						}
 						else
 						{
@@ -3367,7 +4029,7 @@ namespace LiquidacionSTN
 					Cursor = Cursors.Default ;
 					break;
 
-                case "CancelarCheque":
+                case "Cancelar":
 					Cursor = Cursors.WaitCursor ;
 					if(_StatusST == "ATENDIDO")
 					{
@@ -3375,14 +4037,87 @@ namespace LiquidacionSTN
 					}
 					else
 					{
-						Cursor = Cursors.WaitCursor ;
-						LiquidacionSTN.FrmCheque Cheque = new LiquidacionSTN.FrmCheque (_PedidoReferencia);
-						Cheque.tbbCancelar.Enabled = true;
-						Cheque.ShowDialog ();
-						LlenaCheque();
-						//LlenaGridFinal();
-						Cursor = Cursors.Default ;
-					}
+                        if (_GridSeleccionado == 0)
+                        {
+                            MessageBox.Show("Seleccione un registro.", "Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        }
+
+                        if (_GridSeleccionado==1)
+                        {                            
+                            int i = Convert.ToInt32(grdCheque.Rows[grdCheque.CurrentRow.Index].Cells["colNo"].Value);
+
+                            SigaMetClasses.sCheque chequeTemp = _Cheques.Find(x => x.No == i);
+
+                            string pedReferencia = chequeTemp.PedidoReferencia;
+
+                            Cursor = Cursors.WaitCursor;
+                            LiquidacionSTN.FrmCheque frmCheque = new LiquidacionSTN.FrmCheque(pedReferencia);
+                            frmCheque.ObjCheque = chequeTemp;
+                            frmCheque.EsAlta = false;
+                            if (frmCheque.ShowDialog()== DialogResult.OK)
+                            {
+                                
+                                actualizaSaldoPedido(frmCheque.ObjCheque.Total * -1);
+                                _Cheques.RemoveAll(x => x.No == frmCheque.ObjCheque.No);
+                                actualizaSaldosAFavor(pedReferencia);
+                            }
+
+                            Cursor = Cursors.Default;
+                            _GridSeleccionado = 0;
+                        }
+
+                        if (_GridSeleccionado ==2)
+                        {
+                            int i = Convert.ToInt32(grdVouchers.Rows[grdVouchers.CurrentRow.Index].Cells["colNo1"].Value);
+
+                            SigaMetClasses.sVoucher voucherTemp = _Vouchers.Find(x => x.No == i);
+
+                            string pedReferencia = voucherTemp.PedidoReferencia;
+
+                            Cursor = Cursors.WaitCursor;
+                            LiquidacionSTN.frmVoucher frmVoucher = new LiquidacionSTN.frmVoucher(voucherTemp.Cliente, pedReferencia);
+                            frmVoucher.objVoucher= voucherTemp;
+                            frmVoucher.EsAlta = false;
+                            if (frmVoucher.ShowDialog() == DialogResult.OK)
+                            {
+
+                                actualizaSaldoPedido(frmVoucher.objVoucher.Monto * -1);
+                                _Vouchers.RemoveAll(x => x.No == frmVoucher.objVoucher.No);
+                                actualizaSaldosAFavor(pedReferencia);
+                            }
+
+                            Cursor = Cursors.Default;
+                            _GridSeleccionado = 0;
+                        }
+
+                        if (_GridSeleccionado == 3)
+                        {
+                            int i = Convert.ToInt32(grdTransferencias.Rows[grdTransferencias.CurrentRow.Index].Cells["colNo2"].Value);
+
+                            SigaMetClasses.sTransferencia transferenciaTemp = _Transferencias.Find(x => x.No == i);
+
+                            string pedReferencia = transferenciaTemp.PedidoReferencia;
+
+                            Cursor = Cursors.WaitCursor;
+                            LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(transferenciaTemp.Cliente, 3, _PedidoReferencia);
+                            frmTransferencia.objTransferencia = transferenciaTemp;
+                            frmTransferencia.EsAlta = false;
+                            if (frmTransferencia.ShowDialog() == DialogResult.OK)
+                            {
+
+                                actualizaSaldoPedido(frmTransferencia.objTransferencia.Monto * -1);
+                                _Transferencias.RemoveAll(x => x.No == frmTransferencia.objTransferencia.No);
+                                actualizaSaldosAFavor(pedReferencia);
+                            }
+
+                            Cursor = Cursors.Default;
+                            _GridSeleccionado = 0;
+                        }
+
+
+
+                    }
 
 					Cursor = Cursors.Default ;
 
@@ -3395,9 +4130,9 @@ namespace LiquidacionSTN
 						
 					if (_ClienteTarjeta > 0)
 					{
-                        if (!ValidarPedidoFormaPago(_Pedido, _Celula, _AñoPed))
+                        if (!ValidarPedidoFormaPago(_Pedido, _Celula, _AñoPed, _TotalPed))
                         {
-                            MessageBox.Show("El pedido ya tiene asociada una forma de pago", "Adevertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show("El pedido ya está totalmente pagado", "Adevertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             Cursor = Cursors.Default;
                             break;
                         }
@@ -3411,14 +4146,41 @@ namespace LiquidacionSTN
                         //if(_TipoCobro == 5)
                         if (_TipoCobro == 6 || _TipoCobro == 19 || _TipoCobro == 22)
                         {
-							Cursor = Cursors.WaitCursor ;
+
+                            List<SigaMetClasses.sVoucher> listaVoucherTemp = _Vouchers.Where(x =>
+                                               x.Cliente == Convert.ToInt32(lblCliente.Text)).ToList<SigaMetClasses.sVoucher>();
+
+
+                            Cursor = Cursors.WaitCursor ;
 							//LiquidacionSTN.frmBaucher Baucher = new LiquidacionSTN.frmBaucher (Convert.ToInt32 (lblCliente.Text) ,_PedidoReferencia);
 							//Baucher.ShowDialog ();
                             LiquidacionSTN.frmVoucher frmVoucher = new LiquidacionSTN.frmVoucher(Convert.ToInt32(lblCliente.Text), _PedidoReferencia);
-                            frmVoucher.NumeroTarjeta = _numeroTarjeta;
-                            frmVoucher.BancoTarjeta = _bancoTarjeta;
-                            frmVoucher.ShowDialog();
-                            LlenaVoucher();
+                            //frmVoucher.NumeroTarjeta = _numeroTarjeta;
+                            //frmVoucher.BancoTarjeta = _bancoTarjeta;
+                            frmVoucher.ListaVoucher = listaVoucherTemp;
+                            frmVoucher.MontoPagar = _SaldoPed;
+                            if (frmVoucher.ShowDialog()==DialogResult.OK)
+                            {
+
+                                SigaMetClasses.sVoucher voucherNew;
+                                voucherNew = frmVoucher.objVoucher;
+
+
+                                if (_Vouchers.Count>0)
+                                {
+                                    SigaMetClasses.sVoucher voucherTemp = _Vouchers[_Vouchers.Count-1];
+                                    voucherNew.No= voucherTemp.No+1;
+                                }
+                                else
+                                {
+                                    voucherNew.No = 1;
+                                }
+
+                                _Vouchers.Add(voucherNew);
+                                actualizaSaldoPedido(voucherNew.Monto);
+                                CargarVouchers();
+                            }
+                            
 							Cursor = Cursors.Default ;
 						}
 						else
@@ -4012,17 +4774,36 @@ namespace LiquidacionSTN
                 else
                 {
 
-                    if (!ValidarPedidoFormaPago(_Pedido, _Celula, _AñoPed))
+                    if (!ValidarPedidoFormaPago(_Pedido, _Celula, _AñoPed, _TotalPed))
                     {
-                        MessageBox.Show("El pedido ya tiene asociada una forma de pago", "Adevertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("El pedido ya está totalmente pagado", "Adevertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
                     if (_TipoPedido == 7)
                     {
-                        LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente, _TipoCobro, _PedidoReferencia);
+                        LiquidacionSTN.frmTransferencia frmTransferencia = new LiquidacionSTN.frmTransferencia(_Cliente, 3, _PedidoReferencia);
+                        frmTransferencia.MontoPagar = _SaldoPed;
                         if (frmTransferencia.ShowDialog() == DialogResult.OK)
                         {
-                            CargarTransferencias(frmTransferencia.Transferencias);
+                            SigaMetClasses.sTransferencia transferenciaNew;
+                            transferenciaNew = frmTransferencia.objTransferencia;
+
+
+                            if (_Transferencias.Count > 0)
+                            {
+                                SigaMetClasses.sTransferencia transferenciaTemp = _Transferencias[_Transferencias.Count - 1];
+                                transferenciaNew.No = transferenciaTemp.No + 1;
+                            }
+                            else
+                            {
+                                transferenciaNew.No = 1;
+                            }
+
+                            _Transferencias.Add(transferenciaNew);
+                            actualizaSaldoPedido(transferenciaNew.Monto);
+
+
+                            CargarTransferencias();
                         }
                     }
                     else
@@ -4047,16 +4828,36 @@ namespace LiquidacionSTN
         /// Carga los datos de grdTransferencias.
         /// </summary>
         /// <param name="lsTransferencias"></param>
-        private void CargarTransferencias(List<SigaMetClasses.sTransferencia> lsTransferencias)
+        private void CargarTransferencias()
         {
             grdTransferencias.DataSource = null;
             grdTransferencias.AutoGenerateColumns = false;
             
-            lsTransferencias.ForEach(x => _Transferencias.Add(x));
-            
             if (_Transferencias.Count > 0)
             {
                 grdTransferencias.DataSource = _Transferencias;
+            }
+        }
+
+        private void CargarCheques()
+        {
+            grdCheque.DataSource = null;
+            grdCheque.AutoGenerateColumns = false;
+
+            if (_Cheques.Count > 0)
+            {
+                grdCheque.DataSource = _Cheques;
+            }
+        }
+
+        private void CargarVouchers()
+        {
+            grdVouchers.DataSource = null;
+            grdVouchers.AutoGenerateColumns = false;
+
+            if (_Vouchers.Count > 0)
+            {
+                grdVouchers.DataSource = _Vouchers;
             }
         }
 
@@ -4266,28 +5067,31 @@ namespace LiquidacionSTN
 
                 lblCliente.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
                 lblRuta.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 1]);
-                lblCelula.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 13]);
-                lblNombre.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 15]);
-                lblCalle.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 20]);
-                lblNumExterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 23]);
-                lblNumInterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 22]);
-                lblColonia.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 21]);
-                lblCP.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 25]);
-                lblMunicipio.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 24]);
+                lblCelula.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 14]);
+                lblNombre.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 16]);
+                lblCalle.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 21]);
+                lblNumExterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 24]);
+                lblNumInterior.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 23]);
+                lblColonia.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 22]);
+                lblCP.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 26]);
+                lblMunicipio.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 25]);
 
-                lblTrabajoSolicitado.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 17]);
-                lblUnidad.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 11]);
-                lblTecnico.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 18]);
-                lblAyudante.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 19]);
+                lblTrabajoSolicitado.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 18]);
+                lblUnidad.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 12]);
+                lblTecnico.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 19]);
+                lblAyudante.Text = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 20]);
                 _PedidoReferencia = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 2]);
-                _StatusST = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 9]);
-                _TipoPedido = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 35]);
+                _StatusST = Convert.ToString(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 10]);
+                _TipoPedido = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 36]);
                 _Cliente = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 0]);
-                _TipoCobro = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 39]);
+                _TipoCobro = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 40]);
 
-                _Pedido = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 12]);
-                _Celula = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 13]);
-                _AñoPed = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 14]);
+                _Pedido = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 13]);
+                _Celula = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 14]);
+                _AñoPed = Convert.ToInt32(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 15]);
+                _TotalPed= Convert.ToDecimal(grdLiquidacion[grdLiquidacion.CurrentRowIndex, 7]);
+                _SaldoPed = Convert.ToDecimal(grdLiquidacion[grdLiquidacion.CurrentRowIndex,8]);
+
             }
             catch (Exception ex)
             {
@@ -4358,7 +5162,50 @@ namespace LiquidacionSTN
 		{
 		
 		}
-	
 
-	}
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void grdVouchers_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void grdCheque_Enter(object sender, EventArgs e)
+        {
+            _GridSeleccionado = 1;
+        }
+
+        private void grdVouchers_Enter(object sender, EventArgs e)
+        {
+            _GridSeleccionado = 2;
+        }
+
+        private void grdTransferencias_Enter(object sender, EventArgs e)
+        {
+            _GridSeleccionado = 3;
+        }
+
+        private void grdCheque_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            _GridSeleccionado = 1;
+        }
+
+        private void grdVouchers_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            _GridSeleccionado = 2;
+        }
+
+        private void grdTransferencias_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            _GridSeleccionado = 3;
+        }
+    }
 }

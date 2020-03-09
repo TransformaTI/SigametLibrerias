@@ -9178,10 +9178,373 @@ Public Structure CobroPedidoDetalladoDatos
 End Structure
 #End Region
 
+Public Structure sCheque
+    Private _No As Integer
+    Private _PedidoReferencia As String
+    Private _BancoCheque As Integer
+    Private _NumeroCheque As String
+    Private _Fecha As Date
+    Private _NumCuenta As String
+    Private _Total As Decimal
+    Private _Saldo As Decimal
+    Private _TipoCobroCheque As Integer
+    Private _TipoCobro As Integer
+    Private _TipoCobroDescripcion As String
+    Private _BancoNombre As String
+    Private _Celula As Byte
+    Private _AñoPed As Short
+    Private _Pedido As Integer
+    Private _Observaciones As String
+
+    Public Sub New(PedidoReferencia As String, BancoCheque As Integer, NumeroCheque As String, Fecha As Date, NumCuenta As String, Total As Decimal, Saldo As Decimal, TipoCobroCheque As Integer, TipoCobro As Integer, TipoCobroDescripcion As String, BancoNombre As String)
+        _PedidoReferencia = PedidoReferencia
+        _BancoCheque = BancoCheque
+        _NumeroCheque = NumeroCheque
+        _Fecha = Fecha
+        _NumCuenta = NumCuenta
+        _Total = Total
+        _Saldo = Saldo
+        _TipoCobroCheque = TipoCobroCheque
+        _TipoCobro = TipoCobro
+        _TipoCobroDescripcion = TipoCobroDescripcion
+        _BancoNombre = BancoNombre
+    End Sub
+
+    Public Property PedidoReferencia As String
+        Get
+            Return _PedidoReferencia
+        End Get
+        Set(value As String)
+            _PedidoReferencia = value
+        End Set
+    End Property
+
+    Public Property BancoCheque As Integer
+        Get
+            Return _BancoCheque
+        End Get
+        Set(value As Integer)
+            _BancoCheque = value
+        End Set
+    End Property
+
+    Public Property NumeroCheque As String
+        Get
+            Return _NumeroCheque
+        End Get
+        Set(value As String)
+            _NumeroCheque = value
+        End Set
+    End Property
+
+    Public Property Fecha As Date
+        Get
+            Return _Fecha
+        End Get
+        Set(value As Date)
+            _Fecha = value
+        End Set
+    End Property
+
+    Public Property NumCuenta As String
+        Get
+            Return _NumCuenta
+        End Get
+        Set(value As String)
+            _NumCuenta = value
+        End Set
+    End Property
+
+    Public Property Total As Decimal
+        Get
+            Return _Total
+        End Get
+        Set(value As Decimal)
+            _Total = value
+        End Set
+    End Property
+
+    Public Property Saldo As Decimal
+        Get
+            Return _Saldo
+        End Get
+        Set(value As Decimal)
+            _Saldo = value
+        End Set
+    End Property
+
+    Public Property TipoCobroCheque As Integer
+        Get
+            Return _TipoCobroCheque
+        End Get
+        Set(value As Integer)
+            _TipoCobroCheque = value
+        End Set
+    End Property
+
+    Public Property TipoCobro As Integer
+        Get
+            Return _TipoCobro
+        End Get
+        Set(value As Integer)
+            _TipoCobro = value
+        End Set
+    End Property
+
+    Public Property TipoCobroDescripcion As String
+        Get
+            Return _TipoCobroDescripcion
+        End Get
+        Set(value As String)
+            _TipoCobroDescripcion = value
+        End Set
+    End Property
+
+    Public Property BancoNombre As String
+        Get
+            Return _BancoNombre
+        End Get
+        Set(value As String)
+            _BancoNombre = value
+        End Set
+    End Property
+
+    Public Property Celula As Byte
+        Get
+            Return _Celula
+        End Get
+        Set(value As Byte)
+            _Celula = value
+        End Set
+    End Property
+
+    Public Property AñoPed As Short
+        Get
+            Return _AñoPed
+        End Get
+        Set(value As Short)
+            _AñoPed = value
+        End Set
+    End Property
+
+    Public Property Pedido As Integer
+        Get
+            Return _Pedido
+        End Get
+        Set(value As Integer)
+            _Pedido = value
+        End Set
+    End Property
+
+    Public Property No As Integer
+        Get
+            Return _No
+        End Get
+        Set(value As Integer)
+            _No = value
+        End Set
+    End Property
+
+    Public Property Observaciones As String
+        Get
+            Return _Observaciones
+        End Get
+        Set(value As String)
+            _Observaciones = value
+        End Set
+    End Property
+End Structure
+
+Public Structure sVoucher
+    Private _No As Integer
+    Private _Pedido As Integer
+    Private _Celula As Byte
+    Private _AñoPed As Short
+    Private _Cliente As Integer
+    Private _Banco As Integer
+    Private _Fecha As Date
+    Private _Folio As Integer
+    Private _Monto As Decimal
+    Private _Autotanque As Integer
+    Private _Saldo As Decimal
+    Private _Afiliacion As String
+    Private _Autorizacion As String
+    Private _BancoTarjeta As Integer
+    Private _NumeroTarjeta As String
+    Private _TipoTarjeta As String
+    Private _PedidoReferencia As String
+    Private _TipoCobro As Byte
+
+    Public Property No As Integer
+        Get
+            Return _No
+        End Get
+        Set(value As Integer)
+            _No = value
+        End Set
+    End Property
+
+    Public Property Pedido As Integer
+        Get
+            Return _Pedido
+        End Get
+        Set(value As Integer)
+            _Pedido = value
+        End Set
+    End Property
+
+    Public Property Celula As Byte
+        Get
+            Return _Celula
+        End Get
+        Set(value As Byte)
+            _Celula = value
+        End Set
+    End Property
+
+    Public Property AñoPed As Short
+        Get
+            Return _AñoPed
+        End Get
+        Set(value As Short)
+            _AñoPed = value
+        End Set
+    End Property
+
+    Public Property Cliente As Integer
+        Get
+            Return _Cliente
+        End Get
+        Set(value As Integer)
+            _Cliente = value
+        End Set
+    End Property
+
+    Public Property Banco As Integer
+        Get
+            Return _Banco
+        End Get
+        Set(value As Integer)
+            _Banco = value
+        End Set
+    End Property
+
+    Public Property Fecha As Date
+        Get
+            Return _Fecha
+        End Get
+        Set(value As Date)
+            _Fecha = value
+        End Set
+    End Property
+
+    Public Property Folio As Integer
+        Get
+            Return _Folio
+        End Get
+        Set(value As Integer)
+            _Folio = value
+        End Set
+    End Property
+
+    Public Property Monto As Decimal
+        Get
+            Return _Monto
+        End Get
+        Set(value As Decimal)
+            _Monto = value
+        End Set
+    End Property
+
+    Public Property Autotanque As Integer
+        Get
+            Return _Autotanque
+        End Get
+        Set(value As Integer)
+            _Autotanque = value
+        End Set
+    End Property
+
+    Public Property Saldo As Decimal
+        Get
+            Return _Saldo
+        End Get
+        Set(value As Decimal)
+            _Saldo = value
+        End Set
+    End Property
+
+    Public Property Afiliacion As String
+        Get
+            Return _Afiliacion
+        End Get
+        Set(value As String)
+            _Afiliacion = value
+        End Set
+    End Property
+
+    Public Property Autorizacion As String
+        Get
+            Return _Autorizacion
+        End Get
+        Set(value As String)
+            _Autorizacion = value
+        End Set
+    End Property
+
+    Public Property BancoTarjeta As Integer
+        Get
+            Return _BancoTarjeta
+        End Get
+        Set(value As Integer)
+            _BancoTarjeta = value
+        End Set
+    End Property
+
+    Public Property NumeroTarjeta As String
+        Get
+            Return _NumeroTarjeta
+        End Get
+        Set(value As String)
+            _NumeroTarjeta = value
+        End Set
+    End Property
+
+    Public Property TipoTarjeta As String
+        Get
+            Return _TipoTarjeta
+        End Get
+        Set(value As String)
+            _TipoTarjeta = value
+        End Set
+    End Property
+
+    Public Property PedidoReferencia As String
+        Get
+            Return _PedidoReferencia
+        End Get
+        Set(value As String)
+            _PedidoReferencia = value
+        End Set
+    End Property
+
+    Public Property TipoCobro As Byte
+        Get
+            Return _TipoCobro
+        End Get
+        Set(value As Byte)
+            _TipoCobro = value
+        End Set
+    End Property
+End Structure
+
+
 Public Structure sTransferencia
 
-#Region "Variables"
 
+
+#Region "Variables"
+    Private _No As Integer
     Private _Cliente As Integer
     Private _Fecha As Date
     Private _BancoOrigen As Short
@@ -9195,6 +9558,8 @@ Public Structure sTransferencia
     Private _Pedido As Integer
     Private _Celula As Byte
     Private _AñoPed As Short
+    Private _PedidoReferencia As String
+
 
 #End Region
 
@@ -9314,6 +9679,24 @@ Public Structure sTransferencia
         End Get
         Set(value As Short)
             _AñoPed = value
+        End Set
+    End Property
+
+    Public Property No As Integer
+        Get
+            Return _No
+        End Get
+        Set(value As Integer)
+            _No = value
+        End Set
+    End Property
+
+    Public Property PedidoReferencia As String
+        Get
+            Return _PedidoReferencia
+        End Get
+        Set(value As String)
+            _PedidoReferencia = value
         End Set
     End Property
 

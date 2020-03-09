@@ -198,6 +198,12 @@
     <Compile Include="frmModificarFechaCompromiso.Designer.cs">
       <DependentUpon>frmModificarFechaCompromiso.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmMuestraCargosTarjeta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMuestraCargosTarjeta.Designer.cs">
+      <DependentUpon>frmMuestraCargosTarjeta.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPedidosALiquidar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -251,6 +257,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmModificarFechaCompromiso.resx">
       <DependentUpon>frmModificarFechaCompromiso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMuestraCargosTarjeta.resx">
+      <DependentUpon>frmMuestraCargosTarjeta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPedidosALiquidar.resx">
       <DependentUpon>frmPedidosALiquidar.cs</DependentUpon>
