@@ -494,7 +494,8 @@ namespace LiquidacionSTN
 			{
 				
 				case "Aceptar":
-					if (lblCliente.Text == "")
+                    txtMonto_Leave(null, null);
+                    if (lblCliente.Text == "")
 					{
 						MessageBox.Show ("Tecleé un número de cliente.","Mesaje del sistema",MessageBoxButtons.OK, MessageBoxIcon.Information);
 						break;
@@ -506,11 +507,24 @@ namespace LiquidacionSTN
 						break;
 					}
 
-					if (Convert.ToDecimal  (txtNumCheque.Text) == 0)
-					{
-						MessageBox.Show ("Tecleé un número de Cheque.","Mesaje del sistema",MessageBoxButtons.OK, MessageBoxIcon.Information);
-						break;
-					}
+                  
+                    try
+                    {
+                        if (Convert.ToDecimal(txtNumCheque.Text) == 0)
+                        {
+                            MessageBox.Show("Tecleé un número de Cheque.", "Mesaje del sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            break;
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("TNúmero de cheque no válido", "Mesaje del sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        break;
+                    }
+
+
+                    
+					
 
 					if (Convert.ToDecimal   (txtNumCuenta.Text) == 0)
 					{

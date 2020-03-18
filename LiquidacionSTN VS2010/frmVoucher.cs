@@ -633,6 +633,7 @@ namespace LiquidacionSTN
         
         private void Aceptar()
         {
+            txtMonto_Leave(null, null);
             if ( ValidarEntradaUsuario(  _Cliente,
                                         _IDAfiliacion,
                                         _TipoTarjeta,
@@ -664,6 +665,8 @@ namespace LiquidacionSTN
 
                 //LiquidacionSTN.Modulo.dtVoucher.Rows.Add(Registro);
 
+
+
                 decimal saldoTemp = Convert.ToDecimal(txtSaldo.Text);
 
                 if (saldoTemp < 0)
@@ -682,12 +685,12 @@ namespace LiquidacionSTN
                 _objVoucher.Cliente = _Cliente;
                 _objVoucher.Banco = _BancoAfiliacion;
                 _objVoucher.Fecha = this.dtpFecha.Value.Date;
-                _objVoucher.NumeroTarjeta = _numeroTarjeta;
+                _objVoucher.NumeroTarjeta = txtTarjeta.Text;
                 _objVoucher.Monto = Convert.ToDecimal(txtMonto.Text);
                 _objVoucher.Autotanque = _Autotanque;
                 _objVoucher.Saldo = saldoTemp;
                 _objVoucher.Afiliacion = _NumAfiliacion;
-                _objVoucher.Autorizacion = txtAutorizacion.Text;
+                _objVoucher.Autorizacion = _Autorizacion;
                 _objVoucher.TipoTarjeta = cboTipoTarjeta.Text;
                 _objVoucher.BancoTarjeta = _BancoTarjeta;
                 _objVoucher.Folio = _folio;
@@ -703,21 +706,24 @@ namespace LiquidacionSTN
         private bool ValidarVoucher(string afiliacion, byte tipoCobro, string autorizacion)
         {
             bool valido = false;
+            DataTable dtPagos = new DataTable("Pagos");
             try
             {
-                using (SqlCommand cmd = new SqlCommand("spSTConsultaCargoTarjeta", LiquidacionSTN.Modulo.CnnSigamet))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandTimeout = 300;
-                    cmd.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = _BancoAfiliacion;
-                    cmd.Parameters.Add("@Autorizacion", SqlDbType.Char).Value = autorizacion;
-                    //cmd.Parameters.Add("@Tarjeta", SqlDbType.Char).Value = ;
-                    cmd.Parameters.Add("@Afiliacion", SqlDbType.VarChar).Value = afiliacion;
-                    cmd.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = tipoCobro;
 
-                    LiquidacionSTN.Modulo.CnnSigamet.Open();
-                    valido = Convert.ToBoolean(cmd.ExecuteScalar());
+                using (SqlDataAdapter da = new SqlDataAdapter("spSTBuscaPagosTPV", LiquidacionSTN.Modulo.CnnSigamet))
+                {
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    da.SelectCommand.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = _BancoTarjeta;
+                    da.SelectCommand.Parameters.Add("@Autorizacion", SqlDbType.Char, 20).Value = _Autorizacion;
+                    da.SelectCommand.Parameters.Add("@Tarjeta", SqlDbType.Char, 20).Value = txtTarjeta.Text.Trim();
+                    da.SelectCommand.Parameters.Add("@Monto", SqlDbType.Money).Value = txtMonto.Text;
+                    da.SelectCommand.Parameters.Add("@Cliente", SqlDbType.Int).Value = txtCliente.Text;
+                    da.Fill(dtPagos);
+
+                    valido = dtPagos.Rows.Count == 0;
                 }
+
+     
             }
             catch (Exception) { throw; }
             finally
@@ -1133,6 +1139,7 @@ namespace LiquidacionSTN
             if (_EsAlta)
             {
                 frmMuestraCargosTarjeta frmVentana = new frmMuestraCargosTarjeta();
+                txtSaldo.Text = _MontoPagar.ToString();
                 int resultado = frmVentana.buscaCargos(_Cliente, _listaVoucher);
 
                 if (resultado > 0)
