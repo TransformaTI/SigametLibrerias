@@ -33,7 +33,16 @@ namespace LiquidacionSTN
             _Voucher = new SigaMetClasses.sVoucher();
             try
             {
-                int i = grdCargos.CurrentRow.Index;
+                int i ;
+
+                if (_dtCargosFiltrados.Rows.Count==1)
+                {
+                    i = 0;
+                }
+                else
+                {
+                    i = grdCargos.CurrentRow.Index;
+                }
 
                 _Voucher.Pedido =0;
                 _Voucher.Celula = 0;
@@ -72,12 +81,12 @@ namespace LiquidacionSTN
                 if (LiquidacionSTN.Modulo.CnnSigamet.State != ConnectionState.Open)
                 { LiquidacionSTN.Modulo.CnnSigamet.Open(); }
 
-                using (SqlDataAdapter da = new SqlDataAdapter("spSTConsultarCargoTarjetaCliente", LiquidacionSTN.Modulo.CnnSigamet))
-                {
-                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
-                    da.SelectCommand.Parameters.Add("@Cliente", SqlDbType.Int).Value = cliente;
-                    da.Fill(_dtCargos);
-                }
+                    using (SqlDataAdapter da = new SqlDataAdapter("spSTConsultarCargoTarjetaCliente", LiquidacionSTN.Modulo.CnnSigamet))
+                    {
+                        da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                        da.SelectCommand.Parameters.Add("@Cliente", SqlDbType.Int).Value = cliente;
+                        da.Fill(_dtCargos);
+                    }
             }
             catch (Exception ex)
             {
@@ -126,6 +135,13 @@ namespace LiquidacionSTN
             }
             grdCargos.AutoGenerateColumns = false;
             grdCargos.DataSource = _dtCargosFiltrados;
+
+            if (_dtCargosFiltrados.Rows.Count == 1)
+            {
+                _Seleccionado = true;
+                seleccionaCargo();
+            }
+            
 
             Resultado = _dtCargosFiltrados.Rows.Count;
 

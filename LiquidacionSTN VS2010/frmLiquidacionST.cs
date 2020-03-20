@@ -2780,7 +2780,8 @@ namespace LiquidacionSTN
         private bool ValidarPedidoFormaPago(int parPedido, int parCelula, int parAñoPed, decimal total)
         {
 
-            return _Saldo <= 0;
+
+            return _SaldoPed > 0;
         }
 
         private bool ValidarPedidoCheque(int parPedido, int parCelula, int parAñoPed)
@@ -3427,6 +3428,7 @@ namespace LiquidacionSTN
                             Comando.Parameters.Add("@Banco", SqlDbType.SmallInt).Value = voucherTemp.Banco;
                             Comando.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = voucherTemp.TipoCobro;
                             Comando.Parameters.Add("@NumeroCheque", SqlDbType.Char, 20).Value = voucherTemp.Autorizacion;
+                            Comando.Parameters.Add("@NumeroCuenta", SqlDbType.Char, 20).Value = voucherTemp.NumeroTarjeta;
                             Comando.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = voucherTemp.Fecha;
                             Comando.Parameters.Add("@Cliente", SqlDbType.Int).Value = Convert.ToInt32(dr["Cliente"]);
                             Comando.Parameters.Add("@Saldo", SqlDbType.Money).Value = SaldoPendiente;

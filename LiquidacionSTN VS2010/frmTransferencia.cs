@@ -84,6 +84,7 @@ namespace LiquidacionSTN
 
         private void Aceptar()
         {
+            txtMonto_Leave(null, null);
             decimal saldoTemp = 0;
 
 
