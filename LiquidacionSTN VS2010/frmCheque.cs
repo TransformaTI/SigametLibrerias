@@ -518,25 +518,39 @@ namespace LiquidacionSTN
                     }
                     catch
                     {
-                        MessageBox.Show("TNúmero de cheque no válido", "Mesaje del sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Tecleé un número de Cheque", "Mesaje del sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         break;
                     }
 
+                    try
+                    {
+                        if (Convert.ToDecimal(txtNumCuenta.Text) == 0)
+                        {
+                            MessageBox.Show("Tecleé un número de Cuenta.", "Mesaje del sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            break;
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Tecleé un número de Cuenta.", "Mesaje del sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        break;
+                    }
 
-                    
-					
+                    try
+                    {
+                        if (Convert.ToDecimal(txtMonto.Text) == 0)
+                        {
+                            MessageBox.Show("Teclee el Monto.", "Mesaje del sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            break;
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Teclee el Monto.", "Mesaje del sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        break;
+                    }
 
-					if (Convert.ToDecimal   (txtNumCuenta.Text) == 0)
-					{
-						MessageBox.Show ("Tecleé un número de Cuenta.","Mesaje del sistema",MessageBoxButtons.OK, MessageBoxIcon.Information);
-						break;
-					}
-
-					if (Convert.ToDecimal (txtMonto.Text) == 0)
-					{
-						MessageBox.Show ("Teclee el Monto.","Mesaje del sistema",MessageBoxButtons.OK, MessageBoxIcon.Information);
-						break;
-					}
+  
 
                     //if (Convert.ToDecimal(txtMonto.Text) < _TotalPedido)
                     //{
@@ -709,7 +723,15 @@ namespace LiquidacionSTN
                     }
                     else
                     {
-                        Monto = Convert.ToDecimal(txtMonto.Text);
+                        try
+                        {
+                            Monto = Convert.ToDecimal(txtMonto.Text);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Monto no válido");
+                        }
+                        
                     }
                     txtSaldo.Text = (_MontoPagar - Monto).ToString();
                 }                
