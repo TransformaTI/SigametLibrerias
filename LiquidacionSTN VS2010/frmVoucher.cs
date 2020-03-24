@@ -65,6 +65,7 @@ namespace LiquidacionSTN
         private SigaMetClasses.Controles.txtNumeroDecimal txtMonto;
         private SigaMetClasses.Controles.txtNumeroDecimal txtSaldo;
         private List<SigaMetClasses.sVoucher> _listaVoucher ;
+        private List<SigaMetClasses.sVoucher> _listaTodoVoucher;
         private IContainer components;
         private Label label12;
         private TextBox txtTarjeta;
@@ -106,6 +107,7 @@ namespace LiquidacionSTN
         public sVoucher objVoucher { get => _objVoucher; set => _objVoucher = value; }
         public bool EsAlta { get => _EsAlta; set => _EsAlta = value; }
         public decimal MontoPagar { get => _MontoPagar; set => _MontoPagar = value; }
+        public List<sVoucher> ListaTodoVoucher { get => _listaTodoVoucher; set => _listaTodoVoucher = value; }
 
         public frmVoucher(int Cliente,string PedidoReferencia)
 		{
@@ -666,40 +668,45 @@ namespace LiquidacionSTN
                 //LiquidacionSTN.Modulo.dtVoucher.Rows.Add(Registro);
 
 
+               
 
-                decimal saldoTemp = Convert.ToDecimal(txtSaldo.Text);
+                    decimal saldoTemp = Convert.ToDecimal(txtSaldo.Text);
 
-                if (saldoTemp < 0)
+                    if (saldoTemp < 0)
+                    {
+                        saldoTemp = saldoTemp * -1;
+                    }
+                    else
+                    {
+                        saldoTemp = 0;
+                    }
+
+                    _objVoucher.No = 0;
+                    _objVoucher.Pedido = _Pedido;
+                    _objVoucher.Celula = _Celula;
+                    _objVoucher.AñoPed = _AñoPed;
+                    _objVoucher.Cliente = _Cliente;
+                    _objVoucher.Banco = _BancoAfiliacion;
+                    _objVoucher.Fecha = this.dtpFecha.Value.Date;
+                    _objVoucher.NumeroTarjeta = txtTarjeta.Text;
+                    _objVoucher.Monto = Convert.ToDecimal(txtMonto.Text);
+                    _objVoucher.Autotanque = _Autotanque;
+                    _objVoucher.Saldo = saldoTemp;
+                    _objVoucher.Afiliacion = _NumAfiliacion;
+                    _objVoucher.Autorizacion = _Autorizacion;
+                    _objVoucher.TipoTarjeta = cboTipoTarjeta.Text;
+                    _objVoucher.BancoTarjeta = _BancoTarjeta;
+                    _objVoucher.Folio = _folio;
+                    _objVoucher.PedidoReferencia = _PedidoReferencia;
+                    _objVoucher.TipoCobro = _TipoTarjeta;
+
+                if (validaGuardado(_objVoucher))
                 {
-                    saldoTemp = saldoTemp * -1;
-                }
-                else
-                {
-                    saldoTemp = 0;
-                }
-                
-                _objVoucher.No =0;
-                _objVoucher.Pedido = _Pedido;
-                _objVoucher.Celula = _Celula;
-                _objVoucher.AñoPed = _AñoPed;
-                _objVoucher.Cliente = _Cliente;
-                _objVoucher.Banco = _BancoAfiliacion;
-                _objVoucher.Fecha = this.dtpFecha.Value.Date;
-                _objVoucher.NumeroTarjeta = txtTarjeta.Text;
-                _objVoucher.Monto = Convert.ToDecimal(txtMonto.Text);
-                _objVoucher.Autotanque = _Autotanque;
-                _objVoucher.Saldo = saldoTemp;
-                _objVoucher.Afiliacion = _NumAfiliacion;
-                _objVoucher.Autorizacion = _Autorizacion;
-                _objVoucher.TipoTarjeta = cboTipoTarjeta.Text;
-                _objVoucher.BancoTarjeta = _BancoTarjeta;
-                _objVoucher.Folio = _folio;
-                _objVoucher.PedidoReferencia = _PedidoReferencia;
-                _objVoucher.TipoCobro = _TipoTarjeta;
-                ActualizarPedido();
-                this.DialogResult = DialogResult.OK;
+                    ActualizarPedido();
+                    this.DialogResult = DialogResult.OK;
 
-                this.Close();
+                    this.Close();
+                }
             }
         }
 
@@ -736,7 +743,7 @@ namespace LiquidacionSTN
 
             if (!valido)
             {
-                MessageBox.Show("Este Voucher ya se dió de alta, por favor verifíque.", "Información", 
+                MessageBox.Show("No se puede agregar el cobro, ya existe un cobro con los mismos datos.", "Información", 
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             return valido;
@@ -814,14 +821,6 @@ namespace LiquidacionSTN
                     cboAfiliacion.Text = "";
                 }
                     
-
-                    
-                //}
-
-
-
-
-
             }
             catch (Exception ex)
             {
@@ -998,6 +997,27 @@ namespace LiquidacionSTN
             return entradaValida;
         }
 
+        private bool validaGuardado(SigaMetClasses.sVoucher voucherNuevo)
+        {
+            bool resultado = true;
+
+            var voucherTemp = _listaVoucher.FirstOrDefault(x => x.BancoTarjeta == voucherNuevo.BancoTarjeta &
+                                                           x.Afiliacion == voucherNuevo.Afiliacion &
+                                                           x.NumeroTarjeta == voucherNuevo.NumeroTarjeta &                                                          
+                                                           x.Autorizacion == voucherNuevo.Autorizacion &
+                                                           x.Monto==voucherNuevo.Monto);
+
+            if (voucherTemp.No > 0)
+            {
+                resultado = false;
+                MessageBox.Show("No se puede agregar el cobro, ya existe un cobro con los mismos datos", this.Text,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+
+            return resultado;
+        }
+
         private void tsbAceptar_Click(object sender, EventArgs e)
         {
             try
@@ -1006,8 +1026,9 @@ namespace LiquidacionSTN
                 {
                    if(validaPagoExcesoTPV())
                     {
-                        //CalcularSaldo();
-                        Aceptar();
+                        //CalcularSaldo();                     
+                        Aceptar();                    
+                        
                     }
                 }      
                 else

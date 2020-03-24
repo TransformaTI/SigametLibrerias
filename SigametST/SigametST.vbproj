@@ -116,7 +116,8 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>bin\Interop.VBIDE.dll</HintPath>
     </Reference>
-    <Reference Include="LiquidacionSTN">
+    <Reference Include="LiquidacionSTN, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LiquidacionSTN VS2010\bin\Debug\LiquidacionSTN.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic">
