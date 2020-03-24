@@ -4160,6 +4160,7 @@ namespace LiquidacionSTN
                             //frmVoucher.NumeroTarjeta = _numeroTarjeta;
                             //frmVoucher.BancoTarjeta = _bancoTarjeta;
                             frmVoucher.ListaVoucher = listaVoucherTemp;
+                            frmVoucher.ListaTodoVoucher = _Vouchers;
                             frmVoucher.MontoPagar = _SaldoPed;
                             if (frmVoucher.ShowDialog()==DialogResult.OK)
                             {
