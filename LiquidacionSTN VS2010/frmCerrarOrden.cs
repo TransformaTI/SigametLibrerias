@@ -953,6 +953,18 @@ namespace LiquidacionSTN
         {
             bool valido = true;
 
+            decimal totalTemp;
+
+            try
+            {
+                totalTemp= decimal.Parse(txtTotal.Text);
+            }
+            catch (Exception ex)
+            {
+                totalTemp = 0;
+            }           
+
+
             if (cboTipoCobro.Text == "")
             {
                 MessageBox.Show("Usted debe seleccionar un tipo de cobro", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -964,6 +976,29 @@ namespace LiquidacionSTN
                 MessageBox.Show("Usted debe seleccionar una forma de crédito", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 valido = false;
             }
+
+
+            if (Int32.Parse(CboTipoPedido.SelectedValue.ToString()) != 7)
+            {
+                if (_TotalPedido - _TotalFaltaPorCobrar > 0)
+                {
+                    MessageBox.Show("No se puede modificar el servicio técnico, ya que tiene cobros capturados, favor de cancelar los cobros y posteriormente modificar el servicio técnico.", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    valido = false;
+                }
+            }
+
+
+
+            if (totalTemp != _TotalPedido && valido)
+            {
+                if (_TotalPedido - _TotalFaltaPorCobrar > 0)
+                {
+                    MessageBox.Show("No se puede modificar el servicio técnico, ya que tiene cobros capturados, favor de cancelar los cobros y posteriormente modificar el servicio técnico.", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    valido = false;
+                }
+            }
+
+            
 
             return valido;
         }
@@ -1004,14 +1039,24 @@ namespace LiquidacionSTN
 								break;
 							}
 
-							//Texis inhabilito estas lineas para que no sea forzozo el campo de servicio realizado
-//							if (txtServicioRealizado.Text == "")
-//							{
-//								MessageBox.Show("Debe de capturar el servicio realizado.", "Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
-//								break;
-//							}
-						
-							if (MessageBox.Show("¿Esta seguro de cerrar la orden de servicio?", "Servicio Tecnico", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            //Texis inhabilito estas lineas para que no sea forzozo el campo de servicio realizado
+                            //							if (txtServicioRealizado.Text == "")
+                            //							{
+                            //								MessageBox.Show("Debe de capturar el servicio realizado.", "Servicio Técnico", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //								break;
+                            //							}
+
+                            if (Int32.Parse(CboTipoPedido.SelectedValue.ToString()) != 7)
+                            {
+                                if (_TotalPedido-_TotalFaltaPorCobrar>0)
+                                {
+                                    MessageBox.Show("No se puede modificar el servicio técnico, ya que tiene cobros capturados, favor de cancelar los cobros y posteriormente modificar el servicio técnico.", "Servicios Técnicos", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    break;
+                                }
+                            }
+
+
+                            if (MessageBox.Show("¿Esta seguro de cerrar la orden de servicio?", "Servicio Tecnico", MessageBoxButtons.YesNo) == DialogResult.Yes)
 							{
 								System.Data.DataRow [] Query;
 								Query = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + "and AñoPed =" + _AñoPed);
@@ -1102,9 +1147,11 @@ namespace LiquidacionSTN
 					{
 						System.Data.DataRow [] Consulta;
 						Consulta = LiquidacionSTN.Modulo.dtLiquidacion.Select ("Pedido = " + _Pedido + "and Celula = " + _Celula + "and AñoPed =" + _AñoPed);
-						foreach(System.Data.DataRow drM in Consulta)
-						{
-							drM.BeginEdit ();
+                        foreach (System.Data.DataRow drM in Consulta)
+                        {
+                            decimal pagadoTemp = _TotalPedido - _TotalFaltaPorCobrar;
+
+                            drM.BeginEdit ();
 							decimal Pagos;
 							drM["NumeroPagos"] = lblNumPagos.Text;
 							Pagos = Convert.ToDecimal (lblPagosDe.Text);
@@ -1113,6 +1160,7 @@ namespace LiquidacionSTN
 							drM["FrecuenciaPagos"] = lblDias.Text;
 							drM["TipoPedidoDescripcion"] = CboTipoPedido.Text;
                             drM["Total"] = txtTotal.Text;
+                            drM["Saldo"] = Decimal.Parse(txtTotal.Text)- pagadoTemp;
                             drM["ImporteLetra"] = Importe;
                             if (this.CboTipoPedido.SelectedValue == null)
                             {
