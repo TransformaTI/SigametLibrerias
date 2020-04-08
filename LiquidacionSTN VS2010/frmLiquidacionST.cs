@@ -318,7 +318,6 @@ namespace LiquidacionSTN
         private List<SigaMetClasses.sTransferencia> _Transferencias = new List<SigaMetClasses.sTransferencia>();
         private List<SigaMetClasses.sCheque> _Cheques = new List<SigaMetClasses.sCheque>();
         private List<SigaMetClasses.sVoucher> _Vouchers = new List<SigaMetClasses.sVoucher>();
-        private List<SigaMetClasses.sEfectivo> _Efectivos = new List<SigaMetClasses.sEfectivo>();
 
         //public SqlConnection cnnSigamet = new SqlConnection(SigaMetClasses.Main.LeeInfoConexion(false,false,"LiquidacionST"));
 
@@ -3353,44 +3352,6 @@ namespace LiquidacionSTN
                             Comando.ExecuteNonQuery();
                         }
 
-                        List<SigaMetClasses.sEfectivo> listaEfectivoTemp = _Efectivos.Where(x => x.PedidoReferencia == _PedidoReferencia).ToList<SigaMetClasses.sEfectivo>(); ;
-
-                        foreach (SigaMetClasses.sEfectivo eEfectivoTemp in listaEfectivoTemp)
-                        {
-                            Impuesto = eEfectivoTemp.Monto * ValorIva;
-                            Importe = eEfectivoTemp.Monto - Impuesto;
-
-                            SaldoPendiente = Math.Abs(eEfectivoTemp.Saldo);
-
-                            if (SaldoPendiente > 0)
-                            {
-                                SaldoFavor = 1;
-                            }
-                            else
-                            {
-                                SaldoFavor = 0;
-                            }
-
-                            Comando = new SqlCommand("spSTLiquidacionInsertaCobro");
-                            Comando.Connection = Conexion;
-                            Comando.Transaction = Transaccion;
-                            Comando.CommandType = CommandType.StoredProcedure;
-                            Comando.Parameters.Add("@Pedido", SqlDbType.Int).Value = _Pedido;
-                            Comando.Parameters.Add("@Celula", SqlDbType.TinyInt).Value = _Celula;
-                            Comando.Parameters.Add("@AñoPed", SqlDbType.SmallInt).Value = _AñoPed;
-                            Comando.Parameters.Add("@Total", SqlDbType.Money).Value = eEfectivoTemp.Monto;
-                            Comando.Parameters.Add("@Impuesto", SqlDbType.Money).Value = Impuesto;
-                            Comando.Parameters.Add("@Importe", SqlDbType.Money).Value = Importe;
-                            Comando.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = 5;                           
-                            Comando.Parameters.Add("@Cliente", SqlDbType.Int).Value = Convert.ToInt32(dr["Cliente"]);
-                            Comando.Parameters.Add("@Saldo", SqlDbType.Money).Value = SaldoPendiente;
-                            Comando.Parameters.Add("@SaldoAFavor", SqlDbType.TinyInt).Value = SaldoFavor;
-                            Comando.Parameters.Add("@Usuario", SqlDbType.Char, 15).Value = _Usuario;
-                            Comando.Parameters.Add("@Folio", SqlDbType.Int).Value = Convert.ToInt32(dr["Folio"]);
-                            Comando.Parameters.Add("@Añoatt", SqlDbType.SmallInt).Value = Convert.ToInt16(dr["AñoAtt"]);
-                            Comando.ExecuteNonQuery();
-                        }
-
                         List<SigaMetClasses.sCheque> listaChequeTemp = _Cheques.Where(x => x.PedidoReferencia == _PedidoReferencia).ToList<SigaMetClasses.sCheque>(); ;
 
                         foreach (SigaMetClasses.sCheque chequeTemp in listaChequeTemp)
@@ -3880,7 +3841,7 @@ namespace LiquidacionSTN
 
                                     LiquidarPedidosCRM(Query);
 
-                                    //throw new Exception("Finaliza prueba");
+                                   // throw new Exception("Finaliza prueba");
 
                                     Transaccion.Commit();
 
@@ -4003,28 +3964,6 @@ namespace LiquidacionSTN
                         CerrarOrden.TotalPedido = _TotalPed;
                         CerrarOrden.ShowDialog();
                         //LlenaGridFinal();
-
-                        if (CerrarOrden.EsAceptar)
-                        {
-
-                            SigaMetClasses.sEfectivo efectivoNew;
-                            efectivoNew = CerrarOrden.ObjEfectivo;
-
-
-                            if (_Efectivos.Count > 0)
-                            {
-                                SigaMetClasses.sEfectivo efectivoTemp = _Efectivos[_Efectivos.Count - 1];
-                                efectivoNew.No = efectivoTemp.No + 1;
-                            }
-                            else
-                            {
-                                efectivoNew.No = 1;
-                            }
-
-                            _Efectivos.Add(efectivoNew);
-                            actualizaSaldoPedido(efectivoNew.Monto);
-                        }
-
                         TotalGeneral();
 
                         // Actualizar variables locales
