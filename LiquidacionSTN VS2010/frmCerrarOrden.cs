@@ -9,6 +9,7 @@ using System.Data;
 using LiquidacionSTN;
 using Microsoft.VisualBasic;
 using System.Globalization;
+using SigaMetClasses;
 
 namespace LiquidacionSTN
 {
@@ -120,19 +121,21 @@ namespace LiquidacionSTN
 		decimal Contado;
 		int _ClienteTarjeta;
 		int _TipoCobro;
-
+        
         // Variable para deshabilitar el botón Prespuesto -- RM 27/09/2018
         bool _HabilitarPresupuesto;
         // Variable para deshabilitar el botón Modificar -- RM 03/01/2019
         bool _HabilitarModificar;
+
+        private bool _EsAceptar = false;
         private decimal _TotalPedido=0;
         private decimal _TotalFaltaPorCobrar=0;
-
+        private SigaMetClasses.sEfectivo _objEfectivo;
 
         public decimal TotalFaltaPorCobrar { get => _TotalFaltaPorCobrar; set => _TotalFaltaPorCobrar = value; }
         public decimal TotalPedido { get => _TotalPedido; set => _TotalPedido = value; }
-
-
+        public bool EsAceptar { get => _EsAceptar; set => _EsAceptar = value; }
+        public sEfectivo ObjEfectivo { get => _objEfectivo; set => _objEfectivo = value; }
 
 
         #region Windows Form Designer generated code
@@ -866,7 +869,6 @@ namespace LiquidacionSTN
 					drMod["totalcheque"] = Contado;
 					drMod["tipocobrocheque"]= 5;
 					LiquidacionSTN.Modulo.dtLiquidacion.Rows.Add (drMod);
-
 				}
 
 			}
@@ -1071,7 +1073,28 @@ namespace LiquidacionSTN
 								}
 								RevisaTotal();
                                 RegistraPuedeSuministrar();
-								this.Close ();
+                                _EsAceptar = true;
+                                decimal _MontoFaltante = Convert.ToDecimal(txtCostoServicio.Text);
+                                decimal saldoTemp = _TotalPedido - (_MontoFaltante + (_TotalPedido - _TotalFaltaPorCobrar));
+
+                                if (saldoTemp < 0)
+                                {
+                                    saldoTemp = saldoTemp * -1;
+                                }
+                                else
+                                {
+                                    saldoTemp = 0;
+                                }
+
+                                _objEfectivo = new sEfectivo();
+
+                                _objEfectivo.PedidoReferencia = _PedidoReferencia;
+                                _objEfectivo.Monto = _MontoFaltante;
+                                _objEfectivo.Saldo = saldoTemp;
+                                _objEfectivo.Pedido = _Pedido;
+                                _objEfectivo.Celula = _Celula;
+                                _objEfectivo.AñoPed = _AñoPed; 
+                                this.Close ();
 							}
 							else
 							{
