@@ -550,13 +550,7 @@ namespace LiquidacionSTN
                         break;
                     }
 
-  
 
-                    //if (Convert.ToDecimal(txtMonto.Text) < _TotalPedido)
-                    //{
-                    //    MessageBox.Show("El monto no cubre el total del pedido", "Mesaje del sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //    break;
-                    //}
 
                     decimal saldoTemp=Convert.ToDecimal(txtSaldo.Text);
 
