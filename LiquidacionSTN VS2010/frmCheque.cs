@@ -569,8 +569,6 @@ namespace LiquidacionSTN
                         saldoTemp = 0;
                     }
 
-
-
                     _objCheque = new sCheque();
 
                     _objCheque.PedidoReferencia = _PedidoReferencia;
