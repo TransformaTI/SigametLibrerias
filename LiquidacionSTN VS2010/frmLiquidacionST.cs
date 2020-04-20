@@ -3476,7 +3476,8 @@ namespace LiquidacionSTN
                             Comando.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = 10;
                             Comando.Parameters.Add("@NumeroCheque", SqlDbType.Char, 20).Value = transferenciaTemp.Documento;
                             Comando.Parameters.Add("@FCheque", SqlDbType.DateTime).Value = transferenciaTemp.Fecha;
-                            Comando.Parameters.Add("@NumeroCuenta", SqlDbType.Char, 20).Value = transferenciaTemp.CuentaOrigen;
+                            Comando.Parameters.Add("@NumeroCuenta", SqlDbType.Char, 20).Value = transferenciaTemp.CuentaDestino;
+                            Comando.Parameters.Add("@NumeroCuentaDestino", SqlDbType.Char, 20).Value = transferenciaTemp.CuentaOrigen; 
                             Comando.Parameters.Add("@Cliente", SqlDbType.Int).Value = Convert.ToInt32(dr["Cliente"]);
                             Comando.Parameters.Add("@Saldo", SqlDbType.Money).Value = SaldoPendiente;
                             Comando.Parameters.Add("@SaldoAFavor", SqlDbType.TinyInt).Value = SaldoFavor;
