@@ -8225,12 +8225,27 @@ Public Class frmLiquidacionPortatil
 	End Function
 
 	Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
-		If Not validarExistencias() Then
-			MessageBox.Show("No hay suficientes existencias para liquidar ", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
-			Return
-		End If
+        If Not validarExistencias() Then
+            MessageBox.Show("No hay suficientes existencias para liquidar ", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return
+        End If
 
-		If grdDetalle.VisibleRowCount > 0 Then
+
+        _FactorDensidad = SigaMetClasses.ConsultaFactorConversion(_IdCelula, dtpFLiquidacion.Value, 0)
+
+        If _FactorDensidad = -1 Then
+            MessageBox.Show("Ocurrió un problema al consultar el factor de conversión")
+            Return
+        Else
+            If _FactorDensidad = 0 Then
+                MessageBox.Show("No existe factor de conversión contable, notifíquelo a sistema")
+                Return
+            End If
+        End If
+
+
+
+        If grdDetalle.VisibleRowCount > 0 Then
 			Dim validar As Boolean
 			validar = Validacion()
 

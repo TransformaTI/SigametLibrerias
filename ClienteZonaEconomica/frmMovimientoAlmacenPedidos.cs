@@ -1438,12 +1438,34 @@ namespace ClienteZonaEconomica
         this.Refresh();
         this.Cursor = Cursors.WaitCursor;
         cConfig cConfig = new cConfig((short) 16, Globals.GetInstance._Corporativo, Globals.GetInstance._Sucursal);
-        string str1 = StringType.FromObject(cConfig.Parametros[(object)"FactorDensidad"]).Trim();
+        //string str1 = StringType.FromObject(cConfig.Parametros[(object)"FactorDensidad"]).Trim();
         string str2 = StringType.FromObject(cConfig.Parametros[(object) "MedicionFisica"]).Trim();
-        this.Traslados(DecimalType.FromString(str1), this.dtpFMovimiento.Value, str2);
+
+        Decimal _FactorDensidad=0;                 
+ 
+
+         _FactorDensidad = SigaMetClasses.Main.ConsultaFactorConversion(0, dtpFMovimiento.Value, Convert.ToInt32(cboSucursal.SelectedValue));
+
+        if (_FactorDensidad == -1)
+        {
+             MessageBox.Show("Ocurrió un problema al consultar el factor de conversión");
+                    return false;
+        }
+        else
+            {
+            if (_FactorDensidad == 0) 
+            {
+                MessageBox.Show("No se encontró factor de conversión del día de hoy");
+                        return false;
+            }    
+        }
+            
+
+
+        this.Traslados(_FactorDensidad, this.dtpFMovimiento.Value, str2);
         int year = this.dtpFMovimiento.Value.Year;
         Decimal d1 = DecimalType.FromString(this.lblKilos.Text);
-        Decimal num1 = Decimal.Divide(d1, DecimalType.FromString(str1));
+        Decimal num1 = Decimal.Divide(d1, _FactorDensidad);
         Consulta.cFolioMovimientoAlmacen movimientoAlmacen1 = new Consulta.cFolioMovimientoAlmacen();
         movimientoAlmacen1.Registrar(0, ((ComboBase3) this.cboAnden).Identificador, 0, 1, 0);
         int num2 = 0;
