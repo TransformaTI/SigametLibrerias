@@ -45,6 +45,7 @@ Public Class frmLiquidacionPortatilComisionista
     Private dtCobroZonaEconomica As New DataTable("CobroZonaEconomica")
 
     Private dtTipoCobro As New DataTable()
+    Private _NoCelula As Integer
 
     Private NumProductos As Integer
     Private TipoProducto As Short
@@ -1512,6 +1513,7 @@ Public Class frmLiquidacionPortatilComisionista
         lblCorporativo.Text = CType(_drLiquidacion(0).Item(22), String)
         lblRuta.Text = CType(_drLiquidacion(0).Item(15), String)
         lblCamion.Text = CType(_drLiquidacion(0).Item(8), String)
+        _NoCelula = CType(_drLiquidacion(0).Item(4), Integer)
 
         Dim oLiquidacion As New PortatilClasses.cLiquidacion()
         oLiquidacion.ConsultaTipoCobro(1)
@@ -2004,6 +2006,20 @@ Public Class frmLiquidacionPortatilComisionista
     'liquidacion de la ruta
     Private Sub btnAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAceptar.Click
         'If grdDetalle.VisibleRowCount > 0 Then
+
+
+        _FactorDensidad = SigaMetClasses.ConsultaFactorConversion(_NoCelula, dtpFLiquidacion.Value(), 0)
+
+        If _FactorDensidad = -1 Then
+            MessageBox.Show("Ocurrió un problema al consultar el factor de conversión")
+            Return
+        Else
+            If _FactorDensidad = 0 Then
+                MessageBox.Show("No existe factor de conversión contable, notifíquelo a sistema")
+                Return
+            End If
+        End If
+
         Dim RealizaLiquidacion As Boolean = Nothing
         lblEfectivo.Text = CType(capEfectivo.TotalEfectivo, Decimal).ToString("N2")
         _Cambio = capEfectivo.TotalEfectivo - (_TotalNetoCaja + _Abono + _DescuentoResguardo)

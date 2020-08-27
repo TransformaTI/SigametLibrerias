@@ -5180,6 +5180,8 @@ Public Class cTarjetaCredito
         End Try
     End Function
 
+    
+
     Public Function ConsultaPagosConTarjeta(ByVal Cliente As Integer, Ruta As Integer, Autotanque As Integer) As DataTable
         Dim cmd As New SqlCommand()
         cmd.CommandType = CommandType.StoredProcedure
@@ -12198,7 +12200,95 @@ Public Module Main
         Return listado
     End Function
 
+    <Description("Consulta todas las rutas y devuelve un DataReader")>
+    Public Function ConsultaCelulaRutaSucursal(ByVal Ruta As Short) As Integer
+        Dim cmd As New SqlCommand()
+        Dim resultado As Integer = -1
 
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "spFCConsultaCelulaRutaSucursal"
+
+
+        cmd.Parameters.Add("@ruta", SqlDbType.Int).Value = Ruta
+
+        cmd.Connection = DataLayer.Conexion
+        Dim da As New SqlDataAdapter(cmd)
+        Dim dt As New DataTable("Factores")
+
+        Try
+            da.Fill(dt)
+
+            If (dt.Rows.Count > 0) Then
+                resultado = CType(dt.Rows(0).Item("Celula"), Integer)
+            Else
+                resultado = 0
+            End If
+        Catch ex As Exception
+            Throw ex
+        Finally
+            da.Dispose()
+            da = Nothing
+        End Try
+        Return resultado
+    End Function
+
+    Public Function ConsultaFactorConversion(ByVal Celula As Integer, Fecha As DateTime, Sucursal As Integer) As Decimal
+        Dim cmd As New SqlCommand()
+        Dim resultado As Decimal = -1
+
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "spFCConsultaFactorConversion"
+        If (Sucursal <> 0) Then
+            cmd.Parameters.Add("@sucursal", SqlDbType.Int).Value = Sucursal
+        End If
+
+        cmd.Parameters.Add("@fecha", SqlDbType.DateTime).Value = Fecha
+        If (Celula <> 0) Then
+            cmd.Parameters.Add("@celula", SqlDbType.Int).Value = Celula
+        End If
+
+        cmd.Connection = DataLayer.Conexion
+        Dim da As New SqlDataAdapter(cmd)
+        Dim dt As New DataTable("Factores")
+
+        Try
+            da.Fill(dt)
+
+            If (dt.Rows.Count > 0) Then
+                resultado = CType(dt.Rows(0).Item("FactorConversionPromedio"), Decimal)
+            Else
+                resultado = 0
+            End If
+        Catch ex As Exception
+            Throw ex
+        Finally
+            da.Dispose()
+            da = Nothing
+        End Try
+        Return resultado
+    End Function
+
+    Public Function ActualizaKilosPedido(ByVal AnnoAtt As Short, Folio As Integer, FactorConversion As Decimal) As String
+        Dim cmd As New SqlCommand()
+        Dim resultado As String = ""
+
+        Try
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.CommandText = "spFCActualizaKilosPedido"
+            cmd.Connection = DataLayer.Conexion
+            AbreConexion()
+            cmd.Parameters.Add("@AñoAtt", SqlDbType.Int).Value = AnnoAtt
+            cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio
+            cmd.Parameters.Add("@FactorConversion", SqlDbType.Decimal).Value = FactorConversion
+            cmd.ExecuteNonQuery()
+        Catch ex As Exception
+            resultado = ex.Message
+        Finally
+            cmd.Dispose()
+            CierraConexion()
+        End Try
+        Return resultado
+    End Function
 
     Public Function consultarAfiliacion() As Dictionary(Of Integer, String)
         Dim dictionary As New Dictionary(Of Integer, String)

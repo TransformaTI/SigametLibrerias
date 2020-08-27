@@ -1067,6 +1067,7 @@ Public Class frmLiquidacionCyC
     Private _KilosCredito As Integer
     Private _KilosObsequio As Integer
     Private _ExisteObsequio As Integer = 0
+    Private _NoCelula As Integer = 0
 
     'Arreglos donde se almacena la cantidad de dinero pagada
     Private arrCambio As Array 'Arreglo para las denominaciones del cambio desglosado
@@ -1708,7 +1709,12 @@ Public Class frmLiquidacionCyC
         _ClienteVentasPublico = CType(CType(oParametro.Parametros("ClienteVentasPublico"), String).Trim, Integer)
 
         Dim oParametroCaja As New SigaMetClasses.cConfig(3, _CorporativoUsuario, _SucursalUsuario)
-        _RutaReportes = CType(oParametroCaja.Parametros("RutaReportesW7"), String).Trim
+        Try
+            _RutaReportes = CType(oParametroCaja.Parametros("RutaReportesW7"), String).Trim
+        Catch ex As Exception
+
+        End Try
+
 
         'Inicializa tablas
         InicializaTablaLiquidacion()
@@ -1759,6 +1765,7 @@ Public Class frmLiquidacionCyC
         lblCorporativo.Text = CType(_drLiquidacion(0).Item(22), String)
         lblRuta.Text = CType(_drLiquidacion(0).Item(15), String)
         lblCamion.Text = CType(_drLiquidacion(0).Item(8), String)
+        _NoCelula = CType(_drLiquidacion(0).Item(4), Integer)
 
         CargaGrid()
     End Sub
@@ -2123,6 +2130,20 @@ Public Class frmLiquidacionCyC
     Private Sub RealizarLiquidacion()
         'Se instancia el objeto que controla la transacción
         Dim ClienteTemp As Integer = Nothing
+
+
+        _FactorDensidad = SigaMetClasses.ConsultaFactorConversion(_NoCelula, dtpFLiquidacion.Value, 0)
+
+        If _FactorDensidad = -1 Then
+            MessageBox.Show("Ocurrió un problema al consultar el factor de conversión")
+            Return
+        Else
+            If _FactorDensidad = 0 Then
+                MessageBox.Show("No se encontró factor de conversión del día de hoy")
+                Return
+            End If
+        End If
+
 
         If SesionIniciada = False Then
             IniciarSesion(FechaInicioSesion)
