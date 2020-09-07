@@ -1410,7 +1410,13 @@ namespace ClienteZonaEconomica
       movimientoAlmacen1.Registrar(0, ((ComboBase3) this.cboTanque).Identificador, 0, 3, 0);
       Consulta.cMovimientoAlmacen movimientoAlmacen2 = new Consulta.cMovimientoAlmacen(0, 0, ((ComboBase3) this.cboTanque).Identificador, this.dtpFMovimiento.Value, d1, num9, 3, this.dtpFVenta.Value.Date, movimientoAlmacen1.NDocumento, movimientoAlmacen1.ClaseMovimientoAlmacen, movimientoAlmacen1.IdCorporativo, Globals.GetInstance._Usuario, 0);
       movimientoAlmacen2.CargaDatos();
-      new Consulta.cMovimientoAProducto(1, ((ComboBase3) this.cboTanque).Identificador, ((ComboBase3) this.cboTanque).Celula, ((Consulta.ConsultaBase2) movimientoAlmacen2).Identificador, d1, num9, 1).CargaDatos();
+      new Consulta.cMovimientoAProducto(1, 
+                                        ((ComboBase3) this.cboTanque).Identificador, 
+                                        ((ComboBase3) this.cboTanque).Celula, 
+                                        ((Consulta.ConsultaBase2) movimientoAlmacen2).Identificador,
+                                        d1,
+                                        d1/FactorDensidad, 
+                                        1).CargaDatos();
       Consulta.cMovimientoAlmacen movimientoAlmacen3 = new Consulta.cMovimientoAlmacen(0, 0, ((ComboBase3) this.cboAnden).Identificador, this.dtpFMovimiento.Value, d1, num9, 4, this.dtpFVenta.Value.Date, movimientoAlmacen1.NDocumento, movimientoAlmacen1.ClaseMovimientoAlmacen, movimientoAlmacen1.IdCorporativo, Globals.GetInstance._Usuario, 0);
       movimientoAlmacen3.CargaDatos();
       int num10 = 0;
@@ -1421,7 +1427,13 @@ namespace ClienteZonaEconomica
         Lista.ListaProductoDetalle listaProductoDetalle = (Lista.ListaProductoDetalle) this.ListaProducto[index4];
         new cAlmacenGasStock((short)5, ((ComboBase3)this.cboAnden).Identificador, checked((short)listaProductoDetalle.Producto), 0, Decimal.Zero, Decimal.Zero).RegistrarModificarEliminar();
         if (listaProductoDetalle.Cantidad > 0)
-            new Consulta.cMovimientoAProducto(0, ((ComboBase3)this.cboAnden).Identificador, listaProductoDetalle.Producto, ((Consulta.ConsultaBase2)movimientoAlmacen3).Identificador, listaProductoDetalle.Kilos, listaProductoDetalle.Litros, listaProductoDetalle.Cantidad).CargaDatos();
+            new Consulta.cMovimientoAProducto(0, 
+                                                ((ComboBase3)this.cboAnden).Identificador, 
+                                                listaProductoDetalle.Producto, 
+                                                ((Consulta.ConsultaBase2)movimientoAlmacen3).Identificador, 
+                                                listaProductoDetalle.Kilos,
+                                                listaProductoDetalle.Kilos/FactorDensidad, 
+                                                listaProductoDetalle.Cantidad).CargaDatos();
         checked { ++index4; }
       }
       new Consulta.cMovimientoEntreAlmacenes(0, ((ComboBase3)this.cboAnden).Identificador, ((Consulta.ConsultaBase2)movimientoAlmacen3).Identificador, ((ComboBase3)this.cboTanque).Identificador, ((Consulta.ConsultaBase2)movimientoAlmacen2).Identificador).CargaDatos();
@@ -1455,7 +1467,7 @@ namespace ClienteZonaEconomica
             {
             if (_FactorDensidad == 0) 
             {
-                MessageBox.Show("No se encontró factor de conversión del día de hoy");
+                MessageBox.Show("No existe factor de conversión contable, notifíquelo a sistema");
                         return false;
             }    
         }
@@ -1489,7 +1501,13 @@ namespace ClienteZonaEconomica
         int index1 = num8;
         while (index1 <= num9)
         {
-            new Consulta.cMovimientoAProducto(0, ((ComboBase3)this.cboAnden).Identificador, IntegerType.FromObject(this.dgProductos[index1, 0]), ((Consulta.ConsultaBase2)movimientoAlmacen3).Identificador, new Decimal(IntegerType.FromObject(this.dgProductos[index1, 3])), Decimal.Zero, IntegerType.FromObject(this.dgProductos[index1, 1])).CargaDatos();
+            new Consulta.cMovimientoAProducto(0, 
+                                              ((ComboBase3)this.cboAnden).Identificador, 
+                                              IntegerType.FromObject(this.dgProductos[index1, 0]), 
+                                              ((Consulta.ConsultaBase2)movimientoAlmacen3).Identificador, 
+                                              new Decimal(IntegerType.FromObject(this.dgProductos[index1, 3])),
+                                              new Decimal(IntegerType.FromObject(this.dgProductos[index1, 3]))/_FactorDensidad,
+                                              IntegerType.FromObject(this.dgProductos[index1, 1])).CargaDatos();
           checked { ++index1; }
         }
         int num10 = 0;
@@ -1514,7 +1532,13 @@ namespace ClienteZonaEconomica
         while (index2 <= num17)
         {
             new cAlmacenGasStock((short)5, ((ComboBase3)this.cboAlmacenDestino).Identificador, ShortType.FromObject(this.dgProductos[index2, 0]), 0, Decimal.Zero, Decimal.Zero).RegistrarModificarEliminar();
-            new Consulta.cMovimientoAProducto(0, ((ComboBase3)this.cboAlmacenDestino).Identificador, IntegerType.FromObject(this.dgProductos[index2, 0]), ((Consulta.ConsultaBase2)movimientoAlmacen5).Identificador, new Decimal(IntegerType.FromObject(this.dgProductos[index2, 3])), Decimal.Zero, IntegerType.FromObject(this.dgProductos[index2, 1])).CargaDatos();
+            new Consulta.cMovimientoAProducto(0, 
+                                              ((ComboBase3)this.cboAlmacenDestino).Identificador, 
+                                              IntegerType.FromObject(this.dgProductos[index2, 0]), 
+                                              ((Consulta.ConsultaBase2)movimientoAlmacen5).Identificador, 
+                                              new Decimal(IntegerType.FromObject(this.dgProductos[index2, 3])),
+                                              new Decimal(IntegerType.FromObject(this.dgProductos[index2, 3]))/_FactorDensidad,
+                                              IntegerType.FromObject(this.dgProductos[index2, 1])).CargaDatos();
           checked { ++index2; }
         }
         new Consulta.cMovimientoEntreAlmacenes(0, ((ComboBase3)this.cboAlmacenDestino).Identificador, ((Consulta.ConsultaBase2)movimientoAlmacen5).Identificador, ((ComboBase3)this.cboAnden).Identificador, ((Consulta.ConsultaBase2)movimientoAlmacen3).Identificador).CargaDatos();
