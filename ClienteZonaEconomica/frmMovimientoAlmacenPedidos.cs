@@ -1629,8 +1629,10 @@ namespace ClienteZonaEconomica
         cAceptaCarga.CargaDatos();
         if (((Consulta.ConsultaBase2) cAceptaCarga).Identificador == 1)
         {
-          this.RealizarMovimientos();
-          this.Close();
+            if (this.RealizarMovimientos())
+            {
+                this.Close();
+            }
         }
         else
         {
@@ -1643,6 +1645,7 @@ namespace ClienteZonaEconomica
         int num = (int) MessageBox.Show(new Mensaje(87, aprobadoyVerificado.Mensaje).Mensaje, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Hand);
         this.ActiveControl = (Control) this.dtpFMovimiento;
       }
+            this.Cursor = Cursors.Default;
     }
 
     private void cboSucursal_KeyDown(object sender, KeyEventArgs e)

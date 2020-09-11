@@ -387,9 +387,11 @@ Public Class LiquidacionTransaccionada
 		Private _Productos As Integer
 		Private _Kilos As Decimal
 		Private _Litros As Decimal
-		Private _Cantidad As Integer
+        Private _Cantidad As Integer
+        Private _FactorConversion As Decimal
 
-		Protected Property Configuracion() As Integer
+
+        Protected Property Configuracion() As Integer
 			Get
 				Return _Configuracion
 			End Get
@@ -461,17 +463,28 @@ Public Class LiquidacionTransaccionada
 			End Set
 		End Property
 
-		Public Sub New(ByVal Conf As Integer, ByVal Almacen As Integer, ByVal Producto As Integer, ByVal MovAlmacen As Integer, ByVal Kilo As Decimal, ByVal Litro As Decimal, ByVal Cantidad As Integer)
-			Configuracion = Conf
-			IdentificadorE = Almacen
-			Productos = Producto
-			MovimientoAlmacen = MovAlmacen
-			Kilos = Kilo
-			Litros = Litro
-			Cantidades = Cantidad
-		End Sub
+        Public Property FactorConversion As Decimal
+            Get
+                Return _FactorConversion
+            End Get
+            Set(value As Decimal)
+                _FactorConversion = value
+            End Set
+        End Property
 
-		Public Sub CargaDatos(ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction)
+        Public Sub New(ByVal Conf As Integer, ByVal Almacen As Integer, ByVal Producto As Integer, ByVal MovAlmacen As Integer, ByVal Kilo As Decimal, ByVal Litro As Decimal, ByVal Cantidad As Integer, ByVal Factor As Decimal)
+            Configuracion = Conf
+            IdentificadorE = Almacen
+            Productos = Producto
+            MovimientoAlmacen = MovAlmacen
+            Kilos = Kilo
+            Litros = Litro
+            Cantidades = Cantidad
+            _FactorConversion = Factor
+
+        End Sub
+
+        Public Sub CargaDatos(ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction)
 			Dim cmdComando As SqlCommand
 			Dim drAlmacen As SqlDataReader
 
@@ -484,9 +497,10 @@ Public Class LiquidacionTransaccionada
 				cmdComando.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = IdentificadorE
 				cmdComando.Parameters.Add("@Cantidad", SqlDbType.Int).Value = Cantidades
 				cmdComando.Parameters.Add("@Kilos", SqlDbType.Decimal).Value = Decimal.Round(Kilos, 3)
-				cmdComando.Parameters.Add("@Litros", SqlDbType.Decimal).Value = Decimal.Round(Litros, 3)
+                cmdComando.Parameters.Add("@Litros", SqlDbType.Decimal).Value = Decimal.Round(Litros, 3)
+                cmdComando.Parameters.Add("@FactorConversion", SqlDbType.Decimal).Value = Decimal.Round(FactorConversion, 4)
 
-				cmdComando.CommandType = CommandType.StoredProcedure
+                cmdComando.CommandType = CommandType.StoredProcedure
 				drAlmacen = cmdComando.ExecuteReader()
 
 				Do While drAlmacen.Read()
@@ -602,9 +616,11 @@ Public Class LiquidacionTransaccionada
 		Private _ZonaEconomica As Short
 		Private _Secuencia As Short
 		Private _Kilos As Decimal
-		Private _Litros As Decimal
+        Private _Litros As Decimal
+        Private _FactorConversion As Decimal
 
-		Protected Property Configuracion() As Short
+
+        Protected Property Configuracion() As Short
 			Get
 				Return _Configuracion
 			End Get
@@ -685,29 +701,40 @@ Public Class LiquidacionTransaccionada
 			End Set
 		End Property
 
-		Public Sub New(ByVal intConfiguracion As Short,
-		   ByVal intAlmacenGas As Integer,
-		   ByVal intMovimientoAlmacen As Integer,
-		   ByVal intProducto As Integer,
-		   ByVal intCantidad As Integer,
-		   ByVal srtZonaEconomica As Short,
-		   ByVal srtSecuencia As Short,
-		   ByVal decKilo As Decimal,
-		   ByVal decLitro As Decimal)
-			Configuracion = intConfiguracion
-			AlmacenGas = intAlmacenGas
-			MovimientoAlmacen = intMovimientoAlmacen
-			Producto = intProducto
-			Cantidad = intCantidad
-			ZonaEconomica = srtZonaEconomica
-			Secuencia = srtSecuencia
-			Kilos = decKilo
-			Litros = decLitro
-		End Sub
+        Public Property FactorConversion As Decimal
+            Get
+                Return _FactorConversion
+            End Get
+            Set(value As Decimal)
+                _FactorConversion = value
+            End Set
+        End Property
 
-		'Metodo para realizar el registro, modificacion o eliminacion de un registro
-		'en la tabla MovimientoAlmacenProductoZona
-		Public Sub RegistrarModificarEliminar(ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction)
+        Public Sub New(ByVal intConfiguracion As Short,
+           ByVal intAlmacenGas As Integer,
+           ByVal intMovimientoAlmacen As Integer,
+           ByVal intProducto As Integer,
+           ByVal intCantidad As Integer,
+           ByVal srtZonaEconomica As Short,
+           ByVal srtSecuencia As Short,
+           ByVal decKilo As Decimal,
+           ByVal decLitro As Decimal,
+           ByVal Factor As Decimal)
+            Configuracion = intConfiguracion
+            AlmacenGas = intAlmacenGas
+            MovimientoAlmacen = intMovimientoAlmacen
+            Producto = intProducto
+            Cantidad = intCantidad
+            ZonaEconomica = srtZonaEconomica
+            Secuencia = srtSecuencia
+            Kilos = decKilo
+            Litros = decLitro
+            FactorConversion = Factor
+        End Sub
+
+        'Metodo para realizar el registro, modificacion o eliminacion de un registro
+        'en la tabla MovimientoAlmacenProductoZona
+        Public Sub RegistrarModificarEliminar(ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction)
 			Dim dr As SqlDataReader
 			Dim cmd As SqlCommand
 			Dim IdentificadorAlmacenGas As Integer = Nothing
@@ -724,8 +751,9 @@ Public Class LiquidacionTransaccionada
 				cmd.Parameters.Add("@ZonaEconomica", SqlDbType.TinyInt).Value = ZonaEconomica
 				cmd.Parameters.Add("@Secuencia", SqlDbType.Int).Value = Secuencia
 				cmd.Parameters.Add("@Kilos", SqlDbType.Decimal).Value = Decimal.Round(Kilos, 3)
-				cmd.Parameters.Add("@Litros", SqlDbType.Decimal).Value = Decimal.Round(Litros, 3)
-				dr = cmd.ExecuteReader()
+                cmd.Parameters.Add("@Litros", SqlDbType.Decimal).Value = Decimal.Round(Litros, 3)
+                cmd.Parameters.Add("@FactorConversion", SqlDbType.Decimal).Value = Decimal.Round(FactorConversion, 4)
+                dr = cmd.ExecuteReader()
 				dr.Read()
 				_MovimientoAlmacen = CType(dr(0), Integer)
 
@@ -1268,117 +1296,119 @@ Public Class LiquidacionTransaccionada
 
 		End Sub
 
-		'Método de la clase Liquidacion que permite registrar la liquidación portátil y
-		'la registra en la tabla Pedido y CobroPedido
-		Public Sub LiquidacionPedidoyCobroPedido(ByVal Producto As Integer, ByVal FPedido As DateTime,
-										   ByVal Precio As Decimal, ByVal PrecioPublico As Decimal,
-										   ByVal Importe As Decimal, ByVal Impuesto As Decimal,
-										   ByVal Total As Decimal, ByVal Status As String,
-										   ByVal Cliente As Integer, ByVal FAlta As DateTime,
-										   ByVal Saldo As Decimal, ByVal PedidoReferencia As String,
-										   ByVal Cartera As Short, ByVal TipoCargo As Short,
-										   ByVal RutaSuministro As Short, ByVal AnoCobro As Short,
-										   ByVal Cobro As Integer, ByVal Usuario As String,
-										   ByVal Ruta As Short, ByVal TipoCobro As Short,
-										   ByVal AnoAtt As Short, ByVal Folio As Integer,
-										   ByVal StatusCobranza As String, ByVal Autotanque As Short,
-										   ByVal FActualizacion As DateTime, ByVal FAtencion As DateTime,
-										   ByVal ClientePortatil As Integer, ByVal MovimientoAlmacen As Integer,
-										   ByVal AlmacenGas As Integer, ByVal TotalComisionPedido As Decimal,
-										   ByVal ZonaEconomica As Short, ByVal Secuencia As Short,
-										   ByVal Cantidad As Integer, ByVal Kilos As Decimal,
-										   ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction,
-										   Optional ByVal Descuento As Decimal = 0, Optional ByVal Observaciones As String = "",
-										   Optional ByVal DescuentoAplicado As Boolean = False,
-										   Optional ByVal Serie As String = "",
-										   Optional ByVal Remision As Integer = 0)
-			Dim dr As SqlDataReader
-			Dim cmd As SqlCommand
+        'Método de la clase Liquidacion que permite registrar la liquidación portátil y
+        'la registra en la tabla Pedido y CobroPedido
+        Public Sub LiquidacionPedidoyCobroPedido(ByVal Producto As Integer, ByVal FPedido As DateTime,
+                                           ByVal Precio As Decimal, ByVal PrecioPublico As Decimal,
+                                           ByVal Importe As Decimal, ByVal Impuesto As Decimal,
+                                           ByVal Total As Decimal, ByVal Status As String,
+                                           ByVal Cliente As Integer, ByVal FAlta As DateTime,
+                                           ByVal Saldo As Decimal, ByVal PedidoReferencia As String,
+                                           ByVal Cartera As Short, ByVal TipoCargo As Short,
+                                           ByVal RutaSuministro As Short, ByVal AnoCobro As Short,
+                                           ByVal Cobro As Integer, ByVal Usuario As String,
+                                           ByVal Ruta As Short, ByVal TipoCobro As Short,
+                                           ByVal AnoAtt As Short, ByVal Folio As Integer,
+                                           ByVal StatusCobranza As String, ByVal Autotanque As Short,
+                                           ByVal FActualizacion As DateTime, ByVal FAtencion As DateTime,
+                                           ByVal ClientePortatil As Integer, ByVal MovimientoAlmacen As Integer,
+                                           ByVal AlmacenGas As Integer, ByVal TotalComisionPedido As Decimal,
+                                           ByVal ZonaEconomica As Short, ByVal Secuencia As Short,
+                                           ByVal Cantidad As Integer, ByVal Kilos As Decimal,
+                                           ByVal Connection As SqlConnection, ByVal Transaction As SqlTransaction,
+                                           ByVal Factor As Decimal,
+                                           Optional ByVal Descuento As Decimal = 0, Optional ByVal Observaciones As String = "",
+                                           Optional ByVal DescuentoAplicado As Boolean = False,
+                                           Optional ByVal Serie As String = "",
+                                           Optional ByVal Remision As Integer = 0)
+            Dim dr As SqlDataReader
+            Dim cmd As SqlCommand
 
-			Try
-				'cmd = New SqlCommand("spPTLLiquidacionPedidoyCobroPedidoTRN", Connection)
-				cmd = New SqlCommand("spPTLLiquidacionPedidoyCobroPedidoTRNVersion2Remision", Connection)
-				cmd.Transaction = Transaction
-				cmd.CommandType = CommandType.StoredProcedure
-				cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
-				cmd.Parameters.Add("@Celula", SqlDbType.SmallInt).Value = Celula
-				cmd.Parameters.Add("@AnoPed", SqlDbType.SmallInt).Value = AnoPedido
-				cmd.Parameters.Add("@Pedido", SqlDbType.Int).Value = Pedido
-				cmd.Parameters.Add("@Producto", SqlDbType.Int).Value = Producto
-				cmd.Parameters.Add("@FPedido", SqlDbType.DateTime).Value = FPedido
-				cmd.Parameters.Add("@Precio", SqlDbType.Decimal).Value = Decimal.Round(Precio, 3)
-				cmd.Parameters.Add("@PrecioPublico", SqlDbType.Decimal).Value = Decimal.Round(PrecioPublico, 3)
-				cmd.Parameters.Add("@Importe", SqlDbType.Money).Value = Importe
-				cmd.Parameters.Add("@Impuesto", SqlDbType.Money).Value = Impuesto
-				cmd.Parameters.Add("@Total", SqlDbType.Money).Value = Total
-				cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = Status
-				cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
-				cmd.Parameters.Add("@FAlta", SqlDbType.DateTime).Value = FAlta
-				cmd.Parameters.Add("@Saldo", SqlDbType.Money).Value = Saldo
-				cmd.Parameters.Add("@PedidoReferencia", SqlDbType.VarChar).Value = PedidoReferencia
-				cmd.Parameters.Add("@Cartera", SqlDbType.TinyInt).Value = Cartera
-				cmd.Parameters.Add("@TipoCargo", SqlDbType.TinyInt).Value = TipoCargo
-				cmd.Parameters.Add("@RutaSuministro", SqlDbType.SmallInt).Value = RutaSuministro
-				cmd.Parameters.Add("@AnoCobro", SqlDbType.SmallInt).Value = AnoCobro
-				cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro 'Cobro se cambia la variable local del metodo por la variable global 
-				cmd.Parameters.Add("@Usuario", SqlDbType.VarChar).Value = Usuario
-				cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = Ruta
-				cmd.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = TipoCobro
-				cmd.Parameters.Add("@AnoAtt", SqlDbType.SmallInt).Value = AnoAtt
-				cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio  'Folio se cambia la variable local del metodo por la variable global 
-				cmd.Parameters.Add("@StatusCobranza", SqlDbType.VarChar).Value = StatusCobranza
-				cmd.Parameters.Add("@Autotanque", SqlDbType.SmallInt).Value = Autotanque
-				cmd.Parameters.Add("@FActualizacion", SqlDbType.DateTime).Value = FActualizacion
-				cmd.Parameters.Add("@FAtencion", SqlDbType.DateTime).Value = FAtencion
-				cmd.Parameters.Add("@ClientePortatil", SqlDbType.Int).Value = ClientePortatil
-				cmd.Parameters.Add("@MovimientoAlmacen", SqlDbType.Int).Value = MovimientoAlmacen
-				cmd.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = AlmacenGas
-				cmd.Parameters.Add("@TotalComisionPedido", SqlDbType.Money).Value = TotalComisionPedido
+            Try
+                'cmd = New SqlCommand("spPTLLiquidacionPedidoyCobroPedidoTRN", Connection)
+                cmd = New SqlCommand("spPTLLiquidacionPedidoyCobroPedidoTRNVersion2Remision", Connection)
+                cmd.Transaction = Transaction
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.Add("@Configuracion", SqlDbType.TinyInt).Value = Configuracion
+                cmd.Parameters.Add("@Celula", SqlDbType.SmallInt).Value = Celula
+                cmd.Parameters.Add("@AnoPed", SqlDbType.SmallInt).Value = AnoPedido
+                cmd.Parameters.Add("@Pedido", SqlDbType.Int).Value = Pedido
+                cmd.Parameters.Add("@Producto", SqlDbType.Int).Value = Producto
+                cmd.Parameters.Add("@FPedido", SqlDbType.DateTime).Value = FPedido
+                cmd.Parameters.Add("@Precio", SqlDbType.Decimal).Value = Decimal.Round(Precio, 3)
+                cmd.Parameters.Add("@PrecioPublico", SqlDbType.Decimal).Value = Decimal.Round(PrecioPublico, 3)
+                cmd.Parameters.Add("@Importe", SqlDbType.Money).Value = Importe
+                cmd.Parameters.Add("@Impuesto", SqlDbType.Money).Value = Impuesto
+                cmd.Parameters.Add("@Total", SqlDbType.Money).Value = Total
+                cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = Status
+                cmd.Parameters.Add("@Cliente", SqlDbType.Int).Value = Cliente
+                cmd.Parameters.Add("@FAlta", SqlDbType.DateTime).Value = FAlta
+                cmd.Parameters.Add("@Saldo", SqlDbType.Money).Value = Saldo
+                cmd.Parameters.Add("@PedidoReferencia", SqlDbType.VarChar).Value = PedidoReferencia
+                cmd.Parameters.Add("@Cartera", SqlDbType.TinyInt).Value = Cartera
+                cmd.Parameters.Add("@TipoCargo", SqlDbType.TinyInt).Value = TipoCargo
+                cmd.Parameters.Add("@RutaSuministro", SqlDbType.SmallInt).Value = RutaSuministro
+                cmd.Parameters.Add("@AnoCobro", SqlDbType.SmallInt).Value = AnoCobro
+                cmd.Parameters.Add("@Cobro", SqlDbType.Int).Value = Cobro 'Cobro se cambia la variable local del metodo por la variable global 
+                cmd.Parameters.Add("@Usuario", SqlDbType.VarChar).Value = Usuario
+                cmd.Parameters.Add("@Ruta", SqlDbType.SmallInt).Value = Ruta
+                cmd.Parameters.Add("@TipoCobro", SqlDbType.TinyInt).Value = TipoCobro
+                cmd.Parameters.Add("@AnoAtt", SqlDbType.SmallInt).Value = AnoAtt
+                cmd.Parameters.Add("@Folio", SqlDbType.Int).Value = Folio  'Folio se cambia la variable local del metodo por la variable global 
+                cmd.Parameters.Add("@StatusCobranza", SqlDbType.VarChar).Value = StatusCobranza
+                cmd.Parameters.Add("@Autotanque", SqlDbType.SmallInt).Value = Autotanque
+                cmd.Parameters.Add("@FActualizacion", SqlDbType.DateTime).Value = FActualizacion
+                cmd.Parameters.Add("@FAtencion", SqlDbType.DateTime).Value = FAtencion
+                cmd.Parameters.Add("@ClientePortatil", SqlDbType.Int).Value = ClientePortatil
+                cmd.Parameters.Add("@MovimientoAlmacen", SqlDbType.Int).Value = MovimientoAlmacen
+                cmd.Parameters.Add("@AlmacenGas", SqlDbType.Int).Value = AlmacenGas
+                cmd.Parameters.Add("@TotalComisionPedido", SqlDbType.Money).Value = TotalComisionPedido
 
-				cmd.Parameters.Add("@SerieRemision", SqlDbType.VarChar).Value = Serie
-				cmd.Parameters.Add("@Remision", SqlDbType.Int).Value = Remision
+                cmd.Parameters.Add("@SerieRemision", SqlDbType.VarChar).Value = Serie
+                cmd.Parameters.Add("@Remision", SqlDbType.Int).Value = Remision
 
-				If ZonaEconomica >= 0 Then
-					cmd.Parameters.Add("@ZonaEconomica", SqlDbType.TinyInt).Value = ZonaEconomica
-				End If
+                If ZonaEconomica >= 0 Then
+                    cmd.Parameters.Add("@ZonaEconomica", SqlDbType.TinyInt).Value = ZonaEconomica
+                End If
 
-				cmd.Parameters.Add("@Secuencia", SqlDbType.SmallInt).Value = Secuencia
-				cmd.Parameters.Add("@Cantidad", SqlDbType.Int).Value = Cantidad
-				cmd.Parameters.Add("@Kilos", SqlDbType.Decimal).Value = Decimal.Round(Kilos, 3)
-				cmd.Parameters.Add("@Descuento", SqlDbType.Decimal).Value = Decimal.Round(Descuento, 3)
-				cmd.Parameters.Add("@Observaciones", SqlDbType.VarChar).Value = Observaciones
-				cmd.Parameters.Add("@DescuentoAplicado", SqlDbType.Bit).Value = DescuentoAplicado
+                cmd.Parameters.Add("@Secuencia", SqlDbType.SmallInt).Value = Secuencia
+                cmd.Parameters.Add("@Cantidad", SqlDbType.Int).Value = Cantidad
+                cmd.Parameters.Add("@Kilos", SqlDbType.Decimal).Value = Decimal.Round(Kilos, 3)
+                cmd.Parameters.Add("@Descuento", SqlDbType.Decimal).Value = Decimal.Round(Descuento, 3)
+                cmd.Parameters.Add("@Observaciones", SqlDbType.VarChar).Value = Observaciones
+                cmd.Parameters.Add("@DescuentoAplicado", SqlDbType.Bit).Value = DescuentoAplicado
+                cmd.Parameters.Add("@FactorConversion", SqlDbType.Decimal).Value = Factor
 
-				dr = cmd.ExecuteReader()
-				dr.Read()
+                dr = cmd.ExecuteReader()
+                dr.Read()
 
-				_AnoPedido = CType(dr(0), Short)
-				_Pedido = CType(dr(1), Integer)
+                _AnoPedido = CType(dr(0), Short)
+                _Pedido = CType(dr(1), Integer)
 
-				cmd.Dispose()
-				dr.Close()
-			Catch exc As Exception
-				Try
-					cmd.Dispose()
-				Catch
-				End Try
-				Try
-					dr.Close()
-				Catch
-				End Try
+                cmd.Dispose()
+                dr.Close()
+            Catch exc As Exception
+                Try
+                    cmd.Dispose()
+                Catch
+                End Try
+                Try
+                    dr.Close()
+                Catch
+                End Try
 
-				If exc.Message.Contains("Datareader abierto") Then
-					Throw New Exception("Ocurrió un error al leer MovimientoAlmacen")
-				Else
-					Throw exc
-				End If
-			End Try
-		End Sub
+                If exc.Message.Contains("Datareader abierto") Then
+                    Throw New Exception("Ocurrió un error al leer MovimientoAlmacen")
+                Else
+                    Throw exc
+                End If
+            End Try
+        End Sub
 
 
-		'20150627CNSM$001-----------------
+        '20150627CNSM$001-----------------
 
-		Public Sub PedidoDetalleRemision(ByVal Producto As Integer, ByVal Ruta As Integer,
+        Public Sub PedidoDetalleRemision(ByVal Producto As Integer, ByVal Ruta As Integer,
 										  ByVal MovimientoAlmacen As Integer, ByVal FCarga As DateTime,
 										  ByVal FSuministroMG As DateTime, ByVal AlmacenGas As Integer,
 										  ByVal ZonaEconomica As Integer,

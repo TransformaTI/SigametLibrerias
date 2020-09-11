@@ -1200,7 +1200,7 @@ Public Class frmLiquidacionPortatilComisionista
         BuscarCliente()
         CargarProductosVarios()
 
-        Dim oDetalle As New PortatilClasses.Consulta.cPedidoComision(1)
+        Dim oDetalle As New PortatilClasses.Consulta.cPedidoComision(2)
         oDetalle.Consulta(oPedido.Celula, _AnoAtt, _Folio)
         dgDetalle.DataSource = oDetalle.dtTable
         oDetalle.CerrarConexion()
@@ -1822,9 +1822,9 @@ Public Class frmLiquidacionPortatilComisionista
             ArmaCobro(Importe, Impuesto, Total, TipoCobro, Celula, AnoPedido, Pedido)
             Try
                 Dim oLiquidacionAutotanqueTurno As New Liquidacion.cLiquidacion(2, Now, _AnoAtt, _Folio)
-                oLiquidacionAutotanqueTurno.LiquidacionAutotanqueTurno(_Kilos / _FactorDensidad, Now, _
-                        _Kilos / _FactorDensidad, 0, Total, dtpFLiquidacion.Value, _Kilos / _FactorDensidad, _
-                        0, Now, "MANUAL", _Usuario, 0, 0, 0)
+                oLiquidacionAutotanqueTurno.LiquidacionAutotanqueTurno(_Kilos / _FactorDensidad, Now,
+                        _Kilos / _FactorDensidad, 0, Total, dtpFLiquidacion.Value, _Kilos / _FactorDensidad,
+                        0, Now, "MANUAL", _Usuario, 0, 0, 0, _FactorDensidad)
                 'GRABA EL MOVIMIENTO CAJA
                 Dim oMovimientoCaja As New Liquidacion.cMovimientoCaja()
                 oMovimientoCaja.AltaMovimientoCaja(_CajaUsuario, FechaInicioSesion.Date, _
