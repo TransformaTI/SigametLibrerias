@@ -767,20 +767,21 @@ Namespace Liquidacion
 
         'MEtodo de la clase que ejecuta una liquidacion portatil y la registra en la tabla
         'AutotanqueTurno
-        Public Sub LiquidacionAutotanqueTurno(ByVal LitrosVendidos As Decimal, _
-                                      ByVal FTerminoRuta As DateTime, _
-                                      ByVal LitrosLiquidados As Decimal, _
-                                      ByVal ImporteCredito As Decimal, _
-                                      ByVal ImporteContado As Decimal, _
-                                      ByVal FLiquidacion As DateTime, _
-                                      ByVal LitrosContado As Decimal, _
-                                      ByVal LitrosCredito As Decimal, _
-                                      ByVal FPreliquidacion As DateTime, _
-                                      ByVal TipoLiquidacion As String, _
-                                      ByVal UsuarioLiquidacion As String, _
-                                      ByVal LitrosObsequio As Decimal, _
-                                      ByVal ImporteObsequio As Decimal, _
-                                      ByVal KilosObsequio As Decimal)
+        Public Sub LiquidacionAutotanqueTurno(ByVal LitrosVendidos As Decimal,
+                                      ByVal FTerminoRuta As DateTime,
+                                      ByVal LitrosLiquidados As Decimal,
+                                      ByVal ImporteCredito As Decimal,
+                                      ByVal ImporteContado As Decimal,
+                                      ByVal FLiquidacion As DateTime,
+                                      ByVal LitrosContado As Decimal,
+                                      ByVal LitrosCredito As Decimal,
+                                      ByVal FPreliquidacion As DateTime,
+                                      ByVal TipoLiquidacion As String,
+                                      ByVal UsuarioLiquidacion As String,
+                                      ByVal LitrosObsequio As Decimal,
+                                      ByVal ImporteObsequio As Decimal,
+                                      ByVal KilosObsequio As Decimal,
+                                      ByVal FactorConversion As Decimal)
 
             Dim dr As SqlDataReader
 
@@ -806,6 +807,7 @@ Namespace Liquidacion
             cmd.Parameters.Add("@LitrosObsequio", SqlDbType.Decimal).Value = Decimal.Round(LitrosObsequio, 3)
             cmd.Parameters.Add("@ImporteObsequio", SqlDbType.Decimal).Value = Decimal.Round(ImporteObsequio, 3)
             cmd.Parameters.Add("@KilosObsequio", SqlDbType.Decimal).Value = Decimal.Round(KilosObsequio, 3)
+            cmd.Parameters.Add("@FactorConversion", SqlDbType.Decimal).Value = Decimal.Round(FactorConversion, 4)
             Try
                 GLOBAL_Conexion.Open()
                 dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)

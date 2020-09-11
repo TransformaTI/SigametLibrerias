@@ -3490,9 +3490,9 @@ Public Class frmLiquidacionPortatil
 
 				_TotalLiquidarPedido = _TotalLiquidarPedido ' + CType(drow(8), Decimal)
 				If CType(drow(10), Integer) = _TipoCobroCredito Then
-					_TotalCreditos = _TotalCreditos ' + CType(drow(15), Decimal)
-					_KilosCredito = _KilosCredito '+ (CType(CType(txtLista.Item(1), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(oProducto.dtTable.Rows(1).Item(6), Integer))
-				End If
+                    _TotalCreditos = _TotalCreditos + CType(drow(15), Decimal)
+                    _KilosCredito = _KilosCredito + CType(drow(9), Integer) '+ (CType(CType(txtLista.Item(1), SigaMetClasses.Controles.txtNumeroEntero).Text, Integer) * CType(oProducto.dtTable.Rows(1).Item(6), Integer))
+                End If
 				If CType(drow(10), Integer) <> _TipoCobroCredito Then
 					_TotalNetoCaja = _TotalNetoCaja + CType(drow(11), Decimal) - CType(drow(22), Decimal)
 				End If
@@ -4319,45 +4319,47 @@ Public Class frmLiquidacionPortatil
 						For ii As Integer = 0 To listadoMovimientoProducto.items.Count - 1
 							If listadoMovimientoProducto.items(ii).Tipo = 1 Then
 								_seccion = "Crear MovimientoAProducto Contado"
-								oMovimientoAProducto = New LiquidacionTransaccionada.cMovimientoAProducto(2,
-													_AlmacenGas,
-													listadoMovimientoProducto.items(ii).Producto,
-													oMovimientoAlmacenS.Identificador,
-													0, 0,
-													listadoMovimientoProducto.items(ii).Cantidad)
-								oMovimientoAproductoZona = New LiquidacionTransaccionada.cMovimientoAProductoZona(0,
-														_AlmacenGas,
-														oMovimientoAlmacenS.Identificador,
-														listadoMovimientoProducto.items(ii).Producto,
-														listadoMovimientoProducto.items(ii).Cantidad,
-														listadoMovimientoProducto.items(ii).ZonaEconomica,
-														0,
-														0,
-														0)
-								_seccion = "Crear MovimientoAProductoZona Contado"
+                                oMovimientoAProducto = New LiquidacionTransaccionada.cMovimientoAProducto(2,
+                                                    _AlmacenGas,
+                                                    listadoMovimientoProducto.items(ii).Producto,
+                                                    oMovimientoAlmacenS.Identificador,
+                                                    0, 0,
+                                                    listadoMovimientoProducto.items(ii).Cantidad, _FactorDensidad)
+                                oMovimientoAproductoZona = New LiquidacionTransaccionada.cMovimientoAProductoZona(0,
+                                                        _AlmacenGas,
+                                                        oMovimientoAlmacenS.Identificador,
+                                                        listadoMovimientoProducto.items(ii).Producto,
+                                                        listadoMovimientoProducto.items(ii).Cantidad,
+                                                        listadoMovimientoProducto.items(ii).ZonaEconomica,
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        _FactorDensidad)
+                                _seccion = "Crear MovimientoAProductoZona Contado"
 								oMovimientoAProducto.CargaDatos(connection, transaction)
 								_seccion = "Crear MovimientoAProductoZona ModificarEliminar Contado"
 								oMovimientoAproductoZona.RegistrarModificarEliminar(connection, transaction)
 							Else
 								_seccion = "Crear MovimientoAProducto Obsequio"
-								oMovimientoAProductoObsequio = New LiquidacionTransaccionada.cMovimientoAProducto(2,
-															_AlmacenGas,
-															listadoMovimientoProducto.items(ii).Producto,
-															MovimientoAlmacenSalidaObsequio,
-															0, 0,
-															listadoMovimientoProducto.items(ii).Cantidad)
-								_seccion = "Crear MovimientoAProductoZona Obsequio"
-								oMovimientoAproductoZonaObsequio = New LiquidacionTransaccionada.cMovimientoAProductoZona(0,
-															_AlmacenGas,
-															MovimientoAlmacenSalidaObsequio,
-															listadoMovimientoProducto.items(ii).Producto,
-															listadoMovimientoProducto.items(ii).Cantidad,
-															listadoMovimientoProducto.items(ii).ZonaEconomica,
-															0,
-															0,
-															0)
+                                oMovimientoAProductoObsequio = New LiquidacionTransaccionada.cMovimientoAProducto(2,
+                                                            _AlmacenGas,
+                                                            listadoMovimientoProducto.items(ii).Producto,
+                                                            MovimientoAlmacenSalidaObsequio,
+                                                            0, 0,
+                                                            listadoMovimientoProducto.items(ii).Cantidad, _FactorDensidad)
+                                _seccion = "Crear MovimientoAProductoZona Obsequio"
+                                oMovimientoAproductoZonaObsequio = New LiquidacionTransaccionada.cMovimientoAProductoZona(0,
+                                                            _AlmacenGas,
+                                                            MovimientoAlmacenSalidaObsequio,
+                                                            listadoMovimientoProducto.items(ii).Producto,
+                                                            listadoMovimientoProducto.items(ii).Cantidad,
+                                                            listadoMovimientoProducto.items(ii).ZonaEconomica,
+                                                            0,
+                                                            0,
+                                                            0,
+                                                            _FactorDensidad)
 
-								oMovimientoAProductoObsequio.CargaDatos(connection, transaction)
+                                oMovimientoAProductoObsequio.CargaDatos(connection, transaction)
 								_seccion = "Crear MovimientoAProductoZona ModificarEliminar Obsequio"
 								oMovimientoAproductoZonaObsequio.RegistrarModificarEliminar(connection, transaction)
 
@@ -4469,71 +4471,72 @@ Public Class frmLiquidacionPortatil
 
 							If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = _TipoCobroCredito Then
 								_seccion = "Liquidacion Pedido y Cobro credito"
-								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(
-									ProductoTemp,
-									Now, 0, 0,
-									Importe,
-									Impuesto,
-									Total,
-									"SURTIDO",
-									ClienteTemp,
-									Now,
-									Total,
-									"", 1, 8,
-									CType(_drLiquidacion(0).Item(25), Short),
-									0, 0,
-									_Usuario, CType(_drLiquidacion(0).Item(25), Short),
-									TipoCobroTemp,
-									_AnoAtt,
-									_Folio, "PENDIENTE",
-									CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0,
-									oMovimientoAlmacenS.Identificador,
-									_AlmacenGas, 0,
-									ZonaEconomicaTemp, 0,
-									CantidadTemp,
-									ValorTemp,
-									connection, transaction, CType(dtLiquidacionTotal.Rows(i).Item(22), Decimal), "", False,
-									CType(dtLiquidacionTotal.Rows(i).Item(20), String),
-								   CInt(dtLiquidacionTotal.Rows(i).Item(21))
-								)
-								_TotalCredito = _TotalCredito + Total
+                                oLiquidacionPedido.LiquidacionPedidoyCobroPedido(
+                                    ProductoTemp,
+                                    Now, 0, 0,
+                                    Importe,
+                                    Impuesto,
+                                    Total,
+                                    "SURTIDO",
+                                    ClienteTemp,
+                                    Now,
+                                    Total,
+                                    "", 1, 8,
+                                    CType(_drLiquidacion(0).Item(25), Short),
+                                    0, 0,
+                                    _Usuario, CType(_drLiquidacion(0).Item(25), Short),
+                                    TipoCobroTemp,
+                                    _AnoAtt,
+                                    _Folio, "PENDIENTE",
+                                    CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0,
+                                    oMovimientoAlmacenS.Identificador,
+                                    _AlmacenGas, 0,
+                                    ZonaEconomicaTemp, 0,
+                                    CantidadTemp,
+                                    ValorTemp,
+                                    connection, transaction, _FactorDensidad,
+                                    CType(dtLiquidacionTotal.Rows(i).Item(22), Decimal), "", False,
+                                    CType(dtLiquidacionTotal.Rows(i).Item(20), String),
+                                   CInt(dtLiquidacionTotal.Rows(i).Item(21))
+                                )
+                                _TotalCredito = _TotalCredito + Total
 
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 5 Then
 								_seccion = "Liquidacion Pedido y Cobro Contado"
-								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now,
-																				 0, 0, Importe, Impuesto, Total, "SURTIDO",
-																				 CType(dtLiquidacionTotal.Rows(i).Item(12), Integer),
-																				 Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short),
-																				 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short),
-																				 CType(dtLiquidacionTotal.Rows(i).Item(10), Short),
-																				 _AnoAtt, _Folio, "PAGADO",
-																				 CType(_drLiquidacion(0).Item(8), Short),
-																				 Now, Now, 0, oMovimientoAlmacenS.Identificador,
-																				 _AlmacenGas, 0,
-																				 CType(dtLiquidacionTotal.Rows(i).Item(0), Short),
-																				 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer),
-																				 CType(dtLiquidacionTotal.Rows(i).Item(9), Integer),
-																				 connection, transaction,
-																				 0, "", False,
-																				  CType(dtLiquidacionTotal.Rows(i).Item(20), String),
-																				  CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
-								_TotalContado = _TotalContado + Total
+                                oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now,
+                                                                                 0, 0, Importe, Impuesto, Total, "SURTIDO",
+                                                                                 CType(dtLiquidacionTotal.Rows(i).Item(12), Integer),
+                                                                                 Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short),
+                                                                                 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short),
+                                                                                 CType(dtLiquidacionTotal.Rows(i).Item(10), Short),
+                                                                                 _AnoAtt, _Folio, "PAGADO",
+                                                                                 CType(_drLiquidacion(0).Item(8), Short),
+                                                                                 Now, Now, 0, oMovimientoAlmacenS.Identificador,
+                                                                                 _AlmacenGas, 0,
+                                                                                 CType(dtLiquidacionTotal.Rows(i).Item(0), Short),
+                                                                                 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer),
+                                                                                 CType(dtLiquidacionTotal.Rows(i).Item(9), Integer),
+                                                                                 connection, transaction, _FactorDensidad,
+                                                                                 0, "", False,
+                                                                                  CType(dtLiquidacionTotal.Rows(i).Item(20), String),
+                                                                                  CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
+                                _TotalContado = _TotalContado + Total
 
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
 								_seccion = "Liquidacion Pedido y Cobro Obsequio"
-								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenSObsequio.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
-								_TotalContado = _TotalContado + Total
+                                oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenSObsequio.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, _FactorDensidad, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
+                                _TotalContado = _TotalContado + Total
 							ElseIf CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 15 Then
 								_seccion = "Liquidacion Pedido y Cobro Obsequio"
-								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
-								_TotalContado = _TotalContado + Total
+                                oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), CType(dtLiquidacionTotal.Rows(i).Item(10), Short), _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, _FactorDensidad, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
+                                _TotalContado = _TotalContado + Total
 							Else ' CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 3 Then
 								If CType(dtLiquidacionTotal.Rows(i).Item(10), Short) = 18 Then
 
 								End If
 								_seccion = "Liquidacion Pedido y Cobro Formas Pago"
-								oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), 5, _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
-								_TotalContado = _TotalContado + Total
+                                oLiquidacionPedido.LiquidacionPedidoyCobroPedido(CType(dtLiquidacionTotal.Rows(i).Item(2), Integer), Now, 0, 0, Importe, Impuesto, Total, "SURTIDO", CType(dtLiquidacionTotal.Rows(i).Item(12), Integer), Now, 0, "", 0, 8, CType(_drLiquidacion(0).Item(25), Short), 0, 0, _Usuario, CType(_drLiquidacion(0).Item(25), Short), 5, _AnoAtt, _Folio, "PAGADO", CType(_drLiquidacion(0).Item(8), Short), Now, Now, 0, oMovimientoAlmacenS.Identificador, _AlmacenGas, 0, CType(dtLiquidacionTotal.Rows(i).Item(0), Short), 0, CType(dtLiquidacionTotal.Rows(i).Item(4), Integer), CType(dtLiquidacionTotal.Rows(i).Item(9), Integer), connection, transaction, _FactorDensidad, Serie:=CType(dtLiquidacionTotal.Rows(i).Item(20), String), Remision:=CType(dtLiquidacionTotal.Rows(i).Item(21), Integer))
+                                _TotalContado = _TotalContado + Total
 
 
 							End If
@@ -4837,8 +4840,9 @@ Public Class frmLiquidacionPortatil
 
 
 
-					_seccion = "Commit"
-					transaction.Commit()
+                    _seccion = "Commit"
+
+                    transaction.Commit()
 
 					If Globals.GetInstance._URLGateway <> "" And Globals.GetInstance._FuenteCRM = "CRM" Then
 						_seccion = "Liquidador Estacionario"
@@ -6473,14 +6477,14 @@ Public Class frmLiquidacionPortatil
 					Dim oLiquidacionCobroPedido As New LiquidacionTransaccionada.cLiquidacion(1, CType(_drLiquidacion(0).Item(4), Short),
 																								  CType(dtLiquidacionTotal.DefaultView.Item(i).Item(16), Short),
 																								  CType(dtLiquidacionTotal.DefaultView.Item(i).Item(17), Integer))
-					oLiquidacionCobroPedido.LiquidacionPedidoyCobroPedido(0, Now, 0, 0, Importe, Impuesto, Total, "", 0, Now, 0, "", 0, 0, 0,
-																			  cobroTemp.AñoCobro,
-																			  cobroTemp.Cobro,
-																			  "", 0, 0, 0, 0, "", 0, Now, Now, 0, 0, 0, 0, 0, 0, 0, 0,
-																			  Connection, Transaction)
-					'End If
+                    oLiquidacionCobroPedido.LiquidacionPedidoyCobroPedido(0, Now, 0, 0, Importe, Impuesto, Total, "", 0, Now, 0, "", 0, 0, 0,
+                                                                              cobroTemp.AñoCobro,
+                                                                              cobroTemp.Cobro,
+                                                                              "", 0, 0, 0, 0, "", 0, Now, Now, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                                              Connection, Transaction, _FactorDensidad)
+                    'End If
 
-					i = i + 1
+                    i = i + 1
 				End While
 
 			Next

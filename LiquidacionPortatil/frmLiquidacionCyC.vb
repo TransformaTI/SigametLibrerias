@@ -2174,17 +2174,17 @@ Public Class frmLiquidacionCyC
 
                 Dim oLiquidacionAutotanqueTurno As New Liquidacion.cLiquidacion(2, Now, _AnoAtt, _Folio)
 
-                oLiquidacionAutotanqueTurno.LiquidacionAutotanqueTurno(_Kilos / _FactorDensidad, _
-                                                                   Now, _
-                                                                   _Kilos / _FactorDensidad, _
-                                                                   _TotalCredito, _
-                                                                   _TotalContado, _
-                                                                   dtpFLiquidacion.Value, _
-                                                                    (_Kilos - (_KilosCredito + _KilosObsequio)) / _FactorDensidad, _
-                                                                    _KilosCredito / _FactorDensidad, _
-                                                                   Now, _
-                                                                    "MANUAL", _
-                                                                    _Usuario, _KilosObsequio / _FactorDensidad, _TotalObsequios, _KilosObsequio)
+                oLiquidacionAutotanqueTurno.LiquidacionAutotanqueTurno(_Kilos / _FactorDensidad,
+                                                                   Now,
+                                                                   _Kilos / _FactorDensidad,
+                                                                   _TotalCredito,
+                                                                   _TotalContado,
+                                                                   dtpFLiquidacion.Value,
+                                                                    (_Kilos - (_KilosCredito + _KilosObsequio)) / _FactorDensidad,
+                                                                    _KilosCredito / _FactorDensidad,
+                                                                   Now,
+                                                                    "MANUAL",
+                                                                    _Usuario, _KilosObsequio / _FactorDensidad, _TotalObsequios, _KilosObsequio, _FactorDensidad)
 
 
 
